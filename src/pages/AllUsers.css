@@ -1,0 +1,442 @@
+/* ===============================
+PAGE
+================================ */
+
+.users-container{
+  padding:40px;
+  min-height:100vh;
+  background:linear-gradient(135deg,#eef2f7,#dfe9f3);
+  font-family:"Poppins",sans-serif;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+
+  animation:usersFadeIn 0.8s ease;
+}
+
+/* Header */
+
+.users-container .users-header{
+  width:100%;
+  display:flex;
+  justify-content:flex-start;
+  margin-bottom:10px;
+}
+
+/* Back button */
+
+.users-container .back-btn{
+  background:#3498db;
+  color:white;
+  border:none;
+  padding:8px 16px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+  transition:0.3s;
+}
+
+.users-container .back-btn:hover{
+  background:#2980b9;
+}
+
+/* Title */
+
+.users-container .users-title{
+  text-align:center;
+  margin-bottom:35px;
+  font-size:34px;
+  font-weight:700;
+  color:#2c3e50;
+  letter-spacing:1px;
+
+  animation:usersSlideDown 0.6s ease;
+}
+
+/* Card */
+
+.users-container .users-card{
+  width:95%;
+  max-width:1100px;
+
+  background:white;
+  padding:30px;
+
+  border-radius:14px;
+
+  box-shadow:0 15px 35px rgba(0,0,0,0.08);
+
+  transition:0.3s;
+
+  animation:usersSlideUp 0.6s ease;
+}
+
+.users-container .users-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 45px rgba(0,0,0,0.12);
+}
+
+/* Table */
+
+.users-container .users-table{
+  width:100%;
+  border-collapse:collapse;
+  overflow:hidden;
+  border-radius:10px;
+}
+
+/* Table header */
+
+.users-container .users-table th{
+  background:linear-gradient(135deg,#2f6edb,#4f8cff);
+  color:white;
+  padding:15px;
+  text-align:left;
+  font-size:15px;
+  letter-spacing:0.5px;
+}
+
+/* Table data */
+
+.users-container .users-table td{
+  padding:15px;
+  border-bottom:1px solid #eee;
+  font-size:14px;
+  color:#333;
+}
+
+/* Row hover */
+
+.users-container .users-table tbody tr{
+  transition:all 0.25s ease;
+}
+
+.users-container .users-table tbody tr:hover{
+  background:#f7f9fc;
+  transform:scale(1.01);
+}
+
+/* Buttons container */
+
+.users-container .action-buttons{
+  display:flex;
+  gap:10px;
+}
+
+/* Edit button */
+
+.users-container .edit-btn{
+  background:linear-gradient(135deg,#3498db,#5dade2);
+  color:white;
+  border:none;
+  padding:8px 16px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:500;
+
+  transition:all 0.25s ease;
+
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.users-container .edit-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Delete button */
+
+.users-container .delete-btn{
+  background:linear-gradient(135deg,#e74c3c,#ff6b6b);
+  color:white;
+  border:none;
+  padding:8px 16px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:500;
+
+  transition:all 0.25s ease;
+
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.users-container .delete-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+.users-container .edit-btn:active,
+.users-container .delete-btn:active{
+  transform:scale(0.95);
+}
+
+/* =========================
+Animations
+========================= */
+
+@keyframes usersFadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+
+@keyframes usersSlideDown{
+  from{
+    opacity:0;
+    transform:translateY(-20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes usersSlideUp{
+  from{
+    opacity:0;
+    transform:translateY(30px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* =========================
+Tablet
+========================= */
+
+@media (max-width:992px){
+
+.users-container{
+  padding:25px;
+}
+
+.users-container .users-title{
+  font-size:28px;
+}
+
+.users-container .users-card{
+  padding:20px;
+}
+
+.users-container .users-table th,
+.users-container .users-table td{
+  padding:12px;
+  font-size:13px;
+}
+
+.users-container .edit-btn,
+.users-container .delete-btn{
+  padding:7px 14px;
+  font-size:12px;
+}
+
+}
+
+/* =========================
+Mobile
+========================= */
+
+@media (max-width:768px){
+
+.users-container{
+  padding:20px;
+}
+
+.users-container .users-title{
+  font-size:24px;
+}
+
+.users-container .users-card{
+  padding:18px;
+  overflow-x:auto;
+}
+
+.users-container .users-table{
+  min-width:600px;
+}
+
+.users-container .action-buttons{
+  flex-direction:column;
+  gap:6px;
+}
+
+.users-container .edit-btn,
+.users-container .delete-btn{
+  width:100%;
+  text-align:center;
+}
+
+}
+
+/* =========================
+Small Mobile
+========================= */
+
+@media (max-width:480px){
+
+.users-container{
+  padding:15px;
+}
+
+.users-container .users-title{
+  font-size:22px;
+}
+
+.users-container .back-btn{
+  font-size:12px;
+  padding:6px 12px;
+}
+
+.users-container .users-card{
+  padding:15px;
+}
+
+.users-container .users-table th,
+.users-container .users-table td{
+  font-size:12px;
+}
+
+}
+
+/* Modal Overlay */
+
+.delete-modal-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.45);
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+padding:20px;
+z-index:1000;
+}
+
+/* Modal Box */
+
+.delete-modal{
+
+background:white;
+padding:30px;
+border-radius:12px;
+
+width:100%;
+max-width:360px;
+
+text-align:center;
+
+box-shadow:0 10px 40px rgba(0,0,0,0.2);
+
+animation:popup 0.3s ease;
+}
+
+/* Buttons */
+
+.modal-buttons{
+display:flex;
+justify-content:center;
+gap:15px;
+margin-top:20px;
+flex-wrap:wrap;
+}
+
+.cancel-btn{
+padding:10px 20px;
+border:none;
+background:#ccc;
+border-radius:6px;
+cursor:pointer;
+font-size:14px;
+}
+
+.confirm-delete-btn{
+padding:10px 20px;
+border:none;
+background:#e74c3c;
+color:white;
+border-radius:6px;
+cursor:pointer;
+font-size:14px;
+}
+
+/* Animation */
+
+@keyframes popup{
+from{
+transform:scale(0.8);
+opacity:0;
+}
+to{
+transform:scale(1);
+opacity:1;
+}
+}
+
+/* =========================
+Tablet Screens
+========================= */
+
+@media (max-width:768px){
+
+.delete-modal{
+max-width:320px;
+padding:25px;
+}
+
+.modal-buttons{
+gap:10px;
+}
+
+}
+
+/* =========================
+Mobile Screens
+========================= */
+
+@media (max-width:480px){
+
+.delete-modal{
+max-width:90%;
+padding:20px;
+}
+
+.delete-modal h3{
+font-size:18px;
+}
+
+.delete-modal p{
+font-size:14px;
+}
+
+.modal-buttons{
+flex-direction:column;
+}
+
+.cancel-btn,
+.confirm-delete-btn{
+width:100%;
+}
+
+}
+.export-btn{
+padding:8px 18px;
+border:none;
+background:#28a745;
+color:white;
+border-radius:6px;
+cursor:pointer;
+font-weight:500;
+margin-left:10px;
+}
+
+.export-btn:hover{
+background:#218838;
+}

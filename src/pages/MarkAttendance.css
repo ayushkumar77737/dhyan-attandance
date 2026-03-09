@@ -1,0 +1,282 @@
+/* MAIN CONTAINER */
+
+.markattendance-container{
+  padding:40px;
+  font-family:"Poppins", sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#eef2f7,#dfe9f3);
+}
+
+/* Header */
+
+.markattendance-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:30px;
+}
+
+/* Back Button */
+
+.markattendance-back-btn{
+  padding:8px 16px;
+  border:none;
+  border-radius:6px;
+  background:#2d6cdf;
+  color:white;
+  cursor:pointer;
+  font-size:14px;
+  transition:0.3s;
+}
+
+.markattendance-back-btn:hover{
+  background:#1e4fbf;
+  transform:translateY(-2px);
+}
+
+/* Title */
+
+.markattendance-title{
+  flex:1;
+  text-align:center;
+  font-size:34px;
+  font-weight:600;
+  color:#2c3e50;
+  animation:markattendanceFadeDown 0.6s ease;
+}
+
+/* Date Box */
+
+.markattendance-date-box{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  margin-bottom:35px;
+  animation:markattendanceFadeDown 0.6s ease;
+}
+
+.markattendance-date-box input{
+  padding:10px 14px;
+  font-size:16px;
+  border-radius:6px;
+  border:1px solid #ccc;
+  outline:none;
+  transition:0.3s;
+}
+
+.markattendance-date-box input:focus{
+  border-color:#2d6cdf;
+  box-shadow:0 0 6px rgba(45,108,223,0.3);
+}
+
+.markattendance-date-box button{
+  padding:10px 22px;
+  background:linear-gradient(135deg,#2d6cdf,#1e4fbf);
+  border:none;
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:500;
+  transition:0.3s;
+}
+
+.markattendance-date-box button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* User List */
+
+.markattendance-user-list{
+  max-width:620px;
+  margin:auto;
+}
+
+/* User Row */
+
+.markattendance-user-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 16px;
+  background:white;
+  margin-bottom:12px;
+  border-radius:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+  transition:all 0.3s ease;
+  animation:markattendanceFadeUp 0.4s ease;
+}
+
+.markattendance-user-row:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 18px rgba(0,0,0,0.15);
+}
+
+.markattendance-user-name{
+  font-weight:500;
+  color:#2c3e50;
+}
+
+/* Select */
+
+.markattendance-user-row select{
+  padding:6px 10px;
+  border-radius:6px;
+  border:1px solid #ccc;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.markattendance-user-row select:focus{
+  border-color:#2d6cdf;
+}
+
+/* Save Button */
+
+.markattendance-save-btn{
+  display:block;
+  margin:35px auto;
+  padding:12px 32px;
+  background:linear-gradient(135deg,#28a745,#1c7c31);
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:16px;
+  font-weight:500;
+  transition:0.3s;
+}
+
+.markattendance-save-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 14px rgba(0,0,0,0.2);
+}
+
+/* Message Box */
+
+.markattendance-message-box{
+  width:fit-content;
+  margin:18px auto;
+  padding:12px 26px;
+  border-radius:8px;
+  background:#e6f7ff;
+  color:#096dd9;
+  font-weight:500;
+  border:1px solid #91d5ff;
+  text-align:center;
+  animation:markattendanceFadeIn 0.5s ease;
+}
+
+/* Animations */
+
+@keyframes markattendanceFadeDown{
+  from{
+    opacity:0;
+    transform:translateY(-20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes markattendanceFadeUp{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes markattendanceFadeIn{
+  from{
+    opacity:0;
+  }
+  to{
+    opacity:1;
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width:600px){
+
+  .markattendance-container{
+    padding:20px;
+  }
+
+  .markattendance-header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+  }
+
+  .markattendance-title{
+    width:100%;
+    text-align:center;
+    font-size:26px;
+  }
+
+  .markattendance-date-box{
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+  }
+
+  .markattendance-date-box input,
+  .markattendance-date-box button{
+    width:100%;
+    max-width:260px;
+  }
+
+  .markattendance-user-row{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+  }
+
+  .markattendance-user-row select{
+    width:100%;
+  }
+
+  .markattendance-save-btn{
+    width:100%;
+    max-width:260px;
+  }
+
+}
+
+/* ================= TABLET ================= */
+
+@media (min-width:601px) and (max-width:1024px){
+
+  .markattendance-title{
+    font-size:30px;
+  }
+
+  .markattendance-user-list{
+    max-width:700px;
+  }
+
+  .markattendance-date-box input{
+    width:180px;
+  }
+
+}
+
+/* ================= LARGE ================= */
+
+@media (min-width:1400px){
+
+  .markattendance-user-list{
+    max-width:800px;
+  }
+
+  .markattendance-title{
+    font-size:36px;
+  }
+
+}
