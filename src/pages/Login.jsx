@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/firebase";
+import { auth, db } from "../firebase/firebase";
+
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 import dhyanImage from "../assets/guruji.webp";
 import bg1 from "../assets/bg1.webp";
@@ -75,7 +77,6 @@ const Login = () => {
   const handleLogin = async (e) => {
 
     e.preventDefault();
-
     setErrorMessage("");
 
     if (!id || !password) {
@@ -85,6 +86,26 @@ const Login = () => {
 
     setLoading(true);
 
+    const userRef = doc(db, "loginAttempts", id);
+    const userSnap = await getDoc(userRef);
+
+    /* CHECK IF ACCOUNT LOCKED */
+
+    if (userSnap.exists()) {
+
+      const data = userSnap.data();
+
+      if (data.lockUntil && Date.now() < data.lockUntil) {
+
+        const minutes = Math.ceil((data.lockUntil - Date.now()) / 60000);
+
+        showError(`Account locked. Try again in ${minutes} minutes`);
+
+        setLoading(false);
+        return;
+      }
+    }
+
     try {
 
       const email = id + "@dhyan.com";
@@ -93,9 +114,17 @@ const Login = () => {
 
       const loggedEmail = userCredential.user.email;
 
+      /* RESET ATTEMPTS AFTER SUCCESS */
+
+      await setDoc(userRef, {
+        attempts: 0,
+        lockUntil: null
+      });
+
       const ADMIN_EMAIL = "admin1@dhyan.com";
 
       /* ADMIN LOGIN */
+
       if (loggedEmail === ADMIN_EMAIL) {
 
         localStorage.setItem("adminAuth", "true");
@@ -107,6 +136,7 @@ const Login = () => {
       }
 
       /* USER LOGIN */
+
       else {
 
         localStorage.setItem("userAuth", "true");
@@ -124,7 +154,32 @@ const Login = () => {
       setId("");
       setPassword("");
 
-      if (error.code === "auth/user-not-found") {
+      /* HANDLE LOGIN ATTEMPTS */
+
+      let attempts = 1;
+
+      if (userSnap.exists()) {
+        attempts = userSnap.data().attempts + 1;
+      }
+
+      let lockUntil = null;
+
+      if (attempts >= 3) {
+        lockUntil = Date.now() + 5 * 60 * 1000; // 5 minutes
+      }
+
+      await setDoc(userRef, {
+        attempts,
+        lockUntil
+      });
+
+      /* ERROR MESSAGES */
+
+      if (attempts >= 3) {
+        showError("Too many failed attempts. Account locked for 5 minutes.");
+      }
+
+      else if (error.code === "auth/user-not-found") {
         showError("User ID does not exist.");
       }
       else if (error.code === "auth/wrong-password") {
@@ -169,8 +224,10 @@ const Login = () => {
           <h2 className="card-title">
             Meditation <span>(Dhyan)</span> Program
           </h2>
+
           <p className="guru-text">🙏 Jai Gurubande 🙏</p>
           <p className="guru-subtext">Saheb Sabaka</p>
+
           <form onSubmit={handleLogin}>
 
             {/* ID FIELD */}
@@ -243,6 +300,7 @@ const Login = () => {
     </div>
 
   );
+
 };
 
 export default Login;
