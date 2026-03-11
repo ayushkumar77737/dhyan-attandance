@@ -141,7 +141,7 @@ function AddUser() {
 
                 <form className="adduser-form" onSubmit={handleAddUser}>
 
-                    <h2>add New User</h2>
+                    <h2>Add New User</h2>
 
                     {message && <div className="success-message">{message}</div>}
                     {errorMsg && <div className="error-message">{errorMsg}</div>}
