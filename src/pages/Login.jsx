@@ -9,7 +9,7 @@ import { auth, db } from "../firebase/firebase";
 
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
-import dhyanImage from "../assets/Dhyan1.png";
+import dhyanImage from "../assets/guruji.webp";
 import bg1 from "../assets/bg1.webp";
 import bg2 from "../assets/bg2.webp";
 import bg3 from "../assets/bg3.webp";
