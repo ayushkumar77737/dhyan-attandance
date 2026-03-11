@@ -10,6 +10,7 @@ import AllUsers from "./pages/AllUsers";
 import EditUser from "./pages/EditUser";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ForgotPassword from "./pages/ForgotPassword";
+import AttendanceReport from "./pages/AttendanceReport";
 
 function App() {
   return (
@@ -74,6 +75,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+  path="/attendance-report"
+  element={
+    <ProtectedRoute>
+      <AttendanceReport />
+    </ProtectedRoute>
+  }
+/>
 
         <Route
           path="/edit-user/:id"

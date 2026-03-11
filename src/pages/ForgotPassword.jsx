@@ -39,7 +39,7 @@ function ForgotPassword() {
 
                 <div className="forgot-left">
 
-                    <h1>Dhyan Attendance System</h1>
+                    <h1>Meditation (Dhyan) Program</h1>
 
                     <h2>🙏 Jai Gurubande 🙏</h2>
 
