@@ -166,11 +166,11 @@ const Login = () => {
         {/* LEFT SIDE FORM */}
         <div className="login-left">
 
-          <h2 className="card-title">Dhyan Attendance System</h2>
+          <h2 className="card-title">
+            Meditation <span>(Dhyan)</span> Program
+          </h2>
           <p className="guru-text">🙏 Jai Gurubande 🙏</p>
-          <p className="guru-subtext">Saheeb Sabka</p>
-          <p className="welcome-text">Welcome Back</p>
-
+          <p className="guru-subtext">Saheb Sabaka</p>
           <form onSubmit={handleLogin}>
 
             {/* ID FIELD */}
