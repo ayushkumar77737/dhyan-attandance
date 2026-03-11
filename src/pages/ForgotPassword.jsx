@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ForgotPassword.css";
 
-import guruji from "../assets/guruji.webp";
+import guruji from "../assets/Dhyan1.png";
 import bgImage from "../assets/bg1.webp";
 
 function ForgotPassword() {
