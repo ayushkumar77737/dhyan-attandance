@@ -357,3 +357,80 @@ font-size:11px;
 }
 
 }
+
+/* =========================
+USER SUMMARY SECTION
+Scoped inside dashboard
+========================= */
+
+.dashboard-container .user-summary {
+
+display: grid;
+
+grid-template-columns: repeat(5, 1fr);
+
+gap: 15px;
+
+background: #f5f7fb;
+
+padding: 18px;
+
+border-radius: 10px;
+
+margin-bottom: 20px;
+
+font-size: 15px;
+
+}
+
+/* =========================
+Laptop (1024px and below)
+========================= */
+
+@media (max-width: 1024px) {
+
+.dashboard-container .user-summary {
+
+grid-template-columns: repeat(3, 1fr);
+
+}
+
+}
+
+/* =========================
+Tablet (768px and below)
+========================= */
+
+@media (max-width: 768px) {
+
+.dashboard-container .user-summary {
+
+grid-template-columns: repeat(2, 1fr);
+
+font-size: 14px;
+
+padding: 15px;
+
+}
+
+}
+
+/* =========================
+Mobile (480px and below)
+========================= */
+
+@media (max-width: 480px) {
+
+.dashboard-container .user-summary {
+
+grid-template-columns: 1fr;
+
+text-align: center;
+
+gap: 12px;
+
+font-size: 14px;
+
+}
+
+}
