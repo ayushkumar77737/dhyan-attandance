@@ -5,7 +5,6 @@
   font-family:"Poppins", sans-serif;
   min-height:100vh;
   background:linear-gradient(135deg,#eef2f7,#dfe9f3);
-  box-sizing:border-box;
 }
 
 /* Header */
@@ -51,11 +50,9 @@
 .markattendance-date-box{
   display:flex;
   justify-content:center;
-  align-items:center;
   gap:15px;
   margin-bottom:35px;
   animation:markattendanceFadeDown 0.6s ease;
-  flex-wrap:wrap;
 }
 
 .markattendance-date-box input{
@@ -65,9 +62,6 @@
   border:1px solid #ccc;
   outline:none;
   transition:0.3s;
-  width:200px;
-  max-width:100%;
-  box-sizing:border-box;
 }
 
 .markattendance-date-box input:focus{
@@ -89,14 +83,6 @@
 .markattendance-date-box button:hover{
   transform:translateY(-2px);
   box-shadow:0 4px 10px rgba(0,0,0,0.15);
-}
-
-/* Prevent mobile date overflow */
-
-input[type="date"]{
-  width:100%;
-  max-width:100%;
-  box-sizing:border-box;
 }
 
 /* User List */
@@ -243,8 +229,7 @@ input[type="date"]{
   .markattendance-date-box input,
   .markattendance-date-box button{
     width:100%;
-    max-width:300px;
-    box-sizing:border-box;
+    max-width:260px;
   }
 
   .markattendance-user-row{
@@ -259,7 +244,7 @@ input[type="date"]{
 
   .markattendance-save-btn{
     width:100%;
-    max-width:300px;
+    max-width:260px;
   }
 
 }
