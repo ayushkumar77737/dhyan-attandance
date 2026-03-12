@@ -37,6 +37,12 @@ function MarkAttendance() {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
 
+    // ✅ Set today's date automatically
+    useEffect(() => {
+        const today = new Date().toISOString().split("T")[0];
+        setDate(today);
+    }, []);
+
     const loadUsers = async () => {
 
         if (!date) {
@@ -47,14 +53,16 @@ function MarkAttendance() {
 
         try {
 
-            // check if attendance already exists for this date
             const q = query(collection(db, "attendance"), where("date", "==", date));
             const attendanceCheck = await getDocs(q);
 
             if (!attendanceCheck.empty) {
                 setMessage("⚠️ Attendance already marked for this date");
                 setUsers([]);
-                setDate("");
+
+                const today = new Date().toISOString().split("T")[0];
+                setDate(today);
+
                 setTimeout(() => setMessage(""), 3000);
                 return;
             }
@@ -122,7 +130,10 @@ function MarkAttendance() {
 
             setUsers([]);
             setAttendance({});
-            setDate("");
+
+            // ✅ Reset to today's date instead of blank
+            const today = new Date().toISOString().split("T")[0];
+            setDate(today);
 
             setTimeout(() => {
                 setMessage("");
