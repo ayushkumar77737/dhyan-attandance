@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 
 function AttendanceReport() {
+
     useEffect(() => {
 
         const disableRightClick = (e) => e.preventDefault();
@@ -41,6 +42,12 @@ function AttendanceReport() {
     const [selectedDate, setSelectedDate] = useState("");
     const [reportGenerated, setReportGenerated] = useState(false);
     const [noAttendance, setNoAttendance] = useState(false);
+
+    // ✅ Auto set today's date (Fix for mobile blank date)
+    useEffect(() => {
+        const today = new Date().toISOString().split("T")[0];
+        setSelectedDate(today);
+    }, []);
 
     useEffect(() => {
 
@@ -97,9 +104,11 @@ function AttendanceReport() {
             setReportUsers([]);
             setPresentCount(0);
             setAbsentCount(0);
+
             setTimeout(() => {
                 setNoAttendance(false);
             }, 3000);
+
             return;
 
         }
@@ -148,8 +157,6 @@ function AttendanceReport() {
 
         <div className="report-container">
 
-            {/* Back Button */}
-
             <button className="back-btn" onClick={() => navigate("/admin-dashboard")}>
                 ← Back
             </button>
@@ -169,7 +176,7 @@ function AttendanceReport() {
                     }}
                 />
 
-                <button onClick={fetchReport} disabled={!selectedDate}>
+                <button onClick={fetchReport}>
                     Generate Report
                 </button>
 
@@ -206,8 +213,6 @@ function AttendanceReport() {
 
                     </div>
 
-
-                    {/* Export Button */}
 
                     <div className="export-section">
 
