@@ -165,7 +165,7 @@ const Login = () => {
       let lockUntil = null;
 
       if (attempts >= 3) {
-        lockUntil = Date.now() + 5 * 60 * 1000; // 5 minutes
+        lockUntil = Date.now() + 48 * 60 * 60 * 1000; // 48 hours
       }
 
       await setDoc(userRef, {
@@ -176,7 +176,7 @@ const Login = () => {
       /* ERROR MESSAGES */
 
       if (attempts >= 3) {
-        showError("Too many failed attempts. Account locked for 5 minutes.");
+        showError("Too many failed attempts. Account locked for 48 hours.");
       }
 
       else if (error.code === "auth/user-not-found") {
