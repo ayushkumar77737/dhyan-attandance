@@ -77,13 +77,13 @@ function App() {
         />
 
         <Route
-  path="/attendance-report"
-  element={
-    <ProtectedRoute>
-      <AttendanceReport />
-    </ProtectedRoute>
-  }
-/>
+          path="/attendance-report"
+          element={
+            <ProtectedRoute>
+              <AttendanceReport />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/edit-user/:id"
