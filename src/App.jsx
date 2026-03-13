@@ -11,6 +11,7 @@ import EditUser from "./pages/EditUser";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ForgotPassword from "./pages/ForgotPassword";
 import AttendanceReport from "./pages/AttendanceReport";
+import UserPercentage from "./pages/UserPercentage";
 
 function App() {
   return (
@@ -84,6 +85,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+  path="/user-percentage"
+  element={
+    <ProtectedRoute>
+      <UserPercentage />
+    </ProtectedRoute>
+  }
+/>
 
         <Route
           path="/edit-user/:id"
