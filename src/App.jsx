@@ -87,13 +87,13 @@ function App() {
         />
 
         <Route
-  path="/user-percentage"
-  element={
-    <ProtectedRoute>
-      <UserPercentage />
-    </ProtectedRoute>
-  }
-/>
+          path="/user-percentage"
+          element={
+            <ProtectedRoute>
+              <UserPercentage />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/edit-user/:id"
