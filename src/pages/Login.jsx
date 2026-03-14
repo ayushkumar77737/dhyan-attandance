@@ -235,7 +235,7 @@ const Login = () => {
               type="text"
               placeholder="Enter Id No"
               className="login-input"
-              maxLength={10}
+              maxLength={6}
               value={id}
               onChange={(e) => {
                 const filtered = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
@@ -250,7 +250,7 @@ const Login = () => {
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter Password"
                 className="login-input"
-                maxLength={10}
+                maxLength={8}
                 value={password}
                 onChange={(e) => {
                   const filtered = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
