@@ -209,6 +209,25 @@ function AdminDashboard() {
 
         </div>
 
+        <div className="dashboard-card">
+
+          <div className="admin-profile">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+              alt="edit users"
+            />
+            <h3>Deleted Users</h3>
+          </div>
+
+          <button
+            className="dashboard-btn"
+            onClick={() => navigate("/deleted-users")}
+          >
+            View Users
+          </button>
+
+        </div>
+
       </div>
 
     </div>

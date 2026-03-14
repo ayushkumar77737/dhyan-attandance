@@ -5,7 +5,7 @@ import { db } from "../firebase/firebase";
 import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-import * as XLSX from "xlsx"; // Excel Library
+import * as XLSX from "xlsx";
 
 function AllUsers() {
 
@@ -40,20 +40,13 @@ function AllUsers() {
   const fetchUsers = async () => {
 
     const querySnapshot = await getDocs(collection(db, "users"));
-    const userList = [];
 
-    querySnapshot.forEach((docItem) => {
-
-      const data = docItem.data();
-
-      if (!data.deleted) {
-        userList.push({
-          id: docItem.id,
-          ...data
-        });
-      }
-
-    });
+    const userList = querySnapshot.docs
+      .map((docItem) => ({
+        docId: docItem.id,
+        ...docItem.data()
+      }))
+      .filter(user => user.deleted !== true);   // show only active users
 
     setUsers(userList);
 
@@ -83,13 +76,13 @@ function AllUsers() {
 
   };
 
-  // OPEN MODAL
+  // OPEN DELETE MODAL
   const openDeleteModal = (id) => {
     setSelectedUser(id);
     setShowModal(true);
   };
 
-  // DELETE USER
+  // DELETE USER (SOFT DELETE)
   const confirmDelete = async () => {
 
     try {
@@ -152,7 +145,7 @@ function AllUsers() {
           <tbody>
 
             {users.map((user) => (
-              <tr key={user.id}>
+              <tr key={user.docId}>
 
                 <td>{user.name || "-"}</td>
                 <td>{user.id}</td>
@@ -169,7 +162,7 @@ function AllUsers() {
 
                   <button
                     className="delete-btn"
-                    onClick={() => openDeleteModal(user.id)}
+                    onClick={() => openDeleteModal(user.docId)}
                   >
                     Delete
                   </button>

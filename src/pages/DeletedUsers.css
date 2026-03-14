@@ -1,0 +1,304 @@
+/* ===============================
+PAGE
+================================ */
+
+.deleted-container{
+  padding:40px;
+  min-height:100vh;
+  background:linear-gradient(135deg,#eef2f7,#dfe9f3);
+  font-family:"Poppins",sans-serif;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+
+  animation:deletedFadeIn 0.8s ease;
+}
+
+/* ===============================
+HEADER
+================================ */
+
+.deleted-container .deleted-header{
+  width:100%;
+  display:flex;
+  justify-content:flex-start;
+  margin-bottom:10px;
+}
+
+/* ===============================
+BACK BUTTON
+================================ */
+
+.deleted-container .back-btn{
+  background:#3498db;
+  color:white;
+  border:none;
+  padding:8px 16px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+  transition:0.3s;
+}
+
+.deleted-container .back-btn:hover{
+  background:#2980b9;
+}
+
+/* ===============================
+TITLE
+================================ */
+
+.deleted-container .deleted-title{
+  text-align:center;
+  margin-bottom:35px;
+  font-size:34px;
+  font-weight:700;
+  color:#2c3e50;
+  letter-spacing:1px;
+
+  animation:deletedSlideDown 0.6s ease;
+}
+
+/* ===============================
+CARD
+================================ */
+
+.deleted-container .deleted-card{
+  width:95%;
+  max-width:1100px;
+
+  background:white;
+  padding:30px;
+
+  border-radius:14px;
+
+  box-shadow:0 15px 35px rgba(0,0,0,0.08);
+
+  transition:0.3s;
+
+  animation:deletedSlideUp 0.6s ease;
+}
+
+.deleted-container .deleted-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 45px rgba(0,0,0,0.12);
+}
+
+/* ===============================
+TABLE
+================================ */
+
+.deleted-container .deleted-table{
+  width:100%;
+  border-collapse:collapse;
+  overflow:hidden;
+  border-radius:10px;
+}
+
+/* Table header */
+
+.deleted-container .deleted-table th{
+  background:linear-gradient(135deg,#2f6edb,#4f8cff);
+  color:white;
+  padding:15px;
+  text-align:left;
+  font-size:15px;
+  letter-spacing:0.5px;
+}
+
+/* Table data */
+
+.deleted-container .deleted-table td{
+  padding:15px;
+  border-bottom:1px solid #eee;
+  font-size:14px;
+  color:#333;
+}
+
+/* Row hover */
+
+.deleted-container .deleted-table tbody tr{
+  transition:all 0.25s ease;
+}
+
+.deleted-container .deleted-table tbody tr:hover{
+  background:#f7f9fc;
+  transform:scale(1.01);
+}
+
+/* ===============================
+RESTORE BUTTON
+================================ */
+
+.deleted-container .restore-btn{
+  background:linear-gradient(135deg,#28a745,#4cd964);
+  color:white;
+  border:none;
+  padding:8px 16px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:500;
+
+  transition:all 0.25s ease;
+
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.deleted-container .restore-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* ===============================
+EXPORT BUTTON
+================================ */
+
+.export-btn{
+  padding:8px 18px;
+  border:none;
+  background:#28a745;
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:500;
+  margin-left:10px;
+}
+
+.export-btn:hover{
+  background:#218838;
+}
+
+/* ===============================
+NO DATA
+================================ */
+
+.deleted-container .no-data{
+  text-align:center;
+  padding:20px;
+  color:#777;
+  font-size:15px;
+}
+
+/* ===============================
+ANIMATIONS
+================================ */
+
+@keyframes deletedFadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+
+@keyframes deletedSlideDown{
+  from{
+    opacity:0;
+    transform:translateY(-20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes deletedSlideUp{
+  from{
+    opacity:0;
+    transform:translateY(30px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* ===============================
+TABLET
+================================ */
+
+@media (max-width:992px){
+
+.deleted-container{
+  padding:25px;
+}
+
+.deleted-container .deleted-title{
+  font-size:28px;
+}
+
+.deleted-container .deleted-card{
+  padding:20px;
+}
+
+.deleted-container .deleted-table th,
+.deleted-container .deleted-table td{
+  padding:12px;
+  font-size:13px;
+}
+
+.deleted-container .restore-btn{
+  padding:7px 14px;
+  font-size:12px;
+}
+
+}
+
+/* ===============================
+MOBILE
+================================ */
+
+@media (max-width:768px){
+
+.deleted-container{
+  padding:20px;
+}
+
+.deleted-container .deleted-title{
+  font-size:24px;
+}
+
+.deleted-container .deleted-card{
+  padding:18px;
+  overflow-x:auto;
+}
+
+.deleted-container .deleted-table{
+  min-width:600px;
+}
+
+.deleted-container .restore-btn{
+  width:100%;
+  text-align:center;
+}
+
+}
+
+/* ===============================
+SMALL MOBILE
+================================ */
+
+@media (max-width:480px){
+
+.deleted-container{
+  padding:15px;
+}
+
+.deleted-container .deleted-title{
+  font-size:22px;
+}
+
+.deleted-container .back-btn{
+  font-size:12px;
+  padding:6px 12px;
+}
+
+.deleted-container .deleted-card{
+  padding:15px;
+}
+
+.deleted-container .deleted-table th,
+.deleted-container .deleted-table td{
+  font-size:12px;
+}
+
+}

@@ -12,6 +12,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ForgotPassword from "./pages/ForgotPassword";
 import AttendanceReport from "./pages/AttendanceReport";
 import UserPercentage from "./pages/UserPercentage";
+import DeletedUsers from "./pages/DeletedUsers";
 
 function App() {
   return (
@@ -73,6 +74,15 @@ function App() {
           element={
             <ProtectedRoute>
               <AllUsers />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/deleted-users"
+          element={
+            <ProtectedRoute>
+              <DeletedUsers />
             </ProtectedRoute>
           }
         />

@@ -93,6 +93,7 @@ function AddUser() {
                 id: idNo,
                 email: email,
                 role: "user",
+                deleted: false,        // ⭐ IMPORTANT FIELD ADDED
                 createdAt: serverTimestamp()
             });
 
@@ -146,8 +147,6 @@ function AddUser() {
                     {message && <div className="success-message">{message}</div>}
                     {errorMsg && <div className="error-message">{errorMsg}</div>}
 
-                    {/* Name */}
-
                     <input
                         type="text"
                         placeholder="Enter Full Name"
@@ -162,8 +161,6 @@ function AddUser() {
                         required
                     />
 
-                    {/* ID */}
-
                     <input
                         type="text"
                         placeholder="Enter ID Number"
@@ -177,8 +174,6 @@ function AddUser() {
                         }}
                         required
                     />
-
-                    {/* Password */}
 
                     <input
                         type="password"
