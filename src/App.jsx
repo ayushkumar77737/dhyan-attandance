@@ -14,6 +14,7 @@ import AttendanceReport from "./pages/AttendanceReport";
 import UserPercentage from "./pages/UserPercentage";
 import DeletedUsers from "./pages/DeletedUsers";
 import SubmitReason from "./pages/SubmitReason";
+import MyRequests from "./pages/MyRequests";
 
 function App() {
   return (
@@ -47,6 +48,15 @@ function App() {
           element={
             <ProtectedRoute>
               <SubmitReason />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/my-requests"
+          element={
+            <ProtectedRoute>
+              <MyRequests />
             </ProtectedRoute>
           }
         />
