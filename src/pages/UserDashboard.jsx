@@ -136,6 +136,13 @@ function UserDashboard() {
 
         </div>
 
+        <button
+          className="reason-btn"
+          onClick={() => navigate("/submit-reason")}
+        >
+          Submit Absence Reason
+        </button>
+
         <table className="attendance-table">
 
           <thead>

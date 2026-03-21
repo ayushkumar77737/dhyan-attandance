@@ -434,3 +434,62 @@ font-size: 14px;
 }
 
 }
+.reason-btn {
+  display: block;
+  margin: 20px auto;
+
+  padding: 12px 22px;
+  border: none;
+  border-radius: 12px;
+
+  background: linear-gradient(45deg, #f59e0b, #facc15);
+  color: #000;
+
+  font-weight: 600;
+  font-size: 15px;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.reason-btn:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+}
+
+/* Click effect */
+.reason-btn:active {
+  transform: scale(0.97);
+}
+
+/* ========================= */
+/* 📱 MOBILE */
+/* ========================= */
+@media (max-width: 480px) {
+  .reason-btn {
+    width: 90%;
+    font-size: 14px;
+    padding: 12px;
+  }
+}
+
+/* ========================= */
+/* 📲 TABLET */
+/* ========================= */
+@media (min-width: 481px) and (max-width: 768px) {
+  .reason-btn {
+    width: 70%;
+    font-size: 15px;
+  }
+}
+
+/* ========================= */
+/* 💻 LAPTOP */
+/* ========================= */
+@media (min-width: 769px) {
+  .reason-btn {
+    width: auto;
+    min-width: 220px;
+  }
+}
