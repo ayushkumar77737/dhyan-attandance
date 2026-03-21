@@ -435,8 +435,8 @@ font-size: 14px;
 
 }
 .reason-btn {
-  display: block;
-  margin: 20px auto;
+  display: inline-block;
+  margin: 0;
 
   padding: 12px 22px;
   border: none;
@@ -492,4 +492,11 @@ font-size: 14px;
     width: auto;
     min-width: 220px;
   }
+}
+.reason-btn-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 20px 0;
 }
