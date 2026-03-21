@@ -1,0 +1,187 @@
+/* 🔒 Fully Scoped Wrapper */
+.absence-management-page {
+  min-height: 100vh;
+  background: #e5e7eb;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* 🔥 Page animation */
+  animation: am-fadeIn 0.5s ease-in-out;
+}
+
+/* Fade Animation */
+@keyframes am-fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Back Button */
+.absence-management-back-btn {
+  align-self: flex-start;
+  margin-bottom: 15px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.absence-management-back-btn:hover {
+  background: #2563eb;
+  transform: translateX(-3px);
+}
+
+/* Card */
+.absence-management-card {
+  width: 100%;
+  max-width: 900px;
+  background: #f9fafb;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+
+  /* 🔥 Slide animation */
+  animation: am-slideUp 0.5s ease;
+}
+
+@keyframes am-slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Title */
+.absence-management-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2563eb;
+}
+
+/* Table */
+.absence-management-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Header */
+.absence-management-table th {
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+/* Data */
+.absence-management-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  transition: background 0.2s ease;
+}
+
+/* Row Hover */
+.absence-management-table tr:hover td {
+  background: #f1f5f9;
+}
+
+/* Status */
+.absence-management-status {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.absence-management-status:hover {
+  transform: scale(1.05);
+}
+
+/* Colors */
+.absence-management-status.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.absence-management-status.approved {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.absence-management-status.rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* No Data */
+.absence-management-no-data {
+  text-align: center;
+  color: gray;
+  margin-top: 20px;
+}
+
+/* ========================= */
+/* 📱 MOBILE (<=480px) */
+/* ========================= */
+@media (max-width: 480px) {
+
+  .absence-management-page {
+    padding: 15px;
+  }
+
+  .absence-management-card {
+    padding: 18px;
+    border-radius: 12px;
+  }
+
+  .absence-management-table th,
+  .absence-management-table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+}
+
+/* ========================= */
+/* 📲 TABLET (481px–768px) */
+/* ========================= */
+@media (min-width: 481px) and (max-width: 768px) {
+
+  .absence-management-card {
+    max-width: 95%;
+    padding: 22px;
+  }
+
+}
+
+/* ========================= */
+/* 💻 LAPTOP (769px–1200px) */
+/* ========================= */
+@media (min-width: 769px) and (max-width: 1200px) {
+
+  .absence-management-card {
+    max-width: 850px;
+  }
+
+}
+
+/* ========================= */
+/* 🖥 LARGE SCREENS (>1200px) */
+/* ========================= */
+@media (min-width: 1201px) {
+
+  .absence-management-card {
+    max-width: 1000px;
+  }
+
+}

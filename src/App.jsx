@@ -15,6 +15,7 @@ import UserPercentage from "./pages/UserPercentage";
 import DeletedUsers from "./pages/DeletedUsers";
 import SubmitReason from "./pages/SubmitReason";
 import MyRequests from "./pages/MyRequests";
+import AbsenceManagement from "./pages/AbsenceManagement";
 
 function App() {
   return (
@@ -67,6 +68,15 @@ function App() {
           element={
             <ProtectedRoute>
               <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/absence-management"
+          element={
+            <ProtectedRoute>
+              <AbsenceManagement />
             </ProtectedRoute>
           }
         />
