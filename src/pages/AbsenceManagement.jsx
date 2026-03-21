@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./AbsenceManagement.css";
 
 import { db } from "../firebase/firebase";
-import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 function AbsenceManagement() {
@@ -14,40 +14,50 @@ function AbsenceManagement() {
     fetchRequests();
   }, []);
 
-  /* 📥 Fetch Requests + User Names */
+  /* 📥 Fetch Requests + Users */
   const fetchRequests = async () => {
 
     try {
-      const snapshot = await getDocs(collection(db, "absenceRequests"));
+      /* 🔹 Fetch users */
+      const usersSnap = await getDocs(collection(db, "users"));
+      const userMap = {};
+
+      usersSnap.forEach((doc) => {
+        userMap[doc.id] = doc.data().name;
+      });
+
+      /* 🔹 Fetch absence requests */
+      const reqSnap = await getDocs(collection(db, "absenceRequests"));
 
       let list = [];
 
-      for (let docItem of snapshot.docs) {
+      reqSnap.forEach((docItem) => {
         const data = docItem.data();
 
-        const userRef = doc(db, "users", data.userId);
-        const userSnap = await getDoc(userRef);
+        /* 🔥 Extract userId from docId if needed */
+        let extractedUserId = data.userId;
 
-        let name = "Unknown";
-
-        if (userSnap.exists()) {
-          name = userSnap.data().name;
+        if (!extractedUserId && docItem.id.includes("_")) {
+          extractedUserId = docItem.id.split("_")[0];
         }
 
         list.push({
-          id: docItem.id,
-          userId: data.userId,
-          name: name,
+          id: docItem.id, // A101_2026-03-20
+          userId: extractedUserId,
+          name: userMap[extractedUserId] || "Unknown",
           date: data.date,
           reason: data.reason,
           status: data.status
         });
-      }
+      });
+
+      /* 🔹 Sort latest first */
+      list.sort((a, b) => new Date(b.date) - new Date(a.date));
 
       setRequests(list);
 
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching requests:", error);
     }
   };
 
@@ -55,7 +65,7 @@ function AbsenceManagement() {
     <div className="absence-management-page">
 
       {/* 🔙 Back */}
-      <button 
+      <button
         className="absence-management-back-btn"
         onClick={() => navigate("/admin-dashboard")}
       >
@@ -69,7 +79,9 @@ function AbsenceManagement() {
         </h2>
 
         {requests.length === 0 ? (
-          <p className="absence-management-no-data">No requests found</p>
+          <p className="absence-management-no-data">
+            No requests found
+          </p>
         ) : (
 
           <table className="absence-management-table">
@@ -88,15 +100,22 @@ function AbsenceManagement() {
 
               {requests.map((item) => (
                 <tr key={item.id}>
+
+                  {/* ✅ Always show userId correctly */}
                   <td>{item.userId}</td>
+
                   <td>{item.name}</td>
                   <td>{item.date}</td>
                   <td>{item.reason}</td>
+
                   <td>
-                    <span className={`absence-management-status ${item.status.toLowerCase()}`}>
+                    <span
+                      className={`absence-management-status ${item.status?.toLowerCase()}`}
+                    >
                       {item.status}
                     </span>
                   </td>
+
                 </tr>
               ))}
 
