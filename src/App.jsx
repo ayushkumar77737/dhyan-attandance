@@ -13,6 +13,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import AttendanceReport from "./pages/AttendanceReport";
 import UserPercentage from "./pages/UserPercentage";
 import DeletedUsers from "./pages/DeletedUsers";
+import SubmitReason from "./pages/SubmitReason";
 
 function App() {
   return (
@@ -37,6 +38,15 @@ function App() {
           element={
             <ProtectedRoute>
               <AttendancePage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/submit-reason"
+          element={
+            <ProtectedRoute>
+              <SubmitReason />
             </ProtectedRoute>
           }
         />
