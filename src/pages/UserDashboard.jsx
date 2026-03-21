@@ -138,21 +138,21 @@ function UserDashboard() {
 
         <div className="reason-btn-container">
 
-  <button
-    className="reason-btn"
-    onClick={() => navigate("/submit-reason")}
-  >
-    Submit Absence Reason
-  </button>
+          <button
+            className="reason-btn"
+            onClick={() => navigate("/submit-reason")}
+          >
+            Submit Absence Reason
+          </button>
 
-  <button
-    className="reason-btn"
-    onClick={() => navigate("/my-requests")}
-  >
-    My Requests
-  </button>
+          <button
+            className="reason-btn"
+            onClick={() => navigate("/my-requests")}
+          >
+            My Requests
+          </button>
 
-</div>
+        </div>
 
         <table className="attendance-table">
 
