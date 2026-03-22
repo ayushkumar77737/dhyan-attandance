@@ -185,3 +185,32 @@
   }
 
 }
+.absence-management-export-btn {
+
+    padding:12px 18px;
+    margin-bottom:15px;
+
+    background:linear-gradient(135deg,#7c6df3,#5b4de3);
+    color:white;
+
+    font-size:15px;
+    font-weight:500;
+
+    border:none;
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:all 0.3s ease;
+}
+
+/* hover same like add user button */
+.absence-management-export-btn:hover{
+    transform:translateY(-2px) scale(1.02);
+    box-shadow:0 12px 25px rgba(92,77,227,0.4);
+}
+
+/* click effect */
+.absence-management-export-btn:active{
+    transform:scale(0.97);
+}

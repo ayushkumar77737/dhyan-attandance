@@ -5,6 +5,10 @@ import { db } from "../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
+/* ✅ Excel Imports */
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+
 function AbsenceManagement() {
 
     useEffect(() => {
@@ -40,7 +44,6 @@ function AbsenceManagement() {
     const fetchRequests = async () => {
 
         try {
-            /* 🔹 Fetch users */
             const usersSnap = await getDocs(collection(db, "users"));
             const userMap = {};
 
@@ -48,7 +51,6 @@ function AbsenceManagement() {
                 userMap[doc.id] = doc.data().name;
             });
 
-            /* 🔹 Fetch absence requests */
             const reqSnap = await getDocs(collection(db, "absenceRequests"));
 
             let list = [];
@@ -56,7 +58,6 @@ function AbsenceManagement() {
             reqSnap.forEach((docItem) => {
                 const data = docItem.data();
 
-                /* 🔥 Extract userId from docId if needed */
                 let extractedUserId = data.userId;
 
                 if (!extractedUserId && docItem.id.includes("_")) {
@@ -64,7 +65,7 @@ function AbsenceManagement() {
                 }
 
                 list.push({
-                    id: docItem.id, // A101_2026-03-20
+                    id: docItem.id,
                     userId: extractedUserId,
                     name: userMap[extractedUserId] || "Unknown",
                     date: data.date,
@@ -73,7 +74,6 @@ function AbsenceManagement() {
                 });
             });
 
-            /* 🔹 Sort latest first */
             list.sort((a, b) => new Date(b.date) - new Date(a.date));
 
             setRequests(list);
@@ -81,6 +81,39 @@ function AbsenceManagement() {
         } catch (error) {
             console.error("Error fetching requests:", error);
         }
+    };
+
+    /* ✅ EXPORT TO EXCEL FUNCTION */
+    const exportToExcel = () => {
+
+        if (requests.length === 0) {
+            alert("No data to export");
+            return;
+        }
+
+        const excelData = requests.map((item) => ({
+            "User ID": item.userId,
+            "Name": item.name,
+            "Date": item.date,
+            "Reason": item.reason,
+            "Status": item.status
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(excelData);
+        const workbook = XLSX.utils.book_new();
+
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Absence Data");
+
+        const excelBuffer = XLSX.write(workbook, {
+            bookType: "xlsx",
+            type: "array"
+        });
+
+        const fileData = new Blob([excelBuffer], {
+            type: "application/octet-stream"
+        });
+
+        saveAs(fileData, "Absence_Requests.xlsx");
     };
 
     return (
@@ -99,6 +132,14 @@ function AbsenceManagement() {
                 <h2 className="absence-management-title">
                     Absence Management
                 </h2>
+
+                {/* ✅ EXPORT BUTTON */}
+                <button
+                    className="absence-management-export-btn"
+                    onClick={exportToExcel}
+                >
+                    Export to Excel
+                </button>
 
                 {requests.length === 0 ? (
                     <p className="absence-management-no-data">
@@ -123,9 +164,7 @@ function AbsenceManagement() {
                             {requests.map((item) => (
                                 <tr key={item.id}>
 
-                                    {/* ✅ Always show userId correctly */}
                                     <td>{item.userId}</td>
-
                                     <td>{item.name}</td>
                                     <td>{item.date}</td>
                                     <td>{item.reason}</td>
