@@ -113,15 +113,27 @@ function AttendanceReport() {
 
         }
 
-        let updated = users.map((user) => {
+        let updated = users
+            .filter(user => {
 
-            if (presentUsers.includes(user.id)) {
-                return { ...user, status: "Present" };
-            } else {
-                return { ...user, status: "Absent" };
-            }
+                // ✅ Check if user has any attendance BEFORE or ON selected date
+                const hasJoined = attendanceSnap.docs.some(doc => {
+                    const data = doc.data();
+                    return data.userId === user.id && data.date <= selectedDate;
+                });
 
-        });
+                return hasJoined;
+
+            })
+            .map((user) => {
+
+                if (presentUsers.includes(user.id)) {
+                    return { ...user, status: "Present" };
+                } else {
+                    return { ...user, status: "Absent" };
+                }
+
+            });
 
         setReportUsers(updated);
 
@@ -198,7 +210,7 @@ function AttendanceReport() {
 
                         <div className="report-card">
                             <h3>Total Users</h3>
-                            <p>{users.length}</p>
+                            <p>{reportUsers.length}</p>
                         </div>
 
                         <div className="report-card present">
