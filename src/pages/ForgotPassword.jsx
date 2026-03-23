@@ -49,7 +49,7 @@ function ForgotPassword() {
                     </p>
 
                     <div className="email-box">
-                        📧 jaigurubande15@gmail.com
+                        📧 support@jaigurubande.in
                     </div>
 
                     <button
