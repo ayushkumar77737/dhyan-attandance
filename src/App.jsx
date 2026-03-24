@@ -16,6 +16,7 @@ import DeletedUsers from "./pages/DeletedUsers";
 import SubmitReason from "./pages/SubmitReason";
 import MyRequests from "./pages/MyRequests";
 import AbsenceManagement from "./pages/AbsenceManagement";
+import Notifications from "./pages/Notifications";
 
 function App() {
   return (
@@ -68,6 +69,15 @@ function App() {
           element={
             <ProtectedRoute>
               <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute>
+              <Notifications />
             </ProtectedRoute>
           }
         />

@@ -247,6 +247,25 @@ function AdminDashboard() {
 
         </div>
 
+        <div className="dashboard-card">
+
+          <div className="admin-profile">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+              alt="edit users"
+            />
+            <h3>Notification's</h3>
+          </div>
+
+          <button
+            className="dashboard-btn"
+            onClick={() => navigate("/notifications")}
+          >
+            Post Notification's
+          </button>
+
+        </div>
+
       </div>
 
     </div>
