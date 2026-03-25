@@ -37,7 +37,6 @@ function MarkAttendance() {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
 
-    // ✅ Set today's date automatically
     useEffect(() => {
         const today = new Date().toISOString().split("T")[0];
         setDate(today);
@@ -78,7 +77,12 @@ function MarkAttendance() {
                 });
             });
 
-            userList.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+            // ✅ SORT BY ID (ASCENDING)
+            userList.sort((a, b) => {
+                const numA = parseInt(a.id.replace(/\D/g, ""), 10);
+                const numB = parseInt(b.id.replace(/\D/g, ""), 10);
+                return numA - numB;
+            });
 
             setUsers(userList);
 
@@ -131,7 +135,6 @@ function MarkAttendance() {
             setUsers([]);
             setAttendance({});
 
-            // ✅ Reset to today's date instead of blank
             const today = new Date().toISOString().split("T")[0];
             setDate(today);
 
