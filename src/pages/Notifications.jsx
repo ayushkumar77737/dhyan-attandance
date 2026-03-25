@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import "./Notifications.css";
 
 import { db } from "../firebase/firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  query,
+  orderBy,
+  onSnapshot
+} from "firebase/firestore";
+
 import { useNavigate } from "react-router-dom";
 
 function Notifications() {
@@ -10,16 +18,54 @@ function Notifications() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
+  const [notifications, setNotifications] = useState([]);
 
   const navigate = useNavigate();
 
-  // ✅ Auto-hide message after 3 seconds (BEST WAY)
+  // ✅ Real-time Firestore data
+  useEffect(() => {
+    const q = query(
+      collection(db, "notifications"),
+      orderBy("createdAt", "desc")
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const data = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setNotifications(data);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+
+    const disableRightClick = (e) => e.preventDefault();
+
+    const disableInspectKeys = (e) => {
+      if (e.key === "F12") e.preventDefault();
+      if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
+        e.preventDefault();
+      if (e.ctrlKey && e.key.toUpperCase() === "U")
+        e.preventDefault();
+    };
+
+    document.addEventListener("contextmenu", disableRightClick);
+    document.addEventListener("keydown", disableInspectKeys);
+
+    return () => {
+      document.removeEventListener("contextmenu", disableRightClick);
+      document.removeEventListener("keydown", disableInspectKeys);
+    };
+
+  }, []);
+
+  // ✅ Auto-hide status
   useEffect(() => {
     if (status) {
-      const timer = setTimeout(() => {
-        setStatus("");
-      }, 3000);
-
+      const timer = setTimeout(() => setStatus(""), 3000);
       return () => clearTimeout(timer);
     }
   }, [status]);
@@ -52,28 +98,20 @@ function Notifications() {
   };
 
   return (
-    <div className="notification-page">
+    <div className="notifications-page">
 
       {/* Back Button */}
       <button
-        className="back-btn"
+        className="notif-back-btn"
         onClick={() => navigate(-1)}
       >
         ← Back
       </button>
 
-      <div className="notification-card">
-
-        <div className="profile-icon">
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-            alt="user"
-          />
-        </div>
+      <div className="notif-card">
 
         <h2>Post Notification</h2>
 
-        {/* ✅ Status Message */}
         {status && <div className="status-message">{status}</div>}
 
         <form onSubmit={handleSubmit}>
@@ -89,6 +127,36 @@ function Notifications() {
           </button>
 
         </form>
+
+      </div>
+
+      {/* ✅ Notifications Table */}
+      <div className="notif-list">
+
+        {notifications.length === 0 ? (
+          <p className="no-data">No notifications yet</p>
+        ) : (
+          <table className="notif-table">
+            <thead>
+              <tr>
+                <th>Message</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {notifications.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.message}</td>
+                  <td>
+                    {item.createdAt && item.createdAt.seconds
+                      ? new Date(item.createdAt.seconds * 1000).toLocaleString()
+                      : "Just now"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
 
       </div>
 
