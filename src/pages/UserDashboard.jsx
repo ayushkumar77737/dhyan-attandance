@@ -152,6 +152,13 @@ function UserDashboard() {
             My Requests
           </button>
 
+          <button
+            className="reason-btn"
+            onClick={() => navigate("/my-notifications")}
+          >
+            My Notifications
+          </button>
+
         </div>
 
         <table className="attendance-table">
