@@ -1,0 +1,143 @@
+/* ===== MAIN WRAPPER ===== */
+.my-notifications-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 30px 15px;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+  background: #f8fafc; /* 👈 clean light background */
+}
+
+/* ===== INNER CONTAINER ===== */
+.my-notifications-container {
+  width: 100%;
+  max-width: 650px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== HEADER ===== */
+.my-notifications-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* ===== TITLE ===== */
+.my-notifications-header h1 {
+  margin: 0 auto;
+  font-size: 24px;
+  color: #1e293b;
+  text-align: center;
+  flex: 1;
+  font-weight: 600;
+}
+
+/* ===== BACK BUTTON ===== */
+.my-notifications-page .back-btn {
+  background: #4f46e5;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-size: 13px;
+}
+
+.my-notifications-page .back-btn:hover {
+  background: #4338ca;
+}
+
+/* ===== LIST ===== */
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ===== CARD ===== */
+.notification-card {
+  background: #f1f5f9;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+
+  animation: fadeSlideUp 0.3s ease forwards;
+  opacity: 0;
+}
+
+/* Hover */
+.notification-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* TEXT */
+.notification-card p {
+  margin: 0;
+  font-size: 15px;
+  color: #0f172a;
+}
+
+.notification-card span {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* ===== EMPTY ===== */
+.no-data {
+  text-align: center;
+  margin-top: 30px;
+  color: #64748b;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeSlideUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Mobile */
+@media (max-width: 480px) {
+  .my-notifications-container {
+    padding: 15px;
+  }
+
+  .my-notifications-header h1 {
+    font-size: 20px;
+  }
+
+  .notification-card {
+    padding: 12px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 481px) and (max-width: 768px) {
+  .my-notifications-container {
+    max-width: 90%;
+  }
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+  .my-notifications-container {
+    max-width: 650px;
+  }
+}

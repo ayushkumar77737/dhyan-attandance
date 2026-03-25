@@ -17,6 +17,7 @@ import SubmitReason from "./pages/SubmitReason";
 import MyRequests from "./pages/MyRequests";
 import AbsenceManagement from "./pages/AbsenceManagement";
 import Notifications from "./pages/Notifications";
+import MyNotifications from "./pages/MyNotifications";
 
 function App() {
   return (
@@ -59,6 +60,15 @@ function App() {
           element={
             <ProtectedRoute>
               <MyRequests />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/my-notifications"
+          element={
+            <ProtectedRoute>
+              <MyNotifications />
             </ProtectedRoute>
           }
         />
