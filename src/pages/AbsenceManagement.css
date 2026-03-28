@@ -31,34 +31,54 @@
   z-index: 0;
   opacity: 0.35;
 }
+
 .am-orb-1 {
-  width: 380px; height: 380px;
-  top: -100px; left: -120px;
+  width: 380px;
+  height: 380px;
+  top: -100px;
+  left: -120px;
   background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
   animation: am-orb-float 10s ease-in-out infinite alternate;
 }
+
 .am-orb-2 {
-  width: 300px; height: 300px;
-  bottom: -80px; right: -80px;
+  width: 300px;
+  height: 300px;
+  bottom: -80px;
+  right: -80px;
   background: radial-gradient(circle, #7c6df3 0%, transparent 70%);
   animation: am-orb-float 13s ease-in-out infinite alternate-reverse;
 }
+
 .am-orb-3 {
-  width: 200px; height: 200px;
-  top: 50%; left: 50%;
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  left: 50%;
   background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
   animation: am-orb-float 8s ease-in-out infinite alternate;
   opacity: 0.15;
 }
+
 @keyframes am-orb-float {
-  from { transform: translateY(0px) scale(1); }
-  to   { transform: translateY(30px) scale(1.08); }
+  from {
+    transform: translateY(0px) scale(1);
+  }
+
+  to {
+    transform: translateY(30px) scale(1.08);
+  }
 }
 
 /* Fade Animation */
 @keyframes am-fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* ─── Back Button ───────────────────────────────────────────── */
@@ -94,6 +114,7 @@
   font-size: 15px;
   transition: transform 0.25s ease;
 }
+
 .absence-management-back-btn:hover .am-back-arrow {
   transform: translateX(-3px);
 }
@@ -121,15 +142,24 @@
 .absence-management-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 10%; right: 10%;
+  top: 0;
+  left: 10%;
+  right: 10%;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), rgba(124, 109, 243, 0.5), transparent);
   border-radius: 100%;
 }
 
 @keyframes am-slideUp {
-  from { transform: translateY(40px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 /* ─── Header ────────────────────────────────────────────────── */
@@ -141,7 +171,8 @@
 }
 
 .am-header-icon {
-  width: 46px; height: 46px;
+  width: 46px;
+  height: 46px;
   border-radius: 13px;
   background: linear-gradient(135deg, #3b82f6, #6366f1);
   display: flex;
@@ -194,7 +225,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -203,9 +234,11 @@
   transform: translateY(-2px) scale(1.02);
   box-shadow: 0 12px 30px rgba(92, 77, 227, 0.45);
 }
+
 .absence-management-export-btn:hover::after {
   opacity: 1;
 }
+
 .absence-management-export-btn:active {
   transform: scale(0.97);
 }
@@ -253,8 +286,15 @@
 }
 
 @keyframes am-rowIn {
-  from { opacity: 0; transform: translateX(-10px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .absence-management-table td {
@@ -295,7 +335,8 @@
 }
 
 .am-avatar {
-  width: 32px; height: 32px;
+  width: 32px;
+  height: 32px;
   border-radius: 9px;
   background: linear-gradient(135deg, #3b82f6, #6366f1);
   color: #fff;
@@ -335,7 +376,8 @@
 }
 
 .am-status-dot {
-  width: 6px; height: 6px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -350,6 +392,7 @@
   color: #fbbf24;
   border: 1px solid rgba(251, 191, 36, 0.2);
 }
+
 .absence-management-status.pending .am-status-dot {
   background: #fbbf24;
   box-shadow: 0 0 5px #fbbf24;
@@ -361,6 +404,7 @@
   color: #34d399;
   border: 1px solid rgba(52, 211, 153, 0.2);
 }
+
 .absence-management-status.approved .am-status-dot {
   background: #34d399;
   box-shadow: 0 0 5px #34d399;
@@ -371,6 +415,7 @@
   color: #f87171;
   border: 1px solid rgba(248, 113, 113, 0.2);
 }
+
 .absence-management-status.rejected .am-status-dot {
   background: #f87171;
   box-shadow: 0 0 5px #f87171;
@@ -381,6 +426,7 @@
   color: #34d399;
   border: 1px solid rgba(52, 211, 153, 0.25);
 }
+
 .absence-management-status.active .am-status-dot {
   background: #34d399;
   box-shadow: 0 0 5px #34d399;
@@ -389,8 +435,17 @@
 
 
 @keyframes am-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.5; transform: scale(0.8); }
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
 }
 
 /* ─── Empty State ───────────────────────────────────────────── */
@@ -404,7 +459,8 @@
 }
 
 .am-empty-icon {
-  width: 72px; height: 72px;
+  width: 72px;
+  height: 72px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -443,8 +499,13 @@
     padding: 10px 10px;
   }
 
-  .am-avatar { display: none; }
-  .th-inner svg { display: none; }
+  .am-avatar {
+    display: none;
+  }
+
+  .th-inner svg {
+    display: none;
+  }
 
 }
 

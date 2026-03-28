@@ -7,7 +7,8 @@
   padding: 30px 15px;
   box-sizing: border-box;
   font-family: "Segoe UI", sans-serif;
-  background: #f8fafc; /* 👈 clean light background */
+  background: #f8fafc;
+  /* 👈 clean light background */
 }
 
 /* ===== INNER CONTAINER ===== */
@@ -105,6 +106,7 @@
     transform: translateY(10px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;

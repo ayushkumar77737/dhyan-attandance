@@ -10,20 +10,20 @@
   --bg: #0d0f14;
   --surface: #13161e;
   --surface-2: #1a1e2a;
-  --border: rgba(255,255,255,0.07);
-  --border-hover: rgba(99,179,237,0.35);
+  --border: rgba(255, 255, 255, 0.07);
+  --border-hover: rgba(99, 179, 237, 0.35);
 
   --accent: #4f8ef7;
   --accent-2: #7c6df8;
-  --accent-glow: rgba(79,142,247,0.25);
+  --accent-glow: rgba(79, 142, 247, 0.25);
 
   --success: #34d399;
-  --success-bg: rgba(52,211,153,0.1);
-  --success-border: rgba(52,211,153,0.3);
+  --success-bg: rgba(52, 211, 153, 0.1);
+  --success-border: rgba(52, 211, 153, 0.3);
 
   --error: #f87171;
-  --error-bg: rgba(248,113,113,0.1);
-  --error-border: rgba(248,113,113,0.3);
+  --error-bg: rgba(248, 113, 113, 0.1);
+  --error-border: rgba(248, 113, 113, 0.3);
 
   --text-primary: #f0f4ff;
   --text-secondary: #8b94b2;
@@ -64,7 +64,7 @@
   height: 500px;
   top: -120px;
   left: -160px;
-  background: radial-gradient(circle, rgba(79,142,247,0.18), transparent 70%);
+  background: radial-gradient(circle, rgba(79, 142, 247, 0.18), transparent 70%);
   animation: blobFloat 10s ease-in-out infinite alternate;
 }
 
@@ -73,7 +73,7 @@
   height: 420px;
   bottom: -80px;
   right: -100px;
-  background: radial-gradient(circle, rgba(124,109,248,0.15), transparent 70%);
+  background: radial-gradient(circle, rgba(124, 109, 248, 0.15), transparent 70%);
   animation: blobFloat 13s ease-in-out infinite alternate-reverse;
 }
 
@@ -83,13 +83,18 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(52,211,153,0.06), transparent 70%);
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.06), transparent 70%);
   animation: blobFloat 8s ease-in-out infinite alternate;
 }
 
 @keyframes blobFloat {
-  from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(30px, 20px) scale(1.06); }
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+
+  to {
+    transform: translate(30px, 20px) scale(1.06);
+  }
 }
 
 /* ---- Main container ---- */
@@ -102,8 +107,15 @@
 }
 
 @keyframes pageIn {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ======================================
@@ -133,7 +145,7 @@
 .notif-back-btn:hover {
   color: var(--accent);
   border-color: var(--border-hover);
-  background: rgba(79,142,247,0.06);
+  background: rgba(79, 142, 247, 0.06);
   transform: translateX(-3px);
 }
 
@@ -238,8 +250,15 @@
 }
 
 @keyframes statusIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .notif-status--success {
@@ -310,7 +329,7 @@
 
 .notif-textarea:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(79,142,247,0.12);
+  box-shadow: 0 0 0 3px rgba(79, 142, 247, 0.12);
 }
 
 .notif-textarea-glow {
@@ -320,10 +339,10 @@
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.3s ease;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-.notif-textarea:focus ~ .notif-textarea-glow {
+.notif-textarea:focus~.notif-textarea-glow {
   opacity: 1;
 }
 
@@ -353,7 +372,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
   opacity: 0;
   transition: opacity 0.25s;
 }
@@ -388,7 +407,7 @@
 .notif-spinner {
   width: 15px;
   height: 15px;
-  border: 2px solid rgba(255,255,255,0.3);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-top-color: #fff;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
@@ -396,7 +415,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ======================================
@@ -428,8 +449,8 @@
   min-width: 26px;
   height: 22px;
   padding: 0 7px;
-  background: rgba(79,142,247,0.15);
-  border: 1px solid rgba(79,142,247,0.25);
+  background: rgba(79, 142, 247, 0.15);
+  border: 1px solid rgba(79, 142, 247, 0.25);
   border-radius: 20px;
   font-size: 12px;
   font-weight: 700;
@@ -500,8 +521,15 @@
 }
 
 @keyframes cardIn {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .notif-item-card:hover {

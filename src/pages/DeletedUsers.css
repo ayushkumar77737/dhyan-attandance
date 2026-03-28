@@ -1,304 +1,557 @@
-/* ===============================
-PAGE
-================================ */
+/* ============================================================ */
+/*  DELETED USERS — PREMIUM REDESIGN                            */
+/* ============================================================ */
 
-.deleted-container{
-  padding:40px;
-  min-height:100vh;
-  background:linear-gradient(135deg,#eef2f7,#dfe9f3);
-  font-family:"Poppins",sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-
-  animation:deletedFadeIn 0.8s ease;
+/* ─── Page ──────────────────────────────────────────────────── */
+.deleted-container {
+  padding: 28px 20px 40px;
+  min-height: 100vh;
+  background: #0f1117;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 20% -10%, rgba(239, 68, 68, 0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 110%, rgba(124, 109, 243, 0.10) 0%, transparent 60%);
+  font-family: 'Sora', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  /* ← changed from center → lets children control their own alignment */
+  position: relative;
+  overflow-x: hidden;
+  animation: deletedFadeIn 0.5s ease-in-out;
 }
 
-/* ===============================
-HEADER
-================================ */
-
-.deleted-container .deleted-header{
-  width:100%;
-  display:flex;
-  justify-content:flex-start;
-  margin-bottom:10px;
+/* Decorative orbs */
+.du-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
 }
 
-/* ===============================
-BACK BUTTON
-================================ */
-
-.deleted-container .back-btn{
-  background:#3498db;
-  color:white;
-  border:none;
-  padding:8px 16px;
-  border-radius:6px;
-  cursor:pointer;
-  font-size:14px;
-  transition:0.3s;
+.du-orb-1 {
+  width: 350px;
+  height: 350px;
+  top: -100px;
+  left: -120px;
+  background: radial-gradient(circle, #ef4444 0%, transparent 70%);
+  animation: du-orb-float 10s ease-in-out infinite alternate;
 }
 
-.deleted-container .back-btn:hover{
-  background:#2980b9;
+.du-orb-2 {
+  width: 280px;
+  height: 280px;
+  bottom: -80px;
+  right: -80px;
+  background: radial-gradient(circle, #7c6df3 0%, transparent 70%);
+  animation: du-orb-float 13s ease-in-out infinite alternate-reverse;
 }
 
-/* ===============================
-TITLE
-================================ */
-
-.deleted-container .deleted-title{
-  text-align:center;
-  margin-bottom:35px;
-  font-size:34px;
-  font-weight:700;
-  color:#2c3e50;
-  letter-spacing:1px;
-
-  animation:deletedSlideDown 0.6s ease;
+.du-orb-3 {
+  width: 180px;
+  height: 180px;
+  top: 50%;
+  left: 50%;
+  background: radial-gradient(circle, #f97316 0%, transparent 70%);
+  animation: du-orb-float 8s ease-in-out infinite alternate;
+  opacity: 0.12;
 }
 
-/* ===============================
-CARD
-================================ */
-
-.deleted-container .deleted-card{
-  width:95%;
-  max-width:1100px;
-
-  background:white;
-  padding:30px;
-
-  border-radius:14px;
-
-  box-shadow:0 15px 35px rgba(0,0,0,0.08);
-
-  transition:0.3s;
-
-  animation:deletedSlideUp 0.6s ease;
-}
-
-.deleted-container .deleted-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 20px 45px rgba(0,0,0,0.12);
-}
-
-/* ===============================
-TABLE
-================================ */
-
-.deleted-container .deleted-table{
-  width:100%;
-  border-collapse:collapse;
-  overflow:hidden;
-  border-radius:10px;
-}
-
-/* Table header */
-
-.deleted-container .deleted-table th{
-  background:linear-gradient(135deg,#2f6edb,#4f8cff);
-  color:white;
-  padding:15px;
-  text-align:left;
-  font-size:15px;
-  letter-spacing:0.5px;
-}
-
-/* Table data */
-
-.deleted-container .deleted-table td{
-  padding:15px;
-  border-bottom:1px solid #eee;
-  font-size:14px;
-  color:#333;
-}
-
-/* Row hover */
-
-.deleted-container .deleted-table tbody tr{
-  transition:all 0.25s ease;
-}
-
-.deleted-container .deleted-table tbody tr:hover{
-  background:#f7f9fc;
-  transform:scale(1.01);
-}
-
-/* ===============================
-RESTORE BUTTON
-================================ */
-
-.deleted-container .restore-btn{
-  background:linear-gradient(135deg,#28a745,#4cd964);
-  color:white;
-  border:none;
-  padding:8px 16px;
-  border-radius:8px;
-  cursor:pointer;
-  font-size:13px;
-  font-weight:500;
-
-  transition:all 0.25s ease;
-
-  box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-
-.deleted-container .restore-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 20px rgba(0,0,0,0.15);
-}
-
-/* ===============================
-EXPORT BUTTON
-================================ */
-
-.export-btn{
-  padding:8px 18px;
-  border:none;
-  background:#28a745;
-  color:white;
-  border-radius:6px;
-  cursor:pointer;
-  font-weight:500;
-  margin-left:10px;
-}
-
-.export-btn:hover{
-  background:#218838;
-}
-
-/* ===============================
-NO DATA
-================================ */
-
-.deleted-container .no-data{
-  text-align:center;
-  padding:20px;
-  color:#777;
-  font-size:15px;
-}
-
-/* ===============================
-ANIMATIONS
-================================ */
-
-@keyframes deletedFadeIn{
-  from{opacity:0;}
-  to{opacity:1;}
-}
-
-@keyframes deletedSlideDown{
-  from{
-    opacity:0;
-    transform:translateY(-20px);
+@keyframes du-orb-float {
+  from {
+    transform: translateY(0px) scale(1);
   }
-  to{
-    opacity:1;
-    transform:translateY(0);
+
+  to {
+    transform: translateY(28px) scale(1.08);
   }
 }
 
-@keyframes deletedSlideUp{
-  from{
-    opacity:0;
-    transform:translateY(30px);
+@keyframes deletedFadeIn {
+  from {
+    opacity: 0;
   }
-  to{
-    opacity:1;
-    transform:translateY(0);
+
+  to {
+    opacity: 1;
   }
 }
 
-/* ===============================
-TABLET
-================================ */
-
-@media (max-width:992px){
-
-.deleted-container{
-  padding:25px;
+/* ─── Header ────────────────────────────────────────────────── */
+.deleted-header {
+  width: 100%;
+  max-width: 940px;
+  display: flex;
+  justify-content: flex-start;
+  /* ← buttons anchored to the left */
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  margin-left: 0;
+  /* ← sit at the left edge */
+  margin-right: auto;
+  /* ← don't stretch to the right */
+  position: relative;
+  z-index: 1;
 }
 
-.deleted-container .deleted-title{
-  font-size:28px;
+/* ─── Back Button ───────────────────────────────────────────── */
+.back-btn {
+  padding: 9px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #a1b4cc;
+  cursor: pointer;
+  font-family: 'Sora', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  backdrop-filter: blur(10px);
+  transition: all 0.25s ease;
 }
 
-.deleted-container .deleted-card{
-  padding:20px;
+.back-btn:hover {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #f87171;
+  transform: translateX(-3px);
 }
 
-.deleted-container .deleted-table th,
-.deleted-container .deleted-table td{
-  padding:12px;
-  font-size:13px;
+.du-back-arrow {
+  font-size: 15px;
+  transition: transform 0.25s ease;
 }
 
-.deleted-container .restore-btn{
-  padding:7px 14px;
-  font-size:12px;
+.back-btn:hover .du-back-arrow {
+  transform: translateX(-3px);
 }
 
+/* ─── Export Button ─────────────────────────────────────────── */
+.export-btn {
+  padding: 9px 18px;
+  border: none;
+  background: linear-gradient(135deg, #7c6df3, #5b4de3);
+  color: white;
+  font-family: 'Sora', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 4px 16px rgba(92, 77, 227, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-/* ===============================
-MOBILE
-================================ */
-
-@media (max-width:768px){
-
-.deleted-container{
-  padding:20px;
+.export-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.deleted-container .deleted-title{
-  font-size:24px;
+.export-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 28px rgba(92, 77, 227, 0.45);
 }
 
-.deleted-container .deleted-card{
-  padding:18px;
-  overflow-x:auto;
+.export-btn:hover::after {
+  opacity: 1;
 }
 
-.deleted-container .deleted-table{
-  min-width:600px;
+.export-btn:active {
+  transform: scale(0.97);
 }
 
-.deleted-container .restore-btn{
-  width:100%;
-  text-align:center;
+/* ─── Title Row ─────────────────────────────────────────────── */
+.du-title-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+  margin-left: 0;
+  /* ← align to the left edge */
+  margin-right: auto;
+  /* ← don't stretch right */
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 940px;
 }
 
+.du-title-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #ef4444, #f97316);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.35);
+  flex-shrink: 0;
 }
 
-/* ===============================
-SMALL MOBILE
-================================ */
-
-@media (max-width:480px){
-
-.deleted-container{
-  padding:15px;
+.deleted-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #f0f4ff;
+  margin: 0 0 2px;
+  letter-spacing: -0.3px;
+  animation: none;
+  text-align: left;
 }
 
-.deleted-container .deleted-title{
-  font-size:22px;
+.du-subtitle {
+  font-size: 12.5px;
+  color: #5a6a82;
+  margin: 0;
+  font-weight: 400;
 }
 
-.deleted-container .back-btn{
-  font-size:12px;
-  padding:6px 12px;
+/* ─── Card ──────────────────────────────────────────────────── */
+.deleted-card {
+  width: 100%;
+  max-width: 940px;
+  margin-left: auto;
+  /* ← horizontally center the card */
+  margin-right: auto;
+  /* ← horizontally center the card */
+  background: rgba(20, 24, 36, 0.85);
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow:
+    0 0 0 1px rgba(239, 68, 68, 0.05),
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 4px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  position: relative;
+  z-index: 1;
+  animation: deletedSlideUp 0.5s ease;
 }
 
-.deleted-container .deleted-card{
-  padding:15px;
+/* top glow line */
+.deleted-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.45), rgba(124, 109, 243, 0.45), transparent);
+  border-radius: 100%;
 }
 
-.deleted-container .deleted-table th,
-.deleted-container .deleted-table td{
-  font-size:12px;
+.deleted-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 1px rgba(239, 68, 68, 0.08),
+    0 28px 70px rgba(0, 0, 0, 0.55),
+    0 6px 24px rgba(0, 0, 0, 0.35);
 }
+
+@keyframes deletedSlideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes deletedSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Table Wrapper ─────────────────────────────────────────── */
+.du-table-wrapper {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Table ─────────────────────────────────────────────────── */
+.deleted-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.deleted-table thead tr {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.deleted-table th {
+  padding: 13px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.du-th-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Sora', sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #4d7ab5;
+}
+
+.deleted-table tbody tr {
+  animation: du-rowIn 0.4s ease both;
+  transition: background 0.2s ease;
+}
+
+@keyframes du-rowIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.deleted-table td {
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+  color: #c8d6e8;
+  font-size: 13.5px;
+  font-weight: 400;
+}
+
+.deleted-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.deleted-table tbody tr:hover td {
+  background: rgba(239, 68, 68, 0.04);
+}
+
+/* ─── ID Badge ──────────────────────────────────────────────── */
+.du-id-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 3px 9px;
+  border-radius: 6px;
+  letter-spacing: 0.3px;
+}
+
+/* ─── Name Cell ─────────────────────────────────────────────── */
+.du-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.du-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #ef4444, #f97316);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(239, 68, 68, 0.25);
+}
+
+/* ─── Restore Button ────────────────────────────────────────── */
+.restore-btn {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+  border: none;
+  padding: 7px 15px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-family: 'Sora', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.restore-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.restore-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(34, 197, 94, 0.38);
+}
+
+.restore-btn:hover::after {
+  opacity: 1;
+}
+
+.restore-btn:active {
+  transform: scale(0.96);
+}
+
+/* ─── No Data / Empty State ─────────────────────────────────── */
+.du-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px;
+  gap: 12px;
+}
+
+.du-empty-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3a4d62;
+}
+
+.no-data {
+  text-align: center;
+  color: #3a4d62;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================ */
+/*  RESPONSIVE                                                  */
+/* ============================================================ */
+
+/* TABLET */
+@media (max-width: 992px) {
+
+  .deleted-container {
+    padding: 25px;
+  }
+
+  .deleted-title {
+    font-size: 18px;
+  }
+
+  .deleted-card {
+    padding: 18px;
+  }
+
+  .deleted-table th,
+  .deleted-table td {
+    padding: 11px 12px;
+    font-size: 13px;
+  }
+
+  .restore-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .deleted-container {
+    padding: 20px;
+  }
+
+  .deleted-title {
+    font-size: 17px;
+  }
+
+  .deleted-card {
+    padding: 15px;
+    overflow-x: auto;
+  }
+
+  .deleted-table {
+    min-width: 520px;
+  }
+
+  .restore-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+
+  .deleted-container {
+    padding: 15px;
+  }
+
+  .deleted-title {
+    font-size: 16px;
+  }
+
+  .back-btn {
+    font-size: 12px;
+    padding: 7px 12px;
+  }
+
+  .deleted-card {
+    padding: 12px;
+  }
+
+  .deleted-table th,
+  .deleted-table td {
+    font-size: 11.5px;
+  }
+
+  .du-avatar {
+    display: none;
+  }
+
+  .du-th-inner svg {
+    display: none;
+  }
 
 }
