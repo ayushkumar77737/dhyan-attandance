@@ -1,5 +1,5 @@
 /* ============================================================ */
-/*  DELETED USERS — PREMIUM REDESIGN                            */
+/*  DELETED USERS — PREMIUM REDESIGN (MOBILE FIXED)            */
 /* ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
@@ -16,9 +16,9 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  /* ← changed from center → lets children control their own alignment */
   position: relative;
   overflow-x: hidden;
+  box-sizing: border-box;
   animation: deletedFadeIn 0.5s ease-in-out;
 }
 
@@ -86,16 +86,16 @@
   max-width: 940px;
   display: flex;
   justify-content: flex-start;
-  /* ← buttons anchored to the left */
   align-items: center;
   gap: 10px;
   margin-bottom: 20px;
   margin-left: 0;
-  /* ← sit at the left edge */
   margin-right: auto;
-  /* ← don't stretch to the right */
   position: relative;
   z-index: 1;
+  /* KEY FIX: allow buttons to wrap on very small screens */
+  flex-wrap: wrap;
+  box-sizing: border-box;
 }
 
 /* ─── Back Button ───────────────────────────────────────────── */
@@ -114,6 +114,9 @@
   gap: 7px;
   backdrop-filter: blur(10px);
   transition: all 0.25s ease;
+  white-space: nowrap;
+  /* ← keep label on one line */
+  flex-shrink: 0;
 }
 
 .back-btn:hover {
@@ -150,6 +153,9 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  white-space: nowrap;
+  /* ← keep label on one line */
+  flex-shrink: 0;
 }
 
 .export-btn::after {
@@ -181,13 +187,12 @@
   gap: 14px;
   margin-bottom: 22px;
   margin-left: 0;
-  /* ← align to the left edge */
   margin-right: auto;
-  /* ← don't stretch right */
   position: relative;
   z-index: 1;
   width: 100%;
   max-width: 940px;
+  box-sizing: border-box;
 }
 
 .du-title-icon {
@@ -209,7 +214,6 @@
   color: #f0f4ff;
   margin: 0 0 2px;
   letter-spacing: -0.3px;
-  animation: none;
   text-align: left;
 }
 
@@ -225,9 +229,7 @@
   width: 100%;
   max-width: 940px;
   margin-left: auto;
-  /* ← horizontally center the card */
   margin-right: auto;
-  /* ← horizontally center the card */
   background: rgba(20, 24, 36, 0.85);
   padding: 24px;
   border-radius: 20px;
@@ -239,6 +241,7 @@
   backdrop-filter: blur(20px);
   position: relative;
   z-index: 1;
+  box-sizing: border-box;
   animation: deletedSlideUp 0.5s ease;
 }
 
@@ -287,16 +290,25 @@
 }
 
 /* ─── Table Wrapper ─────────────────────────────────────────── */
+/* KEY FIX: overflow-x scroll instead of hidden */
 .du-table-wrapper {
   border-radius: 14px;
-  overflow: hidden;
+  overflow-x: auto;
+  /* ← was just overflow:hidden */
+  overflow-y: visible;
   border: 1px solid rgba(255, 255, 255, 0.06);
+  -webkit-overflow-scrolling: touch;
+  /* smooth iOS scroll */
+  width: 100%;
 }
 
 /* ─── Table ─────────────────────────────────────────────────── */
 .deleted-table {
   width: 100%;
+  min-width: 500px;
+  /* ← prevents columns from squishing */
   border-collapse: collapse;
+  table-layout: auto;
 }
 
 .deleted-table thead tr {
@@ -307,6 +319,8 @@
   padding: 13px 16px;
   text-align: left;
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  white-space: nowrap;
+  /* ← header labels stay on one line */
 }
 
 .du-th-inner {
@@ -344,6 +358,8 @@
   color: #c8d6e8;
   font-size: 13.5px;
   font-weight: 400;
+  white-space: nowrap;
+  /* ← cell content won't wrap/clip */
 }
 
 .deleted-table tbody tr:last-child td {
@@ -407,6 +423,7 @@
   transition: all 0.25s ease;
   position: relative;
   overflow: hidden;
+  white-space: nowrap;
 }
 
 .restore-btn::after {
@@ -491,14 +508,13 @@
     padding: 6px 12px;
     font-size: 12px;
   }
-
 }
 
 /* MOBILE */
 @media (max-width: 768px) {
 
   .deleted-container {
-    padding: 20px;
+    padding: 16px 12px;
   }
 
   .deleted-title {
@@ -506,52 +522,73 @@
   }
 
   .deleted-card {
-    padding: 15px;
-    overflow-x: auto;
+    padding: 15px 12px;
+    /* KEY FIX: card itself must NOT clip — scrolling lives in du-table-wrapper */
+    overflow: visible;
+  }
+
+  .du-table-wrapper {
+    border-radius: 10px;
+    /* subtle right-shadow hint that table is scrollable */
+    box-shadow: inset -8px 0 12px -8px rgba(0, 0, 0, 0.4);
   }
 
   .deleted-table {
-    min-width: 520px;
+    min-width: 500px;
   }
 
+  /* Restore button stays inline on mobile — full-width only if you prefer */
   .restore-btn {
-    width: 100%;
+    width: auto;
     justify-content: center;
   }
-
 }
 
 /* SMALL MOBILE */
 @media (max-width: 480px) {
 
   .deleted-container {
-    padding: 15px;
+    padding: 12px 10px;
   }
 
   .deleted-title {
     font-size: 16px;
   }
 
+  /* Back + Export buttons — shrink gracefully */
   .back-btn {
     font-size: 12px;
     padding: 7px 12px;
   }
 
+  .export-btn {
+    font-size: 12px;
+    padding: 7px 12px;
+  }
+
   .deleted-card {
-    padding: 12px;
+    padding: 12px 10px;
   }
 
   .deleted-table th,
   .deleted-table td {
     font-size: 11.5px;
+    padding: 10px 10px;
   }
 
   .du-avatar {
-    display: none;
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+    border-radius: 7px;
   }
 
   .du-th-inner svg {
     display: none;
   }
 
+  .du-id-badge {
+    font-size: 11px;
+    padding: 2px 7px;
+  }
 }

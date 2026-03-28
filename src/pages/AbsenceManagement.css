@@ -1,5 +1,5 @@
 /* ============================================================ */
-/*  ABSENCE MANAGEMENT — PREMIUM REDESIGN                       */
+/*  ABSENCE MANAGEMENT — PREMIUM REDESIGN (MOBILE FIXED)       */
 /* ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
@@ -18,8 +18,8 @@
   position: relative;
   overflow-x: hidden;
   font-family: 'Sora', sans-serif;
-
   animation: am-fadeIn 0.5s ease-in-out;
+  box-sizing: border-box;
 }
 
 /* Decorative orbs */
@@ -70,7 +70,6 @@
   }
 }
 
-/* Fade Animation */
 @keyframes am-fadeIn {
   from {
     opacity: 0;
@@ -134,7 +133,7 @@
   backdrop-filter: blur(20px);
   position: relative;
   z-index: 1;
-
+  box-sizing: border-box;
   animation: am-slideUp 0.5s ease;
 }
 
@@ -183,7 +182,6 @@
   flex-shrink: 0;
 }
 
-/* Title */
 .absence-management-title {
   font-size: 20px;
   font-weight: 700;
@@ -244,16 +242,26 @@
 }
 
 /* ─── Table Wrapper ─────────────────────────────────────────── */
+/* KEY FIX: allow horizontal scroll inside the wrapper only */
 .am-table-wrapper {
   border-radius: 14px;
-  overflow: hidden;
+  overflow-x: auto;
+  /* ← was just overflow:hidden */
+  overflow-y: visible;
   border: 1px solid rgba(255, 255, 255, 0.06);
+  -webkit-overflow-scrolling: touch;
+  /* smooth scroll on iOS */
+  width: 100%;
 }
 
 /* ─── Table ─────────────────────────────────────────────────── */
 .absence-management-table {
   width: 100%;
+  min-width: 520px;
+  /* ← prevents columns from squishing below this */
   border-collapse: collapse;
+  table-layout: auto;
+  /* ← let columns size to content */
 }
 
 /* Header */
@@ -265,6 +273,8 @@
   padding: 13px 16px;
   text-align: left;
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  white-space: nowrap;
+  /* ← keep header labels on one line */
 }
 
 .th-inner {
@@ -303,6 +313,8 @@
   color: #c8d6e8;
   font-size: 13.5px;
   font-weight: 400;
+  white-space: nowrap;
+  /* ← prevent cell content wrapping & clipping */
 }
 
 .absence-management-table tbody tr:last-child td {
@@ -373,6 +385,8 @@
   gap: 6px;
   letter-spacing: 0.2px;
   transition: transform 0.2s ease;
+  white-space: nowrap;
+  /* ← status label never wraps or clips */
 }
 
 .am-status-dot {
@@ -433,7 +447,6 @@
   animation: am-pulse 1.5s ease-in-out infinite;
 }
 
-
 @keyframes am-pulse {
 
   0%,
@@ -485,38 +498,85 @@
 @media (max-width: 480px) {
 
   .absence-management-page {
-    padding: 15px;
+    padding: 12px 10px 30px;
+    /* tighter side padding */
   }
 
   .absence-management-card {
-    padding: 18px 14px;
+    padding: 16px 12px;
     border-radius: 14px;
+    width: 100%;
+  }
+
+  .absence-management-title {
+    font-size: 16px;
+  }
+
+  .am-subtitle {
+    font-size: 11.5px;
+  }
+
+  .am-header-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+  }
+
+  /* Export button full-width on mobile */
+  .absence-management-export-btn {
+    width: 100%;
+    justify-content: center;
+    font-size: 13px;
+    padding: 11px 16px;
+  }
+
+  /* Table: scroll horizontally inside the card */
+  .am-table-wrapper {
+    border-radius: 10px;
+    /* Show a subtle scroll hint shadow on the right */
+    box-shadow: inset -8px 0 12px -8px rgba(0, 0, 0, 0.4);
+  }
+
+  .absence-management-table {
+    min-width: 460px;
+    /* force full layout, wrapper scrolls */
   }
 
   .absence-management-table th,
   .absence-management-table td {
-    font-size: 11.5px;
-    padding: 10px 10px;
+    font-size: 12px;
+    padding: 10px 12px;
   }
 
+  /* Keep avatar on mobile — hide only if truly too tight */
   .am-avatar {
-    display: none;
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+    border-radius: 7px;
   }
 
   .th-inner svg {
     display: none;
   }
 
+  .am-id-badge {
+    font-size: 11px;
+    padding: 2px 7px;
+  }
 }
 
 /* 📲 TABLET (481px–768px) */
 @media (min-width: 481px) and (max-width: 768px) {
 
   .absence-management-card {
-    max-width: 95%;
-    padding: 22px;
+    max-width: 98%;
+    padding: 22px 18px;
   }
 
+  .absence-management-table {
+    min-width: 480px;
+  }
 }
 
 /* 💻 LAPTOP (769px–1200px) */
@@ -525,7 +585,6 @@
   .absence-management-card {
     max-width: 860px;
   }
-
 }
 
 /* 🖥 LARGE SCREENS (>1200px) */
@@ -534,5 +593,4 @@
   .absence-management-card {
     max-width: 1020px;
   }
-
 }
