@@ -2,204 +2,211 @@
 PAGE
 ================================ */
 
-.user-percentage-page{
-  padding:40px;
-  min-height:100vh;
+.user-percentage-page {
+  padding: 40px;
+  min-height: 100vh;
 
-  background:linear-gradient(135deg,#eef2f7,#dfe9f3);
+  background: linear-gradient(135deg, #eef2f7, #dfe9f3);
 
-  font-family:"Poppins",sans-serif;
+  font-family: "Poppins", sans-serif;
 
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  animation:userFadeIn 0.8s ease;
+  animation: userFadeIn 0.8s ease;
 }
 
 /* ===============================
 HEADER
 ================================ */
 
-.user-percentage-header{
-  width:100%;
-  display:flex;
-  justify-content:flex-start;
-  margin-bottom:10px;
+.user-percentage-header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
 }
 
 /* ===============================
 BACK BUTTON
 ================================ */
 
-.user-back-btn{
-  background:#3498db;
-  color:white;
-  border:none;
-  padding:8px 16px;
-  border-radius:6px;
-  cursor:pointer;
-  font-size:14px;
+.user-back-btn {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
 
-  transition:0.3s;
+  transition: 0.3s;
 }
 
-.user-back-btn:hover{
-  background:#2980b9;
+.user-back-btn:hover {
+  background: #2980b9;
 }
 
 /* ===============================
 TITLE
 ================================ */
 
-.user-percentage-title{
-  text-align:center;
-  margin-bottom:20px;
+.user-percentage-title {
+  text-align: center;
+  margin-bottom: 20px;
 
-  font-size:34px;
-  font-weight:700;
+  font-size: 34px;
+  font-weight: 700;
 
-  color:#2c3e50;
+  color: #2c3e50;
 
-  letter-spacing:1px;
+  letter-spacing: 1px;
 
-  animation:userSlideDown 0.6s ease;
+  animation: userSlideDown 0.6s ease;
 }
 
 /* ===============================
 EXPORT BUTTON
 ================================ */
 
-.user-export-wrapper{
-  margin-bottom:25px;
+.user-export-wrapper {
+  margin-bottom: 25px;
 }
 
-.user-export-btn{
-  padding:8px 18px;
-  border:none;
+.user-export-btn {
+  padding: 8px 18px;
+  border: none;
 
-  background:#28a745;
-  color:white;
+  background: #28a745;
+  color: white;
 
-  border-radius:6px;
+  border-radius: 6px;
 
-  cursor:pointer;
-  font-weight:500;
+  cursor: pointer;
+  font-weight: 500;
 
-  transition:0.3s;
+  transition: 0.3s;
 }
 
-.user-export-btn:hover{
-  background:#218838;
+.user-export-btn:hover {
+  background: #218838;
 }
 
 /* ===============================
 CARD
 ================================ */
 
-.user-percentage-card{
+.user-percentage-card {
 
-  width:95%;
-  max-width:1100px;
+  width: 95%;
+  max-width: 1100px;
 
-  background:white;
+  background: white;
 
-  padding:30px;
+  padding: 30px;
 
-  border-radius:14px;
+  border-radius: 14px;
 
-  box-shadow:0 15px 35px rgba(0,0,0,0.08);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
 
-  transition:0.3s;
+  transition: 0.3s;
 
-  animation:userSlideUp 0.6s ease;
+  animation: userSlideUp 0.6s ease;
 }
 
-.user-percentage-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 20px 45px rgba(0,0,0,0.12);
+.user-percentage-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
 }
 
 /* ===============================
 TABLE
 ================================ */
 
-.user-percentage-table{
-  width:100%;
-  border-collapse:collapse;
-  overflow:hidden;
-  border-radius:10px;
+.user-percentage-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 10px;
 }
 
 /* Table header */
 
-.user-percentage-table th{
+.user-percentage-table th {
 
-  background:linear-gradient(135deg,#2f6edb,#4f8cff);
+  background: linear-gradient(135deg, #2f6edb, #4f8cff);
 
-  color:white;
+  color: white;
 
-  padding:15px;
+  padding: 15px;
 
-  text-align:left;
+  text-align: left;
 
-  font-size:15px;
+  font-size: 15px;
 
-  letter-spacing:0.5px;
+  letter-spacing: 0.5px;
 }
 
 /* Table data */
 
-.user-percentage-table td{
+.user-percentage-table td {
 
-  padding:15px;
+  padding: 15px;
 
-  border-bottom:1px solid #eee;
+  border-bottom: 1px solid #eee;
 
-  font-size:14px;
+  font-size: 14px;
 
-  color:#333;
+  color: #333;
 }
 
 /* Row hover */
 
-.user-percentage-table tbody tr{
-  transition:all 0.25s ease;
+.user-percentage-table tbody tr {
+  transition: all 0.25s ease;
 }
 
-.user-percentage-table tbody tr:hover{
-  background:#f7f9fc;
-  transform:scale(1.01);
+.user-percentage-table tbody tr:hover {
+  background: #f7f9fc;
+  transform: scale(1.01);
 }
 
 /* =========================
 Animations
 ========================= */
 
-@keyframes userFadeIn{
-  from{opacity:0;}
-  to{opacity:1;}
-}
-
-@keyframes userSlideDown{
-  from{
-    opacity:0;
-    transform:translateY(-20px);
+@keyframes userFadeIn {
+  from {
+    opacity: 0;
   }
-  to{
-    opacity:1;
-    transform:translateY(0);
+
+  to {
+    opacity: 1;
   }
 }
 
-@keyframes userSlideUp{
-  from{
-    opacity:0;
-    transform:translateY(30px);
+@keyframes userSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  to{
-    opacity:1;
-    transform:translateY(0);
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes userSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -207,25 +214,25 @@ Animations
 Tablet
 ========================= */
 
-@media (max-width:992px){
+@media (max-width:992px) {
 
-.user-percentage-page{
-  padding:25px;
-}
+  .user-percentage-page {
+    padding: 25px;
+  }
 
-.user-percentage-title{
-  font-size:28px;
-}
+  .user-percentage-title {
+    font-size: 28px;
+  }
 
-.user-percentage-card{
-  padding:20px;
-}
+  .user-percentage-card {
+    padding: 20px;
+  }
 
-.user-percentage-table th,
-.user-percentage-table td{
-  padding:12px;
-  font-size:13px;
-}
+  .user-percentage-table th,
+  .user-percentage-table td {
+    padding: 12px;
+    font-size: 13px;
+  }
 
 }
 
@@ -233,24 +240,24 @@ Tablet
 Mobile
 ========================= */
 
-@media (max-width:768px){
+@media (max-width:768px) {
 
-.user-percentage-page{
-  padding:20px;
-}
+  .user-percentage-page {
+    padding: 20px;
+  }
 
-.user-percentage-title{
-  font-size:24px;
-}
+  .user-percentage-title {
+    font-size: 24px;
+  }
 
-.user-percentage-card{
-  padding:18px;
-  overflow-x:auto;
-}
+  .user-percentage-card {
+    padding: 18px;
+    overflow-x: auto;
+  }
 
-.user-percentage-table{
-  min-width:600px;
-}
+  .user-percentage-table {
+    min-width: 600px;
+  }
 
 }
 
@@ -258,28 +265,28 @@ Mobile
 Small Mobile
 ========================= */
 
-@media (max-width:480px){
+@media (max-width:480px) {
 
-.user-percentage-page{
-  padding:15px;
-}
+  .user-percentage-page {
+    padding: 15px;
+  }
 
-.user-percentage-title{
-  font-size:22px;
-}
+  .user-percentage-title {
+    font-size: 22px;
+  }
 
-.user-back-btn{
-  font-size:12px;
-  padding:6px 12px;
-}
+  .user-back-btn {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
 
-.user-percentage-card{
-  padding:15px;
-}
+  .user-percentage-card {
+    padding: 15px;
+  }
 
-.user-percentage-table th,
-.user-percentage-table td{
-  font-size:12px;
-}
+  .user-percentage-table th,
+  .user-percentage-table td {
+    font-size: 12px;
+  }
 
 }

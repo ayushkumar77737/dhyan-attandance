@@ -2,256 +2,262 @@
 PAGE
 ================================ */
 
-.adduser-container{
-display:flex;
-align-items:center;
-justify-content:center;
-height:100vh;
+.adduser-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 
-position:relative;
+    position: relative;
 
-font-family:"Poppins",sans-serif;
-animation:adduser-fadeIn 0.8s ease;
+    font-family: "Poppins", sans-serif;
+    animation: adduser-fadeIn 0.8s ease;
 }
 
 /* dark overlay */
 
-.adduser-container::before{
-content:"";
-position:absolute;
-inset:0;
-background:rgba(0,0,0,0.35);
+.adduser-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
 }
 
 /* ===============================
 CARD
 ================================ */
 
-.adduser-container .adduser-card{
-position:relative;
-z-index:1;
+.adduser-container .adduser-card {
+    position: relative;
+    z-index: 1;
 
-display:flex;
-width:780px;
+    display: flex;
+    width: 780px;
 
-background:rgba(255,255,255,0.9);
-backdrop-filter:blur(12px);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
 
-border-radius:20px;
-overflow:hidden;
+    border-radius: 20px;
+    overflow: hidden;
 
-box-shadow:0 30px 70px rgba(0,0,0,0.35);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
 
-animation:adduser-cardFade 0.8s ease;
+    animation: adduser-cardFade 0.8s ease;
 }
 
 /* ===============================
 IMAGE SECTION
 ================================ */
 
-.adduser-container .adduser-image{
-flex:1;
+.adduser-container .adduser-image {
+    flex: 1;
 
-background:linear-gradient(135deg,#f6f3ff,#efe9ff);
+    background: linear-gradient(135deg, #f6f3ff, #efe9ff);
 
-display:flex;
-align-items:center;
-justify-content:center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-padding:30px;
+    padding: 30px;
 }
 
-.adduser-container .adduser-image img{
-width:85%;
-max-width:260px;
+.adduser-container .adduser-image img {
+    width: 85%;
+    max-width: 260px;
 
-border-radius:16px;
+    border-radius: 16px;
 
-box-shadow:0 20px 35px rgba(0,0,0,0.25);
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.25);
 
-transition:transform 0.6s ease;
+    transition: transform 0.6s ease;
 }
 
 /* image hover zoom */
 
-.adduser-container .adduser-image:hover img{
-transform:scale(1.06);
+.adduser-container .adduser-image:hover img {
+    transform: scale(1.06);
 }
 
 /* ===============================
 FORM
 ================================ */
 
-.adduser-container .adduser-form{
-flex:1;
+.adduser-container .adduser-form {
+    flex: 1;
 
-display:flex;
-flex-direction:column;
-justify-content:center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-padding:40px 45px;
+    padding: 40px 45px;
 
-gap:12px;
+    gap: 12px;
 }
 
 /* ===============================
 TITLE
 ================================ */
 
-.adduser-container .adduser-form h2{
-text-align:center;
-font-size:24px;
-color:#3c3561;
-margin-bottom:20px;
+.adduser-container .adduser-form h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #3c3561;
+    margin-bottom: 20px;
 }
 
 /* ===============================
 INPUTS
 ================================ */
 
-.adduser-container .adduser-form input{
+.adduser-container .adduser-form input {
 
-width:100%;
-padding:14px 16px;
-margin-bottom:15px;
+    width: 100%;
+    padding: 14px 16px;
+    margin-bottom: 15px;
 
-font-size:15px;
+    font-size: 15px;
 
-border:none;
-border-radius:10px;
+    border: none;
+    border-radius: 10px;
 
-outline:none;
+    outline: none;
 
-background:#f3f3f7;
+    background: #f3f3f7;
 
-transition:all 0.25s ease;
+    transition: all 0.25s ease;
 }
 
 /* input focus */
 
-.adduser-container .adduser-form input:focus{
-background:white;
-box-shadow:0 0 0 3px rgba(139,120,255,0.25);
-transform:scale(1.02);
+.adduser-container .adduser-form input:focus {
+    background: white;
+    box-shadow: 0 0 0 3px rgba(139, 120, 255, 0.25);
+    transform: scale(1.02);
 }
 
 /* ===============================
 BUTTON
 ================================ */
 
-.adduser-container .adduser-form button{
+.adduser-container .adduser-form button {
 
-width:100%;
-padding:14px;
+    width: 100%;
+    padding: 14px;
 
-background:linear-gradient(135deg,#7c6df3,#5b4de3);
+    background: linear-gradient(135deg, #7c6df3, #5b4de3);
 
-color:white;
+    color: white;
 
-font-size:16px;
-font-weight:500;
+    font-size: 16px;
+    font-weight: 500;
 
-border:none;
-border-radius:12px;
+    border: none;
+    border-radius: 12px;
 
-cursor:pointer;
+    cursor: pointer;
 
-margin-top:5px;
+    margin-top: 5px;
 
-transition:all 0.3s ease;
+    transition: all 0.3s ease;
 
 }
 
 /* button hover */
 
-.adduser-container .adduser-form button:hover{
-transform:translateY(-3px) scale(1.03);
-box-shadow:0 15px 30px rgba(92,77,227,0.5);
+.adduser-container .adduser-form button:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 15px 30px rgba(92, 77, 227, 0.5);
 }
 
 /* ===============================
 BACK BUTTON
 ================================ */
 
-.adduser-container .back-btn{
-background:linear-gradient(135deg,#7c6df3,#5b4de3);
+.adduser-container .back-btn {
+    background: linear-gradient(135deg, #7c6df3, #5b4de3);
 }
 
 /* ===============================
 MESSAGES
 ================================ */
 
-.adduser-container .success-message{
+.adduser-container .success-message {
 
-background:#e6ffed;
-color:#1b7f3c;
+    background: #e6ffed;
+    color: #1b7f3c;
 
-padding:8px;
-border-radius:6px;
+    padding: 8px;
+    border-radius: 6px;
 
-margin-bottom:12px;
+    margin-bottom: 12px;
 
-text-align:center;
+    text-align: center;
 
-font-size:14px;
+    font-size: 14px;
 
-animation:adduser-fadeIn 0.4s ease;
+    animation: adduser-fadeIn 0.4s ease;
 }
 
-.adduser-container .error-message{
+.adduser-container .error-message {
 
-background:#ffe6e6;
-color:#b30000;
+    background: #ffe6e6;
+    color: #b30000;
 
-padding:8px;
-border-radius:6px;
+    padding: 8px;
+    border-radius: 6px;
 
-margin-bottom:12px;
+    margin-bottom: 12px;
 
-text-align:center;
+    text-align: center;
 
-font-size:14px;
+    font-size: 14px;
 
-animation:adduser-fadeIn 0.4s ease;
+    animation: adduser-fadeIn 0.4s ease;
 }
 
 /* ===============================
 ANIMATIONS
 ================================ */
 
-@keyframes adduser-fadeIn{
-from{opacity:0;}
-to{opacity:1;}
+@keyframes adduser-fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
-@keyframes adduser-cardFade{
-from{
-opacity:0;
-transform:translateY(40px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
+@keyframes adduser-cardFade {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ===============================
 TABLET
 ================================ */
 
-@media (max-width:1024px){
+@media (max-width:1024px) {
 
-.adduser-container .adduser-card{
-width:90%;
-}
+    .adduser-container .adduser-card {
+        width: 90%;
+    }
 
-.adduser-container .adduser-form{
-padding:30px;
-}
+    .adduser-container .adduser-form {
+        padding: 30px;
+    }
 
 }
 
@@ -259,32 +265,32 @@ padding:30px;
 MOBILE
 ================================ */
 
-@media (max-width:768px){
+@media (max-width:768px) {
 
-.adduser-container .adduser-card{
-flex-direction:column;
-width:92%;
-}
+    .adduser-container .adduser-card {
+        flex-direction: column;
+        width: 92%;
+    }
 
-.adduser-container .adduser-image{
-order:1;
-padding:20px;
-}
+    .adduser-container .adduser-image {
+        order: 1;
+        padding: 20px;
+    }
 
-.adduser-container .adduser-form{
-order:2;
-padding:25px;
-}
+    .adduser-container .adduser-form {
+        order: 2;
+        padding: 25px;
+    }
 
-.adduser-container .adduser-image img{
-width:100%;
-height:220px;
-object-fit:cover;
-}
+    .adduser-container .adduser-image img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
 
-.adduser-container .adduser-form h2{
-font-size:22px;
-}
+    .adduser-container .adduser-form h2 {
+        font-size: 22px;
+    }
 
 }
 
@@ -292,31 +298,31 @@ font-size:22px;
 SMALL MOBILE
 ================================ */
 
-@media (max-width:480px){
+@media (max-width:480px) {
 
-.adduser-container .adduser-card{
-width:95%;
-border-radius:16px;
-}
+    .adduser-container .adduser-card {
+        width: 95%;
+        border-radius: 16px;
+    }
 
-.adduser-container .adduser-form{
-padding:20px;
-}
+    .adduser-container .adduser-form {
+        padding: 20px;
+    }
 
-.adduser-container .adduser-form h2{
-font-size:20px;
-}
+    .adduser-container .adduser-form h2 {
+        font-size: 20px;
+    }
 
-.adduser-container .adduser-image img{
-height:180px;
-}
+    .adduser-container .adduser-image img {
+        height: 180px;
+    }
 
-.adduser-container .adduser-form input{
-padding:12px;
-}
+    .adduser-container .adduser-form input {
+        padding: 12px;
+    }
 
-.adduser-container .adduser-form button{
-padding:12px;
-}
+    .adduser-container .adduser-form button {
+        padding: 12px;
+    }
 
 }

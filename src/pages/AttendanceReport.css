@@ -2,18 +2,18 @@
 MAIN CONTAINER
 ========================= */
 
-.report-container{
+.report-container {
 
-padding:40px;
-min-height:100vh;
+    padding: 40px;
+    min-height: 100vh;
 
-background:linear-gradient(135deg,#eef2f7,#dfe9f3);
+    background: linear-gradient(135deg, #eef2f7, #dfe9f3);
 
-font-family:"Poppins",sans-serif;
+    font-family: "Poppins", sans-serif;
 
-animation:fadePage 0.8s ease;
+    animation: fadePage 0.8s ease;
 
-position:relative;
+    position: relative;
 
 }
 
@@ -22,17 +22,17 @@ position:relative;
 TITLE
 ========================= */
 
-.report-container .report-title{
+.report-container .report-title {
 
-text-align:center;
-margin-bottom:35px;
+    text-align: center;
+    margin-bottom: 35px;
 
-font-size:32px;
-font-weight:600;
+    font-size: 32px;
+    font-weight: 600;
 
-color:#333;
+    color: #333;
 
-animation:slideDown 0.6s ease;
+    animation: slideDown 0.6s ease;
 
 }
 
@@ -41,61 +41,61 @@ animation:slideDown 0.6s ease;
 DATE SECTION
 ========================= */
 
-.report-container .date-section{
+.report-container .date-section {
 
-display:flex;
-justify-content:center;
-gap:15px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
 
-margin-bottom:30px;
+    margin-bottom: 30px;
 
-animation:fadeUp 0.8s ease;
-
-}
-
-.report-container .date-section input{
-
-padding:10px 15px;
-font-size:16px;
-
-border-radius:8px;
-border:1px solid #ccc;
-
-transition:0.3s;
+    animation: fadeUp 0.8s ease;
 
 }
 
-.report-container .date-section input:focus{
+.report-container .date-section input {
 
-outline:none;
-border-color:#2c6ed5;
-box-shadow:0 0 6px rgba(44,110,213,0.4);
+    padding: 10px 15px;
+    font-size: 16px;
 
-}
+    border-radius: 8px;
+    border: 1px solid #ccc;
 
-.report-container .date-section button{
-
-padding:10px 20px;
-
-background:#2c6ed5;
-color:white;
-
-border:none;
-border-radius:8px;
-
-cursor:pointer;
-
-font-size:15px;
-
-transition:0.3s;
+    transition: 0.3s;
 
 }
 
-.report-container .date-section button:hover{
+.report-container .date-section input:focus {
 
-background:#1e55aa;
-transform:translateY(-2px);
-box-shadow:0 6px 15px rgba(0,0,0,0.2);
+    outline: none;
+    border-color: #2c6ed5;
+    box-shadow: 0 0 6px rgba(44, 110, 213, 0.4);
+
+}
+
+.report-container .date-section button {
+
+    padding: 10px 20px;
+
+    background: #2c6ed5;
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    transition: 0.3s;
+
+}
+
+.report-container .date-section button:hover {
+
+    background: #1e55aa;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 
 }
 
@@ -104,15 +104,15 @@ box-shadow:0 6px 15px rgba(0,0,0,0.2);
 MESSAGE
 ========================= */
 
-.report-container .no-attendance{
+.report-container .no-attendance {
 
-text-align:center;
-font-size:18px;
-color:red;
+    text-align: center;
+    font-size: 18px;
+    color: red;
 
-margin-top:30px;
+    margin-top: 30px;
 
-animation:fadeIn 0.5s ease;
+    animation: fadeIn 0.5s ease;
 
 }
 
@@ -121,70 +121,70 @@ animation:fadeIn 0.5s ease;
 CARDS
 ========================= */
 
-.report-container .report-cards{
+.report-container .report-cards {
 
-display:flex;
-justify-content:center;
-gap:30px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
 
-margin-bottom:40px;
+    margin-bottom: 40px;
 
-animation:fadeUp 0.7s ease;
+    animation: fadeUp 0.7s ease;
 
-flex-wrap:wrap;
-
-}
-
-.report-container .report-card{
-
-background:white;
-
-padding:25px 40px;
-
-border-radius:12px;
-
-width:220px;
-
-text-align:center;
-
-box-shadow:0 10px 25px rgba(0,0,0,0.1);
-
-transition:0.3s;
+    flex-wrap: wrap;
 
 }
 
-.report-container .report-card:hover{
+.report-container .report-card {
 
-transform:translateY(-6px);
-box-shadow:0 15px 35px rgba(0,0,0,0.2);
+    background: white;
 
-}
+    padding: 25px 40px;
 
-.report-container .report-card h3{
+    border-radius: 12px;
 
-margin-bottom:10px;
-color:#555;
+    width: 220px;
 
-}
+    text-align: center;
 
-.report-container .report-card p{
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 
-font-size:28px;
-font-weight:600;
-
-color:#2c6ed5;
+    transition: 0.3s;
 
 }
 
-.report-container .present p{
+.report-container .report-card:hover {
 
-color:green;
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 
 }
 
-.report-container .absent p{
+.report-container .report-card h3 {
 
-color:red;
+    margin-bottom: 10px;
+    color: #555;
+
+}
+
+.report-container .report-card p {
+
+    font-size: 28px;
+    font-weight: 600;
+
+    color: #2c6ed5;
+
+}
+
+.report-container .present p {
+
+    color: green;
+
+}
+
+.report-container .absent p {
+
+    color: red;
 
 }
 
@@ -193,63 +193,63 @@ color:red;
 TABLE
 ========================= */
 
-.report-container .report-table{
+.report-container .report-table {
 
-width:80%;
-margin:auto;
+    width: 80%;
+    margin: auto;
 
-border-collapse:collapse;
+    border-collapse: collapse;
 
-background:white;
+    background: white;
 
-border-radius:10px;
+    border-radius: 10px;
 
-overflow:hidden;
+    overflow: hidden;
 
-box-shadow:0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 
-animation:fadeUp 0.8s ease;
-
-}
-
-.report-container .report-table th{
-
-background:#2c6ed5;
-color:white;
-
-padding:15px;
+    animation: fadeUp 0.8s ease;
 
 }
 
-.report-container .report-table td{
+.report-container .report-table th {
 
-padding:14px;
+    background: #2c6ed5;
+    color: white;
 
-text-align:center;
-
-border-bottom:1px solid #eee;
-
-transition:0.2s;
+    padding: 15px;
 
 }
 
-.report-container .report-table tr:hover{
+.report-container .report-table td {
 
-background:#f5f7fb;
+    padding: 14px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #eee;
+
+    transition: 0.2s;
 
 }
 
-.report-container .present-text{
+.report-container .report-table tr:hover {
 
-color:green;
-font-weight:600;
+    background: #f5f7fb;
 
 }
 
-.report-container .absent-text{
+.report-container .present-text {
 
-color:red;
-font-weight:600;
+    color: green;
+    font-weight: 600;
+
+}
+
+.report-container .absent-text {
+
+    color: red;
+    font-weight: 600;
 
 }
 
@@ -258,31 +258,31 @@ font-weight:600;
 BACK BUTTON
 ========================= */
 
-.report-container .back-btn{
+.report-container .back-btn {
 
-position:absolute;
-top:25px;
-left:40px;
+    position: absolute;
+    top: 25px;
+    left: 40px;
 
-padding:8px 16px;
+    padding: 8px 16px;
 
-background:#2c6ed5;
-color:white;
+    background: #2c6ed5;
+    color: white;
 
-border:none;
-border-radius:6px;
+    border: none;
+    border-radius: 6px;
 
-cursor:pointer;
+    cursor: pointer;
 
-font-size:14px;
+    font-size: 14px;
 
-transition:0.3s;
+    transition: 0.3s;
 
 }
 
-.report-container .back-btn:hover{
+.report-container .back-btn:hover {
 
-background:#1e55aa;
+    background: #1e55aa;
 
 }
 
@@ -291,34 +291,34 @@ background:#1e55aa;
 EXPORT BUTTON
 ========================= */
 
-.report-container .export-section{
+.report-container .export-section {
 
-text-align:center;
-margin-bottom:20px;
-
-}
-
-.report-container .export-btn{
-
-padding:10px 20px;
-
-background:green;
-color:white;
-
-border:none;
-border-radius:6px;
-
-cursor:pointer;
-
-font-size:14px;
-
-transition:0.3s;
+    text-align: center;
+    margin-bottom: 20px;
 
 }
 
-.report-container .export-btn:hover{
+.report-container .export-btn {
 
-background:#0a8f0a;
+    padding: 10px 20px;
+
+    background: green;
+    color: white;
+
+    border: none;
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    transition: 0.3s;
+
+}
+
+.report-container .export-btn:hover {
+
+    background: #0a8f0a;
 
 }
 
@@ -327,55 +327,55 @@ background:#0a8f0a;
 ANIMATIONS
 ========================= */
 
-@keyframes fadePage{
+@keyframes fadePage {
 
-from{
-opacity:0;
-}
+    from {
+        opacity: 0;
+    }
 
-to{
-opacity:1;
-}
-
-}
-
-@keyframes fadeUp{
-
-from{
-opacity:0;
-transform:translateY(25px);
-}
-
-to{
-opacity:1;
-transform:translateY(0);
-}
+    to {
+        opacity: 1;
+    }
 
 }
 
-@keyframes slideDown{
+@keyframes fadeUp {
 
-from{
-opacity:0;
-transform:translateY(-20px);
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
 }
 
-to{
-opacity:1;
-transform:translateY(0);
-}
+@keyframes slideDown {
+
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
 }
 
-@keyframes fadeIn{
+@keyframes fadeIn {
 
-from{
-opacity:0;
-}
+    from {
+        opacity: 0;
+    }
 
-to{
-opacity:1;
-}
+    to {
+        opacity: 1;
+    }
 
 }
 
@@ -384,19 +384,19 @@ opacity:1;
 TABLET RESPONSIVE
 ========================= */
 
-@media (max-width: 1024px){
+@media (max-width: 1024px) {
 
-.report-container{
+    .report-container {
 
-padding:30px;
+        padding: 30px;
 
-}
+    }
 
-.report-container .report-table{
+    .report-container .report-table {
 
-width:95%;
+        width: 95%;
 
-}
+    }
 
 }
 
@@ -405,62 +405,62 @@ width:95%;
 MOBILE RESPONSIVE
 ========================= */
 
-@media (max-width: 768px){
+@media (max-width: 768px) {
 
-.report-container .report-title{
+    .report-container .report-title {
 
-font-size:26px;
+        font-size: 26px;
 
-}
+    }
 
-.report-container .date-section{
+    .report-container .date-section {
 
-flex-direction:column;
-align-items:center;
+        flex-direction: column;
+        align-items: center;
 
-}
+    }
 
-.report-container .date-section input{
+    .report-container .date-section input {
 
-width:220px;
+        width: 220px;
 
-}
+    }
 
-.report-container .date-section button{
+    .report-container .date-section button {
 
-width:220px;
+        width: 220px;
 
-}
+    }
 
-.report-container .report-cards{
+    .report-container .report-cards {
 
-flex-direction:column;
-align-items:center;
+        flex-direction: column;
+        align-items: center;
 
-}
+    }
 
-.report-container .report-card{
+    .report-container .report-card {
 
-width:80%;
+        width: 80%;
 
-}
+    }
 
-.report-container .report-table{
+    .report-container .report-table {
 
-width:100%;
-font-size:14px;
+        width: 100%;
+        font-size: 14px;
 
-}
+    }
 
-.report-container .back-btn{
+    .report-container .back-btn {
 
-position:relative;
-top:0;
-left:0;
+        position: relative;
+        top: 0;
+        left: 0;
 
-margin-bottom:15px;
+        margin-bottom: 15px;
 
-}
+    }
 
 }
 
@@ -469,31 +469,31 @@ margin-bottom:15px;
 SMALL MOBILE
 ========================= */
 
-@media (max-width: 480px){
+@media (max-width: 480px) {
 
-.report-container{
+    .report-container {
 
-padding:20px;
+        padding: 20px;
 
-}
+    }
 
-.report-container .report-title{
+    .report-container .report-title {
 
-font-size:22px;
+        font-size: 22px;
 
-}
+    }
 
-.report-container .report-card{
+    .report-container .report-card {
 
-width:100%;
+        width: 100%;
 
-}
+    }
 
-.report-container .report-table th,
-.report-container .report-table td{
+    .report-container .report-table th,
+    .report-container .report-table td {
 
-padding:10px;
+        padding: 10px;
 
-}
+    }
 
 }

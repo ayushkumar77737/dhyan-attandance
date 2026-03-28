@@ -2,196 +2,196 @@
 PAGE
 ================================ */
 
-.dashboard-container{
+.dashboard-container {
 
-padding:40px;
-min-height:100vh;
+  padding: 40px;
+  min-height: 100vh;
 
-background:linear-gradient(135deg,#eef2f7,#dfe9f3);
+  background: linear-gradient(135deg, #eef2f7, #dfe9f3);
 
-font-family:"Poppins",sans-serif;
+  font-family: "Poppins", sans-serif;
 
-display:flex;
-flex-direction:column;
-align-items:center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-animation:dashboardFadeIn 0.8s ease;
+  animation: dashboardFadeIn 0.8s ease;
 
-position:relative;
+  position: relative;
 
 }
 
 /* Logout Button */
 
-.dashboard-container .logout-btn{
+.dashboard-container .logout-btn {
 
-position:absolute;
-top:25px;
-right:40px;
+  position: absolute;
+  top: 25px;
+  right: 40px;
 
-padding:10px 20px;
+  padding: 10px 20px;
 
-background:#ff4d4d;
-color:white;
+  background: #ff4d4d;
+  color: white;
 
-border:none;
-border-radius:8px;
+  border: none;
+  border-radius: 8px;
 
-font-size:14px;
-font-weight:600;
+  font-size: 14px;
+  font-weight: 600;
 
-cursor:pointer;
+  cursor: pointer;
 
-transition:0.3s;
+  transition: 0.3s;
 
 }
 
-.dashboard-container .logout-btn:hover{
+.dashboard-container .logout-btn:hover {
 
-background:#e60000;
-transform:scale(1.05);
+  background: #e60000;
+  transform: scale(1.05);
 
 }
 
 /* Title */
 
-.dashboard-container .dashboard-title{
+.dashboard-container .dashboard-title {
 
-text-align:center;
-margin-bottom:35px;
+  text-align: center;
+  margin-bottom: 35px;
 
-font-size:34px;
-font-weight:700;
+  font-size: 34px;
+  font-weight: 700;
 
-color:#2c3e50;
+  color: #2c3e50;
 
-letter-spacing:1px;
+  letter-spacing: 1px;
 
-animation:dashboardSlideDown 0.6s ease;
+  animation: dashboardSlideDown 0.6s ease;
 
 }
 
 /* Card */
 
-.dashboard-container .dashboard-card{
+.dashboard-container .dashboard-card {
 
-width:100%;
-max-width:800px;
+  width: 100%;
+  max-width: 800px;
 
-background:white;
+  background: white;
 
-padding:30px;
+  padding: 30px;
 
-border-radius:14px;
+  border-radius: 14px;
 
-box-shadow:0 15px 35px rgba(0,0,0,0.08);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
 
-transition:0.3s;
+  transition: 0.3s;
 
-animation:dashboardSlideUp 0.6s ease;
+  animation: dashboardSlideUp 0.6s ease;
 
-text-align:center;
+  text-align: center;
 
 }
 
-.dashboard-container .dashboard-card:hover{
+.dashboard-container .dashboard-card:hover {
 
-transform:translateY(-4px);
-box-shadow:0 20px 45px rgba(0,0,0,0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
 
 }
 
 /* Attendance Title */
 
-.dashboard-container .dashboard-card h2{
+.dashboard-container .dashboard-card h2 {
 
-color:#2f6edb;
-margin-bottom:25px;
+  color: #2f6edb;
+  margin-bottom: 25px;
 
 }
 
 /* Table */
 
-.dashboard-container .attendance-table{
+.dashboard-container .attendance-table {
 
-width:100%;
-border-collapse:collapse;
+  width: 100%;
+  border-collapse: collapse;
 
-border-radius:10px;
-overflow:hidden;
+  border-radius: 10px;
+  overflow: hidden;
 
 }
 
 /* Table header */
 
-.dashboard-container .attendance-table th{
+.dashboard-container .attendance-table th {
 
-background:linear-gradient(135deg,#2f6edb,#4f8cff);
+  background: linear-gradient(135deg, #2f6edb, #4f8cff);
 
-color:white;
+  color: white;
 
-padding:15px;
+  padding: 15px;
 
-font-size:15px;
+  font-size: 15px;
 
-text-align:left;
+  text-align: left;
 
-letter-spacing:0.5px;
+  letter-spacing: 0.5px;
 
 }
 
 /* Table cells */
 
-.dashboard-container .attendance-table td{
+.dashboard-container .attendance-table td {
 
-padding:15px;
+  padding: 15px;
 
-border-bottom:1px solid #eee;
+  border-bottom: 1px solid #eee;
 
-font-size:14px;
+  font-size: 14px;
 
-color:#333;
+  color: #333;
 
 }
 
 /* Row hover */
 
-.dashboard-container .attendance-table tbody tr{
+.dashboard-container .attendance-table tbody tr {
 
-transition:all 0.25s ease;
+  transition: all 0.25s ease;
 
 }
 
-.dashboard-container .attendance-table tbody tr:hover{
+.dashboard-container .attendance-table tbody tr:hover {
 
-background:#f7f9fc;
-transform:scale(1.01);
+  background: #f7f9fc;
+  transform: scale(1.01);
 
 }
 
 /* Status */
 
-.dashboard-container .present{
+.dashboard-container .present {
 
-color:#27ae60;
-font-weight:600;
+  color: #27ae60;
+  font-weight: 600;
 
 }
 
-.dashboard-container .absent{
+.dashboard-container .absent {
 
-color:#e74c3c;
-font-weight:600;
+  color: #e74c3c;
+  font-weight: 600;
 
 }
 
 /* No data */
 
-.dashboard-container .no-data{
+.dashboard-container .no-data {
 
-text-align:center;
-color:#777;
-padding:20px;
+  text-align: center;
+  color: #777;
+  padding: 20px;
 
 }
 
@@ -199,38 +199,43 @@ padding:20px;
 Animations
 ========================= */
 
-@keyframes dashboardFadeIn{
+@keyframes dashboardFadeIn {
 
-from{opacity:0;}
-to{opacity:1;}
+  from {
+    opacity: 0;
+  }
 
-}
-
-@keyframes dashboardSlideDown{
-
-from{
-opacity:0;
-transform:translateY(-20px);
-}
-
-to{
-opacity:1;
-transform:translateY(0);
-}
+  to {
+    opacity: 1;
+  }
 
 }
 
-@keyframes dashboardSlideUp{
+@keyframes dashboardSlideDown {
 
-from{
-opacity:0;
-transform:translateY(30px);
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
 }
 
-to{
-opacity:1;
-transform:translateY(0);
-}
+@keyframes dashboardSlideUp {
+
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
 }
 
@@ -238,15 +243,15 @@ transform:translateY(0);
 Large Laptop (1200px)
 ========================= */
 
-@media (max-width:1200px){
+@media (max-width:1200px) {
 
-.dashboard-container{
-padding:35px;
-}
+  .dashboard-container {
+    padding: 35px;
+  }
 
-.dashboard-container .dashboard-card{
-max-width:700px;
-}
+  .dashboard-container .dashboard-card {
+    max-width: 700px;
+  }
 
 }
 
@@ -254,32 +259,32 @@ max-width:700px;
 Laptop
 ========================= */
 
-@media (max-width:992px){
+@media (max-width:992px) {
 
-.dashboard-container{
-padding:30px;
-}
+  .dashboard-container {
+    padding: 30px;
+  }
 
-.dashboard-container .dashboard-title{
-font-size:28px;
-}
+  .dashboard-container .dashboard-title {
+    font-size: 28px;
+  }
 
-.dashboard-container .dashboard-card{
-padding:22px;
-}
+  .dashboard-container .dashboard-card {
+    padding: 22px;
+  }
 
-.dashboard-container .attendance-table th,
-.dashboard-container .attendance-table td{
-padding:12px;
-font-size:13px;
-}
+  .dashboard-container .attendance-table th,
+  .dashboard-container .attendance-table td {
+    padding: 12px;
+    font-size: 13px;
+  }
 
-.dashboard-container .logout-btn{
-top:20px;
-right:25px;
-padding:9px 16px;
-font-size:13px;
-}
+  .dashboard-container .logout-btn {
+    top: 20px;
+    right: 25px;
+    padding: 9px 16px;
+    font-size: 13px;
+  }
 
 }
 
@@ -287,34 +292,34 @@ font-size:13px;
 Tablet
 ========================= */
 
-@media (max-width:768px){
+@media (max-width:768px) {
 
-.dashboard-container{
-padding:20px;
-}
+  .dashboard-container {
+    padding: 20px;
+  }
 
-.dashboard-container .dashboard-title{
-font-size:24px;
-}
+  .dashboard-container .dashboard-title {
+    font-size: 24px;
+  }
 
-.dashboard-container .dashboard-card{
-padding:18px;
-overflow-x:auto;
-}
+  .dashboard-container .dashboard-card {
+    padding: 18px;
+    overflow-x: auto;
+  }
 
-.dashboard-container .attendance-table{
-min-width:450px;
-}
+  .dashboard-container .attendance-table {
+    min-width: 450px;
+  }
 
-.dashboard-container .logout-btn{
+  .dashboard-container .logout-btn {
 
-top:15px;
-right:20px;
+    top: 15px;
+    right: 20px;
 
-padding:8px 14px;
-font-size:12px;
+    padding: 8px 14px;
+    font-size: 12px;
 
-}
+  }
 
 }
 
@@ -322,39 +327,39 @@ font-size:12px;
 Mobile
 ========================= */
 
-@media (max-width:480px){
+@media (max-width:480px) {
 
-.dashboard-container{
-padding:15px;
-}
+  .dashboard-container {
+    padding: 15px;
+  }
 
-.dashboard-container .dashboard-title{
-font-size:20px;
-}
+  .dashboard-container .dashboard-title {
+    font-size: 20px;
+  }
 
-.dashboard-container .dashboard-card{
-padding:15px;
-}
+  .dashboard-container .dashboard-card {
+    padding: 15px;
+  }
 
-.dashboard-container .attendance-table{
-min-width:380px;
-}
+  .dashboard-container .attendance-table {
+    min-width: 380px;
+  }
 
-.dashboard-container .attendance-table th,
-.dashboard-container .attendance-table td{
-font-size:12px;
-padding:10px;
-}
+  .dashboard-container .attendance-table th,
+  .dashboard-container .attendance-table td {
+    font-size: 12px;
+    padding: 10px;
+  }
 
-.dashboard-container .logout-btn{
+  .dashboard-container .logout-btn {
 
-top:10px;
-right:15px;
+    top: 10px;
+    right: 15px;
 
-padding:7px 12px;
-font-size:11px;
+    padding: 7px 12px;
+    font-size: 11px;
 
-}
+  }
 
 }
 
@@ -365,21 +370,21 @@ Scoped inside dashboard
 
 .dashboard-container .user-summary {
 
-display: grid;
+  display: grid;
 
-grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, 1fr);
 
-gap: 15px;
+  gap: 15px;
 
-background: #f5f7fb;
+  background: #f5f7fb;
 
-padding: 18px;
+  padding: 18px;
 
-border-radius: 10px;
+  border-radius: 10px;
 
-margin-bottom: 20px;
+  margin-bottom: 20px;
 
-font-size: 15px;
+  font-size: 15px;
 
 }
 
@@ -389,11 +394,11 @@ Laptop (1024px and below)
 
 @media (max-width: 1024px) {
 
-.dashboard-container .user-summary {
+  .dashboard-container .user-summary {
 
-grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 
-}
+  }
 
 }
 
@@ -403,15 +408,15 @@ Tablet (768px and below)
 
 @media (max-width: 768px) {
 
-.dashboard-container .user-summary {
+  .dashboard-container .user-summary {
 
-grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
 
-font-size: 14px;
+    font-size: 14px;
 
-padding: 15px;
+    padding: 15px;
 
-}
+  }
 
 }
 
@@ -421,19 +426,20 @@ Mobile (480px and below)
 
 @media (max-width: 480px) {
 
-.dashboard-container .user-summary {
+  .dashboard-container .user-summary {
 
-grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
 
-text-align: center;
+    text-align: center;
 
-gap: 12px;
+    gap: 12px;
 
-font-size: 14px;
+    font-size: 14px;
+
+  }
 
 }
 
-}
 .reason-btn {
   display: inline-block;
   margin: 0;
@@ -455,7 +461,7 @@ font-size: 14px;
 /* Hover effect */
 .reason-btn:hover {
   transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
 }
 
 /* Click effect */
@@ -493,6 +499,7 @@ font-size: 14px;
     min-width: 220px;
   }
 }
+
 .reason-btn-container {
   display: flex;
   justify-content: center;

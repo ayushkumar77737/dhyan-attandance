@@ -9,7 +9,7 @@ function AttendancePage() {
     "Ravi"
   ])
 
-  const [attendance,setAttendance] = useState({})
+  const [attendance, setAttendance] = useState({})
 
   const handleCheck = (name) => {
 
@@ -22,7 +22,7 @@ function AttendancePage() {
 
   return (
 
-    <div style={{padding:"40px"}}>
+    <div style={{ padding: "40px" }}>
 
       <h1>Mark Dhyan Attendance</h1>
 
@@ -39,13 +39,13 @@ function AttendancePage() {
 
         <tbody>
 
-          {users.map((name,index)=>(
+          {users.map((name, index) => (
             <tr key={index}>
               <td>{name}</td>
               <td>
                 <input
                   type="checkbox"
-                  onChange={()=>handleCheck(name)}
+                  onChange={() => handleCheck(name)}
                 />
               </td>
             </tr>

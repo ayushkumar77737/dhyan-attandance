@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import "./SubmitReason.css";
 
 import { auth, db } from "../firebase/firebase";
-import { 
-  addDoc, 
-  collection, 
-  query, 
-  where, 
-  getDocs 
+import {
+  addDoc,
+  collection,
+  query,
+  where,
+  getDocs
 } from "firebase/firestore";
 
 import { onAuthStateChanged } from "firebase/auth";
@@ -136,7 +136,7 @@ function SubmitReason() {
     <div className="submit-reason-page">
 
       {/* 🔙 Back Button */}
-      <button 
+      <button
         className="reason-back-btn"
         onClick={() => navigate("/user-dashboard")}
       >
@@ -158,24 +158,24 @@ function SubmitReason() {
 
           <div className="reason-group">
             <label>Date</label>
-            <input 
-              type="date" 
-              value={date} 
-              onChange={(e) => setDate(e.target.value)} 
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
             />
           </div>
 
           <div className="reason-group">
             <label>Reason</label>
-            <textarea 
+            <textarea
               placeholder="Enter your reason..."
               value={reason}
               onChange={(e) => setReason(e.target.value)}
             />
           </div>
 
-          <button 
-            className="reason-submit-btn" 
+          <button
+            className="reason-submit-btn"
             type="submit"
             disabled={loading}
           >

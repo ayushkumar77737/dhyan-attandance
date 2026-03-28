@@ -70,7 +70,7 @@ function AllUsers() {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Users");
 
-    const date = new Date().toISOString().slice(0,10);
+    const date = new Date().toISOString().slice(0, 10);
 
     XLSX.writeFile(workbook, `AllUsers_${date}.xlsx`);
 

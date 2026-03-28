@@ -34,13 +34,13 @@
   border-radius: 12px;
   text-align: center;
 
-  box-shadow: 0px 6px 18px rgba(0,0,0,0.08);
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .stat-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .stat-card h3 {
@@ -72,7 +72,7 @@
   padding: 25px;
   border-radius: 12px;
 
-  box-shadow: 0px 6px 18px rgba(0,0,0,0.08);
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
   text-align: center;
 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -80,7 +80,7 @@
 
 .dashboard-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 /* Profile Image */
@@ -95,9 +95,17 @@
 }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 /* Buttons */
@@ -110,7 +118,7 @@
   border: none;
   border-radius: 8px;
 
-  background: linear-gradient(135deg,#2c7be5,#1a5fd0);
+  background: linear-gradient(135deg, #2c7be5, #1a5fd0);
   color: white;
   font-size: 15px;
   font-weight: 500;
@@ -122,7 +130,7 @@
 
 .dashboard-btn:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0px 6px 15px rgba(44,123,229,0.4);
+  box-shadow: 0px 6px 15px rgba(44, 123, 229, 0.4);
 }
 
 /* fade animation */
@@ -137,14 +145,16 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
 /* header layout */
 
-.dashboard-header{
+.dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -152,7 +162,7 @@
 
 /* logout button */
 
-.logout-btn{
+.logout-btn {
   padding: 10px 18px;
   border: none;
   border-radius: 8px;
@@ -165,29 +175,30 @@
   transition: 0.3s;
 }
 
-.logout-btn:hover{
+.logout-btn:hover {
   background: #e03131;
 }
+
 /* ============================= */
 /* Tablet Screens (768px - 1024px) */
 /* ============================= */
 
 @media (max-width: 1024px) {
 
-  .stats-container{
+  .stats-container {
     justify-content: center;
   }
 
-  .stat-card{
+  .stat-card {
     flex: 1 1 40%;
     max-width: 40%;
   }
 
-  .dashboard-body{
+  .dashboard-body {
     gap: 25px;
   }
 
-  .dashboard-card{
+  .dashboard-card {
     width: 220px;
   }
 
@@ -200,31 +211,31 @@
 
 @media (max-width: 768px) {
 
-  .admin-container{
+  .admin-container {
     padding: 20px;
   }
 
-  .dashboard-title{
+  .dashboard-title {
     font-size: 26px;
   }
 
-  .stats-container{
+  .stats-container {
     flex-direction: column;
     align-items: center;
   }
 
-  .stat-card{
+  .stat-card {
     width: 90%;
     max-width: 350px;
   }
 
-  .dashboard-body{
+  .dashboard-body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
   }
 
-  .dashboard-card{
+  .dashboard-card {
     width: 90%;
     max-width: 320px;
   }
@@ -238,24 +249,24 @@
 
 @media (max-width: 480px) {
 
-  .dashboard-title{
+  .dashboard-title {
     font-size: 22px;
   }
 
-  .stat-card p{
+  .stat-card p {
     font-size: 22px;
   }
 
-  .admin-profile img{
+  .admin-profile img {
     width: 70px;
   }
 
-  .dashboard-btn{
+  .dashboard-btn {
     padding: 10px;
     font-size: 14px;
   }
 
-  .logout-btn{
+  .logout-btn {
     padding: 8px 14px;
     font-size: 14px;
   }

@@ -13,8 +13,13 @@
 
 /* Fade Animation */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* Back Button */
@@ -42,7 +47,7 @@
   background: #f9fafb;
   padding: 25px;
   border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 
   /* 🔥 Slide animation */
   animation: slideUp 0.6s ease;
@@ -54,6 +59,7 @@
     transform: translateY(40px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -101,7 +107,7 @@
 .submit-reason-page .reason-group input:focus,
 .submit-reason-page .reason-group textarea:focus {
   border-color: #3b82f6;
-  box-shadow: 0 0 8px rgba(59,130,246,0.4);
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
   transform: scale(1.02);
 }
 
@@ -127,7 +133,7 @@
 /* Hover */
 .submit-reason-page .reason-submit-btn:hover {
   transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
 }
 
 /* Click */
@@ -189,6 +195,7 @@
   }
 
 }
+
 .reason-message {
   width: 100%;
   margin-bottom: 15px;
