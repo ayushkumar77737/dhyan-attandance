@@ -8,6 +8,28 @@ import * as XLSX from "xlsx";
 
 function DeletedUsers() {
 
+  useEffect(() => {
+
+    const disableRightClick = (e) => e.preventDefault();
+
+    const disableInspectKeys = (e) => {
+      if (e.key === "F12") e.preventDefault();
+      if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
+        e.preventDefault();
+      if (e.ctrlKey && e.key.toUpperCase() === "U")
+        e.preventDefault();
+    };
+
+    document.addEventListener("contextmenu", disableRightClick);
+    document.addEventListener("keydown", disableInspectKeys);
+
+    return () => {
+      document.removeEventListener("contextmenu", disableRightClick);
+      document.removeEventListener("keydown", disableInspectKeys);
+    };
+
+  }, []);
+
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
