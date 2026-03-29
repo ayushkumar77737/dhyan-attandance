@@ -1,346 +1,366 @@
-/* ============================================================ */
-/*  DELETED USERS — PREMIUM REDESIGN (MOBILE FIXED)            */
-/* ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+/* ===============================
+CSS VARIABLES
+================================ */
 
-/* ─── Page ──────────────────────────────────────────────────── */
-.deleted-container {
-  padding: 28px 20px 40px;
-  min-height: 100vh;
-  background: #0f1117;
-  background-image:
-    radial-gradient(ellipse 80% 60% at 20% -10%, rgba(239, 68, 68, 0.09) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 110%, rgba(124, 109, 243, 0.10) 0%, transparent 60%);
-  font-family: 'Sora', sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  position: relative;
-  overflow-x: hidden;
-  box-sizing: border-box;
-  animation: deletedFadeIn 0.5s ease-in-out;
+:root {
+  --du-navy: #0d1b2a;
+  --du-mid: #112236;
+  --du-card: #162840;
+  --du-row: #1a3050;
+  --du-accent: #f87171;
+  --du-accent-g: rgba(248, 113, 113, 0.3);
+  --du-border: rgba(248, 113, 113, 0.12);
+  --du-green: #4fd1c5;
+  --du-green-g: rgba(79, 209, 197, 0.3);
+  --du-white: #e8f0f8;
+  --du-muted: #7a9bbf;
 }
 
-/* Decorative orbs */
+/* ===============================
+PAGE
+================================ */
+
+.deleted-container {
+  position: relative;
+  padding: 40px;
+  min-height: 100vh;
+  background: var(--du-navy);
+  font-family: 'DM Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  animation: deletedFadeIn 0.8s ease;
+}
+
+/* ===============================
+DECORATIVE ORBS
+================================ */
+
 .du-orb {
   position: fixed;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(90px);
   pointer-events: none;
   z-index: 0;
-  opacity: 0.3;
 }
 
 .du-orb-1 {
-  width: 350px;
-  height: 350px;
-  top: -100px;
-  left: -120px;
-  background: radial-gradient(circle, #ef4444 0%, transparent 70%);
-  animation: du-orb-float 10s ease-in-out infinite alternate;
+  width: 500px;
+  height: 500px;
+  top: -150px;
+  right: -100px;
+  background: radial-gradient(circle, rgba(248, 113, 113, 0.1), transparent 70%);
+  animation: duOrbFloat 12s ease-in-out infinite;
 }
 
 .du-orb-2 {
-  width: 280px;
-  height: 280px;
-  bottom: -80px;
-  right: -80px;
-  background: radial-gradient(circle, #7c6df3 0%, transparent 70%);
-  animation: du-orb-float 13s ease-in-out infinite alternate-reverse;
+  width: 400px;
+  height: 400px;
+  bottom: 100px;
+  left: -120px;
+  background: radial-gradient(circle, rgba(79, 209, 197, 0.08), transparent 70%);
+  animation: duOrbFloat 16s ease-in-out infinite reverse;
 }
 
 .du-orb-3 {
-  width: 180px;
-  height: 180px;
-  top: 50%;
-  left: 50%;
-  background: radial-gradient(circle, #f97316 0%, transparent 70%);
-  animation: du-orb-float 8s ease-in-out infinite alternate;
-  opacity: 0.12;
+  width: 300px;
+  height: 300px;
+  bottom: 300px;
+  right: 200px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.07), transparent 70%);
+  animation: duOrbFloat 20s ease-in-out infinite;
 }
 
-@keyframes du-orb-float {
-  from {
-    transform: translateY(0px) scale(1);
+@keyframes duOrbFloat {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
   }
 
-  to {
-    transform: translateY(28px) scale(1.08);
-  }
-}
-
-@keyframes deletedFadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
+  50% {
+    transform: translateY(-28px) scale(1.04);
   }
 }
 
-/* ─── Header ────────────────────────────────────────────────── */
-.deleted-header {
+/* ===============================
+HEADER
+================================ */
+
+.deleted-container .deleted-header {
   width: 100%;
-  max-width: 940px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  margin-left: 0;
-  margin-right: auto;
+  margin-bottom: 16px;
   position: relative;
   z-index: 1;
-  /* KEY FIX: allow buttons to wrap on very small screens */
-  flex-wrap: wrap;
-  box-sizing: border-box;
 }
 
-/* ─── Back Button ───────────────────────────────────────────── */
-.back-btn {
-  padding: 9px 18px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.06);
-  color: #a1b4cc;
-  cursor: pointer;
-  font-family: 'Sora', sans-serif;
-  font-size: 13.5px;
-  font-weight: 500;
+/* ===============================
+BACK BUTTON
+================================ */
+
+.deleted-container .back-btn {
   display: flex;
   align-items: center;
-  gap: 7px;
-  backdrop-filter: blur(10px);
-  transition: all 0.25s ease;
-  white-space: nowrap;
-  /* ← keep label on one line */
-  flex-shrink: 0;
-}
-
-.back-btn:hover {
-  background: rgba(239, 68, 68, 0.12);
-  border-color: rgba(239, 68, 68, 0.35);
-  color: #f87171;
-  transform: translateX(-3px);
-}
-
-.du-back-arrow {
-  font-size: 15px;
-  transition: transform 0.25s ease;
-}
-
-.back-btn:hover .du-back-arrow {
-  transform: translateX(-3px);
-}
-
-/* ─── Export Button ─────────────────────────────────────────── */
-.export-btn {
+  gap: 8px;
+  background: rgba(248, 113, 113, 0.08);
+  color: var(--du-accent);
+  border: 1px solid var(--du-border);
   padding: 9px 18px;
-  border: none;
-  background: linear-gradient(135deg, #7c6df3, #5b4de3);
-  color: white;
-  font-family: 'Sora', sans-serif;
-  font-size: 13.5px;
-  font-weight: 600;
   border-radius: 10px;
   cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  box-shadow: 0 4px 16px rgba(92, 77, 227, 0.3);
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  white-space: nowrap;
-  /* ← keep label on one line */
-  flex-shrink: 0;
+  backdrop-filter: blur(6px);
 }
 
-.export-btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+.deleted-container .back-btn:hover {
+  background: rgba(248, 113, 113, 0.16);
+  border-color: var(--du-accent);
+  box-shadow: 0 0 16px var(--du-accent-g);
+  transform: translateX(-2px);
+}
+
+.back-arrow {
+  font-size: 16px;
+  transition: transform 0.3s;
+}
+
+.deleted-container .back-btn:hover .back-arrow {
+  transform: translateX(-3px);
+}
+
+/* ===============================
+EXPORT BUTTON
+================================ */
+
+.export-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 20px;
+  border: none;
+  background: linear-gradient(135deg, #38b2ac, #2d9b97);
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(56, 178, 172, 0.28);
+  white-space: nowrap;
 }
 
 .export-btn:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 10px 28px rgba(92, 77, 227, 0.45);
-}
-
-.export-btn:hover::after {
-  opacity: 1;
+  background: linear-gradient(135deg, #4fd1c5, #38b2ac);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(79, 209, 197, 0.4);
 }
 
 .export-btn:active {
-  transform: scale(0.97);
+  transform: translateY(0);
 }
 
-/* ─── Title Row ─────────────────────────────────────────────── */
-.du-title-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 22px;
-  margin-left: 0;
-  margin-right: auto;
+.export-icon {
+  font-size: 15px;
+  font-weight: 700;
+  display: inline-block;
+  animation: duBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes duBounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+/* ===============================
+TITLE BLOCK
+================================ */
+
+.du-title-block {
+  text-align: center;
+  margin-bottom: 20px;
   position: relative;
   z-index: 1;
-  width: 100%;
-  max-width: 940px;
-  box-sizing: border-box;
+  animation: deletedSlideDown 0.7s ease;
 }
 
-.du-title-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 13px;
-  background: linear-gradient(135deg, #ef4444, #f97316);
+.du-eyebrow {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--du-accent);
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+.deleted-container .deleted-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--du-white);
+  letter-spacing: -0.5px;
+  margin: 0 0 14px;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.du-accent {
+  color: var(--du-accent);
+}
+
+.du-title-underline {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--du-accent), transparent);
+  border-radius: 2px;
+  margin: 0 auto;
+}
+
+/* ===============================
+STATS STRIP
+================================ */
+
+.du-stats-strip {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 24px;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.du-stat-pill {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 14px 28px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: #fff;
-  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.35);
-  flex-shrink: 0;
+  gap: 10px;
+  backdrop-filter: blur(12px);
+  transition: all 0.25s ease;
 }
 
-.deleted-title {
+.du-stat-pill:hover {
+  background: rgba(248, 113, 113, 0.07);
+  border-color: rgba(248, 113, 113, 0.25);
+  transform: translateY(-2px);
+}
+
+.du-stat-icon {
+  font-size: 18px;
+}
+
+.du-stat-label {
+  font-size: 13px;
+  color: var(--du-muted);
+  font-weight: 500;
+}
+
+.du-stat-value {
+  font-family: 'Syne', sans-serif;
   font-size: 20px;
   font-weight: 700;
-  color: #f0f4ff;
-  margin: 0 0 2px;
-  letter-spacing: -0.3px;
-  text-align: left;
+  color: var(--du-accent);
+  margin-left: 6px;
 }
 
-.du-subtitle {
-  font-size: 12.5px;
-  color: #5a6a82;
-  margin: 0;
-  font-weight: 400;
-}
+/* ===============================
+CARD
+================================ */
 
-/* ─── Card ──────────────────────────────────────────────────── */
-.deleted-card {
-  width: 100%;
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
-  background: rgba(20, 24, 36, 0.85);
-  padding: 24px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow:
-    0 0 0 1px rgba(239, 68, 68, 0.05),
-    0 20px 60px rgba(0, 0, 0, 0.5),
-    0 4px 20px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(20px);
+.deleted-container .deleted-card {
   position: relative;
   z-index: 1;
-  box-sizing: border-box;
-  animation: deletedSlideUp 0.5s ease;
-}
-
-/* top glow line */
-.deleted-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 10%;
-  right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.45), rgba(124, 109, 243, 0.45), transparent);
-  border-radius: 100%;
-}
-
-.deleted-card:hover {
-  transform: translateY(-3px);
+  width: 95%;
+  max-width: 1100px;
+  background: var(--du-card);
+  padding: 28px;
+  border-radius: 20px;
+  border: 1px solid var(--du-border);
   box-shadow:
-    0 0 0 1px rgba(239, 68, 68, 0.08),
-    0 28px 70px rgba(0, 0, 0, 0.55),
-    0 6px 24px rgba(0, 0, 0, 0.35);
+    0 25px 60px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(248, 113, 113, 0.05) inset;
+  animation: deletedSlideUp 0.7s ease;
+  transition: box-shadow 0.3s;
 }
 
-@keyframes deletedSlideUp {
-  from {
-    transform: translateY(40px);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.deleted-container .deleted-card:hover {
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(248, 113, 113, 0.06);
 }
 
-@keyframes deletedSlideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
+/* ===============================
+TABLE WRAPPER
+================================ */
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ─── Table Wrapper ─────────────────────────────────────────── */
-/* KEY FIX: overflow-x scroll instead of hidden */
 .du-table-wrapper {
-  border-radius: 14px;
+  width: 100%;
   overflow-x: auto;
-  /* ← was just overflow:hidden */
-  overflow-y: visible;
-  border: 1px solid rgba(255, 255, 255, 0.06);
   -webkit-overflow-scrolling: touch;
-  /* smooth iOS scroll */
+  border-radius: 14px;
+}
+
+/* ===============================
+TABLE
+================================ */
+
+.deleted-container .deleted-table {
   width: 100%;
+  min-width: 480px;
+  border-collapse: separate;
+  border-spacing: 0 6px;
 }
 
-/* ─── Table ─────────────────────────────────────────────────── */
-.deleted-table {
-  width: 100%;
-  min-width: 500px;
-  /* ← prevents columns from squishing */
-  border-collapse: collapse;
-  table-layout: auto;
-}
+/* Header */
 
-.deleted-table thead tr {
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.deleted-table th {
-  padding: 13px 16px;
+.deleted-container .deleted-table th {
+  background: transparent;
+  color: var(--du-muted);
+  padding: 10px 16px;
   text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  white-space: nowrap;
-  /* ← header labels stay on one line */
-}
-
-.du-th-inner {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'Sora', sans-serif;
-  font-size: 11.5px;
-  font-weight: 600;
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: #4d7ab5;
+  border-bottom: 1px solid var(--du-border);
+  white-space: nowrap;
 }
 
-.deleted-table tbody tr {
-  animation: du-rowIn 0.4s ease both;
-  transition: background 0.2s ease;
+.th-inner {
+  display: inline-block;
 }
 
-@keyframes du-rowIn {
+/* Rows */
+
+.deleted-container .deleted-table tbody tr {
+  background: var(--du-mid);
+  border-radius: 10px;
+  transition: all 0.25s ease;
+  animation: duRowReveal 0.4s ease both;
+}
+
+@keyframes duRowReveal {
   from {
     opacity: 0;
     transform: translateX(-10px);
@@ -352,38 +372,47 @@
   }
 }
 
-.deleted-table td {
+.deleted-container .deleted-table tbody tr:hover {
+  background: var(--du-row);
+  transform: translateX(4px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25), -3px 0 0 var(--du-accent);
+}
+
+/* Cells */
+
+.deleted-container .deleted-table td {
   padding: 13px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.045);
-  color: #c8d6e8;
-  font-size: 13.5px;
-  font-weight: 400;
+  font-size: 14px;
+  color: var(--du-white);
+  border: none;
   white-space: nowrap;
-  /* ← cell content won't wrap/clip */
 }
 
-.deleted-table tbody tr:last-child td {
-  border-bottom: none;
+.deleted-container .deleted-table tbody tr td:first-child {
+  border-radius: 10px 0 0 10px;
 }
 
-.deleted-table tbody tr:hover td {
-  background: rgba(239, 68, 68, 0.04);
+.deleted-container .deleted-table tbody tr td:last-child {
+  border-radius: 0 10px 10px 0;
 }
 
-/* ─── ID Badge ──────────────────────────────────────────────── */
+/* ===============================
+CELL ELEMENTS
+================================ */
+
 .du-id-badge {
-  font-family: 'DM Mono', monospace;
+  display: inline-block;
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  color: var(--du-accent);
+  font-family: 'Syne', sans-serif;
   font-size: 12px;
-  font-weight: 500;
-  color: #f87171;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  padding: 3px 9px;
+  font-weight: 600;
+  padding: 3px 10px;
   border-radius: 6px;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.5px;
 }
 
-/* ─── Name Cell ─────────────────────────────────────────────── */
 .du-name-cell {
   display: flex;
   align-items: center;
@@ -391,204 +420,185 @@
 }
 
 .du-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 9px;
-  background: linear-gradient(135deg, #ef4444, #f97316);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(135deg, #e53e3e, #f87171);
+  color: white;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
   flex-shrink: 0;
-  box-shadow: 0 3px 10px rgba(239, 68, 68, 0.25);
 }
 
-/* ─── Restore Button ────────────────────────────────────────── */
-.restore-btn {
-  background: linear-gradient(135deg, #22c55e, #16a34a);
+/* ===============================
+RESTORE BUTTON
+================================ */
+
+.deleted-container .restore-btn {
+  background: linear-gradient(135deg, #2d9b97, #4fd1c5);
   color: white;
   border: none;
-  padding: 7px 15px;
-  border-radius: 9px;
+  padding: 8px 16px;
+  border-radius: 8px;
   cursor: pointer;
-  font-family: 'Sora', sans-serif;
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
+  font-family: 'DM Sans', sans-serif;
   transition: all 0.25s ease;
-  position: relative;
-  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(79, 209, 197, 0.25);
   white-space: nowrap;
 }
 
-.restore-btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.restore-btn:hover {
+.deleted-container .restore-btn:hover {
+  background: linear-gradient(135deg, #38b2ac, #81e6d9);
   transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(34, 197, 94, 0.38);
+  box-shadow: 0 8px 22px rgba(79, 209, 197, 0.4);
 }
 
-.restore-btn:hover::after {
-  opacity: 1;
+.deleted-container .restore-btn:active {
+  transform: translateY(0);
 }
 
-.restore-btn:active {
-  transform: scale(0.96);
-}
+/* ===============================
+NO DATA
+================================ */
 
-/* ─── No Data / Empty State ─────────────────────────────────── */
-.du-empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 50px 20px;
-  gap: 12px;
-}
-
-.du-empty-icon {
-  width: 70px;
-  height: 70px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #3a4d62;
-}
-
-.no-data {
+.deleted-container .no-data {
   text-align: center;
-  color: #3a4d62;
-  font-size: 14px;
-  font-weight: 500;
-  margin: 0;
-  padding: 0;
+  padding: 50px 20px;
+  color: var(--du-muted);
 }
 
-/* ============================================================ */
-/*  RESPONSIVE                                                  */
-/* ============================================================ */
+.du-no-data-icon {
+  font-size: 36px;
+  display: block;
+  margin-bottom: 10px;
+}
 
-/* TABLET */
+.deleted-container .no-data p {
+  margin: 0;
+  font-size: 14px;
+  color: #475569;
+}
+
+/* ===============================
+ANIMATIONS
+================================ */
+
+@keyframes deletedFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes deletedSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes deletedSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===============================
+TABLET
+================================ */
+
 @media (max-width: 992px) {
-
   .deleted-container {
     padding: 25px;
   }
 
-  .deleted-title {
-    font-size: 18px;
+  .deleted-container .deleted-title {
+    font-size: 28px;
   }
 
-  .deleted-card {
-    padding: 18px;
+  .deleted-container .deleted-card {
+    padding: 20px;
   }
 
-  .deleted-table th,
-  .deleted-table td {
-    padding: 11px 12px;
+  .deleted-container .deleted-table th,
+  .deleted-container .deleted-table td {
+    padding: 12px;
     font-size: 13px;
   }
 
-  .restore-btn {
-    padding: 6px 12px;
+  .deleted-container .restore-btn {
+    padding: 7px 14px;
     font-size: 12px;
   }
 }
 
-/* MOBILE */
+/* ===============================
+MOBILE
+================================ */
+
 @media (max-width: 768px) {
-
   .deleted-container {
-    padding: 16px 12px;
+    padding: 20px;
   }
 
-  .deleted-title {
-    font-size: 17px;
+  .deleted-container .deleted-title {
+    font-size: 24px;
   }
 
-  .deleted-card {
-    padding: 15px 12px;
-    /* KEY FIX: card itself must NOT clip — scrolling lives in du-table-wrapper */
-    overflow: visible;
+  .deleted-container .deleted-card {
+    padding: 18px;
   }
 
-  .du-table-wrapper {
-    border-radius: 10px;
-    /* subtle right-shadow hint that table is scrollable */
-    box-shadow: inset -8px 0 12px -8px rgba(0, 0, 0, 0.4);
-  }
-
-  .deleted-table {
-    min-width: 500px;
-  }
-
-  /* Restore button stays inline on mobile — full-width only if you prefer */
-  .restore-btn {
-    width: auto;
-    justify-content: center;
+  .deleted-container .restore-btn {
+    width: 100%;
+    text-align: center;
   }
 }
 
-/* SMALL MOBILE */
+/* ===============================
+SMALL MOBILE
+================================ */
+
 @media (max-width: 480px) {
-
   .deleted-container {
-    padding: 12px 10px;
+    padding: 15px;
   }
 
-  .deleted-title {
-    font-size: 16px;
+  .deleted-container .deleted-title {
+    font-size: 22px;
   }
 
-  /* Back + Export buttons — shrink gracefully */
-  .back-btn {
+  .deleted-container .back-btn {
     font-size: 12px;
-    padding: 7px 12px;
+    padding: 6px 12px;
   }
 
-  .export-btn {
+  .deleted-container .deleted-card {
+    padding: 15px;
+  }
+
+  .deleted-container .deleted-table th,
+  .deleted-container .deleted-table td {
     font-size: 12px;
-    padding: 7px 12px;
-  }
-
-  .deleted-card {
-    padding: 12px 10px;
-  }
-
-  .deleted-table th,
-  .deleted-table td {
-    font-size: 11.5px;
-    padding: 10px 10px;
-  }
-
-  .du-avatar {
-    width: 28px;
-    height: 28px;
-    font-size: 11px;
-    border-radius: 7px;
-  }
-
-  .du-th-inner svg {
-    display: none;
-  }
-
-  .du-id-badge {
-    font-size: 11px;
-    padding: 2px 7px;
   }
 }
