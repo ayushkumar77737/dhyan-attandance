@@ -1,4 +1,10 @@
 /* ===============================
+IMPORTS
+================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ===============================
 PAGE
 ================================ */
 
@@ -6,15 +12,64 @@ PAGE
   padding: 40px;
   min-height: 100vh;
 
-  background: linear-gradient(135deg, #eef2f7, #dfe9f3);
+  background: #0b0f1a;
 
-  font-family: "Poppins", sans-serif;
+  font-family: "DM Sans", sans-serif;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
+  position: relative;
+  overflow: hidden;
+
   animation: userFadeIn 0.8s ease;
+}
+
+/* ===============================
+DECORATIVE ORBS
+================================ */
+
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.orb-1 {
+  width: 480px;
+  height: 480px;
+  top: -120px;
+  left: -100px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.22), transparent 70%);
+}
+
+.orb-2 {
+  width: 380px;
+  height: 380px;
+  bottom: -80px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.16), transparent 70%);
+}
+
+.orb-3 {
+  width: 260px;
+  height: 260px;
+  top: 50%;
+  left: 55%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.12), transparent 70%);
+}
+
+/* All content above orbs */
+.user-percentage-header,
+.title-block,
+.stats-strip,
+.user-export-wrapper,
+.user-percentage-card {
+  position: relative;
+  z-index: 1;
 }
 
 /* ===============================
@@ -25,7 +80,7 @@ HEADER
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 /* ===============================
@@ -33,37 +88,129 @@ BACK BUTTON
 ================================ */
 
 .user-back-btn {
-  background: #3498db;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #a5b4fc;
+  border: 1px solid rgba(165, 180, 252, 0.2);
+  padding: 9px 20px;
+  border-radius: 50px;
   cursor: pointer;
-  font-size: 14px;
-
-  transition: 0.3s;
+  font-size: 13px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(10px);
 }
 
 .user-back-btn:hover {
-  background: #2980b9;
+  background: rgba(165, 180, 252, 0.12);
+  border-color: rgba(165, 180, 252, 0.5);
+  color: #c7d2fe;
+  transform: translateX(-2px);
+}
+
+.back-arrow {
+  font-size: 15px;
 }
 
 /* ===============================
-TITLE
+TITLE BLOCK
 ================================ */
 
-.user-percentage-title {
+.title-block {
   text-align: center;
-  margin-bottom: 20px;
-
-  font-size: 34px;
-  font-weight: 700;
-
-  color: #2c3e50;
-
-  letter-spacing: 1px;
-
+  margin-bottom: 32px;
   animation: userSlideDown 0.6s ease;
+}
+
+.title-eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #6366f1;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  padding: 4px 14px;
+  border-radius: 50px;
+  margin-bottom: 14px;
+}
+
+.user-percentage-title {
+  font-family: "Syne", sans-serif;
+  font-size: 42px;
+  font-weight: 800;
+  color: #f1f5f9;
+  letter-spacing: -1px;
+  margin: 0 0 10px 0;
+  line-height: 1.1;
+}
+
+.title-accent {
+  background: linear-gradient(135deg, #818cf8, #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.title-sub {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ===============================
+STATS STRIP
+================================ */
+
+.stats-strip {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stat-pill {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  backdrop-filter: blur(12px);
+  transition: all 0.25s ease;
+  min-width: 150px;
+}
+
+.stat-pill:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(99, 102, 241, 0.3);
+  transform: translateY(-2px);
+}
+
+.stat-icon {
+  font-size: 18px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-family: "Syne", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-left: auto;
 }
 
 /* ===============================
@@ -71,26 +218,35 @@ EXPORT BUTTON
 ================================ */
 
 .user-export-wrapper {
-  margin-bottom: 25px;
+  margin-bottom: 28px;
 }
 
 .user-export-btn {
-  padding: 8px 18px;
+  padding: 11px 26px;
   border: none;
-
-  background: #28a745;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
   color: white;
-
-  border-radius: 6px;
-
+  border-radius: 10px;
   cursor: pointer;
-  font-weight: 500;
-
-  transition: 0.3s;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: "DM Sans", sans-serif;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.25);
 }
 
 .user-export-btn:hover {
-  background: #218838;
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(34, 197, 94, 0.35);
+}
+
+.export-icon {
+  font-size: 16px;
 }
 
 /* ===============================
@@ -98,26 +254,21 @@ CARD
 ================================ */
 
 .user-percentage-card {
-
   width: 95%;
   max-width: 1100px;
-
-  background: white;
-
-  padding: 30px;
-
-  border-radius: 14px;
-
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-
-  transition: 0.3s;
-
+  background: rgba(255, 255, 255, 0.03);
+  padding: 6px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  transition: all 0.3s ease;
   animation: userSlideUp 0.6s ease;
 }
 
 .user-percentage-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 32px 72px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  border-color: rgba(99, 102, 241, 0.2);
 }
 
 /* ===============================
@@ -128,48 +279,125 @@ TABLE
   width: 100%;
   border-collapse: collapse;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 16px;
 }
 
 /* Table header */
 
 .user-percentage-table th {
-
-  background: linear-gradient(135deg, #2f6edb, #4f8cff);
-
-  color: white;
-
-  padding: 15px;
-
+  background: rgba(99, 102, 241, 0.12);
+  color: #a5b4fc;
+  padding: 16px 20px;
   text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+}
 
-  font-size: 15px;
+.user-percentage-table th:first-child {
+  border-radius: 14px 0 0 0;
+}
 
-  letter-spacing: 0.5px;
+.user-percentage-table th:last-child {
+  border-radius: 0 14px 0 0;
 }
 
 /* Table data */
 
 .user-percentage-table td {
-
-  padding: 15px;
-
-  border-bottom: 1px solid #eee;
-
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   font-size: 14px;
-
-  color: #333;
+  color: #cbd5e1;
+  vertical-align: middle;
 }
 
-/* Row hover */
+/* Row animation + hover */
 
 .user-percentage-table tbody tr {
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
+  animation: rowFadeIn 0.4s ease both;
 }
 
 .user-percentage-table tbody tr:hover {
-  background: #f7f9fc;
-  transform: scale(1.01);
+  background: rgba(99, 102, 241, 0.07);
+}
+
+.user-percentage-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===============================
+CUSTOM CELLS
+================================ */
+
+/* User ID chip */
+.uid-chip {
+  display: inline-block;
+  font-family: "DM Mono", "Courier New", monospace;
+  font-size: 12px;
+  font-weight: 500;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  color: #a5b4fc;
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* Name cell with avatar */
+.user-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.avatar-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: "Syne", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Attendance badge */
+.attendance-badge {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "Syne", sans-serif;
+  letter-spacing: 0.3px;
+}
+
+.badge-high {
+  background: rgba(34, 197, 94, 0.12);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.badge-mid {
+  background: rgba(234, 179, 8, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(234, 179, 8, 0.25);
+}
+
+.badge-low {
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.25);
 }
 
 /* =========================
@@ -210,28 +438,44 @@ Animations
   }
 }
 
+@keyframes rowFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 /* =========================
 Tablet
 ========================= */
 
-@media (max-width:992px) {
+@media (max-width: 992px) {
 
   .user-percentage-page {
     padding: 25px;
   }
 
   .user-percentage-title {
-    font-size: 28px;
+    font-size: 32px;
   }
 
   .user-percentage-card {
-    padding: 20px;
+    padding: 4px;
   }
 
   .user-percentage-table th,
   .user-percentage-table td {
-    padding: 12px;
+    padding: 12px 14px;
     font-size: 13px;
+  }
+
+  .stats-strip {
+    gap: 10px;
   }
 
 }
@@ -240,23 +484,28 @@ Tablet
 Mobile
 ========================= */
 
-@media (max-width:768px) {
+@media (max-width: 768px) {
 
   .user-percentage-page {
     padding: 20px;
   }
 
   .user-percentage-title {
-    font-size: 24px;
+    font-size: 28px;
   }
 
   .user-percentage-card {
-    padding: 18px;
+    padding: 4px;
     overflow-x: auto;
   }
 
   .user-percentage-table {
     min-width: 600px;
+  }
+
+  .stat-pill {
+    min-width: 120px;
+    padding: 12px 16px;
   }
 
 }
@@ -265,28 +514,38 @@ Mobile
 Small Mobile
 ========================= */
 
-@media (max-width:480px) {
+@media (max-width: 480px) {
 
   .user-percentage-page {
     padding: 15px;
   }
 
   .user-percentage-title {
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .user-back-btn {
     font-size: 12px;
-    padding: 6px 12px;
+    padding: 7px 14px;
   }
 
   .user-percentage-card {
-    padding: 15px;
+    padding: 2px;
   }
 
   .user-percentage-table th,
   .user-percentage-table td {
     font-size: 12px;
+    padding: 10px 12px;
+  }
+
+  .stats-strip {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stat-pill {
+    min-width: unset;
   }
 
 }
