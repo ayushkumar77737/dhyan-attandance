@@ -1,171 +1,373 @@
 /* ===============================
+FONTS
+================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap');
+
+/* ===============================
+CSS VARIABLES
+================================ */
+
+:root {
+  --bg-base: #0d1117;
+  --bg-surface: #161b27;
+  --bg-card: #1c2333;
+  --bg-card-hover: #212840;
+  --bg-row-hover: #1e2740;
+
+  --accent-blue: #4f8cff;
+  --accent-blue-dark: #3a72e0;
+  --accent-blue-glow: rgba(79, 140, 255, 0.22);
+
+  --accent-green: #2dce89;
+  --accent-green-dark: #22b573;
+  --accent-green-glow: rgba(45, 206, 137, 0.2);
+
+  --accent-red: #f5365c;
+  --accent-red-dark: #d62849;
+  --accent-red-glow: rgba(245, 54, 92, 0.2);
+
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --text-muted: #4a5568;
+
+  --border: rgba(255, 255, 255, 0.07);
+  --border-strong: rgba(255, 255, 255, 0.12);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+
+  --shadow-card: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border);
+  --shadow-btn: 0 4px 15px rgba(0, 0, 0, 0.3);
+  --shadow-glow-blue: 0 0 24px var(--accent-blue-glow);
+  --shadow-glow-green: 0 0 24px var(--accent-green-glow);
+  --shadow-glow-red: 0 0 24px var(--accent-red-glow);
+
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+/* ===============================
 PAGE
 ================================ */
 
 .users-container {
-  padding: 40px;
+  padding: 48px 40px;
   min-height: 100vh;
-  background: linear-gradient(135deg, #eef2f7, #dfe9f3);
-  font-family: "Poppins", sans-serif;
+  background: var(--bg-base);
+  font-family: var(--font-body);
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  animation: usersFadeIn 0.8s ease;
+  /* Subtle grid texture */
+  background-image:
+    linear-gradient(rgba(79, 140, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 140, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+
+  animation: usersFadeIn 0.7s ease;
 }
 
-/* Header */
+/* ===============================
+HEADER
+================================ */
 
 .users-container .users-header {
   width: 100%;
+  max-width: 1100px;
   display: flex;
-  justify-content: flex-start;
-  margin-bottom: 10px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-/* Back button */
+/* ===============================
+BACK BUTTON
+================================ */
 
 .users-container .back-btn {
-  background: #3498db;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-strong);
+  padding: 9px 20px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  font-size: 14px;
-  transition: 0.3s;
+  font-size: 13px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .users-container .back-btn:hover {
-  background: #2980b9;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--accent-blue);
+  box-shadow: var(--shadow-glow-blue);
+  transform: translateX(-2px);
 }
 
-/* Title */
+/* ===============================
+EXPORT BUTTON
+================================ */
+
+.export-btn {
+  padding: 9px 22px;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-green-dark));
+  color: #fff;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  transition: all 0.25s ease;
+  box-shadow: var(--shadow-btn), var(--shadow-glow-green);
+  position: relative;
+  overflow: hidden;
+}
+
+.export-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.export-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-btn), 0 0 32px var(--accent-green-glow);
+}
+
+.export-btn:hover::before {
+  opacity: 1;
+}
+
+.export-btn:active {
+  transform: scale(0.97);
+}
+
+/* ===============================
+TITLE
+================================ */
 
 .users-container .users-title {
   text-align: center;
-  margin-bottom: 35px;
-  font-size: 34px;
-  font-weight: 700;
-  color: #2c3e50;
-  letter-spacing: 1px;
+  margin-bottom: 36px;
+  font-size: 36px;
+  font-weight: 800;
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+
+  /* Gradient text */
+  background: linear-gradient(135deg, #e6edf3 30%, var(--accent-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 
   animation: usersSlideDown 0.6s ease;
 }
 
-/* Card */
+/* ===============================
+CARD
+================================ */
 
 .users-container .users-card {
   width: 95%;
   max-width: 1100px;
 
-  background: white;
-  padding: 30px;
+  background: var(--bg-card);
+  padding: 28px;
 
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
 
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-card);
 
-  transition: 0.3s;
-
-  animation: usersSlideUp 0.6s ease;
+  transition: all 0.3s ease;
+  animation: usersSlideUp 0.65s ease;
 }
 
 .users-container .users-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border-strong);
 }
 
-/* Table */
+/* ===============================
+TABLE
+================================ */
 
 .users-container .users-table {
   width: 100%;
   border-collapse: collapse;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
 }
 
-/* Table header */
+/* TABLE HEADER */
+
+.users-container .users-table thead tr {
+  background: transparent;
+}
 
 .users-container .users-table th {
-  background: linear-gradient(135deg, #2f6edb, #4f8cff);
-  color: white;
-  padding: 15px;
+  background: linear-gradient(135deg, #1a2545, #1f2e5a);
+  color: var(--accent-blue);
+  padding: 16px 18px;
   text-align: left;
-  font-size: 15px;
-  letter-spacing: 0.5px;
+  font-size: 11px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-strong);
 }
 
-/* Table data */
+.users-container .users-table th:first-child {
+  border-radius: var(--radius-sm) 0 0 0;
+}
+
+.users-container .users-table th:last-child {
+  border-radius: 0 var(--radius-sm) 0 0;
+}
+
+/* TABLE DATA */
 
 .users-container .users-table td {
-  padding: 15px;
-  border-bottom: 1px solid #eee;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
   font-size: 14px;
-  color: #333;
+  color: var(--text-secondary);
+  font-weight: 400;
+  transition: color 0.2s;
 }
 
-/* Row hover */
+.users-container .users-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ROW HOVER */
 
 .users-container .users-table tbody tr {
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
 }
 
 .users-container .users-table tbody tr:hover {
-  background: #f7f9fc;
-  transform: scale(1.01);
+  background: var(--bg-row-hover);
+  transform: scale(1.005);
 }
 
-/* Buttons container */
+.users-container .users-table tbody tr:hover td {
+  color: var(--text-primary);
+}
+
+/* ===============================
+ACTION BUTTONS CELL
+================================ */
 
 .users-container .action-buttons {
   display: flex;
   gap: 10px;
+  align-items: center;
 }
 
-/* Edit button */
+/* ===============================
+EDIT BUTTON
+================================ */
 
 .users-container .edit-btn {
-  background: linear-gradient(135deg, #3498db, #5dade2);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
+  background: transparent;
+  color: var(--accent-blue);
+  border: 1px solid var(--accent-blue);
+  padding: 7px 18px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 12px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.5px;
 
-  transition: all 0.25s ease;
+  transition: all 0.22s ease;
+  position: relative;
+  overflow: hidden;
+}
 
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.users-container .edit-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent-blue);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  z-index: 0;
+}
+
+.users-container .edit-btn span,
+.users-container .edit-btn {
+  position: relative;
+  z-index: 1;
 }
 
 .users-container .edit-btn:hover {
+  color: #fff;
+  box-shadow: var(--shadow-glow-blue);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Delete button */
+.users-container .edit-btn:hover::before {
+  opacity: 1;
+}
+
+/* ===============================
+DELETE BUTTON
+================================ */
 
 .users-container .delete-btn {
-  background: linear-gradient(135deg, #e74c3c, #ff6b6b);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
+  background: transparent;
+  color: var(--accent-red);
+  border: 1px solid var(--accent-red);
+  padding: 7px 18px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 12px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.5px;
 
-  transition: all 0.25s ease;
+  transition: all 0.22s ease;
+  position: relative;
+  overflow: hidden;
+}
 
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.users-container .delete-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent-red);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  z-index: 0;
 }
 
 .users-container .delete-btn:hover {
+  color: #fff;
+  box-shadow: var(--shadow-glow-red);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.users-container .delete-btn:hover::before {
+  opacity: 1;
 }
 
 .users-container .edit-btn:active,
@@ -173,9 +375,9 @@ PAGE
   transform: scale(0.95);
 }
 
-/* =========================
-Animations
-========================= */
+/* ===============================
+ANIMATIONS
+================================ */
 
 @keyframes usersFadeIn {
   from {
@@ -211,14 +413,14 @@ Animations
   }
 }
 
-/* =========================
-Tablet
-========================= */
+/* ===============================
+TABLET
+================================ */
 
-@media (max-width:992px) {
+@media (max-width: 992px) {
 
   .users-container {
-    padding: 25px;
+    padding: 28px 20px;
   }
 
   .users-container .users-title {
@@ -231,26 +433,26 @@ Tablet
 
   .users-container .users-table th,
   .users-container .users-table td {
-    padding: 12px;
+    padding: 13px 14px;
     font-size: 13px;
   }
 
   .users-container .edit-btn,
   .users-container .delete-btn {
-    padding: 7px 14px;
-    font-size: 12px;
+    padding: 6px 13px;
+    font-size: 11px;
   }
 
 }
 
-/* =========================
-Mobile
-========================= */
+/* ===============================
+MOBILE
+================================ */
 
-@media (max-width:768px) {
+@media (max-width: 768px) {
 
   .users-container {
-    padding: 20px;
+    padding: 20px 14px;
   }
 
   .users-container .users-title {
@@ -258,7 +460,7 @@ Mobile
   }
 
   .users-container .users-card {
-    padding: 18px;
+    padding: 16px;
     overflow-x: auto;
   }
 
@@ -279,14 +481,14 @@ Mobile
 
 }
 
-/* =========================
-Small Mobile
-========================= */
+/* ===============================
+SMALL MOBILE
+================================ */
 
-@media (max-width:480px) {
+@media (max-width: 480px) {
 
   .users-container {
-    padding: 15px;
+    padding: 14px 10px;
   }
 
   .users-container .users-title {
@@ -299,7 +501,7 @@ Small Mobile
   }
 
   .users-container .users-card {
-    padding: 15px;
+    padding: 14px;
   }
 
   .users-container .users-table th,
@@ -309,7 +511,9 @@ Small Mobile
 
 }
 
-/* Modal Overlay */
+/* ===============================
+MODAL OVERLAY
+================================ */
 
 .delete-modal-overlay {
   position: fixed;
@@ -317,7 +521,9 @@ Small Mobile
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 
   display: flex;
   align-items: center;
@@ -327,58 +533,105 @@ Small Mobile
   z-index: 1000;
 }
 
-/* Modal Box */
+/* ===============================
+MODAL BOX
+================================ */
 
 .delete-modal {
-
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  padding: 36px 32px;
+  border-radius: var(--radius-lg);
 
   width: 100%;
-  max-width: 360px;
+  max-width: 380px;
 
   text-align: center;
 
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border);
 
-  animation: popup 0.3s ease;
+  animation: popup 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Buttons */
+.delete-modal h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+
+.delete-modal p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* ===============================
+MODAL BUTTONS
+================================ */
 
 .modal-buttons {
   display: flex;
   justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
+  gap: 14px;
+  margin-top: 28px;
   flex-wrap: wrap;
 }
 
 .cancel-btn {
-  padding: 10px 20px;
-  border: none;
-  background: #ccc;
-  border-radius: 6px;
+  padding: 10px 24px;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: all 0.22s ease;
+}
+
+.cancel-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  border-color: var(--text-muted);
 }
 
 .confirm-delete-btn {
-  padding: 10px 20px;
+  padding: 10px 24px;
   border: none;
-  background: #e74c3c;
+  background: linear-gradient(135deg, var(--accent-red), var(--accent-red-dark));
   color: white;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  transition: all 0.22s ease;
+  box-shadow: var(--shadow-btn), var(--shadow-glow-red);
 }
 
-/* Animation */
+.confirm-delete-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-btn), 0 0 32px var(--accent-red-glow);
+}
+
+.confirm-delete-btn:active {
+  transform: scale(0.97);
+}
+
+/* ===============================
+MODAL ANIMATION
+================================ */
 
 @keyframes popup {
   from {
-    transform: scale(0.8);
+    transform: scale(0.75);
     opacity: 0;
   }
 
@@ -388,15 +641,15 @@ Small Mobile
   }
 }
 
-/* =========================
-Tablet Screens
-========================= */
+/* ===============================
+MODAL - TABLET
+================================ */
 
-@media (max-width:768px) {
+@media (max-width: 768px) {
 
   .delete-modal {
     max-width: 320px;
-    padding: 25px;
+    padding: 26px 22px;
   }
 
   .modal-buttons {
@@ -405,15 +658,15 @@ Tablet Screens
 
 }
 
-/* =========================
-Mobile Screens
-========================= */
+/* ===============================
+MODAL - MOBILE
+================================ */
 
-@media (max-width:480px) {
+@media (max-width: 480px) {
 
   .delete-modal {
-    max-width: 90%;
-    padding: 20px;
+    max-width: 92%;
+    padding: 22px 18px;
   }
 
   .delete-modal h3 {
@@ -421,7 +674,7 @@ Mobile Screens
   }
 
   .delete-modal p {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .modal-buttons {
@@ -433,19 +686,4 @@ Mobile Screens
     width: 100%;
   }
 
-}
-
-.export-btn {
-  padding: 8px 18px;
-  border: none;
-  background: #28a745;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  margin-left: 10px;
-}
-
-.export-btn:hover {
-  background: #218838;
 }
