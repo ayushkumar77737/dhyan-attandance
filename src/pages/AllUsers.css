@@ -297,36 +297,14 @@ EDIT BUTTON
   font-family: var(--font-body);
   font-weight: 600;
   letter-spacing: 0.5px;
-
-  transition: all 0.22s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.users-container .edit-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--accent-blue);
-  opacity: 0;
-  transition: opacity 0.22s ease;
-  z-index: 0;
-}
-
-.users-container .edit-btn span,
-.users-container .edit-btn {
-  position: relative;
-  z-index: 1;
+  transition: background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
 }
 
 .users-container .edit-btn:hover {
+  background: var(--accent-blue);
   color: #fff;
   box-shadow: var(--shadow-glow-blue);
   transform: translateY(-2px);
-}
-
-.users-container .edit-btn:hover::before {
-  opacity: 1;
 }
 
 /* ===============================
@@ -344,30 +322,14 @@ DELETE BUTTON
   font-family: var(--font-body);
   font-weight: 600;
   letter-spacing: 0.5px;
-
-  transition: all 0.22s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.users-container .delete-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--accent-red);
-  opacity: 0;
-  transition: opacity 0.22s ease;
-  z-index: 0;
+  transition: background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
 }
 
 .users-container .delete-btn:hover {
+  background: var(--accent-red);
   color: #fff;
   box-shadow: var(--shadow-glow-red);
   transform: translateY(-2px);
-}
-
-.users-container .delete-btn:hover::before {
-  opacity: 1;
 }
 
 .users-container .edit-btn:active,
