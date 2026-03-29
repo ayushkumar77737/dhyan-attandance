@@ -1,4 +1,49 @@
 /* ===============================
+FONTS
+================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap');
+
+/* ===============================
+CSS VARIABLES
+================================ */
+
+:root {
+    --au-purple: #8b5cf6;
+    --au-purple-dark: #6d3fd6;
+    --au-purple-light: #a78bfa;
+    --au-purple-glow: rgba(139, 92, 246, 0.35);
+    --au-purple-subtle: rgba(139, 92, 246, 0.1);
+
+    --au-glass: rgba(15, 12, 30, 0.72);
+    --au-glass-light: rgba(255, 255, 255, 0.04);
+    --au-glass-border: rgba(255, 255, 255, 0.1);
+    --au-glass-border-focus: rgba(139, 92, 246, 0.5);
+
+    --au-input-bg: rgba(255, 255, 255, 0.06);
+    --au-input-bg-focus: rgba(255, 255, 255, 0.1);
+
+    --au-text-primary: #f0eeff;
+    --au-text-secondary: rgba(240, 238, 255, 0.55);
+    --au-text-placeholder: rgba(240, 238, 255, 0.3);
+
+    --au-success-bg: rgba(45, 206, 137, 0.12);
+    --au-success-color: #5effc4;
+    --au-success-border: rgba(45, 206, 137, 0.3);
+
+    --au-error-bg: rgba(245, 54, 92, 0.12);
+    --au-error-color: #ff7096;
+    --au-error-border: rgba(245, 54, 92, 0.3);
+
+    --au-radius-sm: 10px;
+    --au-radius-md: 16px;
+    --au-radius-lg: 24px;
+
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+}
+
+/* ===============================
 PAGE
 ================================ */
 
@@ -14,17 +59,20 @@ PAGE
 
     position: relative;
 
-    font-family: "Poppins", sans-serif;
+    font-family: var(--font-body);
     animation: adduser-fadeIn 0.8s ease;
 }
 
-/* dark overlay */
+/* Dark + purple tinted overlay */
 
 .adduser-container::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.35);
+    background:
+        radial-gradient(ellipse 70% 60% at 20% 50%, rgba(109, 63, 214, 0.25) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 80% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 60%),
+        rgba(4, 2, 14, 0.65);
 }
 
 /* ===============================
@@ -38,15 +86,20 @@ CARD
     display: flex;
     width: 780px;
 
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(12px);
+    background: var(--au-glass);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
 
-    border-radius: 20px;
+    border-radius: var(--au-radius-lg);
     overflow: hidden;
 
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--au-glass-border);
+    box-shadow:
+        0 40px 80px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
 
-    animation: adduser-cardFade 0.8s ease;
+    animation: adduser-cardFade 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* ===============================
@@ -56,24 +109,48 @@ IMAGE SECTION
 .adduser-container .adduser-image {
     flex: 1;
 
-    background: linear-gradient(135deg, #f6f3ff, #efe9ff);
+    background:
+        linear-gradient(135deg, rgba(109, 63, 214, 0.3), rgba(60, 20, 120, 0.5)),
+        var(--au-glass-light);
+
+    border-right: 1px solid var(--au-glass-border);
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    padding: 30px;
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative glow blob behind image */
+.adduser-container .adduser-image::before {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: blur(30px);
 }
 
 .adduser-container .adduser-image img {
     width: 85%;
     max-width: 260px;
+    position: relative;
+    z-index: 1;
 
-    border-radius: 16px;
+    border-radius: var(--au-radius-md);
 
-    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.25);
+    box-shadow:
+        0 24px 50px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.08);
 
-    transition: transform 0.6s ease;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* image hover zoom */
@@ -93,9 +170,8 @@ FORM
     flex-direction: column;
     justify-content: center;
 
-    padding: 40px 45px;
-
-    gap: 12px;
+    padding: 44px 48px;
+    gap: 0;
 }
 
 /* ===============================
@@ -104,9 +180,17 @@ TITLE
 
 .adduser-container .adduser-form h2 {
     text-align: center;
-    font-size: 24px;
-    color: #3c3561;
-    margin-bottom: 20px;
+    font-size: 26px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+
+    background: linear-gradient(135deg, #f0eeff 30%, var(--au-purple-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 /* ===============================
@@ -114,63 +198,78 @@ INPUTS
 ================================ */
 
 .adduser-container .adduser-form input {
-
     width: 100%;
-    padding: 14px 16px;
-    margin-bottom: 15px;
+    padding: 13px 16px;
+    margin-bottom: 14px;
 
-    font-size: 15px;
+    font-size: 14px;
+    font-family: var(--font-body);
+    font-weight: 400;
+    color: var(--au-text-primary);
+    letter-spacing: 0.2px;
 
-    border: none;
-    border-radius: 10px;
+    border: 1px solid var(--au-glass-border);
+    border-radius: var(--au-radius-sm);
 
     outline: none;
+    background: var(--au-input-bg);
 
-    background: #f3f3f7;
+    transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+}
 
-    transition: all 0.25s ease;
+.adduser-container .adduser-form input::placeholder {
+    color: var(--au-text-placeholder);
 }
 
 /* input focus */
 
 .adduser-container .adduser-form input:focus {
-    background: white;
-    box-shadow: 0 0 0 3px rgba(139, 120, 255, 0.25);
+    background: var(--au-input-bg-focus);
+    border-color: var(--au-glass-border-focus);
+    box-shadow: 0 0 0 3px var(--au-purple-subtle);
     transform: scale(1.02);
 }
 
 /* ===============================
-BUTTON
+SUBMIT BUTTON
 ================================ */
 
-.adduser-container .adduser-form button {
-
+.adduser-container .adduser-form button[type="submit"] {
     width: 100%;
     padding: 14px;
 
-    background: linear-gradient(135deg, #7c6df3, #5b4de3);
+    background: linear-gradient(135deg, var(--au-purple), var(--au-purple-dark));
+    color: #fff;
 
-    color: white;
-
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 14px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
 
     border: none;
-    border-radius: 12px;
-
+    border-radius: var(--au-radius-sm);
     cursor: pointer;
+    margin-top: 6px;
+    margin-bottom: 10px;
 
-    margin-top: 5px;
-
-    transition: all 0.3s ease;
-
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+    box-shadow: 0 6px 20px rgba(109, 63, 214, 0.4);
 }
 
-/* button hover */
+.adduser-container .adduser-form button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px var(--au-purple-glow);
+}
 
-.adduser-container .adduser-form button:hover {
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 15px 30px rgba(92, 77, 227, 0.5);
+.adduser-container .adduser-form button[type="submit"]:active {
+    transform: scale(0.97);
+}
+
+.adduser-container .adduser-form button[type="submit"]:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
 }
 
 /* ===============================
@@ -178,7 +277,29 @@ BACK BUTTON
 ================================ */
 
 .adduser-container .back-btn {
-    background: linear-gradient(135deg, #7c6df3, #5b4de3);
+    width: 100%;
+    padding: 12px;
+
+    background: transparent;
+    color: var(--au-text-secondary);
+
+    font-size: 13px;
+    font-family: var(--font-body);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+
+    border: 1px solid var(--au-glass-border);
+    border-radius: var(--au-radius-sm);
+    cursor: pointer;
+
+    transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.adduser-container .back-btn:hover {
+    background: var(--au-glass-light);
+    color: var(--au-text-primary);
+    border-color: var(--au-glass-border-focus);
+    box-shadow: 0 0 16px var(--au-purple-subtle);
 }
 
 /* ===============================
@@ -186,35 +307,35 @@ MESSAGES
 ================================ */
 
 .adduser-container .success-message {
+    background: var(--au-success-bg);
+    color: var(--au-success-color);
+    border: 1px solid var(--au-success-border);
 
-    background: #e6ffed;
-    color: #1b7f3c;
-
-    padding: 8px;
-    border-radius: 6px;
-
-    margin-bottom: 12px;
+    padding: 10px 14px;
+    border-radius: var(--au-radius-sm);
+    margin-bottom: 14px;
 
     text-align: center;
-
-    font-size: 14px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
 
     animation: adduser-fadeIn 0.4s ease;
 }
 
 .adduser-container .error-message {
+    background: var(--au-error-bg);
+    color: var(--au-error-color);
+    border: 1px solid var(--au-error-border);
 
-    background: #ffe6e6;
-    color: #b30000;
-
-    padding: 8px;
-    border-radius: 6px;
-
-    margin-bottom: 12px;
+    padding: 10px 14px;
+    border-radius: var(--au-radius-sm);
+    margin-bottom: 14px;
 
     text-align: center;
-
-    font-size: 14px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
 
     animation: adduser-fadeIn 0.4s ease;
 }
@@ -236,12 +357,12 @@ ANIMATIONS
 @keyframes adduser-cardFade {
     from {
         opacity: 0;
-        transform: translateY(40px);
+        transform: translateY(40px) scale(0.97);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
@@ -249,14 +370,14 @@ ANIMATIONS
 TABLET
 ================================ */
 
-@media (max-width:1024px) {
+@media (max-width: 1024px) {
 
     .adduser-container .adduser-card {
         width: 90%;
     }
 
     .adduser-container .adduser-form {
-        padding: 30px;
+        padding: 32px 36px;
     }
 
 }
@@ -265,7 +386,7 @@ TABLET
 MOBILE
 ================================ */
 
-@media (max-width:768px) {
+@media (max-width: 768px) {
 
     .adduser-container .adduser-card {
         flex-direction: column;
@@ -274,17 +395,19 @@ MOBILE
 
     .adduser-container .adduser-image {
         order: 1;
-        padding: 20px;
+        padding: 24px;
+        border-right: none;
+        border-bottom: 1px solid var(--au-glass-border);
     }
 
     .adduser-container .adduser-form {
         order: 2;
-        padding: 25px;
+        padding: 28px 24px;
     }
 
     .adduser-container .adduser-image img {
         width: 100%;
-        height: 220px;
+        height: 200px;
         object-fit: cover;
     }
 
@@ -298,15 +421,15 @@ MOBILE
 SMALL MOBILE
 ================================ */
 
-@media (max-width:480px) {
+@media (max-width: 480px) {
 
     .adduser-container .adduser-card {
         width: 95%;
-        border-radius: 16px;
+        border-radius: var(--au-radius-md);
     }
 
     .adduser-container .adduser-form {
-        padding: 20px;
+        padding: 22px 18px;
     }
 
     .adduser-container .adduser-form h2 {
@@ -314,11 +437,11 @@ SMALL MOBILE
     }
 
     .adduser-container .adduser-image img {
-        height: 180px;
+        height: 170px;
     }
 
     .adduser-container .adduser-form input {
-        padding: 12px;
+        padding: 11px 13px;
     }
 
     .adduser-container .adduser-form button {
