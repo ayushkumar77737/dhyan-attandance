@@ -1,97 +1,272 @@
-.admin-container {
-  padding: 30px;
-  font-family: "Poppins", Arial, Helvetica, sans-serif;
-  min-height: 100vh;
+/* ===============================
+FONTS
+================================ */
 
-  background: linear-gradient(135deg, #eef2f7, #dfe9f3);
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap');
+
+/* ===============================
+CSS VARIABLES
+================================ */
+
+:root {
+  --ad-bg: #0b0e18;
+  --ad-bg-card: #111827;
+  --ad-bg-card-hover: #161f33;
+  --ad-bg-stat: #0f1623;
+
+  --ad-blue: #3b82f6;
+  --ad-blue-dark: #2563eb;
+  --ad-blue-glow: rgba(59, 130, 246, 0.22);
+  --ad-blue-subtle: rgba(59, 130, 246, 0.08);
+
+  --ad-cyan: #22d3ee;
+  --ad-cyan-glow: rgba(34, 211, 238, 0.18);
+
+  --ad-red: #ef4444;
+  --ad-red-dark: #dc2626;
+  --ad-red-glow: rgba(239, 68, 68, 0.2);
+
+  --ad-green: #2dce89;
+  --ad-green-glow: rgba(45, 206, 137, 0.2);
+
+  --ad-text-primary: #e8edf5;
+  --ad-text-secondary: #64748b;
+  --ad-text-muted: #2d3a50;
+
+  --ad-border: rgba(255, 255, 255, 0.06);
+  --ad-border-strong: rgba(255, 255, 255, 0.1);
+  --ad-border-blue: rgba(59, 130, 246, 0.3);
+
+  --ad-radius-sm: 10px;
+  --ad-radius-md: 16px;
+  --ad-radius-lg: 22px;
+
+  --ad-shadow-card: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--ad-border);
+  --ad-shadow-btn: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --ad-shadow-glow-blue: 0 0 28px var(--ad-blue-glow);
+  --ad-shadow-glow-red: 0 0 28px var(--ad-red-glow);
+
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Outfit', sans-serif;
 }
 
-/* Title */
+/* ===============================
+PAGE
+================================ */
+
+.admin-container {
+  padding: 36px 40px;
+  font-family: var(--font-body);
+  min-height: 100vh;
+  background: var(--ad-bg);
+  color: var(--ad-text-primary);
+
+  background-image:
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.06) 0%, transparent 60%),
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 100% 100%, 44px 44px, 44px 44px;
+
+  animation: fadeIn 0.7s ease;
+}
+
+/* ===============================
+HEADER
+================================ */
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 36px;
+}
+
+/* ===============================
+TITLE
+================================ */
 
 .dashboard-title {
-  text-align: center;
-  margin-bottom: 35px;
-  font-size: 32px;
-  font-weight: 600;
-  color: #2c3e50;
-  letter-spacing: 1px;
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin: 0;
+
+  background: linear-gradient(135deg, #e8edf5 30%, var(--ad-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Stats */
+/* ===============================
+LOGOUT BUTTON
+================================ */
+
+.logout-btn {
+  padding: 9px 22px;
+  border: 1px solid var(--ad-border-strong);
+  border-radius: var(--ad-radius-sm);
+  background: transparent;
+  color: var(--ad-red);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+}
+
+.logout-btn:hover {
+  background: var(--ad-red);
+  color: #fff;
+  border-color: var(--ad-red);
+  box-shadow: var(--ad-shadow-glow-red);
+  transform: translateY(-2px);
+}
+
+.logout-btn:active {
+  transform: scale(0.97);
+}
+
+/* ===============================
+STATS SECTION
+================================ */
 
 .stats-container {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 40px;
+  margin-bottom: 44px;
   flex-wrap: wrap;
+  gap: 16px;
 }
 
 .stat-card {
   flex: 1;
-  background: white;
-  padding: 25px;
-  margin: 10px;
-  border-radius: 12px;
+  background: var(--ad-bg-stat);
+  padding: 28px 24px;
+  border-radius: var(--ad-radius-md);
   text-align: center;
+  border: 1px solid var(--ad-border);
+  box-shadow: var(--ad-shadow-card);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  animation: fadeIn 0.8s ease;
+  position: relative;
+  overflow: hidden;
+}
 
-  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Top accent line on stat cards */
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--ad-blue), transparent);
+  opacity: 0.6;
 }
 
 .stat-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  border-color: var(--ad-border-blue);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.5), var(--ad-shadow-glow-blue);
 }
 
 .stat-card h3 {
   margin-bottom: 10px;
-  color: #6c757d;
+  color: var(--ad-text-secondary);
   font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
 }
 
 .stat-card p {
-  font-size: 28px;
-  font-weight: bold;
-  color: #2c7be5;
+  font-size: 40px;
+  font-weight: 800;
+  font-family: var(--font-display);
+  color: var(--ad-blue);
+  line-height: 1;
 }
 
-/* Dashboard Cards Layout */
+/* ===============================
+DASHBOARD CARDS LAYOUT
+================================ */
 
 .dashboard-body {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 20px;
   flex-wrap: wrap;
 }
 
-/* Card */
+/* ===============================
+CARD
+================================ */
 
 .dashboard-card {
-  width: 260px;
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-
-  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.08);
+  width: 220px;
+  background: var(--ad-bg-card);
+  padding: 28px 20px 22px;
+  border-radius: var(--ad-radius-lg);
+  border: 1px solid var(--ad-border);
   text-align: center;
+  box-shadow: var(--ad-shadow-card);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  animation: fadeIn 0.8s ease;
+  position: relative;
+  overflow: hidden;
+}
 
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Subtle bottom glow accent */
+.dashboard-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ad-blue), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .dashboard-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-7px);
+  background: var(--ad-bg-card-hover);
+  border-color: var(--ad-border-blue);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.55), var(--ad-shadow-glow-blue);
 }
 
-/* Profile Image */
+.dashboard-card:hover::after {
+  opacity: 1;
+}
+
+/* ===============================
+PROFILE IMAGE
+================================ */
 
 .admin-profile img {
-  width: 85px;
-  margin-bottom: 12px;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 14px;
   border-radius: 50%;
-  border: 3px solid #2c7be5;
 
-  animation: float 3s ease-in-out infinite;
+  /* Tint the white icon to match theme */
+  filter: invert(1) brightness(0.85) sepia(0.3) hue-rotate(190deg) saturate(1.5);
+
+  border: 2px solid var(--ad-border-blue);
+  padding: 6px;
+  background: var(--ad-blue-subtle);
+
+  animation: float 3.5s ease-in-out infinite;
+  transition: filter 0.3s ease;
+}
+
+.dashboard-card:hover .admin-profile img {
+  filter: invert(1) brightness(1) sepia(0.5) hue-rotate(190deg) saturate(2);
 }
 
 @keyframes float {
@@ -108,42 +283,57 @@
   }
 }
 
-/* Buttons */
+.admin-profile h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ad-text-primary);
+  letter-spacing: 0.3px;
+  margin: 0;
+}
+
+/* ===============================
+DASHBOARD BUTTON
+================================ */
 
 .dashboard-btn {
   width: 100%;
-  padding: 12px;
-  margin-top: 15px;
+  padding: 11px;
+  margin-top: 18px;
 
-  border: none;
-  border-radius: 8px;
+  border: 1px solid var(--ad-blue);
+  border-radius: var(--ad-radius-sm);
 
-  background: linear-gradient(135deg, #2c7be5, #1a5fd0);
-  color: white;
-  font-size: 15px;
-  font-weight: 500;
+  background: transparent;
+  color: var(--ad-blue);
+
+  font-size: 13px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.4px;
 
   cursor: pointer;
-
-  transition: all 0.3s ease;
+  transition: background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
 }
 
 .dashboard-btn:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0px 6px 15px rgba(44, 123, 229, 0.4);
+  background: var(--ad-blue);
+  color: #fff;
+  box-shadow: var(--ad-shadow-glow-blue);
+  transform: translateY(-2px);
 }
 
-/* fade animation */
-
-.dashboard-card,
-.stat-card {
-  animation: fadeIn 0.8s ease;
+.dashboard-btn:active {
+  transform: scale(0.97);
 }
+
+/* ===============================
+ANIMATIONS
+================================ */
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(12px);
   }
 
   to {
@@ -152,36 +342,9 @@
   }
 }
 
-/* header layout */
-
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* logout button */
-
-.logout-btn {
-  padding: 10px 18px;
-  border: none;
-  border-radius: 8px;
-
-  background: #ff4d4f;
-  color: white;
-  font-weight: 500;
-
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.logout-btn:hover {
-  background: #e03131;
-}
-
-/* ============================= */
-/* Tablet Screens (768px - 1024px) */
-/* ============================= */
+/* ===============================
+TABLET (768px - 1024px)
+================================ */
 
 @media (max-width: 1024px) {
 
@@ -195,44 +358,45 @@
   }
 
   .dashboard-body {
-    gap: 25px;
+    gap: 16px;
   }
 
   .dashboard-card {
-    width: 220px;
+    width: 200px;
   }
 
 }
 
-
-/* ============================= */
-/* Mobile Screens (Below 768px) */
-/* ============================= */
+/* ===============================
+MOBILE (Below 768px)
+================================ */
 
 @media (max-width: 768px) {
 
   .admin-container {
-    padding: 20px;
+    padding: 22px 16px;
   }
 
   .dashboard-title {
-    font-size: 26px;
+    font-size: 22px;
   }
 
   .stats-container {
     flex-direction: column;
     align-items: center;
+    gap: 12px;
   }
 
   .stat-card {
     width: 90%;
-    max-width: 350px;
+    max-width: 360px;
+    flex: none;
   }
 
   .dashboard-body {
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
   }
 
   .dashboard-card {
@@ -242,33 +406,33 @@
 
 }
 
-
-/* ============================= */
-/* Small Mobile Screens */
-/* ============================= */
+/* ===============================
+SMALL MOBILE
+================================ */
 
 @media (max-width: 480px) {
 
   .dashboard-title {
-    font-size: 22px;
+    font-size: 18px;
   }
 
   .stat-card p {
-    font-size: 22px;
+    font-size: 32px;
   }
 
   .admin-profile img {
-    width: 70px;
+    width: 60px;
+    height: 60px;
   }
 
   .dashboard-btn {
     padding: 10px;
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .logout-btn {
     padding: 8px 14px;
-    font-size: 14px;
+    font-size: 12px;
   }
 
 }
