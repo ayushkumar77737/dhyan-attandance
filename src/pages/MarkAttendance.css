@@ -1,173 +1,337 @@
-/* MAIN CONTAINER */
+/* ===============================
+FONTS
+================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Clash+Display:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap');
+
+/* ===============================
+CSS VARIABLES
+================================ */
+
+:root {
+  --ma-bg: #0f1014;
+  --ma-bg-surface: #16181f;
+  --ma-bg-card: #1a1d27;
+  --ma-bg-card-hover: #1f2235;
+  --ma-bg-input: #13151c;
+
+  --ma-gold: #f5a623;
+  --ma-gold-light: #ffc44d;
+  --ma-gold-dark: #d4880a;
+  --ma-gold-glow: rgba(245, 166, 35, 0.2);
+  --ma-gold-subtle: rgba(245, 166, 35, 0.08);
+
+  --ma-green: #2dce89;
+  --ma-green-dark: #22b573;
+  --ma-green-glow: rgba(45, 206, 137, 0.2);
+
+  --ma-red: #f5365c;
+  --ma-blue: #4f8cff;
+
+  --ma-text-primary: #f0f2f8;
+  --ma-text-secondary: #8b8fa8;
+  --ma-text-muted: #3d4060;
+
+  --ma-border: rgba(255, 255, 255, 0.06);
+  --ma-border-gold: rgba(245, 166, 35, 0.25);
+
+  --ma-radius-sm: 10px;
+  --ma-radius-md: 14px;
+  --ma-radius-lg: 20px;
+
+  --ma-shadow-card: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--ma-border);
+  --ma-shadow-gold: 0 0 28px var(--ma-gold-glow);
+  --ma-shadow-green: 0 0 28px var(--ma-green-glow);
+  --ma-shadow-btn: 0 4px 16px rgba(0, 0, 0, 0.35);
+
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+}
+
+/* ===============================
+MAIN CONTAINER
+================================ */
 
 .markattendance-container {
-  padding: 40px;
-  font-family: "Poppins", sans-serif;
+  padding: 48px 40px;
+  font-family: var(--font-body);
   min-height: 100vh;
-  background: linear-gradient(135deg, #eef2f7, #dfe9f3);
+  background: var(--ma-bg);
+  color: var(--ma-text-primary);
+
+  /* Radial ambient glow top-left */
+  background-image:
+    radial-gradient(ellipse 60% 40% at 10% 0%, rgba(245, 166, 35, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 90% 100%, rgba(79, 140, 255, 0.04) 0%, transparent 60%),
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+
+  animation: markattendanceFadeIn 0.7s ease;
 }
 
-/* Header */
+/* ===============================
+HEADER
+================================ */
 
 .markattendance-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 36px;
+  width: 100%;
 }
 
-/* Back Button */
+/* ===============================
+BACK BUTTON
+================================ */
 
 .markattendance-back-btn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
-  background: #2d6cdf;
-  color: white;
+  grid-column: 1;
+  justify-self: start;
+  padding: 9px 20px;
+  border: 1px solid var(--ma-border);
+  border-radius: var(--ma-radius-sm);
+  background: transparent;
+  color: var(--ma-text-secondary);
   cursor: pointer;
-  font-size: 14px;
-  transition: 0.3s;
+  font-size: 13px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+  white-space: nowrap;
 }
 
 .markattendance-back-btn:hover {
-  background: #1e4fbf;
-  transform: translateY(-2px);
+  background: var(--ma-bg-card);
+  color: var(--ma-text-primary);
+  border-color: var(--ma-gold);
+  box-shadow: var(--ma-shadow-gold);
+  transform: translateX(-2px);
 }
 
-/* Title */
+/* ===============================
+TITLE
+================================ */
 
 .markattendance-title {
-  flex: 1;
+  grid-column: 2;
   text-align: center;
-  font-size: 34px;
-  font-weight: 600;
-  color: #2c3e50;
+  font-size: 32px;
+  font-weight: 800;
+  font-family: var(--font-display);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin: 0;
+  white-space: nowrap;
+
+  background: linear-gradient(135deg, #f0f2f8 20%, var(--ma-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
   animation: markattendanceFadeDown 0.6s ease;
 }
 
-/* Date Box */
+/* ===============================
+MESSAGE BOX
+================================ */
+
+.markattendance-message-box {
+  width: fit-content;
+  max-width: 500px;
+  margin: 0 auto 28px auto;
+  padding: 13px 28px;
+  border-radius: var(--ma-radius-md);
+  background: var(--ma-bg-card);
+  color: var(--ma-gold-light);
+  font-weight: 500;
+  font-size: 14px;
+  border: 1px solid var(--ma-border-gold);
+  text-align: center;
+  box-shadow: var(--ma-shadow-gold);
+  letter-spacing: 0.2px;
+  animation: markattendanceFadeIn 0.4s ease;
+}
+
+/* ===============================
+DATE BOX
+================================ */
 
 .markattendance-date-box {
   display: flex;
   justify-content: center;
-  gap: 15px;
-  margin-bottom: 35px;
-  animation: markattendanceFadeDown 0.6s ease;
+  gap: 12px;
+  margin-bottom: 40px;
+  animation: markattendanceFadeDown 0.65s ease;
 }
 
 .markattendance-date-box input {
-  padding: 10px 14px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  padding: 11px 16px;
+  font-size: 14px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  border-radius: var(--ma-radius-sm);
+  border: 1px solid var(--ma-border);
+  background: var(--ma-bg-input);
+  color: var(--ma-text-primary);
   outline: none;
-  transition: 0.3s;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+  letter-spacing: 0.3px;
 }
 
 .markattendance-date-box input:focus {
-  border-color: #2d6cdf;
-  box-shadow: 0 0 6px rgba(45, 108, 223, 0.3);
+  border-color: var(--ma-gold);
+  box-shadow: 0 0 0 3px var(--ma-gold-subtle);
+}
+
+/* Webkit date picker icon color fix */
+.markattendance-date-box input::-webkit-calendar-picker-indicator {
+  filter: invert(0.6) sepia(1) saturate(3) hue-rotate(5deg);
+  cursor: pointer;
+  opacity: 0.7;
 }
 
 .markattendance-date-box button {
-  padding: 10px 22px;
-  background: linear-gradient(135deg, #2d6cdf, #1e4fbf);
+  padding: 11px 26px;
+  background: linear-gradient(135deg, var(--ma-gold), var(--ma-gold-dark));
   border: none;
-  color: white;
-  border-radius: 6px;
+  color: #0f1014;
+  border-radius: var(--ma-radius-sm);
   cursor: pointer;
-  font-weight: 500;
-  transition: 0.3s;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  box-shadow: var(--ma-shadow-btn), var(--ma-shadow-gold);
 }
 
 .markattendance-date-box button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--ma-shadow-btn), 0 0 36px var(--ma-gold-glow);
 }
 
-/* User List */
+.markattendance-date-box button:active {
+  transform: scale(0.97);
+}
+
+/* ===============================
+USER LIST
+================================ */
 
 .markattendance-user-list {
   max-width: 620px;
   margin: auto;
 }
 
-/* User Row */
+/* ===============================
+USER ROW
+================================ */
 
 .markattendance-user-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 16px;
-  background: white;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  padding: 16px 20px;
+  background: var(--ma-bg-card);
+  margin-bottom: 10px;
+  border-radius: var(--ma-radius-md);
+  border: 1px solid var(--ma-border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background 0.22s ease;
   animation: markattendanceFadeUp 0.4s ease;
 }
 
 .markattendance-user-row:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+  background: var(--ma-bg-card-hover);
+  border-color: var(--ma-border-gold);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35), var(--ma-shadow-gold);
 }
+
+/* ===============================
+USER NAME
+================================ */
 
 .markattendance-user-name {
-  font-weight: 500;
-  color: #2c3e50;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ma-text-primary);
+  letter-spacing: 0.2px;
 }
 
-/* Select */
+/* ===============================
+SELECT DROPDOWN
+================================ */
 
 .markattendance-user-row select {
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  padding: 8px 14px;
+  border-radius: var(--ma-radius-sm);
+  border: 1px solid var(--ma-border);
+  background: var(--ma-bg-input);
+  color: var(--ma-text-secondary);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
-  transition: 0.3s;
+  outline: none;
+  transition: border-color 0.22s ease, color 0.22s ease, box-shadow 0.22s ease;
+  appearance: auto;
 }
 
 .markattendance-user-row select:focus {
-  border-color: #2d6cdf;
+  border-color: var(--ma-gold);
+  color: var(--ma-text-primary);
+  box-shadow: 0 0 0 3px var(--ma-gold-subtle);
 }
 
-/* Save Button */
+.markattendance-user-row select option {
+  background: var(--ma-bg-card);
+  color: var(--ma-text-primary);
+}
+
+/* ===============================
+SAVE BUTTON
+================================ */
 
 .markattendance-save-btn {
   display: block;
-  margin: 35px auto;
-  padding: 12px 32px;
-  background: linear-gradient(135deg, #28a745, #1c7c31);
-  color: white;
+  margin: 36px auto;
+  padding: 13px 40px;
+  background: linear-gradient(135deg, var(--ma-green), var(--ma-green-dark));
+  color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--ma-radius-sm);
   cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
-  transition: 0.3s;
+  font-size: 14px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  box-shadow: var(--ma-shadow-btn), var(--ma-shadow-green);
 }
 
 .markattendance-save-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--ma-shadow-btn), 0 0 36px var(--ma-green-glow);
 }
 
-/* Message Box */
-
-.markattendance-message-box {
-  width: fit-content;
-  margin: 18px auto;
-  padding: 12px 26px;
-  border-radius: 8px;
-  background: #e6f7ff;
-  color: #096dd9;
-  font-weight: 500;
-  border: 1px solid #91d5ff;
-  text-align: center;
-  animation: markattendanceFadeIn 0.5s ease;
+.markattendance-save-btn:active {
+  transform: scale(0.97);
 }
 
-/* Animations */
+.markattendance-save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===============================
+ANIMATIONS
+================================ */
 
 @keyframes markattendanceFadeDown {
   from {
@@ -203,24 +367,28 @@
   }
 }
 
-/* ================= MOBILE ================= */
+/* ===============================
+MOBILE
+================================ */
 
-@media (max-width:600px) {
+@media (max-width: 600px) {
 
   .markattendance-container {
-    padding: 20px;
+    padding: 24px 16px;
   }
 
   .markattendance-header {
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 12px;
   }
 
   .markattendance-title {
     width: 100%;
     text-align: center;
-    font-size: 26px;
+    font-size: 24px;
+    white-space: normal;
   }
 
   .markattendance-date-box {
@@ -232,7 +400,7 @@
   .markattendance-date-box input,
   .markattendance-date-box button {
     width: 100%;
-    max-width: 260px;
+    max-width: 280px;
   }
 
   .markattendance-user-row {
@@ -247,17 +415,19 @@
 
   .markattendance-save-btn {
     width: 100%;
-    max-width: 260px;
+    max-width: 280px;
   }
 
 }
 
-/* ================= TABLET ================= */
+/* ===============================
+TABLET
+================================ */
 
-@media (min-width:601px) and (max-width:1024px) {
+@media (min-width: 601px) and (max-width: 1024px) {
 
   .markattendance-title {
-    font-size: 30px;
+    font-size: 28px;
   }
 
   .markattendance-user-list {
@@ -270,9 +440,11 @@
 
 }
 
-/* ================= LARGE ================= */
+/* ===============================
+LARGE
+================================ */
 
-@media (min-width:1400px) {
+@media (min-width: 1400px) {
 
   .markattendance-user-list {
     max-width: 800px;
