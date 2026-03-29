@@ -1,74 +1,514 @@
-/* ============================================================ */
-/*  ABSENCE MANAGEMENT — PREMIUM REDESIGN (MOBILE FIXED)       */
-/* ============================================================ */
+/* =========================
+IMPORTS
+========================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
 
-/* ─── Page ──────────────────────────────────────────────────── */
+/* =========================
+PAGE
+========================= */
+
 .absence-management-page {
   min-height: 100vh;
-  background: #0f1117;
-  background-image:
-    radial-gradient(ellipse 80% 60% at 20% -10%, rgba(59, 130, 246, 0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 110%, rgba(124, 109, 243, 0.10) 0%, transparent 60%);
-  padding: 28px 20px 40px;
+  background: #0b0f1a;
+  padding: 40px 20px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  font-family: "DM Sans", sans-serif;
+
   position: relative;
-  overflow-x: hidden;
-  font-family: 'Sora', sans-serif;
-  animation: am-fadeIn 0.5s ease-in-out;
-  box-sizing: border-box;
+  overflow: hidden;
+
+  animation: am-fadeIn 0.6s ease-in-out;
 }
 
-/* Decorative orbs */
+/* =========================
+DECORATIVE ORBS
+========================= */
+
 .am-orb {
   position: fixed;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(90px);
   pointer-events: none;
   z-index: 0;
-  opacity: 0.35;
 }
 
 .am-orb-1 {
-  width: 380px;
-  height: 380px;
-  top: -100px;
+  width: 500px;
+  height: 500px;
+  top: -140px;
   left: -120px;
-  background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
-  animation: am-orb-float 10s ease-in-out infinite alternate;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.2), transparent 70%);
 }
 
 .am-orb-2 {
-  width: 300px;
-  height: 300px;
-  bottom: -80px;
-  right: -80px;
-  background: radial-gradient(circle, #7c6df3 0%, transparent 70%);
-  animation: am-orb-float 13s ease-in-out infinite alternate-reverse;
+  width: 400px;
+  height: 400px;
+  bottom: -100px;
+  right: -100px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.15), transparent 70%);
 }
 
 .am-orb-3 {
-  width: 200px;
-  height: 200px;
-  top: 50%;
-  left: 50%;
-  background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
-  animation: am-orb-float 8s ease-in-out infinite alternate;
-  opacity: 0.15;
+  width: 280px;
+  height: 280px;
+  top: 45%;
+  left: 52%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.1), transparent 70%);
 }
 
-@keyframes am-orb-float {
-  from {
-    transform: translateY(0px) scale(1);
-  }
-
-  to {
-    transform: translateY(30px) scale(1.08);
-  }
+/* All content above orbs */
+.absence-management-back-btn,
+.am-title-block,
+.am-stats-strip,
+.absence-management-card {
+  position: relative;
+  z-index: 1;
 }
+
+/* =========================
+BACK BUTTON
+========================= */
+
+.absence-management-back-btn {
+  align-self: flex-start;
+  margin-bottom: 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 9px 20px;
+
+  background: rgba(255, 255, 255, 0.05);
+  color: #a5b4fc;
+
+  border: 1px solid rgba(165, 180, 252, 0.2);
+  border-radius: 50px;
+
+  cursor: pointer;
+
+  font-size: 13px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 500;
+
+  transition: all 0.25s ease;
+  backdrop-filter: blur(10px);
+}
+
+.absence-management-back-btn:hover {
+  background: rgba(165, 180, 252, 0.12);
+  border-color: rgba(165, 180, 252, 0.5);
+  color: #c7d2fe;
+  transform: translateX(-2px);
+}
+
+/* =========================
+TITLE BLOCK
+========================= */
+
+.am-title-block {
+  text-align: center;
+  margin-bottom: 28px;
+  animation: am-slideDown 0.6s ease;
+}
+
+.am-eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #6366f1;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  padding: 4px 14px;
+  border-radius: 50px;
+  margin-bottom: 14px;
+}
+
+.absence-management-title {
+  font-family: "Syne", sans-serif;
+  font-size: 42px;
+  font-weight: 800;
+  color: #f1f5f9;
+  letter-spacing: -1px;
+  margin: 0 0 10px 0;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.am-accent {
+  background: linear-gradient(135deg, #818cf8, #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.am-subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* =========================
+STATS STRIP
+========================= */
+
+.am-stats-strip {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.am-stat-pill {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  backdrop-filter: blur(12px);
+  transition: all 0.25s ease;
+  min-width: 130px;
+}
+
+.am-stat-pill:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(99, 102, 241, 0.3);
+  transform: translateY(-2px);
+}
+
+.am-stat-icon {
+  font-size: 18px;
+}
+
+.am-stat-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.am-stat-value {
+  font-family: "Syne", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-left: auto;
+}
+
+.am-pending-val {
+  color: #fbbf24;
+}
+
+.am-approved-val {
+  color: #4ade80;
+}
+
+.am-rejected-val {
+  color: #f87171;
+}
+
+/* =========================
+CARD
+========================= */
+
+.absence-management-card {
+  width: 100%;
+  max-width: 1000px;
+
+  background: rgba(255, 255, 255, 0.03);
+  padding: 24px;
+
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+
+  animation: am-slideUp 0.5s ease;
+
+  /* ✅ FIX: allow horizontal scroll inside card */
+  overflow-x: auto;
+}
+
+/* =========================
+CARD TOOLBAR
+========================= */
+
+.am-card-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  /* ✅ FIX: prevent toolbar from shrinking */
+  min-width: fit-content;
+}
+
+.am-record-count {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* =========================
+EXPORT BUTTON
+========================= */
+
+.absence-management-export-btn {
+  padding: 10px 20px;
+  margin-bottom: 0;
+
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "DM Sans", sans-serif;
+  letter-spacing: 0.3px;
+
+  border: none;
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.25);
+
+  white-space: nowrap;
+}
+
+.absence-management-export-btn:hover {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(34, 197, 94, 0.35);
+}
+
+.absence-management-export-btn:active {
+  transform: scale(0.97);
+}
+
+/* =========================
+TABLE WRAPPER — ✅ KEY FIX
+========================= */
+
+.am-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 14px;
+}
+
+/* =========================
+TABLE
+========================= */
+
+.absence-management-table {
+  width: 100%;
+  min-width: 620px;
+  /* ✅ FIX: forces all columns to stay visible */
+  border-collapse: collapse;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* Header */
+.absence-management-table th {
+  background: rgba(99, 102, 241, 0.12);
+  color: #a5b4fc;
+
+  padding: 14px 16px;
+  text-align: left;
+
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+
+  border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+
+  white-space: nowrap;
+  /* ✅ FIX: header text never wraps */
+}
+
+/* Data */
+.absence-management-table td {
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+
+  color: #cbd5e1;
+  font-size: 14px;
+
+  vertical-align: middle;
+  transition: background 0.2s ease;
+
+  white-space: nowrap;
+  /* ✅ FIX: prevents cell squishing */
+}
+
+/* Row */
+.absence-management-table tbody tr {
+  transition: all 0.2s ease;
+  animation: am-rowFadeIn 0.4s ease both;
+}
+
+.absence-management-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.absence-management-table tr:hover td {
+  background: rgba(99, 102, 241, 0.07);
+}
+
+/* =========================
+CUSTOM CELLS
+========================= */
+
+/* ID chip */
+.am-id-chip {
+  display: inline-block;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  font-weight: 500;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  color: #a5b4fc;
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* Name cell */
+.am-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.am-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: "Syne", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Date chip */
+.am-date-chip {
+  display: inline-block;
+  font-size: 12px;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-family: "Courier New", monospace;
+  white-space: nowrap;
+}
+
+/* Reason cell */
+.am-reason-cell {
+  color: #94a3b8;
+  font-size: 13px;
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* ✅ long reasons get "..." instead of wrapping */
+}
+
+/* =========================
+STATUS BADGE
+========================= */
+
+.absence-management-status {
+  padding: 5px 12px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 12px;
+  font-family: "DM Sans", sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  letter-spacing: 0.3px;
+  transition: transform 0.2s ease;
+  white-space: nowrap;
+  /* ✅ FIX: status badge never breaks */
+}
+
+.absence-management-status:hover {
+  transform: scale(1.05);
+}
+
+.absence-management-status.pending {
+  background: rgba(234, 179, 8, 0.1);
+  color: #fbbf24;
+  border: 1px solid rgba(234, 179, 8, 0.25);
+}
+
+.absence-management-status.approved {
+  background: rgba(34, 197, 94, 0.1);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.absence-management-status.rejected {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* =========================
+NO DATA
+========================= */
+
+.absence-management-no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.am-no-data-icon {
+  font-size: 36px;
+}
+
+.absence-management-no-data p {
+  color: #475569;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* =========================
+ANIMATIONS
+========================= */
 
 @keyframes am-fadeIn {
   from {
@@ -78,75 +518,6 @@
   to {
     opacity: 1;
   }
-}
-
-/* ─── Back Button ───────────────────────────────────────────── */
-.absence-management-back-btn {
-  align-self: flex-start;
-  margin-bottom: 18px;
-  padding: 9px 18px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.06);
-  color: #a1b4cc;
-  cursor: pointer;
-  font-family: 'Sora', sans-serif;
-  font-size: 13.5px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  backdrop-filter: blur(10px);
-  transition: all 0.25s ease;
-  position: relative;
-  z-index: 1;
-}
-
-.absence-management-back-btn:hover {
-  background: rgba(59, 130, 246, 0.15);
-  border-color: rgba(59, 130, 246, 0.4);
-  color: #60a5fa;
-  transform: translateX(-3px);
-}
-
-.am-back-arrow {
-  font-size: 15px;
-  transition: transform 0.25s ease;
-}
-
-.absence-management-back-btn:hover .am-back-arrow {
-  transform: translateX(-3px);
-}
-
-/* ─── Card ──────────────────────────────────────────────────── */
-.absence-management-card {
-  width: 100%;
-  max-width: 940px;
-  background: rgba(20, 24, 36, 0.85);
-  padding: 28px 30px 30px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow:
-    0 0 0 1px rgba(59, 130, 246, 0.06),
-    0 20px 60px rgba(0, 0, 0, 0.5),
-    0 4px 20px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(20px);
-  position: relative;
-  z-index: 1;
-  box-sizing: border-box;
-  animation: am-slideUp 0.5s ease;
-}
-
-/* subtle top glow line */
-.absence-management-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 10%;
-  right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), rgba(124, 109, 243, 0.5), transparent);
-  border-radius: 100%;
 }
 
 @keyframes am-slideUp {
@@ -161,144 +532,22 @@
   }
 }
 
-/* ─── Header ────────────────────────────────────────────────── */
-.am-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 22px;
-}
-
-.am-header-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 13px;
-  background: linear-gradient(135deg, #3b82f6, #6366f1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
-  flex-shrink: 0;
-}
-
-.absence-management-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #f0f4ff;
-  margin: 0 0 2px;
-  letter-spacing: -0.3px;
-}
-
-.am-subtitle {
-  font-size: 12.5px;
-  color: #5a6a82;
-  margin: 0;
-  font-weight: 400;
-}
-
-/* ─── Export Button ─────────────────────────────────────────── */
-.absence-management-export-btn {
-  padding: 11px 20px;
-  margin-bottom: 22px;
-  background: linear-gradient(135deg, #7c6df3, #5b4de3);
-  color: white;
-  font-family: 'Sora', sans-serif;
-  font-size: 13.5px;
-  font-weight: 600;
-  border: none;
-  border-radius: 11px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  box-shadow: 0 4px 18px rgba(92, 77, 227, 0.3);
-  letter-spacing: 0.1px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.absence-management-export-btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.absence-management-export-btn:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 12px 30px rgba(92, 77, 227, 0.45);
-}
-
-.absence-management-export-btn:hover::after {
-  opacity: 1;
-}
-
-.absence-management-export-btn:active {
-  transform: scale(0.97);
-}
-
-/* ─── Table Wrapper ─────────────────────────────────────────── */
-/* KEY FIX: allow horizontal scroll inside the wrapper only */
-.am-table-wrapper {
-  border-radius: 14px;
-  overflow-x: auto;
-  /* ← was just overflow:hidden */
-  overflow-y: visible;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  -webkit-overflow-scrolling: touch;
-  /* smooth scroll on iOS */
-  width: 100%;
-}
-
-/* ─── Table ─────────────────────────────────────────────────── */
-.absence-management-table {
-  width: 100%;
-  min-width: 520px;
-  /* ← prevents columns from squishing below this */
-  border-collapse: collapse;
-  table-layout: auto;
-  /* ← let columns size to content */
-}
-
-/* Header */
-.absence-management-table thead tr {
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.absence-management-table th {
-  padding: 13px 16px;
-  text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  white-space: nowrap;
-  /* ← keep header labels on one line */
-}
-
-.th-inner {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'Sora', sans-serif;
-  font-size: 11.5px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: #4d7ab5;
-}
-
-/* Data rows */
-.absence-management-table tbody tr {
-  animation: am-rowIn 0.4s ease both;
-  transition: background 0.2s ease;
-}
-
-@keyframes am-rowIn {
+@keyframes am-slideDown {
   from {
     opacity: 0;
-    transform: translateX(-10px);
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes am-rowFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
   }
 
   to {
@@ -307,290 +556,84 @@
   }
 }
 
-.absence-management-table td {
-  padding: 13px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.045);
-  color: #c8d6e8;
-  font-size: 13.5px;
-  font-weight: 400;
-  white-space: nowrap;
-  /* ← prevent cell content wrapping & clipping */
-}
+/* =========================
+MOBILE (<=480px)
+========================= */
 
-.absence-management-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-/* Row Hover */
-.absence-management-table tbody tr:hover td {
-  background: rgba(59, 130, 246, 0.055);
-}
-
-/* ─── ID Badge ──────────────────────────────────────────────── */
-.am-id-badge {
-  font-family: 'DM Mono', monospace;
-  font-size: 12px;
-  font-weight: 500;
-  color: #60a5fa;
-  background: rgba(59, 130, 246, 0.1);
-  border: 1px solid rgba(59, 130, 246, 0.2);
-  padding: 3px 9px;
-  border-radius: 6px;
-  letter-spacing: 0.3px;
-}
-
-/* ─── Name Cell ─────────────────────────────────────────────── */
-.am-name-cell {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.am-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 9px;
-  background: linear-gradient(135deg, #3b82f6, #6366f1);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 3px 10px rgba(59, 130, 246, 0.25);
-}
-
-/* ─── Date ──────────────────────────────────────────────────── */
-.am-date {
-  font-family: 'DM Mono', monospace;
-  font-size: 12.5px;
-  color: #8ea6c4;
-}
-
-/* ─── Reason ────────────────────────────────────────────────── */
-.am-reason {
-  color: #9eb3ca;
-  font-size: 13px;
-}
-
-/* ─── Status Badge ──────────────────────────────────────────── */
-.absence-management-status {
-  padding: 5px 12px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  letter-spacing: 0.2px;
-  transition: transform 0.2s ease;
-  white-space: nowrap;
-  /* ← status label never wraps or clips */
-}
-
-.am-status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.absence-management-status:hover {
-  transform: scale(1.05);
-}
-
-/* Status Colors */
-.absence-management-status.pending {
-  background: rgba(251, 191, 36, 0.12);
-  color: #fbbf24;
-  border: 1px solid rgba(251, 191, 36, 0.2);
-}
-
-.absence-management-status.pending .am-status-dot {
-  background: #fbbf24;
-  box-shadow: 0 0 5px #fbbf24;
-  animation: am-pulse 1.5s ease-in-out infinite;
-}
-
-.absence-management-status.approved {
-  background: rgba(52, 211, 153, 0.1);
-  color: #34d399;
-  border: 1px solid rgba(52, 211, 153, 0.2);
-}
-
-.absence-management-status.approved .am-status-dot {
-  background: #34d399;
-  box-shadow: 0 0 5px #34d399;
-}
-
-.absence-management-status.rejected {
-  background: rgba(248, 113, 113, 0.1);
-  color: #f87171;
-  border: 1px solid rgba(248, 113, 113, 0.2);
-}
-
-.absence-management-status.rejected .am-status-dot {
-  background: #f87171;
-  box-shadow: 0 0 5px #f87171;
-}
-
-.absence-management-status.active {
-  background: rgba(52, 211, 153, 0.12);
-  color: #34d399;
-  border: 1px solid rgba(52, 211, 153, 0.25);
-}
-
-.absence-management-status.active .am-status-dot {
-  background: #34d399;
-  box-shadow: 0 0 5px #34d399;
-  animation: am-pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes am-pulse {
-
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.5;
-    transform: scale(0.8);
-  }
-}
-
-/* ─── Empty State ───────────────────────────────────────────── */
-.am-empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 50px 20px;
-  gap: 12px;
-}
-
-.am-empty-icon {
-  width: 72px;
-  height: 72px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #3a4d62;
-}
-
-.absence-management-no-data {
-  color: #3a4d62;
-  font-size: 14px;
-  margin: 0;
-  font-weight: 500;
-}
-
-/* ============================================================ */
-/*  RESPONSIVE                                                  */
-/* ============================================================ */
-
-/* 📱 MOBILE (<=480px) */
 @media (max-width: 480px) {
 
   .absence-management-page {
-    padding: 12px 10px 30px;
-    /* tighter side padding */
-  }
-
-  .absence-management-card {
-    padding: 16px 12px;
-    border-radius: 14px;
-    width: 100%;
+    padding: 15px;
   }
 
   .absence-management-title {
-    font-size: 16px;
+    font-size: 28px;
   }
 
-  .am-subtitle {
-    font-size: 11.5px;
-  }
-
-  .am-header-icon {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-  }
-
-  /* Export button full-width on mobile */
-  .absence-management-export-btn {
-    width: 100%;
-    justify-content: center;
-    font-size: 13px;
-    padding: 11px 16px;
-  }
-
-  /* Table: scroll horizontally inside the card */
-  .am-table-wrapper {
-    border-radius: 10px;
-    /* Show a subtle scroll hint shadow on the right */
-    box-shadow: inset -8px 0 12px -8px rgba(0, 0, 0, 0.4);
-  }
-
-  .absence-management-table {
-    min-width: 460px;
-    /* force full layout, wrapper scrolls */
+  .absence-management-card {
+    padding: 16px;
+    border-radius: 14px;
   }
 
   .absence-management-table th,
   .absence-management-table td {
     font-size: 12px;
-    padding: 10px 12px;
+    padding: 10px 10px;
   }
 
-  /* Keep avatar on mobile — hide only if truly too tight */
-  .am-avatar {
-    width: 28px;
-    height: 28px;
-    font-size: 11px;
-    border-radius: 7px;
+  .am-stats-strip {
+    gap: 8px;
   }
 
-  .th-inner svg {
-    display: none;
+  .am-stat-pill {
+    min-width: unset;
+    padding: 10px 14px;
   }
 
-  .am-id-badge {
-    font-size: 11px;
-    padding: 2px 7px;
+  .am-card-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
   }
+
 }
 
-/* 📲 TABLET (481px–768px) */
+/* =========================
+TABLET (481px–768px)
+========================= */
+
 @media (min-width: 481px) and (max-width: 768px) {
 
   .absence-management-card {
-    max-width: 98%;
-    padding: 22px 18px;
+    max-width: 95%;
+    padding: 20px;
   }
 
-  .absence-management-table {
-    min-width: 480px;
+  .absence-management-title {
+    font-size: 34px;
   }
+
 }
 
-/* 💻 LAPTOP (769px–1200px) */
+/* =========================
+LAPTOP (769px–1200px)
+========================= */
+
 @media (min-width: 769px) and (max-width: 1200px) {
 
   .absence-management-card {
-    max-width: 860px;
+    max-width: 900px;
   }
+
 }
 
-/* 🖥 LARGE SCREENS (>1200px) */
+/* =========================
+LARGE SCREENS (>1200px)
+========================= */
+
 @media (min-width: 1201px) {
 
   .absence-management-card {
-    max-width: 1020px;
+    max-width: 1050px;
   }
+
 }

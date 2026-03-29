@@ -1,4 +1,10 @@
 /* =========================
+IMPORTS
+========================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* =========================
 MAIN CONTAINER
 ========================= */
 
@@ -7,35 +13,161 @@ MAIN CONTAINER
     padding: 40px;
     min-height: 100vh;
 
-    background: linear-gradient(135deg, #eef2f7, #dfe9f3);
+    background: #0b0f1a;
 
-    font-family: "Poppins", sans-serif;
+    font-family: "DM Sans", sans-serif;
 
     animation: fadePage 0.8s ease;
 
     position: relative;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
 }
 
+/* =========================
+DECORATIVE ORBS
+========================= */
+
+.ar-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.ar-orb-1 {
+    width: 500px;
+    height: 500px;
+    top: -140px;
+    left: -120px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.2), transparent 70%);
+}
+
+.ar-orb-2 {
+    width: 400px;
+    height: 400px;
+    bottom: -100px;
+    right: -100px;
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.15), transparent 70%);
+}
+
+.ar-orb-3 {
+    width: 280px;
+    height: 280px;
+    top: 45%;
+    left: 52%;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.1), transparent 70%);
+}
+
+/* All content above orbs */
+.back-btn,
+.ar-title-block,
+.date-section,
+.no-attendance,
+.report-cards,
+.export-section,
+.report-table {
+    position: relative;
+    z-index: 1;
+}
 
 /* =========================
-TITLE
+BACK BUTTON
 ========================= */
+
+.report-container .back-btn {
+
+    align-self: flex-start;
+    margin-bottom: 20px;
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 9px 20px;
+
+    background: rgba(255, 255, 255, 0.05);
+    color: #a5b4fc;
+
+    border: 1px solid rgba(165, 180, 252, 0.2);
+    border-radius: 50px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+
+    transition: all 0.25s ease;
+    backdrop-filter: blur(10px);
+
+}
+
+.report-container .back-btn:hover {
+
+    background: rgba(165, 180, 252, 0.12);
+    border-color: rgba(165, 180, 252, 0.5);
+    color: #c7d2fe;
+    transform: translateX(-2px);
+
+}
+
+/* =========================
+TITLE BLOCK
+========================= */
+
+.ar-title-block {
+    text-align: center;
+    margin-bottom: 32px;
+    animation: slideDown 0.6s ease;
+}
+
+.ar-eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #6366f1;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.25);
+    padding: 4px 14px;
+    border-radius: 50px;
+    margin-bottom: 14px;
+}
 
 .report-container .report-title {
 
+    font-family: "Syne", sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    color: #f1f5f9;
+    letter-spacing: -1px;
+    margin: 0 0 10px 0;
+    line-height: 1.1;
     text-align: center;
-    margin-bottom: 35px;
-
-    font-size: 32px;
-    font-weight: 600;
-
-    color: #333;
-
-    animation: slideDown 0.6s ease;
 
 }
 
+.ar-accent {
+    background: linear-gradient(135deg, #818cf8, #22d3ee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.ar-subtitle {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0;
+    font-weight: 400;
+}
 
 /* =========================
 DATE SECTION
@@ -45,77 +177,112 @@ DATE SECTION
 
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 14px;
 
-    margin-bottom: 30px;
+    margin-bottom: 32px;
 
     animation: fadeUp 0.8s ease;
+
+    flex-wrap: wrap;
 
 }
 
 .report-container .date-section input {
 
-    padding: 10px 15px;
-    font-size: 16px;
+    padding: 11px 18px;
+    font-size: 14px;
+    font-family: "DM Sans", sans-serif;
 
-    border-radius: 8px;
-    border: 1px solid #ccc;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 
-    transition: 0.3s;
+    background: rgba(255, 255, 255, 0.05);
+    color: #e2e8f0;
+
+    backdrop-filter: blur(10px);
+
+    transition: all 0.25s ease;
+
+    color-scheme: dark;
 
 }
 
 .report-container .date-section input:focus {
 
     outline: none;
-    border-color: #2c6ed5;
-    box-shadow: 0 0 6px rgba(44, 110, 213, 0.4);
+    border-color: rgba(99, 102, 241, 0.5);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
 
 }
 
 .report-container .date-section button {
 
-    padding: 10px 20px;
+    padding: 11px 22px;
 
-    background: #2c6ed5;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
     color: white;
 
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
 
     cursor: pointer;
 
-    font-size: 15px;
+    font-size: 14px;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.3px;
 
-    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    transition: all 0.25s ease;
+
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
 
 }
 
 .report-container .date-section button:hover {
 
-    background: #1e55aa;
+    background: linear-gradient(135deg, #4f46e5, #4338ca);
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 28px rgba(99, 102, 241, 0.4);
 
 }
 
+.btn-icon {
+    font-size: 15px;
+}
 
 /* =========================
-MESSAGE
+NO ATTENDANCE MESSAGE
 ========================= */
 
 .report-container .no-attendance {
 
-    text-align: center;
-    font-size: 18px;
-    color: red;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
 
-    margin-top: 30px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #f87171;
+
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 12px;
+
+    padding: 14px 28px;
+    margin-top: 20px;
 
     animation: fadeIn 0.5s ease;
 
 }
 
+.no-att-icon {
+    font-size: 20px;
+}
 
 /* =========================
 CARDS
@@ -125,9 +292,9 @@ CARDS
 
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 20px;
 
-    margin-bottom: 40px;
+    margin-bottom: 32px;
 
     animation: fadeUp 0.7s ease;
 
@@ -137,57 +304,113 @@ CARDS
 
 .report-container .report-card {
 
-    background: white;
+    background: rgba(255, 255, 255, 0.04);
 
-    padding: 25px 40px;
+    padding: 28px 36px;
 
-    border-radius: 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
 
-    width: 220px;
+    width: 200px;
 
     text-align: center;
 
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
 
-    transition: 0.3s;
+    transition: all 0.25s ease;
 
 }
 
 .report-container .report-card:hover {
 
     transform: translateY(-6px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+    border-color: rgba(99, 102, 241, 0.25);
 
+}
+
+.card-icon {
+    font-size: 26px;
+    margin-bottom: 10px;
 }
 
 .report-container .report-card h3 {
 
     margin-bottom: 10px;
-    color: #555;
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 
 }
 
 .report-container .report-card p {
 
-    font-size: 28px;
-    font-weight: 600;
+    font-family: "Syne", sans-serif;
+    font-size: 36px;
+    font-weight: 800;
 
-    color: #2c6ed5;
+    color: #e2e8f0;
+
+    margin: 0;
 
 }
 
 .report-container .present p {
-
-    color: green;
-
+    color: #4ade80;
 }
 
 .report-container .absent p {
+    color: #f87171;
+}
 
-    color: red;
+/* =========================
+EXPORT BUTTON
+========================= */
+
+.report-container .export-section {
+
+    text-align: center;
+    margin-bottom: 24px;
 
 }
 
+.report-container .export-btn {
+
+    padding: 11px 26px;
+
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+
+    border: none;
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    transition: all 0.25s ease;
+
+    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.25);
+
+}
+
+.report-container .export-btn:hover {
+
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(34, 197, 94, 0.35);
+
+}
 
 /* =========================
 TABLE
@@ -200,13 +423,15 @@ TABLE
 
     border-collapse: collapse;
 
-    background: white;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
 
-    border-radius: 10px;
+    border-radius: 16px;
 
     overflow: hidden;
 
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(16px);
 
     animation: fadeUp 0.8s ease;
 
@@ -214,121 +439,108 @@ TABLE
 
 .report-container .report-table th {
 
-    background: #2c6ed5;
-    color: white;
+    background: rgba(99, 102, 241, 0.12);
+    color: #a5b4fc;
 
-    padding: 15px;
+    padding: 16px 20px;
+
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+
+    border-bottom: 1px solid rgba(99, 102, 241, 0.15);
 
 }
 
 .report-container .report-table td {
 
-    padding: 14px;
+    padding: 14px 20px;
 
     text-align: center;
 
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+
+    color: #cbd5e1;
+    font-size: 14px;
 
     transition: 0.2s;
 
+    vertical-align: middle;
+
+}
+
+.report-container .report-table tbody tr {
+    transition: all 0.2s ease;
+    animation: rowFadeIn 0.4s ease both;
+}
+
+.report-container .report-table tbody tr:last-child td {
+    border-bottom: none;
 }
 
 .report-container .report-table tr:hover {
-
-    background: #f5f7fb;
-
+    background: rgba(99, 102, 241, 0.07);
 }
 
+/* Name cell */
+.ar-name-cell {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #e2e8f0;
+    font-weight: 500;
+}
+
+.ar-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: "Syne", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* ID chip */
+.ar-id-chip {
+    display: inline-block;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    font-weight: 500;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    color: #a5b4fc;
+    padding: 4px 10px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+}
+
+/* Status */
 .report-container .present-text {
-
-    color: green;
+    color: #4ade80;
     font-weight: 600;
-
+    font-size: 13px;
+    letter-spacing: 0.3px;
 }
 
 .report-container .absent-text {
-
-    color: red;
+    color: #f87171;
     font-weight: 600;
-
+    font-size: 13px;
+    letter-spacing: 0.3px;
 }
-
-
-/* =========================
-BACK BUTTON
-========================= */
-
-.report-container .back-btn {
-
-    position: absolute;
-    top: 25px;
-    left: 40px;
-
-    padding: 8px 16px;
-
-    background: #2c6ed5;
-    color: white;
-
-    border: none;
-    border-radius: 6px;
-
-    cursor: pointer;
-
-    font-size: 14px;
-
-    transition: 0.3s;
-
-}
-
-.report-container .back-btn:hover {
-
-    background: #1e55aa;
-
-}
-
-
-/* =========================
-EXPORT BUTTON
-========================= */
-
-.report-container .export-section {
-
-    text-align: center;
-    margin-bottom: 20px;
-
-}
-
-.report-container .export-btn {
-
-    padding: 10px 20px;
-
-    background: green;
-    color: white;
-
-    border: none;
-    border-radius: 6px;
-
-    cursor: pointer;
-
-    font-size: 14px;
-
-    transition: 0.3s;
-
-}
-
-.report-container .export-btn:hover {
-
-    background: #0a8f0a;
-
-}
-
 
 /* =========================
 ANIMATIONS
 ========================= */
 
 @keyframes fadePage {
-
     from {
         opacity: 0;
     }
@@ -336,11 +548,9 @@ ANIMATIONS
     to {
         opacity: 1;
     }
-
 }
 
 @keyframes fadeUp {
-
     from {
         opacity: 0;
         transform: translateY(25px);
@@ -350,11 +560,9 @@ ANIMATIONS
         opacity: 1;
         transform: translateY(0);
     }
-
 }
 
 @keyframes slideDown {
-
     from {
         opacity: 0;
         transform: translateY(-20px);
@@ -364,11 +572,9 @@ ANIMATIONS
         opacity: 1;
         transform: translateY(0);
     }
-
 }
 
 @keyframes fadeIn {
-
     from {
         opacity: 0;
     }
@@ -376,9 +582,19 @@ ANIMATIONS
     to {
         opacity: 1;
     }
-
 }
 
+@keyframes rowFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
 
 /* =========================
 TABLET RESPONSIVE
@@ -387,19 +603,14 @@ TABLET RESPONSIVE
 @media (max-width: 1024px) {
 
     .report-container {
-
         padding: 30px;
-
     }
 
     .report-container .report-table {
-
         width: 95%;
-
     }
 
 }
-
 
 /* =========================
 MOBILE RESPONSIVE
@@ -408,62 +619,38 @@ MOBILE RESPONSIVE
 @media (max-width: 768px) {
 
     .report-container .report-title {
-
-        font-size: 26px;
-
+        font-size: 30px;
     }
 
     .report-container .date-section {
-
         flex-direction: column;
         align-items: center;
-
     }
 
     .report-container .date-section input {
-
         width: 220px;
-
     }
 
     .report-container .date-section button {
-
         width: 220px;
-
+        justify-content: center;
     }
 
     .report-container .report-cards {
-
         flex-direction: column;
         align-items: center;
-
     }
 
     .report-container .report-card {
-
         width: 80%;
-
     }
 
     .report-container .report-table {
-
         width: 100%;
         font-size: 14px;
-
-    }
-
-    .report-container .back-btn {
-
-        position: relative;
-        top: 0;
-        left: 0;
-
-        margin-bottom: 15px;
-
     }
 
 }
-
 
 /* =========================
 SMALL MOBILE
@@ -472,28 +659,21 @@ SMALL MOBILE
 @media (max-width: 480px) {
 
     .report-container {
-
         padding: 20px;
-
     }
 
     .report-container .report-title {
-
-        font-size: 22px;
-
+        font-size: 26px;
     }
 
     .report-container .report-card {
-
         width: 100%;
-
     }
 
     .report-container .report-table th,
     .report-container .report-table td {
-
-        padding: 10px;
-
+        padding: 10px 12px;
+        font-size: 12px;
     }
 
 }

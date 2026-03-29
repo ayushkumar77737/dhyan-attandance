@@ -43,7 +43,6 @@ function AttendanceReport() {
     const [reportGenerated, setReportGenerated] = useState(false);
     const [noAttendance, setNoAttendance] = useState(false);
 
-    // ✅ Auto set today's date (Fix for mobile blank date)
     useEffect(() => {
         const today = new Date().toISOString().split("T")[0];
         setSelectedDate(today);
@@ -116,7 +115,6 @@ function AttendanceReport() {
         let updated = users
             .filter(user => {
 
-                // ✅ Check if user has any attendance BEFORE or ON selected date
                 const hasJoined = attendanceSnap.docs.some(doc => {
                     const data = doc.data();
                     return data.userId === user.id && data.date <= selectedDate;
@@ -146,7 +144,6 @@ function AttendanceReport() {
     };
 
 
-    // Export Excel
     const exportToExcel = () => {
 
         const data = reportUsers.map(user => ({
@@ -169,12 +166,26 @@ function AttendanceReport() {
 
         <div className="report-container">
 
+            {/* Decorative orbs */}
+            <div className="ar-orb ar-orb-1" />
+            <div className="ar-orb ar-orb-2" />
+            <div className="ar-orb ar-orb-3" />
+
+            {/* Back Button */}
             <button className="back-btn" onClick={() => navigate("/admin-dashboard")}>
-                ← Back
+                <span>←</span> Back
             </button>
 
-            <h1 className="report-title">Attendance Report</h1>
+            {/* Title Block */}
+            <div className="ar-title-block">
+                <span className="ar-eyebrow">Admin Panel</span>
+                <h1 className="report-title">
+                    Attendance <span className="ar-accent">Report</span>
+                </h1>
+                <p className="ar-subtitle">Select a date to generate the daily attendance report</p>
+            </div>
 
+            {/* Date Section */}
             <div className="date-section">
 
                 <input
@@ -189,52 +200,55 @@ function AttendanceReport() {
                 />
 
                 <button onClick={fetchReport}>
-                    Generate Report
+                    <span className="btn-icon">⚡</span> Generate Report
                 </button>
 
             </div>
 
-
+            {/* No Attendance Message */}
             {reportGenerated && noAttendance && (
-                <p className="no-attendance">
+                <div className="no-attendance">
+                    <span className="no-att-icon">📭</span>
                     Attendance not marked on this day
-                </p>
+                </div>
             )}
 
-
+            {/* Report Content */}
             {reportGenerated && !noAttendance && reportUsers.length > 0 && (
 
                 <>
 
+                    {/* Summary Cards */}
                     <div className="report-cards">
 
                         <div className="report-card">
+                            <div className="card-icon">👥</div>
                             <h3>Total Users</h3>
                             <p>{reportUsers.length}</p>
                         </div>
 
                         <div className="report-card present">
+                            <div className="card-icon">✅</div>
                             <h3>Present</h3>
                             <p>{presentCount}</p>
                         </div>
 
                         <div className="report-card absent">
+                            <div className="card-icon">❌</div>
                             <h3>Absent</h3>
                             <p>{absentCount}</p>
                         </div>
 
                     </div>
 
-
+                    {/* Export */}
                     <div className="export-section">
-
                         <button className="export-btn" onClick={exportToExcel}>
-                            Export Excel
+                            <span>⬇</span> Export Excel
                         </button>
-
                     </div>
 
-
+                    {/* Table */}
                     <table className="report-table">
 
                         <thead>
@@ -246,20 +260,28 @@ function AttendanceReport() {
                         </thead>
 
                         <tbody>
+                            {reportUsers.map((user, index) => (
+                                <tr key={user.id} style={{ animationDelay: `${index * 0.04}s` }}>
 
-                            {reportUsers.map((user) => (
-                                <tr key={user.id}>
+                                    <td>
+                                        <span className="ar-name-cell">
+                                            <span className="ar-avatar">{user.name?.charAt(0).toUpperCase()}</span>
+                                            {user.name}
+                                        </span>
+                                    </td>
 
-                                    <td>{user.name}</td>
-                                    <td>{user.id}</td>
+                                    <td>
+                                        <span className="ar-id-chip">{user.id}</span>
+                                    </td>
 
-                                    <td className={user.status === "Present" ? "present-text" : "absent-text"}>
-                                        {user.status}
+                                    <td>
+                                        <span className={user.status === "Present" ? "present-text" : "absent-text"}>
+                                            {user.status === "Present" ? "● Present" : "● Absent"}
+                                        </span>
                                     </td>
 
                                 </tr>
                             ))}
-
                         </tbody>
 
                     </table>
