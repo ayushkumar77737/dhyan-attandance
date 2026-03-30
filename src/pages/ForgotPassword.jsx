@@ -35,9 +35,16 @@ function ForgotPassword() {
             className="forgot-container"
             style={{ backgroundImage: `url(${bgImage})` }}
         >
+            {/* Decorative orbs */}
+            <div className="orb orb-1" />
+            <div className="orb orb-2" />
+            <div className="orb orb-3" />
+
             <div className="forgot-card">
 
                 <div className="forgot-left">
+
+                    <div className="title-badge">✦ Sacred Portal ✦</div>
 
                     <h1>Meditation (Dhyan) Program</h1>
 
@@ -49,20 +56,31 @@ function ForgotPassword() {
                     </p>
 
                     <div className="email-box">
-                        📧 support@jaigurubande.in
+                        <span className="email-icon">📧</span>
+                        <span className="email-text">support@jaigurubande.in</span>
+                        <div className="email-glow" />
                     </div>
 
                     <button
                         className="back-login-btn"
                         onClick={() => navigate("/")}
                     >
-                        Back to Login
+                        <span className="btn-icon">←</span>
+                        <span>Back to Login</span>
+                        <div className="btn-shine" />
                     </button>
 
                 </div>
 
+                <div className="forgot-divider" />
+
                 <div className="forgot-right">
-                    <img src={guruji} alt="Guruji" />
+                    <div className="image-frame">
+                        <div className="image-ring ring-1" />
+                        <div className="image-ring ring-2" />
+                        <div className="image-ring ring-3" />
+                        <img src={guruji} alt="Guruji" />
+                    </div>
                 </div>
 
             </div>
