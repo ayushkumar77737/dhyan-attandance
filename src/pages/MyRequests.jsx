@@ -13,7 +13,6 @@ function MyRequests() {
   const [userId, setUserId] = useState("");
   const [requests, setRequests] = useState([]);
 
-  /* 🔐 Get User */
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -22,34 +21,22 @@ function MyRequests() {
         fetchRequests(id);
       }
     });
-
     return () => unsubscribe();
   }, []);
 
-  /* 📥 Fetch Requests */
   const fetchRequests = async (id) => {
     try {
       const q = query(
         collection(db, "absenceRequests"),
         where("userId", "==", id)
       );
-
       const snapshot = await getDocs(q);
-
       let list = [];
-
       snapshot.forEach((doc) => {
-        list.push({
-          id: doc.id,
-          ...doc.data()
-        });
+        list.push({ id: doc.id, ...doc.data() });
       });
-
-      /* Sort latest first */
       list.sort((a, b) => new Date(b.date) - new Date(a.date));
-
       setRequests(list);
-
     } catch (error) {
       console.error(error);
     }
@@ -58,7 +45,6 @@ function MyRequests() {
   return (
     <div className="my-requests-page">
 
-      {/* 🔙 Back */}
       <button
         className="myreq-back-btn"
         onClick={() => navigate("/user-dashboard")}
@@ -68,44 +54,52 @@ function MyRequests() {
 
       <div className="myreq-card">
 
-        <h2>My Requests</h2>
+        <div className="myreq-header">
+          <div className="myreq-badge">📋 Absence Requests</div>
+          <h2>My Requests</h2>
+          <p className="myreq-subtitle">Track the status of all your submitted absence requests</p>
+        </div>
 
         {requests.length === 0 ? (
-          <p className="no-data">No requests found</p>
+          <div className="no-data">
+            <div className="no-data-icon">📭</div>
+            <p>No requests found</p>
+          </div>
         ) : (
-
-          <table className="myreq-table">
-
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Reason</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-
-            <tbody>
-
-              {requests.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.date}</td>
-                  <td>{item.reason}</td>
-                  <td>
-                    <span className={`status ${item.status.toLowerCase()}`}>
-                      {item.status}
-                    </span>
-                  </td>
+          <div className="myreq-table-wrapper">
+            <table className="myreq-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Reason</th>
+                  <th>Status</th>
                 </tr>
-              ))}
-
-            </tbody>
-
-          </table>
-
+              </thead>
+              <tbody>
+                {requests.map((item) => (
+                  <tr key={item.id}>
+                    <td>
+                      <span className="date-cell">📅 {item.date}</span>
+                    </td>
+                    <td>
+                      <span className="reason-cell">{item.reason}</span>
+                    </td>
+                    <td>
+                      <span className={`status ${item.status.toLowerCase()}`}>
+                        {item.status === "Approved" && "✓ "}
+                        {item.status === "Rejected" && "✕ "}
+                        {item.status === "Pending" && "⏳ "}
+                        {item.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
 
       </div>
-
     </div>
   );
 }

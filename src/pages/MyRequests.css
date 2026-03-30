@@ -1,17 +1,41 @@
-/* 🔒 Scoped wrapper */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ── VARIABLES ── */
+:root {
+  --mr-bg: #f0f4f8;
+  --mr-card: #ffffff;
+  --mr-border: #e2e8f0;
+  --mr-teal: #0d9488;
+  --mr-teal-light: #14b8a6;
+  --mr-teal-glow: rgba(13, 148, 136, 0.15);
+  --mr-text: #0f172a;
+  --mr-text-mid: #475569;
+  --mr-text-soft: #94a3b8;
+  --mr-font-display: 'Fraunces', serif;
+  --mr-font-body: 'DM Sans', sans-serif;
+  --mr-radius: 14px;
+}
+
+/* ── PAGE ── */
 .my-requests-page {
   min-height: 100vh;
-  background: #e5e7eb;
-  padding: 20px;
+  background-color: var(--mr-bg);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 10% 0%, rgba(13, 148, 136, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 100%, rgba(16, 185, 129, 0.07) 0%, transparent 55%),
+    repeating-linear-gradient(0deg, transparent, transparent 60px,
+      rgba(13, 148, 136, 0.03) 60px, rgba(13, 148, 136, 0.03) 61px),
+    repeating-linear-gradient(90deg, transparent, transparent 60px,
+      rgba(13, 148, 136, 0.03) 60px, rgba(13, 148, 136, 0.03) 61px);
+  padding: 25px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  /* 🔥 Fade animation */
+  justify-content: flex-start;
+  font-family: var(--mr-font-body);
   animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Fade */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -22,41 +46,74 @@
   }
 }
 
-/* Back Button */
+/* ── BACK BUTTON ── */
 .my-requests-page .myreq-back-btn {
   align-self: flex-start;
-  margin-bottom: 15px;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 8px;
-  background: #3b82f6;
-  color: white;
+  margin-bottom: 10px;
+  padding: 9px 18px;
+  border: 1.5px solid rgba(13, 148, 136, 0.3);
+  border-radius: 50px;
+  background: rgba(13, 148, 136, 0.07);
+  color: var(--mr-teal);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--mr-font-body);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
 }
 
 .my-requests-page .myreq-back-btn:hover {
-  background: #2563eb;
+  background: rgba(13, 148, 136, 0.14);
+  border-color: var(--mr-teal);
   transform: translateX(-3px);
 }
 
-/* Card */
+/* ── CARD ── */
 .my-requests-page .myreq-card {
   width: 100%;
   max-width: 800px;
-  background: #f9fafb;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-
-  /* 🔥 Slide animation */
-  animation: slideUp 0.5s ease;
+  background: var(--mr-card);
+  padding: 36px;
+  border-radius: 22px;
+  border: 1px solid var(--mr-border);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 20px 50px rgba(15, 23, 42, 0.08),
+    0 4px 16px rgba(13, 148, 136, 0.06);
+  position: relative;
+  overflow: visible;
+  margin-top: 8px;
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Slide */
+/* top teal stripe */
+.my-requests-page .myreq-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--mr-teal), var(--mr-teal-light), var(--mr-teal), transparent);
+  border-radius: 2px;
+}
+
+/* inner glow */
+.my-requests-page .myreq-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(13, 148, 136, 0.04) 0%, transparent 100%);
+  pointer-events: none;
+  border-radius: 22px;
+}
+
 @keyframes slideUp {
   from {
-    transform: translateY(40px);
+    transform: translateY(36px);
     opacity: 0;
   }
 
@@ -66,128 +123,188 @@
   }
 }
 
-/* Title */
-.my-requests-page .myreq-card h2 {
+/* ── HEADER ── */
+.myreq-header {
   text-align: center;
-  margin-bottom: 20px;
-  color: #2563eb;
+  margin-bottom: 28px;
 }
 
-/* Table */
+.myreq-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mr-teal);
+  background: rgba(13, 148, 136, 0.08);
+  border: 1px solid rgba(13, 148, 136, 0.18);
+  border-radius: 50px;
+  padding: 4px 12px;
+  margin-bottom: 12px;
+}
+
+.my-requests-page .myreq-card h2 {
+  font-family: var(--mr-font-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--mr-text);
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.myreq-subtitle {
+  font-size: 13.5px;
+  color: var(--mr-text-soft);
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+/* ── TABLE WRAPPER ── */
+.myreq-table-wrapper {
+  overflow-x: auto;
+  border-radius: var(--mr-radius);
+  border: 1px solid var(--mr-border);
+}
+
+/* ── TABLE ── */
 .my-requests-page .myreq-table {
   width: 100%;
   border-collapse: collapse;
   overflow: hidden;
-  border-radius: 10px;
 }
 
-/* Header */
 .my-requests-page .myreq-table th {
-  background: linear-gradient(to right, #3b82f6, #2563eb);
-  color: white;
-  padding: 12px;
+  background: rgba(13, 148, 136, 0.08);
+  color: var(--mr-teal);
+  padding: 13px 16px;
   text-align: left;
-}
-
-/* Cells */
-.my-requests-page .myreq-table td {
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
-  transition: background 0.2s ease;
-}
-
-/* Row hover */
-.my-requests-page .myreq-table tr:hover td {
-  background: #f1f5f9;
-}
-
-/* Status */
-.my-requests-page .status {
-  padding: 5px 10px;
-  border-radius: 6px;
+  font-size: 11.5px;
   font-weight: 600;
-  display: inline-block;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(13, 148, 136, 0.15);
+}
+
+.my-requests-page .myreq-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--mr-border);
+  font-size: 14px;
+  color: var(--mr-text-mid);
+  transition: background 0.2s ease;
+  vertical-align: middle;
+}
+
+.my-requests-page .myreq-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.my-requests-page .myreq-table tbody tr:hover td {
+  background: rgba(13, 148, 136, 0.03);
+}
+
+/* Date & Reason cells */
+.date-cell {
+  font-size: 13.5px;
+  color: var(--mr-text-mid);
+  white-space: nowrap;
+}
+
+.reason-cell {
+  font-size: 13.5px;
+  color: var(--mr-text-mid);
+  line-height: 1.5;
+}
+
+/* ── STATUS BADGES ── */
+.my-requests-page .status {
+  padding: 5px 12px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 12.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
   transition: transform 0.2s ease;
+  white-space: nowrap;
 }
 
 .my-requests-page .status:hover {
   transform: scale(1.05);
 }
 
-/* Colors */
 .my-requests-page .status.pending {
-  background: #fef3c7;
+  background: #fef9ec;
   color: #92400e;
+  border: 1px solid rgba(251, 191, 36, 0.3);
 }
 
 .my-requests-page .status.approved {
-  background: #d1fae5;
+  background: #ecfdf5;
   color: #065f46;
+  border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
 .my-requests-page .status.rejected {
-  background: #fee2e2;
-  color: #991b1b;
+  background: #fff1f2;
+  color: #9f1239;
+  border: 1px solid rgba(244, 63, 94, 0.2);
 }
 
-/* No Data */
+/* ── NO DATA ── */
 .my-requests-page .no-data {
   text-align: center;
-  color: gray;
-  margin-top: 20px;
+  padding: 40px 20px;
 }
 
-/* ========================= */
-/* 📱 MOBILE (<=480px) */
-/* ========================= */
-@media (max-width: 480px) {
+.no-data-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
 
+.my-requests-page .no-data p {
+  color: var(--mr-text-soft);
+  font-size: 15px;
+  font-weight: 400;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
   .my-requests-page {
     padding: 15px;
   }
 
   .my-requests-page .myreq-card {
-    padding: 18px;
+    padding: 22px 16px;
+    border-radius: 16px;
+  }
+
+  .my-requests-page .myreq-card h2 {
+    font-size: 22px;
   }
 
   .my-requests-page .myreq-table th,
   .my-requests-page .myreq-table td {
     font-size: 12px;
-    padding: 8px;
+    padding: 10px 10px;
   }
-
 }
 
-/* ========================= */
-/* 📲 TABLET (481px–768px) */
-/* ========================= */
 @media (min-width: 481px) and (max-width: 768px) {
-
   .my-requests-page .myreq-card {
     max-width: 90%;
-    padding: 22px;
+    padding: 28px;
   }
-
 }
 
-/* ========================= */
-/* 💻 LAPTOP (769px–1200px) */
-/* ========================= */
 @media (min-width: 769px) and (max-width: 1200px) {
-
   .my-requests-page .myreq-card {
     max-width: 750px;
   }
-
 }
 
-/* ========================= */
-/* 🖥 LARGE SCREENS (>1200px) */
-/* ========================= */
 @media (min-width: 1201px) {
-
   .my-requests-page .myreq-card {
     max-width: 900px;
   }
-
 }
