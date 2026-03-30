@@ -78,24 +78,63 @@ function MyNotifications() {
 
         <div className="my-notifications-page">
 
+            <button onClick={() => navigate("/user-dashboard")} className="back-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M19 12H5M12 5l-7 7 7 7" />
+                </svg>
+                Back
+            </button>
+
             <div className="my-notifications-container">
 
                 <div className="my-notifications-header">
-                    <button onClick={() => navigate("/user-dashboard")} className="back-btn">
-                        Back
-                    </button>
-                    <h1>My Notifications</h1>
-                    <div style={{ width: "60px" }}></div> {/* spacer */}
+                    <div className="header-title-group">
+                        <div className="header-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                            </svg>
+                        </div>
+                        <h1>Notifications</h1>
+                    </div>
+                    <div className="header-count">
+                        {notifications.length > 0 && (
+                            <span className="count-badge">{notifications.length}</span>
+                        )}
+                    </div>
                 </div>
 
+                <div className="divider" />
+
                 {notifications.length === 0 ? (
-                    <p className="no-data">No notifications available</p>
+                    <div className="no-data-wrapper">
+                        <div className="no-data-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                            </svg>
+                        </div>
+                        <p className="no-data">No notifications yet</p>
+                        <span className="no-data-sub">You're all caught up!</span>
+                    </div>
                 ) : (
                     <div className="notification-list">
                         {notifications.map((item, index) => (
-                            <div key={index} className="notification-card">
-                                <p>{item.message}</p>
-                                <span>{item.createdAt}</span>
+                            <div
+                                key={index}
+                                className="notification-card"
+                                style={{ animationDelay: `${index * 60}ms` }}
+                            >
+                                <div className="card-dot" />
+                                <div className="card-content">
+                                    <p>{item.message}</p>
+                                    <span>
+                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+                                        </svg>
+                                        {item.createdAt}
+                                    </span>
+                                </div>
                             </div>
                         ))}
                     </div>
