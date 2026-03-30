@@ -22,11 +22,9 @@ function SubmitReason() {
   const [reason, setReason] = useState("");
   const [loading, setLoading] = useState(false);
 
-  /* ✅ NEW MESSAGE STATES */
   const [message, setMessage] = useState("");
-  const [type, setType] = useState(""); // success / error
+  const [type, setType] = useState("");
 
-  /* 🔐 Get Logged-in User */
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -34,47 +32,33 @@ function SubmitReason() {
         setUserId(id);
       }
     });
-
     return () => unsubscribe();
   }, []);
 
-  /* 🚫 Disable Inspect + Right Click */
   useEffect(() => {
-
     const disableRightClick = (e) => e.preventDefault();
-
     const disableInspectKeys = (e) => {
       if (e.key === "F12") e.preventDefault();
-
       if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
         e.preventDefault();
-
       if (e.ctrlKey && e.key.toUpperCase() === "U")
         e.preventDefault();
     };
-
     document.addEventListener("contextmenu", disableRightClick);
     document.addEventListener("keydown", disableInspectKeys);
-
     return () => {
       document.removeEventListener("contextmenu", disableRightClick);
       document.removeEventListener("keydown", disableInspectKeys);
     };
-
   }, []);
 
-  /* ✅ AUTO HIDE MESSAGE */
   useEffect(() => {
     if (message) {
-      const timer = setTimeout(() => {
-        setMessage("");
-      }, 3000);
-
+      const timer = setTimeout(() => setMessage(""), 3000);
       return () => clearTimeout(timer);
     }
   }, [message]);
 
-  /* 📤 Submit with Duplicate Check */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -87,8 +71,6 @@ function SubmitReason() {
     setLoading(true);
 
     try {
-
-      /* 🔍 Check duplicate */
       const q = query(
         collection(db, "absenceRequests"),
         where("userId", "==", userId),
@@ -104,7 +86,6 @@ function SubmitReason() {
         return;
       }
 
-      /* ✅ Save */
       await addDoc(collection(db, "absenceRequests"), {
         userId,
         date,
@@ -115,13 +96,10 @@ function SubmitReason() {
 
       setMessage("Reason submitted successfully!");
       setType("success");
-
       setDate("");
       setReason("");
 
-      setTimeout(() => {
-        navigate("/user-dashboard");
-      }, 1500);
+      setTimeout(() => navigate("/user-dashboard"), 1500);
 
     } catch (error) {
       console.error(error);
@@ -135,7 +113,6 @@ function SubmitReason() {
   return (
     <div className="submit-reason-page">
 
-      {/* 🔙 Back Button */}
       <button
         className="reason-back-btn"
         onClick={() => navigate("/user-dashboard")}
@@ -145,19 +122,20 @@ function SubmitReason() {
 
       <div className="reason-card">
 
+        <div className="reason-card-badge">📋 Absence Request</div>
         <h2>Submit Absence Reason</h2>
+        <p className="reason-subtitle">Fill in the details below and we'll review your request</p>
 
-        {/* ✅ MESSAGE DISPLAY */}
         {message && (
           <div className={`reason-message ${type}`}>
-            {message}
+            {type === "success" ? "✓" : "✕"} {message}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="reason-form">
 
           <div className="reason-group">
-            <label>Date</label>
+            <label>Date of Absence</label>
             <input
               type="date"
               value={date}
@@ -168,7 +146,7 @@ function SubmitReason() {
           <div className="reason-group">
             <label>Reason</label>
             <textarea
-              placeholder="Enter your reason..."
+              placeholder="Describe your reason clearly..."
               value={reason}
               onChange={(e) => setReason(e.target.value)}
             />
@@ -179,7 +157,11 @@ function SubmitReason() {
             type="submit"
             disabled={loading}
           >
-            {loading ? "Submitting..." : "Submit"}
+            {loading ? (
+              <><span className="spinner" /> Submitting...</>
+            ) : (
+              <>Submit Request →</>
+            )}
           </button>
 
         </form>
