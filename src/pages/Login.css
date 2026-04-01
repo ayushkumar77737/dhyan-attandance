@@ -2,7 +2,7 @@
 FONTS
 ================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&display=swap');
 
 /* ===============================
 CSS VARIABLES
@@ -189,9 +189,11 @@ TITLES
     font-weight: 800;
     text-align: center;
     letter-spacing: 0.5px;
-    line-height: 1.3;
+    line-height: 1.5;        /* ← increased for tall scripts */
     margin-bottom: 6px;
     margin-top: 0;
+    word-break: keep-all;
+    font-family: 'Syne', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif; /* ← multi-script */
 
     background: linear-gradient(135deg, #f0eeff 30%, var(--ln-purple-light));
     -webkit-background-clip: text;
@@ -221,8 +223,10 @@ TITLES
     color: var(--ln-gold);
     margin-top: 0;
     margin-bottom: 2px;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;   /* ← reduced for Hindi/Telugu */
+    line-height: 1.6;         /* ← added */
     text-shadow: 0 0 20px var(--ln-gold-glow);
+    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif; /* ← added */
 }
 
 .guru-subtext {
@@ -231,7 +235,9 @@ TITLES
     color: var(--ln-text-secondary);
     margin-top: 0;
     margin-bottom: 20px;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
+    line-height: 1.6;         /* ← added */
+    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif; /* ← added */
 }
 
 /* ===============================
@@ -243,15 +249,15 @@ INPUTS
     padding: 13px 16px;
     padding-right: 44px;
     font-size: 14px;
-    font-family: var(--font-body);
+    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif; /* ← updated */
     font-weight: 400;
     color: var(--ln-text-primary);
     letter-spacing: 0.2px;
+    line-height: 1.6;         /* ← added */
 
     border: 1px solid var(--ln-glass-border);
     border-radius: 10px;
     outline: none;
-
     background: var(--ln-input-bg);
 
     transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
@@ -315,15 +321,17 @@ LOGIN BUTTON
     color: #fff;
 
     font-size: 14px;
-    font-family: var(--font-body);
+    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif; /* ← updated */
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;   /* ← reduced from 1px for Hindi/Telugu */
+    line-height: 1.6;         /* ← added */
     text-transform: uppercase;
 
     border: none;
     border-radius: 10px;
     cursor: pointer;
     margin-top: 4px;
+    min-height: 48px;         /* ← added so button doesn't shrink */
 
     transition: transform 0.22s ease, box-shadow 0.22s ease;
     box-shadow: 0 6px 22px rgba(109, 63, 214, 0.4);
@@ -355,7 +363,9 @@ FORGOT PASSWORD
     color: var(--ln-purple-light);
     cursor: pointer;
     margin-top: 10px;
-    letter-spacing: 0.2px;
+    letter-spacing: 0.1px;   /* ← reduced */
+    line-height: 1.6;         /* ← added */
+    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif; /* ← added */
     transition: color 0.2s;
 }
 
