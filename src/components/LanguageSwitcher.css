@@ -15,7 +15,7 @@
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 30px;
-  padding: 8px 14px 8px 10px;
+  padding: 8px 14px 8px 8px;
   cursor: pointer;
   transition: all 0.3s ease;
   min-width: 120px;
@@ -28,10 +28,18 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-.lang-flag {
-  font-size: 16px;
-  line-height: 1;
+/* ← TEXT BADGE replaces flag */
+.lang-badge {
+  background: rgba(139, 92, 246, 0.6);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
   flex-shrink: 0;
+  min-width: 26px;
+  text-align: center;
 }
 
 .lang-label {
@@ -40,6 +48,7 @@
   font-weight: 600;
   flex: 1;
   font-family: 'Noto Sans', 'Segoe UI', sans-serif;
+  line-height: 1.6;
 }
 
 .lang-arrow {
@@ -64,7 +73,7 @@
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 14px;
   overflow: hidden;
-  min-width: 150px;
+  min-width: 160px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
   animation: dropdownFade 0.2s ease;
   z-index: 99999;
@@ -75,6 +84,7 @@
     opacity: 0;
     transform: translateY(-6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -100,10 +110,18 @@
   background: rgba(130, 80, 255, 0.25);
 }
 
-.lang-option-flag {
-  font-size: 18px;
-  line-height: 1;
+/* ← TEXT BADGE in dropdown */
+.lang-option-badge {
+  background: rgba(139, 92, 246, 0.5);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
   flex-shrink: 0;
+  min-width: 26px;
+  text-align: center;
 }
 
 .lang-option-label {
@@ -129,7 +147,7 @@
 @media (max-width: 480px) {
   .lang-trigger {
     min-width: 100px;
-    padding: 6px 10px 6px 8px;
+    padding: 6px 10px 6px 7px;
     gap: 5px;
   }
 
@@ -137,12 +155,13 @@
     font-size: 12px;
   }
 
-  .lang-flag {
-    font-size: 14px;
+  .lang-badge {
+    font-size: 9px;
+    padding: 2px 5px;
   }
 
   .lang-dropdown {
-    min-width: 140px;
+    min-width: 150px;
     right: 0;
   }
 

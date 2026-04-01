@@ -3,14 +3,14 @@ import { useTranslation } from 'react-i18next';
 import './LanguageSwitcher.css';
 
 const languages = [
-  { code: 'en', label: 'English', flag: '🇬🇧' },
-  { code: 'hi', label: 'हिंदी', flag: '🇮🇳' },
-  { code: 'te', label: 'తెలుగు', flag: '🇮🇳' },
-  { code: 'ta', label: 'தமிழ்',      flag: '🇮🇳' },
-  { code: 'kn', label: 'ಕನ್ನಡ',      flag: '🇮🇳' }, 
-  { code: 'ml', label: 'മലയാളം',     flag: '🇮🇳' }, 
-  { code: 'bn', label: 'বাংলা',      flag: '🇧🇩' },
-  { code: 'mr', label: 'मराठी',      flag: '🇮🇳' },
+  { code: 'en', label: 'English',  short: 'EN' },
+  { code: 'hi', label: 'हिंदी',    short: 'HI' },
+  { code: 'te', label: 'తెలుగు',   short: 'TE' },
+  { code: 'ta', label: 'தமிழ்',    short: 'TA' },
+  { code: 'kn', label: 'ಕನ್ನಡ',    short: 'KN' },
+  { code: 'ml', label: 'മലയാളം',   short: 'ML' },
+  { code: 'bn', label: 'বাংলা',    short: 'BN' },
+  { code: 'mr', label: 'मराठी',    short: 'MR' },
 ];
 
 export default function LanguageSwitcher() {
@@ -20,7 +20,6 @@ export default function LanguageSwitcher() {
 
   const current = languages.find(l => l.code === i18n.language) || languages[0];
 
-  // ← Close dropdown when clicking anywhere outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (ref.current && !ref.current.contains(e.target)) {
@@ -38,11 +37,11 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="lang-wrapper" ref={ref}> {/* ← removed onMouseLeave */}
+    <div className="lang-wrapper" ref={ref}>
 
       {/* TRIGGER BUTTON */}
       <div className="lang-trigger" onClick={() => setOpen(!open)}>
-        <span className="lang-flag">{current.flag}</span>
+        <span className="lang-badge">{current.short}</span>  {/* ← badge instead of flag */}
         <span className="lang-label">{current.label}</span>
         <span className={`lang-arrow ${open ? 'open' : ''}`}>▾</span>
       </div>
@@ -56,7 +55,7 @@ export default function LanguageSwitcher() {
               className={`lang-option ${lang.code === i18n.language ? 'active' : ''}`}
               onClick={() => handleSelect(lang.code)}
             >
-              <span className="lang-option-flag">{lang.flag}</span>
+              <span className="lang-option-badge">{lang.short}</span>  {/* ← badge instead of flag */}
               <span className="lang-option-label">{lang.label}</span>
               {lang.code === i18n.language && (
                 <span className="lang-check">✓</span>
