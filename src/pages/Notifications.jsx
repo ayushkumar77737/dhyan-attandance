@@ -13,7 +13,11 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
+import { useTranslation } from "react-i18next"; // ← ADD
+
 function Notifications() {
+
+  const { t } = useTranslation(); // ← ADD
 
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -22,13 +26,11 @@ function Notifications() {
 
   const navigate = useNavigate();
 
-  // ✅ Real-time Firestore data
   useEffect(() => {
     const q = query(
       collection(db, "notifications"),
       orderBy("createdAt", "desc")
     );
-
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map(doc => ({
         id: doc.id,
@@ -36,14 +38,11 @@ function Notifications() {
       }));
       setNotifications(data);
     });
-
     return () => unsubscribe();
   }, []);
 
   useEffect(() => {
-
     const disableRightClick = (e) => e.preventDefault();
-
     const disableInspectKeys = (e) => {
       if (e.key === "F12") e.preventDefault();
       if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
@@ -51,18 +50,14 @@ function Notifications() {
       if (e.ctrlKey && e.key.toUpperCase() === "U")
         e.preventDefault();
     };
-
     document.addEventListener("contextmenu", disableRightClick);
     document.addEventListener("keydown", disableInspectKeys);
-
     return () => {
       document.removeEventListener("contextmenu", disableRightClick);
       document.removeEventListener("keydown", disableInspectKeys);
     };
-
   }, []);
 
-  // ✅ Auto-hide status
   useEffect(() => {
     if (status) {
       const timer = setTimeout(() => setStatus(""), 3000);
@@ -74,24 +69,21 @@ function Notifications() {
     e.preventDefault();
 
     if (!message.trim()) {
-      setStatus("❗ Please enter a notification");
+      setStatus(t("enterNotification")); // ← CHANGED
       return;
     }
 
     try {
       setLoading(true);
-
       await addDoc(collection(db, "notifications"), {
         message: message,
         createdAt: serverTimestamp()
       });
-
-      setStatus("✅ Notification posted successfully");
+      setStatus(t("notificationPosted")); // ← CHANGED
       setMessage("");
-
     } catch (error) {
       console.error(error);
-      setStatus("❌ Error posting notification");
+      setStatus(t("errorPostingNotification")); // ← CHANGED
     } finally {
       setLoading(false);
     }
@@ -110,16 +102,16 @@ function Notifications() {
         className="notif-back-btn"
         onClick={() => navigate(-1)}
       >
-        <span>←</span> Back
+        <span>←</span> {t("back")} {/* ← CHANGED */}
       </button>
 
       {/* Title Block */}
       <div className="notif-title-block">
-        <span className="notif-eyebrow">Admin Panel</span>
+        <span className="notif-eyebrow">{t("adminPanel")}</span> {/* ← CHANGED */}
         <h1 className="notif-main-title">
-          Post <span className="notif-accent">Notification</span>
+          {t("postNotification")} {/* ← CHANGED */}
         </h1>
-        <p className="notif-subtitle">Broadcast messages to all users instantly</p>
+        <p className="notif-subtitle">{t("notificationSubtitle")}</p> {/* ← CHANGED */}
       </div>
 
       {/* Card */}
@@ -137,7 +129,7 @@ function Notifications() {
 
           <div className="textarea-wrapper">
             <textarea
-              placeholder="Enter your notification here..."
+              placeholder={t("notificationPlaceholder")} // ← CHANGED
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
@@ -146,9 +138,9 @@ function Notifications() {
 
           <button type="submit" disabled={loading}>
             {loading ? (
-              <><span className="spinner" /> Posting...</>
+              <><span className="spinner" /> {t("posting")}</> // ← CHANGED
             ) : (
-              <><span>🚀</span> Submit</>
+              <><span>🚀</span> {t("submit")}</> // ← CHANGED
             )}
           </button>
 
@@ -160,21 +152,21 @@ function Notifications() {
       <div className="notif-list">
 
         <div className="notif-list-header">
-          <span className="notif-list-title">Recent Notifications</span>
+          <span className="notif-list-title">{t("recentNotifications")}</span> {/* ← CHANGED */}
           <span className="notif-count-badge">{notifications.length}</span>
         </div>
 
         {notifications.length === 0 ? (
           <div className="no-data">
             <span className="no-data-icon">📭</span>
-            <p>No notifications yet</p>
+            <p>{t("noNotificationsYet")}</p> {/* ← CHANGED */}
           </div>
         ) : (
           <table className="notif-table">
             <thead>
               <tr>
-                <th>Message</th>
-                <th>Date</th>
+                <th>{t("notifMessage")}</th> {/* ← CHANGED */}
+                <th>{t("date")}</th>         {/* ← CHANGED */}
               </tr>
             </thead>
             <tbody>
@@ -190,7 +182,7 @@ function Notifications() {
                     <span className="notif-date-chip">
                       {item.createdAt && item.createdAt.seconds
                         ? new Date(item.createdAt.seconds * 1000).toLocaleString()
-                        : "Just now"}
+                        : t("justNow")} {/* ← CHANGED */}
                     </span>
                   </td>
                 </tr>

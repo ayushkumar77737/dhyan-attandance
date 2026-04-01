@@ -6,7 +6,12 @@ import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 
 import "./EditUser.css";
 
+import { useTranslation } from "react-i18next"; // ← ADD
+
 function EditUser() {
+
+    const { t } = useTranslation(); // ← ADD
+
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
         const disableInspectKeys = (e) => {
@@ -43,7 +48,7 @@ function EditUser() {
                 setName(data.name || "");
                 setUserId(data.id || id);
             } else {
-                alert("User not found");
+                alert(t("userNotFound")); // ← CHANGED
             }
         } catch (error) {
             console.log("Fetch Error:", error);
@@ -52,7 +57,7 @@ function EditUser() {
 
     const handleUpdate = async () => {
         if (!name.trim() || !userId.trim()) {
-            alert("Please fill all fields");
+            alert(t("fillAllFields")); // ← CHANGED
             return;
         }
         try {
@@ -67,50 +72,56 @@ function EditUser() {
             if (userId !== id) {
                 await deleteDoc(oldRef);
             }
-            alert("User Updated Successfully");
+            alert(t("userUpdatedSuccess")); // ← CHANGED
             navigate("/all-users");
         } catch (error) {
             console.log("Update Error:", error);
-            alert("Error updating user");
+            alert(t("errorUpdatingUser")); // ← CHANGED
         }
     };
 
     return (
         <div className="edit-container">
-            <button className="back-btn" onClick={() => navigate("/all-users")}>
-                ← Back
+
+            <button
+                className="back-btn"
+                onClick={() => navigate("/all-users")}
+            >
+                ← {t("back")} {/* ← CHANGED */}
             </button>
 
             <div className="edit-card">
                 <div className="edit-card-accent" />
-                <h2 className="edit-title">Edit User</h2>
+
+                <h2 className="edit-title">{t("editUser")}</h2> {/* ← CHANGED */}
 
                 <div className="input-group">
-                    <label className="input-label">Full Name</label>
+                    <label className="input-label">{t("fullName")}</label> {/* ← CHANGED */}
                     <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="Enter full name"
+                        placeholder={t("enterFullName")} // ← CHANGED
                     />
                 </div>
 
                 <div className="input-group">
-                    <label className="input-label">User ID</label>
+                    <label className="input-label">{t("userId")}</label> {/* ← CHANGED */}
                     <input
                         type="text"
                         value={userId}
                         onChange={(e) => setUserId(e.target.value)}
-                        placeholder="Enter user ID"
+                        placeholder={t("enterUserId")} // ← CHANGED
                     />
                 </div>
 
                 <button className="update-btn" onClick={handleUpdate}>
-                    <span>Update User</span>
+                    <span>{t("updateUser")}</span> {/* ← CHANGED */}
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
                 </button>
+
             </div>
         </div>
     );

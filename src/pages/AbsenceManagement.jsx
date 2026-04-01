@@ -5,16 +5,17 @@ import { db } from "../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-/* ✅ Excel Imports */
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
+import { useTranslation } from "react-i18next"; // ← ADD
+
 function AbsenceManagement() {
 
+    const { t } = useTranslation(); // ← ADD
+
     useEffect(() => {
-
         const disableRightClick = (e) => e.preventDefault();
-
         const disableInspectKeys = (e) => {
             if (e.key === "F12") e.preventDefault();
             if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
@@ -22,15 +23,12 @@ function AbsenceManagement() {
             if (e.ctrlKey && e.key.toUpperCase() === "U")
                 e.preventDefault();
         };
-
         document.addEventListener("contextmenu", disableRightClick);
         document.addEventListener("keydown", disableInspectKeys);
-
         return () => {
             document.removeEventListener("contextmenu", disableRightClick);
             document.removeEventListener("keydown", disableInspectKeys);
         };
-
     }, []);
 
     const navigate = useNavigate();
@@ -40,30 +38,23 @@ function AbsenceManagement() {
         fetchRequests();
     }, []);
 
-    /* 📥 Fetch Requests + Users */
     const fetchRequests = async () => {
-
         try {
             const usersSnap = await getDocs(collection(db, "users"));
             const userMap = {};
-
             usersSnap.forEach((doc) => {
                 userMap[doc.id] = doc.data().name;
             });
 
             const reqSnap = await getDocs(collection(db, "absenceRequests"));
-
             let list = [];
 
             reqSnap.forEach((docItem) => {
                 const data = docItem.data();
-
                 let extractedUserId = data.userId;
-
                 if (!extractedUserId && docItem.id.includes("_")) {
                     extractedUserId = docItem.id.split("_")[0];
                 }
-
                 list.push({
                     id: docItem.id,
                     userId: extractedUserId,
@@ -75,7 +66,6 @@ function AbsenceManagement() {
             });
 
             list.sort((a, b) => new Date(b.date) - new Date(a.date));
-
             setRequests(list);
 
         } catch (error) {
@@ -83,14 +73,11 @@ function AbsenceManagement() {
         }
     };
 
-    /* ✅ EXPORT TO EXCEL FUNCTION */
     const exportToExcel = () => {
-
         if (requests.length === 0) {
-            alert("No data to export");
+            alert(t("noDataToExport")); // ← CHANGED
             return;
         }
-
         const excelData = requests.map((item) => ({
             "User ID": item.userId,
             "Name": item.name,
@@ -98,21 +85,11 @@ function AbsenceManagement() {
             "Reason": item.reason,
             "Status": item.status
         }));
-
         const worksheet = XLSX.utils.json_to_sheet(excelData);
         const workbook = XLSX.utils.book_new();
-
         XLSX.utils.book_append_sheet(workbook, worksheet, "Absence Data");
-
-        const excelBuffer = XLSX.write(workbook, {
-            bookType: "xlsx",
-            type: "array"
-        });
-
-        const fileData = new Blob([excelBuffer], {
-            type: "application/octet-stream"
-        });
-
+        const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+        const fileData = new Blob([excelBuffer], { type: "application/octet-stream" });
         saveAs(fileData, "Absence_Requests.xlsx");
     };
 
@@ -133,40 +110,45 @@ function AbsenceManagement() {
                 className="absence-management-back-btn"
                 onClick={() => navigate("/admin-dashboard")}
             >
-                <span>←</span> Back
+                <span>←</span> {t("back")} {/* ← CHANGED */}
             </button>
 
             {/* Title Block */}
             <div className="am-title-block">
-                <span className="am-eyebrow">Admin Panel</span>
+                <span className="am-eyebrow">{t("adminPanel")}</span> {/* ← CHANGED */}
                 <h2 className="absence-management-title">
-                    Absence <span className="am-accent">Management</span>
+                    {t("absenceManagement")} {/* ← CHANGED */}
                 </h2>
-                <p className="am-subtitle">Review and manage all user absence requests</p>
+                <p className="am-subtitle">{t("absenceSubtitle")}</p> {/* ← CHANGED */}
             </div>
 
             {/* Stats Strip */}
             <div className="am-stats-strip">
+
                 <div className="am-stat-pill">
                     <span className="am-stat-icon">📋</span>
-                    <span className="am-stat-label">Total</span>
+                    <span className="am-stat-label">{t("total")}</span> {/* ← CHANGED */}
                     <span className="am-stat-value">{requests.length}</span>
                 </div>
+
                 <div className="am-stat-pill">
                     <span className="am-stat-icon">⏳</span>
-                    <span className="am-stat-label">Pending</span>
+                    <span className="am-stat-label">{t("pending")}</span> {/* ← CHANGED */}
                     <span className="am-stat-value am-pending-val">{pendingCount}</span>
                 </div>
+
                 <div className="am-stat-pill">
                     <span className="am-stat-icon">✅</span>
-                    <span className="am-stat-label">Approved</span>
+                    <span className="am-stat-label">{t("approved")}</span> {/* ← CHANGED */}
                     <span className="am-stat-value am-approved-val">{approvedCount}</span>
                 </div>
+
                 <div className="am-stat-pill">
                     <span className="am-stat-icon">❌</span>
-                    <span className="am-stat-label">Rejected</span>
+                    <span className="am-stat-label">{t("rejected")}</span> {/* ← CHANGED */}
                     <span className="am-stat-value am-rejected-val">{rejectedCount}</span>
                 </div>
+
             </div>
 
             {/* Card */}
@@ -174,33 +156,33 @@ function AbsenceManagement() {
 
                 {/* Toolbar */}
                 <div className="am-card-toolbar">
-                    <span className="am-record-count">{requests.length} records</span>
+                    <span className="am-record-count">
+                        {requests.length} {t("records")} {/* ← CHANGED */}
+                    </span>
                     <button
                         className="absence-management-export-btn"
                         onClick={exportToExcel}
                     >
-                        <span>⬇</span> Export to Excel
+                        <span>⬇</span> {t("exportToExcel")} {/* ← CHANGED */}
                     </button>
                 </div>
 
                 {requests.length === 0 ? (
                     <div className="absence-management-no-data">
                         <span className="am-no-data-icon">📭</span>
-                        <p>No requests found</p>
+                        <p>{t("noRequestsFound")}</p> {/* ← CHANGED */}
                     </div>
                 ) : (
-
-                    /* ✅ FIX: table wrapped for horizontal scroll */
                     <div className="am-table-wrapper">
                         <table className="absence-management-table">
 
                             <thead>
                                 <tr>
-                                    <th>ID No</th>
-                                    <th>Name</th>
-                                    <th>Date</th>
-                                    <th>Reason</th>
-                                    <th>Status</th>
+                                    <th>{t("idNo")}</th>     {/* ← CHANGED */}
+                                    <th>{t("name")}</th>     {/* ← CHANGED */}
+                                    <th>{t("date")}</th>     {/* ← CHANGED */}
+                                    <th>{t("reason")}</th>   {/* ← CHANGED */}
+                                    <th>{t("status")}</th>   {/* ← CHANGED */}
                                 </tr>
                             </thead>
 
@@ -232,7 +214,9 @@ function AbsenceManagement() {
                                                 {item.status?.toLowerCase() === "pending" && "⏳ "}
                                                 {item.status?.toLowerCase() === "approved" && "✅ "}
                                                 {item.status?.toLowerCase() === "rejected" && "❌ "}
-                                                {item.status}
+                                                {item.status?.toLowerCase() === "pending" && t("pending")}
+                                                {item.status?.toLowerCase() === "approved" && t("approved")}
+                                                {item.status?.toLowerCase() === "rejected" && t("rejected")}
                                             </span>
                                         </td>
 
@@ -242,7 +226,6 @@ function AbsenceManagement() {
 
                         </table>
                     </div>
-
                 )}
 
             </div>

@@ -6,16 +6,17 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
+import { useTranslation } from "react-i18next"; // ← ADD
+
 import guruji from "../assets/guruji.webp";
 import bgImage from "../assets/bg1.webp";
 
 function AddUser() {
 
-    /* Disable Inspect */
+    const { t } = useTranslation(); // ← ADD
+
     useEffect(() => {
-
         const disableRightClick = (e) => e.preventDefault();
-
         const disableInspectKeys = (e) => {
             if (e.key === "F12") e.preventDefault();
             if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
@@ -23,15 +24,12 @@ function AddUser() {
             if (e.ctrlKey && e.key.toUpperCase() === "U")
                 e.preventDefault();
         };
-
         document.addEventListener("contextmenu", disableRightClick);
         document.addEventListener("keydown", disableInspectKeys);
-
         return () => {
             document.removeEventListener("contextmenu", disableRightClick);
             document.removeEventListener("keydown", disableInspectKeys);
         };
-
     }, []);
 
     const navigate = useNavigate();
@@ -39,7 +37,6 @@ function AddUser() {
     const [name, setName] = useState("");
     const [idNo, setIdNo] = useState("");
     const [password, setPassword] = useState("");
-
     const [message, setMessage] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
     const [loading, setLoading] = useState(false);
@@ -54,86 +51,73 @@ function AddUser() {
     const handleAddUser = async (e) => {
 
         e.preventDefault();
-
         setMessage("");
         setErrorMsg("");
         setLoading(true);
 
         if (!/^[a-zA-Z ]+$/.test(name)) {
-            setErrorMsg("⚠️ Name must contain only letters.");
+            setErrorMsg(t("nameLettersOnly")); // ← CHANGED
             setLoading(false);
             clearMessages();
             return;
         }
 
         if (!/^[a-zA-Z0-9]+$/.test(idNo)) {
-            setErrorMsg("⚠️ ID must contain only letters and numbers.");
+            setErrorMsg(t("idLettersNumbers")); // ← CHANGED
             setLoading(false);
             clearMessages();
             return;
         }
 
         if (!/^[a-zA-Z0-9]+$/.test(password)) {
-            setErrorMsg("⚠️ Password cannot contain special characters.");
+            setErrorMsg(t("noSpecialChars")); // ← CHANGED
             setLoading(false);
             clearMessages();
             return;
         }
 
         try {
-
             const email = idNo + "@dhyan.com";
-
-            /* Create user in Firebase Authentication */
             await createUserWithEmailAndPassword(auth, email, password);
-
-            /* Save user data in Firestore */
             await setDoc(doc(db, "users", idNo), {
                 name: name,
                 id: idNo,
                 email: email,
                 role: "user",
-                deleted: false,        // ⭐ IMPORTANT FIELD ADDED
+                deleted: false,
                 createdAt: serverTimestamp()
             });
 
-            setMessage("✅ User added successfully!");
-
+            setMessage(t("userAddedSuccess")); // ← CHANGED
             setName("");
             setIdNo("");
             setPassword("");
-
             setLoading(false);
             clearMessages();
 
         } catch (error) {
 
             if (error.code === "auth/email-already-in-use") {
-                setErrorMsg("⚠️ This User ID already exists.");
-            }
-            else if (error.code === "auth/weak-password") {
-                setErrorMsg("⚠️ Password must be at least 6 characters.");
-            }
-            else {
-                setErrorMsg("⚠️ Something went wrong.");
+                setErrorMsg(t("userIdExists")); // ← CHANGED
+            } else if (error.code === "auth/weak-password") {
+                setErrorMsg(t("weakPassword")); // ← CHANGED
+            } else {
+                setErrorMsg(t("somethingWentWrong")); // ← CHANGED
             }
 
             setName("");
             setIdNo("");
             setPassword("");
-
             setLoading(false);
             clearMessages();
         }
     };
 
     return (
-
         <div
             className="adduser-container"
             style={{ backgroundImage: `url(${bgImage})` }}
         >
-
             <div className="adduser-card">
 
                 <div className="adduser-image">
@@ -142,55 +126,49 @@ function AddUser() {
 
                 <form className="adduser-form" onSubmit={handleAddUser}>
 
-                    <h2>Add New User</h2>
+                    <h2>{t("addNewUser")}</h2> {/* ← CHANGED */}
 
                     {message && <div className="success-message">{message}</div>}
                     {errorMsg && <div className="error-message">{errorMsg}</div>}
 
                     <input
                         type="text"
-                        placeholder="Enter Full Name"
+                        placeholder={t("enterFullName")} // ← CHANGED
                         value={name}
                         maxLength={30}
                         onChange={(e) => {
                             const value = e.target.value;
-                            if (/^[a-zA-Z ]*$/.test(value)) {
-                                setName(value);
-                            }
+                            if (/^[a-zA-Z ]*$/.test(value)) setName(value);
                         }}
                         required
                     />
 
                     <input
                         type="text"
-                        placeholder="Enter ID Number"
+                        placeholder={t("enterIdNumber")} // ← CHANGED
                         value={idNo}
                         maxLength={10}
                         onChange={(e) => {
                             const value = e.target.value;
-                            if (/^[a-zA-Z0-9]*$/.test(value)) {
-                                setIdNo(value);
-                            }
+                            if (/^[a-zA-Z0-9]*$/.test(value)) setIdNo(value);
                         }}
                         required
                     />
 
                     <input
                         type="password"
-                        placeholder="Enter Password"
+                        placeholder={t("enterPassword")} // ← CHANGED (reuses login key)
                         value={password}
                         maxLength={10}
                         onChange={(e) => {
                             const value = e.target.value;
-                            if (/^[a-zA-Z0-9]*$/.test(value)) {
-                                setPassword(value);
-                            }
+                            if (/^[a-zA-Z0-9]*$/.test(value)) setPassword(value);
                         }}
                         required
                     />
 
                     <button type="submit" disabled={loading}>
-                        {loading ? "Please wait..." : "Add User"}
+                        {loading ? t("pleaseWait") : t("addUser")} {/* ← CHANGED */}
                     </button>
 
                     <button
@@ -198,13 +176,11 @@ function AddUser() {
                         className="back-btn"
                         onClick={() => navigate("/admin-dashboard")}
                     >
-                        Back
+                        {t("back")} {/* ← CHANGED */}
                     </button>
 
                 </form>
-
             </div>
-
         </div>
     );
 }

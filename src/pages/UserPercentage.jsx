@@ -6,39 +6,35 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import "./UserPercentage.css";
 
+import { useTranslation } from "react-i18next"; // ← ADD
+
 const UserPercentage = () => {
+
+  const { t } = useTranslation(); // ← ADD
+
   const [data, setData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-
     const disableRightClick = (e) => e.preventDefault();
-
     const disableInspectKeys = (e) => {
       if (e.key === "F12") e.preventDefault();
-
       if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
         e.preventDefault();
-
       if (e.ctrlKey && e.key.toUpperCase() === "U")
         e.preventDefault();
     };
-
     document.addEventListener("contextmenu", disableRightClick);
     document.addEventListener("keydown", disableInspectKeys);
-
     fetchAttendanceData();
-
     return () => {
       document.removeEventListener("contextmenu", disableRightClick);
       document.removeEventListener("keydown", disableInspectKeys);
     };
-
   }, []);
 
   const fetchAttendanceData = async () => {
     try {
-
       const usersSnapshot = await getDocs(collection(db, "users"));
       const attendanceSnapshot = await getDocs(collection(db, "attendance"));
 
@@ -50,10 +46,7 @@ const UserPercentage = () => {
       const attendance = attendanceSnapshot.docs.map((doc) => doc.data());
 
       const result = users.map((user) => {
-
-        const userAttendance = attendance.filter(
-          (a) => a.userId === user.id
-        );
+        const userAttendance = attendance.filter((a) => a.userId === user.id);
 
         if (userAttendance.length === 0) {
           return {
@@ -74,7 +67,6 @@ const UserPercentage = () => {
         );
 
         const totalDays = validAttendance.length;
-
         const presentDays = validAttendance.filter(
           (a) => a.status?.toLowerCase() === "present"
         ).length;
@@ -89,7 +81,6 @@ const UserPercentage = () => {
           Name: user.name,
           "Attendance %": percentage + "%",
         };
-
       });
 
       setData(result);
@@ -100,22 +91,13 @@ const UserPercentage = () => {
   };
 
   const exportToExcel = () => {
-
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
-
     XLSX.utils.book_append_sheet(workbook, worksheet, "Attendance");
-
-    const excelBuffer = XLSX.write(workbook, {
-      bookType: "xlsx",
-      type: "array",
-    });
-
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
     const fileData = new Blob([excelBuffer], {
-      type:
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
-
     saveAs(fileData, "User_Attendance_Report.xlsx");
   };
 
@@ -140,86 +122,93 @@ const UserPercentage = () => {
           className="user-back-btn"
           onClick={() => navigate("/admin-dashboard")}
         >
-          <span className="back-arrow">←</span> Back
+          <span className="back-arrow">←</span> {t("back")} {/* ← CHANGED */}
         </button>
       </div>
 
       {/* Title */}
       <div className="title-block">
-        <span className="title-eyebrow">Admin Panel</span>
+        <span className="title-eyebrow">{t("adminPanel")}</span> {/* ← CHANGED */}
         <h2 className="user-percentage-title">
-          Attendance <span className="title-accent">Overview</span>
+          {t("attendanceOverview")} {/* ← CHANGED */}
         </h2>
-        <p className="title-sub">Track and export user attendance records</p>
+        <p className="title-sub">{t("overviewSubtitle")}</p> {/* ← CHANGED */}
       </div>
 
       {/* Stats strip */}
       <div className="stats-strip">
+
         <div className="stat-pill">
           <span className="stat-icon">👥</span>
-          <span className="stat-label">Total Users</span>
+          <span className="stat-label">{t("totalUsers")}</span> {/* ← CHANGED */}
           <span className="stat-value">{data.length}</span>
         </div>
+
         <div className="stat-pill">
           <span className="stat-icon">✅</span>
-          <span className="stat-label">Above 85%</span>
+          <span className="stat-label">{t("above85")}</span> {/* ← CHANGED */}
           <span className="stat-value">
             {data.filter(d => parseFloat(d["Attendance %"]) >= 85).length}
           </span>
         </div>
+
         <div className="stat-pill">
           <span className="stat-icon">⚠️</span>
-          <span className="stat-label">Below 60%</span>
+          <span className="stat-label">{t("below60")}</span> {/* ← CHANGED */}
           <span className="stat-value">
             {data.filter(d => parseFloat(d["Attendance %"]) < 60).length}
           </span>
         </div>
+
       </div>
 
       {/* Export Button */}
       <div className="user-export-wrapper">
-        <button
-          className="user-export-btn"
-          onClick={exportToExcel}
-        >
-          <span className="export-icon">⬇</span> Export Excel
+        <button className="user-export-btn" onClick={exportToExcel}>
+          <span className="export-icon">⬇</span> {t("exportExcel")} {/* ← CHANGED */}
         </button>
       </div>
 
       {/* Card */}
       <div className="user-percentage-card">
-
         <table className="user-percentage-table">
+
           <thead>
             <tr>
-              <th>User ID</th>
-              <th>Name</th>
-              <th>Attendance %</th>
+              <th>{t("userId")}</th>        {/* ← CHANGED */}
+              <th>{t("name")}</th>          {/* ← CHANGED */}
+              <th>{t("attendancePct")}</th> {/* ← CHANGED */}
             </tr>
           </thead>
 
           <tbody>
             {data.map((user, index) => (
               <tr key={index} style={{ animationDelay: `${index * 0.04}s` }}>
+
                 <td>
                   <span className="uid-chip">{user["User ID"]}</span>
                 </td>
+
                 <td>
                   <span className="user-name-cell">
-                    <span className="avatar-dot">{user.Name?.charAt(0).toUpperCase()}</span>
+                    <span className="avatar-dot">
+                      {user.Name?.charAt(0).toUpperCase()}
+                    </span>
                     {user.Name}
                   </span>
                 </td>
+
                 <td>
                   <span className={`attendance-badge ${getPercentageColor(user["Attendance %"])}`}>
                     {user["Attendance %"]}
                   </span>
                 </td>
+
               </tr>
             ))}
           </tbody>
-        </table>
 
+        </table>
       </div>
 
     </div>

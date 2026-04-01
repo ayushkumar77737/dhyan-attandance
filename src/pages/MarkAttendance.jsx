@@ -5,12 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { db } from "../firebase/firebase";
 import { collection, getDocs, doc, setDoc, query, where } from "firebase/firestore";
 
+import { useTranslation } from "react-i18next"; // ← ADD
+
 function MarkAttendance() {
 
+    const { t } = useTranslation(); // ← ADD
+
     useEffect(() => {
-
         const disableRightClick = (e) => e.preventDefault();
-
         const disableInspectKeys = (e) => {
             if (e.key === "F12") e.preventDefault();
             if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
@@ -18,15 +20,12 @@ function MarkAttendance() {
             if (e.ctrlKey && e.key.toUpperCase() === "U")
                 e.preventDefault();
         };
-
         document.addEventListener("contextmenu", disableRightClick);
         document.addEventListener("keydown", disableInspectKeys);
-
         return () => {
             document.removeEventListener("contextmenu", disableRightClick);
             document.removeEventListener("keydown", disableInspectKeys);
         };
-
     }, []);
 
     const navigate = useNavigate();
@@ -45,39 +44,31 @@ function MarkAttendance() {
     const loadUsers = async () => {
 
         if (!date) {
-            setMessage("⚠️ Please select a date first");
+            setMessage(t("selectDateFirst")); // ← CHANGED
             setTimeout(() => setMessage(""), 3000);
             return;
         }
 
         try {
-
             const q = query(collection(db, "attendance"), where("date", "==", date));
             const attendanceCheck = await getDocs(q);
 
             if (!attendanceCheck.empty) {
-                setMessage("⚠️ Attendance already marked for this date");
+                setMessage(t("attendanceAlreadyMarked")); // ← CHANGED
                 setUsers([]);
-
                 const today = new Date().toISOString().split("T")[0];
                 setDate(today);
-
                 setTimeout(() => setMessage(""), 3000);
                 return;
             }
 
             const querySnapshot = await getDocs(collection(db, "users"));
-
             const userList = [];
 
             querySnapshot.forEach((docItem) => {
-                userList.push({
-                    id: docItem.id,
-                    ...docItem.data()
-                });
+                userList.push({ id: docItem.id, ...docItem.data() });
             });
 
-            // ✅ SORT BY ID (ASCENDING)
             userList.sort((a, b) => {
                 const numA = parseInt(a.id.replace(/\D/g, ""), 10);
                 const numB = parseInt(b.id.replace(/\D/g, ""), 10);
@@ -88,113 +79,89 @@ function MarkAttendance() {
 
         } catch (error) {
             console.log(error);
-            setMessage("❌ Error loading users");
+            setMessage(t("errorLoadingUsers")); // ← CHANGED
             setTimeout(() => setMessage(""), 3000);
         }
     };
 
     const handleAttendanceChange = (userId, value) => {
-        setAttendance({
-            ...attendance,
-            [userId]: value
-        });
+        setAttendance({ ...attendance, [userId]: value });
     };
 
     const saveAttendance = async () => {
 
         if (!date) {
-            setMessage("⚠️ Select date first");
+            setMessage(t("selectDateFirst")); // ← CHANGED
             setTimeout(() => setMessage(""), 3000);
             return;
         }
 
         if (Object.keys(attendance).length !== users.length) {
-            setMessage("⚠️ Please mark attendance for all users");
+            setMessage(t("markAllUsers")); // ← CHANGED
             setTimeout(() => setMessage(""), 3000);
             return;
         }
 
         try {
-
             setLoading(true);
 
             for (let userId in attendance) {
-
                 const attendanceRef = doc(db, "attendance", `${userId}_${date}`);
-
                 await setDoc(attendanceRef, {
                     userId: userId,
                     date: date,
                     status: attendance[userId]
                 });
-
             }
 
-            setMessage("✅ Attendance Saved Successfully");
-
+            setMessage(t("attendanceSavedSuccess")); // ← CHANGED
             setUsers([]);
             setAttendance({});
-
             const today = new Date().toISOString().split("T")[0];
             setDate(today);
-
-            setTimeout(() => {
-                setMessage("");
-            }, 3000);
+            setTimeout(() => setMessage(""), 3000);
 
         } catch (error) {
             console.log(error);
-            setMessage("❌ Error saving attendance");
+            setMessage(t("errorSavingAttendance")); // ← CHANGED
             setTimeout(() => setMessage(""), 3000);
         } finally {
             setLoading(false);
         }
-
     };
 
     return (
-
         <div className="markattendance-container">
 
             <div className="markattendance-header">
-
                 <button
                     className="markattendance-back-btn"
                     onClick={() => navigate("/admin-dashboard")}
                 >
-                    ← Back
+                    ← {t("back")} {/* ← CHANGED */}
                 </button>
 
-                <h1 className="markattendance-title">Mark Attendance</h1>
-
+                <h1 className="markattendance-title">{t("markAttendance")}</h1> {/* ← CHANGED */}
             </div>
 
             {message && (
-                <div className="markattendance-message-box">
-                    {message}
-                </div>
+                <div className="markattendance-message-box">{message}</div>
             )}
 
             <div className="markattendance-date-box">
-
                 <input
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                 />
-
                 <button onClick={loadUsers}>
-                    Load Users
+                    {t("loadUsers")} {/* ← CHANGED */}
                 </button>
-
             </div>
 
             {users.length > 0 && (
-
                 <div className="markattendance-user-list">
-
                     {users.map((user) => (
-
                         <div key={user.id} className="markattendance-user-row">
 
                             <span className="markattendance-user-name">
@@ -207,19 +174,14 @@ function MarkAttendance() {
                                     handleAttendanceChange(user.id, e.target.value)
                                 }
                             >
-
-                                <option value="">Select</option>
-                                <option value="Present">Present</option>
-                                <option value="Absent">Absent</option>
-
+                                <option value="">{t("select")}</option>        {/* ← CHANGED */}
+                                <option value="Present">{t("present")}</option> {/* ← CHANGED */}
+                                <option value="Absent">{t("absent")}</option>   {/* ← CHANGED */}
                             </select>
 
                         </div>
-
                     ))}
-
                 </div>
-
             )}
 
             {users.length > 0 && (
@@ -228,14 +190,12 @@ function MarkAttendance() {
                     onClick={saveAttendance}
                     disabled={loading}
                 >
-                    {loading ? "⏳ Saving Attendance..." : "Save Attendance"}
+                    {loading ? t("savingAttendance") : t("saveAttendance")} {/* ← CHANGED */}
                 </button>
             )}
 
         </div>
-
     );
-
 }
 
 export default MarkAttendance;
