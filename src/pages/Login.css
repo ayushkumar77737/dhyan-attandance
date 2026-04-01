@@ -71,7 +71,7 @@ PAGE
 }
 
 /* ===============================
-BACKGROUND SLIDER
+BACKGROUND CAROUSEL IMAGES
 ================================ */
 
 .login-bg-wrapper {
@@ -98,7 +98,6 @@ BACKGROUND SLIDER
     opacity: 1;
 }
 
-/* Dark + purple tinted overlay on bg images */
 .login-bg::after {
     content: "";
     position: absolute;
@@ -106,6 +105,44 @@ BACKGROUND SLIDER
     background:
         radial-gradient(ellipse 60% 50% at 25% 50%, rgba(80, 30, 160, 0.35) 0%, transparent 65%),
         rgba(4, 2, 14, 0.55);
+}
+
+/* ===============================
+CAROUSEL DOTS — over background
+================================ */
+
+.carousel-dots {
+    position: fixed;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-dot.active {
+    width: 24px;
+    border-radius: 4px;
+    background: var(--ln-purple);
+    border-color: var(--ln-purple-light);
+    box-shadow: 0 0 10px var(--ln-purple-glow);
+}
+
+.carousel-dot:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.65);
+    transform: scale(1.2);
 }
 
 /* ===============================
@@ -155,7 +192,6 @@ LEFT LOGIN FORM
     position: relative;
 }
 
-/* Subtle purple glow blob top-left of form */
 .login-left::before {
     content: '';
     position: absolute;
@@ -184,25 +220,20 @@ TITLES
 ================================ */
 
 .card-title {
-    font-family: var(--font-display);
     font-size: 26px;
     font-weight: 800;
     text-align: center;
     letter-spacing: 0.5px;
-    line-height: 1.5;        /* ← increased for tall scripts */
+    line-height: 1.5;
     margin-bottom: 6px;
     margin-top: 0;
     word-break: keep-all;
-    font-family: 'Syne', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif; /* ← multi-script */
+    font-family: 'Syne', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif;
 
     background: linear-gradient(135deg, #f0eeff 30%, var(--ln-purple-light));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-}
-
-.card-title span {
-    /* already covered by gradient — keep for structure */
 }
 
 .card-title::after {
@@ -223,10 +254,10 @@ TITLES
     color: var(--ln-gold);
     margin-top: 0;
     margin-bottom: 2px;
-    letter-spacing: 0.3px;   /* ← reduced for Hindi/Telugu */
-    line-height: 1.6;         /* ← added */
+    letter-spacing: 0.3px;
+    line-height: 1.6;
     text-shadow: 0 0 20px var(--ln-gold-glow);
-    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif; /* ← added */
+    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif;
 }
 
 .guru-subtext {
@@ -236,8 +267,8 @@ TITLES
     margin-top: 0;
     margin-bottom: 20px;
     letter-spacing: 0.2px;
-    line-height: 1.6;         /* ← added */
-    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif; /* ← added */
+    line-height: 1.6;
+    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif;
 }
 
 /* ===============================
@@ -249,11 +280,11 @@ INPUTS
     padding: 13px 16px;
     padding-right: 44px;
     font-size: 14px;
-    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif; /* ← updated */
+    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif;
     font-weight: 400;
     color: var(--ln-text-primary);
     letter-spacing: 0.2px;
-    line-height: 1.6;         /* ← added */
+    line-height: 1.6;
 
     border: 1px solid var(--ln-glass-border);
     border-radius: 10px;
@@ -321,17 +352,17 @@ LOGIN BUTTON
     color: #fff;
 
     font-size: 14px;
-    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif; /* ← updated */
+    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif;
     font-weight: 700;
-    letter-spacing: 0.5px;   /* ← reduced from 1px for Hindi/Telugu */
-    line-height: 1.6;         /* ← added */
+    letter-spacing: 0.5px;
+    line-height: 1.6;
     text-transform: uppercase;
 
     border: none;
     border-radius: 10px;
     cursor: pointer;
     margin-top: 4px;
-    min-height: 48px;         /* ← added so button doesn't shrink */
+    min-height: 48px;
 
     transition: transform 0.22s ease, box-shadow 0.22s ease;
     box-shadow: 0 6px 22px rgba(109, 63, 214, 0.4);
@@ -363,9 +394,9 @@ FORGOT PASSWORD
     color: var(--ln-purple-light);
     cursor: pointer;
     margin-top: 10px;
-    letter-spacing: 0.1px;   /* ← reduced */
-    line-height: 1.6;         /* ← added */
-    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif; /* ← added */
+    letter-spacing: 0.1px;
+    line-height: 1.6;
+    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif;
     transition: color 0.2s;
 }
 
@@ -436,21 +467,14 @@ RIGHT IMAGE SECTION
     position: relative;
 }
 
-/* ===============================
-IMAGE
-================================ */
-
 .login-right img {
     width: 85%;
     height: 85%;
     object-fit: cover;
-
     border-radius: 18px;
-
     box-shadow:
         0 24px 50px rgba(0, 0, 0, 0.55),
         0 0 0 1px rgba(255, 255, 255, 0.06);
-
     animation: imageZoom 6s infinite alternate;
 }
 
@@ -505,11 +529,21 @@ ANIMATIONS
 }
 
 /* ===============================
+LANGUAGE SWITCHER
+================================ */
+
+.lang-switcher-top {
+    position: fixed;
+    top: 14px;
+    right: 16px;
+    z-index: 9999;
+}
+
+/* ===============================
 TABLET
 ================================ */
 
 @media (max-width: 1024px) {
-
     .login-container {
         width: 90%;
     }
@@ -522,7 +556,6 @@ TABLET
         width: 90%;
         height: 80%;
     }
-
 }
 
 /* ===============================
@@ -530,7 +563,6 @@ MOBILE
 ================================ */
 
 @media (max-width: 768px) {
-
     .login-container {
         flex-direction: column;
         width: 92%;
@@ -576,7 +608,6 @@ MOBILE
         font-size: 13px;
         padding: 12px;
     }
-
 }
 
 /* ===============================
@@ -584,7 +615,6 @@ SMALL MOBILE
 ================================ */
 
 @media (max-width: 480px) {
-
     .login-container {
         width: 95%;
         border-radius: 18px;
@@ -614,18 +644,12 @@ SMALL MOBILE
         padding: 12px;
     }
 
-}
+    .lang-switcher-top {
+        top: 10px;
+        right: 10px;
+    }
 
-.lang-switcher-top {
-  position: fixed;
-  top: 14px;
-  right: 16px;
-  z-index: 9999;
-}
-
-@media (max-width: 480px) {
-  .lang-switcher-top {
-    top: 10px;
-    right: 10px;
-  }
+    .carousel-dots {
+        bottom: 14px;
+    }
 }

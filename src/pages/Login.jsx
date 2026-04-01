@@ -6,8 +6,8 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
-import { useTranslation } from "react-i18next";          // ← ADD
-import LanguageSwitcher from "../components/LanguageSwitcher"; // ← ADD
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 
 import dhyanImage from "../assets/Dhyan.png";
 import bg1 from "../assets/bg1.webp";
@@ -17,7 +17,7 @@ import bg4 from "../assets/pic.jpeg";
 
 const Login = () => {
 
-  const { t } = useTranslation(); // ← ADD
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const bgImages = [bg1, bg2, bg3, bg4];
@@ -28,6 +28,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Auto-advance carousel every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setBgIndex((prev) => (prev + 1) % bgImages.length);
@@ -62,7 +63,7 @@ const Login = () => {
     setErrorMessage("");
 
     if (!id || !password) {
-      showError(t("fillAllFields")); // ← CHANGED
+      showError(t("fillAllFields"));
       return;
     }
 
@@ -75,7 +76,7 @@ const Login = () => {
       const data = userSnap.data();
       if (data.lockUntil && Date.now() < data.lockUntil) {
         const minutes = Math.ceil((data.lockUntil - Date.now()) / 60000);
-        showError(t("accountLocked", { minutes })); // ← CHANGED
+        showError(t("accountLocked", { minutes }));
         setLoading(false);
         return;
       }
@@ -115,12 +116,12 @@ const Login = () => {
 
       await setDoc(userRef, { attempts, lockUntil });
 
-      if (attempts >= 3) showError(t("tooManyAttempts"));                       // ← CHANGED
-      else if (error.code === "auth/user-not-found") showError(t("userNotFound")); // ← CHANGED
-      else if (error.code === "auth/wrong-password") showError(t("incorrectPassword")); // ← CHANGED
-      else if (error.code === "auth/invalid-email") showError(t("invalidIdFormat")); // ← CHANGED
-      else if (error.code === "auth/invalid-credential") showError(t("invalidCredential")); // ← CHANGED
-      else showError(t("loginFailed")); // ← CHANGED
+      if (attempts >= 3) showError(t("tooManyAttempts"));
+      else if (error.code === "auth/user-not-found") showError(t("userNotFound"));
+      else if (error.code === "auth/wrong-password") showError(t("incorrectPassword"));
+      else if (error.code === "auth/invalid-email") showError(t("invalidIdFormat"));
+      else if (error.code === "auth/invalid-credential") showError(t("invalidCredential"));
+      else showError(t("loginFailed"));
     }
 
     setLoading(false);
@@ -129,7 +130,7 @@ const Login = () => {
   return (
     <div className="login-page">
 
-      {/* Background Slider */}
+      {/* ← BACKGROUND CAROUSEL IMAGES */}
       <div className="login-bg-wrapper">
         {bgImages.map((img, index) => (
           <div
@@ -140,7 +141,18 @@ const Login = () => {
         ))}
       </div>
 
-      {/* ← LANGUAGE SWITCHER TOP RIGHT */}
+      {/* ← CAROUSEL DOTS OVER BACKGROUND */}
+      <div className="carousel-dots">
+        {bgImages.map((_, index) => (
+          <span
+            key={index}
+            className={`carousel-dot ${index === bgIndex ? "active" : ""}`}
+            onClick={() => setBgIndex(index)}
+          />
+        ))}
+      </div>
+
+      {/* LANGUAGE SWITCHER TOP RIGHT */}
       <div className="lang-switcher-top">
         <LanguageSwitcher />
       </div>
@@ -150,18 +162,15 @@ const Login = () => {
         {/* LEFT SIDE FORM */}
         <div className="login-left">
 
-          <h2 className="card-title">
-            {t("appTitle")} {/* ← CHANGED */}
-          </h2>
-
-          <p className="guru-text">{t("guruText")}</p>       {/* ← CHANGED */}
-          <p className="guru-subtext">{t("guruSubtext")}</p> {/* ← CHANGED */}
+          <h2 className="card-title">{t("appTitle")}</h2>
+          <p className="guru-text">{t("guruText")}</p>
+          <p className="guru-subtext">{t("guruSubtext")}</p>
 
           <form onSubmit={handleLogin}>
 
             <input
               type="text"
-              placeholder={t("enterIdNo")} // ← CHANGED
+              placeholder={t("enterIdNo")}
               className="login-input"
               maxLength={6}
               value={id}
@@ -174,7 +183,7 @@ const Login = () => {
             <div className="password-wrapper">
               <input
                 type={showPassword ? "text" : "password"}
-                placeholder={t("enterPassword")} // ← CHANGED
+                placeholder={t("enterPassword")}
                 className="login-input"
                 maxLength={8}
                 value={password}
@@ -194,13 +203,13 @@ const Login = () => {
             {errorMessage && <p className="login-error">{errorMessage}</p>}
 
             <button className="login-button" disabled={loading}>
-              {loading ? t("pleaseWait") : t("login")} {/* ← CHANGED */}
+              {loading ? t("pleaseWait") : t("login")}
             </button>
 
           </form>
 
           <p className="forgot-password" onClick={() => navigate("/forgot-password")}>
-            {t("forgotPassword")} {/* ← CHANGED */}
+            {t("forgotPassword")}
           </p>
 
         </div>
