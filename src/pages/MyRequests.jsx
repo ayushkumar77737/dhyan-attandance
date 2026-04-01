@@ -6,8 +6,11 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
+import { useTranslation } from "react-i18next"; // ← ADD
+
 function MyRequests() {
 
+  const { t } = useTranslation(); // ← ADD
   const navigate = useNavigate();
 
   const [userId, setUserId] = useState("");
@@ -49,49 +52,55 @@ function MyRequests() {
         className="myreq-back-btn"
         onClick={() => navigate("/user-dashboard")}
       >
-        ← Back
+        ← {t("back")} {/* ← CHANGED */}
       </button>
 
       <div className="myreq-card">
 
         <div className="myreq-header">
-          <div className="myreq-badge">📋 Absence Requests</div>
-          <h2>My Requests</h2>
-          <p className="myreq-subtitle">Track the status of all your submitted absence requests</p>
+          <div className="myreq-badge">📋 {t("absenceRequests")}</div> {/* ← CHANGED */}
+          <h2>{t("myRequests")}</h2>                                    {/* ← CHANGED */}
+          <p className="myreq-subtitle">{t("myRequestsSubtitle")}</p>  {/* ← CHANGED */}
         </div>
 
         {requests.length === 0 ? (
           <div className="no-data">
             <div className="no-data-icon">📭</div>
-            <p>No requests found</p>
+            <p>{t("noRequestsFound")}</p> {/* ← CHANGED */}
           </div>
         ) : (
           <div className="myreq-table-wrapper">
             <table className="myreq-table">
               <thead>
                 <tr>
-                  <th>Date</th>
-                  <th>Reason</th>
-                  <th>Status</th>
+                  <th>{t("date")}</th>    {/* ← CHANGED */}
+                  <th>{t("reason")}</th>  {/* ← CHANGED */}
+                  <th>{t("status")}</th>  {/* ← CHANGED */}
                 </tr>
               </thead>
               <tbody>
                 {requests.map((item) => (
                   <tr key={item.id}>
+
                     <td>
                       <span className="date-cell">📅 {item.date}</span>
                     </td>
+
                     <td>
                       <span className="reason-cell">{item.reason}</span>
                     </td>
+
                     <td>
                       <span className={`status ${item.status.toLowerCase()}`}>
                         {item.status === "Approved" && "✓ "}
                         {item.status === "Rejected" && "✕ "}
                         {item.status === "Pending" && "⏳ "}
-                        {item.status}
+                        {item.status === "Approved" && t("approved")}  {/* ← CHANGED */}
+                        {item.status === "Rejected" && t("rejected")}  {/* ← CHANGED */}
+                        {item.status === "Pending" && t("pending")}    {/* ← CHANGED */}
                       </span>
                     </td>
+
                   </tr>
                 ))}
               </tbody>

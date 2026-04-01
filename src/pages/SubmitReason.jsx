@@ -2,26 +2,21 @@ import React, { useState, useEffect } from "react";
 import "./SubmitReason.css";
 
 import { auth, db } from "../firebase/firebase";
-import {
-  addDoc,
-  collection,
-  query,
-  where,
-  getDocs
-} from "firebase/firestore";
-
+import { addDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
+import { useTranslation } from "react-i18next"; // ← ADD
+
 function SubmitReason() {
 
+  const { t } = useTranslation(); // ← ADD
   const navigate = useNavigate();
 
   const [userId, setUserId] = useState("");
   const [date, setDate] = useState("");
   const [reason, setReason] = useState("");
   const [loading, setLoading] = useState(false);
-
   const [message, setMessage] = useState("");
   const [type, setType] = useState("");
 
@@ -63,7 +58,7 @@ function SubmitReason() {
     e.preventDefault();
 
     if (!date || !reason) {
-      setMessage("Please fill all fields");
+      setMessage(t("fillAllFields")); // ← CHANGED
       setType("error");
       return;
     }
@@ -80,7 +75,7 @@ function SubmitReason() {
       const snapshot = await getDocs(q);
 
       if (!snapshot.empty) {
-        setMessage("You already submitted reason for this date!");
+        setMessage(t("reasonAlreadySubmitted")); // ← CHANGED
         setType("error");
         setLoading(false);
         return;
@@ -94,7 +89,7 @@ function SubmitReason() {
         createdAt: new Date()
       });
 
-      setMessage("Reason submitted successfully!");
+      setMessage(t("reasonSubmittedSuccess")); // ← CHANGED
       setType("success");
       setDate("");
       setReason("");
@@ -103,7 +98,7 @@ function SubmitReason() {
 
     } catch (error) {
       console.error(error);
-      setMessage("Error submitting reason");
+      setMessage(t("errorSubmittingReason")); // ← CHANGED
       setType("error");
     }
 
@@ -117,14 +112,14 @@ function SubmitReason() {
         className="reason-back-btn"
         onClick={() => navigate("/user-dashboard")}
       >
-        ← Back
+        ← {t("back")} {/* ← CHANGED */}
       </button>
 
       <div className="reason-card">
 
-        <div className="reason-card-badge">📋 Absence Request</div>
-        <h2>Submit Absence Reason</h2>
-        <p className="reason-subtitle">Fill in the details below and we'll review your request</p>
+        <div className="reason-card-badge">📋 {t("absenceRequest")}</div> {/* ← CHANGED */}
+        <h2>{t("submitAbsenceReason")}</h2>                               {/* ← CHANGED */}
+        <p className="reason-subtitle">{t("reasonSubtitle")}</p>          {/* ← CHANGED */}
 
         {message && (
           <div className={`reason-message ${type}`}>
@@ -135,7 +130,7 @@ function SubmitReason() {
         <form onSubmit={handleSubmit} className="reason-form">
 
           <div className="reason-group">
-            <label>Date of Absence</label>
+            <label>{t("dateOfAbsence")}</label> {/* ← CHANGED */}
             <input
               type="date"
               value={date}
@@ -144,9 +139,9 @@ function SubmitReason() {
           </div>
 
           <div className="reason-group">
-            <label>Reason</label>
+            <label>{t("reason")}</label> {/* ← CHANGED */}
             <textarea
-              placeholder="Describe your reason clearly..."
+              placeholder={t("reasonPlaceholder")} // ← CHANGED
               value={reason}
               onChange={(e) => setReason(e.target.value)}
             />
@@ -158,9 +153,9 @@ function SubmitReason() {
             disabled={loading}
           >
             {loading ? (
-              <><span className="spinner" /> Submitting...</>
+              <><span className="spinner" /> {t("submitting")}</> // ← CHANGED
             ) : (
-              <>Submit Request →</>
+              <>{t("submitRequest")} →</>  // ← CHANGED
             )}
           </button>
 

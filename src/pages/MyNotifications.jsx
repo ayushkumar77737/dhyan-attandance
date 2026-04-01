@@ -6,16 +6,16 @@ import { collection, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
+import { useTranslation } from "react-i18next"; // ← ADD
+
 function MyNotifications() {
 
+    const { t } = useTranslation(); // ← ADD
     const [notifications, setNotifications] = useState([]);
     const navigate = useNavigate();
 
-    /* Disable Inspect */
     useEffect(() => {
-
         const disableRightClick = (e) => e.preventDefault();
-
         const disableInspectKeys = (e) => {
             if (e.key === "F12") e.preventDefault();
             if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
@@ -23,66 +23,56 @@ function MyNotifications() {
             if (e.ctrlKey && e.key.toUpperCase() === "U")
                 e.preventDefault();
         };
-
         document.addEventListener("contextmenu", disableRightClick);
         document.addEventListener("keydown", disableInspectKeys);
-
         return () => {
             document.removeEventListener("contextmenu", disableRightClick);
             document.removeEventListener("keydown", disableInspectKeys);
         };
-
     }, []);
 
     useEffect(() => {
-
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
-
             if (!user) return;
 
             const email = user.email;
             const id = email.split("@")[0].toUpperCase();
 
             const snapshot = await getDocs(collection(db, "notifications"));
-
             let list = [];
 
             snapshot.forEach((doc) => {
                 const data = doc.data();
-
                 const docUserId = data.userId?.toUpperCase();
 
-                // ✅ FIXED CONDITION (handles missing userId too)
                 if (!docUserId || docUserId === "ALL" || docUserId === id) {
                     list.push({
-                        message: data.message || "No message",
+                        message: data.message || t("noMessage"), // ← CHANGED
                         createdAt: data.createdAt
                             ? data.createdAt.toDate().toLocaleString()
-                            : "No Date"
+                            : t("noDate") // ← CHANGED
                     });
                 }
             });
 
-            // ✅ Safe sorting
             list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
             setNotifications(list);
-
         });
 
         return () => unsubscribe();
-
     }, []);
 
     return (
-
         <div className="my-notifications-page">
 
-            <button onClick={() => navigate("/user-dashboard")} className="back-btn">
+            <button
+                onClick={() => navigate("/user-dashboard")}
+                className="back-btn"
+            >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M19 12H5M12 5l-7 7 7 7" />
                 </svg>
-                Back
+                {t("back")} {/* ← CHANGED */}
             </button>
 
             <div className="my-notifications-container">
@@ -95,7 +85,7 @@ function MyNotifications() {
                                 <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                             </svg>
                         </div>
-                        <h1>Notifications</h1>
+                        <h1>{t("notifications")}</h1> {/* ← CHANGED */}
                     </div>
                     <div className="header-count">
                         {notifications.length > 0 && (
@@ -114,8 +104,8 @@ function MyNotifications() {
                                 <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                             </svg>
                         </div>
-                        <p className="no-data">No notifications yet</p>
-                        <span className="no-data-sub">You're all caught up!</span>
+                        <p className="no-data">{t("noNotificationsYet")}</p>  {/* ← CHANGED */}
+                        <span className="no-data-sub">{t("allCaughtUp")}</span> {/* ← CHANGED */}
                     </div>
                 ) : (
                     <div className="notification-list">
@@ -130,7 +120,8 @@ function MyNotifications() {
                                     <p>{item.message}</p>
                                     <span>
                                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+                                            <circle cx="12" cy="12" r="10" />
+                                            <polyline points="12 6 12 12 16 14" />
                                         </svg>
                                         {item.createdAt}
                                     </span>
@@ -143,9 +134,7 @@ function MyNotifications() {
             </div>
 
         </div>
-
     );
-
 }
 
 export default MyNotifications;
