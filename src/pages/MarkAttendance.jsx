@@ -91,13 +91,19 @@ function MarkAttendance() {
     const saveAttendance = async () => {
 
         if (!date) {
-            setMessage(t("selectDateFirst")); // ← CHANGED
+            setMessage(t("selectDateFirst"));
             setTimeout(() => setMessage(""), 3000);
             return;
         }
 
-        if (Object.keys(attendance).length !== users.length) {
-            setMessage(t("markAllUsers")); // ← CHANGED
+        // ← FIX: Check count AND that no value is empty
+        const attendedKeys = Object.keys(attendance);
+        const hasEmptySelection = attendedKeys.some(
+            (userId) => attendance[userId] === "" || attendance[userId] === undefined
+        );
+
+        if (attendedKeys.length !== users.length || hasEmptySelection) {
+            setMessage(t("markAllUsers"));
             setTimeout(() => setMessage(""), 3000);
             return;
         }
@@ -114,7 +120,7 @@ function MarkAttendance() {
                 });
             }
 
-            setMessage(t("attendanceSavedSuccess")); // ← CHANGED
+            setMessage(t("attendanceSavedSuccess"));
             setUsers([]);
             setAttendance({});
             const today = new Date().toISOString().split("T")[0];
@@ -123,7 +129,7 @@ function MarkAttendance() {
 
         } catch (error) {
             console.log(error);
-            setMessage(t("errorSavingAttendance")); // ← CHANGED
+            setMessage(t("errorSavingAttendance"));
             setTimeout(() => setMessage(""), 3000);
         } finally {
             setLoading(false);
