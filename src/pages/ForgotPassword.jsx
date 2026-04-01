@@ -2,14 +2,17 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ForgotPassword.css";
 
+import { useTranslation } from "react-i18next"; // ← ADD
+
 import guruji from "../assets/Dhyan.png";
 import bgImage from "../assets/bg1.webp";
 
 function ForgotPassword() {
+
+    const { t } = useTranslation(); // ← ADD
+
     useEffect(() => {
-
         const disableRightClick = (e) => e.preventDefault();
-
         const disableInspectKeys = (e) => {
             if (e.key === "F12") e.preventDefault();
             if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
@@ -17,15 +20,12 @@ function ForgotPassword() {
             if (e.ctrlKey && e.key.toUpperCase() === "U")
                 e.preventDefault();
         };
-
         document.addEventListener("contextmenu", disableRightClick);
         document.addEventListener("keydown", disableInspectKeys);
-
         return () => {
             document.removeEventListener("contextmenu", disableRightClick);
             document.removeEventListener("keydown", disableInspectKeys);
         };
-
     }, []);
 
     const navigate = useNavigate();
@@ -44,15 +44,14 @@ function ForgotPassword() {
 
                 <div className="forgot-left">
 
-                    <div className="title-badge">✦ Sacred Portal ✦</div>
+                    <div className="title-badge">{t("sacredPortal")}</div> {/* ← CHANGED */}
 
-                    <h1>Meditation (Dhyan) Program</h1>
+                    <h1>{t("appTitle")}</h1>         {/* ← CHANGED (reuses login key) */}
 
-                    <h2>🙏 Jai Gurubande 🙏</h2>
+                    <h2>{t("guruText")}</h2>          {/* ← CHANGED (reuses login key) */}
 
                     <p className="forgot-text">
-                        If you forgot your password or want to reset it,
-                        please contact us on the email below.
+                        {t("forgotPasswordText")} {/* ← CHANGED */}
                     </p>
 
                     <div className="email-box">
@@ -66,7 +65,7 @@ function ForgotPassword() {
                         onClick={() => navigate("/")}
                     >
                         <span className="btn-icon">←</span>
-                        <span>Back to Login</span>
+                        <span>{t("backToLogin")}</span> {/* ← CHANGED */}
                         <div className="btn-shine" />
                     </button>
 

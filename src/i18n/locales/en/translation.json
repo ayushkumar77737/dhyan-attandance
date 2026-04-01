@@ -109,5 +109,8 @@
   "viewReport": "View Report",
   "viewUsers": "View Users",
   "viewRequests": "View Requests",
-  "notifications": "Notifications"
+  "notifications": "Notifications",
+  "sacredPortal": "✦ Sacred Portal ✦",
+  "forgotPasswordText": "If you forgot your password or want to reset it, please contact us on the email below.",
+  "backToLogin": "Back to Login"
 }
