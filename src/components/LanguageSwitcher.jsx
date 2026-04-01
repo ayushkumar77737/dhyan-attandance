@@ -6,6 +6,11 @@ const languages = [
   { code: 'en', label: 'English', flag: '🇬🇧' },
   { code: 'hi', label: 'हिंदी', flag: '🇮🇳' },
   { code: 'te', label: 'తెలుగు', flag: '🇮🇳' },
+  { code: 'ta', label: 'தமிழ்',      flag: '🇮🇳' },
+  { code: 'kn', label: 'ಕನ್ನಡ',      flag: '🇮🇳' }, 
+  { code: 'ml', label: 'മലയാളം',     flag: '🇮🇳' }, 
+  { code: 'bn', label: 'বাংলা',      flag: '🇧🇩' },
+  { code: 'mr', label: 'मराठी',      flag: '🇮🇳' },
 ];
 
 export default function LanguageSwitcher() {
