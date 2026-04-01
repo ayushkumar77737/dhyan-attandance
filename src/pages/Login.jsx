@@ -141,7 +141,7 @@ const Login = () => {
       </div>
 
       {/* ← LANGUAGE SWITCHER TOP RIGHT */}
-      <div style={{ position: "absolute", top: "16px", right: "20px", zIndex: 999 }}>
+      <div className="lang-switcher-top">
         <LanguageSwitcher />
       </div>
 

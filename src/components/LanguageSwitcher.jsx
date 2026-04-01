@@ -1,39 +1,66 @@
+import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import './LanguageSwitcher.css';
 
 const languages = [
-  { code: 'en', label: '🇬🇧 English' },
-  { code: 'hi', label: '🇮🇳 हिंदी' },
-  { code: 'te', label: '🇮🇳 తెలుగు' },
+  { code: 'en', label: 'English', flag: '🇬🇧' },
+  { code: 'hi', label: 'हिंदी', flag: '🇮🇳' },
+  { code: 'te', label: 'తెలుగు', flag: '🇮🇳' },
 ];
 
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
 
-  const handleChange = (e) => {
-    const selectedLang = e.target.value;
-    i18n.changeLanguage(selectedLang);
-    localStorage.setItem('appLanguage', selectedLang); // ← Saves to localStorage
+  const current = languages.find(l => l.code === i18n.language) || languages[0];
+
+  // ← Close dropdown when clicking anywhere outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleSelect = (code) => {
+    i18n.changeLanguage(code);
+    localStorage.setItem('appLanguage', code);
+    setOpen(false);
   };
 
   return (
-    <select
-      value={i18n.language}
-      onChange={handleChange}
-      style={{
-        padding: '6px 10px',
-        borderRadius: '6px',
-        border: '1px solid #ccc',
-        cursor: 'pointer',
-        fontSize: '14px',
-        backgroundColor: '#1e1e2e',
-        color: '#fff',
-      }}
-    >
-      {languages.map((lang) => (
-        <option key={lang.code} value={lang.code}>
-          {lang.label}
-        </option>
-      ))}
-    </select>
+    <div className="lang-wrapper" ref={ref}> {/* ← removed onMouseLeave */}
+
+      {/* TRIGGER BUTTON */}
+      <div className="lang-trigger" onClick={() => setOpen(!open)}>
+        <span className="lang-flag">{current.flag}</span>
+        <span className="lang-label">{current.label}</span>
+        <span className={`lang-arrow ${open ? 'open' : ''}`}>▾</span>
+      </div>
+
+      {/* DROPDOWN MENU */}
+      {open && (
+        <div className="lang-dropdown">
+          {languages.map((lang) => (
+            <div
+              key={lang.code}
+              className={`lang-option ${lang.code === i18n.language ? 'active' : ''}`}
+              onClick={() => handleSelect(lang.code)}
+            >
+              <span className="lang-option-flag">{lang.flag}</span>
+              <span className="lang-option-label">{lang.label}</span>
+              {lang.code === i18n.language && (
+                <span className="lang-check">✓</span>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+    </div>
   );
 }
