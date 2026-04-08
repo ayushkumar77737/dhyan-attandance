@@ -3,17 +3,17 @@ import { useNavigate } from "react-router-dom";
 import "./AddUser.css";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../firebase/firebase";
+import { auth, db, secondaryAuth } from "../firebase/firebase"; // ✅ added secondaryAuth
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
-import { useTranslation } from "react-i18next"; // ← ADD
+import { useTranslation } from "react-i18next";
 
 import guruji from "../assets/guruji.webp";
 import bgImage from "../assets/bg1.webp";
 
 function AddUser() {
 
-    const { t } = useTranslation(); // ← ADD
+    const { t } = useTranslation();
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -56,21 +56,21 @@ function AddUser() {
         setLoading(true);
 
         if (!/^[a-zA-Z ]+$/.test(name)) {
-            setErrorMsg(t("nameLettersOnly")); // ← CHANGED
+            setErrorMsg(t("nameLettersOnly"));
             setLoading(false);
             clearMessages();
             return;
         }
 
         if (!/^[a-zA-Z0-9]+$/.test(idNo)) {
-            setErrorMsg(t("idLettersNumbers")); // ← CHANGED
+            setErrorMsg(t("idLettersNumbers"));
             setLoading(false);
             clearMessages();
             return;
         }
 
         if (!/^[a-zA-Z0-9]+$/.test(password)) {
-            setErrorMsg(t("noSpecialChars")); // ← CHANGED
+            setErrorMsg(t("noSpecialChars"));
             setLoading(false);
             clearMessages();
             return;
@@ -78,7 +78,10 @@ function AddUser() {
 
         try {
             const email = idNo + "@dhyan.com";
-            await createUserWithEmailAndPassword(auth, email, password);
+
+            // ✅ Using secondaryAuth so admin stays logged in
+            await createUserWithEmailAndPassword(secondaryAuth, email, password);
+
             await setDoc(doc(db, "users", idNo), {
                 name: name,
                 id: idNo,
@@ -88,7 +91,7 @@ function AddUser() {
                 createdAt: serverTimestamp()
             });
 
-            setMessage(t("userAddedSuccess")); // ← CHANGED
+            setMessage(t("userAddedSuccess"));
             setName("");
             setIdNo("");
             setPassword("");
@@ -98,11 +101,11 @@ function AddUser() {
         } catch (error) {
 
             if (error.code === "auth/email-already-in-use") {
-                setErrorMsg(t("userIdExists")); // ← CHANGED
+                setErrorMsg(t("userIdExists"));
             } else if (error.code === "auth/weak-password") {
-                setErrorMsg(t("weakPassword")); // ← CHANGED
+                setErrorMsg(t("weakPassword"));
             } else {
-                setErrorMsg(t("somethingWentWrong")); // ← CHANGED
+                setErrorMsg(t("somethingWentWrong"));
             }
 
             setName("");
@@ -126,14 +129,14 @@ function AddUser() {
 
                 <form className="adduser-form" onSubmit={handleAddUser}>
 
-                    <h2>{t("addNewUser")}</h2> {/* ← CHANGED */}
+                    <h2>{t("addNewUser")}</h2>
 
                     {message && <div className="success-message">{message}</div>}
                     {errorMsg && <div className="error-message">{errorMsg}</div>}
 
                     <input
                         type="text"
-                        placeholder={t("enterFullName")} // ← CHANGED
+                        placeholder={t("enterFullName")}
                         value={name}
                         maxLength={30}
                         onChange={(e) => {
@@ -145,7 +148,7 @@ function AddUser() {
 
                     <input
                         type="text"
-                        placeholder={t("enterIdNumber")} // ← CHANGED
+                        placeholder={t("enterIdNumber")}
                         value={idNo}
                         maxLength={10}
                         onChange={(e) => {
@@ -157,7 +160,7 @@ function AddUser() {
 
                     <input
                         type="password"
-                        placeholder={t("enterPassword")} // ← CHANGED (reuses login key)
+                        placeholder={t("enterPassword")}
                         value={password}
                         maxLength={10}
                         onChange={(e) => {
@@ -168,7 +171,7 @@ function AddUser() {
                     />
 
                     <button type="submit" disabled={loading}>
-                        {loading ? t("pleaseWait") : t("addUser")} {/* ← CHANGED */}
+                        {loading ? t("pleaseWait") : t("addUser")}
                     </button>
 
                     <button
@@ -176,7 +179,7 @@ function AddUser() {
                         className="back-btn"
                         onClick={() => navigate("/admin-dashboard")}
                     >
-                        {t("back")} {/* ← CHANGED */}
+                        {t("back")}
                     </button>
 
                 </form>
