@@ -7,17 +7,35 @@ import { auth, db } from "../firebase/firebase";
 
 import { collection, getDocs } from "firebase/firestore";
 
-import { useTranslation } from "react-i18next"; // ← ADD
+import { useTranslation } from "react-i18next";
+
+import bg1 from "../assets/bg1.webp";
+import bg2 from "../assets/bg2.webp";
+import bg3 from "../assets/bg3.webp";
+
+const BG_IMAGES = [bg1, bg2, bg3];
+
+const CARD_ICONS = {
+  addUser: "🧑‍🤝‍🧑",  // two people joining
+  attendance: "🧘‍♂️",      // meditating person — perfect for ashram
+  allUsers: "🫂",        // people embracing
+  attendanceReport: "🧑‍💼",      // professional person
+  percentageReport: "📈",        // upward chart
+  deletedUsers: "🚶",        // person leaving/walking away
+  absenceManagement: "🧎",        // person kneeling — prayer/absence feel
+  notifications: "📯",
+};
 
 function AdminDashboard() {
 
-  const { t } = useTranslation(); // ← ADD
-
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [totalUsers, setTotalUsers] = useState(0);
   const [deletedUsers, setDeletedUsers] = useState(0);
   const [activeUsers, setActiveUsers] = useState(0);
+  const [currentBg, setCurrentBg] = useState(0);
+  const [fading, setFading] = useState(false);
 
   useEffect(() => {
     const disableRightClick = (e) => e.preventDefault();
@@ -35,6 +53,18 @@ function AdminDashboard() {
       document.removeEventListener("contextmenu", disableRightClick);
       document.removeEventListener("keydown", disableInspectKeys);
     };
+  }, []);
+
+  // Background carousel — crossfade every 5.5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFading(true);
+      setTimeout(() => {
+        setCurrentBg((prev) => (prev + 1) % BG_IMAGES.length);
+        setFading(false);
+      }, 1000);
+    }, 5500);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchUserStats = async () => {
@@ -67,125 +97,139 @@ function AdminDashboard() {
   return (
     <div className="admin-container">
 
-      {/* Header */}
+      {/* ── Background Carousel ── */}
+      <div className="bg-carousel">
+        {BG_IMAGES.map((img, i) => (
+          <div
+            key={i}
+            className={`bg-slide ${i === currentBg ? "bg-slide--active" : ""} ${i === currentBg && fading ? "bg-slide--fading" : ""}`}
+            style={{ backgroundImage: `url(${img})` }}
+          />
+        ))}
+        {/* Layered overlays for warm ashram feel */}
+        <div className="bg-overlay-dark" />
+        <div className="bg-overlay-warm" />
+        <div className="bg-overlay-vignette" />
+      </div>
+
+      {/* ── Header ── */}
       <div className="dashboard-header">
-        <h1 className="dashboard-title">{t("adminDashboard")}</h1> {/* ← CHANGED */}
+        <h1 className="dashboard-title">{t("adminDashboard")}</h1>
         <button className="logout-btn" onClick={handleLogout}>
-          {t("logout")} {/* ← CHANGED */}
+          {t("logout")}
         </button>
       </div>
 
-      {/* Stats Section */}
+      {/* ── Stats ── */}
       <div className="stats-container">
-
         <div className="stat-card">
-          <h3>{t("totalUsers")}</h3>  {/* ← CHANGED */}
+          <h3>{t("totalUsers")}</h3>
           <p>{totalUsers}</p>
         </div>
-
         <div className="stat-card">
-          <h3>{t("deletedUsers")}</h3> {/* ← CHANGED */}
+          <h3>{t("deletedUsers")}</h3>
           <p>{deletedUsers}</p>
         </div>
-
         <div className="stat-card">
-          <h3>{t("activeUsers")}</h3>  {/* ← CHANGED */}
+          <h3>{t("activeUsers")}</h3>
           <p>{activeUsers}</p>
+        </div>
+      </div>
+
+      {/* ── Dashboard Cards ── */}
+      <div className="dashboard-body">
+
+        <div className="dashboard-card">
+          <div className="admin-profile">
+            <div className="card-icon">{CARD_ICONS.addUser}</div>
+            <h3>{t("addUser")}</h3>
+          </div>
+          <button className="dashboard-btn" onClick={() => navigate("/add-user")}>
+            {t("addUser")}
+          </button>
+        </div>
+
+        <div className="dashboard-card">
+          <div className="admin-profile">
+            <div className="card-icon">{CARD_ICONS.attendance}</div>
+            <h3>{t("attendance")}</h3>
+          </div>
+          <button className="dashboard-btn" onClick={() => navigate("/mark-attendance")}>
+            {t("markAttendance")}
+          </button>
+        </div>
+
+        <div className="dashboard-card">
+          <div className="admin-profile">
+            <div className="card-icon">{CARD_ICONS.allUsers}</div>
+            <h3>{t("allUsers")}</h3>
+          </div>
+          <button className="dashboard-btn" onClick={() => navigate("/all-users")}>
+            {t("allUsers")}
+          </button>
+        </div>
+
+        <div className="dashboard-card">
+          <div className="admin-profile">
+            <div className="card-icon">{CARD_ICONS.attendanceReport}</div>
+            <h3>{t("attendanceReport")}</h3>
+          </div>
+          <button className="dashboard-btn" onClick={() => navigate("/attendance-report")}>
+            {t("viewReport")}
+          </button>
+        </div>
+
+        <div className="dashboard-card">
+          <div className="admin-profile">
+            <div className="card-icon">{CARD_ICONS.percentageReport}</div>
+            <h3>{t("percentageReport")}</h3>
+          </div>
+          <button className="dashboard-btn" onClick={() => navigate("/user-percentage")}>
+            {t("viewReport")}
+          </button>
+        </div>
+
+        <div className="dashboard-card">
+          <div className="admin-profile">
+            <div className="card-icon">{CARD_ICONS.deletedUsers}</div>
+            <h3>{t("deletedUsers")}</h3>
+          </div>
+          <button className="dashboard-btn" onClick={() => navigate("/deleted-users")}>
+            {t("viewUsers")}
+          </button>
+        </div>
+
+        <div className="dashboard-card">
+          <div className="admin-profile">
+            <div className="card-icon">{CARD_ICONS.absenceManagement}</div>
+            <h3>{t("absenceManagement")}</h3>
+          </div>
+          <button className="dashboard-btn" onClick={() => navigate("/absence-management")}>
+            {t("viewRequests")}
+          </button>
+        </div>
+
+        <div className="dashboard-card">
+          <div className="admin-profile">
+            <div className="card-icon">{CARD_ICONS.notifications}</div>
+            <h3>{t("notifications")}</h3>
+          </div>
+          <button className="dashboard-btn" onClick={() => navigate("/notifications")}>
+            {t("postNotification")}
+          </button>
         </div>
 
       </div>
 
-      {/* Dashboard Cards */}
-      <div className="dashboard-body">
-
-        {/* Add User Card */}
-        <div className="dashboard-card">
-          <div className="admin-profile">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="admin" />
-            <h3>{t("addUser")}</h3> {/* ← CHANGED */}
-          </div>
-          <button className="dashboard-btn" onClick={() => navigate("/add-user")}>
-            {t("addUser")} {/* ← CHANGED */}
-          </button>
-        </div>
-
-        {/* Mark Attendance Card */}
-        <div className="dashboard-card">
-          <div className="admin-profile">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="attendance" />
-            <h3>{t("attendance")}</h3> {/* ← CHANGED */}
-          </div>
-          <button className="dashboard-btn" onClick={() => navigate("/mark-attendance")}>
-            {t("markAttendance")} {/* ← CHANGED */}
-          </button>
-        </div>
-
-        {/* All Users Card */}
-        <div className="dashboard-card">
-          <div className="admin-profile">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="edit users" />
-            <h3>{t("allUsers")}</h3> {/* ← CHANGED */}
-          </div>
-          <button className="dashboard-btn" onClick={() => navigate("/all-users")}>
-            {t("allUsers")} {/* ← CHANGED */}
-          </button>
-        </div>
-
-        {/* Attendance Report Card */}
-        <div className="dashboard-card">
-          <div className="admin-profile">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="report" />
-            <h3>{t("attendanceReport")}</h3> {/* ← CHANGED */}
-          </div>
-          <button className="dashboard-btn" onClick={() => navigate("/attendance-report")}>
-            {t("viewReport")} {/* ← CHANGED */}
-          </button>
-        </div>
-
-        {/* Percentage Report Card */}
-        <div className="dashboard-card">
-          <div className="admin-profile">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="percentage" />
-            <h3>{t("percentageReport")}</h3> {/* ← CHANGED */}
-          </div>
-          <button className="dashboard-btn" onClick={() => navigate("/user-percentage")}>
-            {t("viewReport")} {/* ← CHANGED */}
-          </button>
-        </div>
-
-        {/* Deleted Users Card */}
-        <div className="dashboard-card">
-          <div className="admin-profile">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="deleted users" />
-            <h3>{t("deletedUsers")}</h3> {/* ← CHANGED */}
-          </div>
-          <button className="dashboard-btn" onClick={() => navigate("/deleted-users")}>
-            {t("viewUsers")} {/* ← CHANGED */}
-          </button>
-        </div>
-
-        {/* Absence Management Card */}
-        <div className="dashboard-card">
-          <div className="admin-profile">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="absence" />
-            <h3>{t("absenceManagement")}</h3> {/* ← CHANGED */}
-          </div>
-          <button className="dashboard-btn" onClick={() => navigate("/absence-management")}>
-            {t("viewRequests")} {/* ← CHANGED */}
-          </button>
-        </div>
-
-        {/* Notifications Card */}
-        <div className="dashboard-card">
-          <div className="admin-profile">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="notifications" />
-            <h3>{t("notifications")}</h3> {/* ← CHANGED */}
-          </div>
-          <button className="dashboard-btn" onClick={() => navigate("/notifications")}>
-            {t("postNotification")} {/* ← CHANGED */}
-          </button>
-        </div>
-
+      {/* ── Carousel Indicator Dots ── */}
+      <div className="bg-dots">
+        {BG_IMAGES.map((_, i) => (
+          <span
+            key={i}
+            className={`bg-dot ${i === currentBg ? "bg-dot--active" : ""}`}
+            onClick={() => setCurrentBg(i)}
+          />
+        ))}
       </div>
 
     </div>
