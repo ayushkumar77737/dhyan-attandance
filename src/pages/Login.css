@@ -2,49 +2,63 @@
 FONTS
 ================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Cinzel:wght@400;500;600;700&family=Lato:wght@300;400;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap');
 
 /* ===============================
-CSS VARIABLES
+CSS VARIABLES — Ashram Divine Theme
 ================================ */
 
 :root {
-    --ln-purple: #8b5cf6;
-    --ln-purple-dark: #6d3fd6;
-    --ln-purple-light: #c4b5fd;
-    --ln-purple-glow: rgba(139, 92, 246, 0.35);
-    --ln-purple-subtle: rgba(139, 92, 246, 0.1);
-    --ln-purple-border: rgba(139, 92, 246, 0.35);
+    /* Backgrounds */
+    --ln-bg-card: rgba(22, 13, 4, 0.78);
+    --ln-bg-left: rgba(18, 10, 3, 0.82);
+    --ln-bg-right: rgba(28, 16, 5, 0.65);
 
-    --ln-gold: #f5c842;
-    --ln-gold-glow: rgba(245, 200, 66, 0.2);
+    /* Gold & Saffron */
+    --ln-gold: #d4a843;
+    --ln-gold-light: #f0c96a;
+    --ln-gold-glow: rgba(212, 168, 67, 0.28);
+    --ln-gold-subtle: rgba(212, 168, 67, 0.10);
+    --ln-gold-border: rgba(212, 168, 67, 0.35);
 
-    --ln-glass: rgba(8, 5, 22, 0.72);
-    --ln-glass-left: rgba(12, 8, 30, 0.78);
-    --ln-glass-right: rgba(18, 10, 40, 0.6);
-    --ln-glass-border: rgba(255, 255, 255, 0.08);
-    --ln-glass-border-focus: rgba(139, 92, 246, 0.5);
+    --ln-saffron: #e8861a;
+    --ln-saffron-glow: rgba(232, 134, 26, 0.28);
 
-    --ln-input-bg: rgba(255, 255, 255, 0.06);
-    --ln-input-bg-focus: rgba(255, 255, 255, 0.1);
+    --ln-ivory: #f5ead8;
+    --ln-ivory-dim: #c8b89a;
 
-    --ln-text-primary: #f0eeff;
-    --ln-text-secondary: rgba(220, 215, 255, 0.55);
-    --ln-text-muted: rgba(200, 195, 240, 0.35);
+    /* Text */
+    --ln-text-primary: #f0e4c8;
+    --ln-text-secondary: rgba(200, 184, 154, 0.60);
+    --ln-text-muted: rgba(180, 160, 120, 0.40);
 
-    --ln-error: #ff7096;
-    --ln-error-bg: rgba(245, 54, 92, 0.1);
-    --ln-error-border: rgba(245, 54, 92, 0.25);
+    /* Input */
+    --ln-input-bg: rgba(255, 240, 210, 0.06);
+    --ln-input-focus: rgba(255, 240, 210, 0.11);
 
-    --font-display: 'Syne', sans-serif;
-    --font-body: 'Outfit', sans-serif;
+    /* Border */
+    --ln-border: rgba(212, 168, 67, 0.14);
+    --ln-border-focus: rgba(212, 168, 67, 0.55);
+
+    /* Error */
+    --ln-error: #e07060;
+    --ln-error-bg: rgba(220, 80, 60, 0.10);
+    --ln-error-border: rgba(220, 80, 60, 0.25);
+
+    /* Fonts */
+    --font-display: 'Cinzel', serif;
+    --font-heading: 'Cormorant Garamond', serif;
+    --font-body: 'Lato', sans-serif;
+    --font-multi: 'Lato', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil', sans-serif;
 }
 
 /* ===============================
-GLOBAL RESET
+RESET
 ================================ */
 
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
@@ -71,44 +85,108 @@ PAGE
 }
 
 /* ===============================
-BACKGROUND CAROUSEL IMAGES
+TOP GOLD BAR (matches admin)
+================================ */
+
+.login-top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, var(--ln-gold) 30%, var(--ln-saffron) 50%, var(--ln-gold) 70%, transparent 100%);
+    z-index: 200;
+}
+
+/* ===============================
+FAINT OM WATERMARK
+================================ */
+
+.login-om-watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 500px;
+    opacity: 0.022;
+    pointer-events: none;
+    z-index: 1;
+    line-height: 1;
+    user-select: none;
+}
+
+/* ===============================
+BACKGROUND CAROUSEL
 ================================ */
 
 .login-bg-wrapper {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
     z-index: 0;
+    overflow: hidden;
 }
 
 .login-bg {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
     background-size: cover;
     background-position: center;
     opacity: 0;
-    transition: opacity 1.5s ease-in-out;
+    transition: opacity 1.2s ease-in-out;
+    transform: scale(1.04);
 }
 
 .login-bg.active {
     opacity: 1;
+    animation: slowZoom 6s ease-in-out forwards;
 }
 
-.login-bg::after {
-    content: "";
+.login-bg.fading {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+@keyframes slowZoom {
+    from {
+        transform: scale(1.04);
+    }
+
+    to {
+        transform: scale(1.00);
+    }
+}
+
+/* Dark base overlay */
+.login-overlay-dark {
     position: absolute;
     inset: 0;
-    background:
-        radial-gradient(ellipse 60% 50% at 25% 50%, rgba(80, 30, 160, 0.35) 0%, transparent 65%),
-        rgba(4, 2, 14, 0.55);
+    background: rgba(10, 6, 2, 0.55);
+    z-index: 1;
+}
+
+/* Warm saffron tint */
+.login-overlay-warm {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg,
+            rgba(30, 12, 0, 0.42) 0%,
+            rgba(100, 45, 0, 0.15) 40%,
+            rgba(20, 8, 0, 0.48) 100%);
+    z-index: 2;
+}
+
+/* Vignette */
+.login-overlay-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 85% 80% at 50% 50%,
+            transparent 30%,
+            rgba(5, 2, 0, 0.70) 100%);
+    z-index: 3;
 }
 
 /* ===============================
-CAROUSEL DOTS — over background
+CAROUSEL DOTS
 ================================ */
 
 .carousel-dots {
@@ -126,8 +204,8 @@ CAROUSEL DOTS — over background
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(212, 168, 67, 0.30);
+    border: 1px solid rgba(212, 168, 67, 0.50);
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -135,13 +213,13 @@ CAROUSEL DOTS — over background
 .carousel-dot.active {
     width: 24px;
     border-radius: 4px;
-    background: var(--ln-purple);
-    border-color: var(--ln-purple-light);
-    box-shadow: 0 0 10px var(--ln-purple-glow);
+    background: var(--ln-gold);
+    border-color: var(--ln-gold-light);
+    box-shadow: 0 0 10px var(--ln-gold-glow);
 }
 
 .carousel-dot:hover:not(.active) {
-    background: rgba(255, 255, 255, 0.65);
+    background: rgba(212, 168, 67, 0.65);
     transform: scale(1.2);
 }
 
@@ -151,30 +229,42 @@ MAIN CONTAINER
 
 .login-container {
     position: relative;
-    z-index: 1;
-
+    z-index: 5;
     display: flex;
     width: 820px;
     min-height: 500px;
 
-    background: var(--ln-glass);
+    background: var(--ln-bg-card);
     backdrop-filter: blur(28px);
     -webkit-backdrop-filter: blur(28px);
 
     border-radius: 24px;
     overflow: hidden;
 
-    border: 1px solid var(--ln-glass-border);
+    border: 1px solid var(--ln-border);
     box-shadow:
-        0 40px 90px rgba(0, 0, 0, 0.7),
-        0 0 0 1px rgba(255, 255, 255, 0.04),
-        inset 0 1px 0 rgba(255, 255, 255, 0.07);
+        0 40px 90px rgba(0, 0, 0, 0.70),
+        0 0 0 1px rgba(212, 168, 67, 0.06),
+        inset 0 1px 0 rgba(212, 168, 67, 0.08);
 
-    animation: cardFade 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: cardFade 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Gold top accent on card */
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--ln-gold), var(--ln-saffron), var(--ln-gold), transparent);
+    opacity: 0.75;
+    z-index: 10;
 }
 
 /* ===============================
-LEFT LOGIN FORM
+LEFT — FORM
 ================================ */
 
 .login-left {
@@ -182,16 +272,14 @@ LEFT LOGIN FORM
     display: flex;
     flex-direction: column;
     align-items: center;
-
     padding: 44px 50px;
-
-    background: var(--ln-glass-left);
-    border-right: 1px solid var(--ln-glass-border);
-
+    background: var(--ln-bg-left);
+    border-right: 1px solid var(--ln-border);
     animation: slideLeft 0.9s cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
 }
 
+/* Subtle top-left warm glow */
 .login-left::before {
     content: '';
     position: absolute;
@@ -199,14 +287,10 @@ LEFT LOGIN FORM
     left: -40px;
     width: 200px;
     height: 200px;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.18) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(212, 168, 67, 0.12) 0%, transparent 70%);
     pointer-events: none;
     filter: blur(20px);
 }
-
-/* ===============================
-FORM LAYOUT
-================================ */
 
 .login-left form {
     width: 100%;
@@ -220,55 +304,55 @@ TITLES
 ================================ */
 
 .card-title {
-    font-size: 26px;
-    font-weight: 800;
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 600;
     text-align: center;
-    letter-spacing: 0.5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     line-height: 1.5;
     margin-bottom: 6px;
     margin-top: 0;
-    word-break: keep-all;
-    font-family: 'Syne', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif;
 
-    background: linear-gradient(135deg, #f0eeff 30%, var(--ln-purple-light));
+    background: linear-gradient(135deg, var(--ln-ivory) 20%, var(--ln-gold-light) 60%, var(--ln-saffron) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    filter: drop-shadow(0 2px 10px rgba(212, 168, 67, 0.30));
 }
 
+/* Gold underline after title */
 .card-title::after {
     content: "";
     display: block;
     width: 60px;
     height: 2px;
     margin: 10px auto 14px;
-    background: linear-gradient(90deg, transparent, var(--ln-purple), transparent);
+    background: linear-gradient(90deg, transparent, var(--ln-gold), transparent);
     border-radius: 2px;
-    opacity: 0.7;
+    opacity: 0.75;
 }
 
 .guru-text {
+    font-family: var(--font-multi);
     text-align: center;
     font-size: 17px;
     font-weight: 600;
     color: var(--ln-gold);
-    margin-top: 0;
-    margin-bottom: 2px;
+    margin: 0 0 2px;
     letter-spacing: 0.3px;
     line-height: 1.6;
-    text-shadow: 0 0 20px var(--ln-gold-glow);
-    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif;
+    text-shadow: 0 0 18px var(--ln-gold-glow);
 }
 
 .guru-subtext {
+    font-family: var(--font-multi);
     text-align: center;
     font-size: 14px;
     color: var(--ln-text-secondary);
-    margin-top: 0;
-    margin-bottom: 20px;
+    margin: 0 0 20px;
     letter-spacing: 0.2px;
     line-height: 1.6;
-    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif;
 }
 
 /* ===============================
@@ -280,18 +364,19 @@ INPUTS
     padding: 13px 16px;
     padding-right: 44px;
     font-size: 14px;
-    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif;
+    font-family: var(--font-multi);
     font-weight: 400;
     color: var(--ln-text-primary);
     letter-spacing: 0.2px;
     line-height: 1.6;
 
-    border: 1px solid var(--ln-glass-border);
+    border: 1px solid var(--ln-border);
     border-radius: 10px;
     outline: none;
     background: var(--ln-input-bg);
 
-    transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+    transition: background 0.22s ease, border-color 0.22s ease,
+        box-shadow 0.22s ease, transform 0.22s ease;
     appearance: none;
 }
 
@@ -300,10 +385,10 @@ INPUTS
 }
 
 .login-input:focus {
-    background: var(--ln-input-bg-focus);
-    border-color: var(--ln-glass-border-focus);
-    box-shadow: 0 0 0 3px var(--ln-purple-subtle);
-    transform: scale(1.02);
+    background: var(--ln-input-focus);
+    border-color: var(--ln-border-focus);
+    box-shadow: 0 0 0 3px var(--ln-gold-subtle);
+    transform: scale(1.01);
 }
 
 /* ===============================
@@ -320,10 +405,6 @@ PASSWORD WRAPPER
     padding-right: 44px;
 }
 
-/* ===============================
-EYE ICON
-================================ */
-
 .toggle-password {
     position: absolute;
     right: 14px;
@@ -337,7 +418,7 @@ EYE ICON
 }
 
 .toggle-password:hover {
-    color: var(--ln-text-primary);
+    color: var(--ln-gold);
 }
 
 /* ===============================
@@ -347,30 +428,25 @@ LOGIN BUTTON
 .login-button {
     width: 100%;
     padding: 14px;
-
-    background: linear-gradient(135deg, var(--ln-purple), var(--ln-purple-dark));
-    color: #fff;
-
-    font-size: 14px;
-    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif;
+    background: linear-gradient(135deg, var(--ln-gold), var(--ln-saffron));
+    color: #1a0f04;
+    font-size: 13px;
+    font-family: var(--font-multi);
     font-weight: 700;
-    letter-spacing: 0.5px;
-    line-height: 1.6;
+    letter-spacing: 2px;
     text-transform: uppercase;
-
     border: none;
     border-radius: 10px;
     cursor: pointer;
     margin-top: 4px;
     min-height: 48px;
-
-    transition: transform 0.22s ease, box-shadow 0.22s ease;
-    box-shadow: 0 6px 22px rgba(109, 63, 214, 0.4);
+    transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
+    box-shadow: 0 6px 22px var(--ln-gold-glow);
 }
 
 .login-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 32px var(--ln-purple-glow);
+    box-shadow: 0 12px 32px var(--ln-saffron-glow);
 }
 
 .login-button:active {
@@ -391,22 +467,22 @@ FORGOT PASSWORD
     width: 100%;
     text-align: right;
     font-size: 13px;
-    color: var(--ln-purple-light);
+    color: var(--ln-ivory-dim);
     cursor: pointer;
     margin-top: 10px;
     letter-spacing: 0.1px;
     line-height: 1.6;
-    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif;
+    font-family: var(--font-multi);
     transition: color 0.2s;
 }
 
 .forgot-password:hover {
-    color: #fff;
+    color: var(--ln-gold);
     text-decoration: underline;
 }
 
 /* ===============================
-ERROR MESSAGE
+ERROR
 ================================ */
 
 .login-error {
@@ -448,21 +524,19 @@ ERROR MESSAGE
 }
 
 /* ===============================
-RIGHT IMAGE SECTION
+RIGHT — IMAGE
 ================================ */
 
 .login-right {
     flex: 1;
-
-    background:
-        radial-gradient(ellipse 80% 70% at 50% 50%, rgba(109, 63, 214, 0.25) 0%, transparent 70%),
-        var(--ln-glass-right);
-
+    background: radial-gradient(ellipse 80% 70% at 50% 50%,
+            rgba(212, 168, 67, 0.12) 0%,
+            transparent 70%),
+        var(--ln-bg-right);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 36px;
-
     animation: slideRight 0.9s cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
 }
@@ -472,10 +546,22 @@ RIGHT IMAGE SECTION
     height: 85%;
     object-fit: cover;
     border-radius: 18px;
+    border: 1px solid var(--ln-border);
     box-shadow:
         0 24px 50px rgba(0, 0, 0, 0.55),
-        0 0 0 1px rgba(255, 255, 255, 0.06);
+        0 0 0 1px rgba(212, 168, 67, 0.08);
     animation: imageZoom 6s infinite alternate;
+}
+
+/* ===============================
+LANGUAGE SWITCHER
+================================ */
+
+.lang-switcher-top {
+    position: fixed;
+    top: 14px;
+    right: 16px;
+    z-index: 9999;
 }
 
 /* ===============================
@@ -529,17 +615,6 @@ ANIMATIONS
 }
 
 /* ===============================
-LANGUAGE SWITCHER
-================================ */
-
-.lang-switcher-top {
-    position: fixed;
-    top: 14px;
-    right: 16px;
-    z-index: 9999;
-}
-
-/* ===============================
 TABLET
 ================================ */
 
@@ -572,7 +647,7 @@ MOBILE
         order: 1;
         padding: 24px;
         border-right: none;
-        border-bottom: 1px solid var(--ln-glass-border);
+        border-bottom: 1px solid var(--ln-border);
     }
 
     .login-left {
@@ -588,7 +663,7 @@ MOBILE
     }
 
     .card-title {
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .guru-text {
@@ -605,7 +680,7 @@ MOBILE
     }
 
     .login-button {
-        font-size: 13px;
+        font-size: 12px;
         padding: 12px;
     }
 }
@@ -625,7 +700,8 @@ SMALL MOBILE
     }
 
     .card-title {
-        font-size: 19px;
+        font-size: 17px;
+        letter-spacing: 1.5px;
     }
 
     .guru-text {

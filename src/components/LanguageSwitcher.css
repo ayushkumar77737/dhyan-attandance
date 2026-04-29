@@ -1,3 +1,7 @@
+/* ===============================
+WRAPPER
+================================ */
+
 .lang-wrapper {
   position: relative;
   display: inline-block;
@@ -5,15 +9,18 @@
   z-index: 9999;
 }
 
-/* TRIGGER BUTTON */
+/* ===============================
+TRIGGER BUTTON
+================================ */
+
 .lang-trigger {
   display: flex;
   align-items: center;
   gap: 7px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(22, 13, 4, 0.55);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(212, 168, 67, 0.35);
   border-radius: 30px;
   padding: 8px 14px 8px 8px;
   cursor: pointer;
@@ -23,15 +30,18 @@
 }
 
 .lang-trigger:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  background: rgba(30, 18, 5, 0.75);
+  border-color: rgba(212, 168, 67, 0.65);
+  box-shadow: 0 4px 20px rgba(212, 168, 67, 0.18);
 }
 
-/* ← TEXT BADGE replaces flag */
+/* ===============================
+SHORT CODE BADGE
+================================ */
+
 .lang-badge {
-  background: rgba(139, 92, 246, 0.6);
-  color: #fff;
+  background: linear-gradient(135deg, rgba(212, 168, 67, 0.75), rgba(232, 134, 26, 0.65));
+  color: #1a0f04;
   font-size: 10px;
   font-weight: 700;
   padding: 2px 6px;
@@ -42,17 +52,25 @@
   text-align: center;
 }
 
+/* ===============================
+LABEL
+================================ */
+
 .lang-label {
-  color: #ffffff;
+  color: #f0e4c8;
   font-size: 13px;
   font-weight: 600;
   flex: 1;
-  font-family: 'Noto Sans', 'Segoe UI', sans-serif;
+  font-family: 'Lato', 'Noto Sans', sans-serif;
   line-height: 1.6;
 }
 
+/* ===============================
+ARROW
+================================ */
+
 .lang-arrow {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(212, 168, 67, 0.75);
   font-size: 11px;
   transition: transform 0.3s ease;
   flex-shrink: 0;
@@ -62,21 +80,37 @@
   transform: rotate(180deg);
 }
 
-/* DROPDOWN MENU */
+/* ===============================
+DROPDOWN MENU
+================================ */
+
 .lang-dropdown {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  background: rgba(20, 18, 40, 0.97);
+  background: rgba(18, 10, 3, 0.96);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(212, 168, 67, 0.25);
   border-radius: 14px;
   overflow: hidden;
   min-width: 160px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.60),
+    0 0 0 1px rgba(212, 168, 67, 0.06);
   animation: dropdownFade 0.2s ease;
   z-index: 99999;
+}
+
+/* Gold top accent on dropdown */
+.lang-dropdown::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(212, 168, 67, 0.7), rgba(232, 134, 26, 0.7), rgba(212, 168, 67, 0.7), transparent);
 }
 
 @keyframes dropdownFade {
@@ -91,7 +125,10 @@
   }
 }
 
-/* EACH OPTION */
+/* ===============================
+EACH OPTION
+================================ */
+
 .lang-option {
   display: flex;
   align-items: center;
@@ -99,21 +136,24 @@
   padding: 12px 16px;
   cursor: pointer;
   transition: background 0.2s ease;
-  font-family: 'Noto Sans', 'Segoe UI', sans-serif;
+  font-family: 'Lato', 'Noto Sans', sans-serif;
 }
 
 .lang-option:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(212, 168, 67, 0.10);
 }
 
 .lang-option.active {
-  background: rgba(130, 80, 255, 0.25);
+  background: rgba(212, 168, 67, 0.15);
 }
 
-/* ← TEXT BADGE in dropdown */
+/* ===============================
+OPTION BADGE
+================================ */
+
 .lang-option-badge {
-  background: rgba(139, 92, 246, 0.5);
-  color: #fff;
+  background: linear-gradient(135deg, rgba(212, 168, 67, 0.65), rgba(232, 134, 26, 0.55));
+  color: #1a0f04;
   font-size: 10px;
   font-weight: 700;
   padding: 2px 6px;
@@ -124,26 +164,41 @@
   text-align: center;
 }
 
+/* ===============================
+OPTION LABEL
+================================ */
+
 .lang-option-label {
-  color: #ffffff;
+  color: #f0e4c8;
   font-size: 14px;
   font-weight: 500;
   flex: 1;
   line-height: 1.8;
 }
 
+/* ===============================
+CHECKMARK
+================================ */
+
 .lang-check {
-  color: #a78bfa;
+  color: #d4a843;
   font-size: 14px;
   font-weight: 700;
   flex-shrink: 0;
 }
 
+/* ===============================
+DIVIDER BETWEEN OPTIONS
+================================ */
+
 .lang-option:not(:last-child) {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(212, 168, 67, 0.08);
 }
 
-/* MOBILE */
+/* ===============================
+MOBILE
+================================ */
+
 @media (max-width: 480px) {
   .lang-trigger {
     min-width: 100px;
