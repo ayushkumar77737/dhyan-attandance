@@ -22,21 +22,16 @@ const Login = () => {
 
   const bgImages = [bg1, bg2, bg3, bg4];
   const [bgIndex, setBgIndex] = useState(0);
-  const [fading, setFading] = useState(false);
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Auto-advance carousel every 5 seconds with crossfade
+  // Auto-advance carousel every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setFading(true);
-      setTimeout(() => {
-        setBgIndex((prev) => (prev + 1) % bgImages.length);
-        setFading(false);
-      }, 1000);
+      setBgIndex((prev) => (prev + 1) % bgImages.length);
     }, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -135,28 +130,18 @@ const Login = () => {
   return (
     <div className="login-page">
 
-      {/* ── Background Carousel ── */}
+      {/* ← BACKGROUND CAROUSEL IMAGES */}
       <div className="login-bg-wrapper">
         {bgImages.map((img, index) => (
           <div
             key={index}
-            className={`login-bg ${index === bgIndex ? "active" : ""} ${index === bgIndex && fading ? "fading" : ""}`}
+            className={`login-bg ${index === bgIndex ? "active" : ""}`}
             style={{ backgroundImage: `url(${img})` }}
-          />
+          ></div>
         ))}
-        {/* Layered warm overlays */}
-        <div className="login-overlay-dark" />
-        <div className="login-overlay-warm" />
-        <div className="login-overlay-vignette" />
       </div>
 
-      {/* ── Top gold bar (same as admin) ── */}
-      <div className="login-top-bar" />
-
-      {/* ── Faint OM watermark ── */}
-      <div className="login-om-watermark">🕉</div>
-
-      {/* ── Carousel Dots ── */}
+      {/* ← CAROUSEL DOTS OVER BACKGROUND */}
       <div className="carousel-dots">
         {bgImages.map((_, index) => (
           <span
@@ -167,15 +152,14 @@ const Login = () => {
         ))}
       </div>
 
-      {/* ── Language Switcher ── */}
+      {/* LANGUAGE SWITCHER TOP RIGHT */}
       <div className="lang-switcher-top">
         <LanguageSwitcher />
       </div>
 
-      {/* ── Login Card ── */}
       <div className="login-container">
 
-        {/* LEFT — Form */}
+        {/* LEFT SIDE FORM */}
         <div className="login-left">
 
           <h2 className="card-title">{t("appTitle")}</h2>
@@ -230,7 +214,7 @@ const Login = () => {
 
         </div>
 
-        {/* RIGHT — Image */}
+        {/* RIGHT SIDE IMAGE */}
         <div className="login-right">
           <img src={dhyanImage} alt="Dhyan" />
         </div>

@@ -2,217 +2,72 @@
 FONTS
 ================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Cinzel:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap');
 
 /* ===============================
-CSS VARIABLES — Ashram Divine Theme
+CSS VARIABLES
 ================================ */
 
 :root {
-  --ad-bg: #1a1008;
-  --ad-bg-card: rgba(30, 18, 6, 0.72);
-  --ad-bg-card-hover: rgba(40, 24, 8, 0.85);
-  --ad-bg-stat: rgba(20, 12, 4, 0.75);
+  --ad-bg: #0b0e18;
+  --ad-bg-card: #111827;
+  --ad-bg-card-hover: #161f33;
+  --ad-bg-stat: #0f1623;
 
-  --ad-saffron: #e8861a;
-  --ad-saffron-dark: #c46b0e;
-  --ad-saffron-glow: rgba(232, 134, 26, 0.28);
+  --ad-blue: #3b82f6;
+  --ad-blue-dark: #2563eb;
+  --ad-blue-glow: rgba(59, 130, 246, 0.22);
+  --ad-blue-subtle: rgba(59, 130, 246, 0.08);
 
-  --ad-gold: #d4a843;
-  --ad-gold-light: #f0c96a;
-  --ad-gold-glow: rgba(212, 168, 67, 0.25);
+  --ad-cyan: #22d3ee;
+  --ad-cyan-glow: rgba(34, 211, 238, 0.18);
 
-  --ad-lotus: #c97b8a;
-  --ad-lotus-glow: rgba(201, 123, 138, 0.22);
+  --ad-red: #ef4444;
+  --ad-red-dark: #dc2626;
+  --ad-red-glow: rgba(239, 68, 68, 0.2);
 
-  --ad-ivory: #f5ead8;
-  --ad-ivory-dim: #c8b89a;
+  --ad-green: #2dce89;
+  --ad-green-glow: rgba(45, 206, 137, 0.2);
 
-  --ad-text-primary: #f0e4c8;
-  --ad-text-secondary: #9a7f5a;
+  --ad-text-primary: #e8edf5;
+  --ad-text-secondary: #64748b;
+  --ad-text-muted: #2d3a50;
 
-  --ad-border: rgba(212, 168, 67, 0.15);
-  --ad-border-strong: rgba(212, 168, 67, 0.25);
-  --ad-border-gold: rgba(212, 168, 67, 0.45);
+  --ad-border: rgba(255, 255, 255, 0.06);
+  --ad-border-strong: rgba(255, 255, 255, 0.1);
+  --ad-border-blue: rgba(59, 130, 246, 0.3);
 
   --ad-radius-sm: 10px;
   --ad-radius-md: 16px;
   --ad-radius-lg: 22px;
 
-  --ad-shadow-card: 0 8px 32px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--ad-border);
-  --ad-shadow-glow-gold: 0 0 32px var(--ad-gold-glow);
-  --ad-shadow-glow-lotus: 0 0 28px var(--ad-lotus-glow);
+  --ad-shadow-card: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--ad-border);
+  --ad-shadow-btn: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --ad-shadow-glow-blue: 0 0 28px var(--ad-blue-glow);
+  --ad-shadow-glow-red: 0 0 28px var(--ad-red-glow);
 
-  --font-display: 'Cinzel', serif;
-  --font-heading: 'Cormorant Garamond', serif;
-  --font-body: 'Lato', sans-serif;
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Outfit', sans-serif;
 }
 
 /* ===============================
-RESET
-================================ */
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-/* ===============================
-PAGE WRAPPER
+PAGE
 ================================ */
 
 .admin-container {
-  position: relative;
-  padding: 40px 44px 60px;
+  padding: 36px 40px;
   font-family: var(--font-body);
   min-height: 100vh;
+  background: var(--ad-bg);
   color: var(--ad-text-primary);
-  overflow-x: hidden;
-  animation: pageReveal 1s ease;
-}
 
-/* Decorative top gold bar */
-.admin-container::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent 0%, var(--ad-gold) 30%, var(--ad-saffron) 50%, var(--ad-gold) 70%, transparent 100%);
-  z-index: 200;
-}
+  background-image:
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.06) 0%, transparent 60%),
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 100% 100%, 44px 44px, 44px 44px;
 
-/* Faint OM watermark */
-.admin-container::after {
-  content: '🕉';
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 500px;
-  opacity: 0.025;
-  pointer-events: none;
-  z-index: 1;
-  line-height: 1;
-  user-select: none;
-}
-
-/* ===============================
-BACKGROUND CAROUSEL
-================================ */
-
-.bg-carousel {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.bg-slide {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0;
-  transition: opacity 1.2s ease-in-out;
-  transform: scale(1.04);
-  animation: none;
-}
-
-.bg-slide--active {
-  opacity: 1;
-  animation: slowZoom 6s ease-in-out forwards;
-}
-
-.bg-slide--fading {
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-}
-
-@keyframes slowZoom {
-  from {
-    transform: scale(1.04);
-  }
-
-  to {
-    transform: scale(1.00);
-  }
-}
-
-/* Dark base overlay — brings down brightness */
-.bg-overlay-dark {
-  position: absolute;
-  inset: 0;
-  background: rgba(10, 6, 2, 0.58);
-  z-index: 1;
-}
-
-/* Warm saffron tint overlay */
-.bg-overlay-warm {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(160deg,
-      rgba(30, 12, 0, 0.45) 0%,
-      rgba(100, 45, 0, 0.18) 40%,
-      rgba(20, 8, 0, 0.50) 100%);
-  z-index: 2;
-}
-
-/* Vignette — darkens edges, focuses center */
-.bg-overlay-vignette {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 85% 80% at 50% 50%,
-      transparent 30%,
-      rgba(5, 2, 0, 0.72) 100%);
-  z-index: 3;
-}
-
-/* ===============================
-CAROUSEL DOTS
-================================ */
-
-.bg-dots {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-  z-index: 50;
-}
-
-.bg-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(212, 168, 67, 0.3);
-  border: 1px solid rgba(212, 168, 67, 0.5);
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.bg-dot--active {
-  background: var(--ad-gold);
-  transform: scale(1.35);
-  box-shadow: 0 0 8px var(--ad-gold-glow);
-}
-
-/* ===============================
-ALL CONTENT ABOVE BACKGROUND
-================================ */
-
-.dashboard-header,
-.dashboard-header-divider,
-.stats-container,
-.dashboard-body {
-  position: relative;
-  z-index: 10;
+  animation: fadeIn 0.7s ease;
 }
 
 /* ===============================
@@ -223,34 +78,7 @@ HEADER
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
-}
-
-/* ===============================
-OM DIVIDER
-================================ */
-
-.dashboard-header-divider {
-  text-align: center;
   margin-bottom: 36px;
-}
-
-.dashboard-header-divider::before {
-  content: '✦  ॐ  ✦';
-  display: block;
-  font-size: 13px;
-  letter-spacing: 10px;
-  color: var(--ad-gold);
-  opacity: 0.75;
-  margin-bottom: 10px;
-  font-family: var(--font-display);
-}
-
-.dashboard-header-divider::after {
-  content: '';
-  display: block;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--ad-border-gold), transparent);
 }
 
 /* ===============================
@@ -259,16 +87,16 @@ TITLE
 
 .dashboard-title {
   font-family: var(--font-display);
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: 3px;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   margin: 0;
-  background: linear-gradient(135deg, var(--ad-ivory) 20%, var(--ad-gold-light) 60%, var(--ad-saffron) 100%);
+
+  background: linear-gradient(135deg, #e8edf5 30%, var(--ad-blue));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 2px 12px rgba(212, 168, 67, 0.35));
 }
 
 /* ===============================
@@ -277,27 +105,23 @@ LOGOUT BUTTON
 
 .logout-btn {
   padding: 9px 22px;
-  border: 1px solid rgba(212, 168, 67, 0.45);
+  border: 1px solid var(--ad-border-strong);
   border-radius: var(--ad-radius-sm);
-  background: rgba(10, 5, 2, 0.45);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: var(--ad-gold);
+  background: transparent;
+  color: var(--ad-red);
   font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.4px;
   cursor: pointer;
-  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease,
-              box-shadow 0.25s ease, transform 0.22s ease;
+  transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
 }
 
 .logout-btn:hover {
-  background: linear-gradient(135deg, var(--ad-gold), var(--ad-saffron));
-  color: #1a0f04;
-  border-color: transparent;
-  box-shadow: var(--ad-shadow-glow-gold);
+  background: var(--ad-red);
+  color: #fff;
+  border-color: var(--ad-red);
+  box-shadow: var(--ad-shadow-glow-red);
   transform: translateY(-2px);
 }
 
@@ -312,7 +136,7 @@ STATS SECTION
 .stats-container {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 40px;
+  margin-bottom: 44px;
   flex-wrap: wrap;
   gap: 16px;
 }
@@ -320,20 +144,18 @@ STATS SECTION
 .stat-card {
   flex: 1;
   background: var(--ad-bg-stat);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  padding: 30px 24px;
+  padding: 28px 24px;
   border-radius: var(--ad-radius-md);
   text-align: center;
   border: 1px solid var(--ad-border);
   box-shadow: var(--ad-shadow-card);
-  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
-  animation: riseUp 0.8s ease both;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  animation: fadeIn 0.8s ease;
   position: relative;
   overflow: hidden;
 }
 
-/* Gold top accent */
+/* Top accent line on stat cards */
 .stat-card::before {
   content: '';
   position: absolute;
@@ -341,44 +163,31 @@ STATS SECTION
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--ad-gold), var(--ad-saffron), var(--ad-gold), transparent);
-  opacity: 0.8;
-}
-
-/* Lotus watermark */
-.stat-card::after {
-  content: '';
-  position: absolute;
-  bottom: 6px;
-  right: 10px;
-  font-size: 16px;
-  opacity: 0.13;
-  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--ad-blue), transparent);
+  opacity: 0.6;
 }
 
 .stat-card:hover {
-  transform: translateY(-6px);
-  border-color: var(--ad-border-gold);
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.5), var(--ad-shadow-glow-gold);
+  transform: translateY(-5px);
+  border-color: var(--ad-border-blue);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.5), var(--ad-shadow-glow-blue);
 }
 
 .stat-card h3 {
   margin-bottom: 10px;
   color: var(--ad-text-secondary);
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 10px;
-  letter-spacing: 2px;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
 }
 
 .stat-card p {
-  font-size: 44px;
-  font-weight: 700;
+  font-size: 40px;
+  font-weight: 800;
   font-family: var(--font-display);
-  color: var(--ad-gold);
+  color: var(--ad-blue);
   line-height: 1;
-  filter: drop-shadow(0 0 10px rgba(212, 168, 67, 0.4));
 }
 
 /* ===============================
@@ -397,56 +206,38 @@ CARD
 ================================ */
 
 .dashboard-card {
-  width: 210px;
+  width: 220px;
   background: var(--ad-bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   padding: 28px 20px 22px;
   border-radius: var(--ad-radius-lg);
   border: 1px solid var(--ad-border);
   text-align: center;
   box-shadow: var(--ad-shadow-card);
-  transition: transform 0.28s ease, box-shadow 0.28s ease,
-    border-color 0.28s ease, background 0.28s ease;
-  animation: riseUp 0.85s ease both;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  animation: fadeIn 0.8s ease;
   position: relative;
   overflow: hidden;
 }
 
-/* Inner radial glow on hover */
-.dashboard-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 80% 60% at 50% 110%, rgba(212, 168, 67, 0.1) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  pointer-events: none;
-}
-
-/* Gold bottom line */
+/* Subtle bottom glow accent */
 .dashboard-card::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 55%;
+  width: 60%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--ad-gold), transparent);
+  background: linear-gradient(90deg, transparent, var(--ad-blue), transparent);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .dashboard-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-7px);
   background: var(--ad-bg-card-hover);
-  border-color: var(--ad-border-gold);
-  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.6), var(--ad-shadow-glow-gold);
-}
-
-.dashboard-card:hover::before {
-  opacity: 1;
+  border-color: var(--ad-border-blue);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.55), var(--ad-shadow-glow-blue);
 }
 
 .dashboard-card:hover::after {
@@ -454,30 +245,31 @@ CARD
 }
 
 /* ===============================
-CARD ICON
+PROFILE IMAGE
 ================================ */
 
-.admin-profile .card-icon {
-  width: 68px;
-  height: 68px;
-  margin: 0 auto 14px;
+.admin-profile img {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 14px;
   border-radius: 50%;
-  border: 1.5px solid var(--ad-border-gold);
-  background: radial-gradient(circle, rgba(212, 168, 67, 0.14) 0%, rgba(232, 134, 26, 0.07) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-  animation: floatIcon 3.8s ease-in-out infinite;
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+
+  /* Tint the white icon to match theme */
+  filter: invert(1) brightness(0.85) sepia(0.3) hue-rotate(190deg) saturate(1.5);
+
+  border: 2px solid var(--ad-border-blue);
+  padding: 6px;
+  background: var(--ad-blue-subtle);
+
+  animation: float 3.5s ease-in-out infinite;
+  transition: filter 0.3s ease;
 }
 
-.dashboard-card:hover .admin-profile .card-icon {
-  border-color: var(--ad-gold);
-  box-shadow: 0 0 20px var(--ad-gold-glow);
+.dashboard-card:hover .admin-profile img {
+  filter: invert(1) brightness(1) sepia(0.5) hue-rotate(190deg) saturate(2);
 }
 
-@keyframes floatIcon {
+@keyframes float {
   0% {
     transform: translateY(0px);
   }
@@ -492,12 +284,11 @@ CARD ICON
 }
 
 .admin-profile h3 {
-  font-family: var(--font-heading);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
-  color: var(--ad-ivory-dim);
-  letter-spacing: 0.5px;
-  line-height: 1.3;
+  color: var(--ad-text-primary);
+  letter-spacing: 0.3px;
+  margin: 0;
 }
 
 /* ===============================
@@ -508,25 +299,26 @@ DASHBOARD BUTTON
   width: 100%;
   padding: 11px;
   margin-top: 18px;
-  border: 1px solid rgba(212, 168, 67, 0.45);
+
+  border: 1px solid var(--ad-blue);
   border-radius: var(--ad-radius-sm);
+
   background: transparent;
-  color: var(--ad-gold);
-  font-size: 10px;
+  color: var(--ad-blue);
+
+  font-size: 13px;
   font-family: var(--font-body);
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+
   cursor: pointer;
-  transition: background 0.25s ease, color 0.25s ease,
-    box-shadow 0.25s ease, transform 0.22s ease, border-color 0.25s ease;
+  transition: background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
 }
 
 .dashboard-btn:hover {
-  background: linear-gradient(135deg, var(--ad-gold), var(--ad-saffron));
-  color: #1a0f04;
-  border-color: transparent;
-  box-shadow: var(--ad-shadow-glow-gold);
+  background: var(--ad-blue);
+  color: #fff;
+  box-shadow: var(--ad-shadow-glow-blue);
   transform: translateY(-2px);
 }
 
@@ -538,20 +330,10 @@ DASHBOARD BUTTON
 ANIMATIONS
 ================================ */
 
-@keyframes pageReveal {
+@keyframes fadeIn {
   from {
     opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes riseUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(12px);
   }
 
   to {
@@ -560,56 +342,12 @@ ANIMATIONS
   }
 }
 
-/* Staggered card delays */
-.stat-card:nth-child(1) {
-  animation-delay: 0.05s;
-}
-
-.stat-card:nth-child(2) {
-  animation-delay: 0.15s;
-}
-
-.stat-card:nth-child(3) {
-  animation-delay: 0.25s;
-}
-
-.dashboard-card:nth-child(1) {
-  animation-delay: 0.10s;
-}
-
-.dashboard-card:nth-child(2) {
-  animation-delay: 0.16s;
-}
-
-.dashboard-card:nth-child(3) {
-  animation-delay: 0.22s;
-}
-
-.dashboard-card:nth-child(4) {
-  animation-delay: 0.28s;
-}
-
-.dashboard-card:nth-child(5) {
-  animation-delay: 0.34s;
-}
-
-.dashboard-card:nth-child(6) {
-  animation-delay: 0.40s;
-}
-
-.dashboard-card:nth-child(7) {
-  animation-delay: 0.46s;
-}
-
-.dashboard-card:nth-child(8) {
-  animation-delay: 0.52s;
-}
-
 /* ===============================
-TABLET
+TABLET (768px - 1024px)
 ================================ */
 
 @media (max-width: 1024px) {
+
   .stats-container {
     justify-content: center;
   }
@@ -619,23 +357,28 @@ TABLET
     max-width: 40%;
   }
 
-  .dashboard-card {
-    width: 195px;
+  .dashboard-body {
+    gap: 16px;
   }
+
+  .dashboard-card {
+    width: 200px;
+  }
+
 }
 
 /* ===============================
-MOBILE
+MOBILE (Below 768px)
 ================================ */
 
 @media (max-width: 768px) {
+
   .admin-container {
-    padding: 24px 16px 60px;
+    padding: 22px 16px;
   }
 
   .dashboard-title {
-    font-size: 20px;
-    letter-spacing: 2px;
+    font-size: 22px;
   }
 
   .stats-container {
@@ -660,6 +403,7 @@ MOBILE
     width: 90%;
     max-width: 320px;
   }
+
 }
 
 /* ===============================
@@ -667,28 +411,28 @@ SMALL MOBILE
 ================================ */
 
 @media (max-width: 480px) {
+
   .dashboard-title {
-    font-size: 16px;
-    letter-spacing: 1.5px;
+    font-size: 18px;
   }
 
   .stat-card p {
-    font-size: 34px;
+    font-size: 32px;
   }
 
-  .admin-profile .card-icon {
-    width: 56px;
-    height: 56px;
-    font-size: 24px;
+  .admin-profile img {
+    width: 60px;
+    height: 60px;
   }
 
   .dashboard-btn {
     padding: 10px;
-    font-size: 10px;
+    font-size: 13px;
   }
 
   .logout-btn {
     padding: 8px 14px;
-    font-size: 11px;
+    font-size: 12px;
   }
+
 }
