@@ -8,6 +8,7 @@ import { auth, db } from "../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
 
 import { useTranslation } from "react-i18next"; // ← ADD
+import bgImage from "../assets/bg1.webp";
 
 function AdminDashboard() {
 
@@ -66,6 +67,8 @@ function AdminDashboard() {
 
   return (
     <div className="admin-container">
+
+      <img src={bgImage} alt="" className="admin-bg-image" />
 
       {/* Header */}
       <div className="dashboard-header">
