@@ -60,11 +60,11 @@ PAGE
   min-height: 100vh;
   color: var(--ad-text-primary);
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  /* only block horizontal overflow, allow vertical scroll */
+  overflow-y: auto;
   animation: fadeIn 0.7s ease;
-  /* Prevent background colour flash on overscroll (iOS bounce) */
   background: var(--ad-bg);
-  -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
 }
 
@@ -551,27 +551,21 @@ body {
   html,
   body {
     background: #0b0e18;
-    /* Kill iOS rubber-band background flash */
     overscroll-behavior-y: none;
     -webkit-overflow-scrolling: touch;
   }
 
   .admin-container {
-    /* On mobile, allow normal scroll but keep bg fixed */
-    overflow-y: auto;
-    overflow-x: hidden;
     overscroll-behavior: none;
   }
 
   .bg-carousel {
-    /* Keep fixed on mobile — translateZ forces GPU layer */
     position: fixed;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
   }
 
   .bg-slide {
-    /* Disable Ken Burns scale on mobile — reduces repaint cost */
     transform: translateZ(0) !important;
     transition: opacity 1.2s ease !important;
   }
