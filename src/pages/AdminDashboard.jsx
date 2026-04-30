@@ -7,18 +7,11 @@ import { auth, db } from "../firebase/firebase";
 
 import { collection, getDocs } from "firebase/firestore";
 
-import { useTranslation } from "react-i18next";
-
-import bg1 from "../assets/bg1.webp";
-import bg2 from "../assets/bg2.webp";
-import bg3 from "../assets/bg3.webp";
-
-const BG_IMAGES = [bg1, bg2, bg3];
-const SLIDE_INTERVAL = 5000; // ms
+import { useTranslation } from "react-i18next"; // ← ADD
 
 function AdminDashboard() {
 
-  const { t } = useTranslation();
+  const { t } = useTranslation(); // ← ADD
 
   const navigate = useNavigate();
 
@@ -26,30 +19,6 @@ function AdminDashboard() {
   const [deletedUsers, setDeletedUsers] = useState(0);
   const [activeUsers, setActiveUsers] = useState(0);
 
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  /* ── Background carousel ── */
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % BG_IMAGES.length);
-    }, SLIDE_INTERVAL);
-    return () => clearInterval(timer);
-  }, []);
-
-  /* ── Prevent mobile overscroll background flash ── */
-  useEffect(() => {
-    const originalBg = document.body.style.backgroundColor;
-    const originalOverscroll = document.body.style.overscrollBehavior;
-    document.body.style.backgroundColor = "#0b0e18";
-    document.body.style.overscrollBehavior = "none";
-    document.documentElement.style.backgroundColor = "#0b0e18";
-    return () => {
-      document.body.style.backgroundColor = originalBg;
-      document.body.style.overscrollBehavior = originalOverscroll;
-    };
-  }, []);
-
-  /* ── Security + data fetch ── */
   useEffect(() => {
     const disableRightClick = (e) => e.preventDefault();
     const disableInspectKeys = (e) => {
@@ -98,36 +67,11 @@ function AdminDashboard() {
   return (
     <div className="admin-container">
 
-      {/* ── Background Carousel ── */}
-      <div className="bg-carousel" aria-hidden="true">
-        {BG_IMAGES.map((src, idx) => (
-          <div
-            key={idx}
-            className={`bg-slide ${idx === currentSlide ? "bg-slide--active" : ""}`}
-            style={{ backgroundImage: `url(${src})` }}
-          />
-        ))}
-        {/* Dark overlay so content stays readable */}
-        <div className="bg-overlay" />
-      </div>
-
-      {/* ── Dot indicators ── */}
-      <div className="carousel-dots" aria-label="Slide indicators">
-        {BG_IMAGES.map((_, idx) => (
-          <button
-            key={idx}
-            className={`carousel-dot ${idx === currentSlide ? "carousel-dot--active" : ""}`}
-            onClick={() => setCurrentSlide(idx)}
-            aria-label={`Go to slide ${idx + 1}`}
-          />
-        ))}
-      </div>
-
       {/* Header */}
       <div className="dashboard-header">
-        <h1 className="dashboard-title">{t("adminDashboard")}</h1>
+        <h1 className="dashboard-title">{t("adminDashboard")}</h1> {/* ← CHANGED */}
         <button className="logout-btn" onClick={handleLogout}>
-          {t("logout")}
+          {t("logout")} {/* ← CHANGED */}
         </button>
       </div>
 
@@ -135,17 +79,17 @@ function AdminDashboard() {
       <div className="stats-container">
 
         <div className="stat-card">
-          <h3>{t("totalUsers")}</h3>
+          <h3>{t("totalUsers")}</h3>  {/* ← CHANGED */}
           <p>{totalUsers}</p>
         </div>
 
         <div className="stat-card">
-          <h3>{t("deletedUsers")}</h3>
+          <h3>{t("deletedUsers")}</h3> {/* ← CHANGED */}
           <p>{deletedUsers}</p>
         </div>
 
         <div className="stat-card">
-          <h3>{t("activeUsers")}</h3>
+          <h3>{t("activeUsers")}</h3>  {/* ← CHANGED */}
           <p>{activeUsers}</p>
         </div>
 
@@ -154,83 +98,91 @@ function AdminDashboard() {
       {/* Dashboard Cards */}
       <div className="dashboard-body">
 
+        {/* Add User Card */}
         <div className="dashboard-card">
           <div className="admin-profile">
             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="admin" />
-            <h3>{t("addUser")}</h3>
+            <h3>{t("addUser")}</h3> {/* ← CHANGED */}
           </div>
           <button className="dashboard-btn" onClick={() => navigate("/add-user")}>
-            {t("addUser")}
+            {t("addUser")} {/* ← CHANGED */}
           </button>
         </div>
 
+        {/* Mark Attendance Card */}
         <div className="dashboard-card">
           <div className="admin-profile">
             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="attendance" />
-            <h3>{t("attendance")}</h3>
+            <h3>{t("attendance")}</h3> {/* ← CHANGED */}
           </div>
           <button className="dashboard-btn" onClick={() => navigate("/mark-attendance")}>
-            {t("markAttendance")}
+            {t("markAttendance")} {/* ← CHANGED */}
           </button>
         </div>
 
+        {/* All Users Card */}
         <div className="dashboard-card">
           <div className="admin-profile">
             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="edit users" />
-            <h3>{t("allUsers")}</h3>
+            <h3>{t("allUsers")}</h3> {/* ← CHANGED */}
           </div>
           <button className="dashboard-btn" onClick={() => navigate("/all-users")}>
-            {t("allUsers")}
+            {t("allUsers")} {/* ← CHANGED */}
           </button>
         </div>
 
+        {/* Attendance Report Card */}
         <div className="dashboard-card">
           <div className="admin-profile">
             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="report" />
-            <h3>{t("attendanceReport")}</h3>
+            <h3>{t("attendanceReport")}</h3> {/* ← CHANGED */}
           </div>
           <button className="dashboard-btn" onClick={() => navigate("/attendance-report")}>
-            {t("viewReport")}
+            {t("viewReport")} {/* ← CHANGED */}
           </button>
         </div>
 
+        {/* Percentage Report Card */}
         <div className="dashboard-card">
           <div className="admin-profile">
             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="percentage" />
-            <h3>{t("percentageReport")}</h3>
+            <h3>{t("percentageReport")}</h3> {/* ← CHANGED */}
           </div>
           <button className="dashboard-btn" onClick={() => navigate("/user-percentage")}>
-            {t("viewReport")}
+            {t("viewReport")} {/* ← CHANGED */}
           </button>
         </div>
 
+        {/* Deleted Users Card */}
         <div className="dashboard-card">
           <div className="admin-profile">
             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="deleted users" />
-            <h3>{t("deletedUsers")}</h3>
+            <h3>{t("deletedUsers")}</h3> {/* ← CHANGED */}
           </div>
           <button className="dashboard-btn" onClick={() => navigate("/deleted-users")}>
-            {t("viewUsers")}
+            {t("viewUsers")} {/* ← CHANGED */}
           </button>
         </div>
 
+        {/* Absence Management Card */}
         <div className="dashboard-card">
           <div className="admin-profile">
             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="absence" />
-            <h3>{t("absenceManagement")}</h3>
+            <h3>{t("absenceManagement")}</h3> {/* ← CHANGED */}
           </div>
           <button className="dashboard-btn" onClick={() => navigate("/absence-management")}>
-            {t("viewRequests")}
+            {t("viewRequests")} {/* ← CHANGED */}
           </button>
         </div>
 
+        {/* Notifications Card */}
         <div className="dashboard-card">
           <div className="admin-profile">
             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="notifications" />
-            <h3>{t("notifications")}</h3>
+            <h3>{t("notifications")}</h3> {/* ← CHANGED */}
           </div>
           <button className="dashboard-btn" onClick={() => navigate("/notifications")}>
-            {t("postNotification")}
+            {t("postNotification")} {/* ← CHANGED */}
           </button>
         </div>
 

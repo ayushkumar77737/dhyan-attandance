@@ -58,111 +58,16 @@ PAGE
   padding: 36px 40px;
   font-family: var(--font-body);
   min-height: 100vh;
+  background: var(--ad-bg);
   color: var(--ad-text-primary);
-  position: relative;
-  overflow-x: hidden;
-  /* only block horizontal overflow, allow vertical scroll */
-  overflow-y: auto;
+
+  background-image:
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.06) 0%, transparent 60%),
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 100% 100%, 44px 44px, 44px 44px;
+
   animation: fadeIn 0.7s ease;
-  background: var(--ad-bg);
-  overscroll-behavior: none;
-}
-
-/* ===============================
-BACKGROUND CAROUSEL
-================================ */
-
-.bg-carousel {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background: var(--ad-bg);
-  /* Promote to GPU layer — kills flicker on iOS/Android fast scroll */
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  will-change: transform;
-}
-
-.bg-slide {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  opacity: 0;
-  transform: scale(1.04) translateZ(0);
-  transition:
-    opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 1.4s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: opacity, transform;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-
-.bg-slide--active {
-  opacity: 1;
-  transform: scale(1) translateZ(0);
-}
-
-/* Dark overlay — keeps readability over any photo */
-.bg-overlay {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg,
-      rgba(11, 14, 24, 0.70) 0%,
-      rgba(11, 14, 24, 0.80) 60%,
-      rgba(11, 14, 24, 0.92) 100%),
-    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
-}
-
-/* ── Make all content sit above the carousel ── */
-.dashboard-header,
-.stats-container,
-.dashboard-body {
-  position: relative;
-  z-index: 1;
-}
-
-/* ===============================
-DOT INDICATORS
-================================ */
-
-.carousel-dots {
-  position: fixed;
-  bottom: 22px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-  z-index: 2;
-}
-
-.carousel-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.28);
-  cursor: pointer;
-  padding: 0;
-  transition: background 0.3s ease, transform 0.3s ease, width 0.3s ease;
-}
-
-.carousel-dot--active {
-  background: var(--ad-blue);
-  width: 24px;
-  /* pill shape for the active dot */
-  border-radius: 4px;
-  box-shadow: 0 0 10px var(--ad-blue-glow);
-}
-
-.carousel-dot:hover:not(.carousel-dot--active) {
-  background: rgba(255, 255, 255, 0.55);
-  transform: scale(1.2);
 }
 
 /* ===============================
@@ -238,14 +143,12 @@ STATS SECTION
 
 .stat-card {
   flex: 1;
-  background: rgba(10, 15, 28, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: var(--ad-bg-stat);
   padding: 28px 24px;
   border-radius: var(--ad-radius-md);
   text-align: center;
-  border: 1px solid rgba(59, 130, 246, 0.2);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--ad-border);
+  box-shadow: var(--ad-shadow-card);
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   animation: fadeIn 0.8s ease;
   position: relative;
@@ -304,14 +207,12 @@ CARD
 
 .dashboard-card {
   width: 220px;
-  background: rgba(10, 15, 28, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: var(--ad-bg-card);
   padding: 28px 20px 22px;
   border-radius: var(--ad-radius-lg);
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  border: 1px solid var(--ad-border);
   text-align: center;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  box-shadow: var(--ad-shadow-card);
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
   animation: fadeIn 0.8s ease;
   position: relative;
@@ -334,7 +235,7 @@ CARD
 
 .dashboard-card:hover {
   transform: translateY(-7px);
-  background: rgba(16, 24, 44, 0.97);
+  background: var(--ad-bg-card-hover);
   border-color: var(--ad-border-blue);
   box-shadow: 0 28px 60px rgba(0, 0, 0, 0.55), var(--ad-shadow-glow-blue);
 }
@@ -353,6 +254,7 @@ PROFILE IMAGE
   margin-bottom: 14px;
   border-radius: 50%;
 
+  /* Tint the white icon to match theme */
   filter: invert(1) brightness(0.85) sepia(0.3) hue-rotate(190deg) saturate(1.5);
 
   border: 2px solid var(--ad-border-blue);
@@ -531,47 +433,6 @@ SMALL MOBILE
   .logout-btn {
     padding: 8px 14px;
     font-size: 12px;
-  }
-
-}
-
-/* ===============================
-MOBILE SCROLL FLASH FIX
-================================ */
-
-/* Prevent white/grey flash when fast-scrolling on Android/iOS */
-html,
-body {
-  background: #0b0e18;
-  overscroll-behavior: none;
-}
-
-@media (max-width: 768px) {
-
-  html,
-  body {
-    background: #0b0e18;
-    overscroll-behavior-y: none;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .admin-container {
-    overscroll-behavior: none;
-  }
-
-  .bg-carousel {
-    position: fixed;
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-
-  .bg-slide {
-    transform: translateZ(0) !important;
-    transition: opacity 1.2s ease !important;
-  }
-
-  .bg-slide--active {
-    transform: translateZ(0) !important;
   }
 
 }
