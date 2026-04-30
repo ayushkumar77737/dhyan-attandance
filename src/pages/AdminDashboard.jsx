@@ -36,6 +36,19 @@ function AdminDashboard() {
     return () => clearInterval(timer);
   }, []);
 
+  /* ── Prevent mobile overscroll background flash ── */
+  useEffect(() => {
+    const originalBg = document.body.style.backgroundColor;
+    const originalOverscroll = document.body.style.overscrollBehavior;
+    document.body.style.backgroundColor = "#0b0e18";
+    document.body.style.overscrollBehavior = "none";
+    document.documentElement.style.backgroundColor = "#0b0e18";
+    return () => {
+      document.body.style.backgroundColor = originalBg;
+      document.body.style.overscrollBehavior = originalOverscroll;
+    };
+  }, []);
+
   /* ── Security + data fetch ── */
   useEffect(() => {
     const disableRightClick = (e) => e.preventDefault();
