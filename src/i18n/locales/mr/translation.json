@@ -140,5 +140,6 @@
   "reject": "नाकारा",
   "deleteNotification": "सूचना हटवा",
   "deleteNotificationMsg": "तुम्हाला ही सूचना हटवायची आहे का?",
-  "editNotification": "सूचना संपादित करा"
+  "editNotification": "सूचना संपादित करा",
+  "save": "जतन करा"
 }

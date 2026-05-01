@@ -140,5 +140,6 @@
   "reject": "প্রত্যাখ্যান করুন",
   "deleteNotification": "বিজ্ঞপ্তি মুছুন",
   "deleteNotificationMsg": "আপনি কি এই বিজ্ঞপ্তিটি মুছতে চান?",
-  "editNotification": "বিজ্ঞপ্তি সম্পাদনা করুন"
+  "editNotification": "বিজ্ঞপ্তি সম্পাদনা করুন",
+  "save": "সংরক্ষণ করুন"
 }

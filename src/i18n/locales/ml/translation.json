@@ -140,5 +140,6 @@
   "reject": "നിരസിക്കുക",
   "deleteNotification": "അറിയിപ്പ് ഇല്ലാതാക്കുക",
   "deleteNotificationMsg": "ഈ അറിയിപ്പ് ഇല്ലാതാക്കണമോ?",
-  "editNotification": "അറിയിപ്പ് തിരുത്തുക"
+  "editNotification": "അറിയിപ്പ് തിരുത്തുക",
+  "save": "സേവ് ചെയ്യുക"
 }

@@ -140,5 +140,6 @@
   "reject": "நிராகரி",
   "deleteNotification": "அறிவிப்பை நீக்கு",
   "deleteNotificationMsg": "இந்த அறிவிப்பை நீக்க விரும்புகிறீர்களா?",
-  "editNotification": "அறிவிப்பை திருத்து"
+  "editNotification": "அறிவிப்பை திருத்து",
+  "save": "சேமி"
 }

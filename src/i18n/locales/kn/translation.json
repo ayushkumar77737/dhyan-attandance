@@ -140,5 +140,6 @@
   "reject": "ತಿರಸ್ಕರಿಸು",
   "deleteNotification": "ಅಧಿಸೂಚನೆ ಅಳಿಸಿ",
   "deleteNotificationMsg": "ನೀವು ಈ ಅಧಿಸೂಚನೆಯನ್ನು ಅಳಿಸಲು ಬಯಸುವಿರಾ?",
-  "editNotification": "ಅಧಿಸೂಚನೆ ಸಂಪಾದಿಸಿ"
+  "editNotification": "ಅಧಿಸೂಚನೆ ಸಂಪಾದಿಸಿ",
+  "save": "ಉಳಿಸಿ"
 }

@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import "./AttendanceReport.css";
 
 import { db } from "../firebase/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore"; // ← ADD doc, updateDoc
 
 import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 
-import { useTranslation } from "react-i18next"; // ← ADD
+import { useTranslation } from "react-i18next";
 
 function AttendanceReport() {
 
-    const { t } = useTranslation(); // ← ADD
+    const { t } = useTranslation();
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -40,6 +40,11 @@ function AttendanceReport() {
     const [reportGenerated, setReportGenerated] = useState(false);
     const [noAttendance, setNoAttendance] = useState(false);
 
+    // ← ADD: edit modal state
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editUser, setEditUser] = useState(null);
+    const [editStatus, setEditStatus] = useState("");
+
     useEffect(() => {
         const today = new Date().toISOString().split("T")[0];
         setSelectedDate(today);
@@ -56,7 +61,6 @@ function AttendanceReport() {
     }, []);
 
     const fetchReport = async () => {
-
         if (!selectedDate) return;
 
         setReportGenerated(true);
@@ -86,7 +90,6 @@ function AttendanceReport() {
 
         let updated = users
             .filter(user => {
-                // ← only show users who have attendance for exact selected date
                 return attendanceForDate.some(record => record.userId === user.id);
             })
             .map((user) => ({
@@ -97,6 +100,37 @@ function AttendanceReport() {
         setReportUsers(updated);
         setPresentCount(updated.filter(u => u.status === "Present").length);
         setAbsentCount(updated.filter(u => u.status === "Absent").length);
+    };
+
+    // ← ADD: open edit modal
+    const openEditModal = (user) => {
+        setEditUser(user);
+        setEditStatus(user.status);
+        setShowEditModal(true);
+    };
+
+    // ← ADD: save edited attendance
+    const saveEdit = async () => {
+        if (!editUser || !editStatus) return;
+        try {
+            const docId = `${editUser.id}_${selectedDate}`;
+            await updateDoc(doc(db, "attendance", docId), {
+                status: editStatus
+            });
+
+            // Update local state
+            const updated = reportUsers.map(u =>
+                u.id === editUser.id ? { ...u, status: editStatus } : u
+            );
+            setReportUsers(updated);
+            setPresentCount(updated.filter(u => u.status === "Present").length);
+            setAbsentCount(updated.filter(u => u.status === "Absent").length);
+
+            setShowEditModal(false);
+            setEditUser(null);
+        } catch (error) {
+            console.error("Error updating attendance:", error);
+        }
     };
 
     const exportToExcel = () => {
@@ -121,16 +155,14 @@ function AttendanceReport() {
 
             {/* Back Button */}
             <button className="back-btn" onClick={() => navigate("/admin-dashboard")}>
-                <span>←</span> {t("back")} {/* ← CHANGED */}
+                <span>←</span> {t("back")}
             </button>
 
             {/* Title Block */}
             <div className="ar-title-block">
-                <span className="ar-eyebrow">{t("adminPanel")}</span> {/* ← CHANGED */}
-                <h1 className="report-title">
-                    {t("attendanceReport")} {/* ← CHANGED */}
-                </h1>
-                <p className="ar-subtitle">{t("reportSubtitle")}</p> {/* ← CHANGED */}
+                <span className="ar-eyebrow">{t("adminPanel")}</span>
+                <h1 className="report-title">{t("attendanceReport")}</h1>
+                <p className="ar-subtitle">{t("reportSubtitle")}</p>
             </div>
 
             {/* Date Section */}
@@ -146,7 +178,7 @@ function AttendanceReport() {
                     }}
                 />
                 <button onClick={fetchReport}>
-                    <span className="btn-icon">⚡</span> {t("generateReport")} {/* ← CHANGED */}
+                    <span className="btn-icon">⚡</span> {t("generateReport")}
                 </button>
             </div>
 
@@ -154,7 +186,7 @@ function AttendanceReport() {
             {reportGenerated && noAttendance && (
                 <div className="no-attendance">
                     <span className="no-att-icon">📭</span>
-                    {t("attendanceNotMarked")} {/* ← CHANGED */}
+                    {t("attendanceNotMarked")}
                 </div>
             )}
 
@@ -163,31 +195,27 @@ function AttendanceReport() {
                 <>
                     {/* Summary Cards */}
                     <div className="report-cards">
-
                         <div className="report-card">
                             <div className="card-icon">👥</div>
-                            <h3>{t("totalUsers")}</h3> {/* ← CHANGED */}
+                            <h3>{t("totalUsers")}</h3>
                             <p>{reportUsers.length}</p>
                         </div>
-
                         <div className="report-card present">
                             <div className="card-icon">✅</div>
-                            <h3>{t("present")}</h3> {/* ← CHANGED */}
+                            <h3>{t("present")}</h3>
                             <p>{presentCount}</p>
                         </div>
-
                         <div className="report-card absent">
                             <div className="card-icon">❌</div>
-                            <h3>{t("absent")}</h3> {/* ← CHANGED */}
+                            <h3>{t("absent")}</h3>
                             <p>{absentCount}</p>
                         </div>
-
                     </div>
 
                     {/* Export */}
                     <div className="export-section">
                         <button className="export-btn" onClick={exportToExcel}>
-                            <span>⬇</span> {t("exportExcel")} {/* ← CHANGED */}
+                            <span>⬇</span> {t("exportExcel")}
                         </button>
                     </div>
 
@@ -195,9 +223,10 @@ function AttendanceReport() {
                     <table className="report-table">
                         <thead>
                             <tr>
-                                <th>{t("name")}</th>   {/* ← CHANGED */}
-                                <th>{t("id")}</th>     {/* ← CHANGED */}
-                                <th>{t("status")}</th> {/* ← CHANGED */}
+                                <th>{t("name")}</th>
+                                <th>{t("id")}</th>
+                                <th>{t("status")}</th>
+                                <th>{t("actions")}</th> {/* ← ADD */}
                             </tr>
                         </thead>
                         <tbody>
@@ -217,8 +246,18 @@ function AttendanceReport() {
 
                                     <td>
                                         <span className={user.status === "Present" ? "present-text" : "absent-text"}>
-                                            {user.status === "Present" ? `● ${t("present")}` : `● ${t("absent")}`} {/* ← CHANGED */}
+                                            {user.status === "Present" ? `● ${t("present")}` : `● ${t("absent")}`}
                                         </span>
+                                    </td>
+
+                                    {/* ← ADD edit button */}
+                                    <td>
+                                        <button
+                                            className="ar-edit-btn"
+                                            onClick={() => openEditModal(user)}
+                                        >
+                                            ✎ {t("edit")}
+                                        </button>
                                     </td>
 
                                 </tr>
@@ -226,6 +265,51 @@ function AttendanceReport() {
                         </tbody>
                     </table>
                 </>
+            )}
+
+            {/* ← EDIT MODAL */}
+            {showEditModal && editUser && (
+                <div className="ar-modal-overlay" onClick={() => setShowEditModal(false)}>
+                    <div className="ar-modal" onClick={(e) => e.stopPropagation()}>
+
+                        <div className="ar-modal-header">
+                            <h3>✎ {t("edit")} Attendance</h3>
+                            <button className="ar-modal-close" onClick={() => setShowEditModal(false)}>✕</button>
+                        </div>
+
+                        <div className="ar-modal-info">
+                            <p>👤 {editUser.name} ({editUser.id})</p>
+                            <p>📅 {selectedDate}</p>
+                        </div>
+
+                        <p className="ar-modal-label">{t("status")}:</p>
+
+                        <div className="ar-modal-options">
+                            <button
+                                className={`ar-modal-opt present ${editStatus === "Present" ? "active" : ""}`}
+                                onClick={() => setEditStatus("Present")}
+                            >
+                                ✅ {t("present")}
+                            </button>
+                            <button
+                                className={`ar-modal-opt absent ${editStatus === "Absent" ? "active" : ""}`}
+                                onClick={() => setEditStatus("Absent")}
+                            >
+                                ❌ {t("absent")}
+                            </button>
+                        </div>
+
+                        <div className="ar-modal-footer">
+                            <button className="ar-modal-cancel" onClick={() => setShowEditModal(false)}>
+                                {t("cancel")}
+                            </button>
+                            <button className="ar-modal-save" onClick={saveEdit}>
+                                💾 {t("save")}
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
             )}
 
         </div>
