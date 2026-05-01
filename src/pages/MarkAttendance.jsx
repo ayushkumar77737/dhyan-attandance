@@ -69,11 +69,7 @@ function MarkAttendance() {
                 userList.push({ id: docItem.id, ...docItem.data() });
             });
 
-            userList.sort((a, b) => {
-                const numA = parseInt(a.id.replace(/\D/g, ""), 10);
-                const numB = parseInt(b.id.replace(/\D/g, ""), 10);
-                return numA - numB;
-            });
+            userList.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
 
             setUsers(userList);
 
