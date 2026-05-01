@@ -135,5 +135,7 @@
   "allCaughtUp": "మీరు అన్నీ చదివారు!",
   "noMessage": "సందేశం లేదు",
   "noDate": "తేదీ లేదు",
-  "userIdAlreadyExists": "ఈ ఐడీ ఇప్పటికే ఉంది!"
+  "userIdAlreadyExists": "ఈ ఐడీ ఇప్పటికే ఉంది!",
+  "approve": "ఆమోదించు",
+  "reject": "తిరస్కరించు"
 }

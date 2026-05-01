@@ -135,5 +135,7 @@
   "allCaughtUp": "আপনি সব পড়েছেন!",
   "noMessage": "কোনো বার্তা নেই",
   "noDate": "কোনো তারিখ নেই",
-  "userIdAlreadyExists": "এই আইডি ইতিমধ্যে বিদ্যমান!"
+  "userIdAlreadyExists": "এই আইডি ইতিমধ্যে বিদ্যমান!",
+  "approve": "অনুমোদন করুন",
+  "reject": "প্রত্যাখ্যান করুন"
 }

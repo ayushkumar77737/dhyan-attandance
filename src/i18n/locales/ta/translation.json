@@ -135,5 +135,7 @@
   "allCaughtUp": "நீங்கள் அனைத்தையும் படித்தீர்கள்!",
   "noMessage": "செய்தி இல்லை",
   "noDate": "தேதி இல்லை",
-  "userIdAlreadyExists": "இந்த ஐடி ஏற்கனவே உள்ளது!"
+  "userIdAlreadyExists": "இந்த ஐடி ஏற்கனவே உள்ளது!",
+  "approve": "அனுமதி",
+  "reject": "நிராகரி"
 }

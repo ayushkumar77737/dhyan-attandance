@@ -86,11 +86,8 @@ function AttendanceReport() {
 
         let updated = users
             .filter(user => {
-                const hasJoined = attendanceSnap.docs.some(doc => {
-                    const data = doc.data();
-                    return data.userId === user.id && data.date <= selectedDate;
-                });
-                return hasJoined;
+                // ← only show users who have attendance for exact selected date
+                return attendanceForDate.some(record => record.userId === user.id);
             })
             .map((user) => ({
                 ...user,

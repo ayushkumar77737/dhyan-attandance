@@ -135,5 +135,7 @@
   "allCaughtUp": "You're all caught up!",
   "noMessage": "No message",
   "noDate": "No Date",
-  "userIdAlreadyExists": "User ID already exists!"
+  "userIdAlreadyExists": "User ID already exists!",
+  "approve": "Approve",
+  "reject": "Reject"
 }

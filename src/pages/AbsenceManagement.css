@@ -12,16 +12,12 @@ PAGE
   min-height: 100vh;
   background: #0b0f1a;
   padding: 40px 20px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   font-family: "DM Sans", sans-serif;
-
   position: relative;
   overflow: hidden;
-
   animation: am-fadeIn 0.6s ease-in-out;
 }
 
@@ -61,7 +57,6 @@ DECORATIVE ORBS
   background: radial-gradient(circle, rgba(168, 85, 247, 0.1), transparent 70%);
 }
 
-/* All content above orbs */
 .absence-management-back-btn,
 .am-title-block,
 .am-stats-strip,
@@ -77,25 +72,18 @@ BACK BUTTON
 .absence-management-back-btn {
   align-self: flex-start;
   margin-bottom: 20px;
-
   display: flex;
   align-items: center;
   gap: 6px;
-
   padding: 9px 20px;
-
   background: rgba(255, 255, 255, 0.05);
   color: #a5b4fc;
-
   border: 1px solid rgba(165, 180, 252, 0.2);
   border-radius: 50px;
-
   cursor: pointer;
-
   font-size: 13px;
   font-family: "DM Sans", sans-serif;
   font-weight: 500;
-
   transition: all 0.25s ease;
   backdrop-filter: blur(10px);
 }
@@ -140,13 +128,6 @@ TITLE BLOCK
   margin: 0 0 10px 0;
   line-height: 1.1;
   text-align: center;
-}
-
-.am-accent {
-  background: linear-gradient(135deg, #818cf8, #22d3ee);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .am-subtitle {
@@ -223,21 +204,14 @@ CARD
 
 .absence-management-card {
   width: 100%;
-  max-width: 1000px;
-
+  max-width: 1100px;
   background: rgba(255, 255, 255, 0.03);
   padding: 24px;
-
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(20px);
-
   animation: am-slideUp 0.5s ease;
-
-  /* ✅ FIX: allow horizontal scroll inside card */
   overflow-x: auto;
 }
 
@@ -252,8 +226,6 @@ CARD TOOLBAR
   margin-bottom: 20px;
   flex-wrap: wrap;
   gap: 12px;
-
-  /* ✅ FIX: prevent toolbar from shrinking */
   min-width: fit-content;
 }
 
@@ -269,43 +241,29 @@ EXPORT BUTTON
 
 .absence-management-export-btn {
   padding: 10px 20px;
-  margin-bottom: 0;
-
   background: linear-gradient(135deg, #22c55e, #16a34a);
   color: white;
-
   font-size: 14px;
   font-weight: 600;
   font-family: "DM Sans", sans-serif;
-  letter-spacing: 0.3px;
-
   border: none;
   border-radius: 10px;
-
   cursor: pointer;
-
   display: flex;
   align-items: center;
   gap: 8px;
-
   transition: all 0.25s ease;
   box-shadow: 0 4px 20px rgba(34, 197, 94, 0.25);
-
   white-space: nowrap;
 }
 
 .absence-management-export-btn:hover {
   background: linear-gradient(135deg, #16a34a, #15803d);
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(34, 197, 94, 0.35);
-}
-
-.absence-management-export-btn:active {
-  transform: scale(0.97);
 }
 
 /* =========================
-TABLE WRAPPER — ✅ KEY FIX
+TABLE WRAPPER
 ========================= */
 
 .am-table-wrapper {
@@ -321,48 +279,35 @@ TABLE
 
 .absence-management-table {
   width: 100%;
-  min-width: 620px;
-  /* ✅ FIX: forces all columns to stay visible */
+  min-width: 800px;
   border-collapse: collapse;
   border-radius: 14px;
   overflow: hidden;
 }
 
-/* Header */
 .absence-management-table th {
   background: rgba(99, 102, 241, 0.12);
   color: #a5b4fc;
-
   padding: 14px 16px;
   text-align: left;
-
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-
   border-bottom: 1px solid rgba(99, 102, 241, 0.15);
-
   white-space: nowrap;
-  /* ✅ FIX: header text never wraps */
 }
 
-/* Data */
 .absence-management-table td {
   padding: 13px 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-
   color: #cbd5e1;
   font-size: 14px;
-
   vertical-align: middle;
   transition: background 0.2s ease;
-
   white-space: nowrap;
-  /* ✅ FIX: prevents cell squishing */
 }
 
-/* Row */
 .absence-management-table tbody tr {
   transition: all 0.2s ease;
   animation: am-rowFadeIn 0.4s ease both;
@@ -380,7 +325,6 @@ TABLE
 CUSTOM CELLS
 ========================= */
 
-/* ID chip */
 .am-id-chip {
   display: inline-block;
   font-family: "Courier New", monospace;
@@ -391,10 +335,8 @@ CUSTOM CELLS
   color: #a5b4fc;
   padding: 4px 10px;
   border-radius: 6px;
-  letter-spacing: 0.5px;
 }
 
-/* Name cell */
 .am-name-cell {
   display: flex;
   align-items: center;
@@ -418,7 +360,6 @@ CUSTOM CELLS
   flex-shrink: 0;
 }
 
-/* Date chip */
 .am-date-chip {
   display: inline-block;
   font-size: 12px;
@@ -428,18 +369,15 @@ CUSTOM CELLS
   padding: 3px 10px;
   border-radius: 6px;
   font-family: "Courier New", monospace;
-  white-space: nowrap;
 }
 
-/* Reason cell */
 .am-reason-cell {
   color: #94a3b8;
   font-size: 13px;
-  max-width: 220px;
+  max-width: 200px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* ✅ long reasons get "..." instead of wrapping */
 }
 
 /* =========================
@@ -455,14 +393,7 @@ STATUS BADGE
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  letter-spacing: 0.3px;
-  transition: transform 0.2s ease;
   white-space: nowrap;
-  /* ✅ FIX: status badge never breaks */
-}
-
-.absence-management-status:hover {
-  transform: scale(1.05);
 }
 
 .absence-management-status.pending {
@@ -481,6 +412,283 @@ STATUS BADGE
   background: rgba(239, 68, 68, 0.1);
   color: #f87171;
   border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* =========================
+ACTION BUTTONS
+========================= */
+
+.am-action-btns {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.am-approve-btn {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #4ade80;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.am-approve-btn:hover {
+  background: rgba(34, 197, 94, 0.25);
+  border-color: rgba(34, 197, 94, 0.6);
+  transform: translateY(-1px);
+}
+
+.am-reject-btn {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.am-reject-btn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: rgba(239, 68, 68, 0.6);
+  transform: translateY(-1px);
+}
+
+/* ← NEW: Edit button */
+.am-edit-btn {
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #a5b4fc;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.am-edit-btn:hover {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: rgba(99, 102, 241, 0.6);
+  color: #c7d2fe;
+  transform: translateY(-1px);
+}
+
+/* =========================
+EDIT MODAL  ← NEW
+========================= */
+
+.am-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: am-fadeIn 0.2s ease;
+}
+
+.am-modal {
+  background: #131929;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 20px;
+  padding: 28px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  animation: am-modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes am-modalPop {
+  from {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.am-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.am-modal-header h3 {
+  font-family: "Syne", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.am-modal-close {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.am-modal-close:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #f87171;
+}
+
+.am-modal-info {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.am-modal-info p {
+  margin: 0;
+  font-size: 13px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.am-modal-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #64748b;
+  margin: 0 0 10px 0;
+}
+
+.am-modal-options {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.am-modal-opt {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  min-width: 90px;
+}
+
+.am-modal-opt.pending {
+  background: rgba(234, 179, 8, 0.08);
+  border-color: rgba(234, 179, 8, 0.2);
+  color: #fbbf24;
+}
+
+.am-modal-opt.pending.active,
+.am-modal-opt.pending:hover {
+  background: rgba(234, 179, 8, 0.2);
+  border-color: rgba(234, 179, 8, 0.5);
+}
+
+.am-modal-opt.approved {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+}
+
+.am-modal-opt.approved.active,
+.am-modal-opt.approved:hover {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: rgba(34, 197, 94, 0.5);
+}
+
+.am-modal-opt.rejected {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+.am-modal-opt.rejected.active,
+.am-modal-opt.rejected:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+.am-modal-footer {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.am-modal-cancel {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.am-modal-cancel:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: #cbd5e1;
+}
+
+.am-modal-save {
+  padding: 10px 22px;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  border: none;
+  color: white;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+}
+
+.am-modal-save:hover {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
 }
 
 /* =========================
@@ -561,7 +769,6 @@ MOBILE (<=480px)
 ========================= */
 
 @media (max-width: 480px) {
-
   .absence-management-page {
     padding: 15px;
   }
@@ -578,7 +785,7 @@ MOBILE (<=480px)
   .absence-management-table th,
   .absence-management-table td {
     font-size: 12px;
-    padding: 10px 10px;
+    padding: 10px;
   }
 
   .am-stats-strip {
@@ -595,6 +802,19 @@ MOBILE (<=480px)
     align-items: flex-start;
   }
 
+  .am-action-btns {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .am-modal {
+    padding: 20px;
+    margin: 0 16px;
+  }
+
+  .am-modal-options {
+    flex-direction: column;
+  }
 }
 
 /* =========================
@@ -602,7 +822,6 @@ TABLET (481px–768px)
 ========================= */
 
 @media (min-width: 481px) and (max-width: 768px) {
-
   .absence-management-card {
     max-width: 95%;
     padding: 20px;
@@ -611,7 +830,6 @@ TABLET (481px–768px)
   .absence-management-title {
     font-size: 34px;
   }
-
 }
 
 /* =========================
@@ -619,11 +837,9 @@ LAPTOP (769px–1200px)
 ========================= */
 
 @media (min-width: 769px) and (max-width: 1200px) {
-
   .absence-management-card {
     max-width: 900px;
   }
-
 }
 
 /* =========================
@@ -631,9 +847,7 @@ LARGE SCREENS (>1200px)
 ========================= */
 
 @media (min-width: 1201px) {
-
   .absence-management-card {
-    max-width: 1050px;
+    max-width: 1100px;
   }
-
 }

@@ -92,12 +92,12 @@ function MyRequests() {
 
                     <td>
                       <span className={`status ${item.status.toLowerCase()}`}>
-                        {item.status === "Approved" && "✓ "}
-                        {item.status === "Rejected" && "✕ "}
-                        {item.status === "Pending" && "⏳ "}
-                        {item.status === "Approved" && t("approved")}  {/* ← CHANGED */}
-                        {item.status === "Rejected" && t("rejected")}  {/* ← CHANGED */}
-                        {item.status === "Pending" && t("pending")}    {/* ← CHANGED */}
+                        {item.status.toLowerCase() === "approved" && "✓ "}
+                        {item.status.toLowerCase() === "rejected" && "✕ "}
+                        {item.status.toLowerCase() === "pending" && "⏳ "}
+                        {item.status.toLowerCase() === "approved" && t("approved")}
+                        {item.status.toLowerCase() === "rejected" && t("rejected")}
+                        {item.status.toLowerCase() === "pending" && t("pending")}
                       </span>
                     </td>
 

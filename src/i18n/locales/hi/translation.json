@@ -135,5 +135,7 @@
   "allCaughtUp": "आप सब अपडेट हैं!",
   "noMessage": "कोई संदेश नहीं",
   "noDate": "कोई तारीख नहीं",
-  "userIdAlreadyExists": "यह ID पहले से मौजूद है!"
+  "userIdAlreadyExists": "यह ID पहले से मौजूद है!",
+  "approve": "स्वीकार करें",
+  "reject": "अस्वीकार करें"
 }

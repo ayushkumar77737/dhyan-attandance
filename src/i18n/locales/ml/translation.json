@@ -135,5 +135,7 @@
   "allCaughtUp": "നിങ്ങൾ എല്ലാം വായിച്ചു!",
   "noMessage": "സന്ദേശം ഇല്ല",
   "noDate": "തീയതി ഇല്ല",
-  "userIdAlreadyExists": "ഈ ഐഡി ഇതിനകം നിലവിലുണ്ട്!"
+  "userIdAlreadyExists": "ഈ ഐഡി ഇതിനകം നിലവിലുണ്ട്!",
+  "approve": "അംഗീകരിക്കുക",
+  "reject": "നിരസിക്കുക"
 }

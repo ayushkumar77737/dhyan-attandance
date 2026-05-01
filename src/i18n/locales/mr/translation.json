@@ -135,5 +135,7 @@
   "allCaughtUp": "तुम्ही सर्व वाचले आहे!",
   "noMessage": "संदेश नाही",
   "noDate": "तारीख नाही",
-  "userIdAlreadyExists": "हा आयडी आधीपासून अस्तित्वात आहे!"
+  "userIdAlreadyExists": "हा आयडी आधीपासून अस्तित्वात आहे!",
+  "approve": "मंजूर करा",
+  "reject": "नाकारा"
 }
