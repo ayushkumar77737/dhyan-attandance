@@ -35,6 +35,8 @@
   background-image:
     radial-gradient(ellipse 60% 40% at 50% 0%, rgba(108, 143, 255, 0.06) 0%, transparent 70%);
   position: relative;
+  animation: fadeIn 0.5s ease-in-out;
+  /* ← ADD */
 }
 
 /* ===== INNER CONTAINER ===== */
@@ -48,6 +50,8 @@
   border: 1px solid var(--border);
   box-sizing: border-box;
   margin-top: 16px;
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  /* ← ADD */
 }
 
 /* ===== HEADER ===== */
@@ -293,5 +297,27 @@
 @media (min-width: 769px) {
   .my-notifications-container {
     max-width: 640px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(36px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
