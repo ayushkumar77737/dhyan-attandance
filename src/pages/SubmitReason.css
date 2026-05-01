@@ -40,13 +40,8 @@
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* ── BACK BUTTON ── */
@@ -91,7 +86,6 @@
   animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* top teal stripe */
 .submit-reason-page .reason-card::before {
   content: '';
   position: absolute;
@@ -103,7 +97,6 @@
   border-radius: 2px;
 }
 
-/* subtle inner glow */
 .submit-reason-page .reason-card::after {
   content: '';
   position: absolute;
@@ -117,15 +110,8 @@
 }
 
 @keyframes slideUp {
-  from {
-    transform: translateY(36px);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(36px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
 }
 
 /* ── BADGE ── */
@@ -184,9 +170,12 @@
   color: var(--sr-text-mid);
 }
 
-/* ── INPUTS ── */
+/* ── INPUTS (shared base) ── */
 .submit-reason-page .reason-group input,
 .submit-reason-page .reason-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
   padding: 12px 14px;
   border-radius: var(--sr-radius);
   border: 1.5px solid var(--sr-border);
@@ -216,6 +205,49 @@
   border-color: #cbd5e1;
 }
 
+/* ── DATE INPUT FIX ──
+   Android Chrome shrinks <input type="date"> to a small box with a
+   chevron and hides the date text. These rules reset native appearance
+   and force full-width rendering matching all other inputs.
+*/
+.submit-reason-page .reason-group input[type="date"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  box-sizing: border-box;
+  display: block;
+  cursor: pointer;
+  color: var(--sr-text);
+}
+
+/* Force editable date segments to use our color (Android quirk) */
+.submit-reason-page .reason-group input[type="date"]::-webkit-datetime-edit {
+  color: var(--sr-text);
+  padding: 0;
+  flex: 1;
+}
+
+.submit-reason-page .reason-group input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+
+.submit-reason-page .reason-group input[type="date"]::-webkit-datetime-edit-text,
+.submit-reason-page .reason-group input[type="date"]::-webkit-datetime-edit-day-field,
+.submit-reason-page .reason-group input[type="date"]::-webkit-datetime-edit-month-field,
+.submit-reason-page .reason-group input[type="date"]::-webkit-datetime-edit-year-field {
+  color: var(--sr-text);
+}
+
+/* Teal-tinted calendar icon */
+.submit-reason-page .reason-group input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.65;
+  cursor: pointer;
+  filter: invert(40%) sepia(80%) saturate(400%) hue-rotate(140deg);
+}
+
 /* ── TEXTAREA ── */
 .submit-reason-page .reason-group textarea {
   min-height: 110px;
@@ -225,6 +257,7 @@
 
 /* ── SUBMIT BUTTON ── */
 .submit-reason-page .reason-submit-btn {
+  width: 100%;
   margin-top: 6px;
   padding: 13px;
   border: none;
@@ -274,9 +307,7 @@
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 /* ── MESSAGE ── */
@@ -325,6 +356,11 @@
   .submit-reason-page .reason-submit-btn {
     font-size: 14px;
     padding: 12px;
+  }
+
+  .submit-reason-page .reason-group input[type="date"] {
+    min-height: 50px;
+    font-size: 15px;
   }
 }
 
