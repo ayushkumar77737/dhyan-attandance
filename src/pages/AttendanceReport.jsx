@@ -273,7 +273,7 @@ function AttendanceReport() {
                     <div className="ar-modal" onClick={(e) => e.stopPropagation()}>
 
                         <div className="ar-modal-header">
-                            <h3>✎ {t("edit")} Attendance</h3>
+                            <h3>✎ {t("editAttendance")}</h3>
                             <button className="ar-modal-close" onClick={() => setShowEditModal(false)}>✕</button>
                         </div>
 

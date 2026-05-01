@@ -141,5 +141,6 @@
   "deleteNotification": "सूचना हटाएं",
   "deleteNotificationMsg": "क्या आप इस सूचना को हटाना चाहते हैं?",
   "editNotification": "सूचना संपादित करें",
-  "save": "सहेजें"
+  "save": "सहेजें",
+  "editAttendance": "उपस्थिति संपादित करें"
 }

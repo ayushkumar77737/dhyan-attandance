@@ -141,5 +141,6 @@
   "deleteNotification": "അറിയിപ്പ് ഇല്ലാതാക്കുക",
   "deleteNotificationMsg": "ഈ അറിയിപ്പ് ഇല്ലാതാക്കണമോ?",
   "editNotification": "അറിയിപ്പ് തിരുത്തുക",
-  "save": "സേവ് ചെയ്യുക"
+  "save": "സേവ് ചെയ്യുക",
+  "editAttendance": "ഹാജർ തിരുത്തുക"
 }
