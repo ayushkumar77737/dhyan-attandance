@@ -83,13 +83,13 @@ const Login = () => {
     }
 
     try {
-      const email = id + "@dhyan.com";
+      const email = id + "@dhyan.in";
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const loggedEmail = userCredential.user.email;
 
       await setDoc(userRef, { attempts: 0, lockUntil: null });
 
-      const ADMIN_EMAIL = "admin1@dhyan.com";
+      const ADMIN_EMAIL = "admin1@dhyan.in";
 
       if (loggedEmail === ADMIN_EMAIL) {
         localStorage.setItem("adminAuth", "true");

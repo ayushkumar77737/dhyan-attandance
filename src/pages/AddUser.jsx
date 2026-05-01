@@ -77,7 +77,7 @@ function AddUser() {
         }
 
         try {
-            const email = idNo + "@dhyan.com";
+            const email = idNo + "@dhyan.in";
 
             // ✅ Using secondaryAuth so admin stays logged in
             await createUserWithEmailAndPassword(secondaryAuth, email, password);
