@@ -184,7 +184,7 @@
   color: var(--sr-text-mid);
 }
 
-/* ── INPUTS (shared base) ── */
+/* ── INPUTS ── */
 .submit-reason-page .reason-group input,
 .submit-reason-page .reason-group textarea {
   padding: 12px 14px;
@@ -196,8 +196,6 @@
   font-family: var(--sr-font-body);
   color: var(--sr-text);
   transition: all 0.25s ease;
-  box-sizing: border-box;
-  width: 100%;
 }
 
 .submit-reason-page .reason-group input::placeholder,
@@ -216,49 +214,6 @@
 .submit-reason-page .reason-group input:hover:not(:focus),
 .submit-reason-page .reason-group textarea:hover:not(:focus) {
   border-color: #cbd5e1;
-}
-
-/* ── DATE INPUT — Mobile Fix ── */
-/*
-  On Android/mobile, <input type="date"> renders with a native
-  chevron/dropdown arrow. We reset appearance so it looks like
-  a normal text field and fills the full width properly.
-*/
-.submit-reason-page .reason-group input[type="date"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-
-  /* Ensure it stretches full width and doesn't shrink */
-  width: 100%;
-  min-width: 0;
-  display: block;
-
-  /* Keep consistent height with other inputs */
-  min-height: 46px;
-
-  /* Override any browser-injected padding for the calendar icon */
-  padding-right: 14px;
-
-  /* Prevent iOS from rounding corners aggressively */
-  border-radius: var(--sr-radius);
-
-  /* Force text color even before a date is selected (Android quirk) */
-  color: var(--sr-text);
-}
-
-/* Show placeholder-like style when no date selected (WebKit) */
-.submit-reason-page .reason-group input[type="date"]:not([value]):not(:focus) {
-  color: var(--sr-text-soft);
-}
-
-/* Remove the inner spin / calendar button on WebKit */
-.submit-reason-page .reason-group input[type="date"]::-webkit-inner-spin-button,
-.submit-reason-page .reason-group input[type="date"]::-webkit-calendar-picker-indicator {
-  opacity: 0.5;
-  cursor: pointer;
-  /* Keep it visible but subtle — hiding it entirely can break
-     the native date picker on some Android browsers */
 }
 
 /* ── TEXTAREA ── */
@@ -289,7 +244,6 @@
   justify-content: center;
   gap: 8px;
   letter-spacing: 0.01em;
-  width: 100%;
 }
 
 .submit-reason-page .reason-submit-btn:hover:not(:disabled) {
@@ -371,12 +325,6 @@
   .submit-reason-page .reason-submit-btn {
     font-size: 14px;
     padding: 12px;
-  }
-
-  /* Slightly larger tap target for date on small screens */
-  .submit-reason-page .reason-group input[type="date"] {
-    min-height: 50px;
-    font-size: 15px;
   }
 }
 
