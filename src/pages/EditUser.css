@@ -169,6 +169,36 @@
   -webkit-text-fill-color: transparent;
 }
 
+/* ── MESSAGE BOX ── */
+.edit-message {
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 13.5px;
+  font-weight: 500;
+  font-family: var(--font-body);
+  text-align: center;
+  animation: fadeUp 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.01em;
+}
+
+.edit-message.error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.08);
+}
+
+.edit-message.success {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #4ade80;
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.08);
+}
+
 /* ── INPUT GROUP ── */
 .input-group {
   display: flex;

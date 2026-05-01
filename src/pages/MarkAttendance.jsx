@@ -66,7 +66,10 @@ function MarkAttendance() {
             const userList = [];
 
             querySnapshot.forEach((docItem) => {
-                userList.push({ id: docItem.id, ...docItem.data() });
+                const data = docItem.data();
+                if (data.deleted !== true) { // ← only add non-deleted users
+                    userList.push({ id: docItem.id, ...data });
+                }
             });
 
             userList.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));

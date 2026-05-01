@@ -6,11 +6,11 @@ import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 
 import "./EditUser.css";
 
-import { useTranslation } from "react-i18next"; // ← ADD
+import { useTranslation } from "react-i18next";
 
 function EditUser() {
 
-    const { t } = useTranslation(); // ← ADD
+    const { t } = useTranslation();
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -34,10 +34,17 @@ function EditUser() {
 
     const [name, setName] = useState("");
     const [userId, setUserId] = useState("");
+    const [message, setMessage] = useState({ text: "", type: "" }); // ← ADD
 
     useEffect(() => {
         fetchUser();
     }, [id]);
+
+    // ← ADD
+    const showMessage = (text, type = "error") => {
+        setMessage({ text, type });
+        setTimeout(() => setMessage({ text: "", type: "" }), 3000);
+    };
 
     const fetchUser = async () => {
         try {
@@ -48,7 +55,7 @@ function EditUser() {
                 setName(data.name || "");
                 setUserId(data.id || id);
             } else {
-                alert(t("userNotFound")); // ← CHANGED
+                showMessage(t("userNotFound")); // ← CHANGED
             }
         } catch (error) {
             console.log("Fetch Error:", error);
@@ -57,12 +64,21 @@ function EditUser() {
 
     const handleUpdate = async () => {
         if (!name.trim() || !userId.trim()) {
-            alert(t("fillAllFields")); // ← CHANGED
+            showMessage(t("fillAllFields")); // ← CHANGED
             return;
         }
         try {
             const oldRef = doc(db, "users", id);
             const newRef = doc(db, "users", userId);
+
+            if (userId !== id) {
+                const existingDoc = await getDoc(newRef);
+                if (existingDoc.exists()) {
+                    showMessage(t("userIdAlreadyExists")); // ← CHANGED
+                    return;
+                }
+            }
+
             await setDoc(newRef, {
                 name: name.trim(),
                 email: `${userId}@dhyan.com`,
@@ -72,11 +88,11 @@ function EditUser() {
             if (userId !== id) {
                 await deleteDoc(oldRef);
             }
-            alert(t("userUpdatedSuccess")); // ← CHANGED
-            navigate("/all-users");
+            showMessage(t("userUpdatedSuccess"), "success"); // ← CHANGED
+            setTimeout(() => navigate("/all-users"), 1500); // ← navigate after showing success
         } catch (error) {
             console.log("Update Error:", error);
-            alert(t("errorUpdatingUser")); // ← CHANGED
+            showMessage(t("errorUpdatingUser")); // ← CHANGED
         }
     };
 
@@ -87,36 +103,44 @@ function EditUser() {
                 className="back-btn"
                 onClick={() => navigate("/all-users")}
             >
-                ← {t("back")} {/* ← CHANGED */}
+                ← {t("back")}
             </button>
 
             <div className="edit-card">
                 <div className="edit-card-accent" />
 
-                <h2 className="edit-title">{t("editUser")}</h2> {/* ← CHANGED */}
+                <h2 className="edit-title">{t("editUser")}</h2>
+
+                {/* ← ADD message box */}
+                {message.text && (
+                    <div className={`edit-message ${message.type}`}>
+                        {message.type === "error" ? "⚠ " : "✓ "}
+                        {message.text}
+                    </div>
+                )}
 
                 <div className="input-group">
-                    <label className="input-label">{t("fullName")}</label> {/* ← CHANGED */}
+                    <label className="input-label">{t("fullName")}</label>
                     <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder={t("enterFullName")} // ← CHANGED
+                        placeholder={t("enterFullName")}
                     />
                 </div>
 
                 <div className="input-group">
-                    <label className="input-label">{t("userId")}</label> {/* ← CHANGED */}
+                    <label className="input-label">{t("userId")}</label>
                     <input
                         type="text"
                         value={userId}
                         onChange={(e) => setUserId(e.target.value)}
-                        placeholder={t("enterUserId")} // ← CHANGED
+                        placeholder={t("enterUserId")}
                     />
                 </div>
 
                 <button className="update-btn" onClick={handleUpdate}>
-                    <span>{t("updateUser")}</span> {/* ← CHANGED */}
+                    <span>{t("updateUser")}</span>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>

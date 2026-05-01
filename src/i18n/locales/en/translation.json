@@ -134,5 +134,6 @@
   "myRequestsSubtitle": "Track the status of all your submitted absence requests",
   "allCaughtUp": "You're all caught up!",
   "noMessage": "No message",
-  "noDate": "No Date"
+  "noDate": "No Date",
+  "userIdAlreadyExists": "User ID already exists!"
 }
