@@ -137,5 +137,8 @@
   "noDate": "தேதி இல்லை",
   "userIdAlreadyExists": "இந்த ஐடி ஏற்கனவே உள்ளது!",
   "approve": "அனுமதி",
-  "reject": "நிராகரி"
+  "reject": "நிராகரி",
+  "deleteNotification": "அறிவிப்பை நீக்கு",
+  "deleteNotificationMsg": "இந்த அறிவிப்பை நீக்க விரும்புகிறீர்களா?",
+  "editNotification": "அறிவிப்பை திருத்து"
 }

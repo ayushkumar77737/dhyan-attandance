@@ -137,5 +137,8 @@
   "noDate": "No Date",
   "userIdAlreadyExists": "User ID already exists!",
   "approve": "Approve",
-  "reject": "Reject"
+  "reject": "Reject",
+  "deleteNotification": "Delete Notification",
+  "deleteNotificationMsg": "Are you sure you want to delete this notification?",
+  "editNotification": "Edit Notification"
 }

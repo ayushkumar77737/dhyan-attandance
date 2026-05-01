@@ -137,5 +137,8 @@
   "noDate": "തീയതി ഇല്ല",
   "userIdAlreadyExists": "ഈ ഐഡി ഇതിനകം നിലവിലുണ്ട്!",
   "approve": "അംഗീകരിക്കുക",
-  "reject": "നിരസിക്കുക"
+  "reject": "നിരസിക്കുക",
+  "deleteNotification": "അറിയിപ്പ് ഇല്ലാതാക്കുക",
+  "deleteNotificationMsg": "ഈ അറിയിപ്പ് ഇല്ലാതാക്കണമോ?",
+  "editNotification": "അറിയിപ്പ് തിരുത്തുക"
 }

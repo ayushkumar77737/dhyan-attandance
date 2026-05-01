@@ -137,5 +137,8 @@
   "noDate": "తేదీ లేదు",
   "userIdAlreadyExists": "ఈ ఐడీ ఇప్పటికే ఉంది!",
   "approve": "ఆమోదించు",
-  "reject": "తిరస్కరించు"
+  "reject": "తిరస్కరించు",
+  "deleteNotification": "నోటిఫికేషన్ తొలగించు",
+  "deleteNotificationMsg": "మీరు ఈ నోటిఫికేషన్‌ను తొలగించాలనుకుంటున్నారా?",
+  "editNotification": "నోటిఫికేషన్ సవరించు"
 }

@@ -12,16 +12,12 @@ PAGE
   min-height: 100vh;
   background: #0b0f1a;
   padding: 40px 20px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   font-family: "DM Sans", sans-serif;
-
   position: relative;
   overflow: hidden;
-
   animation: fadeIn 0.6s ease-in-out;
 }
 
@@ -61,7 +57,6 @@ DECORATIVE ORBS
   background: radial-gradient(circle, rgba(168, 85, 247, 0.1), transparent 70%);
 }
 
-/* All content above orbs */
 .notif-back-btn,
 .notif-title-block,
 .notif-card,
@@ -77,25 +72,18 @@ BACK BUTTON
 .notifications-page .notif-back-btn {
   align-self: flex-start;
   margin-bottom: 20px;
-
   display: flex;
   align-items: center;
   gap: 6px;
-
   padding: 9px 20px;
-
   background: rgba(255, 255, 255, 0.05);
   color: #a5b4fc;
-
   border: 1px solid rgba(165, 180, 252, 0.2);
   border-radius: 50px;
-
   cursor: pointer;
-
   font-size: 13px;
   font-family: "DM Sans", sans-serif;
   font-weight: 500;
-
   transition: all 0.25s ease;
   backdrop-filter: blur(10px);
 }
@@ -141,13 +129,6 @@ TITLE BLOCK
   line-height: 1.1;
 }
 
-.notif-accent {
-  background: linear-gradient(135deg, #818cf8, #22d3ee);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 .notif-subtitle {
   font-size: 14px;
   color: #64748b;
@@ -162,16 +143,12 @@ CARD
 .notifications-page .notif-card {
   width: 100%;
   max-width: 800px;
-
   background: rgba(255, 255, 255, 0.03);
   padding: 30px;
-
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(20px);
-
   animation: slideUp 0.5s ease;
 }
 
@@ -182,11 +159,9 @@ STATUS MESSAGE
 .notifications-page .status-message {
   margin-bottom: 18px;
   padding: 12px 16px;
-
   border-radius: 10px;
   font-size: 14px;
   font-weight: 500;
-
   display: flex;
   align-items: center;
   gap: 8px;
@@ -222,22 +197,16 @@ TEXTAREA
 .notifications-page textarea {
   width: 100%;
   height: 130px;
-
   padding: 14px 44px 14px 16px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-
   background: rgba(255, 255, 255, 0.05);
   color: #e2e8f0;
-
   resize: none;
   outline: none;
-
   font-size: 14px;
   font-family: "DM Sans", sans-serif;
-
   box-sizing: border-box;
-
   transition: all 0.25s ease;
 }
 
@@ -267,34 +236,25 @@ SUBMIT BUTTON
 .notifications-page .notif-card button[type="submit"] {
   width: 100%;
   padding: 13px;
-
   background: linear-gradient(135deg, #6366f1, #4f46e5);
   color: white;
-
   border: none;
   border-radius: 12px;
-
   font-size: 15px;
   font-family: "DM Sans", sans-serif;
   font-weight: 600;
-  letter-spacing: 0.3px;
-
   cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-
   transition: all 0.25s ease;
-
   box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
 }
 
 .notifications-page .notif-card button[type="submit"]:hover {
   background: linear-gradient(135deg, #4f46e5, #4338ca);
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(99, 102, 241, 0.4);
 }
 
 .notifications-page .notif-card button[type="submit"]:disabled {
@@ -305,7 +265,6 @@ SUBMIT BUTTON
   box-shadow: none;
 }
 
-/* Spinner */
 .spinner {
   width: 14px;
   height: 14px;
@@ -370,10 +329,8 @@ TABLE
   border-collapse: collapse;
   border-radius: 16px;
   overflow: hidden;
-
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.07);
-
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(16px);
 }
@@ -381,25 +338,21 @@ TABLE
 .notifications-page .notif-table th {
   background: rgba(99, 102, 241, 0.12);
   color: #a5b4fc;
-
   padding: 14px 18px;
   text-align: left;
-
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-
   border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+  white-space: nowrap;
 }
 
 .notifications-page .notif-table td {
   padding: 14px 18px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-
   color: #cbd5e1;
   font-size: 14px;
-
   vertical-align: middle;
   transition: background 0.2s ease;
 }
@@ -417,7 +370,6 @@ TABLE
   background: rgba(99, 102, 241, 0.07);
 }
 
-/* Message cell */
 .notif-msg-cell {
   display: flex;
   align-items: flex-start;
@@ -434,7 +386,6 @@ TABLE
   box-shadow: 0 0 6px rgba(99, 102, 241, 0.6);
 }
 
-/* Date chip */
 .notif-date-chip {
   display: inline-block;
   font-size: 12px;
@@ -448,6 +399,228 @@ TABLE
 }
 
 /* =========================
+ACTION BUTTONS ← NEW
+========================= */
+
+.notif-action-btns {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.notif-edit-btn {
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #a5b4fc;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.notif-edit-btn:hover {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: rgba(99, 102, 241, 0.6);
+  color: #c7d2fe;
+  transform: translateY(-1px);
+}
+
+.notif-delete-btn {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.notif-delete-btn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: rgba(239, 68, 68, 0.6);
+  transform: translateY(-1px);
+}
+
+/* =========================
+MODALS ← NEW
+========================= */
+
+.notif-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn 0.2s ease;
+}
+
+.notif-modal {
+  background: #131929;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 20px;
+  padding: 28px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.notif-modal-sm {
+  max-width: 380px;
+}
+
+@keyframes modalPop {
+  from {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.notif-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.notif-modal-header h3 {
+  font-family: "Syne", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.notif-modal-close {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.notif-modal-close:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #f87171;
+}
+
+.notif-modal-body textarea {
+  width: 100%;
+  height: 120px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+  resize: none;
+  outline: none;
+  font-size: 14px;
+  font-family: "DM Sans", sans-serif;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+  margin-bottom: 20px;
+}
+
+.notif-modal-body textarea:focus {
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.notif-modal-confirm-text {
+  font-size: 14px;
+  color: #94a3b8;
+  margin: 0 0 24px 0;
+  line-height: 1.6;
+}
+
+.notif-modal-footer {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.notif-modal-cancel {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.notif-modal-cancel:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: #cbd5e1;
+}
+
+.notif-modal-save {
+  padding: 10px 22px;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  border: none;
+  color: white;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+}
+
+.notif-modal-save:hover {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  transform: translateY(-1px);
+}
+
+.notif-modal-delete {
+  padding: 10px 22px;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  border: none;
+  color: white;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+}
+
+.notif-modal-delete:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  transform: translateY(-1px);
+}
+
+/* =========================
 NO DATA
 ========================= */
 
@@ -457,7 +630,6 @@ NO DATA
   align-items: center;
   gap: 10px;
   padding: 40px;
-
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 16px;
@@ -529,7 +701,6 @@ MOBILE
 ========================= */
 
 @media (max-width: 480px) {
-
   .notifications-page {
     padding: 15px;
   }
@@ -557,6 +728,15 @@ MOBILE
     font-size: 11px;
   }
 
+  .notif-action-btns {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .notif-modal {
+    padding: 20px;
+    margin: 0 16px;
+  }
 }
 
 /* =========================
@@ -564,7 +744,6 @@ TABLET
 ========================= */
 
 @media (min-width: 481px) and (max-width: 768px) {
-
   .notifications-page .notif-card {
     max-width: 90%;
   }
@@ -572,7 +751,6 @@ TABLET
   .notif-main-title {
     font-size: 34px;
   }
-
 }
 
 /* =========================
@@ -580,9 +758,7 @@ LAPTOP
 ========================= */
 
 @media (min-width: 769px) {
-
   .notifications-page .notif-card {
     max-width: 800px;
   }
-
 }

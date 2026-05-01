@@ -137,5 +137,8 @@
   "noDate": "कोई तारीख नहीं",
   "userIdAlreadyExists": "यह ID पहले से मौजूद है!",
   "approve": "स्वीकार करें",
-  "reject": "अस्वीकार करें"
+  "reject": "अस्वीकार करें",
+  "deleteNotification": "सूचना हटाएं",
+  "deleteNotificationMsg": "क्या आप इस सूचना को हटाना चाहते हैं?",
+  "editNotification": "सूचना संपादित करें"
 }
