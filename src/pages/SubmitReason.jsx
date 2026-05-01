@@ -6,19 +6,28 @@ import { addDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-import { useTranslation } from "react-i18next"; // ← ADD
+import { useTranslation } from "react-i18next";
 
 function SubmitReason() {
 
-  const { t } = useTranslation(); // ← ADD
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
+  // Helper: returns today as "YYYY-MM-DD" (the format <input type="date"> needs)
+  const getTodayString = () => {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm   = String(now.getMonth() + 1).padStart(2, "0");
+    const dd   = String(now.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
   const [userId, setUserId] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate]     = useState(getTodayString); // ← pre-filled with today
   const [reason, setReason] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [type, setType] = useState("");
+  const [type, setType]       = useState("");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -58,7 +67,7 @@ function SubmitReason() {
     e.preventDefault();
 
     if (!date || !reason) {
-      setMessage(t("fillAllFields")); // ← CHANGED
+      setMessage(t("fillAllFields"));
       setType("error");
       return;
     }
@@ -75,7 +84,7 @@ function SubmitReason() {
       const snapshot = await getDocs(q);
 
       if (!snapshot.empty) {
-        setMessage(t("reasonAlreadySubmitted")); // ← CHANGED
+        setMessage(t("reasonAlreadySubmitted"));
         setType("error");
         setLoading(false);
         return;
@@ -89,16 +98,16 @@ function SubmitReason() {
         createdAt: new Date()
       });
 
-      setMessage(t("reasonSubmittedSuccess")); // ← CHANGED
+      setMessage(t("reasonSubmittedSuccess"));
       setType("success");
-      setDate("");
+      setDate(getTodayString()); // reset back to today after submit
       setReason("");
 
       setTimeout(() => navigate("/user-dashboard"), 1500);
 
     } catch (error) {
       console.error(error);
-      setMessage(t("errorSubmittingReason")); // ← CHANGED
+      setMessage(t("errorSubmittingReason"));
       setType("error");
     }
 
@@ -112,14 +121,14 @@ function SubmitReason() {
         className="reason-back-btn"
         onClick={() => navigate("/user-dashboard")}
       >
-        ← {t("back")} {/* ← CHANGED */}
+        ← {t("back")}
       </button>
 
       <div className="reason-card">
 
-        <div className="reason-card-badge">📋 {t("absenceRequest")}</div> {/* ← CHANGED */}
-        <h2>{t("submitAbsenceReason")}</h2>                               {/* ← CHANGED */}
-        <p className="reason-subtitle">{t("reasonSubtitle")}</p>          {/* ← CHANGED */}
+        <div className="reason-card-badge">📋 {t("absenceRequest")}</div>
+        <h2>{t("submitAbsenceReason")}</h2>
+        <p className="reason-subtitle">{t("reasonSubtitle")}</p>
 
         {message && (
           <div className={`reason-message ${type}`}>
@@ -130,18 +139,19 @@ function SubmitReason() {
         <form onSubmit={handleSubmit} className="reason-form">
 
           <div className="reason-group">
-            <label>{t("dateOfAbsence")}</label> {/* ← CHANGED */}
+            <label>{t("dateOfAbsence")}</label>
             <input
               type="date"
               value={date}
+              max={getTodayString()}      /* optional: prevent future dates */
               onChange={(e) => setDate(e.target.value)}
             />
           </div>
 
           <div className="reason-group">
-            <label>{t("reason")}</label> {/* ← CHANGED */}
+            <label>{t("reason")}</label>
             <textarea
-              placeholder={t("reasonPlaceholder")} // ← CHANGED
+              placeholder={t("reasonPlaceholder")}
               value={reason}
               onChange={(e) => setReason(e.target.value)}
             />
@@ -153,9 +163,9 @@ function SubmitReason() {
             disabled={loading}
           >
             {loading ? (
-              <><span className="spinner" /> {t("submitting")}</> // ← CHANGED
+              <><span className="spinner" /> {t("submitting")}</>
             ) : (
-              <>{t("submitRequest")} →</>  // ← CHANGED
+              <>{t("submitRequest")} →</>
             )}
           </button>
 
