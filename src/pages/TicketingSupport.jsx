@@ -3,7 +3,7 @@ import "./TicketingSupport.css";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, addDoc, getDocs, query, where, serverTimestamp } from "firebase/firestore"; // ← removed orderBy
+import { collection, addDoc, getDocs, query, where, serverTimestamp } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
 function TicketingSupport() {
@@ -26,7 +26,6 @@ function TicketingSupport() {
 
     const [errors, setErrors] = useState({});
 
-    // ← FIXED: removed orderBy, sort locally instead
     const fetchTickets = async (userId) => {
         try {
             const q = query(
@@ -39,7 +38,6 @@ function TicketingSupport() {
                 ...doc.data(),
                 createdAt: doc.data().createdAt?.toDate().toISOString() || new Date().toISOString()
             }));
-            // Sort locally newest first
             list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             setTickets(list);
         } catch (error) {
@@ -83,25 +81,25 @@ function TicketingSupport() {
         const newErrors = {};
 
         if (!form.name.trim()) {
-            newErrors.name = "Name is required";
+            newErrors.name = t("nameRequired");
         } else if (!/^[a-zA-Z\s]+$/.test(form.name)) {
-            newErrors.name = "Name must contain only letters";
+            newErrors.name = t("nameLettersOnly");
         }
 
         if (!form.idNo.trim()) {
-            newErrors.idNo = "ID No is required";
+            newErrors.idNo = t("idRequired");
         } else if (!/^[a-zA-Z]\d{3}$/.test(form.idNo)) {
-            newErrors.idNo = "ID must be 1 letter + 3 numbers (e.g. A101)";
+            newErrors.idNo = t("idFormat");
         }
 
         if (!form.email.trim()) {
-            newErrors.email = "Email is required";
+            newErrors.email = t("emailRequired");
         } else if (!/^[a-zA-Z0-9@.]+$/.test(form.email) || !form.email.includes("@")) {
-            newErrors.email = "Enter a valid email (no special characters)";
+            newErrors.email = t("emailInvalid");
         }
 
         if (!form.issue.trim()) {
-            newErrors.issue = "Issue is required";
+            newErrors.issue = t("issueRequired");
         }
 
         setErrors(newErrors);
@@ -130,17 +128,16 @@ function TicketingSupport() {
 
             await addDoc(collection(db, "tickets"), ticketData);
 
-            const id = form.idNo.trim().toUpperCase(); // ← save id before clearing form
+            const id = form.idNo.trim().toUpperCase();
             setForm({ name: "", idNo: "", email: "", issue: "" });
             setShowModal(false);
-            showMsg("✅ Ticket submitted successfully!", "success");
+            showMsg(t("ticketSubmitted"), "success");
 
-            // ← FIXED: wait 1 second then refresh so serverTimestamp is ready
             setTimeout(() => fetchTickets(id), 1000);
 
         } catch (error) {
             console.error(error);
-            showMsg("❌ Error submitting ticket");
+            showMsg(t("errorSubmittingTicket"));
         } finally {
             setLoading(false);
         }
@@ -166,13 +163,12 @@ function TicketingSupport() {
             <div className="tsp__hero">
                 <div className="tsp__hero-badge">
                     <span className="tsp__badge-dot" />
-                    Support Center
+                    {t("supportCenter")}
                 </div>
                 <h1 className="tsp__hero-title">
-                    Ticketing
-                    <span className="tsp__hero-accent"> Support</span>
+                    {t("ticketingSupport")}
                 </h1>
-                <p className="tsp__hero-sub">Submit and track your support requests in real time</p>
+                <p className="tsp__hero-sub">{t("submitAndTrack")}</p>
             </div>
 
             {/* Stats + Raise Button Bar */}
@@ -180,27 +176,27 @@ function TicketingSupport() {
                 <div className="tsp__stats-row">
                     <div className="tsp__stat-item">
                         <span className="tsp__stat-num">{tickets.length}</span>
-                        <span className="tsp__stat-label">Total</span>
+                        <span className="tsp__stat-label">{t("total")}</span>
                     </div>
                     <div className="tsp__stat-divider" />
                     <div className="tsp__stat-item">
                         <span className="tsp__stat-num tsp__stat--pending">
-                            {tickets.filter(t => t.status === "Pending").length}
+                            {tickets.filter(tk => tk.status === "Pending").length}
                         </span>
-                        <span className="tsp__stat-label">Pending</span>
+                        <span className="tsp__stat-label">{t("pending")}</span>
                     </div>
                     <div className="tsp__stat-divider" />
                     <div className="tsp__stat-item">
                         <span className="tsp__stat-num tsp__stat--resolved">
-                            {tickets.filter(t => t.status === "Resolved").length}
+                            {tickets.filter(tk => tk.status === "Resolved").length}
                         </span>
-                        <span className="tsp__stat-label">Resolved</span>
+                        <span className="tsp__stat-label">{t("resolved")}</span>
                     </div>
                 </div>
 
                 <button className="tsp__raise-btn" onClick={() => setShowModal(true)}>
                     <span className="tsp__raise-icon">+</span>
-                    Raise Ticket
+                    {t("raiseTicket")}
                 </button>
             </div>
 
@@ -218,8 +214,8 @@ function TicketingSupport() {
                         <div className="tsp__empty-icon-wrap">
                             <span className="tsp__empty-icon">🎫</span>
                         </div>
-                        <h3 className="tsp__empty-title">No Tickets Yet</h3>
-                        <p className="tsp__empty-sub">Click "Raise Ticket" to submit your first support request</p>
+                        <h3 className="tsp__empty-title">{t("noTicketsYet")}</h3>
+                        <p className="tsp__empty-sub">{t("noTicketsSub")}</p>
                     </div>
                 ) : (
                     tickets.map((ticket, index) => (
@@ -237,7 +233,8 @@ function TicketingSupport() {
                                         <span className="tsp__ticket-name">{ticket.name}</span>
                                     </div>
                                     <span className={`tsp__ticket-status tsp__ticket-status--${ticket.status.toLowerCase()}`}>
-                                        {ticket.status === "Pending" ? "⏳" : "✅"} {ticket.status}
+                                        {ticket.status === "Pending" ? "⏳" : "✅"}
+                                        {ticket.status === "Pending" ? t("pending") : t("resolved")}
                                     </span>
                                 </div>
 
@@ -265,35 +262,35 @@ function TicketingSupport() {
                         <div className="tsp__modal-header">
                             <div className="tsp__modal-title-wrap">
                                 <span className="tsp__modal-emoji">🎫</span>
-                                <h3 className="tsp__modal-title">Raise a Ticket</h3>
+                                <h3 className="tsp__modal-title">{t("raiseATicket")}</h3>
                             </div>
                             <button className="tsp__modal-close" onClick={() => setShowModal(false)}>✕</button>
                         </div>
 
                         {/* Name */}
                         <div className="tsp__field">
-                            <label className="tsp__field-label">Full Name</label>
+                            <label className="tsp__field-label">{t("fullName")}</label>
                             <input
                                 className={`tsp__field-input ${errors.name ? "tsp__field-input--error" : ""}`}
                                 type="text"
                                 name="name"
                                 value={form.name}
                                 onChange={handleChange}
-                                placeholder="Enter your full name"
+                                placeholder={t("enterFullName")}
                             />
                             {errors.name && <span className="tsp__field-error">{errors.name}</span>}
                         </div>
 
                         {/* ID No */}
                         <div className="tsp__field">
-                            <label className="tsp__field-label">ID No</label>
+                            <label className="tsp__field-label">{t("idNo")}</label>
                             <input
                                 className={`tsp__field-input ${errors.idNo ? "tsp__field-input--error" : ""}`}
                                 type="text"
                                 name="idNo"
                                 value={form.idNo}
                                 onChange={handleChange}
-                                placeholder="e.g. A101"
+                                placeholder={t("enterIdNo")}
                                 maxLength={4}
                             />
                             {errors.idNo && <span className="tsp__field-error">{errors.idNo}</span>}
@@ -301,41 +298,41 @@ function TicketingSupport() {
 
                         {/* Email */}
                         <div className="tsp__field">
-                            <label className="tsp__field-label">Email</label>
+                            <label className="tsp__field-label">{t("email")}</label>
                             <input
                                 className={`tsp__field-input ${errors.email ? "tsp__field-input--error" : ""}`}
                                 type="text"
                                 name="email"
                                 value={form.email}
                                 onChange={handleChange}
-                                placeholder="Enter your email"
+                                placeholder={t("enterEmail")}
                             />
                             {errors.email && <span className="tsp__field-error">{errors.email}</span>}
                         </div>
 
                         {/* Issue */}
                         <div className="tsp__field">
-                            <label className="tsp__field-label">Issue</label>
+                            <label className="tsp__field-label">{t("issue")}</label>
                             <textarea
                                 className={`tsp__field-textarea ${errors.issue ? "tsp__field-input--error" : ""}`}
                                 name="issue"
                                 value={form.issue}
                                 onChange={handleChange}
-                                placeholder="Describe your issue clearly..."
+                                placeholder={t("issuePlaceholder")}
                             />
                             {errors.issue && <span className="tsp__field-error">{errors.issue}</span>}
                         </div>
 
                         <div className="tsp__modal-footer">
                             <button className="tsp__modal-cancel-btn" onClick={() => setShowModal(false)}>
-                                Cancel
+                                {t("cancel")}
                             </button>
                             <button
                                 className="tsp__modal-submit-btn"
                                 onClick={handleSubmit}
                                 disabled={loading}
                             >
-                                {loading ? "⏳ Submitting..." : "🚀 Submit Ticket"}
+                                {loading ? `⏳ ${t("submitting")}` : `🚀 ${t("submitTicket")}`}
                             </button>
                         </div>
 
