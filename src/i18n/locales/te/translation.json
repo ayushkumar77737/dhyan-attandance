@@ -177,5 +177,6 @@
 "ticketDeleted": "✅ టికెట్ విజయవంతంగా తొలగించబడింది",
 "errorUpdatingStatus": "❌ స్థితి అప్‌డేట్ చేయడంలో లోపం",
 "errorDeletingTicket": "❌ టికెట్ తొలగించడంలో లోపం",
-"loading": "లోడ్ అవుతోంది..."
+"loading": "లోడ్ అవుతోంది...",
+"profileRegistration": "ప్రొఫైల్ నమోదు"
 }

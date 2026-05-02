@@ -197,6 +197,17 @@ function AdminDashboard() {
           </button>
         </div>
 
+        {/* Profile Registration Card */}
+        <div className="dashboard-card">
+          <div className="admin-profile">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="profile registration" />
+            <h3>{t("profileRegistration")}</h3>
+          </div>
+          <button className="dashboard-btn" onClick={() => navigate("/profile-registration")}>
+            {t("profileRegistration")}
+          </button>
+        </div>
+
       </div>
 
     </div>

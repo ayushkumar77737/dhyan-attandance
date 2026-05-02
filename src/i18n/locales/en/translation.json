@@ -177,5 +177,6 @@
   "ticketDeleted": "✅ Ticket deleted successfully",
   "errorUpdatingStatus": "❌ Error updating status",
   "errorDeletingTicket": "❌ Error deleting ticket",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "profileRegistration": "Profile Registration"
 }

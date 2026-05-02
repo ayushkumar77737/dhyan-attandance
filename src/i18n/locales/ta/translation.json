@@ -177,5 +177,6 @@
 "ticketDeleted": "✅ டிக்கெட் வெற்றிகரமாக நீக்கப்பட்டது",
 "errorUpdatingStatus": "❌ நிலை புதுப்பிப்பதில் பிழை",
 "errorDeletingTicket": "❌ டிக்கெட் நீக்குவதில் பிழை",
-"loading": "ஏற்றுகிறது..."
+"loading": "ஏற்றுகிறது...",
+"profileRegistration": "சுயவிவர பதிவு"
 }

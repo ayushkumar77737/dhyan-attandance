@@ -177,5 +177,6 @@
 "ticketDeleted": "✅ টিকেট সফলভাবে মুছে ফেলা হয়েছে",
 "errorUpdatingStatus": "❌ স্ট্যাটাস আপডেট করতে ত্রুটি",
 "errorDeletingTicket": "❌ টিকেট মুছতে ত্রুটি",
-"loading": "লোড হচ্ছে..."
+"loading": "লোড হচ্ছে...",
+"profileRegistration": "প্রোফাইল নিবন্ধন"
 }
