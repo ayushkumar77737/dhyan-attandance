@@ -62,7 +62,7 @@ function TrackTicket() {
             setTickets(list);
         } catch (error) {
             console.error(error);
-            showMsg("❌ Error fetching tickets");
+            showMsg(t("errorFetchingTickets"));
         } finally {
             setLoading(false);
         }
@@ -72,10 +72,10 @@ function TrackTicket() {
         try {
             await updateDoc(doc(db, "tickets", id), { status: newStatus });
             setTickets(tickets.map(tk => tk.id === id ? { ...tk, status: newStatus } : tk));
-            showMsg(`✅ Status updated to ${newStatus}`, "success");
+            showMsg(`${t("statusUpdated")} ${newStatus}`, "success");
         } catch (error) {
             console.error(error);
-            showMsg("❌ Error updating status");
+            showMsg(t("errorUpdatingStatus"));
         }
     };
 
@@ -83,10 +83,10 @@ function TrackTicket() {
         try {
             await deleteDoc(doc(db, "tickets", id));
             setTickets(tickets.filter(tk => tk.id !== id));
-            showMsg("✅ Ticket deleted successfully", "success");
+            showMsg(t("ticketDeleted"), "success");
         } catch (error) {
             console.error(error);
-            showMsg("❌ Error deleting ticket");
+            showMsg(t("errorDeletingTicket"));
         }
     };
 
@@ -110,6 +110,13 @@ function TrackTicket() {
         return "trkt__bar--pending";
     };
 
+    const getStatusLabel = (status) => {
+        if (status === "Pending") return t("pending");
+        if (status === "In Progress") return t("inProgress");
+        if (status === "Resolved") return t("resolved");
+        return status;
+    };
+
     return (
         <div className="trkt__page">
 
@@ -130,12 +137,12 @@ function TrackTicket() {
             <div className="trkt__hero">
                 <div className="trkt__hero-badge">
                     <span className="trkt__badge-dot" />
-                    Admin Panel
+                    {t("adminPanel")}
                 </div>
                 <h1 className="trkt__hero-title">
-                    Track<span className="trkt__hero-accent"> Tickets</span>
+                    {t("trackTicket")}
                 </h1>
-                <p className="trkt__hero-sub">Select a date to view and manage support tickets</p>
+                <p className="trkt__hero-sub">{t("selectDateToView")}</p>
             </div>
 
             {/* Date Picker */}
@@ -155,7 +162,7 @@ function TrackTicket() {
                 </div>
                 <button className="trkt__search-btn" onClick={fetchTickets} disabled={loading}>
                     <span className="trkt__search-icon">🔍</span>
-                    {loading ? "Loading..." : "Search Tickets"}
+                    {loading ? t("loading") : t("searchTickets")}
                 </button>
             </div>
 
@@ -172,28 +179,28 @@ function TrackTicket() {
                     <div className="trkt__stat-card">
                         <span className="trkt__stat-icon">🎫</span>
                         <span className="trkt__stat-num">{tickets.length}</span>
-                        <span className="trkt__stat-lbl">Total</span>
+                        <span className="trkt__stat-lbl">{t("total")}</span>
                     </div>
                     <div className="trkt__stat-card trkt__stat-card--pending">
                         <span className="trkt__stat-icon">⏳</span>
                         <span className="trkt__stat-num trkt__num--pending">
                             {tickets.filter(tk => tk.status === "Pending").length}
                         </span>
-                        <span className="trkt__stat-lbl">Pending</span>
+                        <span className="trkt__stat-lbl">{t("pending")}</span>
                     </div>
                     <div className="trkt__stat-card trkt__stat-card--inprogress">
                         <span className="trkt__stat-icon">🔄</span>
                         <span className="trkt__stat-num trkt__num--inprogress">
                             {tickets.filter(tk => tk.status === "In Progress").length}
                         </span>
-                        <span className="trkt__stat-lbl">In Progress</span>
+                        <span className="trkt__stat-lbl">{t("inProgress")}</span>
                     </div>
                     <div className="trkt__stat-card trkt__stat-card--resolved">
                         <span className="trkt__stat-icon">✅</span>
                         <span className="trkt__stat-num trkt__num--resolved">
                             {tickets.filter(tk => tk.status === "Resolved").length}
                         </span>
-                        <span className="trkt__stat-lbl">Resolved</span>
+                        <span className="trkt__stat-lbl">{t("resolved")}</span>
                     </div>
                 </div>
             )}
@@ -206,8 +213,8 @@ function TrackTicket() {
                         <div className="trkt__empty-icon-wrap">
                             <span>🎫</span>
                         </div>
-                        <h3 className="trkt__empty-title">No Tickets Found</h3>
-                        <p className="trkt__empty-sub">No tickets were submitted on {selectedDate}</p>
+                        <h3 className="trkt__empty-title">{t("noTicketsFound")}</h3>
+                        <p className="trkt__empty-sub">{t("noTicketsOnDate")}</p>
                     </div>
                 )}
 
@@ -228,7 +235,7 @@ function TrackTicket() {
                                     <span className="trkt__name">{ticket.name}</span>
                                 </div>
                                 <span className={`trkt__status-badge ${getStatusClass(ticket.status)}`}>
-                                    {getStatusIcon(ticket.status)} {ticket.status}
+                                    {getStatusIcon(ticket.status)} {getStatusLabel(ticket.status)}
                                 </span>
                             </div>
 
@@ -242,7 +249,7 @@ function TrackTicket() {
 
                             {/* Issue Box */}
                             <div className="trkt__issue-box">
-                                <span className="trkt__issue-label">🔖 Issue</span>
+                                <span className="trkt__issue-label">🔖 {t("issue")}</span>
                                 <p className="trkt__issue-text">{ticket.issue}</p>
                             </div>
 
@@ -253,7 +260,7 @@ function TrackTicket() {
                                         className="trkt__action-btn trkt__action-btn--progress"
                                         onClick={() => updateStatus(ticket.id, "In Progress")}
                                     >
-                                        🔄 In Progress
+                                        🔄 {t("inProgress")}
                                     </button>
                                 )}
                                 {ticket.status !== "Resolved" && (
@@ -261,7 +268,7 @@ function TrackTicket() {
                                         className="trkt__action-btn trkt__action-btn--resolve"
                                         onClick={() => updateStatus(ticket.id, "Resolved")}
                                     >
-                                        ✅ Mark Resolved
+                                        ✅ {t("markResolved")}
                                     </button>
                                 )}
                                 {ticket.status === "Resolved" && (
@@ -269,7 +276,7 @@ function TrackTicket() {
                                         className="trkt__action-btn trkt__action-btn--delete"
                                         onClick={() => deleteTicket(ticket.id)}
                                     >
-                                        🗑 Delete Ticket
+                                        🗑 {t("deleteTicket")}
                                     </button>
                                 )}
                             </div>

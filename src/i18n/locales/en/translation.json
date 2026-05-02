@@ -164,5 +164,18 @@
   "issuePlaceholder": "Describe your issue clearly...",
   "resolved": "Resolved",
   "trackTicket": "Track Ticket",
-  "idMismatch": "ID No must match your logged in ID"
+  "idMismatch": "ID No must match your logged in ID",
+  "selectDateToView": "Select a date to view and manage support tickets",
+  "searchTickets": "Search Tickets",
+  "noTicketsFound": "No Tickets Found",
+  "noTicketsOnDate": "No tickets were submitted on this date",
+  "inProgress": "In Progress",
+  "markResolved": "Mark Resolved",
+  "deleteTicket": "Delete Ticket",
+  "errorFetchingTickets": "❌ Error fetching tickets",
+  "statusUpdated": "✅ Status updated to",
+  "ticketDeleted": "✅ Ticket deleted successfully",
+  "errorUpdatingStatus": "❌ Error updating status",
+  "errorDeletingTicket": "❌ Error deleting ticket",
+  "loading": "Loading..."
 }

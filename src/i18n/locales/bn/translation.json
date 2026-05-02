@@ -164,5 +164,18 @@
 "issuePlaceholder": "আপনার সমস্যা স্পষ্টভাবে বর্ণনা করুন...",
 "resolved": "সমাধান হয়েছে",
 "trackTicket": "টিকেট ট্র্যাক করুন",
-"idMismatch": "আইডি নম্বর আপনার লগইন আইডির সাথে মিলতে হবে"
+"idMismatch": "আইডি নম্বর আপনার লগইন আইডির সাথে মিলতে হবে",
+"selectDateToView": "সাপোর্ট টিকেট দেখতে তারিখ নির্বাচন করুন",
+"searchTickets": "টিকেট অনুসন্ধান করুন",
+"noTicketsFound": "কোনো টিকেট পাওয়া যায়নি",
+"noTicketsOnDate": "এই তারিখে কোনো টিকেট জমা দেওয়া হয়নি",
+"inProgress": "চলমান",
+"markResolved": "সমাধান হিসেবে চিহ্নিত করুন",
+"deleteTicket": "টিকেট মুছুন",
+"errorFetchingTickets": "❌ টিকেট আনতে ত্রুটি",
+"statusUpdated": "✅ স্ট্যাটাস আপডেট হয়েছে",
+"ticketDeleted": "✅ টিকেট সফলভাবে মুছে ফেলা হয়েছে",
+"errorUpdatingStatus": "❌ স্ট্যাটাস আপডেট করতে ত্রুটি",
+"errorDeletingTicket": "❌ টিকেট মুছতে ত্রুটি",
+"loading": "লোড হচ্ছে..."
 }

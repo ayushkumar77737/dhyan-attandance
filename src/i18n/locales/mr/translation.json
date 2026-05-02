@@ -164,5 +164,18 @@
 "issuePlaceholder": "तुमची समस्या स्पष्टपणे सांगा...",
 "resolved": "निराकरण झाले",
 "trackTicket": "तिकीट ट्रॅक करा",
-"idMismatch": "आयडी क्रमांक तुमच्या लॉगिन आयडीशी जुळणे आवश्यक आहे"
+"idMismatch": "आयडी क्रमांक तुमच्या लॉगिन आयडीशी जुळणे आवश्यक आहे",
+"selectDateToView": "सहायता तिकीट पाहण्यासाठी तारीख निवडा",
+"searchTickets": "तिकीट शोधा",
+"noTicketsFound": "कोणतेही तिकीट सापडले नाही",
+"noTicketsOnDate": "या तारखेला कोणतेही तिकीट सबमिट केले नाही",
+"inProgress": "प्रगतीपथावर",
+"markResolved": "निराकरण झाले म्हणून चिन्हांकित करा",
+"deleteTicket": "तिकीट हटवा",
+"errorFetchingTickets": "❌ तिकीट आणण्यात त्रुटी",
+"statusUpdated": "✅ स्थिती अपडेट झाली",
+"ticketDeleted": "✅ तिकीट यशस्वीरित्या हटवले",
+"errorUpdatingStatus": "❌ स्थिती अपडेट करण्यात त्रुटी",
+"errorDeletingTicket": "❌ तिकीट हटवण्यात त्रुटी",
+"loading": "लोड होत आहे..."
 }
