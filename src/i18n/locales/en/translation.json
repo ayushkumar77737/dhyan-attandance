@@ -162,5 +162,6 @@
   "issueRequired": "Issue is required",
   "enterEmail": "Enter your email",
   "issuePlaceholder": "Describe your issue clearly...",
-  "resolved": "Resolved"
+  "resolved": "Resolved",
+  "trackTicket": "Track Ticket"
 }

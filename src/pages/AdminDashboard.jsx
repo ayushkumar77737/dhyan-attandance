@@ -186,6 +186,17 @@ function AdminDashboard() {
           </button>
         </div>
 
+        {/* Track Ticket Card */}
+        <div className="dashboard-card">
+          <div className="admin-profile">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="track ticket" />
+            <h3>{t("trackTicket")}</h3>
+          </div>
+          <button className="dashboard-btn" onClick={() => navigate("/track-ticket")}>
+            {t("trackTicket")}
+          </button>
+        </div>
+
       </div>
 
     </div>

@@ -162,5 +162,6 @@
 "issueRequired": "समस्या आवश्यक है",
 "enterEmail": "अपना ईमेल दर्ज करें",
 "issuePlaceholder": "अपनी समस्या स्पष्ट रूप से बताएं...",
-"resolved": "हल हो गया"
+"resolved": "हल हो गया",
+"trackTicket": "टिकट ट्रैक करें"
 }
