@@ -142,5 +142,6 @@
   "deleteNotificationMsg": "Are you sure you want to delete this notification?",
   "editNotification": "Edit Notification",
   "save": "Save",
-  "editAttendance": "Edit Attendance"
+  "editAttendance": "Edit Attendance",
+  "ticketingSupport": "Ticketing Support"
 }

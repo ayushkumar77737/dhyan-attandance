@@ -18,6 +18,7 @@ import MyRequests from "./pages/MyRequests";
 import AbsenceManagement from "./pages/AbsenceManagement";
 import Notifications from "./pages/Notifications";
 import MyNotifications from "./pages/MyNotifications";
+import TicketingSupport from "./pages/TicketingSupport";
 
 function App() {
   return (
@@ -69,6 +70,15 @@ function App() {
           element={
             <ProtectedRoute>
               <MyNotifications />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/ticketing-support"
+          element={
+            <ProtectedRoute>
+              <TicketingSupport />
             </ProtectedRoute>
           }
         />
