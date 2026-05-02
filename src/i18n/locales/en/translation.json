@@ -202,5 +202,7 @@
   "profileAlreadyExists": "❌ Profile with this ID already exists",
   "profileRegisteredSuccess": "✅ Profile registered successfully!",
   "errorRegisteringProfile": "❌ Error registering profile",
-  "phoneNumberLabel": "Phone Number"
+  "phoneNumberLabel": "Phone Number",
+  "dateOfBirth": "Date of Birth",
+  "dobRequired": "Date of birth is required"
 }

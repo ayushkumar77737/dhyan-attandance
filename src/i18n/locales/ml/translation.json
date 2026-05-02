@@ -202,5 +202,7 @@
   "profileAlreadyExists": "❌ ഈ ഐഡിയിൽ പ്രൊഫൈൽ ഇതിനകം നിലവിലുണ്ട്",
   "profileRegisteredSuccess": "✅ പ്രൊഫൈൽ വിജയകരമായി രജിസ്റ്റർ ചെയ്തു!",
   "errorRegisteringProfile": "❌ പ്രൊഫൈൽ രജിസ്റ്റർ ചെയ്യുന്നതിൽ പിശക്",
-  "phoneNumberLabel": "ഫോൺ നമ്പർ"
+  "phoneNumberLabel": "ഫോൺ നമ്പർ",
+  "dateOfBirth": "ജനനത്തീയതി",
+  "dobRequired": "ജനനത്തീയതി ആവശ്യമാണ്"
 }

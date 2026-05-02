@@ -20,7 +20,8 @@ function ProfileRegistration() {
         address: "",
         phoneNumber: "",
         email: "",
-        phoneType: ""
+        phoneType: "",
+        dob: ""
     });
 
     const [errors, setErrors] = useState({});
@@ -95,6 +96,10 @@ function ProfileRegistration() {
             newErrors.phoneType = t("phoneTypeRequired");
         }
 
+        if (!form.dob) {
+            newErrors.dob = "Date of birth is required";
+        }
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -125,13 +130,14 @@ function ProfileRegistration() {
                 phoneNumber: form.phoneNumber.trim(),
                 email: form.email.trim(),
                 phoneType: form.phoneType,
+                dob: form.dob,
                 createdAt: new Date().toISOString()
             });
 
             showMsg(t("profileRegisteredSuccess"), "success");
             setForm({
                 idNo: "", name: "", fatherHusbandName: "",
-                address: "", phoneNumber: "", email: "", phoneType: ""
+                address: "", phoneNumber: "", email: "", phoneType: "", dob: ""
             });
 
         } catch (error) {
@@ -236,6 +242,19 @@ function ProfileRegistration() {
                             maxLength={15}
                         />
                         {errors.phoneNumber && <span className="preg__err-msg">{errors.phoneNumber}</span>}
+                    </div>
+
+                    {/* Date of Birth */}
+                    <div className="preg__field">
+                        <label className="preg__label">{t("dateOfBirth")} <span className="preg__req">*</span></label>
+                        <input
+                            className={`preg__input ${errors.dob ? "preg__input--err" : ""}`}
+                            type="date"
+                            name="dob"
+                            value={form.dob}
+                            onChange={handleChange}
+                        />
+                        {errors.dob && <span className="preg__err-msg">{errors.dob}</span>}
                     </div>
 
                     {/* Phone Type */}

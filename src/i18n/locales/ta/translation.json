@@ -202,5 +202,7 @@
   "profileAlreadyExists": "❌ இந்த ஐடியில் சுயவிவரம் ஏற்கனவே உள்ளது",
   "profileRegisteredSuccess": "✅ சுயவிவரம் வெற்றிகரமாக பதிவு செய்யப்பட்டது!",
   "errorRegisteringProfile": "❌ சுயவிவரம் பதிவு செய்வதில் பிழை",
-  "phoneNumberLabel": "தொலைபேசி எண்"
+  "phoneNumberLabel": "தொலைபேசி எண்",
+  "dateOfBirth": "பிறந்த தேதி",
+  "dobRequired": "பிறந்த தேதி தேவை"
 }

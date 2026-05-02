@@ -202,5 +202,7 @@
   "profileAlreadyExists": "❌ ఈ ఐడీతో ప్రొఫైల్ ఇప్పటికే ఉంది",
   "profileRegisteredSuccess": "✅ ప్రొఫైల్ విజయవంతంగా నమోదైంది!",
   "errorRegisteringProfile": "❌ ప్రొఫైల్ నమోదులో లోపం",
-  "phoneNumberLabel": "ఫోన్ నంబర్"
+  "phoneNumberLabel": "ఫోన్ నంబర్",
+  "dateOfBirth": "పుట్టిన తేదీ",
+  "dobRequired": "పుట్టిన తేదీ అవసరం"
 }

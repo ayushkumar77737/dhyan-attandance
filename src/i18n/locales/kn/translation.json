@@ -202,5 +202,7 @@
   "profileAlreadyExists": "❌ ಈ ಐಡಿಯ ಪ್ರೊಫೈಲ್ ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ",
   "profileRegisteredSuccess": "✅ ಪ್ರೊಫೈಲ್ ಯಶಸ್ವಿಯಾಗಿ ನೋಂದಾಯಿಸಲಾಗಿದೆ!",
   "errorRegisteringProfile": "❌ ಪ್ರೊಫೈಲ್ ನೋಂದಾಯಿಸುವಲ್ಲಿ ದೋಷ",
-  "phoneNumberLabel": "ಫೋನ್ ಸಂಖ್ಯೆ"
+  "phoneNumberLabel": "ಫೋನ್ ಸಂಖ್ಯೆ",
+  "dateOfBirth": "ಹುಟ್ಟಿದ ದಿನಾಂಕ",
+  "dobRequired": "ಹುಟ್ಟಿದ ದಿನಾಂಕ ಅಗತ್ಯವಿದೆ"
 }

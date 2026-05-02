@@ -202,5 +202,7 @@
   "profileAlreadyExists": "❌ इस आईडी की प्रोफ़ाइल पहले से मौजूद है",
   "profileRegisteredSuccess": "✅ प्रोफ़ाइल सफलतापूर्वक पंजीकृत!",
   "errorRegisteringProfile": "❌ प्रोफ़ाइल पंजीकरण में त्रुटि",
-  "phoneNumberLabel": "फ़ोन नंबर"
+  "phoneNumberLabel": "फ़ोन नंबर",
+  "dateOfBirth": "जन्म तिथि",
+  "dobRequired": "जन्म तिथि आवश्यक है"
 }
