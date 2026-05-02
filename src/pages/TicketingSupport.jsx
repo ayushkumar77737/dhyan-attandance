@@ -12,6 +12,7 @@ function TicketingSupport() {
     const navigate = useNavigate();
 
     const [currentUser, setCurrentUser] = useState(null);
+    const [loggedInId, setLoggedInId] = useState(""); // ← ADD
     const [tickets, setTickets] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -45,11 +46,13 @@ function TicketingSupport() {
         }
     };
 
+    // ← UPDATED: save loggedInId
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 setCurrentUser(user);
                 const id = user.email.split("@")[0].toUpperCase();
+                setLoggedInId(id);
                 fetchTickets(id);
             }
         });
@@ -90,6 +93,8 @@ function TicketingSupport() {
             newErrors.idNo = t("idRequired");
         } else if (!/^[a-zA-Z]\d{3}$/.test(form.idNo)) {
             newErrors.idNo = t("idFormat");
+        } else if (form.idNo.trim().toUpperCase() !== loggedInId) { // ← ADD
+            newErrors.idNo = t("idMismatch");
         }
 
         if (!form.email.trim()) {
@@ -187,6 +192,13 @@ function TicketingSupport() {
                     </div>
                     <div className="tsp__stat-divider" />
                     <div className="tsp__stat-item">
+                        <span className="tsp__stat-num" style={{ color: "#60a5fa" }}>
+                            {tickets.filter(tk => tk.status === "In Progress").length}
+                        </span>
+                        <span className="tsp__stat-label">In Progress</span>
+                    </div>
+                    <div className="tsp__stat-divider" />
+                    <div className="tsp__stat-item">
                         <span className="tsp__stat-num tsp__stat--resolved">
                             {tickets.filter(tk => tk.status === "Resolved").length}
                         </span>
@@ -232,9 +244,13 @@ function TicketingSupport() {
                                         <span className="tsp__ticket-id-chip">{ticket.idNo}</span>
                                         <span className="tsp__ticket-name">{ticket.name}</span>
                                     </div>
-                                    <span className={`tsp__ticket-status tsp__ticket-status--${ticket.status.toLowerCase()}`}>
-                                        {ticket.status === "Pending" ? "⏳" : "✅"}
-                                        {ticket.status === "Pending" ? t("pending") : t("resolved")}
+                                    <span className={`tsp__ticket-status tsp__ticket-status--${ticket.status.toLowerCase().replace(" ", "")}`}>
+                                        {ticket.status === "Pending" && "⏳ "}
+                                        {ticket.status === "In Progress" && "🔄 "}
+                                        {ticket.status === "Resolved" && "✅ "}
+                                        {ticket.status === "Pending" && t("pending")}
+                                        {ticket.status === "In Progress" && "In Progress"}
+                                        {ticket.status === "Resolved" && t("resolved")}
                                     </span>
                                 </div>
 

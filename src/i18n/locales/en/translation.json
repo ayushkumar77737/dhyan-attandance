@@ -163,5 +163,6 @@
   "enterEmail": "Enter your email",
   "issuePlaceholder": "Describe your issue clearly...",
   "resolved": "Resolved",
-  "trackTicket": "Track Ticket"
+  "trackTicket": "Track Ticket",
+  "idMismatch": "ID No must match your logged in ID"
 }
