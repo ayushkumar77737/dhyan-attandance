@@ -105,7 +105,6 @@ BACK BUTTON
     display: flex;
     align-items: center;
     gap: 6px;
-    animation: preg__slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0s both;
 }
 
 .preg__back-btn:hover {
@@ -124,7 +123,7 @@ HERO
     margin-bottom: 32px;
     position: relative;
     z-index: 1;
-    animation: preg__slideDown 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+    animation: preg__slideDown 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .preg__hero-badge {
@@ -239,7 +238,7 @@ CARD
     backdrop-filter: blur(20px);
     position: relative;
     z-index: 1;
-    animation: preg__slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+    animation: preg__slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
     box-shadow:
         0 24px 70px rgba(0, 0, 0, 0.45),
         inset 0 1px 0 rgba(255, 255, 255, 0.05),
@@ -254,15 +253,6 @@ CARD
     height: 3px;
     background: linear-gradient(90deg, #8b5cf6, #ec4899, #0ea5e9, transparent);
     border-radius: 24px 24px 0 0;
-}
-
-/* =========================
-DATE INPUT
-========================= */
-
-.preg__input[type="date"] {
-    color-scheme: dark;
-    cursor: pointer;
 }
 
 /* =========================
@@ -362,43 +352,10 @@ FORM GRID
     display: flex;
     flex-direction: column;
     gap: 7px;
-    animation: preg__slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .preg__field--full {
     grid-column: 1 / -1;
-}
-
-.preg__field:nth-child(1) {
-    animation-delay: 0.35s;
-}
-
-.preg__field:nth-child(2) {
-    animation-delay: 0.40s;
-}
-
-.preg__field:nth-child(3) {
-    animation-delay: 0.45s;
-}
-
-.preg__field:nth-child(4) {
-    animation-delay: 0.50s;
-}
-
-.preg__field:nth-child(5) {
-    animation-delay: 0.55s;
-}
-
-.preg__field:nth-child(6) {
-    animation-delay: 0.60s;
-}
-
-.preg__field:nth-child(7) {
-    animation-delay: 0.65s;
-}
-
-.preg__field:nth-child(8) {
-    animation-delay: 0.70s;
 }
 
 .preg__label {
@@ -500,7 +457,6 @@ SUBMIT BUTTON
     justify-content: center;
     gap: 10px;
     letter-spacing: 0.05em;
-    animation: preg__slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both;
 }
 
 .preg__submit-btn:hover {
@@ -583,6 +539,7 @@ RESPONSIVE
 @media (max-width: 600px) {
     .preg__page {
         padding: 15px 14px 50px;
+        animation: none;
     }
 
     .preg__hero-title {
@@ -591,6 +548,9 @@ RESPONSIVE
 
     .preg__card {
         padding: 22px 16px;
+        backdrop-filter: none;
+        animation: preg__fadeIn 0.4s ease both;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
     }
 
     .preg__form-grid {
@@ -599,6 +559,58 @@ RESPONSIVE
 
     .preg__field--full {
         grid-column: 1;
+    }
+
+    .preg__hero {
+        animation: preg__fadeIn 0.4s ease 0.1s both;
+    }
+
+    .preg__back-btn {
+        animation: preg__fadeIn 0.4s ease both;
+    }
+
+    .preg__field {
+        animation: preg__fadeIn 0.3s ease both !important;
+    }
+
+    .preg__field:nth-child(1) {
+        animation-delay: 0.2s !important;
+    }
+
+    .preg__field:nth-child(2) {
+        animation-delay: 0.25s !important;
+    }
+
+    .preg__field:nth-child(3) {
+        animation-delay: 0.3s !important;
+    }
+
+    .preg__field:nth-child(4) {
+        animation-delay: 0.35s !important;
+    }
+
+    .preg__field:nth-child(5) {
+        animation-delay: 0.4s !important;
+    }
+
+    .preg__field:nth-child(6) {
+        animation-delay: 0.45s !important;
+    }
+
+    .preg__field:nth-child(7) {
+        animation-delay: 0.5s !important;
+    }
+
+    .preg__field:nth-child(8) {
+        animation-delay: 0.55s !important;
+    }
+
+    .preg__submit-btn {
+        animation: preg__fadeIn 0.3s ease 0.6s both;
+    }
+
+    .preg__orb {
+        display: none;
     }
 }
 
