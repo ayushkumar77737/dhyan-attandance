@@ -155,10 +155,10 @@ const Login = () => {
       </div>
 
       {/* Logo top left */}
-<img src={logo2} alt="Logo" className="page-logo-topleft" />
+      <img src={logo2} alt="Logo" className="page-logo-topleft" />
 
-{/* Person top right */}
-<img src={favicon} alt="Guru" className="page-person-topright" />
+      {/* Person top right */}
+      <img src={favicon} alt="Guru" className="page-person-topright" />
 
       {/* LANGUAGE SWITCHER TOP RIGHT */}
       <div className="lang-switcher-top">

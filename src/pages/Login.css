@@ -534,7 +534,7 @@ LANGUAGE SWITCHER
 
 .lang-switcher-top {
     position: fixed;
-    top: 22px;
+    top: 35px;
     right: 100px;
     z-index: 10000;
 }
@@ -608,24 +608,25 @@ MOBILE
         font-size: 13px;
         padding: 12px;
     }
+
     .lang-switcher-top {
-    top: 20px;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-}
+        top: 20px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+    }
 
-.page-person-topright {
-    top: 10px;
-    right: 10px;
-    width: 60px;
-    height: 60px;
-}
+    .page-person-topright {
+        top: 10px;
+        right: 10px;
+        width: 60px;
+        height: 60px;
+    }
 
-.page-logo-topleft {
-    width: 60px;
-    height: 60px;
-}
+    .page-logo-topleft {
+        width: 60px;
+        height: 60px;
+    }
 }
 
 /* ===============================
@@ -670,25 +671,27 @@ SMALL MOBILE
     .carousel-dots {
         bottom: 14px;
     }
+
     .lang-switcher-top {
-    top: 18px;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
+        top: 18px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+    }
+
+    .page-person-topright {
+        top: 8px;
+        right: 8px;
+        width: 55px;
+        height: 55px;
+    }
+
+    .page-logo-topleft {
+        width: 55px;
+        height: 55px;
+    }
 }
 
-.page-person-topright {
-    top: 8px;
-    right: 8px;
-    width: 55px;
-    height: 55px;
-}
-
-.page-logo-topleft {
-    width: 55px;
-    height: 55px;
-}
-}
 .page-logo-topleft {
     position: fixed;
     top: 16px;
