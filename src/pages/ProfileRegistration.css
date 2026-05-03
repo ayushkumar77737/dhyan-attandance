@@ -73,8 +73,13 @@ ORBS
 }
 
 @keyframes preg__drift {
-    from { transform: translate(0, 0) scale(1); }
-    to { transform: translate(28px, 20px) scale(1.07); }
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(28px, 20px) scale(1.07);
+    }
 }
 
 /* =========================
@@ -100,6 +105,7 @@ BACK BUTTON
     display: flex;
     align-items: center;
     gap: 6px;
+    animation: preg__slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0s both;
 }
 
 .preg__back-btn:hover {
@@ -118,7 +124,7 @@ HERO
     margin-bottom: 32px;
     position: relative;
     z-index: 1;
-    animation: preg__slideDown 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: preg__slideDown 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
 }
 
 .preg__hero-badge {
@@ -147,8 +153,19 @@ HERO
 }
 
 @keyframes preg__pulse {
-    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 10px rgba(139, 92, 246, 0.9); }
-    50% { opacity: 0.5; transform: scale(0.7); box-shadow: 0 0 4px rgba(139, 92, 246, 0.4); }
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(139, 92, 246, 0.9);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(0.7);
+        box-shadow: 0 0 4px rgba(139, 92, 246, 0.4);
+    }
 }
 
 .preg__hero-title {
@@ -222,7 +239,7 @@ CARD
     backdrop-filter: blur(20px);
     position: relative;
     z-index: 1;
-    animation: preg__slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+    animation: preg__slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
     box-shadow:
         0 24px 70px rgba(0, 0, 0, 0.45),
         inset 0 1px 0 rgba(255, 255, 255, 0.05),
@@ -237,6 +254,15 @@ CARD
     height: 3px;
     background: linear-gradient(90deg, #8b5cf6, #ec4899, #0ea5e9, transparent);
     border-radius: 24px 24px 0 0;
+}
+
+/* =========================
+DATE INPUT
+========================= */
+
+.preg__input[type="date"] {
+    color-scheme: dark;
+    cursor: pointer;
 }
 
 /* =========================
@@ -317,7 +343,9 @@ PROFILE IMAGE
     text-transform: uppercase;
 }
 
-.preg__image-wrap:hover .preg__image-overlay { opacity: 1; }
+.preg__image-wrap:hover .preg__image-overlay {
+    opacity: 1;
+}
 
 /* =========================
 FORM GRID
@@ -334,10 +362,43 @@ FORM GRID
     display: flex;
     flex-direction: column;
     gap: 7px;
+    animation: preg__slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .preg__field--full {
     grid-column: 1 / -1;
+}
+
+.preg__field:nth-child(1) {
+    animation-delay: 0.35s;
+}
+
+.preg__field:nth-child(2) {
+    animation-delay: 0.40s;
+}
+
+.preg__field:nth-child(3) {
+    animation-delay: 0.45s;
+}
+
+.preg__field:nth-child(4) {
+    animation-delay: 0.50s;
+}
+
+.preg__field:nth-child(5) {
+    animation-delay: 0.55s;
+}
+
+.preg__field:nth-child(6) {
+    animation-delay: 0.60s;
+}
+
+.preg__field:nth-child(7) {
+    animation-delay: 0.65s;
+}
+
+.preg__field:nth-child(8) {
+    animation-delay: 0.70s;
 }
 
 .preg__label {
@@ -439,6 +500,7 @@ SUBMIT BUTTON
     justify-content: center;
     gap: 10px;
     letter-spacing: 0.05em;
+    animation: preg__slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both;
 }
 
 .preg__submit-btn:hover {
@@ -447,7 +509,9 @@ SUBMIT BUTTON
     box-shadow: 0 12px 36px rgba(139, 92, 246, 0.55);
 }
 
-.preg__submit-btn:active { transform: scale(0.98); }
+.preg__submit-btn:active {
+    transform: scale(0.98);
+}
 
 .preg__submit-btn:disabled {
     background: rgba(255, 255, 255, 0.06);
@@ -468,25 +532,48 @@ SUBMIT BUTTON
     flex-shrink: 0;
 }
 
-@keyframes preg__spin { to { transform: rotate(360deg); } }
+@keyframes preg__spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
 
 /* =========================
 ANIMATIONS
 ========================= */
 
 @keyframes preg__fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes preg__slideDown {
-    from { opacity: 0; transform: translateY(-28px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes preg__slideUp {
-    from { opacity: 0; transform: translateY(28px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* =========================
@@ -494,14 +581,33 @@ RESPONSIVE
 ========================= */
 
 @media (max-width: 600px) {
-    .preg__page { padding: 15px 14px 50px; }
-    .preg__hero-title { font-size: 34px; }
-    .preg__card { padding: 22px 16px; }
-    .preg__form-grid { grid-template-columns: 1fr; }
-    .preg__field--full { grid-column: 1; }
+    .preg__page {
+        padding: 15px 14px 50px;
+    }
+
+    .preg__hero-title {
+        font-size: 34px;
+    }
+
+    .preg__card {
+        padding: 22px 16px;
+    }
+
+    .preg__form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .preg__field--full {
+        grid-column: 1;
+    }
 }
 
 @media (min-width: 601px) and (max-width: 900px) {
-    .preg__hero-title { font-size: 40px; }
-    .preg__card { max-width: 95%; }
+    .preg__hero-title {
+        font-size: 40px;
+    }
+
+    .preg__card {
+        max-width: 95%;
+    }
 }
