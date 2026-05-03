@@ -609,8 +609,10 @@ MOBILE
         padding: 12px;
     }
     .lang-switcher-top {
-    top: 16px;
-    right: 90px;
+    top: 20px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
 }
 
 .page-person-topright {
@@ -669,8 +671,10 @@ SMALL MOBILE
         bottom: 14px;
     }
     .lang-switcher-top {
-    top: 14px;
-    right: 80px;
+    top: 18px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
 }
 
 .page-person-topright {
