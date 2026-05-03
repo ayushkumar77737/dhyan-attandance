@@ -534,9 +534,9 @@ LANGUAGE SWITCHER
 
 .lang-switcher-top {
     position: fixed;
-    top: 14px;
+    top: 100px;
     right: 16px;
-    z-index: 9999;
+    z-index: 10000;
 }
 
 /* ===============================
@@ -652,4 +652,29 @@ SMALL MOBILE
     .carousel-dots {
         bottom: 14px;
     }
+}
+.page-logo-topleft {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    z-index: 9999;
+    filter: drop-shadow(0 0 14px rgba(245, 200, 66, 0.6));
+    animation: imageZoom 6s infinite alternate;
+}
+
+.page-person-topright {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 50%;
+    border: 2px solid rgba(139, 92, 246, 0.5);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+    z-index: 9999;
 }

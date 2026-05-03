@@ -14,6 +14,8 @@ import bg1 from "../assets/bg1.webp";
 import bg2 from "../assets/bg2.webp";
 import bg3 from "../assets/bg3.webp";
 import bg4 from "../assets/pic.jpeg";
+import logo2 from "../assets/logo2.png";
+import favicon from "../assets/favicon.png";
 
 const Login = () => {
 
@@ -151,6 +153,12 @@ const Login = () => {
           />
         ))}
       </div>
+
+      {/* Logo top left */}
+<img src={logo2} alt="Logo" className="page-logo-topleft" />
+
+{/* Person top right */}
+<img src={favicon} alt="Guru" className="page-person-topright" />
 
       {/* LANGUAGE SWITCHER TOP RIGHT */}
       <div className="lang-switcher-top">
