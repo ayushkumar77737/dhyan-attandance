@@ -204,5 +204,9 @@
   "errorRegisteringProfile": "❌ ప్రొఫైల్ నమోదులో లోపం",
   "phoneNumberLabel": "ఫోన్ నంబర్",
   "dateOfBirth": "పుట్టిన తేదీ",
-  "dobRequired": "పుట్టిన తేదీ అవసరం"
+  "dobRequired": "పుట్టిన తేదీ అవసరం",
+  "myProfile": "నా ప్రొఫైల్",
+  "profileInfoSubtitle": "మీ నమోదు చేయబడిన ప్రొఫైల్ సమాచారం",
+  "profileNotFound": "ప్రొఫైల్ కనుగొనబడలేదు",
+  "profileNotFoundSub": "మీ ప్రొఫైల్ ఇంకా నమోదు చేయబడలేదు. అడ్మిన్‌ను సంప్రదించండి."
 }

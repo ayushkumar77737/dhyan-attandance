@@ -204,5 +204,9 @@
   "errorRegisteringProfile": "❌ Error registering profile",
   "phoneNumberLabel": "Phone Number",
   "dateOfBirth": "Date of Birth",
-  "dobRequired": "Date of birth is required"
+  "dobRequired": "Date of birth is required",
+  "myProfile": "My Profile",
+  "profileInfoSubtitle": "Your registered profile information",
+  "profileNotFound": "Profile Not Found",
+  "profileNotFoundSub": "Your profile has not been registered yet. Please contact the admin."
 }

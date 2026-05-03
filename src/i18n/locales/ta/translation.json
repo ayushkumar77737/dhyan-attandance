@@ -204,5 +204,9 @@
   "errorRegisteringProfile": "❌ சுயவிவரம் பதிவு செய்வதில் பிழை",
   "phoneNumberLabel": "தொலைபேசி எண்",
   "dateOfBirth": "பிறந்த தேதி",
-  "dobRequired": "பிறந்த தேதி தேவை"
+  "dobRequired": "பிறந்த தேதி தேவை",
+  "myProfile": "என் சுயவிவரம்",
+  "profileInfoSubtitle": "உங்கள் பதிவு செய்யப்பட்ட சுயவிவர தகவல்",
+  "profileNotFound": "சுயவிவரம் கிடைக்கவில்லை",
+  "profileNotFoundSub": "உங்கள் சுயவிவரம் இன்னும் பதிவு செய்யப்படவில்லை. நிர்வாகியை தொடர்பு கொள்ளவும்."
 }

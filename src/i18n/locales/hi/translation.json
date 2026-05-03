@@ -204,5 +204,9 @@
   "errorRegisteringProfile": "❌ प्रोफ़ाइल पंजीकरण में त्रुटि",
   "phoneNumberLabel": "फ़ोन नंबर",
   "dateOfBirth": "जन्म तिथि",
-  "dobRequired": "जन्म तिथि आवश्यक है"
+  "dobRequired": "जन्म तिथि आवश्यक है",
+  "myProfile": "मेरी प्रोफ़ाइल",
+  "profileInfoSubtitle": "आपकी पंजीकृत प्रोफ़ाइल जानकारी",
+  "profileNotFound": "प्रोफ़ाइल नहीं मिली",
+  "profileNotFoundSub": "आपकी प्रोफ़ाइल अभी तक पंजीकृत नहीं हुई है। कृपया एडमिन से संपर्क करें।"
 }

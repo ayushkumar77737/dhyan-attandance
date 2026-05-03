@@ -204,5 +204,9 @@
   "errorRegisteringProfile": "❌ ಪ್ರೊಫೈಲ್ ನೋಂದಾಯಿಸುವಲ್ಲಿ ದೋಷ",
   "phoneNumberLabel": "ಫೋನ್ ಸಂಖ್ಯೆ",
   "dateOfBirth": "ಹುಟ್ಟಿದ ದಿನಾಂಕ",
-  "dobRequired": "ಹುಟ್ಟಿದ ದಿನಾಂಕ ಅಗತ್ಯವಿದೆ"
+  "dobRequired": "ಹುಟ್ಟಿದ ದಿನಾಂಕ ಅಗತ್ಯವಿದೆ",
+  "myProfile": "ನನ್ನ ಪ್ರೊಫೈಲ್",
+  "profileInfoSubtitle": "ನಿಮ್ಮ ನೋಂದಾಯಿಸಲಾದ ಪ್ರೊಫೈಲ್ ಮಾಹಿತಿ",
+  "profileNotFound": "ಪ್ರೊಫೈಲ್ ಕಂಡುಬಂದಿಲ್ಲ",
+  "profileNotFoundSub": "ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಇನ್ನೂ ನೋಂದಾಯಿಸಲಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಅಡ್ಮಿನ್ ಅನ್ನು ಸಂಪರ್ಕಿಸಿ."
 }

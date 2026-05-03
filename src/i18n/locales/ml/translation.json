@@ -204,5 +204,9 @@
   "errorRegisteringProfile": "❌ പ്രൊഫൈൽ രജിസ്റ്റർ ചെയ്യുന്നതിൽ പിശക്",
   "phoneNumberLabel": "ഫോൺ നമ്പർ",
   "dateOfBirth": "ജനനത്തീയതി",
-  "dobRequired": "ജനനത്തീയതി ആവശ്യമാണ്"
+  "dobRequired": "ജനനത്തീയതി ആവശ്യമാണ്",
+  "myProfile": "എന്റെ പ്രൊഫൈൽ",
+  "profileInfoSubtitle": "നിങ്ങളുടെ രജിസ്റ്റർ ചെയ്ത പ്രൊഫൈൽ വിവരങ്ങൾ",
+  "profileNotFound": "പ്രൊഫൈൽ കണ്ടെത്തിയില്ല",
+  "profileNotFoundSub": "നിങ്ങളുടെ പ്രൊഫൈൽ ഇതുവരെ രജിസ്റ്റർ ചെയ്തിട്ടില്ല. അഡ്മിനെ ബന്ധപ്പെടുക."
 }

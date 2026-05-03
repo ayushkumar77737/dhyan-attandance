@@ -21,6 +21,7 @@ import MyNotifications from "./pages/MyNotifications";
 import TicketingSupport from "./pages/TicketingSupport";
 import TrackTicket from "./pages/TrackTicket";
 import ProfileRegistration from "./pages/ProfileRegistration";
+import MyProfile from "./pages/MyProfile";
 
 function App() {
   return (
@@ -81,6 +82,15 @@ function App() {
           element={
             <ProtectedRoute>
               <TicketingSupport />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/my-profile"
+          element={
+            <ProtectedRoute>
+              <MyProfile />
             </ProtectedRoute>
           }
         />

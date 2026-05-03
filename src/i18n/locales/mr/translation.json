@@ -204,5 +204,9 @@
   "errorRegisteringProfile": "❌ प्रोफाइल नोंदवताना त्रुटी",
   "phoneNumberLabel": "फोन नंबर",
   "dateOfBirth": "जन्म तारीख",
-  "dobRequired": "जन्म तारीख आवश्यक आहे"
+  "dobRequired": "जन्म तारीख आवश्यक आहे",
+  "myProfile": "माझी प्रोफाइल",
+  "profileInfoSubtitle": "तुमची नोंदणीकृत प्रोफाइल माहिती",
+  "profileNotFound": "प्रोफाइल सापडली नाही",
+  "profileNotFoundSub": "तुमची प्रोफाइल अद्याप नोंदवली गेली नाही. कृपया प्रशासकाशी संपर्क करा."
 }

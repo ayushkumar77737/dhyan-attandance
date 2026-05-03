@@ -202,5 +202,9 @@
   "profileAlreadyExists": "❌ এই আইডিতে প্রোফাইল ইতিমধ্যে বিদ্যমান",
   "profileRegisteredSuccess": "✅ প্রোফাইল সফলভাবে নিবন্ধিত হয়েছে!",
   "errorRegisteringProfile": "❌ প্রোফাইল নিবন্ধনে ত্রুটি",
-  "phoneNumberLabel": "ফোন নম্বর"
+  "phoneNumberLabel": "ফোন নম্বর",
+  "myProfile": "আমার প্রোফাইল",
+  "profileInfoSubtitle": "আপনার নিবন্ধিত প্রোফাইল তথ্য",
+  "profileNotFound": "প্রোফাইল পাওয়া যায়নি",
+  "profileNotFoundSub": "আপনার প্রোফাইল এখনো নিবন্ধিত হয়নি। অনুগ্রহ করে অ্যাডমিনের সাথে যোগাযোগ করুন।"
 }
