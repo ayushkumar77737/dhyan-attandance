@@ -32,6 +32,17 @@ RESET
     margin: 0;
     padding: 0;
 }
+html {
+    min-height: 100%;
+    background: #06060e;
+    overscroll-behavior: none;
+}
+
+body {
+    min-height: 100vh;
+    background: #06060e;
+    overscroll-behavior: none;
+}
 
 /* =========================
 PAGE
@@ -39,6 +50,7 @@ PAGE
 
 .ldpg__page {
     min-height: 100vh;
+    height: 100vh;
     background: var(--ldpg-bg);
     font-family: var(--ldpg-font-body);
     position: relative;
@@ -47,6 +59,7 @@ PAGE
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overscroll-behavior: none;
 }
 
 /* =========================
@@ -164,7 +177,7 @@ HERO
     z-index: 1;
     width: 100%;
     max-width: 1200px;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: space-between;
