@@ -4,6 +4,7 @@ import "./LandingPage.css";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import dhyanImage from "../assets/Dhyan.png";
+import logo2 from "../assets/logo2.png";
 
 const LandingPage = () => {
     const navigate = useNavigate();
@@ -28,6 +29,7 @@ const LandingPage = () => {
 
     return (
         <div className="ldpg__page">
+            <img src={logo2} alt="Logo" className="ldpg__logo" />
 
             {/* Ambient orbs */}
             <div className="ldpg__orb ldpg__orb--1" />
@@ -96,8 +98,6 @@ const LandingPage = () => {
                         <span className="ldpg__cta-arrow">→</span>
                     </button>
 
-                    <p className="ldpg__sacred">{t("sacredPortal")}</p>
-
                 </div>
 
                 {/* Right image */}
@@ -114,15 +114,6 @@ const LandingPage = () => {
 
                         <div className="ldpg__image-glow" />
                         <div className="ldpg__image-glow ldpg__image-glow--top" />
-                    </div>
-
-                    {/* Floating badge */}
-                    <div className="ldpg__badge">
-                        <span className="ldpg__badge-icon">🙏</span>
-                        <div className="ldpg__badge-body">
-                            <span className="ldpg__badge-text">{t("guruText")}</span>
-                            <span className="ldpg__badge-sub">{t("guruSubtext")}</span>
-                        </div>
                     </div>
 
                     {/* Corner decorations */}
