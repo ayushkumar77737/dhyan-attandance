@@ -7,7 +7,6 @@ import { auth, db } from "../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "../components/LanguageSwitcher";
 
 import dhyanImage from "../assets/Dhyan.png";
 import bg1 from "../assets/bg1.webp";
@@ -150,11 +149,6 @@ const Login = () => {
             onClick={() => setBgIndex(index)}
           />
         ))}
-      </div>
-
-      {/* LANGUAGE SWITCHER TOP RIGHT */}
-      <div className="lang-switcher-top">
-        <LanguageSwitcher />
       </div>
 
       <div className="login-container">

@@ -208,5 +208,10 @@
   "myProfile": "My Profile",
   "profileInfoSubtitle": "Your registered profile information",
   "profileNotFound": "Profile Not Found",
-  "profileNotFoundSub": "Your profile has not been registered yet. Please contact the admin."
+  "profileNotFoundSub": "Your profile has not been registered yet. Please contact the admin.",
+  "landingAbout": "The Dhyan Program is a sacred spiritual journey guided by Param Sant Swami Jai Gurubande Ji Maharaj. Through daily meditation, members experience inner peace, self-awareness, and divine connection.",
+  "landingStat1": "Daily Meditation",
+  "landingStat2": "Inner Peace",
+  "landingStat3": "Divine Connection",
+  "landingLogin": "Enter Portal"
 }
