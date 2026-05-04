@@ -213,5 +213,6 @@
   "landingStat1": "Daily Meditation",
   "landingStat2": "Inner Peace",
   "landingStat3": "Divine Connection",
-  "landingLogin": "Enter Portal"
+  "landingLogin": "Enter Portal",
+  "toggleStatus": "Toggle Status"
 }

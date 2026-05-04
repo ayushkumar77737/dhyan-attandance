@@ -208,6 +208,17 @@ function AdminDashboard() {
           </button>
         </div>
 
+        {/* Toggle Status Card */}
+        <div className="dashboard-card">
+          <div className="admin-profile">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="toggle status" />
+            <h3>{t("toggleStatus")}</h3>
+          </div>
+          <button className="dashboard-btn" onClick={() => navigate("/toggle-status")}>
+            {t("toggleStatus")}
+          </button>
+        </div>
+
       </div>
 
     </div>
