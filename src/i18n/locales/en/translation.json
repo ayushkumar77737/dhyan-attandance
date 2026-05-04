@@ -214,5 +214,13 @@
   "landingStat2": "Inner Peace",
   "landingStat3": "Divine Connection",
   "landingLogin": "Enter Portal",
-  "toggleStatus": "Toggle Status"
+  "toggleStatus": "Toggle Status",
+  "accountDisabled": "Your account has been disabled. Contact admin.",
+  "toggleStatusSub": "Enable or disable user account access",
+  "active": "Active",
+  "disabled": "Disabled",
+  "searchByNameOrId": "Search by name or ID...",
+  "noUsersFound": "No users found",
+  "enable": "Enable",
+  "disable": "Disable"
 }

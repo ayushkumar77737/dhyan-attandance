@@ -22,6 +22,7 @@ import TicketingSupport from "./pages/TicketingSupport";
 import TrackTicket from "./pages/TrackTicket";
 import ProfileRegistration from "./pages/ProfileRegistration";
 import MyProfile from "./pages/MyProfile";
+import ToggleStatus from "./pages/ToggleStatus";
 
 function App() {
   return (
@@ -110,6 +111,15 @@ function App() {
           element={
             <ProtectedRoute>
               <ProfileRegistration />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/toggle-status"
+          element={
+            <ProtectedRoute>
+              <ToggleStatus />
             </ProtectedRoute>
           }
         />

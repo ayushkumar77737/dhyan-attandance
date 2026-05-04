@@ -214,5 +214,13 @@
   "landingStat2": "आंतरिक शांति",
   "landingStat3": "दिव्य संबंध",
   "landingLogin": "पोर्टल में प्रवेश करें",
-  "toggleStatus": "स्थिति बदलें"
+  "toggleStatus": "स्थिति बदलें",
+  "accountDisabled": "आपका खाता अक्षम कर दिया गया है। एडमिन से संपर्क करें।",
+  "toggleStatusSub": "उपयोगकर्ता खाता एक्सेस सक्षम या अक्षम करें",
+  "active": "सक्रिय",
+  "disabled": "अक्षम",
+  "searchByNameOrId": "नाम या आईडी से खोजें...",
+  "noUsersFound": "कोई उपयोगकर्ता नहीं मिला",
+  "enable": "सक्षम करें",
+  "disable": "अक्षम करें"
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -87,6 +87,14 @@ const Login = () => {
       const loggedEmail = userCredential.user.email;
 
       await setDoc(userRef, { attempts: 0, lockUntil: null });
+
+      const userDoc = await getDoc(doc(db, "users", id.toUpperCase()));
+      if (userDoc.exists() && userDoc.data().disabled === true) {
+        await signOut(auth);
+        showError(t("accountDisabled"));
+        setLoading(false);
+        return;
+      }
 
       const ADMIN_EMAIL = "admin1@dhyan.in";
 
