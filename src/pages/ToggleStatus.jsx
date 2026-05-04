@@ -80,8 +80,8 @@ function ToggleStatus() {
             );
             showMsg(
                 newStatus
-                    ? `${user.name} (${user.idNo}) has been disabled`
-                    : `${user.name} (${user.idNo}) has been enabled`,
+                    ? t("userDisabledMsg", { name: user.name, idNo: user.idNo })
+                    : t("userEnabledMsg", { name: user.name, idNo: user.idNo }),
                 newStatus ? "error" : "success"
             );
         } catch (error) {

@@ -222,5 +222,7 @@
   "searchByNameOrId": "ಹೆಸರು ಅಥವಾ ಐಡಿ ಮೂಲಕ ಹುಡುಕಿ...",
   "noUsersFound": "ಯಾವುದೇ ಬಳಕೆದಾರರು ಕಂಡುಬಂದಿಲ್ಲ",
   "enable": "ಸಕ್ರಿಯಗೊಳಿಸಿ",
-  "disable": "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ"
+  "disable": "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ",
+  "userDisabledMsg": "{{name}} ({{idNo}}) ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ",
+  "userEnabledMsg": "{{name}} ({{idNo}}) ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"
 }

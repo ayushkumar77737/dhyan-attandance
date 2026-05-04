@@ -222,5 +222,7 @@
   "searchByNameOrId": "பெயர் அல்லது ஐடி மூலம் தேடு...",
   "noUsersFound": "பயனர்கள் கிடைக்கவில்லை",
   "enable": "இயக்கு",
-  "disable": "முடக்கு"
+  "disable": "முடக்கு",
+  "userDisabledMsg": "{{name}} ({{idNo}}) முடக்கப்பட்டது",
+  "userEnabledMsg": "{{name}} ({{idNo}}) இயக்கப்பட்டது"
 }

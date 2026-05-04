@@ -222,5 +222,7 @@
   "searchByNameOrId": "नाव किंवा आयडीने शोधा...",
   "noUsersFound": "कोणतेही वापरकर्ते सापडले नाहीत",
   "enable": "सक्षम करा",
-  "disable": "अक्षम करा"
+  "disable": "अक्षम करा",
+  "userDisabledMsg": "{{name}} ({{idNo}}) अक्षम केले आहे",
+  "userEnabledMsg": "{{name}} ({{idNo}}) सक्षम केले आहे"
 }

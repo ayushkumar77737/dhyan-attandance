@@ -220,5 +220,7 @@
   "searchByNameOrId": "নাম বা আইডি দিয়ে খুঁজুন...",
   "noUsersFound": "কোনো ব্যবহারকারী পাওয়া যায়নি",
   "enable": "সক্রিয় করুন",
-  "disable": "নিষ্ক্রিয় করুন"
+  "disable": "নিষ্ক্রিয় করুন",
+  "userDisabledMsg": "{{name}} ({{idNo}}) নিষ্ক্রিয় করা হয়েছে",
+  "userEnabledMsg": "{{name}} ({{idNo}}) সক্রিয় করা হয়েছে"
 }

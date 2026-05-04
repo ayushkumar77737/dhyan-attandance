@@ -222,5 +222,7 @@
   "searchByNameOrId": "పేరు లేదా ఐడీ ద్వారా వెతుకు...",
   "noUsersFound": "వినియోగదారులు కనుగొనబడలేదు",
   "enable": "ఎనేబుల్",
-  "disable": "డిసేబుల్"
+  "disable": "డిసేబుల్",
+  "userDisabledMsg": "{{name}} ({{idNo}}) నిష్క్రియం చేయబడింది",
+  "userEnabledMsg": "{{name}} ({{idNo}}) సక్రియం చేయబడింది"
 }

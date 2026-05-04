@@ -222,5 +222,7 @@
   "searchByNameOrId": "Search by name or ID...",
   "noUsersFound": "No users found",
   "enable": "Enable",
-  "disable": "Disable"
+  "disable": "Disable",
+  "userDisabledMsg": "{{name}} ({{idNo}}) has been disabled",
+  "userEnabledMsg": "{{name}} ({{idNo}}) has been enabled"
 }
