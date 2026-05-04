@@ -222,5 +222,9 @@
   "enable": "সক্রিয় করুন",
   "disable": "নিষ্ক্রিয় করুন",
   "userDisabledMsg": "{{name}} ({{idNo}}) নিষ্ক্রিয় করা হয়েছে",
-  "userEnabledMsg": "{{name}} ({{idNo}}) সক্রিয় করা হয়েছে"
+  "userEnabledMsg": "{{name}} ({{idNo}}) সক্রিয় করা হয়েছে",
+  "disableAll": "সবাইকে নিষ্ক্রিয় করুন",
+  "enableAll": "সবাইকে সক্রিয় করুন",
+  "allDisabledMsg": "সকল ব্যবহারকারী নিষ্ক্রিয় করা হয়েছে।",
+  "allEnabledMsg": "সকল ব্যবহারকারী সক্রিয় করা হয়েছে।"
 }

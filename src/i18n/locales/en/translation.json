@@ -224,5 +224,9 @@
   "enable": "Enable",
   "disable": "Disable",
   "userDisabledMsg": "{{name}} ({{idNo}}) has been disabled",
-  "userEnabledMsg": "{{name}} ({{idNo}}) has been enabled"
+  "userEnabledMsg": "{{name}} ({{idNo}}) has been enabled",
+  "disableAll": "Disable All",
+  "enableAll": "Enable All",
+  "allDisabledMsg": "All users have been disabled.",
+  "allEnabledMsg": "All users have been enabled."
 }

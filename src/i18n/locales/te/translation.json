@@ -224,5 +224,9 @@
   "enable": "ఎనేబుల్",
   "disable": "డిసేబుల్",
   "userDisabledMsg": "{{name}} ({{idNo}}) నిష్క్రియం చేయబడింది",
-  "userEnabledMsg": "{{name}} ({{idNo}}) సక్రియం చేయబడింది"
+  "userEnabledMsg": "{{name}} ({{idNo}}) సక్రియం చేయబడింది",
+  "disableAll": "అందరినీ నిలిపివేయి",
+  "enableAll": "అందరినీ సక్రియం చేయి",
+  "allDisabledMsg": "అందరు వినియోగదారులు నిలిపివేయబడ్డారు.",
+  "allEnabledMsg": "అందరు వినియోగదారులు సక్రియం చేయబడ్డారు."
 }

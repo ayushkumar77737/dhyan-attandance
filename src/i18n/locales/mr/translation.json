@@ -224,5 +224,9 @@
   "enable": "सक्षम करा",
   "disable": "अक्षम करा",
   "userDisabledMsg": "{{name}} ({{idNo}}) अक्षम केले आहे",
-  "userEnabledMsg": "{{name}} ({{idNo}}) सक्षम केले आहे"
+  "userEnabledMsg": "{{name}} ({{idNo}}) सक्षम केले आहे",
+  "disableAll": "सर्वांना अक्षम करा",
+  "enableAll": "सर्वांना सक्षम करा",
+  "allDisabledMsg": "सर्व वापरकर्ते अक्षम केले गेले आहेत।",
+  "allEnabledMsg": "सर्व वापरकर्ते सक्षम केले गेले आहेत।"
 }

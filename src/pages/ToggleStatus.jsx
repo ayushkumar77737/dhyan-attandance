@@ -92,6 +92,29 @@ function ToggleStatus() {
         }
     };
 
+    const handleToggleAll = async () => {
+        const allDisabled = users.every((u) => u.disabled);
+        const newStatus = !allDisabled; // if all disabled → enable all; else → disable all
+        setTogglingId("__all__");
+        try {
+            await Promise.all(
+                users.map((user) =>
+                    updateDoc(doc(db, "users", user.docId), { disabled: newStatus })
+                )
+            );
+            setUsers((prev) => prev.map((u) => ({ ...u, disabled: newStatus })));
+            showMsg(
+                newStatus ? t("allDisabledMsg") : t("allEnabledMsg"),
+                newStatus ? "error" : "success"
+            );
+        } catch (error) {
+            console.error(error);
+            showMsg(t("errorUpdatingStatus"), "error");
+        } finally {
+            setTogglingId(null);
+        }
+    };
+
     const filtered = users.filter(
         (u) =>
             u.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -100,6 +123,7 @@ function ToggleStatus() {
 
     const activeCount = users.filter((u) => !u.disabled).length;
     const disabledCount = users.filter((u) => u.disabled).length;
+    const allDisabled = users.length > 0 && users.every((u) => u.disabled);
 
     return (
         <div className="tgls__page">
@@ -168,6 +192,20 @@ function ToggleStatus() {
                 {search && (
                     <button className="tgls__search-clear" onClick={() => setSearch("")}>✕</button>
                 )}
+                <button
+                    className={`tgls__bulk-btn ${allDisabled ? "tgls__bulk-btn--enable" : "tgls__bulk-btn--disable"}`}
+                    onClick={handleToggleAll}
+                    disabled={togglingId === "__all__" || users.length === 0}
+                >
+                    {togglingId === "__all__" ? (
+                        <span className="tgls__btn-spin" />
+                    ) : (
+                        <>
+                            <span>{allDisabled ? "🔓" : "🔒"}</span>
+                            {allDisabled ? t("enableAll") : t("disableAll")}
+                        </>
+                    )}
+                </button>
             </div>
 
             {/* Loading */}

@@ -224,5 +224,9 @@
   "enable": "இயக்கு",
   "disable": "முடக்கு",
   "userDisabledMsg": "{{name}} ({{idNo}}) முடக்கப்பட்டது",
-  "userEnabledMsg": "{{name}} ({{idNo}}) இயக்கப்பட்டது"
+  "userEnabledMsg": "{{name}} ({{idNo}}) இயக்கப்பட்டது",
+  "disableAll": "அனைவரையும் முடக்கு",
+  "enableAll": "அனைவரையும் இயக்கு",
+  "allDisabledMsg": "அனைத்து பயனர்களும் முடக்கப்பட்டனர்.",
+  "allEnabledMsg": "அனைத்து பயனர்களும் இயக்கப்பட்டனர்."
 }
