@@ -33,14 +33,6 @@ RESET
     padding: 0;
 }
 
-html,
-body {
-    background: #06060e;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-}
-
 /* =========================
 PAGE
 ========================= */
@@ -50,8 +42,7 @@ PAGE
     background: var(--ldpg-bg);
     font-family: var(--ldpg-font-body);
     position: relative;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
