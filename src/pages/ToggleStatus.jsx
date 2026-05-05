@@ -180,18 +180,24 @@ function ToggleStatus() {
             )}
 
             {/* Search */}
+            {/* Search */}
             <div className="tgls__search-wrap">
-                <span className="tgls__search-icon">🔍</span>
-                <input
-                    className="tgls__search"
-                    type="text"
-                    placeholder={t("searchByNameOrId")}
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
-                {search && (
-                    <button className="tgls__search-clear" onClick={() => setSearch("")}>✕</button>
-                )}
+
+                {/* ✅ New inner wrapper */}
+                <div className="tgls__search-inner">
+                    <span className="tgls__search-icon">🔍</span>
+                    <input
+                        className="tgls__search"
+                        type="text"
+                        placeholder={t("searchByNameOrId")}
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                    {search && (
+                        <button className="tgls__search-clear" onClick={() => setSearch("")}>✕</button>
+                    )}
+                </div>
+
                 <button
                     className={`tgls__bulk-btn ${allDisabled ? "tgls__bulk-btn--enable" : "tgls__bulk-btn--disable"}`}
                     onClick={handleToggleAll}
@@ -206,6 +212,7 @@ function ToggleStatus() {
                         </>
                     )}
                 </button>
+
             </div>
 
             {/* Loading */}
