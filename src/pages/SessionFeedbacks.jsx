@@ -110,7 +110,6 @@ function SessionFeedbacks() {
 
     const stars = (n) => "★".repeat(n) + "☆".repeat(5 - n);
 
-    // ✅ Delete All
     const handleDeleteAll = async () => {
         if (!window.confirm(t("deleteAllConfirm"))) return;
         try {
@@ -123,7 +122,6 @@ function SessionFeedbacks() {
         }
     };
 
-    // ✅ Export CSV
     const handleExport = () => {
         const headers = ["User Name", "User ID", "Session", "Rating", "Rating Label", "Mood Before", "Mood After", "Date", "Comment"];
         const rows = filtered.map(f => [
@@ -148,15 +146,15 @@ function SessionFeedbacks() {
     };
 
     return (
-        <div className="sfb__page">
+        <div className="ssfb__page">
 
-            <div className="sfb__orb sfb__orb--1" />
-            <div className="sfb__orb sfb__orb--2" />
-            <div className="sfb__orb sfb__orb--3" />
-            <div className="sfb__grid" />
+            <div className="ssfb__orb ssfb__orb--1" />
+            <div className="ssfb__orb ssfb__orb--2" />
+            <div className="ssfb__orb ssfb__orb--3" />
+            <div className="ssfb__grid" />
 
             {/* Back */}
-            <button className="sfb__back" onClick={() => navigate("/admin-dashboard")}>
+            <button className="ssfb__back" onClick={() => navigate("/admin-dashboard")}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="15 18 9 12 15 6" />
                 </svg>
@@ -164,86 +162,89 @@ function SessionFeedbacks() {
             </button>
 
             {/* Hero */}
-            <div className="sfb__hero">
-                <div className="sfb__badge">
-                    <span className="sfb__badge-dot" />
+            <div className="ssfb__hero">
+                <div className="ssfb__badge">
+                    <span className="ssfb__badge-dot" />
                     {t("adminPanel")}
                 </div>
-                <h1 className="sfb__title">{t("sessionFeedbacks")}</h1>
-                <p className="sfb__sub">{t("sessionFeedbacksSub")}</p>
+                <h1 className="ssfb__title">{t("sessionFeedbacks")}</h1>
+                <p className="ssfb__sub">{t("sessionFeedbacksSub")}</p>
+                <div className="ssfb__title-line" />
             </div>
 
             {/* Summary Cards */}
             {!loading && (
-                <div className="sfb__summary">
-                    <div className="sfb__scard sfb__scard--total">
-                        <div className="sfb__scard-icon">📋</div>
-                        <div className="sfb__scard-val">{filtered.length}</div>
-                        <div className="sfb__scard-lbl">{t("totalFeedbacks")}</div>
+                <div className="ssfb__summary">
+                    <div className="ssfb__scard ssfb__scard--total">
+                        <div className="ssfb__scard-icon">📋</div>
+                        <div className="ssfb__scard-val">{filtered.length}</div>
+                        <div className="ssfb__scard-lbl">{t("totalFeedbacks")}</div>
                     </div>
-                    <div className="sfb__scard sfb__scard--avg">
-                        <div className="sfb__scard-icon">⭐</div>
-                        <div className="sfb__scard-val sfb__scard-val--gold">{avgRating}</div>
-                        <div className="sfb__scard-lbl">{t("averageRating")}</div>
+                    <div className="ssfb__scard ssfb__scard--avg">
+                        <div className="ssfb__scard-icon">⭐</div>
+                        <div className="ssfb__scard-val ssfb__scard-val--gold">{avgRating}</div>
+                        <div className="ssfb__scard-lbl">{t("averageRating")}</div>
                     </div>
-                    <div className="sfb__scard sfb__scard--top">
-                        <div className="sfb__scard-icon">🏆</div>
-                        <div className="sfb__scard-val sfb__scard-val--sm">
+                    <div className="ssfb__scard ssfb__scard--top">
+                        <div className="ssfb__scard-icon">🏆</div>
+                        <div className="ssfb__scard-val ssfb__scard-val--sm">
                             {Object.entries(sessionDist).sort((a, b) => b[1] - a[1])[0]?.[0]
                                 ? `${sessionIcons[Object.entries(sessionDist).sort((a, b) => b[1] - a[1])[0][0]] || ""} ${Object.entries(sessionDist).sort((a, b) => b[1] - a[1])[0][0]}`
                                 : "—"}
                         </div>
-                        <div className="sfb__scard-lbl">{t("topSession")}</div>
+                        <div className="ssfb__scard-lbl">{t("topSession")}</div>
                     </div>
-                    <div className="sfb__scard sfb__scard--mood">
-                        <div className="sfb__scard-icon">✨</div>
-                        <div className="sfb__scard-val sfb__scard-val--sm">
+                    <div className="ssfb__scard ssfb__scard--mood">
+                        <div className="ssfb__scard-icon">✨</div>
+                        <div className="ssfb__scard-val ssfb__scard-val--sm">
                             {filtered.length > 0
                                 ? (() => { const m = {}; filtered.forEach(f => { m[f.moodAfter] = (m[f.moodAfter] || 0) + 1; }); return Object.entries(m).sort((a, b) => b[1] - a[1])[0]?.[0] || "—"; })()
                                 : "—"}
                         </div>
-                        <div className="sfb__scard-lbl">{t("topMoodAfter")}</div>
+                        <div className="ssfb__scard-lbl">{t("topMoodAfter")}</div>
                     </div>
                 </div>
             )}
 
             {/* Analytics */}
             {!loading && filtered.length > 0 && (
-                <div className="sfb__analytics">
-                    <div className="sfb__chart-card">
-                        <div className="sfb__chart-title">
+                <div className="ssfb__analytics">
+                    <div className="ssfb__chart-card">
+                        <div className="ssfb__chart-top-line" />
+                        <div className="ssfb__chart-title">
                             <span>✦</span> {t("ratingDistribution")}
                         </div>
-                        <div className="sfb__bar-chart">
+                        <div className="ssfb__bar-chart">
                             {[5, 4, 3, 2, 1].map(r => (
-                                <div key={r} className="sfb__bar-row">
-                                    <span className="sfb__bar-lbl">{r}★</span>
-                                    <div className="sfb__bar-track">
+                                <div key={r} className="ssfb__bar-row">
+                                    <span className="ssfb__bar-lbl">{r}★</span>
+                                    <div className="ssfb__bar-track">
                                         <div
-                                            className="sfb__bar-fill sfb__bar-fill--gold"
+                                            className="ssfb__bar-fill ssfb__bar-fill--gold"
                                             style={{ width: `${(ratingDist[r] / maxRatingCount) * 100}%` }}
                                         />
                                     </div>
-                                    <span className="sfb__bar-count">{ratingDist[r]}</span>
+                                    <span className="ssfb__bar-count">{ratingDist[r]}</span>
                                 </div>
                             ))}
                         </div>
                     </div>
-                    <div className="sfb__chart-card">
-                        <div className="sfb__chart-title">
+                    <div className="ssfb__chart-card">
+                        <div className="ssfb__chart-top-line ssfb__chart-top-line--teal" />
+                        <div className="ssfb__chart-title">
                             <span>🧘</span> {t("sessionsBreakdown")}
                         </div>
-                        <div className="sfb__bar-chart">
+                        <div className="ssfb__bar-chart">
                             {Object.entries(sessionDist).sort((a, b) => b[1] - a[1]).map(([sess, count]) => (
-                                <div key={sess} className="sfb__bar-row">
-                                    <span className="sfb__bar-lbl">{sessionIcons[sess] || "○"} {sess}</span>
-                                    <div className="sfb__bar-track">
+                                <div key={sess} className="ssfb__bar-row">
+                                    <span className="ssfb__bar-lbl">{sessionIcons[sess] || "○"} {sess}</span>
+                                    <div className="ssfb__bar-track">
                                         <div
-                                            className="sfb__bar-fill sfb__bar-fill--teal"
+                                            className="ssfb__bar-fill ssfb__bar-fill--teal"
                                             style={{ width: `${(count / maxSessionCount) * 100}%` }}
                                         />
                                     </div>
-                                    <span className="sfb__bar-count">{count}</span>
+                                    <span className="ssfb__bar-count">{count}</span>
                                 </div>
                             ))}
                         </div>
@@ -252,10 +253,10 @@ function SessionFeedbacks() {
             )}
 
             {/* Filters */}
-            <div className="sfb__filters">
-                <div className="sfb__filter-group">
-                    <label className="sfb__filter-lbl">🧘 {t("session")}</label>
-                    <select className="sfb__select" value={filterSession} onChange={e => setFilterSession(e.target.value)}>
+            <div className="ssfb__filters">
+                <div className="ssfb__filter-group">
+                    <label className="ssfb__filter-lbl">🧘 {t("session")}</label>
+                    <select className="ssfb__select" value={filterSession} onChange={e => setFilterSession(e.target.value)}>
                         <option value="all">{t("allSessions")}</option>
                         <option value="breathing">🌬️ Breathing</option>
                         <option value="guided">🎙️ Guided</option>
@@ -264,9 +265,9 @@ function SessionFeedbacks() {
                         <option value="sleep">🌙 Sleep</option>
                     </select>
                 </div>
-                <div className="sfb__filter-group">
-                    <label className="sfb__filter-lbl">★ {t("rating")}</label>
-                    <select className="sfb__select" value={filterRating} onChange={e => setFilterRating(e.target.value)}>
+                <div className="ssfb__filter-group">
+                    <label className="ssfb__filter-lbl">★ {t("rating")}</label>
+                    <select className="ssfb__select" value={filterRating} onChange={e => setFilterRating(e.target.value)}>
                         <option value="all">{t("allRatings")}</option>
                         <option value="5">★★★★★ Transcendent</option>
                         <option value="4">★★★★☆ Great</option>
@@ -275,48 +276,37 @@ function SessionFeedbacks() {
                         <option value="1">★☆☆☆☆ Difficult</option>
                     </select>
                 </div>
-                <div className="sfb__filter-group">
-                    <label className="sfb__filter-lbl">📅 {t("date")}</label>
+                <div className="ssfb__filter-group">
+                    <label className="ssfb__filter-lbl">📅 {t("date")}</label>
                     <input
                         type="date"
-                        className="sfb__date-input"
+                        className="ssfb__date-input"
                         value={filterDate}
                         onChange={e => setFilterDate(e.target.value)}
                     />
                 </div>
 
-                {/* ✅ Clear Filters */}
                 {(filterSession !== "all" || filterRating !== "all" || filterDate) && (
-                    <button className="sfb__clear-btn" onClick={() => { setFilterSession("all"); setFilterRating("all"); setFilterDate(""); }}>
+                    <button className="ssfb__clear-btn" onClick={() => { setFilterSession("all"); setFilterRating("all"); setFilterDate(""); }}>
                         ✕ {t("clearFilters")}
                     </button>
                 )}
 
-                {/* ✅ Export CSV */}
-                <button
-                    className="sfb__export-btn"
-                    onClick={handleExport}
-                    disabled={filtered.length === 0}
-                >
+                <button className="ssfb__export-btn" onClick={handleExport} disabled={filtered.length === 0}>
                     📥 {t("exportCsv")}
                 </button>
 
-                {/* ✅ Delete All */}
-                <button
-                    className="sfb__deleteall-btn"
-                    onClick={handleDeleteAll}
-                    disabled={feedbacks.length === 0}
-                >
+                <button className="ssfb__deleteall-btn" onClick={handleDeleteAll} disabled={feedbacks.length === 0}>
                     🗑️ {t("deleteAll")}
                 </button>
             </div>
 
             {/* Loading */}
             {loading && (
-                <div className="sfb__loading">
-                    <div className="sfb__loader">
-                        <div className="sfb__loader-ring" />
-                        <div className="sfb__loader-ring sfb__loader-ring--2" />
+                <div className="ssfb__loading">
+                    <div className="ssfb__loader">
+                        <div className="ssfb__loader-ring" />
+                        <div className="ssfb__loader-ring ssfb__loader-ring--2" />
                     </div>
                     <p>{t("loadingFeedbacks")}</p>
                 </div>
@@ -324,14 +314,14 @@ function SessionFeedbacks() {
 
             {/* Table */}
             {!loading && (
-                <div className="sfb__table-wrap">
+                <div className="ssfb__table-wrap">
                     {filtered.length === 0 ? (
-                        <div className="sfb__empty">
-                            <span className="sfb__empty-icon">🪷</span>
+                        <div className="ssfb__empty">
+                            <span className="ssfb__empty-icon">🪷</span>
                             <p>{t("noFeedbacksFound")}</p>
                         </div>
                     ) : (
-                        <table className="sfb__table">
+                        <table className="ssfb__table">
                             <thead>
                                 <tr>
                                     <th>{t("hash")}</th>
@@ -347,68 +337,68 @@ function SessionFeedbacks() {
                                 {filtered.map((f, i) => (
                                     <React.Fragment key={f.id}>
                                         <tr
-                                            className={`sfb__row ${expandedRow === f.id ? "sfb__row--expanded" : ""}`}
+                                            className={`ssfb__row ${expandedRow === f.id ? "ssfb__row--expanded" : ""}`}
                                             onClick={() => setExpandedRow(expandedRow === f.id ? null : f.id)}
                                         >
-                                            <td className="sfb__td-num">{i + 1}</td>
+                                            <td className="ssfb__td-num">{i + 1}</td>
                                             <td>
-                                                <div className="sfb__user-cell">
-                                                    <div className="sfb__avatar">{f.userName.charAt(0).toUpperCase()}</div>
-                                                    <div className="sfb__user-info">
-                                                        <span className="sfb__user-name">{f.userName}</span>
-                                                        <span className="sfb__user-id">{f.userId}</span>
+                                                <div className="ssfb__user-cell">
+                                                    <div className="ssfb__avatar">{f.userName.charAt(0).toUpperCase()}</div>
+                                                    <div className="ssfb__user-info">
+                                                        <span className="ssfb__user-name">{f.userName}</span>
+                                                        <span className="ssfb__user-id">{f.userId}</span>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <span className="sfb__session-chip">
+                                                <span className="ssfb__session-chip">
                                                     {sessionIcons[f.sessionType] || "○"} {f.sessionType}
                                                 </span>
                                             </td>
                                             <td>
-                                                <div className="sfb__rating-cell">
-                                                    <span className="sfb__stars">{stars(f.rating)}</span>
-                                                    <span className="sfb__rating-word">{ratingLabels[f.rating]}</span>
+                                                <div className="ssfb__rating-cell">
+                                                    <span className="ssfb__stars">{stars(f.rating)}</span>
+                                                    <span className="ssfb__rating-word">{ratingLabels[f.rating]}</span>
                                                 </div>
                                             </td>
                                             <td>
-                                                <div className="sfb__mood-cell">
+                                                <div className="ssfb__mood-cell">
                                                     <span>{moodIcons[f.moodBefore] || "○"}</span>
-                                                    <span className="sfb__mood-arrow">→</span>
+                                                    <span className="ssfb__mood-arrow">→</span>
                                                     <span>{moodIcons[f.moodAfter] || "○"}</span>
                                                 </div>
                                             </td>
-                                            <td><span className="sfb__date">{f.date}</span></td>
+                                            <td><span className="ssfb__date">{f.date}</span></td>
                                             <td>
-                                                <span className="sfb__comment-preview">
+                                                <span className="ssfb__comment-preview">
                                                     {f.comment.length > 40 ? f.comment.slice(0, 40) + "..." : f.comment}
                                                 </span>
                                             </td>
                                         </tr>
                                         {expandedRow === f.id && (
-                                            <tr className="sfb__expand-row">
+                                            <tr className="ssfb__expand-row">
                                                 <td colSpan="7">
-                                                    <div className="sfb__expand-content">
-                                                        <div className="sfb__expand-section">
-                                                            <span className="sfb__expand-label">🪶 {t("fullComment")}</span>
-                                                            <p className="sfb__expand-text">{f.comment || "—"}</p>
+                                                    <div className="ssfb__expand-content">
+                                                        <div className="ssfb__expand-section">
+                                                            <span className="ssfb__expand-label">🪶 {t("fullComment")}</span>
+                                                            <p className="ssfb__expand-text">{f.comment || "—"}</p>
                                                         </div>
-                                                        <div className="sfb__expand-meta">
-                                                            <div className="sfb__expand-item">
-                                                                <span className="sfb__expand-label">{t("moodBefore")}</span>
+                                                        <div className="ssfb__expand-meta">
+                                                            <div className="ssfb__expand-item">
+                                                                <span className="ssfb__expand-label">{t("moodBefore")}</span>
                                                                 <span>{moodIcons[f.moodBefore]} {f.moodBefore}</span>
                                                             </div>
-                                                            <div className="sfb__expand-item">
-                                                                <span className="sfb__expand-label">{t("moodAfter")}</span>
+                                                            <div className="ssfb__expand-item">
+                                                                <span className="ssfb__expand-label">{t("moodAfter")}</span>
                                                                 <span>{moodIcons[f.moodAfter]} {f.moodAfter}</span>
                                                             </div>
-                                                            <div className="sfb__expand-item">
-                                                                <span className="sfb__expand-label">{t("session")}</span>
+                                                            <div className="ssfb__expand-item">
+                                                                <span className="ssfb__expand-label">{t("session")}</span>
                                                                 <span>{sessionIcons[f.sessionType]} {f.sessionType}</span>
                                                             </div>
-                                                            <div className="sfb__expand-item">
-                                                                <span className="sfb__expand-label">{t("rating")}</span>
-                                                                <span className="sfb__stars--sm">{stars(f.rating)} ({ratingLabels[f.rating]})</span>
+                                                            <div className="ssfb__expand-item">
+                                                                <span className="ssfb__expand-label">{t("rating")}</span>
+                                                                <span className="ssfb__stars--sm">{stars(f.rating)} ({ratingLabels[f.rating]})</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -424,7 +414,7 @@ function SessionFeedbacks() {
             )}
 
             {!loading && filtered.length > 0 && (
-                <p className="sfb__count-note">
+                <p className="ssfb__count-note">
                     {t("showingCount", { filtered: filtered.length, total: feedbacks.length })}
                 </p>
             )}
