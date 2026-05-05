@@ -219,6 +219,17 @@ function AdminDashboard() {
           </button>
         </div>
 
+        {/* Session Feedbacks Card */}
+        <div className="dashboard-card">
+          <div className="admin-profile">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="session feedbacks" />
+            <h3>{t("sessionFeedbacks")}</h3>
+          </div>
+          <button className="dashboard-btn" onClick={() => navigate("/session-feedbacks")}>
+            {t("viewFeedbacks")}
+          </button>
+        </div>
+
       </div>
 
     </div>
