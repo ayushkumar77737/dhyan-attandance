@@ -23,6 +23,7 @@ import TrackTicket from "./pages/TrackTicket";
 import ProfileRegistration from "./pages/ProfileRegistration";
 import MyProfile from "./pages/MyProfile";
 import ToggleStatus from "./pages/ToggleStatus";
+import ShareExperience from "./pages/ShareExperience";
 
 function App() {
   return (
@@ -93,6 +94,15 @@ function App() {
           element={
             <ProtectedRoute>
               <MyProfile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/share-experience"
+          element={
+            <ProtectedRoute>
+              <ShareExperience />
             </ProtectedRoute>
           }
         />
