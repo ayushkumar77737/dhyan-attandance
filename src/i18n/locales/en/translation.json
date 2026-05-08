@@ -275,5 +275,10 @@
   "moodBefore": "Mood Before",
   "moodAfter": "Mood After",
   "showingCount": "Showing {{filtered}} of {{total}} feedbacks",
-  "deleteAllConfirm": "Are you sure you want to delete ALL feedbacks? This cannot be undone."
+  "deleteAllConfirm": "Are you sure you want to delete ALL feedbacks? This cannot be undone.",
+  "todayAttendance": "Today's Attendance",
+  "noDataAvailable": "No attendance data for today",
+  "ticketStatusOverview": "Ticket Status Overview",
+  "attendanceTrend": "Attendance Trend",
+  "days": "Days"
 }

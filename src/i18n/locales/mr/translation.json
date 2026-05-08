@@ -275,5 +275,10 @@
   "moodBefore": "आधीचा मूड",
   "moodAfter": "नंतरचा मूड",
   "showingCount": "{{total}} पैकी {{filtered}} दाखवत आहे",
-  "deleteAllConfirm": "तुम्हाला खरोखर सर्व अभिप्राय हटवायचे आहेत का? हे पूर्ववत केले जाऊ शकत नाही."
+  "deleteAllConfirm": "तुम्हाला खरोखर सर्व अभिप्राय हटवायचे आहेत का? हे पूर्ववत केले जाऊ शकत नाही.",
+  "todayAttendance": "आजची उपस्थिती",
+  "noDataAvailable": "आजसाठी उपस्थिती डेटा उपलब्ध नाही",
+  "ticketStatusOverview": "तिकीट स्थिती आढावा",
+  "attendanceTrend": "उपस्थिती कल",
+  "days": "दिवस"
 }

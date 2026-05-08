@@ -252,5 +252,10 @@
   "moodBefore": "আগের মেজাজ",
   "moodAfter": "পরের মেজাজ",
   "showingCount": "{{total}} এর মধ্যে {{filtered}} দেখানো হচ্ছে",
-  "deleteAllConfirm": "আপনি কি সত্যিই সব ফিডব্যাক মুছতে চান? এটি পূর্বাবস্থায় ফেরানো যাবে না।"
+  "deleteAllConfirm": "আপনি কি সত্যিই সব ফিডব্যাক মুছতে চান? এটি পূর্বাবস্থায় ফেরানো যাবে না।",
+  "todayAttendance": "আজকের উপস্থিতি",
+  "noDataAvailable": "আজকের জন্য কোনো উপস্থিতি ডেটা নেই",
+  "ticketStatusOverview": "টিকিট স্ট্যাটাস ওভারভিউ",
+  "attendanceTrend": "উপস্থিতি প্রবণতা",
+  "days": "দিন"
 }

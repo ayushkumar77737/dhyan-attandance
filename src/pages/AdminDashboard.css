@@ -19,19 +19,14 @@ CSS VARIABLES
   --ad-blue-glow: rgba(59, 130, 246, 0.22);
   --ad-blue-subtle: rgba(59, 130, 246, 0.08);
 
-  --ad-cyan: #22d3ee;
-  --ad-cyan-glow: rgba(34, 211, 238, 0.18);
-
   --ad-red: #ef4444;
   --ad-red-dark: #dc2626;
   --ad-red-glow: rgba(239, 68, 68, 0.2);
 
   --ad-green: #2dce89;
-  --ad-green-glow: rgba(45, 206, 137, 0.2);
 
   --ad-text-primary: #e8edf5;
   --ad-text-secondary: #64748b;
-  --ad-text-muted: #2d3a50;
 
   --ad-border: rgba(255, 255, 255, 0.06);
   --ad-border-strong: rgba(255, 255, 255, 0.1);
@@ -42,7 +37,6 @@ CSS VARIABLES
   --ad-radius-lg: 22px;
 
   --ad-shadow-card: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--ad-border);
-  --ad-shadow-btn: 0 4px 16px rgba(0, 0, 0, 0.35);
   --ad-shadow-glow-blue: 0 0 28px var(--ad-blue-glow);
   --ad-shadow-glow-red: 0 0 28px var(--ad-red-glow);
 
@@ -60,13 +54,11 @@ PAGE
   min-height: 100vh;
   background: var(--ad-bg);
   color: var(--ad-text-primary);
-
   background-image:
     radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.06) 0%, transparent 60%),
     linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
   background-size: 100% 100%, 44px 44px, 44px 44px;
-
   animation: fadeIn 0.7s ease;
 }
 
@@ -81,10 +73,6 @@ HEADER
   margin-bottom: 36px;
 }
 
-/* ===============================
-TITLE
-================================ */
-
 .dashboard-title {
   font-family: var(--font-display);
   font-size: 30px;
@@ -92,7 +80,6 @@ TITLE
   letter-spacing: 1.5px;
   text-transform: uppercase;
   margin: 0;
-
   background: linear-gradient(135deg, #e8edf5 30%, var(--ad-blue));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -114,7 +101,8 @@ LOGOUT BUTTON
   font-size: 13px;
   letter-spacing: 0.4px;
   cursor: pointer;
-  transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+  transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease,
+    box-shadow 0.22s ease, transform 0.22s ease;
 }
 
 .logout-btn:hover {
@@ -136,7 +124,7 @@ STATS SECTION
 .stats-container {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 44px;
+  margin-bottom: 28px;
   flex-wrap: wrap;
   gap: 16px;
 }
@@ -144,7 +132,7 @@ STATS SECTION
 .stat-card {
   flex: 1;
   background: var(--ad-bg-stat);
-  padding: 28px 24px;
+  padding: 24px 20px;
   border-radius: var(--ad-radius-md);
   text-align: center;
   border: 1px solid var(--ad-border);
@@ -155,7 +143,6 @@ STATS SECTION
   overflow: hidden;
 }
 
-/* Top accent line on stat cards */
 .stat-card::before {
   content: '';
   position: absolute;
@@ -174,16 +161,16 @@ STATS SECTION
 }
 
 .stat-card h3 {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   color: var(--ad-text-secondary);
   font-weight: 500;
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 1.2px;
   text-transform: uppercase;
 }
 
 .stat-card p {
-  font-size: 40px;
+  font-size: 38px;
   font-weight: 800;
   font-family: var(--font-display);
   color: var(--ad-blue);
@@ -191,7 +178,161 @@ STATS SECTION
 }
 
 /* ===============================
-DASHBOARD CARDS LAYOUT
+CHARTS GRID — THREE CHARTS SIDE BY SIDE
+================================ */
+
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+/* ===============================
+CHART SECTION BASE
+================================ */
+
+.chart-section {
+  background: #0d1b2a;
+  border: 1px solid var(--ad-border);
+  border-radius: var(--ad-radius-lg);
+  padding: 24px 24px 28px;
+  box-shadow: var(--ad-shadow-card);
+  animation: fadeIn 0.8s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--ad-blue), transparent);
+  opacity: 0.6;
+}
+
+.chart-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--ad-text-primary);
+  margin: 0 0 18px 0;
+  text-align: center;
+}
+
+/* Canvas area */
+.chart-wrapper {
+  width: 100%;
+  height: 280px;
+  position: relative;
+}
+
+/* Spinner */
+.chart-spinner-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 280px;
+}
+
+.chart-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--ad-border-strong);
+  border-top-color: var(--ad-blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Empty state */
+.chart-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 280px;
+  gap: 10px;
+  color: var(--ad-text-secondary);
+  font-size: 14px;
+  font-family: var(--font-body);
+  letter-spacing: 0.4px;
+}
+
+.chart-empty span {
+  font-size: 32px;
+}
+
+/* ===============================
+TREND LINE CHART — FULL WIDTH ROW
+================================ */
+
+.chart-section-trend {
+  margin-bottom: 28px;
+}
+
+.trend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.trend-header .chart-title {
+  margin: 0;
+  text-align: left;
+}
+
+.trend-toggle {
+  display: flex;
+  gap: 8px;
+}
+
+.trend-btn {
+  padding: 6px 16px;
+  border: 1px solid var(--ad-border-strong);
+  border-radius: var(--ad-radius-sm);
+  background: transparent;
+  color: var(--ad-text-secondary);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.trend-btn:hover {
+  border-color: var(--ad-blue);
+  color: var(--ad-blue);
+}
+
+.trend-btn.active {
+  background: var(--ad-blue);
+  border-color: var(--ad-blue);
+  color: #fff;
+  box-shadow: var(--ad-shadow-glow-blue);
+}
+
+.trend-wrapper {
+  width: 100%;
+  height: 300px;
+}
+
+/* ===============================
+DASHBOARD CARDS
 ================================ */
 
 .dashboard-body {
@@ -201,25 +342,21 @@ DASHBOARD CARDS LAYOUT
   flex-wrap: wrap;
 }
 
-/* ===============================
-CARD
-================================ */
-
 .dashboard-card {
-  width: 220px;
+  width: 210px;
   background: var(--ad-bg-card);
-  padding: 28px 20px 22px;
+  padding: 26px 20px 20px;
   border-radius: var(--ad-radius-lg);
   border: 1px solid var(--ad-border);
   text-align: center;
   box-shadow: var(--ad-shadow-card);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease,
+    border-color 0.25s ease, background 0.25s ease;
   animation: fadeIn 0.8s ease;
   position: relative;
   overflow: hidden;
 }
 
-/* Subtle bottom glow accent */
 .dashboard-card::after {
   content: '';
   position: absolute;
@@ -249,18 +386,14 @@ PROFILE IMAGE
 ================================ */
 
 .admin-profile img {
-  width: 72px;
-  height: 72px;
-  margin-bottom: 14px;
+  width: 68px;
+  height: 68px;
+  margin-bottom: 12px;
   border-radius: 50%;
-
-  /* Tint the white icon to match theme */
   filter: invert(1) brightness(0.85) sepia(0.3) hue-rotate(190deg) saturate(1.5);
-
   border: 2px solid var(--ad-border-blue);
   padding: 6px;
   background: var(--ad-blue-subtle);
-
   animation: float 3.5s ease-in-out infinite;
   transition: filter 0.3s ease;
 }
@@ -284,7 +417,7 @@ PROFILE IMAGE
 }
 
 .admin-profile h3 {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--ad-text-primary);
   letter-spacing: 0.3px;
@@ -297,22 +430,19 @@ DASHBOARD BUTTON
 
 .dashboard-btn {
   width: 100%;
-  padding: 11px;
-  margin-top: 18px;
-
+  padding: 10px;
+  margin-top: 16px;
   border: 1px solid var(--ad-blue);
   border-radius: var(--ad-radius-sm);
-
   background: transparent;
   color: var(--ad-blue);
-
   font-size: 13px;
   font-family: var(--font-body);
   font-weight: 600;
   letter-spacing: 0.4px;
-
   cursor: pointer;
-  transition: background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+  transition: background 0.22s ease, color 0.22s ease,
+    box-shadow 0.22s ease, transform 0.22s ease;
 }
 
 .dashboard-btn:hover {
@@ -343,11 +473,27 @@ ANIMATIONS
 }
 
 /* ===============================
-TABLET (768px - 1024px)
+TABLET (768px - 1200px)
+— 3 columns gets tight below 1200px, switch to 2+1
 ================================ */
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
+  .charts-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
 
+  /* Third chart (bar) takes full width on its own row */
+  .charts-row .chart-section:nth-child(3) {
+    grid-column: 1 / -1;
+    /* Limit bar chart height when full-width so bars don't look huge */
+    max-width: 560px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1024px) {
   .stats-container {
     justify-content: center;
   }
@@ -357,22 +503,29 @@ TABLET (768px - 1024px)
     max-width: 40%;
   }
 
-  .dashboard-body {
-    gap: 16px;
-  }
-
   .dashboard-card {
-    width: 200px;
+    width: 190px;
   }
 
+  .chart-wrapper {
+    height: 260px;
+  }
+
+  .chart-spinner-wrap,
+  .chart-empty {
+    height: 260px;
+  }
+
+  .trend-wrapper {
+    height: 260px;
+  }
 }
 
 /* ===============================
-MOBILE (Below 768px)
+MOBILE — stack all charts vertically
 ================================ */
 
 @media (max-width: 768px) {
-
   .admin-container {
     padding: 22px 16px;
   }
@@ -393,6 +546,18 @@ MOBILE (Below 768px)
     flex: none;
   }
 
+  .charts-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Reset the nth-child override on mobile */
+  .charts-row .chart-section:nth-child(3) {
+    grid-column: auto;
+    max-width: 100%;
+    margin: 0;
+  }
+
   .dashboard-body {
     flex-direction: column;
     align-items: center;
@@ -404,6 +569,27 @@ MOBILE (Below 768px)
     max-width: 320px;
   }
 
+  .chart-section {
+    padding: 20px 18px 24px;
+  }
+
+  .chart-wrapper {
+    height: 270px;
+  }
+
+  .chart-spinner-wrap,
+  .chart-empty {
+    height: 270px;
+  }
+
+  .trend-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .trend-wrapper {
+    height: 240px;
+  }
 }
 
 /* ===============================
@@ -411,7 +597,6 @@ SMALL MOBILE
 ================================ */
 
 @media (max-width: 480px) {
-
   .dashboard-title {
     font-size: 18px;
   }
@@ -421,8 +606,8 @@ SMALL MOBILE
   }
 
   .admin-profile img {
-    width: 60px;
-    height: 60px;
+    width: 58px;
+    height: 58px;
   }
 
   .dashboard-btn {
@@ -435,4 +620,32 @@ SMALL MOBILE
     font-size: 12px;
   }
 
+  .trend-wrapper {
+    height: 200px;
+  }
+}
+
+/* ===============================
+OPEN TICKETS STAT CARD
+================================ */
+
+/* Amber accent line for the tickets card */
+.stat-card--tickets::before {
+  background: linear-gradient(90deg, transparent, #f59e0b, transparent);
+}
+
+/* Number turns amber when tickets are open */
+.stat-tickets-warn {
+  color: #f59e0b !important;
+}
+
+/* Inline mini spinner while ticket count loads */
+.stat-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--ad-border-strong);
+  border-top-color: #f59e0b;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 6px auto 0;
 }
