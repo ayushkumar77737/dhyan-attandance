@@ -258,5 +258,7 @@
   "ticketStatusOverview": "টিকিট স্ট্যাটাস ওভারভিউ",
   "attendanceTrend": "উপস্থিতি প্রবণতা",
   "days": "দিন",
-  "openTickets": "ওপেন টিকিটসমূহ"
+  "openTickets": "ওপেন টিকিটসমূহ",
+  "presentToday": "আজ উপস্থিত",
+  "absentToday": "আজ অনুপস্থিত"
 }

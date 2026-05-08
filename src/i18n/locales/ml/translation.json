@@ -281,5 +281,7 @@
   "ticketStatusOverview": "ടിക്കറ്റ് സ്റ്റാറ്റസ് അവലോകനം",
   "attendanceTrend": "ഹാജർ പ്രവണത",
   "days": "ദിവസങ്ങൾ",
-  "openTickets": "ഓപ്പൺ ടിക്കറ്റുകൾ"
+  "openTickets": "ഓപ്പൺ ടിക്കറ്റുകൾ",
+  "presentToday": "ഇന്ന് ഹാജർ",
+  "absentToday": "ഇന്ന് ഗൈർഹാജർ"
 }

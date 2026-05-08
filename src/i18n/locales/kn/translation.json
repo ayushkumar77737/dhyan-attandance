@@ -281,5 +281,7 @@
   "ticketStatusOverview": "ಟಿಕೆಟ್ ಸ್ಥಿತಿ ಅವಲೋಕನ",
   "attendanceTrend": "ಹಾಜರಾತಿ ಪ್ರವೃತ್ತಿ",
   "days": "ದಿನಗಳು",
-  "openTickets": "ಓಪನ್ ಟಿಕೆಟ್‌ಗಳು"
+  "openTickets": "ಓಪನ್ ಟಿಕೆಟ್‌ಗಳು",
+  "presentToday": "ಇಂದು ಹಾಜರು",
+  "absentToday": "ಇಂದು ಗೈರುಹಾಜರು"
 }

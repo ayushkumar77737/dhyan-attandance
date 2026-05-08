@@ -281,5 +281,7 @@
   "ticketStatusOverview": "टिकट स्थिति अवलोकन",
   "attendanceTrend": "उपस्थिति प्रवृत्ति",
   "days": "दिन",
-  "openTickets": "ओपन टिकट्स"
+  "openTickets": "ओपन टिकट्स",
+  "presentToday": "आज उपस्थित",
+  "absentToday": "आज अनुपस्थित"
 }

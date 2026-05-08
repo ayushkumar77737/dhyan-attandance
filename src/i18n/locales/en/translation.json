@@ -281,5 +281,7 @@
   "ticketStatusOverview": "Ticket Status Overview",
   "attendanceTrend": "Attendance Trend",
   "days": "Days",
-  "openTickets": "OPEN TICKETS"
+  "openTickets": "Open Tickets",
+  "presentToday": "Present Today",
+  "absentToday": "Absent Today"
 }

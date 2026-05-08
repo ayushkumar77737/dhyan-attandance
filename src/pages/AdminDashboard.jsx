@@ -48,7 +48,6 @@ const sharedTooltip = {
   bodyFont: { family: "Outfit, sans-serif", size: 13 },
 };
 
-/* Fresh legend instance per chart — avoids Chart.js mutation bugs */
 const makeCircleLegend = () => ({
   position: "bottom",
   labels: {
@@ -72,6 +71,8 @@ function AdminDashboard() {
   const [deletedUsers, setDeletedUsers] = useState(0);
   const [activeUsers, setActiveUsers] = useState(0);
   const [openTickets, setOpenTickets] = useState(null);
+  const [presentToday, setPresentToday] = useState(null);
+  const [absentToday, setAbsentToday] = useState(null);
 
   const [chartData, setChartData] = useState([]);
   const [chartLoading, setChartLoading] = useState(true);
@@ -127,7 +128,6 @@ function AdminDashboard() {
     } catch (err) { console.log(err); }
   };
 
-
   const fetchOpenTickets = async () => {
     try {
       const snap = await getDocs(collection(db, "tickets"));
@@ -153,6 +153,8 @@ function AdminDashboard() {
           else if (d.status === "Absent") absent++;
         }
       });
+      setPresentToday(present);
+      setAbsentToday(absent);
       setChartData(
         present === 0 && absent === 0
           ? []
@@ -244,7 +246,6 @@ function AdminDashboard() {
 
   /* ── Chart configs ── */
 
-  // Attendance Pie
   const attendancePieData = {
     labels: [t("present"), t("absent")],
     datasets: [{
@@ -268,7 +269,6 @@ function AdminDashboard() {
     },
   };
 
-  // Ticket Donut
   const ticketDonutData = {
     labels: [t("pending"), t("inProgress"), t("resolved")],
     datasets: [{
@@ -293,7 +293,6 @@ function AdminDashboard() {
     },
   };
 
-  // Absence Bar Chart
   const absenceBarData = {
     labels: absenceData.map((d) => d.label),
     datasets: [{
@@ -319,9 +318,7 @@ function AdminDashboard() {
         callbacks: { label: (ctx) => `  ${ctx.label}: ${ctx.parsed.y}` },
       },
     },
-    layout: {
-      padding: { left: 8, right: 8 },
-    },
+    layout: { padding: { left: 8, right: 8 } },
     scales: {
       x: {
         ticks: {
@@ -347,7 +344,6 @@ function AdminDashboard() {
     },
   };
 
-  // Trend Line
   const trendLineData = {
     labels: trendData.map((d) => d.date),
     datasets: [{
@@ -410,20 +406,24 @@ function AdminDashboard() {
         <button className="logout-btn" onClick={handleLogout}>{t("logout")}</button>
       </div>
 
-      {/* Stats */}
+      {/* ── Stats — ALL 6 cards inside one stats-container ── */}
       <div className="stats-container">
+
         <div className="stat-card">
           <h3>{t("totalUsers")}</h3>
           <p>{totalUsers}</p>
         </div>
+
         <div className="stat-card">
           <h3>{t("deletedUsers")}</h3>
           <p>{deletedUsers}</p>
         </div>
+
         <div className="stat-card">
           <h3>{t("activeUsers")}</h3>
           <p>{activeUsers}</p>
         </div>
+
         <div className="stat-card stat-card--tickets">
           <h3>{t("openTickets")}</h3>
           {openTickets === null ? (
@@ -432,12 +432,30 @@ function AdminDashboard() {
             <p className={openTickets > 0 ? "stat-tickets-warn" : ""}>{openTickets}</p>
           )}
         </div>
-      </div>
+
+        <div className="stat-card stat-card--present">
+          <h3>{t("presentToday")}</h3>
+          {presentToday === null ? (
+            <div className="stat-spinner stat-spinner--present" />
+          ) : (
+            <p className="stat-present-num">{presentToday}</p>
+          )}
+        </div>
+
+        <div className="stat-card stat-card--absent">
+          <h3>{t("absentToday")}</h3>
+          {absentToday === null ? (
+            <div className="stat-spinner stat-spinner--absent" />
+          ) : (
+            <p className="stat-absent-num">{absentToday}</p>
+          )}
+        </div>
+
+      </div>{/* ── end stats-container ── */}
 
       {/* ── THREE CHARTS SIDE BY SIDE ── */}
       <div className="charts-row">
 
-        {/* Today's Attendance Pie */}
         <div className="chart-section">
           <h2 className="chart-title">{t("todayAttendance")}</h2>
           {chartLoading ? (
@@ -451,7 +469,6 @@ function AdminDashboard() {
           )}
         </div>
 
-        {/* Ticket Status Donut */}
         <div className="chart-section">
           <h2 className="chart-title">{t("ticketStatusOverview")}</h2>
           {ticketLoading ? (
@@ -465,7 +482,6 @@ function AdminDashboard() {
           )}
         </div>
 
-        {/* Absence Requests Bar Chart */}
         <div className="chart-section">
           <h2 className="chart-title">{t("absenceRequests")}</h2>
           {absenceLoading ? (

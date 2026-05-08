@@ -122,15 +122,13 @@ STATS SECTION
 ================================ */
 
 .stats-container {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 28px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   gap: 16px;
+  margin-bottom: 28px;
 }
 
 .stat-card {
-  flex: 1;
   background: var(--ad-bg-stat);
   padding: 24px 20px;
   border-radius: var(--ad-radius-md);
@@ -175,6 +173,60 @@ STATS SECTION
   font-family: var(--font-display);
   color: var(--ad-blue);
   line-height: 1;
+}
+
+/* ===============================
+OPEN TICKETS STAT CARD
+================================ */
+
+.stat-card--tickets::before {
+  background: linear-gradient(90deg, transparent, #f59e0b, transparent);
+}
+
+.stat-tickets-warn {
+  color: #f59e0b !important;
+}
+
+.stat-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--ad-border-strong);
+  border-top-color: #f59e0b;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 6px auto 0;
+}
+
+/* ===============================
+PRESENT TODAY STAT CARD
+================================ */
+
+.stat-card--present::before {
+  background: linear-gradient(90deg, transparent, #2dce89, transparent);
+}
+
+.stat-present-num {
+  color: #2dce89 !important;
+}
+
+.stat-spinner--present {
+  border-top-color: #2dce89;
+}
+
+/* ===============================
+ABSENT TODAY STAT CARD
+================================ */
+
+.stat-card--absent::before {
+  background: linear-gradient(90deg, transparent, #ef4444, transparent);
+}
+
+.stat-absent-num {
+  color: #ef4444 !important;
+}
+
+.stat-spinner--absent {
+  border-top-color: #ef4444;
 }
 
 /* ===============================
@@ -225,14 +277,12 @@ CHART SECTION BASE
   text-align: center;
 }
 
-/* Canvas area */
 .chart-wrapper {
   width: 100%;
   height: 280px;
   position: relative;
 }
 
-/* Spinner */
 .chart-spinner-wrap {
   display: flex;
   justify-content: center;
@@ -255,7 +305,6 @@ CHART SECTION BASE
   }
 }
 
-/* Empty state */
 .chart-empty {
   display: flex;
   flex-direction: column;
@@ -473,34 +522,34 @@ ANIMATIONS
 }
 
 /* ===============================
-TABLET (768px - 1200px)
-— 3 columns gets tight below 1200px, switch to 2+1
+TABLET — 1200px
 ================================ */
 
 @media (max-width: 1200px) {
+  .stats-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .charts-row {
     grid-template-columns: 1fr 1fr;
     gap: 16px;
   }
 
-  /* Third chart (bar) takes full width on its own row */
   .charts-row .chart-section:nth-child(3) {
     grid-column: 1 / -1;
-    /* Limit bar chart height when full-width so bars don't look huge */
     max-width: 560px;
     margin: 0 auto;
     width: 100%;
   }
 }
 
+/* ===============================
+TABLET — 1024px
+================================ */
+
 @media (max-width: 1024px) {
   .stats-container {
-    justify-content: center;
-  }
-
-  .stat-card {
-    flex: 1 1 40%;
-    max-width: 40%;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .dashboard-card {
@@ -522,7 +571,7 @@ TABLET (768px - 1200px)
 }
 
 /* ===============================
-MOBILE — stack all charts vertically
+MOBILE — 768px
 ================================ */
 
 @media (max-width: 768px) {
@@ -535,15 +584,8 @@ MOBILE — stack all charts vertically
   }
 
   .stats-container {
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
-  }
-
-  .stat-card {
-    width: 90%;
-    max-width: 360px;
-    flex: none;
   }
 
   .charts-row {
@@ -551,7 +593,6 @@ MOBILE — stack all charts vertically
     gap: 16px;
   }
 
-  /* Reset the nth-child override on mobile */
   .charts-row .chart-section:nth-child(3) {
     grid-column: auto;
     max-width: 100%;
@@ -593,16 +634,24 @@ MOBILE — stack all charts vertically
 }
 
 /* ===============================
-SMALL MOBILE
+SMALL MOBILE — 480px
 ================================ */
 
 @media (max-width: 480px) {
+  .stats-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .dashboard-title {
     font-size: 18px;
   }
 
   .stat-card p {
-    font-size: 32px;
+    font-size: 28px;
+  }
+
+  .stat-card h3 {
+    font-size: 9px;
   }
 
   .admin-profile img {
@@ -623,29 +672,4 @@ SMALL MOBILE
   .trend-wrapper {
     height: 200px;
   }
-}
-
-/* ===============================
-OPEN TICKETS STAT CARD
-================================ */
-
-/* Amber accent line for the tickets card */
-.stat-card--tickets::before {
-  background: linear-gradient(90deg, transparent, #f59e0b, transparent);
-}
-
-/* Number turns amber when tickets are open */
-.stat-tickets-warn {
-  color: #f59e0b !important;
-}
-
-/* Inline mini spinner while ticket count loads */
-.stat-spinner {
-  width: 28px;
-  height: 28px;
-  border: 3px solid var(--ad-border-strong);
-  border-top-color: #f59e0b;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin: 6px auto 0;
 }
