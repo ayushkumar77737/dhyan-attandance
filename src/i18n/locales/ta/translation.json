@@ -280,5 +280,6 @@
   "noDataAvailable": "இன்று வருகை தரவு இல்லை",
   "ticketStatusOverview": "டிக்கெட் நிலை மேலோட்டம்",
   "attendanceTrend": "வருகை போக்கு",
-  "days": "நாட்கள்"
+  "days": "நாட்கள்",
+  "openTickets": "திறந்த டிக்கெட்டுகள்"
 }

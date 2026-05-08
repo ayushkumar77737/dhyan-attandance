@@ -280,5 +280,6 @@
   "noDataAvailable": "आजसाठी उपस्थिती डेटा उपलब्ध नाही",
   "ticketStatusOverview": "तिकीट स्थिती आढावा",
   "attendanceTrend": "उपस्थिती कल",
-  "days": "दिवस"
+  "days": "दिवस",
+  "openTickets": "ओपन तिकिटे"
 }

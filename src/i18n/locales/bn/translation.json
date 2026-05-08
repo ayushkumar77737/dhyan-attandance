@@ -257,5 +257,6 @@
   "noDataAvailable": "আজকের জন্য কোনো উপস্থিতি ডেটা নেই",
   "ticketStatusOverview": "টিকিট স্ট্যাটাস ওভারভিউ",
   "attendanceTrend": "উপস্থিতি প্রবণতা",
-  "days": "দিন"
+  "days": "দিন",
+  "openTickets": "ওপেন টিকিটসমূহ"
 }

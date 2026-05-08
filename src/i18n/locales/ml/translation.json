@@ -280,5 +280,6 @@
   "noDataAvailable": "ഇന്ന് ഹാജർ ഡാറ്റ ലഭ്യമല്ല",
   "ticketStatusOverview": "ടിക്കറ്റ് സ്റ്റാറ്റസ് അവലോകനം",
   "attendanceTrend": "ഹാജർ പ്രവണത",
-  "days": "ദിവസങ്ങൾ"
+  "days": "ദിവസങ്ങൾ",
+  "openTickets": "ഓപ്പൺ ടിക്കറ്റുകൾ"
 }

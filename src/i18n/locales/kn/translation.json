@@ -280,5 +280,6 @@
   "noDataAvailable": "ಇಂದು ಹಾಜರಾತಿ ಡೇಟಾ ಲಭ್ಯವಿಲ್ಲ",
   "ticketStatusOverview": "ಟಿಕೆಟ್ ಸ್ಥಿತಿ ಅವಲೋಕನ",
   "attendanceTrend": "ಹಾಜರಾತಿ ಪ್ರವೃತ್ತಿ",
-  "days": "ದಿನಗಳು"
+  "days": "ದಿನಗಳು",
+  "openTickets": "ಓಪನ್ ಟಿಕೆಟ್‌ಗಳು"
 }

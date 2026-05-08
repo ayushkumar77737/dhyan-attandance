@@ -280,5 +280,6 @@
   "noDataAvailable": "No attendance data for today",
   "ticketStatusOverview": "Ticket Status Overview",
   "attendanceTrend": "Attendance Trend",
-  "days": "Days"
+  "days": "Days",
+  "openTickets": "OPEN TICKETS"
 }
