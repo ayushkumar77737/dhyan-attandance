@@ -323,6 +323,64 @@ CHART SECTION BASE
 }
 
 /* ===============================
+CHART DATE PICKER
+================================ */
+
+.chart-date-picker {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.chart-date-picker input[type="date"] {
+  background: var(--ad-bg);
+  border: 1px solid var(--ad-border-strong);
+  border-radius: var(--ad-radius-sm);
+  color: var(--ad-text-primary);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.chart-date-picker input[type="date"]:hover,
+.chart-date-picker input[type="date"]:focus {
+  border-color: var(--ad-blue);
+}
+
+.chart-date-picker input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) opacity(0.5);
+  cursor: pointer;
+}
+
+.chart-date-picker input[type="month"] {
+  background: var(--ad-bg);
+  border: 1px solid var(--ad-border-strong);
+  border-radius: var(--ad-radius-sm);
+  color: var(--ad-text-primary);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.chart-date-picker input[type="month"]:hover,
+.chart-date-picker input[type="month"]:focus {
+  border-color: var(--ad-blue);
+}
+
+.chart-date-picker input[type="month"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) opacity(0.5);
+  cursor: pointer;
+}
+
+/* ===============================
 TREND LINE CHART — FULL WIDTH ROW
 ================================ */
 
@@ -378,6 +436,29 @@ TREND LINE CHART — FULL WIDTH ROW
 .trend-wrapper {
   width: 100%;
   height: 300px;
+}
+
+.trend-wrapper--monthly {
+  width: 100%;
+  height: 300px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ad-blue) var(--ad-bg);
+}
+
+.trend-wrapper--monthly::-webkit-scrollbar {
+  height: 6px;
+}
+
+.trend-wrapper--monthly::-webkit-scrollbar-track {
+  background: var(--ad-bg);
+  border-radius: 10px;
+}
+
+.trend-wrapper--monthly::-webkit-scrollbar-thumb {
+  background: var(--ad-blue);
+  border-radius: 10px;
 }
 
 /* ===============================

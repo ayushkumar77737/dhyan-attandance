@@ -74,6 +74,8 @@ function AdminDashboard() {
   const [presentToday, setPresentToday] = useState(null);
   const [absentToday, setAbsentToday] = useState(null);
 
+  const [chartDate, setChartDate] = useState(new Date().toISOString().split("T")[0]);
+
   const [chartData, setChartData] = useState([]);
   const [chartLoading, setChartLoading] = useState(true);
 
@@ -86,6 +88,13 @@ function AdminDashboard() {
   const [trendData, setTrendData] = useState([]);
   const [trendLoading, setTrendLoading] = useState(true);
   const [trendDays, setTrendDays] = useState(7);
+
+  // ── NEW: monthly chart state ──
+  const [monthlyData, setMonthlyData] = useState([]);
+  const [monthlyLoading, setMonthlyLoading] = useState(true);
+  const [selectedMonth, setSelectedMonth] = useState(
+    new Date().toISOString().slice(0, 7)
+  );
 
   useEffect(() => {
     const disableRightClick = (e) => e.preventDefault();
@@ -100,11 +109,12 @@ function AdminDashboard() {
     document.addEventListener("keydown", disableInspectKeys);
 
     fetchUserStats();
-    fetchChartData();
+    fetchChartData(chartDate);
     fetchTicketData();
     fetchAbsenceData();
     fetchOpenTickets();
     fetchTrendData(7);
+    fetchMonthlyData(selectedMonth); // ── NEW
 
     return () => {
       document.removeEventListener("contextmenu", disableRightClick);
@@ -140,15 +150,15 @@ function AdminDashboard() {
     } catch (err) { console.log(err); setOpenTickets(0); }
   };
 
-  const fetchChartData = async () => {
+  const fetchChartData = async (dateParam) => {
     try {
       setChartLoading(true);
-      const today = new Date().toISOString().split("T")[0];
+      const targetDate = dateParam || new Date().toISOString().split("T")[0];
       const snap = await getDocs(collection(db, "attendance"));
       let present = 0, absent = 0;
       snap.forEach((doc) => {
         const d = doc.data();
-        if (d.date === today) {
+        if (d.date === targetDate) {
           if (d.status === "Present") present++;
           else if (d.status === "Absent") absent++;
         }
@@ -237,6 +247,43 @@ function AdminDashboard() {
       );
     } catch (err) { console.log(err); setTrendData([]); }
     finally { setTrendLoading(false); }
+  };
+
+  // ── NEW: monthly attendance fetcher ──
+  const fetchMonthlyData = async (month) => {
+    try {
+      setMonthlyLoading(true);
+      const usersSnap = await getDocs(collection(db, "users"));
+      const attendanceSnap = await getDocs(collection(db, "attendance"));
+
+      const userMap = {};
+      usersSnap.forEach((doc) => {
+        const d = doc.data();
+        if (d.deleted !== true) userMap[d.id] = d.name;
+      });
+
+      const countMap = {};
+      Object.keys(userMap).forEach((id) => (countMap[id] = 0));
+
+      attendanceSnap.forEach((doc) => {
+        const d = doc.data();
+        if (
+          d.date?.startsWith(month) &&
+          d.status === "Present" &&
+          countMap[d.userId] !== undefined
+        ) {
+          countMap[d.userId]++;
+        }
+      });
+
+      const result = Object.entries(countMap).map(([id, count]) => ({
+        name: userMap[id] || id,
+        count,
+      }));
+
+      setMonthlyData(result.every((r) => r.count === 0) ? [] : result);
+    } catch (err) { console.log(err); setMonthlyData([]); }
+    finally { setMonthlyLoading(false); }
   };
 
   const handleLogout = async () => {
@@ -395,6 +442,57 @@ function AdminDashboard() {
     },
   };
 
+  // ── NEW: monthly bar chart config ──
+  const monthlyBarData = {
+    labels: monthlyData.map((d) => d.name),
+    datasets: [{
+      label: t("present"),
+      data: monthlyData.map((d) => d.count),
+      backgroundColor: "rgba(59, 130, 246, 0.7)",
+      borderColor: "#3b82f6",
+      borderWidth: 2,
+      borderRadius: 8,
+      borderSkipped: false,
+      maxBarThickness: 56,
+      minBarLength: 4,
+    }],
+  };
+
+  const monthlyBarOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        ...sharedTooltip,
+        callbacks: { label: (ctx) => `  ${t("present")}: ${ctx.parsed.y} days` },
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: "#e8edf5",
+          font: { family: "Outfit, sans-serif", size: 12, weight: "600" },
+          maxRotation: 35,
+          autoSkip: false,
+        },
+        grid: { display: false },
+        border: { color: "rgba(255,255,255,0.06)" },
+      },
+      y: {
+        beginAtZero: true,
+        ticks: {
+          color: "#64748b",
+          font: { family: "Outfit, sans-serif", size: 11 },
+          precision: 0,
+          stepSize: 1,
+        },
+        grid: { color: "rgba(255,255,255,0.04)" },
+        border: { color: "rgba(255,255,255,0.06)" },
+      },
+    },
+  };
+
   /* ── Render ── */
 
   return (
@@ -458,6 +556,16 @@ function AdminDashboard() {
 
         <div className="chart-section">
           <h2 className="chart-title">{t("todayAttendance")}</h2>
+          <div className="chart-date-picker">
+            <input
+              type="date"
+              value={chartDate}
+              onChange={(e) => {
+                setChartDate(e.target.value);
+                fetchChartData(e.target.value);
+              }}
+            />
+          </div>
           {chartLoading ? (
             <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>
           ) : chartData.length === 0 ? (
@@ -524,6 +632,37 @@ function AdminDashboard() {
         ) : (
           <div className="trend-wrapper">
             <Line data={trendLineData} options={trendLineOptions} />
+          </div>
+        )}
+      </div>
+
+      {/* ── NEW: MONTHLY ATTENDANCE BAR CHART — FULL WIDTH ── */}
+      <div className="chart-section chart-section-trend">
+        <div className="trend-header">
+          <h2 className="chart-title">{t("monthlyAttendance")}</h2>
+          <div className="chart-date-picker">
+            <input
+              type="month"
+              value={selectedMonth}
+              onChange={(e) => {
+                setSelectedMonth(e.target.value);
+                fetchMonthlyData(e.target.value);
+              }}
+            />
+          </div>
+        </div>
+
+        {monthlyLoading ? (
+          <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>
+        ) : monthlyData.length === 0 ? (
+          <div className="chart-empty"><span>📭</span>{t("noDataAvailable")}</div>
+        ) : (
+          <div className="trend-wrapper--monthly">
+            <div className="trend-wrapper--monthly">
+              <div style={{ width: `${Math.max(monthlyData.length * 100, 100 + "%")}px`, height: "300px", minWidth: "100%" }}>
+                <Bar data={monthlyBarData} options={monthlyBarOptions} />
+              </div>
+            </div>
           </div>
         )}
       </div>
