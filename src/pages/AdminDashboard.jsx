@@ -657,13 +657,11 @@ function AdminDashboard() {
         ) : monthlyData.length === 0 ? (
           <div className="chart-empty"><span>📭</span>{t("noDataAvailable")}</div>
         ) : (
-          <div className="trend-wrapper--monthly">
             <div className="trend-wrapper--monthly">
               <div style={{ width: `${Math.max(monthlyData.length * 100, 100 + "%")}px`, height: "300px", minWidth: "100%" }}>
                 <Bar data={monthlyBarData} options={monthlyBarOptions} />
               </div>
             </div>
-          </div>
         )}
       </div>
 
