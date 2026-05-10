@@ -284,5 +284,6 @@
   "openTickets": "Open Tickets",
   "presentToday": "Present Today",
   "absentToday": "Absent Today",
-  "monthlyAttendance": "Monthly Attendance"
+  "monthlyAttendance": "Monthly Attendance",
+  "notMarked": "Not Marked"
 }

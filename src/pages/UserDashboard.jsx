@@ -36,6 +36,8 @@ function UserDashboard() {
   const [presentCount, setPresentCount] = useState(0);
   const [absentCount, setAbsentCount] = useState(0);
   const [percentage, setPercentage] = useState(0);
+  const [todayStatus, setTodayStatus] = useState(null);
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -72,6 +74,22 @@ function UserDashboard() {
       setPresentCount(present);
       setAbsentCount(absent);
       setPercentage(percent);
+      const today = new Date().toISOString().split("T")[0];
+      const todayRecord = list.find((item) => item.date === today);
+
+      if (todayRecord) {
+        // Today's attendance is marked — show it
+        setTodayStatus(todayRecord.status);
+      } else {
+        // No record today — find the most recent past record
+        const sorted = [...list].sort((a, b) => new Date(b.date) - new Date(a.date));
+        const lastRecord = sorted[0];
+        if (lastRecord) {
+          setTodayStatus(lastRecord.status);
+        } else {
+          setTodayStatus("none");
+        }
+      }
     });
     return () => unsubscribe();
   }, []);
@@ -104,6 +122,30 @@ function UserDashboard() {
       <div className="dashboard-card">
 
         <h2>{t("yourAttendance")}</h2> {/* ← CHANGED */}
+
+        <div className="today-status-wrap">
+          {todayStatus === null ? (
+            <div className="today-status-badge today-status-loading">
+              <span className="today-status-dot today-dot-loading" />
+              {t("loading")}
+            </div>
+          ) : todayStatus === "none" ? (
+            <div className="today-status-badge today-status-none">
+              <span className="today-status-dot today-dot-none" />
+              {t("notMarked")}
+            </div>
+          ) : todayStatus === "Present" ? (
+            <div className="today-status-badge today-status-present">
+              <span className="today-status-dot today-dot-present" />
+              ✓ {t("present")}
+            </div>
+          ) : (
+            <div className="today-status-badge today-status-absent">
+              <span className="today-status-dot today-dot-absent" />
+              ✗ {t("absent")}
+            </div>
+          )}
+        </div>
 
         {/* User Summary */}
         <div className="user-summary">
@@ -222,6 +264,65 @@ function UserDashboard() {
             )}
           </tbody>
         </table>
+
+        {/* ── ATTENDANCE CALENDAR ── */}
+        <div className="att-calendar">
+
+          {/* Month navigation */}
+          <div className="att-cal-header">
+            <button
+              className="att-cal-nav"
+              onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1))}
+            >
+              ‹
+            </button>
+            <span className="att-cal-month">
+              {calendarMonth.toLocaleString("default", { month: "long", year: "numeric" })}
+            </span>
+            <button
+              className="att-cal-nav"
+              onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1))}
+            >
+              ›
+            </button>
+          </div>
+
+          {/* Day labels */}
+          <div className="att-cal-grid">
+            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
+              <div key={d} className="att-cal-day-label">{d}</div>
+            ))}
+
+            {/* Empty cells for first week offset */}
+            {Array.from({ length: new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1).getDay() }).map((_, i) => (
+              <div key={`empty-${i}`} className="att-cal-cell att-cal-empty" />
+            ))}
+
+            {/* Day cells */}
+            {Array.from({ length: new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 0).getDate() }).map((_, i) => {
+              const day = i + 1;
+              const dateStr = `${calendarMonth.getFullYear()}-${String(calendarMonth.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+              const record = attendance.find((a) => a.date === dateStr);
+              const isToday = dateStr === new Date().toISOString().split("T")[0];
+              return (
+                <div
+                  key={day}
+                  className={`att-cal-cell ${record?.status === "Present" ? "att-cal-present" : record?.status === "Absent" ? "att-cal-absent" : "att-cal-unmarked"} ${isToday ? "att-cal-today" : ""}`}
+                >
+                  {day}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Legend */}
+          <div className="att-cal-legend">
+            <span className="att-cal-legend-dot att-dot-present" />{t("present")}
+            <span className="att-cal-legend-dot att-dot-absent" />{t("absent")}
+            <span className="att-cal-legend-dot att-dot-unmarked" />{t("notMarked")}
+          </div>
+
+        </div>
 
       </div>
     </div>
