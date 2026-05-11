@@ -3,7 +3,7 @@ import "./MyProfile.css";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
 function MyProfile() {
@@ -14,6 +14,15 @@ function MyProfile() {
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [notFound, setNotFound] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editForm, setEditForm] = useState({
+        name: "",
+        fatherHusbandName: "",
+        address: "",
+        email: ""
+    });
+    const [editLoading, setEditLoading] = useState(false);
+    const [profileId, setProfileId] = useState("");
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -39,6 +48,12 @@ function MyProfile() {
                 const profileSnap = await getDoc(doc(db, "profiles", id));
                 if (profileSnap.exists()) {
                     setProfile(profileSnap.data());
+                    setEditForm({
+                        name: profileSnap.data().name || "",
+                        fatherHusbandName: profileSnap.data().fatherHusbandName || "",
+                        address: profileSnap.data().address || "",
+                        email: profileSnap.data().email || ""
+                    });
                 } else {
                     setNotFound(true);
                 }
@@ -51,6 +66,25 @@ function MyProfile() {
         });
         return () => unsubscribe();
     }, []);
+
+    const saveProfile = async () => {
+        if (!editForm.name.trim() || !editForm.address.trim()) return;
+        try {
+            setEditLoading(true);
+            await updateDoc(doc(db, "profiles", profileId), {
+                name: editForm.name.trim(),
+                fatherHusbandName: editForm.fatherHusbandName.trim(),
+                address: editForm.address.trim(),
+                email: editForm.email.trim()
+            });
+            setProfile((prev) => ({ ...prev, ...editForm }));
+            setShowEditModal(false);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setEditLoading(false);
+        }
+    };
 
     return (
         <div className="mprf__page">
@@ -103,6 +137,11 @@ function MyProfile() {
                 <div className="mprf__card">
                     <div className="mprf__card-glow" />
                     <div className="mprf__card-stripe" />
+
+                    {/* Edit Button */}
+                    <button className="mprf__edit-trigger" onClick={() => setShowEditModal(true)}>
+                        ✎ {t("edit")}
+                    </button>
 
                     {/* Avatar Section */}
                     <div className="mprf__avatar-section">
@@ -196,6 +235,68 @@ function MyProfile() {
 
                     </div>
 
+                </div>
+            )}
+
+            {/* Edit Modal */}
+            {showEditModal && (
+                <div className="mprf__modal-overlay" onClick={() => setShowEditModal(false)}>
+                    <div className="mprf__modal" onClick={(e) => e.stopPropagation()}>
+
+                        <div className="mprf__modal-header">
+                            <h3>✎ {t("edit")} {t("myProfile")}</h3>
+                            <button className="mprf__modal-close" onClick={() => setShowEditModal(false)}>✕</button>
+                        </div>
+
+                        <div className="mprf__modal-field">
+                            <label>{t("fullName")}</label>
+                            <input
+                                type="text"
+                                value={editForm.name}
+                                onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                                placeholder={t("fullName")}
+                            />
+                        </div>
+
+                        <div className="mprf__modal-field">
+                            <label>{t("fatherHusbandName")}</label>
+                            <input
+                                type="text"
+                                value={editForm.fatherHusbandName}
+                                onChange={(e) => setEditForm({ ...editForm, fatherHusbandName: e.target.value })}
+                                placeholder={t("fatherHusbandName")}
+                            />
+                        </div>
+
+                        <div className="mprf__modal-field">
+                            <label>{t("emailIdLabel")}</label>
+                            <input
+                                type="text"
+                                value={editForm.email}
+                                onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
+                                placeholder={t("emailIdLabel")}
+                            />
+                        </div>
+
+                        <div className="mprf__modal-field">
+                            <label>{t("address")}</label>
+                            <textarea
+                                value={editForm.address}
+                                onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
+                                placeholder={t("address")}
+                            />
+                        </div>
+
+                        <div className="mprf__modal-footer">
+                            <button className="mprf__modal-cancel" onClick={() => setShowEditModal(false)}>
+                                {t("cancel")}
+                            </button>
+                            <button className="mprf__modal-save" onClick={saveProfile} disabled={editLoading}>
+                                {editLoading ? `⏳ ${t("loading")}` : `💾 ${t("save")}`}
+                            </button>
+                        </div>
+
+                    </div>
                 </div>
             )}
 
