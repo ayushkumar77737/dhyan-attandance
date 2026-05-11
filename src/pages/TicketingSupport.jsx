@@ -3,7 +3,7 @@ import "./TicketingSupport.css";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, addDoc, getDocs, query, where, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where, serverTimestamp, doc, updateDoc } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
 function TicketingSupport() {
@@ -12,7 +12,7 @@ function TicketingSupport() {
     const navigate = useNavigate();
 
     const [currentUser, setCurrentUser] = useState(null);
-    const [loggedInId, setLoggedInId] = useState(""); // ← ADD
+    const [loggedInId, setLoggedInId] = useState("");
     const [tickets, setTickets] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -26,6 +26,11 @@ function TicketingSupport() {
     });
 
     const [errors, setErrors] = useState({});
+
+    // ── NEW: edit modal state ──
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editTicket, setEditTicket] = useState(null);
+    const [editIssue, setEditIssue] = useState("");
 
     const fetchTickets = async (userId) => {
         try {
@@ -46,7 +51,6 @@ function TicketingSupport() {
         }
     };
 
-    // ← UPDATED: save loggedInId
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -93,7 +97,7 @@ function TicketingSupport() {
             newErrors.idNo = t("idRequired");
         } else if (!/^[a-zA-Z]\d{3}$/.test(form.idNo)) {
             newErrors.idNo = t("idFormat");
-        } else if (form.idNo.trim().toUpperCase() !== loggedInId) { // ← ADD
+        } else if (form.idNo.trim().toUpperCase() !== loggedInId) {
             newErrors.idNo = t("idMismatch");
         }
 
@@ -145,6 +149,30 @@ function TicketingSupport() {
             showMsg(t("errorSubmittingTicket"));
         } finally {
             setLoading(false);
+        }
+    };
+
+    // ── NEW: open edit modal ──
+    const openEditModal = (ticket) => {
+        setEditTicket(ticket);
+        setEditIssue(ticket.issue);
+        setShowEditModal(true);
+    };
+
+    // ── NEW: save edited ticket to Firebase ──
+    const saveEditTicket = async () => {
+        if (!editTicket || !editIssue.trim()) return;
+        try {
+            await updateDoc(doc(db, "tickets", editTicket.id), {
+                issue: editIssue.trim()
+            });
+            setShowEditModal(false);
+            setEditTicket(null);
+            fetchTickets(loggedInId);
+            showMsg(t("ticketSubmitted"), "success");
+        } catch (error) {
+            console.error(error);
+            showMsg(t("errorSubmittingTicket"));
         }
     };
 
@@ -256,17 +284,74 @@ function TicketingSupport() {
 
                                 <p className="tsp__ticket-issue">{ticket.issue}</p>
 
+                                {/* ── UPDATED: footer with edit button ── */}
                                 <div className="tsp__ticket-footer">
                                     <span className="tsp__ticket-email">📧 {ticket.email}</span>
                                     <span className="tsp__ticket-date">
                                         📅 {new Date(ticket.createdAt).toLocaleDateString()}
                                     </span>
+                                    {ticket.status === "Pending" && (
+                                        <button
+                                            className="tsp__edit-btn"
+                                            onClick={() => openEditModal(ticket)}
+                                        >
+                                            ✎ {t("edit")}
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </div>
                     ))
                 )}
             </div>
+
+            {/* ── NEW: Edit Ticket Modal ── */}
+            {showEditModal && editTicket && (
+                <div className="tsp__modal-overlay" onClick={() => setShowEditModal(false)}>
+                    <div className="tsp__modal" onClick={(e) => e.stopPropagation()}>
+
+                        <div className="tsp__modal-top-stripe" />
+
+                        <div className="tsp__modal-header">
+                            <div className="tsp__modal-title-wrap">
+                                <span className="tsp__modal-emoji">✎</span>
+                                <h3 className="tsp__modal-title">{t("edit")} Ticket</h3>
+                            </div>
+                            <button className="tsp__modal-close" onClick={() => setShowEditModal(false)}>✕</button>
+                        </div>
+
+                        <div className="tsp__field">
+                            <label className="tsp__field-label">{t("idNo")}</label>
+                            <input
+                                className="tsp__field-input"
+                                type="text"
+                                value={editTicket.idNo}
+                                disabled
+                            />
+                        </div>
+
+                        <div className="tsp__field">
+                            <label className="tsp__field-label">{t("issue")}</label>
+                            <textarea
+                                className="tsp__field-textarea"
+                                value={editIssue}
+                                onChange={(e) => setEditIssue(e.target.value)}
+                                placeholder={t("issuePlaceholder")}
+                            />
+                        </div>
+
+                        <div className="tsp__modal-footer">
+                            <button className="tsp__modal-cancel-btn" onClick={() => setShowEditModal(false)}>
+                                {t("cancel")}
+                            </button>
+                            <button className="tsp__modal-submit-btn" onClick={saveEditTicket}>
+                                💾 {t("save")}
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            )}
 
             {/* Raise Ticket Modal */}
             {showModal && (
@@ -283,7 +368,6 @@ function TicketingSupport() {
                             <button className="tsp__modal-close" onClick={() => setShowModal(false)}>✕</button>
                         </div>
 
-                        {/* Name */}
                         <div className="tsp__field">
                             <label className="tsp__field-label">{t("fullName")}</label>
                             <input
@@ -297,7 +381,6 @@ function TicketingSupport() {
                             {errors.name && <span className="tsp__field-error">{errors.name}</span>}
                         </div>
 
-                        {/* ID No */}
                         <div className="tsp__field">
                             <label className="tsp__field-label">{t("idNo")}</label>
                             <input
@@ -312,7 +395,6 @@ function TicketingSupport() {
                             {errors.idNo && <span className="tsp__field-error">{errors.idNo}</span>}
                         </div>
 
-                        {/* Email */}
                         <div className="tsp__field">
                             <label className="tsp__field-label">{t("email")}</label>
                             <input
@@ -326,7 +408,6 @@ function TicketingSupport() {
                             {errors.email && <span className="tsp__field-error">{errors.email}</span>}
                         </div>
 
-                        {/* Issue */}
                         <div className="tsp__field">
                             <label className="tsp__field-label">{t("issue")}</label>
                             <textarea

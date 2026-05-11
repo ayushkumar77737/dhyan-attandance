@@ -816,3 +816,23 @@ RESPONSIVE
     border: 1px solid rgba(96, 165, 250, 0.25);
     color: #60a5fa;
 }
+
+.tsp__edit-btn {
+    padding: 5px 12px;
+    background: rgba(14, 165, 160, 0.1);
+    border: 1px solid rgba(14, 165, 160, 0.25);
+    color: #2dd4cf;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: "DM Sans", sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tsp__edit-btn:hover {
+    background: rgba(14, 165, 160, 0.2);
+    border-color: rgba(14, 165, 160, 0.5);
+    color: #5eead4;
+    transform: translateY(-1px);
+}
