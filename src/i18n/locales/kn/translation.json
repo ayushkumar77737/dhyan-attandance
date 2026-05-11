@@ -285,5 +285,7 @@
   "presentToday": "ಇಂದು ಹಾಜರು",
   "absentToday": "ಇಂದು ಗೈರುಹಾಜರು",
   "monthlyAttendance": "ಮಾಸಿಕ ಹಾಜರಾತಿ",
-  "notMarked": "ಗುರುತಿಸಲಾಗಿಲ್ಲ"
+  "notMarked": "ಗುರುತಿಸಲಾಗಿಲ್ಲ",
+  "pendingRequests": "ಬಾಕಿ ವಿನಂತಿಗಳು",
+  "myTickets": "ನನ್ನ ಟಿಕೆಟ್ಗಳು"
 }

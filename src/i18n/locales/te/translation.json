@@ -285,5 +285,7 @@
   "presentToday": "నేడు హాజరు",
   "absentToday": "నేడు గైర్హాజరు",
   "monthlyAttendance": "నెలవారీ హాజరు",
-  "notMarked": "గుర్తించబడలేదు"
+  "notMarked": "గుర్తించబడలేదు",
+  "pendingRequests": "పెండింగ్ అభ్యర్థనలు",
+  "myTickets": "నా టిక్కెట్లు"
 }

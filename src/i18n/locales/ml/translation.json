@@ -285,5 +285,7 @@
   "presentToday": "ഇന്ന് ഹാജർ",
   "absentToday": "ഇന്ന് ഗൈർഹാജർ",
   "monthlyAttendance": "മാസിക ഹാജർ",
-  "notMarked": "രേഖപ്പെടുത്തിയിട്ടില്ല"
+  "notMarked": "രേഖപ്പെടുത്തിയിട്ടില്ല",
+  "pendingRequests": "തീർപ്പാക്കാത്ത അഭ്യർത്ഥനകൾ",
+  "myTickets": "എന്റെ ടിക്കറ്റുകൾ"
 }

@@ -285,5 +285,7 @@
   "presentToday": "இன்று வந்தவர்கள்",
   "absentToday": "இன்று வராதவர்கள்",
   "monthlyAttendance": "மாதாந்திர வருகை",
-  "notMarked": "குறிக்கப்படவில்லை"
+  "notMarked": "குறிக்கப்படவில்லை",
+  "pendingRequests": "நிலுவை கோரிக்கைகள்",
+  "myTickets": "என் டிக்கெட்கள்"
 }

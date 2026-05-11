@@ -285,5 +285,7 @@
   "presentToday": "आज उपस्थित",
   "absentToday": "आज अनुपस्थित",
   "monthlyAttendance": "मासिक उपस्थिति",
-  "notMarked": "चिह्नित नहीं"
+  "notMarked": "चिह्नित नहीं",
+  "pendingRequests": "लंबित अनुरोध",
+  "myTickets": "मेरे टिकट"
 }

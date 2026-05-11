@@ -285,5 +285,7 @@
   "presentToday": "Present Today",
   "absentToday": "Absent Today",
   "monthlyAttendance": "Monthly Attendance",
-  "notMarked": "Not Marked"
+  "notMarked": "Not Marked",
+  "pendingRequests": "Pending Requests",
+  "myTickets": "My Tickets"
 }

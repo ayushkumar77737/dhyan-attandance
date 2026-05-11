@@ -261,5 +261,7 @@
   "openTickets": "ওপেন টিকিটসমূহ",
   "presentToday": "আজ উপস্থিত",
   "absentToday": "আজ অনুপস্থিত",
-  "monthlyAttendance": "মাসিক উপস্থিতি"
+  "monthlyAttendance": "মাসিক উপস্থিতি",
+  "pendingRequests": "মুলতুবি অনুরোধ",
+  "myTickets": "আমার টিকেট"
 }

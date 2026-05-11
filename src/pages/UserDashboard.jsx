@@ -6,11 +6,11 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-import { useTranslation } from "react-i18next"; // ← ADD
+import { useTranslation } from "react-i18next";
 
 function UserDashboard() {
 
-  const { t } = useTranslation(); // ← ADD
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,6 +38,12 @@ function UserDashboard() {
   const [percentage, setPercentage] = useState(0);
   const [todayStatus, setTodayStatus] = useState(null);
   const [calendarMonth, setCalendarMonth] = useState(new Date());
+
+  // ── NEW: quick action counts ──
+  const [notifCount, setNotifCount] = useState(null);
+  const [pendingCount, setPendingCount] = useState(null);
+  const [ticketCount, setTicketCount] = useState(null);
+  const [resolvedCount, setResolvedCount] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -74,14 +80,13 @@ function UserDashboard() {
       setPresentCount(present);
       setAbsentCount(absent);
       setPercentage(percent);
+
       const today = new Date().toISOString().split("T")[0];
       const todayRecord = list.find((item) => item.date === today);
 
       if (todayRecord) {
-        // Today's attendance is marked — show it
         setTodayStatus(todayRecord.status);
       } else {
-        // No record today — find the most recent past record
         const sorted = [...list].sort((a, b) => new Date(b.date) - new Date(a.date));
         const lastRecord = sorted[0];
         if (lastRecord) {
@@ -90,6 +95,40 @@ function UserDashboard() {
           setTodayStatus("none");
         }
       }
+
+      // ── NEW: Notifications count ──
+      const notifSnap = await getDocs(collection(db, "notifications"));
+      let notifTotal = 0;
+      notifSnap.forEach((docItem) => {
+        const data = docItem.data();
+        const docUserId = data.userId?.toUpperCase();
+        if (!docUserId || docUserId === "ALL" || docUserId === id) notifTotal++;
+      });
+      setNotifCount(notifTotal);
+
+      // ── NEW: Pending absence requests count ──
+      const absenceSnap = await getDocs(collection(db, "absenceRequests"));
+      let pendingTotal = 0;
+      absenceSnap.forEach((docItem) => {
+        const data = docItem.data();
+        if (data.userId === id && data.status?.toLowerCase() === "pending") pendingTotal++;
+      });
+      setPendingCount(pendingTotal);
+
+      // ── NEW: Tickets count ──
+      const ticketsSnap = await getDocs(collection(db, "tickets"));
+      let ticketTotal = 0;
+      let resolvedTotal = 0;
+      ticketsSnap.forEach((docItem) => {
+        const data = docItem.data();
+        if (data.idNo === id) {
+          ticketTotal++;
+          if (data.status === "Resolved") resolvedTotal++;
+        }
+      });
+      setTicketCount(ticketTotal);
+      setResolvedCount(resolvedTotal);
+
     });
     return () => unsubscribe();
   }, []);
@@ -112,17 +151,18 @@ function UserDashboard() {
           <polyline points="16 17 21 12 16 7" />
           <line x1="21" y1="12" x2="9" y2="12" />
         </svg>
-        {t("logout")} {/* ← CHANGED */}
+        {t("logout")}
       </button>
 
       <div className="dashboard-header">
-        <h1 className="dashboard-title">{t("userDashboard")}</h1> {/* ← CHANGED */}
+        <h1 className="dashboard-title">{t("userDashboard")}</h1>
       </div>
 
       <div className="dashboard-card">
 
-        <h2>{t("yourAttendance")}</h2> {/* ← CHANGED */}
+        <h2>{t("yourAttendance")}</h2>
 
+        {/* ── TODAY STATUS BADGE ── */}
         <div className="today-status-wrap">
           {todayStatus === null ? (
             <div className="today-status-badge today-status-loading">
@@ -147,36 +187,75 @@ function UserDashboard() {
           )}
         </div>
 
-        {/* User Summary */}
+        {/* ── NEW: QUICK ACTION SHORTCUTS ── */}
+        <div className="quick-actions">
+
+          <div className="quick-card quick-card--blue" onClick={() => navigate("/my-notifications")}>
+            <div className="quick-card-icon">🔔</div>
+            <div className="quick-card-info">
+              <span className="quick-card-title">{t("notifications")}</span>
+              <span className="quick-card-count">
+                {notifCount === null ? <span className="quick-spinner" /> : notifCount}
+              </span>
+            </div>
+          </div>
+
+          <div className="quick-card quick-card--amber" onClick={() => navigate("/my-requests")}>
+            <div className="quick-card-icon">📋</div>
+            <div className="quick-card-info">
+              <span className="quick-card-title">{t("pendingRequests")}</span>
+              <span className="quick-card-count">
+                {pendingCount === null ? <span className="quick-spinner" /> : pendingCount}
+              </span>
+            </div>
+          </div>
+
+          <div className="quick-card quick-card--green" onClick={() => navigate("/ticketing-support")}>
+            <div className="quick-card-icon">🎫</div>
+            <div className="quick-card-info">
+              <span className="quick-card-title">{t("myTickets")}</span>
+              <span className="quick-card-count">
+                {ticketCount === null ? <span className="quick-spinner" /> : ticketCount}
+              </span>
+              <span className="quick-card-sub">
+                {resolvedCount === null ? "" : `${resolvedCount} ${t("resolved")}`}
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        {/* ── USER SUMMARY ── */}
         <div className="user-summary">
 
           <div className="summary-item">
-            <span className="summary-label">{t("name")}</span> {/* ← CHANGED */}
+            <span className="summary-label">{t("name")}</span>
             <span className="summary-value">{userName}</span>
           </div>
 
           <div className="summary-item">
-            <span className="summary-label">{t("userId")}</span> {/* ← CHANGED */}
+            <span className="summary-label">{t("userId")}</span>
             <span className="summary-value">{userId}</span>
           </div>
 
           <div className="summary-item present-stat">
-            <span className="summary-label">{t("presentDays")}</span> {/* ← CHANGED */}
+            <span className="summary-label">{t("presentDays")}</span>
             <span className="summary-value stat-present">{presentCount}</span>
           </div>
 
           <div className="summary-item absent-stat">
-            <span className="summary-label">{t("absentDays")}</span> {/* ← CHANGED */}
+            <span className="summary-label">{t("absentDays")}</span>
             <span className="summary-value stat-absent">{absentCount}</span>
           </div>
 
           <div className="summary-item percentage-stat">
-            <span className="summary-label">{t("attendance")}</span> {/* ← CHANGED */}
+            <span className="summary-label">{t("attendance")}</span>
             <span className="summary-value stat-percent">{percentage}%</span>
           </div>
 
         </div>
 
+        {/* ── ACTION BUTTONS ── */}
         <div className="reason-btn-container">
 
           <button className="reason-btn" onClick={() => navigate("/submit-reason")}>
@@ -184,7 +263,7 @@ function UserDashboard() {
               <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
               <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
             </svg>
-            {t("submitAbsenceReason")} {/* ← CHANGED */}
+            {t("submitAbsenceReason")}
           </button>
 
           <button className="reason-btn" onClick={() => navigate("/my-requests")}>
@@ -194,7 +273,7 @@ function UserDashboard() {
               <line x1="16" y1="13" x2="8" y2="13" />
               <line x1="16" y1="17" x2="8" y2="17" />
             </svg>
-            {t("myRequests")} {/* ← CHANGED */}
+            {t("myRequests")}
           </button>
 
           <button className="reason-btn" onClick={() => navigate("/my-notifications")}>
@@ -202,7 +281,7 @@ function UserDashboard() {
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
               <path d="M13.73 21a2 2 0 0 1-3.46 0" />
             </svg>
-            {t("myNotifications")} {/* ← CHANGED */}
+            {t("myNotifications")}
           </button>
 
           <button className="reason-btn" onClick={() => navigate("/ticketing-support")}>
@@ -234,18 +313,19 @@ function UserDashboard() {
 
         </div>
 
+        {/* ── ATTENDANCE TABLE ── */}
         <table className="attendance-table">
           <thead>
             <tr>
-              <th>{t("date")}</th>   {/* ← CHANGED */}
-              <th>{t("status")}</th> {/* ← CHANGED */}
+              <th>{t("date")}</th>
+              <th>{t("status")}</th>
             </tr>
           </thead>
           <tbody>
             {attendance.length === 0 ? (
               <tr>
                 <td colSpan="2" className="no-data">
-                  {t("noAttendanceFound")} {/* ← CHANGED */}
+                  {t("noAttendanceFound")}
                 </td>
               </tr>
             ) : (
@@ -256,7 +336,7 @@ function UserDashboard() {
                     <span className={item.status === "Present" ? "present" : "absent"}>
                       {item.status === "Present"
                         ? `✓ ${t("present")}`
-                        : `✗ ${t("absent")}`} {/* ← CHANGED */}
+                        : `✗ ${t("absent")}`}
                     </span>
                   </td>
                 </tr>
@@ -268,7 +348,6 @@ function UserDashboard() {
         {/* ── ATTENDANCE CALENDAR ── */}
         <div className="att-calendar">
 
-          {/* Month navigation */}
           <div className="att-cal-header">
             <button
               className="att-cal-nav"
@@ -287,18 +366,15 @@ function UserDashboard() {
             </button>
           </div>
 
-          {/* Day labels */}
           <div className="att-cal-grid">
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
               <div key={d} className="att-cal-day-label">{d}</div>
             ))}
 
-            {/* Empty cells for first week offset */}
             {Array.from({ length: new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1).getDay() }).map((_, i) => (
               <div key={`empty-${i}`} className="att-cal-cell att-cal-empty" />
             ))}
 
-            {/* Day cells */}
             {Array.from({ length: new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 0).getDate() }).map((_, i) => {
               const day = i + 1;
               const dateStr = `${calendarMonth.getFullYear()}-${String(calendarMonth.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
@@ -315,7 +391,6 @@ function UserDashboard() {
             })}
           </div>
 
-          {/* Legend */}
           <div className="att-cal-legend">
             <span className="att-cal-legend-dot att-dot-present" />{t("present")}
             <span className="att-cal-legend-dot att-dot-absent" />{t("absent")}
