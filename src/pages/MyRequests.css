@@ -308,3 +308,174 @@
     max-width: 900px;
   }
 }
+
+/* ── EDIT BUTTON ── */
+.myreq-edit-btn {
+  padding: 5px 12px;
+  background: rgba(13, 148, 136, 0.08);
+  border: 1px solid rgba(13, 148, 136, 0.25);
+  border-radius: 8px;
+  color: var(--mr-teal);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--mr-font-body);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.myreq-edit-btn:hover {
+  background: rgba(13, 148, 136, 0.16);
+  border-color: var(--mr-teal);
+  transform: translateY(-1px);
+}
+
+/* ── EDIT MODAL ── */
+.myreq-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn 0.2s ease;
+}
+
+.myreq-modal {
+  background: #ffffff;
+  border: 1px solid var(--mr-border);
+  border-radius: 20px;
+  padding: 28px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.15);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.myreq-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.myreq-modal-header h3 {
+  font-family: var(--mr-font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--mr-text);
+  margin: 0;
+}
+
+.myreq-modal-close {
+  background: rgba(15, 23, 42, 0.06);
+  border: 1px solid var(--mr-border);
+  color: var(--mr-text-soft);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.myreq-modal-close:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+.myreq-modal-info {
+  background: rgba(13, 148, 136, 0.05);
+  border: 1px solid rgba(13, 148, 136, 0.12);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: var(--mr-text-mid);
+}
+
+.myreq-modal-info p {
+  margin: 0;
+}
+
+.myreq-modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.myreq-modal-field label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mr-text-soft);
+}
+
+.myreq-modal-field textarea {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--mr-border);
+  background: #f8fafc;
+  color: var(--mr-text);
+  font-size: 14px;
+  font-family: var(--mr-font-body);
+  outline: none;
+  resize: none;
+  height: 90px;
+  transition: border-color 0.2s ease;
+}
+
+.myreq-modal-field textarea:focus {
+  border-color: var(--mr-teal);
+  background: #fff;
+}
+
+.myreq-modal-footer {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.myreq-modal-cancel {
+  padding: 9px 18px;
+  background: rgba(15, 23, 42, 0.05);
+  border: 1px solid var(--mr-border);
+  color: var(--mr-text-mid);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--mr-font-body);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.myreq-modal-cancel:hover {
+  background: rgba(15, 23, 42, 0.09);
+}
+
+.myreq-modal-save {
+  padding: 9px 20px;
+  background: var(--mr-teal);
+  border: none;
+  color: white;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--mr-font-body);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.3);
+}
+
+.myreq-modal-save:hover {
+  background: var(--mr-teal-light);
+  transform: translateY(-1px);
+}
