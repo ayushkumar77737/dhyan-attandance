@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./AbsenceManagement.css";
 
 import { db } from "../firebase/firebase";
-import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 import * as XLSX from "xlsx";
@@ -100,6 +100,18 @@ function AbsenceManagement() {
             await updateStatus(editItem.id, selectedStatus);
             setShowEditModal(false);
             setEditItem(null);
+        }
+    };
+
+    const deleteRequest = async () => {
+        if (!editItem) return;
+        try {
+            await deleteDoc(doc(db, "absenceRequests", editItem.id));
+            setShowEditModal(false);
+            setEditItem(null);
+            fetchRequests();
+        } catch (error) {
+            console.error("Error deleting request:", error);
         }
     };
 
@@ -342,6 +354,9 @@ function AbsenceManagement() {
                                 onClick={saveEditModal}
                             >
                                 💾 {t("save")}
+                            </button>
+                            <button className="am-modal-delete" onClick={deleteRequest}>
+                                🗑️ {t("delete")}
                             </button>
                         </div>
 
