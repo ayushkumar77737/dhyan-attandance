@@ -62,7 +62,7 @@ function ForgotPassword() {
 
                     <button
                         className="back-login-btn"
-                        onClick={() => navigate("/")}
+                        onClick={() => navigate("/login")}
                     >
                         <span className="btn-icon">←</span>
                         <span>{t("backToLogin")}</span> {/* ← CHANGED */}
