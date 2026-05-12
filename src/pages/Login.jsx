@@ -13,6 +13,7 @@ import bg1 from "../assets/bg1.webp";
 import bg2 from "../assets/bg2.webp";
 import bg3 from "../assets/bg3.webp";
 import bg4 from "../assets/pic.jpeg";
+import { logLogin } from "../utils/logActivity";
 
 const Login = () => {
 
@@ -95,6 +96,10 @@ const Login = () => {
         setLoading(false);
         return;
       }
+
+      // ← ADD THIS — log the login after disabled check passes
+      const userName = userDoc.exists() ? userDoc.data().name || id.toUpperCase() : id.toUpperCase();
+      await logLogin(id.toUpperCase(), userName);
 
       const ADMIN_EMAIL = "admin1@dhyan.in";
 

@@ -291,5 +291,6 @@
   "allProfiles": "All Profiles",
   "profilesFound": "Profiles Found",
   "searchProfiles": "Search by name, ID, email...",
-  "export": "Export CSV"
+  "export": "Export CSV",
+  "activityLogs": "Activity Logs"
 }

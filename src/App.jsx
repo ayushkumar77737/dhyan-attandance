@@ -26,6 +26,7 @@ import ToggleStatus from "./pages/ToggleStatus";
 import ShareExperience from "./pages/ShareExperience";
 import SessionFeedbacks from "./pages/SessionFeedbacks";
 import AllProfiles from "./pages/AllProfiles";
+import ActivityLogs from "./pages/ActivityLogs";
 
 function App() {
   return (
@@ -150,6 +151,15 @@ function App() {
           element={
             <ProtectedRoute>
               <AllProfiles />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/activity-logs"
+          element={
+            <ProtectedRoute>
+              <ActivityLogs />
             </ProtectedRoute>
           }
         />

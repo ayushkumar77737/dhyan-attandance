@@ -1,0 +1,83 @@
+import { db } from "../firebase/firebase";
+import { collection, addDoc, serverTimestamp, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
+
+// Detect browser/device info
+const getBrowserInfo = () => {
+    const ua = navigator.userAgent;
+    let browser = "Unknown";
+    if (ua.includes("Chrome") && !ua.includes("Edg")) browser = "Chrome";
+    else if (ua.includes("Firefox")) browser = "Firefox";
+    else if (ua.includes("Safari") && !ua.includes("Chrome")) browser = "Safari";
+    else if (ua.includes("Edg")) browser = "Edge";
+    else if (ua.includes("OPR") || ua.includes("Opera")) browser = "Opera";
+
+    let device = "Desktop";
+    if (/Mobi|Android|iPhone|iPad/i.test(ua)) device = "Mobile";
+
+    return `${browser} / ${device}`;
+};
+
+// Fetch IP address (best effort)
+const getIPAddress = async () => {
+    try {
+        const res = await fetch("https://api.ipify.org?format=json");
+        const data = await res.json();
+        return data.ip || "—";
+    } catch {
+        return "—";
+    }
+};
+
+// Call this on LOGIN
+export const logLogin = async (userId, userName) => {
+    try {
+        const ip = await getIPAddress();
+        const browser = getBrowserInfo();
+        await addDoc(collection(db, "activityLogs"), {
+            userId,
+            userName: userName || userId,
+            action: "login",
+            loginTime: serverTimestamp(),
+            logoutTime: null,
+            lastActive: serverTimestamp(),
+            timestamp: serverTimestamp(),
+            browser,
+            ipAddress: ip,
+            loginClientTime: Date.now(),
+        });
+    } catch (err) {
+        console.error("logLogin error:", err);
+    }
+};
+
+// Call this on LOGOUT
+export const logLogout = async (userId) => {
+    try {
+        const q = query(
+            collection(db, "activityLogs"),
+            where("userId", "==", userId),
+            where("action", "==", "login"),
+            where("logoutTime", "==", null)
+        );
+        const snap = await getDocs(q);
+
+        const now = Date.now();
+        const updates = snap.docs
+            .filter((docSnap) => {
+                const clientTime = docSnap.data().loginClientTime;
+                if (!clientTime) return true;
+                return (now - clientTime) > 3000;
+            })
+            .map((docSnap) =>
+                updateDoc(doc(db, "activityLogs", docSnap.id), {
+                    logoutTime: serverTimestamp(),
+                    lastActive: serverTimestamp(),
+                    action: "logout",
+                })
+            );
+
+        await Promise.all(updates);
+    } catch (err) {
+        console.error("logLogout error:", err);
+    }
+};

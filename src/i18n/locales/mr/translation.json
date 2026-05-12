@@ -291,5 +291,6 @@
   "allProfiles": "सर्व प्रोफाइल",
   "profilesFound": "प्रोफाइल सापडल्या",
   "searchProfiles": "नाव, आयडी, ईमेलने शोधा...",
-  "export": "CSV निर्यात करा"
+  "export": "CSV निर्यात करा",
+  "activityLogs": "क्रियाकलाप नोंदी"
 }

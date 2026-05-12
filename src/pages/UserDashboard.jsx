@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./UserDashboard.css";
-
+import { logLogout } from "../utils/logActivity";
 import { auth, db } from "../firebase/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
@@ -136,6 +136,7 @@ function UserDashboard() {
 
   const handleLogout = async () => {
     try {
+      if (userId) await logLogout(userId);
       await signOut(auth);
       navigate("/");
     } catch (error) {

@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 
 import useAutoLogout from "../hooks/useAutoLogout";
 
+import { logLogout } from "../utils/logActivity";
 import { Pie, Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -290,9 +291,13 @@ function AdminDashboard() {
   };
 
   const handleLogout = async () => {
-    try { await signOut(auth); navigate("/"); }
-    catch (err) { console.log(err); }
-  };
+    try {
+        const userId = localStorage.getItem("userId");
+        if (userId) await logLogout(userId.toUpperCase());
+        await signOut(auth);
+        navigate("/");
+    } catch (err) { console.log(err); }
+};
 
   /* ── Chart configs ── */
 
@@ -773,6 +778,14 @@ function AdminDashboard() {
             <h3>{t("allProfiles")}</h3>
           </div>
           <button className="dashboard-btn" onClick={() => navigate("/all-profiles")}>{t("allProfiles")}</button>
+        </div>
+
+        <div className="dashboard-card">
+          <div className="admin-profile">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="activity logs" />
+            <h3>{t("activityLogs")}</h3>
+          </div>
+          <button className="dashboard-btn" onClick={() => navigate("/activity-logs")}>{t("activityLogs")}</button>
         </div>
 
       </div>

@@ -291,5 +291,6 @@
   "allProfiles": "എല്ലാ പ്രൊഫൈലുകളും",
   "profilesFound": "പ്രൊഫൈലുകൾ കണ്ടെത്തി",
   "searchProfiles": "പേര്, ഐഡി, ഇമെയിൽ വഴി തിരയുക...",
-  "export": "CSV എക്സ്പോർട്ട്"
+  "export": "CSV എക്സ്പോർട്ട്",
+  "activityLogs": "പ്രവർത്തന ലോഗുകൾ"
 }
