@@ -288,5 +288,8 @@
   "notMarked": "Not Marked",
   "pendingRequests": "Pending Requests",
   "myTickets": "My Tickets",
-  "allProfiles": "All Profiles"
+  "allProfiles": "All Profiles",
+  "profilesFound": "Profiles Found",
+  "searchProfiles": "Search by name, ID, email...",
+  "export": "Export CSV"
 }

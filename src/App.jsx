@@ -25,6 +25,7 @@ import MyProfile from "./pages/MyProfile";
 import ToggleStatus from "./pages/ToggleStatus";
 import ShareExperience from "./pages/ShareExperience";
 import SessionFeedbacks from "./pages/SessionFeedbacks";
+import AllProfiles from "./pages/AllProfiles";
 
 function App() {
   return (
@@ -140,6 +141,15 @@ function App() {
           element={
             <ProtectedRoute>
               <SessionFeedbacks />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/all-profiles"
+          element={
+            <ProtectedRoute>
+              <AllProfiles />
             </ProtectedRoute>
           }
         />

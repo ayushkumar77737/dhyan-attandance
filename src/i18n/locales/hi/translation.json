@@ -288,5 +288,8 @@
   "notMarked": "चिह्नित नहीं",
   "pendingRequests": "लंबित अनुरोध",
   "myTickets": "मेरे टिकट",
-  "allProfiles": "सभी प्रोफ़ाइल"
+  "allProfiles": "सभी प्रोफ़ाइल",
+  "profilesFound": "प्रोफ़ाइल मिलीं",
+  "searchProfiles": "नाम, आईडी, ईमेल से खोजें...",
+  "export": "CSV निर्यात करें"
 }

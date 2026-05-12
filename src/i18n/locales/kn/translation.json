@@ -288,5 +288,8 @@
   "notMarked": "ಗುರುತಿಸಲಾಗಿಲ್ಲ",
   "pendingRequests": "ಬಾಕಿ ವಿನಂತಿಗಳು",
   "myTickets": "ನನ್ನ ಟಿಕೆಟ್ಗಳು",
-  "allProfiles": "ಎಲ್ಲಾ ಪ್ರೊಫೈಲ್‌ಗಳು"
+  "allProfiles": "ಎಲ್ಲಾ ಪ್ರೊಫೈಲ್‌ಗಳು",
+  "profilesFound": "ಪ್ರೊಫೈಲ್‌ಗಳು ಕಂಡುಬಂದಿವೆ",
+  "searchProfiles": "ಹೆಸರು, ಐಡಿ, ಇಮೇಲ್ ಮೂಲಕ ಹುಡುಕಿ...",
+  "export": "CSV ರಫ್ತು ಮಾಡಿ"
 }

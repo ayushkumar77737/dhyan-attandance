@@ -264,5 +264,8 @@
   "monthlyAttendance": "মাসিক উপস্থিতি",
   "pendingRequests": "মুলতুবি অনুরোধ",
   "myTickets": "আমার টিকেট",
-  "allProfiles": "সমস্ত প্রোফাইল"
+  "allProfiles": "সমস্ত প্রোফাইল",
+  "profilesFound": "প্রোফাইল পাওয়া গেছে",
+  "searchProfiles": "নাম, আইডি, ইমেইল দিয়ে খুঁজুন...",
+  "export": "CSV রপ্তানি করুন"
 }
