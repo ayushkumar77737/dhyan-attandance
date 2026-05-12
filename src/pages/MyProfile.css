@@ -184,7 +184,7 @@ CARD
     backdrop-filter: blur(24px);
     animation: mprf__slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     transition: box-shadow 0.3s ease;
 }
 
@@ -535,6 +535,14 @@ RESPONSIVE
     .mprf__avatar-ring {
         animation: none;
     }
+
+    .mprf__edit-trigger {
+        top: 14px;
+        right: 14px;
+        padding: 6px 12px;
+        font-size: 12px;
+        z-index: 10;
+    }
 }
 
 @media (min-width: 601px) and (max-width: 900px) {
@@ -570,6 +578,7 @@ EDIT TRIGGER BUTTON
     font-family: 'Plus Jakarta Sans', sans-serif;
     cursor: pointer;
     transition: all 0.2s ease;
+    z-index: 10;
 }
 
 .mprf__edit-trigger:hover {
