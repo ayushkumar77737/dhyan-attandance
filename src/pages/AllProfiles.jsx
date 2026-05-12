@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./AllProfiles.css";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase/firebase";
-import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
 function AllProfiles() {
@@ -25,6 +25,9 @@ function AllProfiles() {
         address: ""
     });
     const [editLoading, setEditLoading] = useState(false);
+
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [deleteLoading, setDeleteLoading] = useState(false);
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -132,6 +135,21 @@ function AllProfiles() {
             console.error(err);
         } finally {
             setEditLoading(false);
+        }
+    };
+
+    const deleteProfile = async () => {
+        try {
+            setDeleteLoading(true);
+            await deleteDoc(doc(db, "profiles", selectedProfile.docId));
+            setProfiles((prev) => prev.filter((p) => p.docId !== selectedProfile.docId));
+            setFiltered((prev) => prev.filter((p) => p.docId !== selectedProfile.docId));
+            setShowDeleteConfirm(false);
+            setSelectedProfile(null);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setDeleteLoading(false);
         }
     };
 
@@ -272,6 +290,11 @@ function AllProfiles() {
                         {/* Edit button */}
                         <button className="allprf__modal-edit-btn" onClick={openEdit}>
                             ✎ {t("edit")}
+                        </button>
+
+                        {/* Delete button */}
+                        <button className="allprf__modal-delete-btn" onClick={() => setShowDeleteConfirm(true)}>
+                            🗑 {t("delete")}
                         </button>
 
                         <div className="allprf__modal-hero">
@@ -433,6 +456,32 @@ function AllProfiles() {
                             </button>
                             <button className="allprf__edit-save" onClick={saveEdit} disabled={editLoading}>
                                 {editLoading ? `⏳ ${t("loading")}` : `💾 ${t("save")}`}
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            )}
+
+            {/* Delete Confirm Modal */}
+            {showDeleteConfirm && (
+                <div className="allprf__edit-overlay" onClick={() => setShowDeleteConfirm(false)}>
+                    <div className="allprf__delete-modal" onClick={(e) => e.stopPropagation()}>
+
+                        <div className="allprf__delete-icon">🗑️</div>
+                        <h3 className="allprf__delete-title">{t("deleteUser")}</h3>
+                        <p className="allprf__delete-msg">
+                            {t("deleteConfirmMsg")}
+                            <br />
+                            <strong>{selectedProfile?.name}</strong> ({selectedProfile?.idNo})
+                        </p>
+
+                        <div className="allprf__edit-footer">
+                            <button className="allprf__edit-cancel" onClick={() => setShowDeleteConfirm(false)}>
+                                {t("cancel")}
+                            </button>
+                            <button className="allprf__delete-confirm-btn" onClick={deleteProfile} disabled={deleteLoading}>
+                                {deleteLoading ? `⏳ ${t("loading")}` : `🗑 ${t("delete")}`}
                             </button>
                         </div>
 

@@ -854,3 +854,87 @@
     cursor: not-allowed;
     transform: none;
 }
+
+/* ── Delete Button inside Detail Modal ── */
+.allprf__modal-delete-btn {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.28);
+    color: #f87171;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    padding: 5px 13px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.allprf__modal-delete-btn:hover {
+    background: rgba(239, 68, 68, 0.25);
+    color: #fca5a5;
+}
+
+
+/* ── Delete Confirm Modal ── */
+.allprf__delete-modal {
+    background: #0b1628;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 20px;
+    padding: 32px 28px 28px;
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    animation: allprf-modal-pop 0.25s cubic-bezier(.22, .68, 0, 1.2);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+.allprf__delete-icon {
+    font-size: 40px;
+    margin-bottom: 14px;
+}
+
+.allprf__delete-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #f0f4ff;
+    margin: 0 0 10px;
+}
+
+.allprf__delete-msg {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0 0 4px;
+}
+
+.allprf__delete-msg strong {
+    color: #f87171;
+}
+
+.allprf__delete-confirm-btn {
+    background: linear-gradient(135deg, #b91c1c, #ef4444);
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    padding: 9px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.allprf__delete-confirm-btn:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+}
+
+.allprf__delete-confirm-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
