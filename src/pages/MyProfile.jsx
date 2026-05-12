@@ -72,12 +72,20 @@ function MyProfile() {
         if (!editForm.name.trim() || !editForm.address.trim()) return;
         try {
             setEditLoading(true);
+
+            // Update profiles collection
             await updateDoc(doc(db, "profiles", profileId), {
                 name: editForm.name.trim(),
                 fatherHusbandName: editForm.fatherHusbandName.trim(),
                 address: editForm.address.trim(),
                 email: editForm.email.trim()
             });
+
+            // Also sync name to users collection
+            await updateDoc(doc(db, "users", profileId), {
+                name: editForm.name.trim()
+            });
+
             setProfile((prev) => ({ ...prev, ...editForm }));
             setShowEditModal(false);
         } catch (error) {
