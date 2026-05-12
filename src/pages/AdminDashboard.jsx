@@ -764,6 +764,14 @@ function AdminDashboard() {
           <button className="dashboard-btn" onClick={() => navigate("/session-feedbacks")}>{t("viewFeedbacks")}</button>
         </div>
 
+        <div className="dashboard-card">
+          <div className="admin-profile">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="all profiles" />
+            <h3>{t("allProfiles")}</h3>
+          </div>
+          <button className="dashboard-btn" onClick={() => navigate("/all-profiles")}>{t("allProfiles")}</button>
+        </div>
+
       </div>
     </div>
   );
