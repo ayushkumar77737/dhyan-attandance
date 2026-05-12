@@ -5,13 +5,14 @@ import { auth, db } from "../firebase/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-
+import useAutoLogout from "../hooks/useAutoLogout";
 import { useTranslation } from "react-i18next";
 
 function UserDashboard() {
 
   const { t } = useTranslation();
   const navigate = useNavigate();
+  useAutoLogout();
 
   useEffect(() => {
     const disableRightClick = (e) => e.preventDefault();

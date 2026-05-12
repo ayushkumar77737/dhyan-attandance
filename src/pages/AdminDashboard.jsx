@@ -9,6 +9,8 @@ import { collection, getDocs } from "firebase/firestore";
 
 import { useTranslation } from "react-i18next";
 
+import useAutoLogout from "../hooks/useAutoLogout";
+
 import { Pie, Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -66,6 +68,7 @@ const makeCircleLegend = () => ({
 function AdminDashboard() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  useAutoLogout();
 
   const [totalUsers, setTotalUsers] = useState(0);
   const [deletedUsers, setDeletedUsers] = useState(0);
