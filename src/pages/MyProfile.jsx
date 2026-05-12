@@ -48,6 +48,7 @@ function MyProfile() {
                 const profileSnap = await getDoc(doc(db, "profiles", id));
                 if (profileSnap.exists()) {
                     setProfile(profileSnap.data());
+                    setProfileId(id);
                     setEditForm({
                         name: profileSnap.data().name || "",
                         fatherHusbandName: profileSnap.data().fatherHusbandName || "",
