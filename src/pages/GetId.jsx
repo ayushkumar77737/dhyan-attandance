@@ -266,6 +266,10 @@ const GetId = () => {
                                 ))}
                             </div>
                         </div>
+                        <div className="gidpg__offline-note">
+                            <span>💵</span>
+                            <p>{t("offlineNote")}</p>
+                        </div>
                     </div>
 
                 </div>

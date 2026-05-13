@@ -943,3 +943,26 @@
         padding: 24px 16px;
     }
 }
+
+.gidpg__offline-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(245, 200, 66, 0.08);
+    border: 1px solid rgba(245, 200, 66, 0.2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-top: 14px;
+    font-size: 12px;
+    color: rgba(200, 195, 240, 0.6);
+    line-height: 1.5;
+}
+
+.gidpg__offline-note span {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.gidpg__offline-note p {
+    margin: 0;
+}

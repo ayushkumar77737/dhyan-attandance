@@ -314,5 +314,6 @@
   "afterPaymentNote": "After payment, enter the transaction ID from your UPI app in the form",
   "step1": "Scan the QR code & complete payment",
   "step2": "Copy your 12-digit transaction ID",
-  "step3": "Fill the form and submit"
+  "step3": "Fill the form and submit",
+  "offlineNote": "Don't have UPI? Visit us in person, pay cash, and our team will register you directly."
 }
