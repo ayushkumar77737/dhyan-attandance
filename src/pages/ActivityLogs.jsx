@@ -129,13 +129,16 @@ function ActivityLogs() {
     const uniqueUsers = [...new Set(logs.map((l) => l.userId))].length;
 
     return (
-        <div className="alog__page">
-            <div className="alog__orb alog__orb--1" />
-            <div className="alog__orb alog__orb--2" />
-            <div className="alog__orb alog__orb--3" />
+        <div className="actlog__page">
+            <div className="actlog__orb actlog__orb--1" />
+            <div className="actlog__orb actlog__orb--2" />
+            <div className="actlog__orb actlog__orb--3" />
+
+            {/* Grid lines decoration */}
+            <div className="actlog__grid-lines" />
 
             {/* Back */}
-            <button className="alog__back-btn" onClick={() => navigate("/admin-dashboard")}>
+            <button className="actlog__back-btn" onClick={() => navigate("/admin-dashboard")}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="15 18 9 12 15 6" />
                 </svg>
@@ -143,68 +146,83 @@ function ActivityLogs() {
             </button>
 
             {/* Header */}
-            <div className="alog__header">
-                <div className="alog__eyebrow">
-                    <span className="alog__eyebrow-dot" />
-                    <span>{t("activityLogs")}</span>
+            <div className="actlog__header">
+                <div className="actlog__eyebrow">
+                    <span className="actlog__eyebrow-pulse" />
+                    <span className="actlog__eyebrow-text">{t("activityLogs")}</span>
                 </div>
-                <h1 className="alog__title">{t("activityLogs")}</h1>
-                <p className="alog__subtitle">Track every login and logout across your system</p>
+                <h1 className="actlog__title">
+                    <span className="actlog__title-main">Activity</span>
+                    <span className="actlog__title-accent"> Logs</span>
+                </h1>
+                <p className="actlog__subtitle">Track every login and logout across your system</p>
             </div>
 
             {/* Stats Row */}
-            <div className="alog__stats">
-                <div className="alog__stat alog__stat--total">
-                    <span className="alog__stat-icon">📋</span>
-                    <div>
-                        <span className="alog__stat-num">{logs.length}</span>
-                        <span className="alog__stat-label">Total Logs</span>
+            <div className="actlog__stats">
+                <div className="actlog__stat actlog__stat--total">
+                    <div className="actlog__stat-icon-wrap actlog__stat-icon-wrap--blue">
+                        <span className="actlog__stat-icon">📋</span>
                     </div>
+                    <div className="actlog__stat-info">
+                        <span className="actlog__stat-num">{logs.length}</span>
+                        <span className="actlog__stat-label">Total Logs</span>
+                    </div>
+                    <div className="actlog__stat-glow actlog__stat-glow--blue" />
                 </div>
-                <div className="alog__stat alog__stat--login">
-                    <span className="alog__stat-icon">🔓</span>
-                    <div>
-                        <span className="alog__stat-num">{loginCount}</span>
-                        <span className="alog__stat-label">Logins</span>
+                <div className="actlog__stat actlog__stat--login">
+                    <div className="actlog__stat-icon-wrap actlog__stat-icon-wrap--green">
+                        <span className="actlog__stat-icon">🔓</span>
                     </div>
+                    <div className="actlog__stat-info">
+                        <span className="actlog__stat-num">{loginCount}</span>
+                        <span className="actlog__stat-label">Logins</span>
+                    </div>
+                    <div className="actlog__stat-glow actlog__stat-glow--green" />
                 </div>
-                <div className="alog__stat alog__stat--logout">
-                    <span className="alog__stat-icon">🔒</span>
-                    <div>
-                        <span className="alog__stat-num">{logoutCount}</span>
-                        <span className="alog__stat-label">Logouts</span>
+                <div className="actlog__stat actlog__stat--logout">
+                    <div className="actlog__stat-icon-wrap actlog__stat-icon-wrap--red">
+                        <span className="actlog__stat-icon">🔒</span>
                     </div>
+                    <div className="actlog__stat-info">
+                        <span className="actlog__stat-num">{logoutCount}</span>
+                        <span className="actlog__stat-label">Logouts</span>
+                    </div>
+                    <div className="actlog__stat-glow actlog__stat-glow--red" />
                 </div>
-                <div className="alog__stat alog__stat--users">
-                    <span className="alog__stat-icon">👥</span>
-                    <div>
-                        <span className="alog__stat-num">{uniqueUsers}</span>
-                        <span className="alog__stat-label">Unique Users</span>
+                <div className="actlog__stat actlog__stat--users">
+                    <div className="actlog__stat-icon-wrap actlog__stat-icon-wrap--purple">
+                        <span className="actlog__stat-icon">👥</span>
                     </div>
+                    <div className="actlog__stat-info">
+                        <span className="actlog__stat-num">{uniqueUsers}</span>
+                        <span className="actlog__stat-label">Unique Users</span>
+                    </div>
+                    <div className="actlog__stat-glow actlog__stat-glow--purple" />
                 </div>
             </div>
 
             {/* Controls */}
-            <div className="alog__controls">
-                <div className="alog__search-wrap">
-                    <svg className="alog__search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <div className="actlog__controls">
+                <div className="actlog__search-wrap">
+                    <svg className="actlog__search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
                     </svg>
                     <input
-                        className="alog__search"
+                        className="actlog__search"
                         type="text"
                         placeholder="Search by user, IP, browser..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
-                    {search && <button className="alog__search-clear" onClick={() => setSearch("")}>✕</button>}
+                    {search && <button className="actlog__search-clear" onClick={() => setSearch("")}>✕</button>}
                 </div>
 
-                <div className="alog__filters">
+                <div className="actlog__filters">
                     {["all", "login", "logout"].map((f) => (
                         <button
                             key={f}
-                            className={`alog__filter-btn ${filterType === f ? "alog__filter-btn--active" : ""}`}
+                            className={`actlog__filter-btn ${filterType === f ? "actlog__filter-btn--active" : ""} ${f === "login" ? "actlog__filter-btn--login" : ""} ${f === "logout" ? "actlog__filter-btn--logout" : ""}`}
                             onClick={() => setFilterType(f)}
                         >
                             {f === "all" ? "All" : f === "login" ? "🔓 Logins" : "🔒 Logouts"}
@@ -212,7 +230,7 @@ function ActivityLogs() {
                     ))}
                 </div>
 
-                <button className="alog__export-btn" onClick={exportCSV}>
+                <button className="actlog__export-btn" onClick={exportCSV}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                         <polyline points="7 10 12 15 17 10" />
@@ -224,18 +242,18 @@ function ActivityLogs() {
 
             {/* Count */}
             {!loading && (
-                <p className="alog__result-count">
+                <p className="actlog__result-count">
                     Showing <span>{filtered.length}</span> of <span>{logs.length}</span> logs
                 </p>
             )}
 
             {/* Loading */}
             {loading && (
-                <div className="alog__loading">
-                    <div className="alog__loader">
-                        <div className="alog__loader-ring" />
-                        <div className="alog__loader-ring alog__loader-ring--2" />
-                        <div className="alog__loader-core" />
+                <div className="actlog__loading">
+                    <div className="actlog__loader">
+                        <div className="actlog__loader-ring" />
+                        <div className="actlog__loader-ring actlog__loader-ring--2" />
+                        <div className="actlog__loader-core" />
                     </div>
                     <p>{t("loading")}</p>
                 </div>
@@ -243,15 +261,15 @@ function ActivityLogs() {
 
             {/* Empty */}
             {!loading && filtered.length === 0 && (
-                <div className="alog__empty">
-                    <span>📭</span>
+                <div className="actlog__empty">
+                    <span className="actlog__empty-icon">📭</span>
                     <p>No activity logs found</p>
                 </div>
             )}
 
             {/* Logs Timeline */}
             {!loading && filtered.length > 0 && (
-                <div className="alog__timeline">
+                <div className="actlog__timeline">
                     {filtered.map((log, index) => {
                         const isLogin = log.action === "login";
                         const isExpanded = expandedLog === log.docId;
@@ -260,30 +278,28 @@ function ActivityLogs() {
                         return (
                             <div
                                 key={log.docId}
-                                className={`alog__entry ${isLogin ? "alog__entry--login" : "alog__entry--logout"} ${isExpanded ? "alog__entry--expanded" : ""}`}
+                                className={`actlog__entry ${isLogin ? "actlog__entry--login" : "actlog__entry--logout"} ${isExpanded ? "actlog__entry--expanded" : ""}`}
                                 style={{ animationDelay: `${index * 30}ms` }}
                                 onClick={() => setExpandedLog(isExpanded ? null : log.docId)}
                             >
-                                {/* Timeline dot */}
-                                <div className="alog__entry-dot">
-                                    <div className="alog__entry-dot-inner" />
-                                </div>
-
                                 {/* Main row */}
-                                <div className="alog__entry-main">
-                                    <div className="alog__entry-left">
-                                        <span className={`alog__action-badge ${isLogin ? "alog__action-badge--login" : "alog__action-badge--logout"}`}>
-                                            {isLogin ? "🔓 LOGIN" : "🔒 LOGOUT"}
+                                <div className="actlog__entry-main">
+                                    <div className="actlog__entry-left">
+                                        <span className={`actlog__badge ${isLogin ? "actlog__badge--login" : "actlog__badge--logout"}`}>
+                                            <span className="actlog__badge-dot" />
+                                            {isLogin ? "LOGIN" : "LOGOUT"}
                                         </span>
-                                        <div className="alog__entry-user">
-                                            <span className="alog__entry-name">{log.userName || log.userId}</span>
-                                            <span className="alog__entry-id">#{log.userId}</span>
+                                        <div className="actlog__entry-user">
+                                            <span className="actlog__entry-name">{log.userName || log.userId}</span>
+                                            <span className="actlog__entry-id">#{log.userId}</span>
                                         </div>
                                     </div>
-                                    <div className="alog__entry-right">
-                                        <span className="alog__entry-date">{formatDate(log.timestamp)}</span>
-                                        <span className="alog__entry-time">{formatTime(log.timestamp)}</span>
-                                        <svg className={`alog__chevron ${isExpanded ? "alog__chevron--open" : ""}`} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                                    <div className="actlog__entry-right">
+                                        <div className="actlog__entry-timestamp">
+                                            <span className="actlog__entry-date">{formatDate(log.timestamp)}</span>
+                                            <span className="actlog__entry-time">{formatTime(log.timestamp)}</span>
+                                        </div>
+                                        <svg className={`actlog__chevron ${isExpanded ? "actlog__chevron--open" : ""}`} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                                             <polyline points="6 9 12 15 18 9" />
                                         </svg>
                                     </div>
@@ -291,75 +307,75 @@ function ActivityLogs() {
 
                                 {/* Expanded details */}
                                 {isExpanded && (
-                                    <div className="alog__entry-details">
-                                        <div className="alog__detail-grid">
+                                    <div className="actlog__entry-details">
+                                        <div className="actlog__detail-grid">
 
-                                            <div className="alog__detail-item">
-                                                <span className="alog__detail-icon">🪪</span>
-                                                <div>
-                                                    <span className="alog__detail-label">User ID</span>
-                                                    <span className="alog__detail-value">{log.userId || "—"}</span>
+                                            <div className="actlog__detail-item">
+                                                <span className="actlog__detail-icon">🪪</span>
+                                                <div className="actlog__detail-content">
+                                                    <span className="actlog__detail-label">User ID</span>
+                                                    <span className="actlog__detail-value">{log.userId || "—"}</span>
                                                 </div>
                                             </div>
 
-                                            <div className="alog__detail-item">
-                                                <span className="alog__detail-icon">👤</span>
-                                                <div>
-                                                    <span className="alog__detail-label">User Name</span>
-                                                    <span className="alog__detail-value">{log.userName || "—"}</span>
+                                            <div className="actlog__detail-item">
+                                                <span className="actlog__detail-icon">👤</span>
+                                                <div className="actlog__detail-content">
+                                                    <span className="actlog__detail-label">User Name</span>
+                                                    <span className="actlog__detail-value">{log.userName || "—"}</span>
                                                 </div>
                                             </div>
 
-                                            <div className="alog__detail-item">
-                                                <span className="alog__detail-icon">🔓</span>
-                                                <div>
-                                                    <span className="alog__detail-label">Login Time</span>
-                                                    <span className="alog__detail-value">{formatDateTime(log.loginTime)}</span>
+                                            <div className="actlog__detail-item">
+                                                <span className="actlog__detail-icon">🔓</span>
+                                                <div className="actlog__detail-content">
+                                                    <span className="actlog__detail-label">Login Time</span>
+                                                    <span className="actlog__detail-value">{formatDateTime(log.loginTime)}</span>
                                                 </div>
                                             </div>
 
-                                            <div className="alog__detail-item">
-                                                <span className="alog__detail-icon">🔒</span>
-                                                <div>
-                                                    <span className="alog__detail-label">Logout Time</span>
-                                                    <span className="alog__detail-value">{formatDateTime(log.logoutTime)}</span>
+                                            <div className="actlog__detail-item">
+                                                <span className="actlog__detail-icon">🔒</span>
+                                                <div className="actlog__detail-content">
+                                                    <span className="actlog__detail-label">Logout Time</span>
+                                                    <span className="actlog__detail-value">{formatDateTime(log.logoutTime)}</span>
                                                 </div>
                                             </div>
 
-                                            <div className="alog__detail-item">
-                                                <span className="alog__detail-icon">⏱️</span>
-                                                <div>
-                                                    <span className="alog__detail-label">Last Active</span>
-                                                    <span className="alog__detail-value">{formatDateTime(log.lastActive)}</span>
+                                            <div className="actlog__detail-item">
+                                                <span className="actlog__detail-icon">⏱️</span>
+                                                <div className="actlog__detail-content">
+                                                    <span className="actlog__detail-label">Last Active</span>
+                                                    <span className="actlog__detail-value">{formatDateTime(log.lastActive)}</span>
                                                 </div>
                                             </div>
 
                                             {duration && (
-                                                <div className="alog__detail-item">
-                                                    <span className="alog__detail-icon">⏳</span>
-                                                    <div>
-                                                        <span className="alog__detail-label">Session Duration</span>
-                                                        <span className="alog__detail-value alog__detail-value--accent">{duration}</span>
+                                                <div className="actlog__detail-item actlog__detail-item--accent">
+                                                    <span className="actlog__detail-icon">⏳</span>
+                                                    <div className="actlog__detail-content">
+                                                        <span className="actlog__detail-label">Session Duration</span>
+                                                        <span className="actlog__detail-value actlog__detail-value--green">{duration}</span>
                                                     </div>
                                                 </div>
                                             )}
 
                                             {log.browser && (
-                                                <div className="alog__detail-item">
-                                                    <span className="alog__detail-icon">🌐</span>
-                                                    <div>
-                                                        <span className="alog__detail-label">Device / Browser</span>
-                                                        <span className="alog__detail-value">{log.browser}</span>
+                                                <div className="actlog__detail-item">
+                                                    <span className="actlog__detail-icon">🌐</span>
+                                                    <div className="actlog__detail-content">
+                                                        <span className="actlog__detail-label">Device / Browser</span>
+                                                        <span className="actlog__detail-value">{log.browser}</span>
                                                     </div>
                                                 </div>
                                             )}
 
                                             {log.ipAddress && (
-                                                <div className="alog__detail-item">
-                                                    <span className="alog__detail-icon">📡</span>
-                                                    <div>
-                                                        <span className="alog__detail-label">IP Address</span>
-                                                        <span className="alog__detail-value alog__detail-value--mono">{log.ipAddress}</span>
+                                                <div className="actlog__detail-item">
+                                                    <span className="actlog__detail-icon">📡</span>
+                                                    <div className="actlog__detail-content">
+                                                        <span className="actlog__detail-label">IP Address</span>
+                                                        <span className="actlog__detail-value actlog__detail-value--mono">{log.ipAddress}</span>
                                                     </div>
                                                 </div>
                                             )}
