@@ -215,9 +215,14 @@ const Login = () => {
 
           </form>
 
-          <p className="forgot-password" onClick={() => navigate("/forgot-password")}>
-            {t("forgotPassword")}
-          </p>
+          <div className="login-bottom-links">
+            <p className="new-user-link" onClick={() => navigate("/get-id")}>
+              {t("getId")} →
+            </p>
+            <p className="forgot-password" onClick={() => navigate("/forgot-password")}>
+              {t("forgotPassword")}
+            </p>
+          </div>
 
         </div>
 

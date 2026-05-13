@@ -27,6 +27,7 @@ import ShareExperience from "./pages/ShareExperience";
 import SessionFeedbacks from "./pages/SessionFeedbacks";
 import AllProfiles from "./pages/AllProfiles";
 import ActivityLogs from "./pages/ActivityLogs";
+import GetId from "./pages/GetId";
 
 function App() {
   return (
@@ -255,6 +256,7 @@ function App() {
           }
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/get-id" element={<GetId />} />
       </Routes>
     </BrowserRouter>
   );

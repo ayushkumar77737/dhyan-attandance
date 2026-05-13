@@ -387,13 +387,19 @@ LOGIN BUTTON
 FORGOT PASSWORD
 ================================ */
 
-.forgot-password {
+.login-bottom-links {
     width: 100%;
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.forgot-password {
     font-size: 13px;
     color: var(--ln-purple-light);
     cursor: pointer;
-    margin-top: 10px;
+    margin: 0;
     letter-spacing: 0.1px;
     line-height: 1.6;
     font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif;
@@ -401,6 +407,22 @@ FORGOT PASSWORD
 }
 
 .forgot-password:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.new-user-link {
+    font-size: 13px;
+    color: var(--ln-purple-light);
+    cursor: pointer;
+    margin: 0;
+    letter-spacing: 0.1px;
+    line-height: 1.6;
+    font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif;
+    transition: color 0.2s;
+}
+
+.new-user-link:hover {
     color: #fff;
     text-decoration: underline;
 }
