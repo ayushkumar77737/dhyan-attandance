@@ -17,6 +17,10 @@ const GetId = () => {
     const [duplicateError, setDuplicateError] = useState("");
     const [loading, setLoading] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [checkId, setCheckId] = useState("");
+    const [checkStatus, setCheckStatus] = useState(null);
+    const [checkLoading, setCheckLoading] = useState(false);
+    const [checkError, setCheckError] = useState("");
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -91,6 +95,33 @@ const GetId = () => {
             console.error("Error submitting:", err);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleCheckStatus = async () => {
+        if (checkId.trim().length === 0) {
+            setCheckError("Please enter a Transaction ID.");
+            return;
+        }
+        try {
+            setCheckLoading(true);
+            setCheckStatus(null);
+            setCheckError("");
+            const q = query(
+                collection(db, "idRequests"),
+                where("transactionId", "==", checkId.trim().toUpperCase())
+            );
+            const snap = await getDocs(q);
+            if (snap.empty) {
+                setCheckError("No request found with this Transaction ID.");
+            } else {
+                const data = snap.docs[0].data();
+                setCheckStatus(data.status);
+            }
+        } catch (err) {
+            setCheckError("Error checking status. Try again.");
+        } finally {
+            setCheckLoading(false);
         }
     };
 
@@ -269,6 +300,49 @@ const GetId = () => {
                         <div className="gidpg__offline-note">
                             <span>💵</span>
                             <p>{t("offlineNote")}</p>
+                        </div>
+
+                        {/* Check Status */}
+                        <div className="gidpg__check-card">
+                            <div className="gidpg__check-header">
+                                <span className="gidpg__check-icon">🔍</span>
+                                <span className="gidpg__check-title">Check Request Status</span>
+                            </div>
+                            <div className="gidpg__check-input-row">
+                                <input
+                                    className="gidpg__check-input"
+                                    type="text"
+                                    placeholder="Enter Transaction ID"
+                                    value={checkId}
+                                    onChange={(e) => {
+                                        setCheckId(e.target.value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase());
+                                        setCheckStatus(null);
+                                        setCheckError("");
+                                    }}
+                                    maxLength={12}
+                                />
+                                <button
+                                    className="gidpg__check-btn"
+                                    onClick={handleCheckStatus}
+                                    disabled={checkLoading}
+                                >
+                                    {checkLoading ? <span className="gidpg__spinner" /> : "Check"}
+                                </button>
+                            </div>
+                            {checkError && <p className="gidpg__check-error">{checkError}</p>}
+                            {checkStatus && (
+                                <div className={`gidpg__check-result gidpg__check-result--${checkStatus}`}>
+                                    <span className="gidpg__check-result-icon">
+                                        {checkStatus === "pending" ? "⏳" : checkStatus === "approved" ? "✅" : "❌"}
+                                    </span>
+                                    <div>
+                                        <span className="gidpg__check-result-label">Status</span>
+                                        <span className="gidpg__check-result-value">
+                                            {checkStatus.charAt(0).toUpperCase() + checkStatus.slice(1)}
+                                        </span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
 
