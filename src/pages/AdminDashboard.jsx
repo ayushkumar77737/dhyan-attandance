@@ -292,12 +292,12 @@ function AdminDashboard() {
 
   const handleLogout = async () => {
     try {
-        const userId = localStorage.getItem("userId");
-        if (userId) await logLogout(userId.toUpperCase());
-        await signOut(auth);
-        navigate("/");
+      const userId = localStorage.getItem("userId");
+      if (userId) await logLogout(userId.toUpperCase());
+      await signOut(auth);
+      navigate("/");
     } catch (err) { console.log(err); }
-};
+  };
 
   /* ── Chart configs ── */
 
@@ -786,6 +786,14 @@ function AdminDashboard() {
             <h3>{t("activityLogs")}</h3>
           </div>
           <button className="dashboard-btn" onClick={() => navigate("/activity-logs")}>{t("activityLogs")}</button>
+        </div>
+
+        <div className="dashboard-card">
+          <div className="admin-profile">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="id requests" />
+            <h3>{t("idRequests")}</h3>
+          </div>
+          <button className="dashboard-btn" onClick={() => navigate("/id-requests")}>{t("viewRequests")}</button>
         </div>
 
       </div>

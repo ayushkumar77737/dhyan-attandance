@@ -28,6 +28,7 @@ import SessionFeedbacks from "./pages/SessionFeedbacks";
 import AllProfiles from "./pages/AllProfiles";
 import ActivityLogs from "./pages/ActivityLogs";
 import GetId from "./pages/GetId";
+import IdRequests from "./pages/IdRequests";
 
 function App() {
   return (
@@ -252,6 +253,14 @@ function App() {
           element={
             <ProtectedRoute>
               <EditUser />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/id-requests"
+          element={
+            <ProtectedRoute>
+              <IdRequests />
             </ProtectedRoute>
           }
         />
