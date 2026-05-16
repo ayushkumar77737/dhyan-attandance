@@ -333,5 +333,6 @@
   "requestRejected": "ವಿನಂತಿ ತಿರಸ್ಕರಿಸಲಾಗಿದೆ!",
   "markedAsPending": "ಬಾಕಿ ಎಂದು ಗುರುತಿಸಲಾಗಿದೆ",
   "requestDeleted": "ವಿನಂತಿ ಅಳಿಸಲಾಗಿದೆ!",
-  "errorDeletingRequest": "ವಿನಂತಿ ಅಳಿಸುವಲ್ಲಿ ದೋಷ"
+  "errorDeletingRequest": "ವಿನಂತಿ ಅಳಿಸುವಲ್ಲಿ ದೋಷ",
+  "smartAttendance": "ಸ್ಮಾರ್ಟ್ ಹಾಜರಾತಿ"
 }

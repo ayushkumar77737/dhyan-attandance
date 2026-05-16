@@ -333,5 +333,6 @@
   "requestRejected": "विनंती नाकारली गेली!",
   "markedAsPending": "प्रलंबित म्हणून चिन्हांकित केले",
   "requestDeleted": "विनंती हटवली गेली!",
-  "errorDeletingRequest": "विनंती हटवण्यात त्रुटी"
+  "errorDeletingRequest": "विनंती हटवण्यात त्रुटी",
+  "smartAttendance": "स्मार्ट उपस्थिती"
 }

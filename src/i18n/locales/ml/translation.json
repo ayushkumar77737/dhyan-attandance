@@ -333,5 +333,6 @@
   "requestRejected": "അഭ്യർത്ഥന നിരസിച്ചു!",
   "markedAsPending": "തീർപ്പുകൽപ്പിക്കാത്തതായി അടയാളപ്പെടുത്തി",
   "requestDeleted": "അഭ്യർത്ഥന ഇല്ലാതാക്കി!",
-  "errorDeletingRequest": "അഭ്യർത്ഥന ഇല്ലാതാക്കുന്നതിൽ പിശക്"
+  "errorDeletingRequest": "അഭ്യർത്ഥന ഇല്ലാതാക്കുന്നതിൽ പിശക്",
+  "smartAttendance": "സ്മാർട്ട് ഹാജർ"
 }

@@ -333,5 +333,6 @@
   "requestRejected": "கோரிக்கை நிராகரிக்கப்பட்டது!",
   "markedAsPending": "நிலுவையில் குறிக்கப்பட்டது",
   "requestDeleted": "கோரிக்கை நீக்கப்பட்டது!",
-  "errorDeletingRequest": "கோரிக்கை நீக்குவதில் பிழை"
+  "errorDeletingRequest": "கோரிக்கை நீக்குவதில் பிழை",
+  "smartAttendance": "ஸ்மார்ட் வருகை"
 }

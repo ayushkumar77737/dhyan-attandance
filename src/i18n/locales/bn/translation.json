@@ -309,5 +309,6 @@
   "requestRejected": "অনুরোধ প্রত্যাখ্যাত!",
   "markedAsPending": "অপেক্ষমাণ হিসেবে চিহ্নিত",
   "requestDeleted": "অনুরোধ মুছে গেছে!",
-  "errorDeletingRequest": "অনুরোধ মুছতে ত্রুটি"
+  "errorDeletingRequest": "অনুরোধ মুছতে ত্রুটি",
+  "smartAttendance": "স্মার্ট উপস্থিতি"
 }

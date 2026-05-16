@@ -29,6 +29,8 @@ import AllProfiles from "./pages/AllProfiles";
 import ActivityLogs from "./pages/ActivityLogs";
 import GetId from "./pages/GetId";
 import IdRequests from "./pages/IdRequests";
+import SmartAttendance from "./pages/SmartAttendance";
+import ShowQR from "./pages/ShowQR";
 
 function App() {
   return (
@@ -165,6 +167,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+  path="/show-qr"
+  element={
+    <ProtectedRoute>
+      <ShowQR />
+    </ProtectedRoute>
+  }
+/>
 
         {/* Admin Routes */}
         <Route
@@ -264,6 +274,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+  path="/smart-attendance"
+  element={
+    <ProtectedRoute>
+      <SmartAttendance />
+    </ProtectedRoute>
+  }
+/>
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/get-id" element={<GetId />} />
       </Routes>

@@ -313,6 +313,14 @@ function UserDashboard() {
             {t("shareExperience")}
           </button>
 
+          <button className="reason-btn reason-btn--qr" onClick={() => navigate("/show-qr")}>
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+        <path d="M14 14h3v3h-3z"/><path d="M17 17h4"/><path d="M17 21v-4"/>
+    </svg>
+    {t("showQR")}
+</button>
+
         </div>
 
         {/* ── ATTENDANCE TABLE ── */}

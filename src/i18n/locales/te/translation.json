@@ -333,5 +333,6 @@
   "requestRejected": "అభ్యర్థన తిరస్కరించబడింది!",
   "markedAsPending": "పెండింగ్‌గా గుర్తించబడింది",
   "requestDeleted": "అభ్యర్థన తొలగించబడింది!",
-  "errorDeletingRequest": "అభ్యర్థన తొలగించడంలో లోపం"
+  "errorDeletingRequest": "అభ్యర్థన తొలగించడంలో లోపం",
+  "smartAttendance": "స్మార్ట్ హాజరు"
 }

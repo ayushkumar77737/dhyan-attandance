@@ -333,5 +333,6 @@
   "requestRejected": "अनुरोध अस्वीकृत!",
   "markedAsPending": "लंबित के रूप में चिह्नित",
   "requestDeleted": "अनुरोध हटा दिया गया!",
-  "errorDeletingRequest": "अनुरोध हटाने में त्रुटि"
+  "errorDeletingRequest": "अनुरोध हटाने में त्रुटि",
+  "smartAttendance": "स्मार्ट उपस्थिति"
 }

@@ -333,5 +333,6 @@
   "requestRejected": "Request rejected!",
   "markedAsPending": "Marked as pending",
   "requestDeleted": "Request deleted!",
-  "errorDeletingRequest": "Error deleting request"
+  "errorDeletingRequest": "Error deleting request",
+  "smartAttendance": "Smart Attendance"
 }
