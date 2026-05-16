@@ -26,7 +26,7 @@ function SmartAttendance() {
         const disableRightClick = (e) => e.preventDefault();
         const disableInspectKeys = (e) => {
             if (e.key === "F12") e.preventDefault();
-            if (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key.toUpperCase())) e.preventDefault();
+            if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase())) e.preventDefault();
             if (e.ctrlKey && e.key.toUpperCase() === "U") e.preventDefault();
         };
         document.addEventListener("contextmenu", disableRightClick);
@@ -43,20 +43,20 @@ function SmartAttendance() {
     const fetchStats = async () => {
         try {
             setLoadingStats(true);
-            const today = new Date().toLocaleDateString("en-IN", { day:"2-digit", month:"short", year:"numeric" });
+            const today = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
             const usersSnap = await getDocs(collection(db, "users"));
             let totalUsers = 0;
             usersSnap.forEach(d => { if (d.data().deleted !== true) totalUsers++; });
 
             const attSnap = await getDocs(collection(db, "smartAttendance"));
-            let present = 0, absent = 0;
+            let present = 0;
             attSnap.forEach(d => {
                 const data = d.data();
-                if (data.date === today) {
-                    if (data.status === "Present") present++;
-                    else absent++;
+                if (data.date === today && data.status === "Present") {
+                    present++;
                 }
             });
+            const absent = totalUsers - present;
             const pct = totalUsers > 0 ? Math.round((present / totalUsers) * 100) : 0;
             setStats({ total: totalUsers, present, absent, percentage: pct });
         } catch (err) { console.error(err); }
@@ -129,7 +129,7 @@ function SmartAttendance() {
                             handleScan(code);
                         }
                     }
-                }).catch(() => {});
+                }).catch(() => { });
             }
         }, 500);
     };
@@ -150,7 +150,7 @@ function SmartAttendance() {
             const userData = userSnap.docs[0].data();
 
             // Check if already marked today
-            const today = new Date().toLocaleDateString("en-IN", { day:"2-digit", month:"short", year:"numeric" });
+            const today = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
             const existingSnap = await getDocs(query(
                 collection(db, "smartAttendance"),
                 where("userId", "==", userId.toUpperCase()),
@@ -341,21 +341,21 @@ function SmartAttendance() {
                         {!scanning ? (
                             <button className="smat__btn smat__btn--start" onClick={startCamera}>
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <polygon points="5 3 19 12 5 21 5 3"/>
+                                    <polygon points="5 3 19 12 5 21 5 3" />
                                 </svg>
                                 Start Scanner
                             </button>
                         ) : (
                             <button className="smat__btn smat__btn--stop" onClick={stopCamera}>
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>
+                                    <rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" />
                                 </svg>
                                 Stop Scanner
                             </button>
                         )}
                         <button className="smat__btn smat__btn--refresh" onClick={() => { fetchStats(); fetchRecentScans(); }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                                <polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
                             </svg>
                             Refresh
                         </button>
@@ -403,7 +403,7 @@ function SmartAttendance() {
                                     <span className="smat__user-id">ID: {scannedUser.id || scanResult}</span>
                                     {scanStatus === "success" && (
                                         <span className="smat__user-time">
-                                            ⏰ {new Date().toLocaleTimeString("en-IN", { hour:"2-digit", minute:"2-digit" })}
+                                            ⏰ {new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}
                                         </span>
                                     )}
                                 </div>
@@ -424,7 +424,7 @@ function SmartAttendance() {
                         <span className="smat__progress-title">Today's Progress</span>
                         <div className="smat__progress-ring-wrap">
                             <svg className="smat__progress-svg" viewBox="0 0 120 120">
-                                <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(59,130,246,0.1)" strokeWidth="10"/>
+                                <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(59,130,246,0.1)" strokeWidth="10" />
                                 <circle
                                     cx="60" cy="60" r="50"
                                     fill="none"
@@ -438,8 +438,8 @@ function SmartAttendance() {
                                 />
                                 <defs>
                                     <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stopColor="#3b82f6"/>
-                                        <stop offset="100%" stopColor="#22c55e"/>
+                                        <stop offset="0%" stopColor="#3b82f6" />
+                                        <stop offset="100%" stopColor="#22c55e" />
                                     </linearGradient>
                                 </defs>
                             </svg>
