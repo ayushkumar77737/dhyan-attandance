@@ -3,9 +3,11 @@ import "./SmartAttendance.css";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase/firebase";
 import { collection, getDocs, addDoc, serverTimestamp, query, where, orderBy, limit } from "firebase/firestore";
+import { useTranslation } from "react-i18next";
 
 function SmartAttendance() {
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
     const streamRef = useRef(null);
@@ -16,7 +18,7 @@ function SmartAttendance() {
     const [scanning, setScanning] = useState(false);
     const [scanResult, setScanResult] = useState(null);
     const [scannedUser, setScannedUser] = useState(null);
-    const [scanStatus, setScanStatus] = useState(null); // 'success' | 'error' | 'already'
+    const [scanStatus, setScanStatus] = useState(null);
     const [stats, setStats] = useState({ total: 0, present: 0, absent: 0, percentage: 0 });
     const [recentScans, setRecentScans] = useState([]);
     const [loadingStats, setLoadingStats] = useState(true);
@@ -54,9 +56,7 @@ function SmartAttendance() {
             let present = 0;
             attSnap.forEach(d => {
                 const data = d.data();
-                if (data.date === today && data.status === "Present") {
-                    present++;
-                }
+                if (data.date === today && data.status === "Present") present++;
             });
             const absent = totalUsers - present;
             const pct = totalUsers > 0 ? Math.round((present / totalUsers) * 100) : 0;
@@ -92,7 +92,7 @@ function SmartAttendance() {
             setScanning(true);
             startQRScan();
         } catch (err) {
-            setCameraError("Camera access denied. Please allow camera permission.");
+            setCameraError(t("cameraAccessDenied"));
             console.error(err);
         }
     };
@@ -146,17 +146,15 @@ function SmartAttendance() {
             setPulseActive(true);
             setTimeout(() => setPulseActive(false), 1000);
 
-            // Find user
             const userSnap = await getDocs(query(collection(db, "users"), where("id", "==", userId.toUpperCase())));
             if (userSnap.empty) {
                 setScanStatus("error");
                 setScannedUser(null);
-                showToast("❌ User not found for ID: " + userId, "error");
+                showToast(`❌ ${t("userNotFoundScan")} ${userId}`, "error");
                 return;
             }
             const userData = userSnap.docs[0].data();
 
-            // Check if already marked today
             const today = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
             const existingSnap = await getDocs(query(
                 collection(db, "smartAttendance"),
@@ -167,11 +165,10 @@ function SmartAttendance() {
             if (!existingSnap.empty) {
                 setScanStatus("already");
                 setScannedUser(userData);
-                showToast("⚠️ Already marked for today", "already");
+                showToast(`⚠️ ${t("alreadyMarkedToday")}`, "already");
                 return;
             }
 
-            // Mark attendance
             await addDoc(collection(db, "smartAttendance"), {
                 userId: userId.toUpperCase(),
                 userName: userData.name || userId,
@@ -182,14 +179,14 @@ function SmartAttendance() {
 
             setScanStatus("success");
             setScannedUser(userData);
-            showToast(`✅ ${userData.name || userId} marked Present!`, "success");
+            showToast(`✅ ${userData.name || userId} ${t("markedPresentSuccess")}`, "success");
             fetchStats();
             fetchRecentScans();
 
         } catch (err) {
             console.error(err);
             setScanStatus("error");
-            showToast("❌ Error marking attendance", "error");
+            showToast(`❌ ${t("errorMarkingAttendance")}`, "error");
         }
     };
 
@@ -219,7 +216,6 @@ function SmartAttendance() {
 
     return (
         <div className="smat__page">
-            {/* Background effects */}
             <div className="smat__bg-grid" />
             <div className="smat__orb smat__orb--1" />
             <div className="smat__orb smat__orb--2" />
@@ -239,31 +235,31 @@ function SmartAttendance() {
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="15 18 9 12 15 6" />
                     </svg>
-                    Back
+                    {t("back")}
                 </button>
                 <div className="smat__header-center">
                     <div className="smat__eyebrow">
                         <span className="smat__eyebrow-dot" />
-                        Smart Attendance
+                        {t("smartAttendance")}
                     </div>
-                    <h1 className="smat__title">QR <span className="smat__title-accent">Scanner</span></h1>
+                    <h1 className="smat__title">QR <span className="smat__title-accent">{t("scanner")}</span></h1>
                     <p className="smat__date">{today}</p>
                 </div>
                 <div className="smat__header-right">
                     <div className="smat__live-badge">
                         <span className="smat__live-dot" />
-                        LIVE
+                        {t("live")}
                     </div>
                 </div>
             </div>
 
-            {/* Stats Row */}
+            {/* Stats */}
             <div className="smat__stats">
                 <div className="smat__stat smat__stat--total">
                     <div className="smat__stat-icon">👥</div>
                     <div className="smat__stat-body">
                         <span className="smat__stat-num">{loadingStats ? "—" : stats.total}</span>
-                        <span className="smat__stat-label">Total Users</span>
+                        <span className="smat__stat-label">{t("totalUsers")}</span>
                     </div>
                     <div className="smat__stat-glow" style={{ background: "#3b82f6" }} />
                 </div>
@@ -271,7 +267,7 @@ function SmartAttendance() {
                     <div className="smat__stat-icon">✅</div>
                     <div className="smat__stat-body">
                         <span className="smat__stat-num">{loadingStats ? "—" : stats.present}</span>
-                        <span className="smat__stat-label">Present Today</span>
+                        <span className="smat__stat-label">{t("presentToday")}</span>
                     </div>
                     <div className="smat__stat-glow" style={{ background: "#22c55e" }} />
                 </div>
@@ -279,7 +275,7 @@ function SmartAttendance() {
                     <div className="smat__stat-icon">❌</div>
                     <div className="smat__stat-body">
                         <span className="smat__stat-num">{loadingStats ? "—" : stats.absent}</span>
-                        <span className="smat__stat-label">Absent</span>
+                        <span className="smat__stat-label">{t("absent")}</span>
                     </div>
                     <div className="smat__stat-glow" style={{ background: "#ef4444" }} />
                 </div>
@@ -287,7 +283,7 @@ function SmartAttendance() {
                     <div className="smat__stat-icon">📊</div>
                     <div className="smat__stat-body">
                         <span className="smat__stat-num">{loadingStats ? "—" : `${stats.percentage}%`}</span>
-                        <span className="smat__stat-label">Attendance Rate</span>
+                        <span className="smat__stat-label">{t("attendanceRate")}</span>
                     </div>
                     <div className="smat__stat-progress">
                         <div className="smat__stat-progress-fill" style={{ width: `${stats.percentage}%` }} />
@@ -302,9 +298,9 @@ function SmartAttendance() {
                 {/* LEFT — Scanner */}
                 <div className="smat__scanner-panel">
                     <div className="smat__panel-header">
-                        <span className="smat__panel-title">📷 QR Scanner</span>
+                        <span className="smat__panel-title">📷 {t("qrScannerTitle")}</span>
                         <span className={`smat__scan-status-badge ${scanning ? "smat__scan-status-badge--active" : ""}`}>
-                            {scanning ? "● Scanning" : "○ Idle"}
+                            {scanning ? `● ${t("scanning")}` : `○ ${t("idle")}`}
                         </span>
                     </div>
 
@@ -316,12 +312,11 @@ function SmartAttendance() {
                         {!scanning && (
                             <div className="smat__camera-placeholder">
                                 <div className="smat__camera-icon">📷</div>
-                                <p>Camera is off</p>
-                                <span>Click Start Scanner to begin</span>
+                                <p>{t("cameraOff")}</p>
+                                <span>{t("clickToStartScanner")}</span>
                             </div>
                         )}
 
-                        {/* Scanner overlay */}
                         {scanning && (
                             <div className="smat__scan-overlay">
                                 <div className="smat__scan-frame">
@@ -331,7 +326,7 @@ function SmartAttendance() {
                                     <span className="smat__scan-corner smat__scan-corner--br" />
                                     <div className="smat__scan-line" />
                                 </div>
-                                <p className="smat__scan-hint">Point camera at QR code</p>
+                                <p className="smat__scan-hint">{t("pointCameraAtQR")}</p>
                             </div>
                         )}
 
@@ -350,37 +345,37 @@ function SmartAttendance() {
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                     <polygon points="5 3 19 12 5 21 5 3" />
                                 </svg>
-                                Start Scanner
+                                {t("startScanner")}
                             </button>
                         ) : (
                             <button className="smat__btn smat__btn--stop" onClick={stopCamera}>
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                     <rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" />
                                 </svg>
-                                Stop Scanner
+                                {t("stopScanner")}
                             </button>
                         )}
                         <button className="smat__btn smat__btn--refresh" onClick={() => { fetchStats(); fetchRecentScans(); }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                 <polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
                             </svg>
-                            Refresh
+                            {t("refresh")}
                         </button>
                     </div>
 
                     {/* Manual Entry */}
                     <div className="smat__manual">
-                        <p className="smat__manual-label">Manual ID Entry</p>
+                        <p className="smat__manual-label">{t("manualIdEntry")}</p>
                         <form className="smat__manual-form" onSubmit={handleManualScan}>
                             <input
                                 className="smat__manual-input"
                                 name="manualId"
                                 type="text"
-                                placeholder="Enter User ID (e.g. A101)"
+                                placeholder={t("enterUserIdPlaceholder")}
                                 maxLength={10}
                             />
                             <button className="smat__btn smat__btn--mark" type="submit">
-                                Mark
+                                {t("mark")}
                             </button>
                         </form>
                     </div>
@@ -392,10 +387,10 @@ function SmartAttendance() {
                     {/* Scanned User Card */}
                     <div className={`smat__user-card ${scanStatus ? `smat__user-card--${scanStatus}` : ""}`}>
                         <div className="smat__user-card-header">
-                            <span className="smat__user-card-title">Last Scan Result</span>
+                            <span className="smat__user-card-title">{t("lastScanResult")}</span>
                             {scanStatus && (
                                 <span className={`smat__result-badge smat__result-badge--${scanStatus}`}>
-                                    {scanStatus === "success" ? "✅ Marked" : scanStatus === "already" ? "⚠️ Duplicate" : "❌ Not Found"}
+                                    {scanStatus === "success" ? `✅ ${t("marked")}` : scanStatus === "already" ? `⚠️ ${t("duplicate")}` : `❌ ${t("notFound")}`}
                                 </span>
                             )}
                         </div>
@@ -406,7 +401,7 @@ function SmartAttendance() {
                                     {(scannedUser.name || "U").charAt(0).toUpperCase()}
                                 </div>
                                 <div className="smat__user-details">
-                                    <span className="smat__user-name">{scannedUser.name || "Unknown"}</span>
+                                    <span className="smat__user-name">{scannedUser.name || t("unknown")}</span>
                                     <span className="smat__user-id">ID: {scannedUser.id || scanResult}</span>
                                     {scanStatus === "success" && (
                                         <span className="smat__user-time">
@@ -421,14 +416,14 @@ function SmartAttendance() {
                         ) : (
                             <div className="smat__user-empty">
                                 <div className="smat__user-empty-icon">🎯</div>
-                                <p>Scan a QR code to see user details</p>
+                                <p>{t("scanQRToSeeDetails")}</p>
                             </div>
                         )}
                     </div>
 
                     {/* Progress Ring */}
                     <div className="smat__progress-card">
-                        <span className="smat__progress-title">Today's Progress</span>
+                        <span className="smat__progress-title">{t("todaysProgress")}</span>
                         <div className="smat__progress-ring-wrap">
                             <svg className="smat__progress-svg" viewBox="0 0 120 120">
                                 <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(59,130,246,0.1)" strokeWidth="10" />
@@ -460,14 +455,14 @@ function SmartAttendance() {
                     {/* Recent Scans */}
                     <div className="smat__activity">
                         <div className="smat__activity-header">
-                            <span className="smat__activity-title">🕐 Recent Scans</span>
-                            <span className="smat__activity-count">{recentScans.length} records</span>
+                            <span className="smat__activity-title">🕐 {t("recentScans")}</span>
+                            <span className="smat__activity-count">{recentScans.length} {t("records")}</span>
                         </div>
                         <div className="smat__activity-list">
                             {recentScans.length === 0 ? (
                                 <div className="smat__activity-empty">
                                     <span>📋</span>
-                                    <p>No scans yet today</p>
+                                    <p>{t("noScansYet")}</p>
                                 </div>
                             ) : (
                                 recentScans.map((scan, i) => (

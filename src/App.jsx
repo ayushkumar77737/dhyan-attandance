@@ -168,13 +168,13 @@ function App() {
           }
         />
         <Route
-  path="/show-qr"
-  element={
-    <ProtectedRoute>
-      <ShowQR />
-    </ProtectedRoute>
-  }
-/>
+          path="/show-qr"
+          element={
+            <ProtectedRoute>
+              <ShowQR />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Admin Routes */}
         <Route
@@ -275,13 +275,13 @@ function App() {
           }
         />
         <Route
-  path="/smart-attendance"
-  element={
-    <ProtectedRoute>
-      <SmartAttendance />
-    </ProtectedRoute>
-  }
-/>
+          path="/smart-attendance"
+          element={
+            <ProtectedRoute>
+              <SmartAttendance />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/get-id" element={<GetId />} />
       </Routes>

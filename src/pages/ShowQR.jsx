@@ -5,9 +5,11 @@ import { auth, db } from "../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import QRCode from "qrcode";
+import { useTranslation } from "react-i18next";
 
 function ShowQR() {
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const canvasRef = useRef(null);
     const [userName, setUserName] = useState("");
     const [userId, setUserId] = useState("");
@@ -20,7 +22,7 @@ function ShowQR() {
         const disableRightClick = (e) => e.preventDefault();
         const disableInspectKeys = (e) => {
             if (e.key === "F12") e.preventDefault();
-            if (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key.toUpperCase())) e.preventDefault();
+            if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase())) e.preventDefault();
             if (e.ctrlKey && e.key.toUpperCase() === "U") e.preventDefault();
         };
         document.addEventListener("contextmenu", disableRightClick);
@@ -60,7 +62,6 @@ function ShowQR() {
         }
     };
 
-    // Re-generate when canvas is ready
     useEffect(() => {
         if (userId && canvasRef.current) generateQR(userId);
     }, [userId]);
@@ -110,7 +111,7 @@ function ShowQR() {
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="15 18 9 12 15 6" />
                     </svg>
-                    Back
+                    {t("back")}
                 </button>
 
                 {/* Main card */}
@@ -121,9 +122,9 @@ function ShowQR() {
                     <div className="sqr__card-header">
                         <div className="sqr__eyebrow">
                             <span className="sqr__eyebrow-dot" />
-                            My QR Code
+                            {t("myQRCode")}
                         </div>
-                        <h1 className="sqr__title">Attendance <span className="sqr__title-accent">QR</span></h1>
+                        <h1 className="sqr__title">{t("attendanceQRTitle")} <span className="sqr__title-accent">QR</span></h1>
                         <p className="sqr__date">{today}</p>
                     </div>
 
@@ -136,13 +137,13 @@ function ShowQR() {
                             </div>
                         </div>
                         <div className="sqr__user-info">
-                            <span className="sqr__user-name">{userName || "Loading..."}</span>
-                            <div className="sqr__user-id-wrap" onClick={handleCopyId} title="Click to copy">
+                            <span className="sqr__user-name">{userName || t("loading")}</span>
+                            <div className="sqr__user-id-wrap" onClick={handleCopyId} title={t("clickToCopy")}>
                                 <span className="sqr__user-id">{userId}</span>
                                 <span className="sqr__copy-icon">
                                     {copied ? "✓" : (
                                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                            <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                            <rect x="9" y="9" width="13" height="13" rx="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                                         </svg>
                                     )}
                                 </span>
@@ -153,30 +154,27 @@ function ShowQR() {
                     {/* QR Code */}
                     <div className="sqr__qr-section">
                         <div className={`sqr__qr-frame ${qrReady ? "sqr__qr-frame--ready" : ""}`}>
-                            {/* Corner decorations */}
                             <span className="sqr__fc sqr__fc--tl" />
                             <span className="sqr__fc sqr__fc--tr" />
                             <span className="sqr__fc sqr__fc--bl" />
                             <span className="sqr__fc sqr__fc--br" />
 
-                            {/* QR Canvas */}
                             <div className="sqr__qr-inner">
                                 <canvas ref={canvasRef} className="sqr__canvas" />
                                 {!qrReady && (
                                     <div className="sqr__qr-loading">
                                         <div className="sqr__qr-spinner" />
-                                        <span>Generating QR...</span>
+                                        <span>{t("generatingQR")}</span>
                                     </div>
                                 )}
                             </div>
 
-                            {/* Scan line animation */}
                             {qrReady && <div className="sqr__scan-line" />}
                         </div>
 
                         <p className="sqr__qr-hint">
                             <span className="sqr__hint-icon">📡</span>
-                            Show this QR to the scanner for attendance
+                            {t("qrHint")}
                         </p>
                     </div>
 
@@ -190,14 +188,14 @@ function ShowQR() {
                             {downloading ? (
                                 <>
                                     <div className="sqr__btn-spinner" />
-                                    Downloading...
+                                    {t("downloading")}
                                 </>
                             ) : (
                                 <>
                                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
                                     </svg>
-                                    Download QR
+                                    {t("downloadQR")}
                                 </>
                             )}
                         </button>
@@ -208,9 +206,9 @@ function ShowQR() {
                             disabled={!qrReady}
                         >
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
                             </svg>
-                            Fullscreen
+                            {t("fullscreen")}
                         </button>
                     </div>
 
@@ -218,17 +216,17 @@ function ShowQR() {
                     <div className="sqr__info-strip">
                         <div className="sqr__info-item">
                             <span className="sqr__info-icon">🔒</span>
-                            <span>Secure & unique to you</span>
+                            <span>{t("qrSecure")}</span>
                         </div>
                         <div className="sqr__info-divider" />
                         <div className="sqr__info-item">
                             <span className="sqr__info-icon">⚡</span>
-                            <span>Instant scan recognition</span>
+                            <span>{t("qrInstant")}</span>
                         </div>
                         <div className="sqr__info-divider" />
                         <div className="sqr__info-item">
                             <span className="sqr__info-icon">🙏</span>
-                            <span>Dhyan Portal</span>
+                            <span>{t("dhyanPortal")}</span>
                         </div>
                     </div>
                 </div>
@@ -253,9 +251,6 @@ function ShowQR() {
                             <span className="sqr__fc sqr__fc--tr" />
                             <span className="sqr__fc sqr__fc--bl" />
                             <span className="sqr__fc sqr__fc--br" />
-                            <canvas ref={null} className="sqr__fullscreen-canvas">
-                                {/* We show the same canvas data as image */}
-                            </canvas>
                             {canvasRef.current && (
                                 <img
                                     src={canvasRef.current.toDataURL()}
@@ -264,7 +259,7 @@ function ShowQR() {
                                 />
                             )}
                         </div>
-                        <p className="sqr__fullscreen-hint">Tap outside to close</p>
+                        <p className="sqr__fullscreen-hint">{t("tapOutsideToClose")}</p>
                     </div>
                 </div>
             )}
