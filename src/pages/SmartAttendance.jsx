@@ -10,6 +10,8 @@ function SmartAttendance() {
     const canvasRef = useRef(null);
     const streamRef = useRef(null);
     const scanIntervalRef = useRef(null);
+    const lastScannedRef = useRef(null);
+    const scanCooldownRef = useRef(false);
 
     const [scanning, setScanning] = useState(false);
     const [scanResult, setScanResult] = useState(null);
@@ -110,6 +112,7 @@ function SmartAttendance() {
     const startQRScan = () => {
         scanIntervalRef.current = setInterval(() => {
             if (!videoRef.current || !canvasRef.current) return;
+            if (scanCooldownRef.current) return;
             const video = videoRef.current;
             const canvas = canvasRef.current;
             if (video.readyState !== video.HAVE_ENOUGH_DATA) return;
@@ -117,16 +120,20 @@ function SmartAttendance() {
             canvas.height = video.videoHeight;
             const ctx = canvas.getContext("2d");
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            // BarcodeDetector API (Chrome/Edge)
             if ("BarcodeDetector" in window) {
                 const detector = new window.BarcodeDetector({ formats: ["qr_code"] });
                 detector.detect(canvas).then(barcodes => {
                     if (barcodes.length > 0) {
                         const code = barcodes[0].rawValue;
-                        if (code !== scanResult) {
+                        if (code !== lastScannedRef.current && !scanCooldownRef.current) {
+                            lastScannedRef.current = code;
+                            scanCooldownRef.current = true;
                             setScanResult(code);
                             handleScan(code);
+                            setTimeout(() => {
+                                scanCooldownRef.current = false;
+                                lastScannedRef.current = null;
+                            }, 5000);
                         }
                     }
                 }).catch(() => { });
