@@ -215,123 +215,124 @@ function SmartAttendance() {
     });
 
     return (
-        <div className="smat__page">
-            <div className="smat__bg-grid" />
-            <div className="smat__orb smat__orb--1" />
-            <div className="smat__orb smat__orb--2" />
-            <div className="smat__orb smat__orb--3" />
+        <div className="satnv2__page">
+            <div className="satnv2__bg-grid" />
+            <div className="satnv2__noise" />
+            <div className="satnv2__orb satnv2__orb--1" />
+            <div className="satnv2__orb satnv2__orb--2" />
+            <div className="satnv2__orb satnv2__orb--3" />
 
             {/* Toast */}
             {toast && (
-                <div className={`smat__toast smat__toast--${toast.type}`}>
-                    <span className="smat__toast-dot" />
+                <div className={`satnv2__toast satnv2__toast--${toast.type}`}>
+                    <span className="satnv2__toast-dot" />
                     {toast.msg}
                 </div>
             )}
 
             {/* Header */}
-            <div className="smat__header">
-                <button className="smat__back-btn" onClick={() => navigate("/admin-dashboard")}>
+            <div className="satnv2__header">
+                <button className="satnv2__back-btn" onClick={() => navigate("/admin-dashboard")}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="15 18 9 12 15 6" />
                     </svg>
                     {t("back")}
                 </button>
-                <div className="smat__header-center">
-                    <div className="smat__eyebrow">
-                        <span className="smat__eyebrow-dot" />
+                <div className="satnv2__header-center">
+                    <div className="satnv2__eyebrow">
+                        <span className="satnv2__eyebrow-dot" />
                         {t("smartAttendance")}
                     </div>
-                    <h1 className="smat__title">QR <span className="smat__title-accent">{t("scanner")}</span></h1>
-                    <p className="smat__date">{today}</p>
+                    <h1 className="satnv2__title">QR <span className="satnv2__title-accent">{t("scanner")}</span></h1>
+                    <p className="satnv2__date">{today}</p>
                 </div>
-                <div className="smat__header-right">
-                    <div className="smat__live-badge">
-                        <span className="smat__live-dot" />
+                <div className="satnv2__header-right">
+                    <div className="satnv2__live-badge">
+                        <span className="satnv2__live-dot" />
                         {t("live")}
                     </div>
                 </div>
             </div>
 
             {/* Stats */}
-            <div className="smat__stats">
-                <div className="smat__stat smat__stat--total">
-                    <div className="smat__stat-icon">👥</div>
-                    <div className="smat__stat-body">
-                        <span className="smat__stat-num">{loadingStats ? "—" : stats.total}</span>
-                        <span className="smat__stat-label">{t("totalUsers")}</span>
+            <div className="satnv2__stats">
+                <div className="satnv2__stat satnv2__stat--total">
+                    <div className="satnv2__stat-icon">👥</div>
+                    <div className="satnv2__stat-body">
+                        <span className="satnv2__stat-num">{loadingStats ? "—" : stats.total}</span>
+                        <span className="satnv2__stat-label">{t("totalUsers")}</span>
                     </div>
-                    <div className="smat__stat-glow" style={{ background: "#3b82f6" }} />
+                    <div className="satnv2__stat-glow" style={{ background: "#3b82f6" }} />
                 </div>
-                <div className="smat__stat smat__stat--present">
-                    <div className="smat__stat-icon">✅</div>
-                    <div className="smat__stat-body">
-                        <span className="smat__stat-num">{loadingStats ? "—" : stats.present}</span>
-                        <span className="smat__stat-label">{t("presentToday")}</span>
+                <div className="satnv2__stat satnv2__stat--present">
+                    <div className="satnv2__stat-icon">✅</div>
+                    <div className="satnv2__stat-body">
+                        <span className="satnv2__stat-num">{loadingStats ? "—" : stats.present}</span>
+                        <span className="satnv2__stat-label">{t("presentToday")}</span>
                     </div>
-                    <div className="smat__stat-glow" style={{ background: "#22c55e" }} />
+                    <div className="satnv2__stat-glow" style={{ background: "#22c55e" }} />
                 </div>
-                <div className="smat__stat smat__stat--absent">
-                    <div className="smat__stat-icon">❌</div>
-                    <div className="smat__stat-body">
-                        <span className="smat__stat-num">{loadingStats ? "—" : stats.absent}</span>
-                        <span className="smat__stat-label">{t("absent")}</span>
+                <div className="satnv2__stat satnv2__stat--absent">
+                    <div className="satnv2__stat-icon">❌</div>
+                    <div className="satnv2__stat-body">
+                        <span className="satnv2__stat-num">{loadingStats ? "—" : stats.absent}</span>
+                        <span className="satnv2__stat-label">{t("absent")}</span>
                     </div>
-                    <div className="smat__stat-glow" style={{ background: "#ef4444" }} />
+                    <div className="satnv2__stat-glow" style={{ background: "#ef4444" }} />
                 </div>
-                <div className="smat__stat smat__stat--pct">
-                    <div className="smat__stat-icon">📊</div>
-                    <div className="smat__stat-body">
-                        <span className="smat__stat-num">{loadingStats ? "—" : `${stats.percentage}%`}</span>
-                        <span className="smat__stat-label">{t("attendanceRate")}</span>
+                <div className="satnv2__stat satnv2__stat--pct">
+                    <div className="satnv2__stat-icon">📊</div>
+                    <div className="satnv2__stat-body">
+                        <span className="satnv2__stat-num">{loadingStats ? "—" : `${stats.percentage}%`}</span>
+                        <span className="satnv2__stat-label">{t("attendanceRate")}</span>
                     </div>
-                    <div className="smat__stat-progress">
-                        <div className="smat__stat-progress-fill" style={{ width: `${stats.percentage}%` }} />
+                    <div className="satnv2__stat-progress">
+                        <div className="satnv2__stat-progress-fill" style={{ width: `${stats.percentage}%` }} />
                     </div>
-                    <div className="smat__stat-glow" style={{ background: "#f59e0b" }} />
+                    <div className="satnv2__stat-glow" style={{ background: "#f59e0b" }} />
                 </div>
             </div>
 
             {/* Main Content */}
-            <div className="smat__main">
+            <div className="satnv2__main">
 
                 {/* LEFT — Scanner */}
-                <div className="smat__scanner-panel">
-                    <div className="smat__panel-header">
-                        <span className="smat__panel-title">📷 {t("qrScannerTitle")}</span>
-                        <span className={`smat__scan-status-badge ${scanning ? "smat__scan-status-badge--active" : ""}`}>
+                <div className="satnv2__scanner-panel">
+                    <div className="satnv2__panel-header">
+                        <span className="satnv2__panel-title">📷 {t("qrScannerTitle")}</span>
+                        <span className={`satnv2__scan-status-badge ${scanning ? "satnv2__scan-status-badge--active" : ""}`}>
                             {scanning ? `● ${t("scanning")}` : `○ ${t("idle")}`}
                         </span>
                     </div>
 
                     {/* Camera View */}
-                    <div className={`smat__camera-wrap ${pulseActive ? "smat__camera-wrap--pulse" : ""}`}>
-                        <video ref={videoRef} className="smat__video" playsInline muted />
-                        <canvas ref={canvasRef} className="smat__canvas" />
+                    <div className={`satnv2__camera-wrap ${pulseActive ? "satnv2__camera-wrap--pulse" : ""}`}>
+                        <video ref={videoRef} className="satnv2__video" playsInline muted />
+                        <canvas ref={canvasRef} className="satnv2__canvas" />
 
                         {!scanning && (
-                            <div className="smat__camera-placeholder">
-                                <div className="smat__camera-icon">📷</div>
+                            <div className="satnv2__camera-placeholder">
+                                <div className="satnv2__camera-icon">📷</div>
                                 <p>{t("cameraOff")}</p>
                                 <span>{t("clickToStartScanner")}</span>
                             </div>
                         )}
 
                         {scanning && (
-                            <div className="smat__scan-overlay">
-                                <div className="smat__scan-frame">
-                                    <span className="smat__scan-corner smat__scan-corner--tl" />
-                                    <span className="smat__scan-corner smat__scan-corner--tr" />
-                                    <span className="smat__scan-corner smat__scan-corner--bl" />
-                                    <span className="smat__scan-corner smat__scan-corner--br" />
-                                    <div className="smat__scan-line" />
+                            <div className="satnv2__scan-overlay">
+                                <div className="satnv2__scan-frame">
+                                    <span className="satnv2__scan-corner satnv2__scan-corner--tl" />
+                                    <span className="satnv2__scan-corner satnv2__scan-corner--tr" />
+                                    <span className="satnv2__scan-corner satnv2__scan-corner--bl" />
+                                    <span className="satnv2__scan-corner satnv2__scan-corner--br" />
+                                    <div className="satnv2__scan-line" />
                                 </div>
-                                <p className="smat__scan-hint">{t("pointCameraAtQR")}</p>
+                                <p className="satnv2__scan-hint">{t("pointCameraAtQR")}</p>
                             </div>
                         )}
 
                         {cameraError && (
-                            <div className="smat__camera-error">
+                            <div className="satnv2__camera-error">
                                 <span>⚠️</span>
                                 <p>{cameraError}</p>
                             </div>
@@ -339,23 +340,23 @@ function SmartAttendance() {
                     </div>
 
                     {/* Camera Controls */}
-                    <div className="smat__camera-controls">
+                    <div className="satnv2__camera-controls">
                         {!scanning ? (
-                            <button className="smat__btn smat__btn--start" onClick={startCamera}>
+                            <button className="satnv2__btn satnv2__btn--start" onClick={startCamera}>
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                     <polygon points="5 3 19 12 5 21 5 3" />
                                 </svg>
                                 {t("startScanner")}
                             </button>
                         ) : (
-                            <button className="smat__btn smat__btn--stop" onClick={stopCamera}>
+                            <button className="satnv2__btn satnv2__btn--stop" onClick={stopCamera}>
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                     <rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" />
                                 </svg>
                                 {t("stopScanner")}
                             </button>
                         )}
-                        <button className="smat__btn smat__btn--refresh" onClick={() => { fetchStats(); fetchRecentScans(); }}>
+                        <button className="satnv2__btn satnv2__btn--refresh" onClick={() => { fetchStats(); fetchRecentScans(); }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                 <polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
                             </svg>
@@ -364,17 +365,17 @@ function SmartAttendance() {
                     </div>
 
                     {/* Manual Entry */}
-                    <div className="smat__manual">
-                        <p className="smat__manual-label">{t("manualIdEntry")}</p>
-                        <form className="smat__manual-form" onSubmit={handleManualScan}>
+                    <div className="satnv2__manual">
+                        <p className="satnv2__manual-label">{t("manualIdEntry")}</p>
+                        <form className="satnv2__manual-form" onSubmit={handleManualScan}>
                             <input
-                                className="smat__manual-input"
+                                className="satnv2__manual-input"
                                 name="manualId"
                                 type="text"
                                 placeholder={t("enterUserIdPlaceholder")}
                                 maxLength={10}
                             />
-                            <button className="smat__btn smat__btn--mark" type="submit">
+                            <button className="satnv2__btn satnv2__btn--mark" type="submit">
                                 {t("mark")}
                             </button>
                         </form>
@@ -382,55 +383,55 @@ function SmartAttendance() {
                 </div>
 
                 {/* RIGHT — User Card + Activity */}
-                <div className="smat__right-panel">
+                <div className="satnv2__right-panel">
 
                     {/* Scanned User Card */}
-                    <div className={`smat__user-card ${scanStatus ? `smat__user-card--${scanStatus}` : ""}`}>
-                        <div className="smat__user-card-header">
-                            <span className="smat__user-card-title">{t("lastScanResult")}</span>
+                    <div className={`satnv2__user-card ${scanStatus ? `satnv2__user-card--${scanStatus}` : ""}`}>
+                        <div className="satnv2__user-card-header">
+                            <span className="satnv2__user-card-title">{t("lastScanResult")}</span>
                             {scanStatus && (
-                                <span className={`smat__result-badge smat__result-badge--${scanStatus}`}>
+                                <span className={`satnv2__result-badge satnv2__result-badge--${scanStatus}`}>
                                     {scanStatus === "success" ? `✅ ${t("marked")}` : scanStatus === "already" ? `⚠️ ${t("duplicate")}` : `❌ ${t("notFound")}`}
                                 </span>
                             )}
                         </div>
 
                         {scannedUser ? (
-                            <div className="smat__user-info">
-                                <div className="smat__user-avatar">
+                            <div className="satnv2__user-info">
+                                <div className="satnv2__user-avatar">
                                     {(scannedUser.name || "U").charAt(0).toUpperCase()}
                                 </div>
-                                <div className="smat__user-details">
-                                    <span className="smat__user-name">{scannedUser.name || t("unknown")}</span>
-                                    <span className="smat__user-id">ID: {scannedUser.id || scanResult}</span>
+                                <div className="satnv2__user-details">
+                                    <span className="satnv2__user-name">{scannedUser.name || t("unknown")}</span>
+                                    <span className="satnv2__user-id">ID: {scannedUser.id || scanResult}</span>
                                     {scanStatus === "success" && (
-                                        <span className="smat__user-time">
+                                        <span className="satnv2__user-time">
                                             ⏰ {new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}
                                         </span>
                                     )}
                                 </div>
-                                <div className={`smat__user-status-icon smat__user-status-icon--${scanStatus}`}>
+                                <div className={`satnv2__user-status-icon satnv2__user-status-icon--${scanStatus}`}>
                                     {scanStatus === "success" ? "✓" : scanStatus === "already" ? "!" : "✕"}
                                 </div>
                             </div>
                         ) : (
-                            <div className="smat__user-empty">
-                                <div className="smat__user-empty-icon">🎯</div>
+                            <div className="satnv2__user-empty">
+                                <div className="satnv2__user-empty-icon">🎯</div>
                                 <p>{t("scanQRToSeeDetails")}</p>
                             </div>
                         )}
                     </div>
 
                     {/* Progress Ring */}
-                    <div className="smat__progress-card">
-                        <span className="smat__progress-title">{t("todaysProgress")}</span>
-                        <div className="smat__progress-ring-wrap">
-                            <svg className="smat__progress-svg" viewBox="0 0 120 120">
+                    <div className="satnv2__progress-card">
+                        <span className="satnv2__progress-title">{t("todaysProgress")}</span>
+                        <div className="satnv2__progress-ring-wrap">
+                            <svg className="satnv2__progress-svg" viewBox="0 0 120 120">
                                 <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(59,130,246,0.1)" strokeWidth="10" />
                                 <circle
                                     cx="60" cy="60" r="50"
                                     fill="none"
-                                    stroke="url(#progressGrad)"
+                                    stroke="url(#satnv2ProgressGrad)"
                                     strokeWidth="10"
                                     strokeLinecap="round"
                                     strokeDasharray={`${2 * Math.PI * 50}`}
@@ -439,46 +440,46 @@ function SmartAttendance() {
                                     style={{ transition: "stroke-dashoffset 1s ease" }}
                                 />
                                 <defs>
-                                    <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <linearGradient id="satnv2ProgressGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                                         <stop offset="0%" stopColor="#3b82f6" />
                                         <stop offset="100%" stopColor="#22c55e" />
                                     </linearGradient>
                                 </defs>
                             </svg>
-                            <div className="smat__progress-center">
-                                <span className="smat__progress-pct">{stats.percentage}%</span>
-                                <span className="smat__progress-sub">{stats.present}/{stats.total}</span>
+                            <div className="satnv2__progress-center">
+                                <span className="satnv2__progress-pct">{stats.percentage}%</span>
+                                <span className="satnv2__progress-sub">{stats.present}/{stats.total}</span>
                             </div>
                         </div>
                     </div>
 
                     {/* Recent Scans */}
-                    <div className="smat__activity">
-                        <div className="smat__activity-header">
-                            <span className="smat__activity-title">🕐 {t("recentScans")}</span>
-                            <span className="smat__activity-count">{recentScans.length} {t("records")}</span>
+                    <div className="satnv2__activity">
+                        <div className="satnv2__activity-header">
+                            <span className="satnv2__activity-title">🕐 {t("recentScans")}</span>
+                            <span className="satnv2__activity-count">{recentScans.length} {t("records")}</span>
                         </div>
-                        <div className="smat__activity-list">
+                        <div className="satnv2__activity-list">
                             {recentScans.length === 0 ? (
-                                <div className="smat__activity-empty">
+                                <div className="satnv2__activity-empty">
                                     <span>📋</span>
                                     <p>{t("noScansYet")}</p>
                                 </div>
                             ) : (
                                 recentScans.map((scan, i) => (
-                                    <div key={scan.id} className="smat__activity-row" style={{ animationDelay: `${i * 40}ms` }}>
-                                        <div className="smat__activity-avatar">
+                                    <div key={scan.id} className="satnv2__activity-row" style={{ animationDelay: `${i * 40}ms` }}>
+                                        <div className="satnv2__activity-avatar">
                                             {(scan.userName || "U").charAt(0).toUpperCase()}
                                         </div>
-                                        <div className="smat__activity-info">
-                                            <span className="smat__activity-name">{scan.userName}</span>
-                                            <span className="smat__activity-id">{scan.userId}</span>
+                                        <div className="satnv2__activity-info">
+                                            <span className="satnv2__activity-name">{scan.userName}</span>
+                                            <span className="satnv2__activity-id">{scan.userId}</span>
                                         </div>
-                                        <div className="smat__activity-right">
-                                            <span className={`smat__activity-badge smat__activity-badge--${scan.status?.toLowerCase()}`}>
+                                        <div className="satnv2__activity-right">
+                                            <span className={`satnv2__activity-badge satnv2__activity-badge--${scan.status?.toLowerCase()}`}>
                                                 {scan.status}
                                             </span>
-                                            <span className="smat__activity-time">{formatTime(scan.scannedAt)}</span>
+                                            <span className="satnv2__activity-time">{formatTime(scan.scannedAt)}</span>
                                         </div>
                                     </div>
                                 ))

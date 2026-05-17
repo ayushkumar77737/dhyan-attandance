@@ -88,15 +88,16 @@ function ShowQR() {
 
     return (
         <>
-            <div className="sqr__page">
+            <div className="qrv2__page">
                 {/* Background */}
-                <div className="sqr__bg-mesh" />
-                <div className="sqr__orb sqr__orb--1" />
-                <div className="sqr__orb sqr__orb--2" />
-                <div className="sqr__orb sqr__orb--3" />
-                <div className="sqr__particles">
+                <div className="qrv2__bg-mesh" />
+                <div className="qrv2__orb qrv2__orb--1" />
+                <div className="qrv2__orb qrv2__orb--2" />
+                <div className="qrv2__orb qrv2__orb--3" />
+                <div className="qrv2__grid-overlay" />
+                <div className="qrv2__particles">
                     {Array.from({ length: 20 }).map((_, i) => (
-                        <span key={i} className="sqr__particle" style={{
+                        <span key={i} className="qrv2__particle" style={{
                             left: `${Math.random() * 100}%`,
                             animationDelay: `${Math.random() * 8}s`,
                             animationDuration: `${6 + Math.random() * 6}s`,
@@ -107,7 +108,7 @@ function ShowQR() {
                 </div>
 
                 {/* Back */}
-                <button className="sqr__back-btn" onClick={() => navigate("/user-dashboard")}>
+                <button className="qrv2__back-btn" onClick={() => navigate("/user-dashboard")}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="15 18 9 12 15 6" />
                     </svg>
@@ -115,32 +116,33 @@ function ShowQR() {
                 </button>
 
                 {/* Main card */}
-                <div className="sqr__card">
-                    <div className="sqr__card-topbar" />
+                <div className="qrv2__card">
+                    <div className="qrv2__card-topbar" />
+                    <div className="qrv2__card-shine" />
 
                     {/* Header */}
-                    <div className="sqr__card-header">
-                        <div className="sqr__eyebrow">
-                            <span className="sqr__eyebrow-dot" />
+                    <div className="qrv2__card-header">
+                        <div className="qrv2__eyebrow">
+                            <span className="qrv2__eyebrow-dot" />
                             {t("myQRCode")}
                         </div>
-                        <h1 className="sqr__title">{t("attendanceQRTitle")} <span className="sqr__title-accent">QR</span></h1>
-                        <p className="sqr__date">{today}</p>
+                        <h1 className="qrv2__title">{t("attendanceQRTitle")} <span className="qrv2__title-accent">QR</span></h1>
+                        <p className="qrv2__date">{today}</p>
                     </div>
 
                     {/* Avatar + name */}
-                    <div className="sqr__user-section">
-                        <div className="sqr__avatar-wrap">
-                            <div className="sqr__avatar-ring" />
-                            <div className="sqr__avatar">
+                    <div className="qrv2__user-section">
+                        <div className="qrv2__avatar-wrap">
+                            <div className="qrv2__avatar-ring" />
+                            <div className="qrv2__avatar">
                                 {userName ? userName.charAt(0).toUpperCase() : "?"}
                             </div>
                         </div>
-                        <div className="sqr__user-info">
-                            <span className="sqr__user-name">{userName || t("loading")}</span>
-                            <div className="sqr__user-id-wrap" onClick={handleCopyId} title={t("clickToCopy")}>
-                                <span className="sqr__user-id">{userId}</span>
-                                <span className="sqr__copy-icon">
+                        <div className="qrv2__user-info">
+                            <span className="qrv2__user-name">{userName || t("loading")}</span>
+                            <div className="qrv2__user-id-wrap" onClick={handleCopyId} title={t("clickToCopy")}>
+                                <span className="qrv2__user-id">{userId}</span>
+                                <span className="qrv2__copy-icon">
                                     {copied ? "✓" : (
                                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                             <rect x="9" y="9" width="13" height="13" rx="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
@@ -152,42 +154,42 @@ function ShowQR() {
                     </div>
 
                     {/* QR Code */}
-                    <div className="sqr__qr-section">
-                        <div className={`sqr__qr-frame ${qrReady ? "sqr__qr-frame--ready" : ""}`}>
-                            <span className="sqr__fc sqr__fc--tl" />
-                            <span className="sqr__fc sqr__fc--tr" />
-                            <span className="sqr__fc sqr__fc--bl" />
-                            <span className="sqr__fc sqr__fc--br" />
+                    <div className="qrv2__qr-section">
+                        <div className={`qrv2__qr-frame ${qrReady ? "qrv2__qr-frame--ready" : ""}`}>
+                            <span className="qrv2__fc qrv2__fc--tl" />
+                            <span className="qrv2__fc qrv2__fc--tr" />
+                            <span className="qrv2__fc qrv2__fc--bl" />
+                            <span className="qrv2__fc qrv2__fc--br" />
 
-                            <div className="sqr__qr-inner">
-                                <canvas ref={canvasRef} className="sqr__canvas" />
+                            <div className="qrv2__qr-inner">
+                                <canvas ref={canvasRef} className="qrv2__canvas" />
                                 {!qrReady && (
-                                    <div className="sqr__qr-loading">
-                                        <div className="sqr__qr-spinner" />
+                                    <div className="qrv2__qr-loading">
+                                        <div className="qrv2__qr-spinner" />
                                         <span>{t("generatingQR")}</span>
                                     </div>
                                 )}
                             </div>
 
-                            {qrReady && <div className="sqr__scan-line" />}
+                            {qrReady && <div className="qrv2__scan-line" />}
                         </div>
 
-                        <p className="sqr__qr-hint">
-                            <span className="sqr__hint-icon">📡</span>
+                        <p className="qrv2__qr-hint">
+                            <span className="qrv2__hint-icon">📡</span>
                             {t("qrHint")}
                         </p>
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="sqr__actions">
+                    <div className="qrv2__actions">
                         <button
-                            className="sqr__btn sqr__btn--download"
+                            className="qrv2__btn qrv2__btn--download"
                             onClick={handleDownload}
                             disabled={!qrReady || downloading}
                         >
                             {downloading ? (
                                 <>
-                                    <div className="sqr__btn-spinner" />
+                                    <div className="qrv2__btn-spinner" />
                                     {t("downloading")}
                                 </>
                             ) : (
@@ -201,7 +203,7 @@ function ShowQR() {
                         </button>
 
                         <button
-                            className="sqr__btn sqr__btn--fullscreen"
+                            className="qrv2__btn qrv2__btn--fullscreen"
                             onClick={() => setFullscreen(true)}
                             disabled={!qrReady}
                         >
@@ -213,19 +215,19 @@ function ShowQR() {
                     </div>
 
                     {/* Info strip */}
-                    <div className="sqr__info-strip">
-                        <div className="sqr__info-item">
-                            <span className="sqr__info-icon">🔒</span>
+                    <div className="qrv2__info-strip">
+                        <div className="qrv2__info-item">
+                            <span className="qrv2__info-icon">🔒</span>
                             <span>{t("qrSecure")}</span>
                         </div>
-                        <div className="sqr__info-divider" />
-                        <div className="sqr__info-item">
-                            <span className="sqr__info-icon">⚡</span>
+                        <div className="qrv2__info-divider" />
+                        <div className="qrv2__info-item">
+                            <span className="qrv2__info-icon">⚡</span>
                             <span>{t("qrInstant")}</span>
                         </div>
-                        <div className="sqr__info-divider" />
-                        <div className="sqr__info-item">
-                            <span className="sqr__info-icon">🙏</span>
+                        <div className="qrv2__info-divider" />
+                        <div className="qrv2__info-item">
+                            <span className="qrv2__info-icon">🙏</span>
                             <span>{t("dhyanPortal")}</span>
                         </div>
                     </div>
@@ -234,32 +236,32 @@ function ShowQR() {
 
             {/* Fullscreen Modal */}
             {fullscreen && (
-                <div className="sqr__fullscreen" onClick={() => setFullscreen(false)}>
-                    <div className="sqr__fullscreen-card" onClick={e => e.stopPropagation()}>
-                        <button className="sqr__fullscreen-close" onClick={() => setFullscreen(false)}>✕</button>
-                        <div className="sqr__fullscreen-user">
-                            <div className="sqr__fullscreen-avatar">
+                <div className="qrv2__fullscreen" onClick={() => setFullscreen(false)}>
+                    <div className="qrv2__fullscreen-card" onClick={e => e.stopPropagation()}>
+                        <button className="qrv2__fullscreen-close" onClick={() => setFullscreen(false)}>✕</button>
+                        <div className="qrv2__fullscreen-user">
+                            <div className="qrv2__fullscreen-avatar">
                                 {userName ? userName.charAt(0).toUpperCase() : "?"}
                             </div>
                             <div>
-                                <span className="sqr__fullscreen-name">{userName}</span>
-                                <span className="sqr__fullscreen-id">{userId}</span>
+                                <span className="qrv2__fullscreen-name">{userName}</span>
+                                <span className="qrv2__fullscreen-id">{userId}</span>
                             </div>
                         </div>
-                        <div className="sqr__fullscreen-qr">
-                            <span className="sqr__fc sqr__fc--tl" />
-                            <span className="sqr__fc sqr__fc--tr" />
-                            <span className="sqr__fc sqr__fc--bl" />
-                            <span className="sqr__fc sqr__fc--br" />
+                        <div className="qrv2__fullscreen-qr">
+                            <span className="qrv2__fc qrv2__fc--tl" />
+                            <span className="qrv2__fc qrv2__fc--tr" />
+                            <span className="qrv2__fc qrv2__fc--bl" />
+                            <span className="qrv2__fc qrv2__fc--br" />
                             {canvasRef.current && (
                                 <img
                                     src={canvasRef.current.toDataURL()}
                                     alt="QR Code"
-                                    className="sqr__fullscreen-img"
+                                    className="qrv2__fullscreen-img"
                                 />
                             )}
                         </div>
-                        <p className="sqr__fullscreen-hint">{t("tapOutsideToClose")}</p>
+                        <p className="qrv2__fullscreen-hint">{t("tapOutsideToClose")}</p>
                     </div>
                 </div>
             )}
