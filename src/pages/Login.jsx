@@ -182,7 +182,7 @@ const Login = () => {
               maxLength={6}
               value={id}
               onChange={(e) => {
-                const filtered = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
+                const filtered = e.target.value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
                 setId(filtered);
               }}
             />
@@ -195,7 +195,7 @@ const Login = () => {
                 maxLength={8}
                 value={password}
                 onChange={(e) => {
-                  const filtered = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
+                  const filtered = e.target.value.replace(/[^0-9]/g, "");
                   setPassword(filtered);
                 }}
               />
