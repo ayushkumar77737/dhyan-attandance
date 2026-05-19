@@ -395,5 +395,13 @@
   "lastActive": "अंतिम सक्रिय",
   "sessionDuration": "सत्र अवधि",
   "browserDevice": "डिवाइस / ब्राउज़र",
-  "ipAddress": "IP पता"
+  "ipAddress": "IP पता",
+  "deleteAllLogs": "सभी हटाएं",
+  "deleteLogTitle": "लॉग हटाएं?",
+  "deleteLogMsg": "यह लॉग प्रविष्टि स्थायी रूप से हटा दी जाएगी और इसे पुनः प्राप्त नहीं किया जा सकता।",
+  "deleteAllLogsTitle": "सभी लॉग्स हटाएं?",
+  "deleteAllLogsMsg": "यह सभी गतिविधि लॉग्स को स्थायी रूप से हटा देगा। यह क्रिया पूर्ववत नहीं की जा सकती।",
+  "deleteLog": "लॉग हटाएं",
+  "deleting": "हटाया जा रहा है...",
+  "yesDeleteAll": "हाँ, सभी हटाएं"
 }

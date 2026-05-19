@@ -395,5 +395,13 @@
   "lastActive": "Last Active",
   "sessionDuration": "Session Duration",
   "browserDevice": "Device / Browser",
-  "ipAddress": "IP Address"
+  "ipAddress": "IP Address",
+  "deleteAllLogs": "Delete All",
+  "deleteLogTitle": "Delete Log?",
+  "deleteLogMsg": "This log entry will be permanently deleted and cannot be recovered.",
+  "deleteAllLogsTitle": "Delete All Logs?",
+  "deleteAllLogsMsg": "This will permanently delete all activity logs. This action cannot be undone.",
+  "deleteLog": "Delete Log",
+  "deleting": "Deleting...",
+  "yesDeleteAll": "Yes, Delete All"
 }

@@ -395,5 +395,13 @@
   "lastActive": "शेवटचे सक्रिय",
   "sessionDuration": "सत्राचा कालावधी",
   "browserDevice": "डिव्हाइस / ब्राउझर",
-  "ipAddress": "IP पत्ता"
+  "ipAddress": "IP पत्ता",
+  "deleteAllLogs": "सर्व हटवा",
+  "deleteLogTitle": "नोंद हटवायची?",
+  "deleteLogMsg": "ही नोंद कायमची हटवली जाईल आणि ती पुन्हा मिळवता येणार नाही.",
+  "deleteAllLogsTitle": "सर्व नोंदी हटवायच्या?",
+  "deleteAllLogsMsg": "यामुळे सर्व क्रियाकलाप नोंदी कायमच्या हटतील. ही क्रिया पूर्ववत करता येणार नाही.",
+  "deleteLog": "नोंद हटवा",
+  "deleting": "हटवत आहे...",
+  "yesDeleteAll": "होय, सर्व हटवा"
 }

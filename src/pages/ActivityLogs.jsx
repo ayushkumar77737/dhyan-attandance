@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./ActivityLogs.css";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase/firebase";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, deleteDoc, doc } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
 function ActivityLogs() {
@@ -15,6 +15,10 @@ function ActivityLogs() {
     const [search, setSearch] = useState("");
     const [filterType, setFilterType] = useState("all");
     const [expandedLog, setExpandedLog] = useState(null);
+    const [deletingId, setDeletingId] = useState(null);
+    const [showDeleteAllModal, setShowDeleteAllModal] = useState(null);
+    const [showDeleteModal, setShowDeleteModal] = useState(null);
+    const [deletingAll, setDeletingAll] = useState(false);
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -64,6 +68,37 @@ function ActivityLogs() {
             console.error(err);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleDeleteLog = async () => {
+        if (!showDeleteModal) return;
+        try {
+            setDeletingId(showDeleteModal);
+            await deleteDoc(doc(db, "activityLogs", showDeleteModal));
+            setLogs((prev) => prev.filter((l) => l.docId !== showDeleteModal));
+            if (expandedLog === showDeleteModal) setExpandedLog(null);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setDeletingId(null);
+            setShowDeleteModal(null);
+        }
+    };
+
+    const handleDeleteAll = async () => {
+        try {
+            setDeletingAll(true);
+            const deletePromises = logs.map((l) => deleteDoc(doc(db, "activityLogs", l.docId)));
+            await Promise.all(deletePromises);
+            setLogs([]);
+            setFiltered([]);
+            setExpandedLog(null);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setDeletingAll(false);
+            setShowDeleteAllModal(false);
         }
     };
 
@@ -142,8 +177,6 @@ function ActivityLogs() {
             <div className="actlog__orb actlog__orb--1" />
             <div className="actlog__orb actlog__orb--2" />
             <div className="actlog__orb actlog__orb--3" />
-
-            {/* Grid lines decoration */}
             <div className="actlog__grid-lines" />
 
             {/* Back */}
@@ -251,6 +284,18 @@ function ActivityLogs() {
                     </svg>
                     {t("exportCsv")}
                 </button>
+
+                {logs.length > 0 && (
+                    <button className="actlog__delete-all-btn" onClick={() => setShowDeleteAllModal(true)}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                            <path d="M10 11v6M14 11v6" />
+                            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                        </svg>
+                        {t("deleteAllLogs")}
+                    </button>
+                )}
             </div>
 
             {/* Count */}
@@ -287,16 +332,16 @@ function ActivityLogs() {
                         const isLogin = log.action === "login";
                         const isExpanded = expandedLog === log.docId;
                         const duration = getSessionDuration(log.loginTime, log.logoutTime);
+                        const isDeleting = deletingId === log.docId;
 
                         return (
                             <div
                                 key={log.docId}
                                 className={`actlog__entry ${isLogin ? "actlog__entry--login" : "actlog__entry--logout"} ${isExpanded ? "actlog__entry--expanded" : ""}`}
                                 style={{ animationDelay: `${index * 30}ms` }}
-                                onClick={() => setExpandedLog(isExpanded ? null : log.docId)}
                             >
                                 {/* Main row */}
-                                <div className="actlog__entry-main">
+                                <div className="actlog__entry-main" onClick={() => setExpandedLog(isExpanded ? null : log.docId)}>
                                     <div className="actlog__entry-left">
                                         <span className={`actlog__badge ${isLogin ? "actlog__badge--login" : "actlog__badge--logout"}`}>
                                             <span className="actlog__badge-dot" />
@@ -312,6 +357,23 @@ function ActivityLogs() {
                                             <span className="actlog__entry-date">{formatDate(log.timestamp)}</span>
                                             <span className="actlog__entry-time">{formatTime(log.timestamp)}</span>
                                         </div>
+                                        <button
+                                            className="actlog__entry-delete-btn"
+                                            onClick={(e) => { e.stopPropagation(); setShowDeleteModal(log.docId); }}
+                                            disabled={isDeleting}
+                                            title={t("deleteLog")}
+                                        >
+                                            {isDeleting ? (
+                                                <span className="actlog__entry-delete-spinner" />
+                                            ) : (
+                                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <polyline points="3 6 5 6 21 6" />
+                                                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                                    <path d="M10 11v6M14 11v6" />
+                                                    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                                                </svg>
+                                            )}
+                                        </button>
                                         <svg className={`actlog__chevron ${isExpanded ? "actlog__chevron--open" : ""}`} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                                             <polyline points="6 9 12 15 18 9" />
                                         </svg>
@@ -322,7 +384,6 @@ function ActivityLogs() {
                                 {isExpanded && (
                                     <div className="actlog__entry-details">
                                         <div className="actlog__detail-grid">
-
                                             <div className="actlog__detail-item">
                                                 <span className="actlog__detail-icon">🪪</span>
                                                 <div className="actlog__detail-content">
@@ -330,7 +391,6 @@ function ActivityLogs() {
                                                     <span className="actlog__detail-value">{log.userId || "—"}</span>
                                                 </div>
                                             </div>
-
                                             <div className="actlog__detail-item">
                                                 <span className="actlog__detail-icon">👤</span>
                                                 <div className="actlog__detail-content">
@@ -338,7 +398,6 @@ function ActivityLogs() {
                                                     <span className="actlog__detail-value">{log.userName || "—"}</span>
                                                 </div>
                                             </div>
-
                                             <div className="actlog__detail-item">
                                                 <span className="actlog__detail-icon">🔓</span>
                                                 <div className="actlog__detail-content">
@@ -346,7 +405,6 @@ function ActivityLogs() {
                                                     <span className="actlog__detail-value">{formatDateTime(log.loginTime)}</span>
                                                 </div>
                                             </div>
-
                                             <div className="actlog__detail-item">
                                                 <span className="actlog__detail-icon">🔒</span>
                                                 <div className="actlog__detail-content">
@@ -354,7 +412,6 @@ function ActivityLogs() {
                                                     <span className="actlog__detail-value">{formatDateTime(log.logoutTime)}</span>
                                                 </div>
                                             </div>
-
                                             <div className="actlog__detail-item">
                                                 <span className="actlog__detail-icon">⏱️</span>
                                                 <div className="actlog__detail-content">
@@ -362,7 +419,6 @@ function ActivityLogs() {
                                                     <span className="actlog__detail-value">{formatDateTime(log.lastActive)}</span>
                                                 </div>
                                             </div>
-
                                             {duration && (
                                                 <div className="actlog__detail-item actlog__detail-item--accent">
                                                     <span className="actlog__detail-icon">⏳</span>
@@ -372,7 +428,6 @@ function ActivityLogs() {
                                                     </div>
                                                 </div>
                                             )}
-
                                             {log.browser && (
                                                 <div className="actlog__detail-item">
                                                     <span className="actlog__detail-icon">🌐</span>
@@ -382,7 +437,6 @@ function ActivityLogs() {
                                                     </div>
                                                 </div>
                                             )}
-
                                             {log.ipAddress && (
                                                 <div className="actlog__detail-item">
                                                     <span className="actlog__detail-icon">📡</span>
@@ -392,13 +446,64 @@ function ActivityLogs() {
                                                     </div>
                                                 </div>
                                             )}
-
                                         </div>
                                     </div>
                                 )}
                             </div>
                         );
                     })}
+                </div>
+            )}
+
+            {/* ── Delete Single Log Modal ── */}
+            {showDeleteModal && (
+                <div className="actlog__modal-overlay" onClick={() => setShowDeleteModal(null)}>
+                    <div className="actlog__modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="actlog__modal-icon actlog__modal-icon--red">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="3 6 5 6 21 6" />
+                                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                <path d="M10 11v6M14 11v6" />
+                                <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                            </svg>
+                        </div>
+                        <h3 className="actlog__modal-title">{t("deleteLogTitle")}</h3>
+                        <p className="actlog__modal-msg">{t("deleteLogMsg")}</p>
+                        <div className="actlog__modal-actions">
+                            <button className="actlog__modal-cancel" onClick={() => setShowDeleteModal(null)}>
+                                {t("cancel")}
+                            </button>
+                            <button className="actlog__modal-confirm actlog__modal-confirm--red" onClick={handleDeleteLog}>
+                                {deletingId ? t("deleting") : t("yesDelete")}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* ── Delete All Logs Modal ── */}
+            {showDeleteAllModal && (
+                <div className="actlog__modal-overlay" onClick={() => setShowDeleteAllModal(false)}>
+                    <div className="actlog__modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="actlog__modal-icon actlog__modal-icon--red">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="3 6 5 6 21 6" />
+                                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                <path d="M10 11v6M14 11v6" />
+                                <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                            </svg>
+                        </div>
+                        <h3 className="actlog__modal-title">{t("deleteAllLogsTitle")}</h3>
+                        <p className="actlog__modal-msg">{t("deleteAllLogsMsg")}</p>
+                        <div className="actlog__modal-actions">
+                            <button className="actlog__modal-cancel" onClick={() => setShowDeleteAllModal(false)}>
+                                {t("cancel")}
+                            </button>
+                            <button className="actlog__modal-confirm actlog__modal-confirm--red" onClick={handleDeleteAll}>
+                                {deletingAll ? t("deleting") : t("yesDeleteAll")}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

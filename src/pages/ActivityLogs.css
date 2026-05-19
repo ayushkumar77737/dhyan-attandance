@@ -880,3 +880,208 @@
         font-size: 28px;
     }
 }
+/* ── Delete All Button ── */
+.actlog__delete-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--actlog-red-dim);
+    border: 1px solid var(--actlog-red-border);
+    color: var(--actlog-red);
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 10px 16px;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    letter-spacing: 0.04em;
+}
+
+.actlog__delete-all-btn:hover {
+    background: rgba(255, 95, 126, 0.2);
+    transform: translateY(-1px);
+}
+
+/* ── Per-Entry Delete Button ── */
+.actlog__entry-delete-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--actlog-red-dim);
+    border: 1px solid var(--actlog-red-border);
+    color: var(--actlog-red);
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    opacity: 0.55;
+}
+
+.actlog__entry:hover .actlog__entry-delete-btn {
+    opacity: 1;
+}
+
+.actlog__entry-delete-btn:hover {
+    background: rgba(255, 95, 126, 0.22);
+    transform: scale(1.1);
+}
+
+.actlog__entry-delete-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.actlog__entry-delete-spinner {
+    width: 11px;
+    height: 11px;
+    border: 2px solid var(--actlog-red-border);
+    border-top-color: var(--actlog-red);
+    border-radius: 50%;
+    animation: actlog-spin 0.7s linear infinite;
+    display: inline-block;
+}
+
+/* ── Modal ── */
+.actlog__modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: actlog-fadein 0.18s ease;
+}
+
+@keyframes actlog-fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.actlog__modal {
+    background: #0a1628;
+    border: 1px solid rgba(255, 95, 126, 0.25);
+    border-radius: 16px;
+    padding: 32px 28px 28px;
+    max-width: 380px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+    animation: actlog-popup 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 0 60px rgba(255, 95, 126, 0.12);
+}
+
+@keyframes actlog-popup {
+    from { opacity: 0; transform: scale(0.88) translateY(12px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.actlog__modal-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+}
+
+.actlog__modal-icon--red {
+    background: var(--actlog-red-dim);
+    border: 1px solid var(--actlog-red-border);
+    color: var(--actlog-red);
+    box-shadow: 0 0 24px rgba(255, 95, 126, 0.2);
+}
+
+.actlog__modal-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #eaf0ff;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.actlog__modal-msg {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--actlog-text-muted);
+    margin: 0;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+}
+
+.actlog__modal-actions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin-top: 6px;
+}
+
+.actlog__modal-cancel {
+    flex: 1;
+    padding: 11px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--actlog-border);
+    color: var(--actlog-text-muted);
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'IBM Plex Mono', monospace;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+}
+
+.actlog__modal-cancel:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--actlog-text);
+}
+
+.actlog__modal-confirm {
+    flex: 1;
+    padding: 11px;
+    border: none;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'IBM Plex Mono', monospace;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+}
+
+.actlog__modal-confirm--red {
+    background: var(--actlog-red);
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(255, 95, 126, 0.35);
+}
+
+.actlog__modal-confirm--red:hover {
+    background: #ff3d62;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(255, 95, 126, 0.5);
+}
+
+/* ── Responsive additions ── */
+@media (max-width: 540px) {
+    .actlog__delete-all-btn {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .actlog__modal {
+        padding: 24px 18px 20px;
+    }
+}

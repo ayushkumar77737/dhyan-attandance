@@ -371,5 +371,13 @@
   "lastActive": "সর্বশেষ সক্রিয়",
   "sessionDuration": "সেশনের সময়কাল",
   "browserDevice": "ডিভাইস / ব্রাউজার",
-  "ipAddress": "IP ঠিকানা"
+  "ipAddress": "IP ঠিকানা",
+  "deleteAllLogs": "সব মুছুন",
+  "deleteLogTitle": "লগ মুছবেন?",
+  "deleteLogMsg": "এই লগ এন্ট্রিটি স্থায়ীভাবে মুছে যাবে এবং পুনরুদ্ধার করা যাবে না।",
+  "deleteAllLogsTitle": "সব লগ মুছবেন?",
+  "deleteAllLogsMsg": "এটি সমস্ত কার্যকলাপ লগ স্থায়ীভাবে মুছে দেবে। এই ক্রিয়া পূর্বাবস্থায় ফেরানো যাবে না।",
+  "deleteLog": "লগ মুছুন",
+  "deleting": "মুছা হচ্ছে...",
+  "yesDeleteAll": "হ্যাঁ, সব মুছুন"
 }
