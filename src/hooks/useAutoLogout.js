@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 
-const TIMEOUT_MS = 2 * 60 * 1000; 
+const TIMEOUT_MS = 10 * 60 * 1000; 
 
 function useAutoLogout() {
     const navigate = useNavigate();
