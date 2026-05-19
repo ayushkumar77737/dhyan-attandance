@@ -68,7 +68,16 @@ function ActivityLogs() {
     };
 
     const exportCSV = () => {
-        const headers = ["User ID", "User Name", "Action", "Login Time", "Logout Time", "Last Active", "Browser", "IP Address"];
+        const headers = [
+            t("userId"),
+            t("name"),
+            t("action"),
+            t("loginTime"),
+            t("logoutTime"),
+            t("lastActive"),
+            t("browserDevice"),
+            t("ipAddress"),
+        ];
         const rows = filtered.map((l) => [
             l.userId || "",
             l.userName || "",
@@ -152,10 +161,10 @@ function ActivityLogs() {
                     <span className="actlog__eyebrow-text">{t("activityLogs")}</span>
                 </div>
                 <h1 className="actlog__title">
-                    <span className="actlog__title-main">Activity</span>
-                    <span className="actlog__title-accent"> Logs</span>
+                    <span className="actlog__title-main">{t("activityLogsTitle")}</span>
+                    <span className="actlog__title-accent"> {t("activityLogsTitleAccent")}</span>
                 </h1>
-                <p className="actlog__subtitle">Track every login and logout across your system</p>
+                <p className="actlog__subtitle">{t("activityLogsSubtitle")}</p>
             </div>
 
             {/* Stats Row */}
@@ -166,7 +175,7 @@ function ActivityLogs() {
                     </div>
                     <div className="actlog__stat-info">
                         <span className="actlog__stat-num">{logs.length}</span>
-                        <span className="actlog__stat-label">Total Logs</span>
+                        <span className="actlog__stat-label">{t("totalLogs")}</span>
                     </div>
                     <div className="actlog__stat-glow actlog__stat-glow--blue" />
                 </div>
@@ -176,7 +185,7 @@ function ActivityLogs() {
                     </div>
                     <div className="actlog__stat-info">
                         <span className="actlog__stat-num">{loginCount}</span>
-                        <span className="actlog__stat-label">Logins</span>
+                        <span className="actlog__stat-label">{t("logins")}</span>
                     </div>
                     <div className="actlog__stat-glow actlog__stat-glow--green" />
                 </div>
@@ -186,7 +195,7 @@ function ActivityLogs() {
                     </div>
                     <div className="actlog__stat-info">
                         <span className="actlog__stat-num">{logoutCount}</span>
-                        <span className="actlog__stat-label">Logouts</span>
+                        <span className="actlog__stat-label">{t("logouts")}</span>
                     </div>
                     <div className="actlog__stat-glow actlog__stat-glow--red" />
                 </div>
@@ -196,7 +205,7 @@ function ActivityLogs() {
                     </div>
                     <div className="actlog__stat-info">
                         <span className="actlog__stat-num">{uniqueUsers}</span>
-                        <span className="actlog__stat-label">Unique Users</span>
+                        <span className="actlog__stat-label">{t("uniqueUsers")}</span>
                     </div>
                     <div className="actlog__stat-glow actlog__stat-glow--purple" />
                 </div>
@@ -211,7 +220,7 @@ function ActivityLogs() {
                     <input
                         className="actlog__search"
                         type="text"
-                        placeholder="Search by user, IP, browser..."
+                        placeholder={t("searchByUserIpBrowser")}
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
@@ -225,7 +234,11 @@ function ActivityLogs() {
                             className={`actlog__filter-btn ${filterType === f ? "actlog__filter-btn--active" : ""} ${f === "login" ? "actlog__filter-btn--login" : ""} ${f === "logout" ? "actlog__filter-btn--logout" : ""}`}
                             onClick={() => setFilterType(f)}
                         >
-                            {f === "all" ? "All" : f === "login" ? "🔓 Logins" : "🔒 Logouts"}
+                            {f === "all"
+                                ? t("all")
+                                : f === "login"
+                                    ? `🔓 ${t("logins")}`
+                                    : `🔒 ${t("logouts")}`}
                         </button>
                     ))}
                 </div>
@@ -236,14 +249,14 @@ function ActivityLogs() {
                         <polyline points="7 10 12 15 17 10" />
                         <line x1="12" y1="15" x2="12" y2="3" />
                     </svg>
-                    Export CSV
+                    {t("exportCsv")}
                 </button>
             </div>
 
             {/* Count */}
             {!loading && (
                 <p className="actlog__result-count">
-                    Showing <span>{filtered.length}</span> of <span>{logs.length}</span> logs
+                    {t("showing")} <span>{filtered.length}</span> {t("of")} <span>{logs.length}</span> {t("logsLabel")}
                 </p>
             )}
 
@@ -263,7 +276,7 @@ function ActivityLogs() {
             {!loading && filtered.length === 0 && (
                 <div className="actlog__empty">
                     <span className="actlog__empty-icon">📭</span>
-                    <p>No activity logs found</p>
+                    <p>{t("noActivityLogsFound")}</p>
                 </div>
             )}
 
@@ -287,7 +300,7 @@ function ActivityLogs() {
                                     <div className="actlog__entry-left">
                                         <span className={`actlog__badge ${isLogin ? "actlog__badge--login" : "actlog__badge--logout"}`}>
                                             <span className="actlog__badge-dot" />
-                                            {isLogin ? "LOGIN" : "LOGOUT"}
+                                            {isLogin ? t("loginBadge") : t("logoutBadge")}
                                         </span>
                                         <div className="actlog__entry-user">
                                             <span className="actlog__entry-name">{log.userName || log.userId}</span>
@@ -313,7 +326,7 @@ function ActivityLogs() {
                                             <div className="actlog__detail-item">
                                                 <span className="actlog__detail-icon">🪪</span>
                                                 <div className="actlog__detail-content">
-                                                    <span className="actlog__detail-label">User ID</span>
+                                                    <span className="actlog__detail-label">{t("userId")}</span>
                                                     <span className="actlog__detail-value">{log.userId || "—"}</span>
                                                 </div>
                                             </div>
@@ -321,7 +334,7 @@ function ActivityLogs() {
                                             <div className="actlog__detail-item">
                                                 <span className="actlog__detail-icon">👤</span>
                                                 <div className="actlog__detail-content">
-                                                    <span className="actlog__detail-label">User Name</span>
+                                                    <span className="actlog__detail-label">{t("name")}</span>
                                                     <span className="actlog__detail-value">{log.userName || "—"}</span>
                                                 </div>
                                             </div>
@@ -329,7 +342,7 @@ function ActivityLogs() {
                                             <div className="actlog__detail-item">
                                                 <span className="actlog__detail-icon">🔓</span>
                                                 <div className="actlog__detail-content">
-                                                    <span className="actlog__detail-label">Login Time</span>
+                                                    <span className="actlog__detail-label">{t("loginTime")}</span>
                                                     <span className="actlog__detail-value">{formatDateTime(log.loginTime)}</span>
                                                 </div>
                                             </div>
@@ -337,7 +350,7 @@ function ActivityLogs() {
                                             <div className="actlog__detail-item">
                                                 <span className="actlog__detail-icon">🔒</span>
                                                 <div className="actlog__detail-content">
-                                                    <span className="actlog__detail-label">Logout Time</span>
+                                                    <span className="actlog__detail-label">{t("logoutTime")}</span>
                                                     <span className="actlog__detail-value">{formatDateTime(log.logoutTime)}</span>
                                                 </div>
                                             </div>
@@ -345,7 +358,7 @@ function ActivityLogs() {
                                             <div className="actlog__detail-item">
                                                 <span className="actlog__detail-icon">⏱️</span>
                                                 <div className="actlog__detail-content">
-                                                    <span className="actlog__detail-label">Last Active</span>
+                                                    <span className="actlog__detail-label">{t("lastActive")}</span>
                                                     <span className="actlog__detail-value">{formatDateTime(log.lastActive)}</span>
                                                 </div>
                                             </div>
@@ -354,7 +367,7 @@ function ActivityLogs() {
                                                 <div className="actlog__detail-item actlog__detail-item--accent">
                                                     <span className="actlog__detail-icon">⏳</span>
                                                     <div className="actlog__detail-content">
-                                                        <span className="actlog__detail-label">Session Duration</span>
+                                                        <span className="actlog__detail-label">{t("sessionDuration")}</span>
                                                         <span className="actlog__detail-value actlog__detail-value--green">{duration}</span>
                                                     </div>
                                                 </div>
@@ -364,7 +377,7 @@ function ActivityLogs() {
                                                 <div className="actlog__detail-item">
                                                     <span className="actlog__detail-icon">🌐</span>
                                                     <div className="actlog__detail-content">
-                                                        <span className="actlog__detail-label">Device / Browser</span>
+                                                        <span className="actlog__detail-label">{t("browserDevice")}</span>
                                                         <span className="actlog__detail-value">{log.browser}</span>
                                                     </div>
                                                 </div>
@@ -374,7 +387,7 @@ function ActivityLogs() {
                                                 <div className="actlog__detail-item">
                                                     <span className="actlog__detail-icon">📡</span>
                                                     <div className="actlog__detail-content">
-                                                        <span className="actlog__detail-label">IP Address</span>
+                                                        <span className="actlog__detail-label">{t("ipAddress")}</span>
                                                         <span className="actlog__detail-value actlog__detail-value--mono">{log.ipAddress}</span>
                                                     </div>
                                                 </div>
