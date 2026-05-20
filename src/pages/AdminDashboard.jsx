@@ -804,6 +804,14 @@ function AdminDashboard() {
           <button className="dashboard-btn" onClick={() => navigate("/smart-attendance")}>{t("smartAttendance")}</button>
         </div>
 
+        <div className="dashboard-card">
+          <div className="admin-profile">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="contact settings" />
+            <h3>{t("contactSettings")}</h3>
+          </div>
+          <button className="dashboard-btn" onClick={() => navigate("/contact-settings")}>{t("manageContact")}</button>
+        </div>
+
       </div>
     </div>
   );
