@@ -180,6 +180,7 @@ const Login = () => {
               placeholder={t("enterIdNo")}
               className="login-input"
               maxLength={6}
+              autoComplete="username"
               value={id}
               onChange={(e) => {
                 const filtered = e.target.value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
@@ -193,6 +194,7 @@ const Login = () => {
                 placeholder={t("enterPassword")}
                 className="login-input"
                 maxLength={8}
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => {
                   const filtered = e.target.value.replace(/[^0-9]/g, "");
