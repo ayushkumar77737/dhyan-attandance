@@ -423,7 +423,7 @@
   "csSaveChanges": "Save Changes",
   "csContactSaved": "Contact details saved successfully!",
   "csSaveError": "Error saving contact details",
-  "csNote": "These details are fetched by the Help & Support page. Any changes made here will be instantly visible to all users.",
+  "csNote": "These details are for the Help & Support page. Any changes made here will be instantly visible to all users.",
   "csEmailRequired": "Email is required",
   "csEmailInvalid": "Enter a valid email address",
   "csPhone1Required": "Phone number is required",
