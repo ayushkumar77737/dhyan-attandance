@@ -380,6 +380,8 @@
   "deleteLog": "লগ মুছুন",
   "deleting": "মুছা হচ্ছে...",
   "yesDeleteAll": "হ্যাঁ, সব মুছুন",
+  "contactSettings": "যোগাযোগ সেটিংস",
+  "manageContact": "যোগাযোগ পরিচালনা করুন",
   "csPageTitleMain": "যোগাযোগ",
   "csPageTitleAccent": "সেটিংস",
   "csPageSubtitle": "পোর্টালে ব্যবহারকারীদের দেখানো সমস্ত যোগাযোগের বিবরণ পরিচালনা করুন",

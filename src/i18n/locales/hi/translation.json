@@ -404,6 +404,8 @@
   "deleteLog": "लॉग हटाएं",
   "deleting": "हटाया जा रहा है...",
   "yesDeleteAll": "हाँ, सभी हटाएं",
+  "contactSettings": "संपर्क सेटिंग्स",
+  "manageContact": "संपर्क प्रबंधित करें",
   "csPageTitleMain": "संपर्क",
   "csPageTitleAccent": "सेटिंग्स",
   "csPageSubtitle": "पोर्टल पर उपयोगकर्ताओं को दिखाई देने वाली सभी संपर्क जानकारी प्रबंधित करें",
