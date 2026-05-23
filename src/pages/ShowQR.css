@@ -1,10 +1,4 @@
-/* ═══════════════════════════════════════════════════════════
-   ShowQR.css  —  prefix: qrv2__
-   Cinematic glassmorphism QR display — zero class collisions
-   OPTIMIZED: GPU-composited layers, reduced paint cost
-═══════════════════════════════════════════════════════════ */
-
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=Fira+Code:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;600;700&family=Fira+Code:wght@500;600&display=swap');
 
 /* ── Variables ── */
 .qrv2__page {
@@ -13,24 +7,23 @@
     --qv-blue-light: #93c5fd;
     --qv-blue-dim: rgba(59, 130, 246, 0.1);
     --qv-blue-border: rgba(59, 130, 246, 0.25);
-    --qv-blue-glow: rgba(59, 130, 246, 0.5);
     --qv-cyan: #22d3ee;
     --qv-cyan-dim: rgba(34, 211, 238, 0.1);
     --qv-violet: #818cf8;
-    --qv-green: #4ade80;
-    --qv-amber: #fbbf24;
     --qv-bg: #020810;
-    --qv-surface: rgba(255, 255, 255, 0.03);
-    --qv-surface-2: rgba(255, 255, 255, 0.06);
-    --qv-surface-3: rgba(255, 255, 255, 0.09);
-    --qv-border: rgba(255, 255, 255, 0.06);
-    --qv-border-2: rgba(255, 255, 255, 0.11);
+    --qv-surface: rgba(255, 255, 255, 0.04);
+    --qv-surface-2: rgba(255, 255, 255, 0.07);
+    --qv-border: rgba(255, 255, 255, 0.07);
+    --qv-border-2: rgba(255, 255, 255, 0.12);
     --qv-text: #ddeeff;
     --qv-muted: #3d5a78;
     --qv-dim: #1a2d40;
-
     min-height: 100vh;
-    background: var(--qv-bg);
+    /* Single static background — zero repaint cost */
+    background:
+        radial-gradient(ellipse 100% 50% at 10% 0%, rgba(59, 130, 246, 0.13) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 40% at 90% 100%, rgba(34, 211, 238, 0.07) 0%, transparent 55%),
+        #020810;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -40,128 +33,6 @@
     position: relative;
     overflow-x: hidden;
     box-sizing: border-box;
-    /* Promote page to its own compositor layer immediately */
-    will-change: transform;
-    transform: translateZ(0);
-}
-
-/* ── Background layers ── */
-.qrv2__bg-mesh {
-    position: fixed;
-    inset: 0;
-    background:
-        radial-gradient(ellipse 90% 55% at 15% 8%, rgba(59, 130, 246, 0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 70% 45% at 85% 92%, rgba(34, 211, 238, 0.07) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(129, 140, 248, 0.04) 0%, transparent 60%);
-    pointer-events: none;
-    z-index: 0;
-    will-change: opacity;
-    transform: translateZ(0);
-}
-
-.qrv2__grid-overlay {
-    position: fixed;
-    inset: 0;
-    background-image:
-        linear-gradient(rgba(59, 130, 246, 0.022) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(59, 130, 246, 0.022) 1px, transparent 1px);
-    background-size: 44px 44px;
-    pointer-events: none;
-    z-index: 0;
-    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
-    contain: strict;
-    transform: translateZ(0);
-}
-
-/* Orbs — use transform-only animation (compositor thread, zero layout cost)
-   blur reduced from 140px → 90px — visually identical, much cheaper */
-.qrv2__orb {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(90px);
-    pointer-events: none;
-    z-index: 0;
-    will-change: transform;
-    transform: translateZ(0);
-    contain: layout style;
-}
-
-.qrv2__orb--1 {
-    width: 580px;
-    height: 580px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 65%);
-    top: -200px;
-    left: -140px;
-    animation: qrv2-orb-drift 18s ease-in-out infinite alternate;
-}
-
-.qrv2__orb--2 {
-    width: 460px;
-    height: 460px;
-    background: radial-gradient(circle, rgba(34, 211, 238, 0.11) 0%, transparent 65%);
-    bottom: -110px;
-    right: -110px;
-    animation: qrv2-orb-drift 22s ease-in-out infinite alternate-reverse;
-}
-
-.qrv2__orb--3 {
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(129, 140, 248, 0.09) 0%, transparent 65%);
-    top: 45%;
-    left: 55%;
-    animation: qrv2-orb-drift 14s ease-in-out infinite alternate;
-}
-
-@keyframes qrv2-orb-drift {
-    from {
-        transform: translate3d(0, 0, 0);
-    }
-
-    to {
-        transform: translate3d(28px, 18px, 0);
-    }
-}
-
-/* Particles */
-.qrv2__particles {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-    will-change: contents;
-    contain: layout style;
-}
-
-.qrv2__particle {
-    position: absolute;
-    bottom: -10px;
-    background: rgba(59, 130, 246, 0.5);
-    border-radius: 50%;
-    animation: qrv2-float-up linear infinite;
-    box-shadow: 0 0 6px rgba(59, 130, 246, 0.8);
-    will-change: transform, opacity;
-}
-
-@keyframes qrv2-float-up {
-    0% {
-        transform: translate3d(0, 0, 0) scale(1);
-        opacity: 0.75;
-    }
-
-    100% {
-        transform: translate3d(0, -100vh, 0) scale(0.25);
-        opacity: 0;
-    }
-}
-
-/* z-index stacking */
-.qrv2__back-btn,
-.qrv2__card,
-.qrv2__fullscreen {
-    position: relative;
-    z-index: 1;
 }
 
 /* ── Back Button ── */
@@ -180,98 +51,59 @@
     border-radius: 10px;
     cursor: pointer;
     margin-bottom: 32px;
-    transition: box-shadow 0.2s, border-color 0.2s, color 0.2s, background 0.2s;
     letter-spacing: 0.02em;
-    will-change: transform;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    position: relative;
+    z-index: 1;
 }
 
 .qrv2__back-btn:hover {
     background: var(--qv-surface-2);
     color: var(--qv-text);
     border-color: var(--qv-blue-border);
-    box-shadow: 0 0 14px rgba(59, 130, 246, 0.15);
 }
 
 /* ── Card ──
-   KEY FIX: backdrop-filter blur reduced from 32px → 16px.
-   On dark backgrounds the visual difference is imperceptible
-   but the GPU cost is ~4× lower. Adding a 50ms delay so the
-   background layers (orbs, grid) composite before the blur fires. */
+   NO backdrop-filter — replaced by solid dark bg + opaque overlay.
+   This alone eliminates the biggest GPU bottleneck on mobile. */
 .qrv2__card {
     width: 100%;
     max-width: 460px;
-    background: rgba(6, 12, 26, 0.88);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 30px;
+    background: #06101e;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 28px;
     padding: 38px 34px 30px;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     box-shadow:
-        0 48px 96px rgba(0, 0, 0, 0.75),
-        0 0 0 1px rgba(255, 255, 255, 0.04),
-        0 0 100px rgba(59, 130, 246, 0.07),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    animation: qrv2-card-enter 0.6s 0.05s cubic-bezier(0.22, 1, 0.36, 1) both;
+        0 32px 64px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(255, 255, 255, 0.04);
+    animation: qrv2-card-enter 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
     text-align: center;
     position: relative;
     overflow: hidden;
-    will-change: transform, opacity;
-    transform: translateZ(0);
-    contain: layout;
+    z-index: 1;
 }
 
 @keyframes qrv2-card-enter {
     from {
         opacity: 0;
-        transform: translate3d(0, 32px, 0) scale(0.97);
+        transform: translateY(24px);
     }
 
     to {
         opacity: 1;
-        transform: translate3d(0, 0, 0) scale(1);
+        transform: translateY(0);
     }
 }
 
+/* Top gradient bar — opacity animation only (compositor-safe) */
 .qrv2__card-topbar {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg,
-            transparent 0%, #3b82f6 20%, #22d3ee 50%, #818cf8 80%, transparent 100%);
-    background-size: 250% 100%;
-    animation: qrv2-topbar-flow 4s linear infinite;
-    will-change: background-position;
-}
-
-@keyframes qrv2-topbar-flow {
-    0% {
-        background-position: -250% 0;
-    }
-
-    100% {
-        background-position: 250% 0;
-    }
-}
-
-.qrv2__card-shine {
-    position: absolute;
-    top: -60%;
-    left: -60%;
-    width: 220%;
-    height: 220%;
-    background: conic-gradient(from 0deg at 50% 50%,
-            transparent 0deg, rgba(255, 255, 255, 0.012) 40deg, transparent 80deg);
-    animation: qrv2-shine-spin 10s linear infinite;
+    background: linear-gradient(90deg, #3b82f6 0%, #22d3ee 50%, #818cf8 100%);
     pointer-events: none;
-    will-change: transform;
-}
-
-@keyframes qrv2-shine-spin {
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 /* ── Card Header ── */
@@ -295,13 +127,14 @@
     margin-bottom: 14px;
 }
 
+/* Dot — opacity-only animation (free on compositor) */
 .qrv2__eyebrow-dot {
     width: 6px;
     height: 6px;
     background: var(--qv-cyan);
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--qv-cyan);
-    animation: qrv2-pulse 2.2s ease-in-out infinite;
+    box-shadow: 0 0 8px var(--qv-cyan);
+    animation: qrv2-pulse 2.5s ease-in-out infinite;
     will-change: opacity;
 }
 
@@ -310,12 +143,10 @@
     0%,
     100% {
         opacity: 1;
-        box-shadow: 0 0 10px var(--qv-cyan);
     }
 
     50% {
-        opacity: 0.3;
-        box-shadow: none;
+        opacity: 0.25;
     }
 }
 
@@ -357,9 +188,9 @@
     text-align: left;
     position: relative;
     overflow: hidden;
-    transition: border-color 0.25s;
 }
 
+/* Static left accent bar — no animation */
 .qrv2__user-section::before {
     content: '';
     position: absolute;
@@ -371,23 +202,18 @@
     border-radius: 0 2px 2px 0;
 }
 
-.qrv2__user-section:hover {
-    border-color: var(--qv-border-2);
-}
-
 .qrv2__avatar-wrap {
     position: relative;
     flex-shrink: 0;
 }
 
+/* Static gradient ring — no spinning, no conic-gradient repaint */
 .qrv2__avatar-ring {
     position: absolute;
-    inset: -4px;
+    inset: -3px;
     border-radius: 50%;
-    background: conic-gradient(#3b82f6, #22d3ee, #818cf8, #3b82f6);
-    animation: qrv2-ring-spin 5s linear infinite;
-    opacity: 0.75;
-    will-change: transform;
+    background: linear-gradient(135deg, #3b82f6, #22d3ee, #818cf8);
+    opacity: 0.8;
 }
 
 .qrv2__avatar-ring::before {
@@ -396,12 +222,6 @@
     inset: 2px;
     border-radius: 50%;
     background: #06101e;
-}
-
-@keyframes qrv2-ring-spin {
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 .qrv2__avatar {
@@ -416,7 +236,6 @@
     font-size: 23px;
     font-weight: 800;
     color: #fff;
-    box-shadow: 0 0 24px rgba(59, 130, 246, 0.5);
     font-family: 'Syne', sans-serif;
 }
 
@@ -448,14 +267,13 @@
     padding: 4px 12px;
     border-radius: 20px;
     cursor: pointer;
-    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+    transition: background 0.2s, border-color 0.2s;
     width: fit-content;
 }
 
 .qrv2__user-id-wrap:hover {
     background: rgba(59, 130, 246, 0.18);
     border-color: rgba(59, 130, 246, 0.45);
-    box-shadow: 0 0 14px rgba(59, 130, 246, 0.15);
 }
 
 .qrv2__user-id {
@@ -472,11 +290,6 @@
     line-height: 1;
     display: flex;
     align-items: center;
-    transition: transform 0.2s;
-}
-
-.qrv2__user-id-wrap:hover .qrv2__copy-icon {
-    transform: scale(1.15);
 }
 
 /* ── QR Section ── */
@@ -496,55 +309,49 @@
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transition: opacity 0.55s ease;
-    will-change: opacity;
+    transition: opacity 0.4s ease;
 }
 
 .qrv2__qr-frame--ready {
     opacity: 1;
 }
 
+/* Corner brackets — static, no animation */
 .qrv2__fc {
     position: absolute;
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     border-color: var(--qv-cyan);
     border-style: solid;
-    filter: drop-shadow(0 0 8px var(--qv-cyan));
     z-index: 2;
-    transition: filter 0.3s;
-}
-
-.qrv2__qr-frame--ready .qrv2__fc {
-    filter: drop-shadow(0 0 12px var(--qv-cyan));
 }
 
 .qrv2__fc--tl {
     top: -2px;
     left: -2px;
     border-width: 3px 0 0 3px;
-    border-radius: 7px 0 0 0;
+    border-radius: 6px 0 0 0;
 }
 
 .qrv2__fc--tr {
     top: -2px;
     right: -2px;
     border-width: 3px 3px 0 0;
-    border-radius: 0 7px 0 0;
+    border-radius: 0 6px 0 0;
 }
 
 .qrv2__fc--bl {
     bottom: -2px;
     left: -2px;
     border-width: 0 0 3px 3px;
-    border-radius: 0 0 0 7px;
+    border-radius: 0 0 0 6px;
 }
 
 .qrv2__fc--br {
     bottom: -2px;
     right: -2px;
     border-width: 0 3px 3px 0;
-    border-radius: 0 0 7px 0;
+    border-radius: 0 0 6px 0;
 }
 
 .qrv2__qr-inner {
@@ -558,9 +365,9 @@
     overflow: hidden;
     position: relative;
     box-shadow:
-        0 0 0 8px rgba(34, 211, 238, 0.06),
-        0 0 50px rgba(59, 130, 246, 0.25),
-        0 24px 60px rgba(0, 0, 0, 0.55);
+        0 0 0 6px rgba(34, 211, 238, 0.06),
+        0 0 40px rgba(59, 130, 246, 0.2),
+        0 20px 48px rgba(0, 0, 0, 0.5);
 }
 
 .qrv2__canvas {
@@ -585,13 +392,14 @@
     font-weight: 600;
 }
 
+/* Spinner — transform-only, compositor thread */
 .qrv2__qr-spinner {
-    width: 34px;
-    height: 34px;
-    border: 3px solid rgba(59, 130, 246, 0.18);
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(59, 130, 246, 0.15);
     border-top-color: #3b82f6;
     border-radius: 50%;
-    animation: qrv2-spin 0.75s linear infinite;
+    animation: qrv2-spin 0.8s linear infinite;
     will-change: transform;
 }
 
@@ -601,40 +409,42 @@
     }
 }
 
+/* Scan line — transform+opacity only (compositor-safe) */
 .qrv2__scan-line {
     position: absolute;
-    left: 6px;
-    right: 6px;
+    left: 8px;
+    right: 8px;
     height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.9), transparent);
-    box-shadow: 0 0 16px rgba(34, 211, 238, 0.7);
-    animation: qrv2-scan-move 2.8s ease-in-out infinite;
+    background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.85), transparent);
+    box-shadow: 0 0 10px rgba(34, 211, 238, 0.6);
+    animation: qrv2-scan-move 3s ease-in-out infinite;
     z-index: 3;
     border-radius: 1px;
-    will-change: top, opacity;
+    will-change: transform, opacity;
+    top: 10px;
 }
 
 @keyframes qrv2-scan-move {
     0% {
-        top: 10px;
+        transform: translateY(0);
         opacity: 0;
     }
 
-    10% {
+    8% {
         opacity: 1;
     }
 
     50% {
-        top: calc(100% - 12px);
+        transform: translateY(272px);
         opacity: 1;
     }
 
-    90% {
+    92% {
         opacity: 1;
     }
 
     100% {
-        top: 10px;
+        transform: translateY(0);
         opacity: 0;
     }
 }
@@ -677,24 +487,11 @@
     border-radius: 14px;
     cursor: pointer;
     border: 1px solid;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Only transform transition — no layout triggers */
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
     letter-spacing: 0.02em;
     white-space: nowrap;
-    position: relative;
-    overflow: hidden;
     will-change: transform;
-}
-
-.qrv2__btn::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0);
-    transition: background 0.18s;
-}
-
-.qrv2__btn:hover::after {
-    background: rgba(255, 255, 255, 0.05);
 }
 
 .qrv2__btn:disabled {
@@ -703,30 +500,17 @@
     transform: none !important;
 }
 
+/* Download — static gradient, no animation */
 .qrv2__btn--download {
-    background: linear-gradient(135deg, #2563eb, #3b82f6, #22d3ee);
-    background-size: 200% 200%;
+    background: linear-gradient(135deg, #2563eb, #3b82f6 55%, #22d3ee);
     border-color: transparent;
     color: #fff;
-    box-shadow: 0 6px 28px rgba(59, 130, 246, 0.45);
-    animation: qrv2-btn-gradient-shift 4s ease infinite;
-}
-
-@keyframes qrv2-btn-gradient-shift {
-
-    0%,
-    100% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
 }
 
 .qrv2__btn--download:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 14px 36px rgba(59, 130, 246, 0.6);
+    box-shadow: 0 10px 28px rgba(59, 130, 246, 0.55);
 }
 
 .qrv2__btn--download:active {
@@ -744,7 +528,6 @@
     border-color: rgba(34, 211, 238, 0.3);
     color: var(--qv-cyan);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(34, 211, 238, 0.12);
 }
 
 .qrv2__btn-spinner {
@@ -763,7 +546,7 @@
     align-items: center;
     justify-content: center;
     gap: 14px;
-    padding: 14px 18px;
+    padding: 13px 18px;
     background: var(--qv-surface);
     border: 1px solid var(--qv-border);
     border-radius: 16px;
@@ -796,14 +579,13 @@
 .qrv2__fullscreen {
     position: fixed;
     inset: 0;
-    background: rgba(2, 5, 14, 0.94);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    /* Solid dark overlay — no backdrop-filter */
+    background: rgba(2, 5, 14, 0.96);
     z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: qrv2-fs-fade 0.3s ease both;
+    animation: qrv2-fs-fade 0.25s ease both;
     padding: 20px;
     will-change: opacity;
 }
@@ -819,9 +601,9 @@
 }
 
 .qrv2__fullscreen-card {
-    background: rgba(6, 12, 26, 0.96);
-    border: 1px solid rgba(34, 211, 238, 0.2);
-    border-radius: 30px;
+    background: #06101e;
+    border: 1px solid rgba(34, 211, 238, 0.18);
+    border-radius: 28px;
     padding: 34px 30px;
     display: flex;
     flex-direction: column;
@@ -831,11 +613,9 @@
     max-width: 430px;
     width: 100%;
     box-shadow:
-        0 0 90px rgba(34, 211, 238, 0.12),
-        0 0 0 1px rgba(255, 255, 255, 0.04),
-        0 48px 96px rgba(0, 0, 0, 0.85);
-    animation: qrv2-card-enter 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
-    will-change: transform, opacity;
+        0 0 60px rgba(34, 211, 238, 0.1),
+        0 40px 80px rgba(0, 0, 0, 0.8);
+    animation: qrv2-card-enter 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .qrv2__fullscreen-close {
@@ -853,7 +633,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
     will-change: transform;
 }
 
@@ -882,7 +662,6 @@
     font-weight: 800;
     color: #fff;
     font-family: 'Syne', sans-serif;
-    box-shadow: 0 0 24px rgba(59, 130, 246, 0.5);
     flex-shrink: 0;
 }
 
@@ -920,9 +699,9 @@
     border-radius: 16px;
     display: block;
     box-shadow:
-        0 0 0 6px rgba(34, 211, 238, 0.08),
-        0 0 50px rgba(34, 211, 238, 0.2),
-        0 24px 60px rgba(0, 0, 0, 0.65);
+        0 0 0 6px rgba(34, 211, 238, 0.07),
+        0 0 40px rgba(34, 211, 238, 0.15),
+        0 20px 48px rgba(0, 0, 0, 0.6);
 }
 
 .qrv2__fullscreen-hint {
@@ -941,7 +720,7 @@
 
     .qrv2__card {
         padding: 28px 20px 22px;
-        border-radius: 24px;
+        border-radius: 22px;
     }
 
     .qrv2__title {
@@ -1002,21 +781,17 @@
     }
 }
 
-/* ── Respect system reduced-motion preference ── */
+/* ── Reduced-motion ── */
 @media (prefers-reduced-motion: reduce) {
 
-    .qrv2__orb,
-    .qrv2__particle,
-    .qrv2__avatar-ring,
-    .qrv2__card-topbar,
-    .qrv2__card-shine,
-    .qrv2__scan-line,
     .qrv2__eyebrow-dot,
-    .qrv2__btn--download {
+    .qrv2__scan-line,
+    .qrv2__qr-spinner,
+    .qrv2__btn-spinner {
         animation: none !important;
     }
 
     .qrv2__card {
-        animation-duration: 0.15s !important;
+        animation-duration: 0.1s !important;
     }
 }
