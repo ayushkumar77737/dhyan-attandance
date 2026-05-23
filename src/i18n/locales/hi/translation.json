@@ -453,5 +453,97 @@
   "faq3Answer": "नीचे Contact अनुभाग में टेलीग्राम चैनल लिंक पर क्लिक करें। यह आपको हमारे आधिकारिक टेलीग्राम समूह पर ले जाएगा।",
   "faq4Question": "सहायता का समय क्या है?",
   "faq4Answer": "हमारी सहायता टीम सोमवार से शनिवार सुबह 9:00 बजे से शाम 6:00 बजे IST तक उपलब्ध है। इन घंटों के बाहर कृपया हमारे टेलीग्राम चैनल का उपयोग करें।",
-  "footerNote": "जय गुरुबंदे — भक्ति और देखभाल के साथ सेवा"
+  "footerNote": "जय गुरुबंदे — भक्ति और देखभाल के साथ सेवा",
+  "blockedAccounts": {
+    "label": "अवरुद्ध खाते",
+    "securityMonitor": "सुरक्षा मॉनिटर",
+    "title": "अवरुद्ध",
+    "titleAccent": "खाते",
+    "subtitle": "प्लेटफ़ॉर्म पर विफल लॉगिन प्रयासों और लॉक खातों की निगरानी करें।",
+    "back": "वापस",
+    "stats": {
+      "lockedAccounts": "लॉक खाते",
+      "highRisk": "उच्च जोखिम",
+      "totalAttempts": "कुल प्रयास",
+      "totalRecords": "कुल रिकॉर्ड"
+    },
+    "search": {
+      "placeholder": "यूज़र आईडी से खोजें..."
+    },
+    "filter": {
+      "all": "सभी",
+      "locked": "लॉक",
+      "active": "सक्रिय",
+      "clean": "सामान्य"
+    },
+    "sort": {
+      "label": "क्रम:",
+      "attempts": "क्रम: प्रयास",
+      "id": "क्रम: आईडी",
+      "status": "क्रम: स्थिति"
+    },
+    "refresh": "रिफ्रेश",
+    "section": {
+      "title": "अवरुद्ध खाता रिकॉर्ड",
+      "deleteAll": "सभी हटाएं"
+    },
+    "table": {
+      "hash": "#",
+      "userId": "यूज़र आईडी",
+      "attempts": "प्रयास",
+      "status": "स्थिति",
+      "lockUntil": "लॉक समय तक",
+      "actions": "कार्रवाई"
+    },
+    "status": {
+      "locked": "लॉक",
+      "atRisk": "जोखिम में",
+      "clean": "सामान्य"
+    },
+    "remaining": {
+      "hoursMinutes": "{{hours}}h {{minutes}}m शेष",
+      "minutesOnly": "{{minutes}}m शेष"
+    },
+    "actions": {
+      "reset": "रीसेट",
+      "delete": "हटाएं",
+      "resetTitle": "प्रयास रीसेट करें",
+      "deleteTitle": "रिकॉर्ड हटाएं"
+    },
+    "loading": "रिकॉर्ड लोड हो रहे हैं...",
+    "empty": {
+      "icon": "कोई रिकॉर्ड नहीं मिला",
+      "withSearch": "कोई अलग यूज़र आईडी आज़माएं।",
+      "withoutSearch": "कोई अवरुद्ध खाता रिकॉर्ड उपलब्ध नहीं है।"
+    },
+    "modal": {
+      "deleteSingle": {
+        "title": "रिकॉर्ड हटाएं?",
+        "description": "इससे इस रिकॉर्ड को स्थायी रूप से हटा दिया जाएगा",
+        "cancel": "रद्द करें",
+        "confirm": "हटाएं"
+      },
+      "deleteAll": {
+        "title": "सभी रिकॉर्ड हटाएं?",
+        "description": "इससे स्थायी रूप से",
+        "descriptionSuffix": "रिकॉर्ड हटा दिए जाएंगे। यह क्रिया पूर्ववत नहीं की जा सकती।",
+        "cancel": "रद्द करें",
+        "confirm": "सभी हटाएं"
+      }
+    },
+    "toast": {
+      "resetSuccess": "{{userId}} सफलतापूर्वक रीसेट हुआ",
+      "resetFailed": "रीसेट विफल रहा",
+      "deleteSuccess": "{{userId}} सफलतापूर्वक हटाया गया",
+      "deleteFailed": "हटाना विफल रहा",
+      "deleteAllSuccess": "{{count}} रिकॉर्ड हटाए गए",
+      "deleteAllFailed": "सभी हटाना विफल रहा",
+      "fetchFailed": "डेटा लाने में विफल"
+    },
+    "card": {
+      "attempts": "प्रयास",
+      "lockUntil": "लॉक समय तक",
+      "remaining": "शेष समय"
+    }
+  }
 }

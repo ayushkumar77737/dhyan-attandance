@@ -33,6 +33,7 @@ import SmartAttendance from "./pages/SmartAttendance";
 import ShowQR from "./pages/ShowQR";
 import ContactSettings from "./pages/ContactSettings";
 import HelpSupport from "./pages/HelpSupport";
+import BlockedAccounts from "./pages/BlockedAccounts";
 
 function App() {
   return (
@@ -298,6 +299,15 @@ function App() {
           element={
             <ProtectedRoute>
               <ContactSettings />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/blocked-accounts"
+          element={
+            <ProtectedRoute>
+              <BlockedAccounts />
             </ProtectedRoute>
           }
         />

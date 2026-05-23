@@ -453,5 +453,96 @@
   "faq3Answer": "Click the Telegram Channel link in the Contact section below. It will redirect you to our official Telegram group where you can stay updated with all announcements.",
   "faq4Question": "What are the support hours?",
   "faq4Answer": "Our support team is available Monday to Saturday from 9:00 AM to 6:00 PM IST. For urgent matters outside these hours, please use our Telegram channel.",
-  "footerNote": "Jai Gurubande — Serving with devotion & care"
+  "footerNote": "Jai Gurubande — Serving with devotion & care",
+  "blockedAccounts": {
+    "label": "Blocked Accounts",
+    "securityMonitor": "Security Monitor",
+    "title": "Blocked",
+    "titleAccent": "Accounts",
+    "subtitle": "Monitor failed login attempts and locked accounts across the platform.",
+    "back": "Back",
+    "stats": {
+      "lockedAccounts": "Locked Accounts",
+      "highRisk": "High Risk",
+      "totalAttempts": "Total Attempts",
+      "totalRecords": "Total Records"
+    },
+    "search": {
+      "placeholder": "Search by User ID..."
+    },
+    "filter": {
+      "all": "All",
+      "locked": "Locked",
+      "active": "Active",
+      "clean": "Clean"
+    },
+    "sort": {
+      "attempts": "Sort: Attempts",
+      "id": "Sort: ID",
+      "status": "Sort: Status"
+    },
+    "refresh": "Refresh",
+    "section": {
+      "title": "Blocked Account Records",
+      "deleteAll": "Delete All"
+    },
+    "table": {
+      "hash": "#",
+      "userId": "User ID",
+      "attempts": "Attempts",
+      "status": "Status",
+      "lockUntil": "Lock Until",
+      "actions": "Actions"
+    },
+    "status": {
+      "locked": "Locked",
+      "atRisk": "At Risk",
+      "clean": "Clean"
+    },
+    "remaining": {
+      "hoursMinutes": "{{hours}}h {{minutes}}m left",
+      "minutesOnly": "{{minutes}}m left"
+    },
+    "actions": {
+      "reset": "Reset",
+      "delete": "Delete",
+      "resetTitle": "Reset attempts",
+      "deleteTitle": "Delete record"
+    },
+    "loading": "Fetching records...",
+    "empty": {
+      "icon": "No Records Found",
+      "withSearch": "Try a different User ID.",
+      "withoutSearch": "No blocked account records available."
+    },
+    "modal": {
+      "deleteSingle": {
+        "title": "Delete Record?",
+        "description": "This will permanently delete the record for",
+        "cancel": "Cancel",
+        "confirm": "Delete"
+      },
+      "deleteAll": {
+        "title": "Delete All Records?",
+        "description": "This will permanently delete",
+        "descriptionSuffix": "record(s). This action cannot be undone.",
+        "cancel": "Cancel",
+        "confirm": "Delete All"
+      }
+    },
+    "toast": {
+      "resetSuccess": "{{userId}} reset successfully",
+      "resetFailed": "Reset failed",
+      "deleteSuccess": "{{userId}} deleted successfully",
+      "deleteFailed": "Delete failed",
+      "deleteAllSuccess": "{{count}} record(s) deleted",
+      "deleteAllFailed": "Delete all failed",
+      "fetchFailed": "Failed to fetch data"
+    },
+    "card": {
+      "attempts": "Attempts",
+      "lockUntil": "Lock Until",
+      "remaining": "Remaining"
+    }
+  }
 }
