@@ -32,6 +32,7 @@ import IdRequests from "./pages/IdRequests";
 import SmartAttendance from "./pages/SmartAttendance";
 import ShowQR from "./pages/ShowQR";
 import ContactSettings from "./pages/ContactSettings";
+import HelpSupport from "./pages/HelpSupport";
 
 function App() {
   return (
@@ -173,6 +174,15 @@ function App() {
           element={
             <ProtectedRoute>
               <ShowQR />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/help-support"
+          element={
+            <ProtectedRoute>
+              <HelpSupport />
             </ProtectedRoute>
           }
         />
