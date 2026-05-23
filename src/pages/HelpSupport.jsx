@@ -12,6 +12,29 @@ const HelpSupport = () => {
     const [contactData, setContactData] = useState(null);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
+        const interval = setInterval(() => {
+            setBgIndex((prev) => (prev + 1) % bgImages.length);
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+        const disableRightClick = (e) => e.preventDefault();
+        const disableInspectKeys = (e) => {
+            if (e.key === "F12") e.preventDefault();
+            if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
+                e.preventDefault();
+            if (e.ctrlKey && e.key.toUpperCase() === "U")
+                e.preventDefault();
+        };
+        document.addEventListener("contextmenu", disableRightClick);
+        document.addEventListener("keydown", disableInspectKeys);
+        return () => {
+            document.removeEventListener("contextmenu", disableRightClick);
+            document.removeEventListener("keydown", disableInspectKeys);
+        };
+    }, []);
+    useEffect(() => {
         const fetchContact = async () => {
             try {
                 const docRef = doc(db, "settings", "contact");
