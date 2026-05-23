@@ -430,5 +430,6 @@
   "csPhoneInvalid": "ಮಾನ್ಯ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ",
   "csTelegramRequired": "ಟೆಲಿಗ್ರಾಮ್ ಲಿಂಕ್ ಅಗತ್ಯವಿದೆ",
   "csAddressRequired": "ವಿಳಾಸ ಲಿಂಕ್ ಅಗತ್ಯವಿದೆ",
-  "csUrlInvalid": "https:// ನಿಂದ ಪ್ರಾರಂಭವಾಗುವ ಮಾನ್ಯ URL ನಮೂದಿಸಿ"
+  "csUrlInvalid": "https:// ನಿಂದ ಪ್ರಾರಂಭವಾಗುವ ಮಾನ್ಯ URL ನಮೂದಿಸಿ",
+  "helpAndSupport": "ಸಹಾಯ ಮತ್ತು ಬೆಂಬಲ"  
 }

@@ -430,5 +430,6 @@
   "csPhoneInvalid": "Enter a valid phone number",
   "csTelegramRequired": "Telegram link is required",
   "csAddressRequired": "Address link is required",
-  "csUrlInvalid": "Enter a valid URL starting with https://"
+  "csUrlInvalid": "Enter a valid URL starting with https://",
+  "helpAndSupport": "Help & Support"
 }

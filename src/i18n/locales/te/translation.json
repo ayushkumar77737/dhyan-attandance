@@ -430,5 +430,6 @@
   "csPhoneInvalid": "చెల్లుబాటు అయ్యే ఫోన్ నంబర్ నమోదు చేయండి",
   "csTelegramRequired": "టెలిగ్రామ్ లింక్ అవసరం",
   "csAddressRequired": "చిరునామా లింక్ అవసరం",
-  "csUrlInvalid": "https:// తో మొదలయ్యే చెల్లుబాటు అయ్యే URL నమోదు చేయండి"
+  "csUrlInvalid": "https:// తో మొదలయ్యే చెల్లుబాటు అయ్యే URL నమోదు చేయండి",
+  "helpAndSupport": "సహాయం మరియు మద్దతు" 
 }

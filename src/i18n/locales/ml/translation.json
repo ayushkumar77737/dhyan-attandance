@@ -430,5 +430,6 @@
   "csPhoneInvalid": "സാധുവായ ഫോൺ നമ്പർ നൽകുക",
   "csTelegramRequired": "ടെലഗ്രാം ലിങ്ക് ആവശ്യമാണ്",
   "csAddressRequired": "വിലാസ ലിങ്ക് ആവശ്യമാണ്",
-  "csUrlInvalid": "https:// ൽ തുടങ്ങുന്ന സാധുവായ URL നൽകുക"
+  "csUrlInvalid": "https:// ൽ തുടങ്ങുന്ന സാധുവായ URL നൽകുക",
+  "helpAndSupport": "സഹായവും പിന്തുണയും"
 }

@@ -430,5 +430,6 @@
   "csPhoneInvalid": "वैध फोन नंबर प्रविष्ट करा",
   "csTelegramRequired": "टेलिग्राम लिंक आवश्यक आहे",
   "csAddressRequired": "पत्ता लिंक आवश्यक आहे",
-  "csUrlInvalid": "https:// ने सुरू होणारा वैध URL प्रविष्ट करा"
+  "csUrlInvalid": "https:// ने सुरू होणारा वैध URL प्रविष्ट करा",
+  "helpAndSupport": "मदत आणि समर्थन" 
 }

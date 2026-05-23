@@ -406,5 +406,6 @@
   "csPhoneInvalid": "একটি বৈধ ফোন নম্বর লিখুন",
   "csTelegramRequired": "টেলিগ্রাম লিঙ্ক প্রয়োজন",
   "csAddressRequired": "ঠিকানা লিঙ্ক প্রয়োজন",
-  "csUrlInvalid": "https:// দিয়ে শুরু হওয়া একটি বৈধ URL লিখুন"
+  "csUrlInvalid": "https:// দিয়ে শুরু হওয়া একটি বৈধ URL লিখুন",
+  "helpAndSupport": "সাহায্য এবং সহায়তা"
 }

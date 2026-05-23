@@ -430,5 +430,6 @@
   "csPhoneInvalid": "சரியான தொலைபேசி எண் உள்ளிடவும்",
   "csTelegramRequired": "டெலிகிராம் இணைப்பு தேவை",
   "csAddressRequired": "முகவரி இணைப்பு தேவை",
-  "csUrlInvalid": "https:// இல் தொடங்கும் சரியான URL உள்ளிடவும்"
+  "csUrlInvalid": "https:// இல் தொடங்கும் சரியான URL உள்ளிடவும்",
+  "helpAndSupport": "உதவி மற்றும் ஆதரவு" 
 }
