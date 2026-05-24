@@ -118,7 +118,7 @@ function AdminDashboard() {
     fetchAbsenceData();
     fetchOpenTickets();
     fetchTrendData(7);
-    fetchMonthlyData(selectedMonth); 
+    fetchMonthlyData(selectedMonth);
 
     return () => {
       document.removeEventListener("contextmenu", disableRightClick);
@@ -815,9 +815,9 @@ function AdminDashboard() {
         <div className="dashboard-card">
           <div className="admin-profile">
             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="blocked accounts" />
-            <h3>{t("blockedAccounts")}</h3>
+            <h3>{t("blockedAccounts.label")}</h3>
           </div>
-          <button className="dashboard-btn" onClick={() => navigate("/blocked-accounts")}>{t("blockedAccounts")}</button>
+          <button className="dashboard-btn" onClick={() => navigate("/blocked-accounts")}>{t("blockedAccounts.label")}</button>
         </div>
 
       </div>

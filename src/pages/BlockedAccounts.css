@@ -4,10 +4,12 @@
 .ba-wrapper {
     min-height: 100vh;
     background: #04090f;
-    padding: 32px 20px 64px;
+    padding: 32px 40px 64px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    width: 100%;
+    box-sizing: border-box;
     font-family: "DM Sans", sans-serif;
     position: relative;
     overflow-x: hidden;
@@ -248,6 +250,7 @@
 .ba-header {
     width: 100%;
     max-width: 1100px;
+    margin-top: 0;
     margin-bottom: 28px;
     position: relative;
     z-index: 1;
@@ -272,10 +275,12 @@
 }
 
 .ba-back-btn--fixed {
-    position: fixed;
-    top: 20px;
-    left: 20px;
+    position: relative;
+    top: unset;
+    left: unset;
     z-index: 100;
+    align-self: flex-start;
+    margin-bottom: 16px;
 }
 
 .ba-back-btn:hover {
@@ -1162,20 +1167,31 @@
     }
 }
 
+.ba-header,
+.ba-analytics,
+.ba-controls,
+.ba-section-label,
+.ba-table-wrap,
+.ba-mobile-cards,
+.ba-loading,
+.ba-empty {
+    width: 100%;
+    max-width: 100%;
+    /* override the 1100px limit */
+    box-sizing: border-box;
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
     .ba-wrapper {
-        padding: 20px 14px 48px;
+        padding: 20px 16px 48px;
     }
 
     .ba-header {
-        margin-top: 52px;
+        margin-top: 0;
     }
 
-    .ba-back-btn--fixed {
-        top: 14px;
-        left: 14px;
-    }
+
 
     .ba-title {
         font-size: 30px;
