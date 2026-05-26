@@ -329,6 +329,8 @@ CHART DATE PICKER
 .chart-date-picker {
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 100%;
   margin-bottom: 14px;
 }
 
