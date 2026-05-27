@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { db } from "../firebase/firebase";
-import { collection, getDocs, doc, updateDoc, deleteDoc, writeBatch } from "firebase/firestore";
+import { db, auth } from "../firebase/firebase";
+import {
+    collection,
+    getDocs,
+    doc,
+    updateDoc,
+    deleteDoc,
+    writeBatch,
+    getDoc
+} from "firebase/firestore";
 import "./BlockedAccounts.css";
 
 const BlockedAccounts = () => {
@@ -20,6 +28,44 @@ const BlockedAccounts = () => {
     const [deletingAll, setDeletingAll] = useState(false);
     const [confirmDeleteAll, setConfirmDeleteAll] = useState(false);
     const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+    const checkAdmin = async () => {
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            navigate("/");
+            return;
+        }
+
+        try {
+
+            const userRef = doc(
+                db,
+                "users",
+                localStorage.getItem("userId")
+            );
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            if (userData.role !== "admin") {
+                navigate("/");
+                return;
+            }
+
+            fetchData();
+
+        } catch (error) {
+            console.error(error);
+            navigate("/");
+        }
+    };
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -33,7 +79,7 @@ const BlockedAccounts = () => {
         document.addEventListener("contextmenu", disableRightClick);
         document.addEventListener("keydown", disableInspectKeys);
 
-        fetchData();
+        checkAdmin();
 
         return () => {
             document.removeEventListener("contextmenu", disableRightClick);

@@ -1,8 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./SmartAttendance.css";
 import { useNavigate } from "react-router-dom";
-import { db } from "../firebase/firebase";
-import { collection, getDocs, addDoc, serverTimestamp, query, where, orderBy, limit } from "firebase/firestore";
+import { db, auth } from "../firebase/firebase";
+import {
+    collection,
+    getDocs,
+    addDoc,
+    serverTimestamp,
+    query,
+    where,
+    orderBy,
+    limit,
+    getDoc,
+    doc
+} from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
 function SmartAttendance() {
@@ -25,6 +36,47 @@ function SmartAttendance() {
     const [cameraError, setCameraError] = useState(null);
     const [toast, setToast] = useState(null);
     const [pulseActive, setPulseActive] = useState(false);
+    const checkAdmin = async () => {
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            navigate("/");
+            return;
+        }
+
+        try {
+
+            const userRef = doc(
+                db,
+                "users",
+                localStorage.getItem("userId")
+            );
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            if (userData.role !== "admin") {
+                navigate("/");
+                stopCamera();
+                return;
+            }
+
+            fetchStats();
+            fetchRecentScans();
+
+        } catch (error) {
+            console.error(error);
+            stopCamera();
+            navigate("/");
+        }
+    };
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -35,8 +87,7 @@ function SmartAttendance() {
         };
         document.addEventListener("contextmenu", disableRightClick);
         document.addEventListener("keydown", disableInspectKeys);
-        fetchStats();
-        fetchRecentScans();
+        checkAdmin();
         return () => {
             document.removeEventListener("contextmenu", disableRightClick);
             document.removeEventListener("keydown", disableInspectKeys);

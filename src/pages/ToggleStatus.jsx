@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./ToggleStatus.css";
 import { useNavigate } from "react-router-dom";
-import { db } from "../firebase/firebase";
-import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import { db, auth } from "../firebase/firebase";
+import {
+    collection,
+    getDocs,
+    doc,
+    updateDoc,
+    getDoc
+} from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
 function ToggleStatus() {
@@ -15,6 +21,40 @@ function ToggleStatus() {
     const [togglingId, setTogglingId] = useState(null);
     const [message, setMessage] = useState({ text: "", type: "" });
     const [search, setSearch] = useState("");
+
+    const checkAdmin = async () => {
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            navigate("/");
+            return;
+        }
+
+        try {
+
+            const userRef = doc(db, "users", localStorage.getItem("userId"));
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            if (userData.role !== "admin") {
+                navigate("/");
+                return;
+            }
+
+            fetchUsers();
+
+        } catch (error) {
+            console.error(error);
+            navigate("/");
+        }
+    };
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -33,7 +73,7 @@ function ToggleStatus() {
     }, []);
 
     useEffect(() => {
-        fetchUsers();
+        checkAdmin();
     }, []);
 
     const fetchUsers = async () => {
@@ -43,7 +83,10 @@ function ToggleStatus() {
             const list = [];
             snapshot.forEach((docItem) => {
                 const data = docItem.data();
-                if (!data.deleted) {
+                if (
+                    !data.deleted &&
+                    data.role !== "admin"
+                ) {
                     list.push({
                         docId: docItem.id,
                         name: data.name || "",

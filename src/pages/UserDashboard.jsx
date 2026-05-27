@@ -48,16 +48,31 @@ function UserDashboard() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user) return;
+      if (!user || !user.email) {
+        navigate("/");
+        return;
+      }
+
       const email = user.email;
-      const id = email.split("@")[0].toUpperCase();
+
+      const id = email
+        .split("@")[0]
+        .toUpperCase();
       setUserId(id);
 
       const userRef = doc(db, "users", id);
       const userSnap = await getDoc(userRef);
-      if (userSnap.exists()) {
-        setUserName(userSnap.data().name);
+      if (!userSnap.exists()) {
+        navigate("/");
+        return;
       }
+      const userData = userSnap.data();
+      if (userData.role === "admin") {
+        navigate("/admin-dashboard");
+        return;
+      }
+
+      setUserName(userSnap.data().name || id);
 
       const snapshot = await getDocs(collection(db, "attendance"));
       let list = [];
@@ -68,14 +83,21 @@ function UserDashboard() {
         const data = docItem.data();
         if (data.userId === id) {
           list.push({ date: data.date, status: data.status });
-          if (data.status === "Present") present++;
-          if (data.status === "Absent") absent++;
+          if (data.status?.trim() === "Present") present++;
+
+          if (data.status?.trim() === "Absent") absent++;
         }
       });
 
       list.sort((a, b) => new Date(a.date) - new Date(b.date));
       const total = present + absent;
-      const percent = total > 0 ? ((present / total) * 100).toFixed(2) : 0;
+      const percent =
+        total > 0
+          ? Math.min(
+            100,
+            ((present / total) * 100).toFixed(2)
+          )
+          : 0;
 
       setAttendance(list);
       setPresentCount(present);
@@ -122,7 +144,10 @@ function UserDashboard() {
       let resolvedTotal = 0;
       ticketsSnap.forEach((docItem) => {
         const data = docItem.data();
-        if (data.idNo === id) {
+        if (
+          data.idNo &&
+          data.idNo.toUpperCase() === id
+        ) {
           ticketTotal++;
           if (data.status === "Resolved") resolvedTotal++;
         }
@@ -136,7 +161,9 @@ function UserDashboard() {
 
   const handleLogout = async () => {
     try {
-      if (userId) await logLogout(userId);
+      if (userId?.trim()) {
+        await logLogout(userId.trim());
+      }
       await signOut(auth);
       navigate("/");
     } catch (error) {
@@ -423,4 +450,4 @@ function UserDashboard() {
   );
 }
 
-export default UserDashboard;
+export default UserDashboard; 

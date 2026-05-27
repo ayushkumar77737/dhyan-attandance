@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Notifications.css";
 
-import { db } from "../firebase/firebase";
+import { db, auth } from "../firebase/firebase";
 import {
   collection,
   addDoc,
@@ -11,7 +11,8 @@ import {
   onSnapshot,
   updateDoc,
   deleteDoc,
-  doc
+  doc,
+  getDoc
 } from "firebase/firestore";
 
 import { useNavigate } from "react-router-dom";
@@ -38,6 +39,43 @@ function Notifications() {
 
   const navigate = useNavigate();
 
+  const checkAdmin = async () => {
+
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+      navigate("/");
+      return;
+    }
+
+    try {
+
+      const userRef = doc(
+        db,
+        "users",
+        localStorage.getItem("userId")
+      );
+
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        navigate("/");
+        return;
+      }
+
+      const userData = userSnap.data();
+
+      if (userData.role !== "admin") {
+        navigate("/");
+        return;
+      }
+
+    } catch (error) {
+      console.error(error);
+      navigate("/");
+    }
+  };
+
   useEffect(() => {
     const q = query(
       collection(db, "notifications"),
@@ -51,6 +89,9 @@ function Notifications() {
       setNotifications(data);
     });
     return () => unsubscribe();
+  }, []);
+  useEffect(() => {
+    checkAdmin();
   }, []);
 
   useEffect(() => {
@@ -87,6 +128,7 @@ function Notifications() {
       setLoading(true);
       await addDoc(collection(db, "notifications"), {
         message: message,
+        userId: "ALL",
         createdAt: serverTimestamp()
       });
       setStatus(t("notificationPosted"));
@@ -209,7 +251,7 @@ function Notifications() {
               <tr>
                 <th>{t("notifMessage")}</th>
                 <th>{t("date")}</th>
-                <th>{t("actions")}</th> {/* ← ADD */}
+                <th>{t("actions")}</th>
               </tr>
             </thead>
             <tbody>

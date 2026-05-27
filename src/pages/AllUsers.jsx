@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./AllUsers.css";
 
-import { db } from "../firebase/firebase";
-import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
+import { db, auth } from "../firebase/firebase";
+import {
+  collection,
+  getDocs,
+  updateDoc,
+  doc,
+  getDoc
+} from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 import * as XLSX from "xlsx";
@@ -36,16 +42,56 @@ function AllUsers() {
 
   const navigate = useNavigate();
 
+  const checkAdmin = async () => {
+
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+      navigate("/");
+      return;
+    }
+
+    try {
+
+      const userRef = doc(db, "users", localStorage.getItem("userId"));
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        navigate("/");
+        return;
+      }
+
+      const userData = userSnap.data();
+
+      if (userData.role !== "admin") {
+        navigate("/");
+        return;
+      }
+
+      fetchUsers();
+
+    } catch (error) {
+      console.log(error);
+      navigate("/");
+    }
+  };
+
   const fetchUsers = async () => {
     const querySnapshot = await getDocs(collection(db, "users"));
     const userList = querySnapshot.docs
-      .map((docItem) => ({ docId: docItem.id, ...docItem.data() }))
-      .filter(user => user.deleted !== true);
+      .map((docItem) => ({
+        docId: docItem.id,
+        ...docItem.data()
+      }))
+      .filter(user =>
+        user.deleted !== true &&
+        user.role !== "admin"
+      );
     setUsers(userList);
   };
 
   useEffect(() => {
-    fetchUsers();
+    checkAdmin();
   }, []);
 
   const exportToExcel = () => {
@@ -109,10 +155,10 @@ function AllUsers() {
 
           <thead>
             <tr>
-              <th>{t("name")}</th>     {/* ← CHANGED */}
-              <th>{t("id")}</th>       {/* ← CHANGED */}
-              <th>{t("email")}</th>    {/* ← CHANGED */}
-              <th>{t("actions")}</th>  {/* ← CHANGED */}
+              <th>{t("name")}</th>
+              <th>{t("id")}</th>
+              <th>{t("email")}</th>
+              <th>{t("actions")}</th>
             </tr>
           </thead>
 

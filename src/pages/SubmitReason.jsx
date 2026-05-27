@@ -17,8 +17,8 @@ function SubmitReason() {
   const getTodayString = () => {
     const now = new Date();
     const yyyy = now.getFullYear();
-    const mm   = String(now.getMonth() + 1).padStart(2, "0");
-    const dd   = String(now.getDate()).padStart(2, "0");
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
     return `${yyyy}-${mm}-${dd}`;
   };
 
@@ -30,10 +30,34 @@ function SubmitReason() {
   const [type, setType] = useState("");
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const id = user.email.split("@")[0].toUpperCase();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user && user.email) {
+
+        const id = user.email
+          .split("@")[0]
+          .toUpperCase();
+
+        const userRef = doc(db, "users", id);
+
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) {
+          navigate("/");
+          return;
+        }
+
+        const userData = userSnap.data();
+
+        // Block admin access
+        if (userData.role === "admin") {
+          navigate("/admin-dashboard");
+          return;
+        }
+
         setUserId(id);
+
+      } else {
+        navigate("/");
       }
     });
     return () => unsubscribe();
@@ -66,8 +90,15 @@ function SubmitReason() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!date || !reason) {
+    if (!userId || !date || !reason.trim()) {
       setMessage(t("fillAllFields"));
+      setType("error");
+      return;
+    }
+    const today = getTodayString();
+
+    if (date > today) {
+      setMessage(t("futureDateNotAllowed"));
       setType("error");
       return;
     }

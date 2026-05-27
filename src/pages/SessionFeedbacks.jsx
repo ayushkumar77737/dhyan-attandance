@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./SessionFeedbacks.css";
 import { useNavigate } from "react-router-dom";
-import { db } from "../firebase/firebase";
+import { db, auth } from "../firebase/firebase";
 import { collection, getDocs, doc, getDoc, deleteDoc } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
@@ -15,6 +15,44 @@ function SessionFeedbacks() {
     const [filterRating, setFilterRating] = useState("all");
     const [filterDate, setFilterDate] = useState("");
     const [expandedRow, setExpandedRow] = useState(null);
+    const checkAdmin = async () => {
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            navigate("/");
+            return;
+        }
+
+        try {
+
+            const userRef = doc(
+                db,
+                "users",
+                localStorage.getItem("userId")
+            );
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            if (userData.role !== "admin") {
+                navigate("/");
+                return;
+            }
+
+            fetchFeedbacks();
+
+        } catch (error) {
+            console.error(error);
+            navigate("/");
+        }
+    };
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -33,7 +71,7 @@ function SessionFeedbacks() {
     }, []);
 
     useEffect(() => {
-        fetchFeedbacks();
+        checkAdmin();
     }, []);
 
     const fetchFeedbacks = async () => {

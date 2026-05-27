@@ -5,7 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
 
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  getDoc,
+  doc
+} from "firebase/firestore";
 
 import { useTranslation } from "react-i18next";
 
@@ -99,6 +104,42 @@ function AdminDashboard() {
   const [selectedMonth, setSelectedMonth] = useState(
     new Date().toISOString().slice(0, 7)
   );
+  const checkAdmin = async () => {
+
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+      navigate("/");
+      return;
+    }
+
+    try {
+
+      const userRef = doc(
+        db,
+        "users",
+        localStorage.getItem("userId")
+      );
+
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        navigate("/");
+        return;
+      }
+
+      const userData = userSnap.data();
+
+      if (userData.role !== "admin") {
+        navigate("/");
+        return;
+      }
+
+    } catch (error) {
+      console.error(error);
+      navigate("/");
+    }
+  };
 
   useEffect(() => {
     const disableRightClick = (e) => e.preventDefault();
@@ -111,7 +152,7 @@ function AdminDashboard() {
 
     document.addEventListener("contextmenu", disableRightClick);
     document.addEventListener("keydown", disableInspectKeys);
-
+    checkAdmin();
     fetchUserStats();
     fetchChartData(chartDate);
     fetchTicketData();
@@ -132,9 +173,18 @@ function AdminDashboard() {
     try {
       const snap = await getDocs(collection(db, "users"));
       let total = 0, deleted = 0;
-      snap.forEach((doc) => {
+      snap.forEach((docItem) => {
+
+        const data = docItem.data();
+
+        // Skip admins
+        if (data.role === "admin") return;
+
         total++;
-        if (doc.data().deleted === true) deleted++;
+
+        if (data.deleted === true) {
+          deleted++;
+        }
       });
       setTotalUsers(total);
       setDeletedUsers(deleted);
@@ -261,9 +311,18 @@ function AdminDashboard() {
       const attendanceSnap = await getDocs(collection(db, "attendance"));
 
       const userMap = {};
-      usersSnap.forEach((doc) => {
-        const d = doc.data();
-        if (d.deleted !== true) userMap[d.id] = d.name;
+      usersSnap.forEach((docItem) => {
+
+        const d = docItem.data();
+
+        // Skip deleted users and admins
+        if (
+          d.deleted !== true &&
+          d.role !== "admin"
+        ) {
+          userMap[d.id] = d.name;
+        }
+
       });
 
       const countMap = {};

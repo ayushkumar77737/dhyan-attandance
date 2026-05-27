@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./MyNotifications.css";
 
 import { db, auth } from "../firebase/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import {
+    collection,
+    getDocs,
+    query,
+    where,
+    doc,
+    getDoc
+} from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -36,23 +43,66 @@ function MyNotifications() {
             if (!user) return;
 
             const email = user.email;
-            const id = email.split("@")[0].toUpperCase();
 
-            const snapshot = await getDocs(collection(db, "notifications"));
+            const id = email
+                .split("@")[0]
+                .toUpperCase();
+
+            const userRef = doc(db, "users", id);
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            // Block admin access
+            if (userData.role === "admin") {
+                navigate("/admin-dashboard");
+                return;
+            }
+
             let list = [];
 
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                const docUserId = data.userId?.toUpperCase();
+            // Personal notifications
+            const personalQuery = query(
+                collection(db, "notifications"),
+                where("userId", "==", id)
+            );
 
-                if (!docUserId || docUserId === "ALL" || docUserId === id) {
-                    list.push({
-                        message: data.message || t("noMessage"), // ← CHANGED
-                        createdAt: data.createdAt
-                            ? data.createdAt.toDate().toLocaleString()
-                            : t("noDate") // ← CHANGED
-                    });
-                }
+            const personalSnapshot = await getDocs(personalQuery);
+
+            personalSnapshot.forEach((doc) => {
+                const data = doc.data();
+
+                list.push({
+                    message: data.message || t("noMessage"),
+                    createdAt: data.createdAt
+                        ? data.createdAt.toDate().toLocaleString()
+                        : t("noDate")
+                });
+            });
+
+            // Global notifications
+            const globalQuery = query(
+                collection(db, "notifications"),
+                where("userId", "==", "ALL")
+            );
+
+            const globalSnapshot = await getDocs(globalQuery);
+
+            globalSnapshot.forEach((doc) => {
+                const data = doc.data();
+
+                list.push({
+                    message: data.message || t("noMessage"),
+                    createdAt: data.createdAt
+                        ? data.createdAt.toDate().toLocaleString()
+                        : t("noDate")
+                });
             });
 
             list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));

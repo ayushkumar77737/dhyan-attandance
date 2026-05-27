@@ -4,7 +4,12 @@ import "./AddUser.css";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db, secondaryAuth } from "../firebase/firebase"; // ✅ added secondaryAuth
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import {
+    doc,
+    setDoc,
+    serverTimestamp,
+    getDoc
+} from "firebase/firestore";
 
 import { useTranslation } from "react-i18next";
 
@@ -31,6 +36,9 @@ function AddUser() {
             document.removeEventListener("keydown", disableInspectKeys);
         };
     }, []);
+    useEffect(() => {
+        checkAdmin();
+    }, []);
 
     const navigate = useNavigate();
 
@@ -40,6 +48,42 @@ function AddUser() {
     const [message, setMessage] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
     const [loading, setLoading] = useState(false);
+    const checkAdmin = async () => {
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            navigate("/");
+            return;
+        }
+
+        try {
+
+            const userRef = doc(
+                db,
+                "users",
+                localStorage.getItem("userId")
+            );
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            if (userData.role !== "admin") {
+                navigate("/");
+                return;
+            }
+
+        } catch (error) {
+            console.error(error);
+            navigate("/");
+        }
+    };
 
     const clearMessages = () => {
         setTimeout(() => {
@@ -77,12 +121,13 @@ function AddUser() {
         }
 
         try {
-            const email = idNo + "@dhyan.in";
+            const cleanId = idNo.toUpperCase();
+            const email = cleanId + "@dhyan.in";
 
             // ✅ Using secondaryAuth so admin stays logged in
             await createUserWithEmailAndPassword(secondaryAuth, email, password);
 
-            await setDoc(doc(db, "users", idNo), {
+            await setDoc(doc(db, "users", cleanId), {
                 name: name,
                 id: idNo,
                 email: email,
@@ -153,7 +198,7 @@ function AddUser() {
                         maxLength={10}
                         onChange={(e) => {
                             const value = e.target.value;
-                            if (/^[a-zA-Z0-9]*$/.test(value)) setIdNo(value);
+                            if (/^[a-zA-Z0-9]*$/.test(value)) setIdNo(value.toUpperCase());
                         }}
                         required
                     />

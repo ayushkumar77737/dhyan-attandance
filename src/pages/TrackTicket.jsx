@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./TrackTicket.css";
 import { useNavigate } from "react-router-dom";
-import { db } from "../firebase/firebase";
-import { collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { db, auth } from "../firebase/firebase";
+import {
+    collection,
+    getDocs,
+    doc,
+    updateDoc,
+    deleteDoc,
+    getDoc
+} from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
 function TrackTicket() {
@@ -15,6 +22,42 @@ function TrackTicket() {
     const [loading, setLoading] = useState(false);
     const [searched, setSearched] = useState(false);
     const [message, setMessage] = useState({ text: "", type: "" });
+    const checkAdmin = async () => {
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            navigate("/");
+            return;
+        }
+
+        try {
+
+            const userRef = doc(
+                db,
+                "users",
+                localStorage.getItem("userId")
+            );
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            if (userData.role !== "admin") {
+                navigate("/");
+                return;
+            }
+
+        } catch (error) {
+            console.error(error);
+            navigate("/");
+        }
+    };
 
     useEffect(() => {
         const today = new Date().toISOString().split("T")[0];
@@ -35,6 +78,9 @@ function TrackTicket() {
             document.removeEventListener("contextmenu", disableRightClick);
             document.removeEventListener("keydown", disableInspectKeys);
         };
+    }, []);
+    useEffect(() => {
+        checkAdmin();
     }, []);
 
     const showMsg = (text, type = "error") => {

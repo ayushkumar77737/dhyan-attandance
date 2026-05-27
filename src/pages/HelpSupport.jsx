@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
 import { useTranslation } from "react-i18next";
-import { db } from "../firebase/firebase";
+import { db, auth } from "../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import "./HelpSupport.css";
 const HelpSupport = () => {
@@ -11,12 +12,6 @@ const HelpSupport = () => {
     const [copiedKey, setCopiedKey] = useState(null);
     const [contactData, setContactData] = useState(null);
     const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setBgIndex((prev) => (prev + 1) % bgImages.length);
-        }, 5000);
-        return () => clearInterval(interval);
-    }, []);
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -33,6 +28,41 @@ const HelpSupport = () => {
             document.removeEventListener("contextmenu", disableRightClick);
             document.removeEventListener("keydown", disableInspectKeys);
         };
+    }, []);
+    useEffect(() => {
+
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+
+            if (!user || !user.email) {
+                navigate("/");
+                return;
+            }
+
+            const id = user.email
+                .split("@")[0]
+                .toUpperCase();
+
+            const userRef = doc(db, "users", id);
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            // Block admin access
+            if (userData.role === "admin") {
+                navigate("/admin-dashboard");
+                return;
+            }
+
+        });
+
+        return () => unsubscribe();
+
     }, []);
     useEffect(() => {
         const fetchContact = async () => {
@@ -54,6 +84,8 @@ const HelpSupport = () => {
         setOpenSection((prev) => (prev === section ? null : section));
     };
     const handleCopy = (text, key) => {
+        if (!text) return;
+
         navigator.clipboard.writeText(text).then(() => {
             setCopiedKey(key);
             setTimeout(() => setCopiedKey(null), 2000);

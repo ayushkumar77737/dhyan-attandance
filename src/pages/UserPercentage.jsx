@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase/firebase";
+import {
+  collection,
+  getDocs,
+  getDoc,
+  doc
+} from "firebase/firestore";
+import { db, auth } from "../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -14,6 +19,44 @@ const UserPercentage = () => {
 
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  const checkAdmin = async () => {
+
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+      navigate("/");
+      return;
+    }
+
+    try {
+
+      const userRef = doc(
+        db,
+        "users",
+        localStorage.getItem("userId")
+      );
+
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        navigate("/");
+        return;
+      }
+
+      const userData = userSnap.data();
+
+      if (userData.role !== "admin") {
+        navigate("/");
+        return;
+      }
+
+      fetchAttendanceData();
+
+    } catch (error) {
+      console.error(error);
+      navigate("/");
+    }
+  };
 
   useEffect(() => {
     const disableRightClick = (e) => e.preventDefault();
@@ -26,7 +69,7 @@ const UserPercentage = () => {
     };
     document.addEventListener("contextmenu", disableRightClick);
     document.addEventListener("keydown", disableInspectKeys);
-    fetchAttendanceData();
+    checkAdmin();
     return () => {
       document.removeEventListener("contextmenu", disableRightClick);
       document.removeEventListener("keydown", disableInspectKeys);
@@ -38,10 +81,18 @@ const UserPercentage = () => {
       const usersSnapshot = await getDocs(collection(db, "users"));
       const attendanceSnapshot = await getDocs(collection(db, "attendance"));
 
-      const users = usersSnapshot.docs.map((doc) => ({
-        id: doc.data().id,
-        name: doc.data().name,
-      }));
+      const users = usersSnapshot.docs
+        .map((docItem) => ({
+          id: docItem.data().id,
+          name: docItem.data().name,
+          role: docItem.data().role,
+          deleted: docItem.data().deleted
+        }))
+        .filter(
+          (user) =>
+            user.deleted !== true &&
+            user.role !== "admin"
+        );
 
       const attendance = attendanceSnapshot.docs.map((doc) => doc.data());
 
@@ -175,16 +226,15 @@ const UserPercentage = () => {
 
           <thead>
             <tr>
-              <th>{t("userId")}</th>        {/* ← CHANGED */}
-              <th>{t("name")}</th>          {/* ← CHANGED */}
-              <th>{t("attendancePct")}</th> {/* ← CHANGED */}
+              <th>{t("userId")}</th>
+              <th>{t("name")}</th>
+              <th>{t("attendancePct")}</th>
             </tr>
           </thead>
 
           <tbody>
             {data.map((user, index) => (
               <tr key={index} style={{ animationDelay: `${index * 0.04}s` }}>
-
                 <td>
                   <span className="uid-chip">{user["User ID"]}</span>
                 </td>

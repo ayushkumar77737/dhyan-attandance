@@ -2,7 +2,15 @@ import React, { useEffect, useState } from "react";
 import "./ShareExperience.css";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase/firebase";
-import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
+import {
+    collection,
+    addDoc,
+    query,
+    where,
+    getDocs,
+    doc,
+    getDoc
+} from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useTranslation } from "react-i18next";
 
@@ -53,9 +61,32 @@ function ShareExperience() {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (!user) { navigate("/"); return; }
+            if (!user || !user.email) {
+                navigate("/");
+                return;
+            }
+
             const email = user.email;
-            const id = email.split("@")[0].toUpperCase();
+
+            const id = email
+                .split("@")[0]
+                .toUpperCase();
+            const userRef = doc(db, "users", id);
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            // Block admin access
+            if (userData.role === "admin") {
+                navigate("/admin-dashboard");
+                return;
+            }
             setUserId(id);
 
             const today = new Date().toISOString().split("T")[0];
@@ -77,22 +108,40 @@ function ShareExperience() {
     };
 
     const handleSubmit = async () => {
+        if (!userId) {
+            return showMsg(t("loginRequired"), "error");
+        }
         if (!rating) return showMsg(t("pleaseSelectRating"), "error");
         if (!sessionType) return showMsg(t("pleaseSelectSession"), "error");
         if (!moodBefore) return showMsg(t("pleaseSelectMoodBefore"), "error");
         if (!moodAfter) return showMsg(t("pleaseSelectMoodAfter"), "error");
-        if (!comment.trim()) return showMsg(t("pleaseShareWords"), "error");
+        if (!comment.trim() || comment.trim().length < 10) {
+            return showMsg(t("pleaseShareWords"), "error");
+        }
 
         setLoading(true);
         try {
             const today = new Date().toISOString().split("T")[0];
+            const q = query(
+                collection(db, "experiences"),
+                where("userId", "==", userId),
+                where("date", "==", today)
+            );
+
+            const snap = await getDocs(q);
+
+            if (!snap.empty) {
+                setAlreadySubmitted(true);
+                setLoading(false);
+                return;
+            }
             await addDoc(collection(db, "experiences"), {
                 userId,
                 rating,
                 sessionType,
                 moodBefore,
                 moodAfter,
-                comment: comment.trim(),
+                comment: comment.trim().slice(0, 500),
                 date: today,
                 createdAt: new Date().toISOString(),
             });

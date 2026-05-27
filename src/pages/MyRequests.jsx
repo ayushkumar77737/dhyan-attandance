@@ -2,7 +2,15 @@ import React, { useEffect, useState } from "react";
 import "./MyRequests.css";
 
 import { auth, db } from "../firebase/firebase";
-import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  updateDoc,
+  getDoc
+} from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -36,11 +44,35 @@ function MyRequests() {
   const [editReason, setEditReason] = useState("");
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const id = user.email.split("@")[0].toUpperCase();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user && user.email) {
+
+        const id = user.email
+          .split("@")[0]
+          .toUpperCase();
+
+        const userRef = doc(db, "users", id);
+
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) {
+          navigate("/");
+          return;
+        }
+
+        const userData = userSnap.data();
+
+        // Block admin access
+        if (userData.role === "admin") {
+          navigate("/admin-dashboard");
+          return;
+        }
+
         setUserId(id);
         fetchRequests(id);
+
+      } else {
+        navigate("/");
       }
     });
     return () => unsubscribe();
@@ -71,14 +103,23 @@ function MyRequests() {
   };
 
   const saveEdit = async () => {
+
     if (!editItem || !editReason.trim()) return;
+
+    if (editItem.userId !== userId) {
+      return;
+    }
+
     try {
+
       await updateDoc(doc(db, "absenceRequests", editItem.id), {
         reason: editReason.trim()
       });
+
       setShowEditModal(false);
       setEditItem(null);
       fetchRequests(userId);
+
     } catch (error) {
       console.error(error);
     }

@@ -42,8 +42,32 @@ function MyProfile() {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (!user) return;
-            const id = user.email.split("@")[0].toUpperCase();
+            if (!user || !user.email) {
+                navigate("/");
+                return;
+            }
+
+            const id = user.email
+                .split("@")[0]
+                .toUpperCase();
+
+            const userRef = doc(db, "users", id);
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            // Block admin access
+            if (userData.role === "admin") {
+                navigate("/admin-dashboard");
+                return;
+            }
+
             try {
                 const profileSnap = await getDoc(doc(db, "profiles", id));
                 if (profileSnap.exists()) {
@@ -69,21 +93,43 @@ function MyProfile() {
     }, []);
 
     const saveProfile = async () => {
-        if (!editForm.name.trim() || !editForm.address.trim()) return;
+        if (
+            !profileId ||
+            !editForm.name.trim() ||
+            !editForm.address.trim()
+        ) return;
+        if (
+            editForm.email &&
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editForm.email)
+        ) {
+            return;
+        }
         try {
             setEditLoading(true);
+            const safeName = editForm.name.trim().slice(0, 60);
 
+            const safeFather = editForm.fatherHusbandName
+                .trim()
+                .slice(0, 60);
+
+            const safeAddress = editForm.address
+                .trim()
+                .slice(0, 300);
+
+            const safeEmail = editForm.email
+                .trim()
+                .slice(0, 100);
             // Update profiles collection
             await updateDoc(doc(db, "profiles", profileId), {
-                name: editForm.name.trim(),
-                fatherHusbandName: editForm.fatherHusbandName.trim(),
-                address: editForm.address.trim(),
-                email: editForm.email.trim()
+                name: safeName,
+                fatherHusbandName: safeFather,
+                address: safeAddress,
+                email: safeEmail
             });
 
             // Also sync name to users collection
             await updateDoc(doc(db, "users", profileId), {
-                name: editForm.name.trim()
+                name: safeName
             });
 
             setProfile((prev) => ({ ...prev, ...editForm }));

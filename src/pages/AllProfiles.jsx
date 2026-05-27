@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./AllProfiles.css";
 import { useNavigate } from "react-router-dom";
-import { db } from "../firebase/firebase";
-import { collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { db, auth } from "../firebase/firebase";
+import {
+    collection,
+    getDocs,
+    doc,
+    updateDoc,
+    deleteDoc,
+    getDoc
+} from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
 function AllProfiles() {
@@ -28,6 +35,44 @@ function AllProfiles() {
 
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deleteLoading, setDeleteLoading] = useState(false);
+    const checkAdmin = async () => {
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            navigate("/");
+            return;
+        }
+
+        try {
+
+            const userRef = doc(
+                db,
+                "users",
+                localStorage.getItem("userId")
+            );
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            if (userData.role !== "admin") {
+                navigate("/");
+                return;
+            }
+
+            fetchProfiles();
+
+        } catch (error) {
+            console.error(error);
+            navigate("/");
+        }
+    };
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -39,7 +84,7 @@ function AllProfiles() {
         };
         document.addEventListener("contextmenu", disableRightClick);
         document.addEventListener("keydown", disableInspectKeys);
-        fetchProfiles();
+        checkAdmin();
         return () => {
             document.removeEventListener("contextmenu", disableRightClick);
             document.removeEventListener("keydown", disableInspectKeys);

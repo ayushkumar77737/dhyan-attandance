@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./AttendanceReport.css";
 
-import { db } from "../firebase/firebase";
-import { collection, getDocs, doc, updateDoc } from "firebase/firestore"; // ← ADD doc, updateDoc
+import { db, auth } from "../firebase/firebase";
+import {
+    collection,
+    getDocs,
+    doc,
+    updateDoc,
+    getDoc
+} from "firebase/firestore";
 
 import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
@@ -29,6 +35,9 @@ function AttendanceReport() {
             document.removeEventListener("keydown", disableInspectKeys);
         };
     }, []);
+    useEffect(() => {
+        checkAdmin();
+    }, []);
 
     const navigate = useNavigate();
 
@@ -44,6 +53,42 @@ function AttendanceReport() {
     const [showEditModal, setShowEditModal] = useState(false);
     const [editUser, setEditUser] = useState(null);
     const [editStatus, setEditStatus] = useState("");
+    const checkAdmin = async () => {
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            navigate("/");
+            return;
+        }
+
+        try {
+
+            const userRef = doc(
+                db,
+                "users",
+                localStorage.getItem("userId")
+            );
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            if (userData.role !== "admin") {
+                navigate("/");
+                return;
+            }
+
+        } catch (error) {
+            console.error(error);
+            navigate("/");
+        }
+    };
 
     useEffect(() => {
         const today = new Date().toISOString().split("T")[0];
@@ -226,7 +271,7 @@ function AttendanceReport() {
                                 <th>{t("name")}</th>
                                 <th>{t("id")}</th>
                                 <th>{t("status")}</th>
-                                <th>{t("actions")}</th> {/* ← ADD */}
+                                <th>{t("actions")}</th>
                             </tr>
                         </thead>
                         <tbody>

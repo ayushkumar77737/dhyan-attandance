@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./DeletedUsers.css";
 
-import { db } from "../firebase/firebase";
-import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
+import { db, auth } from "../firebase/firebase";
+import {
+  collection,
+  getDocs,
+  updateDoc,
+  doc,
+  getDoc
+} from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 
@@ -32,6 +38,40 @@ function DeletedUsers() {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
+  const checkAdmin = async () => {
+
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+      navigate("/");
+      return;
+    }
+
+    try {
+
+      const userRef = doc(db, "users", localStorage.getItem("userId"));
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        navigate("/");
+        return;
+      }
+
+      const userData = userSnap.data();
+
+      if (userData.role !== "admin") {
+        navigate("/");
+        return;
+      }
+
+      fetchDeletedUsers();
+
+    } catch (error) {
+      console.log(error);
+      navigate("/");
+    }
+  };
+
   const fetchDeletedUsers = async () => {
     const querySnapshot = await getDocs(collection(db, "users"));
     const deletedList = querySnapshot.docs
@@ -41,7 +81,7 @@ function DeletedUsers() {
   };
 
   useEffect(() => {
-    fetchDeletedUsers();
+    checkAdmin();
   }, []);
 
   const restoreUser = async (id) => {
@@ -122,9 +162,9 @@ function DeletedUsers() {
 
             <thead>
               <tr>
-                <th><span className="th-inner">{t("id")}</span></th>     {/* ← CHANGED */}
-                <th><span className="th-inner">{t("name")}</span></th>   {/* ← CHANGED */}
-                <th><span className="th-inner">{t("action")}</span></th> {/* ← CHANGED */}
+                <th><span className="th-inner">{t("id")}</span></th>
+                <th><span className="th-inner">{t("name")}</span></th>
+                <th><span className="th-inner">{t("action")}</span></th>
               </tr>
             </thead>
 

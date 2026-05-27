@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./AbsenceManagement.css";
 
-import { db } from "../firebase/firebase";
-import { collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { db, auth } from "../firebase/firebase";
+import {
+    collection,
+    getDocs,
+    doc,
+    updateDoc,
+    deleteDoc,
+    getDoc
+} from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 import * as XLSX from "xlsx";
@@ -38,9 +45,47 @@ function AbsenceManagement() {
     const [showEditModal, setShowEditModal] = useState(false);
     const [editItem, setEditItem] = useState(null);
     const [selectedStatus, setSelectedStatus] = useState("");
+    const checkAdmin = async () => {
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            navigate("/");
+            return;
+        }
+
+        try {
+
+            const userRef = doc(
+                db,
+                "users",
+                localStorage.getItem("userId")
+            );
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            if (userData.role !== "admin") {
+                navigate("/");
+                return;
+            }
+
+            fetchRequests();
+
+        } catch (error) {
+            console.error(error);
+            navigate("/");
+        }
+    };
 
     useEffect(() => {
-        fetchRequests();
+        checkAdmin();
     }, []);
 
     const fetchRequests = async () => {

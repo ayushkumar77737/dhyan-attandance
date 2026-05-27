@@ -2,8 +2,16 @@ import React, { useState, useEffect } from "react";
 import "./MarkAttendance.css";
 import { useNavigate } from "react-router-dom";
 
-import { db } from "../firebase/firebase";
-import { collection, getDocs, doc, setDoc, query, where } from "firebase/firestore";
+import { db, auth } from "../firebase/firebase";
+import {
+    collection,
+    getDocs,
+    doc,
+    setDoc,
+    query,
+    where,
+    getDoc
+} from "firebase/firestore";
 
 import { useTranslation } from "react-i18next"; // ← ADD
 
@@ -27,8 +35,47 @@ function MarkAttendance() {
             document.removeEventListener("keydown", disableInspectKeys);
         };
     }, []);
+    useEffect(() => {
+        checkAdmin();
+    }, []);
 
     const navigate = useNavigate();
+    const checkAdmin = async () => {
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            navigate("/");
+            return;
+        }
+
+        try {
+
+            const userRef = doc(
+                db,
+                "users",
+                localStorage.getItem("userId")
+            );
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            if (userData.role !== "admin") {
+                navigate("/");
+                return;
+            }
+
+        } catch (error) {
+            console.error(error);
+            navigate("/");
+        }
+    };
 
     const [date, setDate] = useState("");
     const [users, setUsers] = useState([]);
@@ -42,6 +89,13 @@ function MarkAttendance() {
     }, []);
 
     const loadUsers = async () => {
+        const today = new Date().toISOString().split("T")[0];
+
+        if (date > today) {
+            setMessage("Future attendance not allowed");
+            setTimeout(() => setMessage(""), 3000);
+            return;
+        }
 
         if (!date) {
             setMessage(t("selectDateFirst")); // ← CHANGED
@@ -67,8 +121,14 @@ function MarkAttendance() {
 
             querySnapshot.forEach((docItem) => {
                 const data = docItem.data();
-                if (data.deleted !== true) { // ← only add non-deleted users
-                    userList.push({ id: docItem.id, ...data });
+                if (
+                    data.deleted !== true &&
+                    data.role !== "admin"
+                ) {
+                    userList.push({
+                        id: docItem.id,
+                        ...data
+                    });
                 }
             });
 

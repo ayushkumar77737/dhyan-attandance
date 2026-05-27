@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./IdRequests.css";
 import { useNavigate } from "react-router-dom";
-import { db } from "../firebase/firebase";
-import { collection, getDocs, doc, updateDoc, deleteDoc, orderBy, query } from "firebase/firestore";
+import { db, auth } from "../firebase/firebase";
+import {
+    collection,
+    getDocs,
+    doc,
+    updateDoc,
+    deleteDoc,
+    orderBy,
+    query,
+    getDoc
+} from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
 function IdRequests() {
@@ -17,6 +26,44 @@ function IdRequests() {
     const [updatingId, setUpdatingId] = useState(null);
     const [toast, setToast] = useState(null);
     const [deleteModal, setDeleteModal] = useState({ show: false, docId: null });
+    const checkAdmin = async () => {
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            navigate("/");
+            return;
+        }
+
+        try {
+
+            const userRef = doc(
+                db,
+                "users",
+                localStorage.getItem("userId")
+            );
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            if (userData.role !== "admin") {
+                navigate("/");
+                return;
+            }
+
+            fetchRequests();
+
+        } catch (error) {
+            console.error(error);
+            navigate("/");
+        }
+    };
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -28,7 +75,7 @@ function IdRequests() {
         };
         document.addEventListener("contextmenu", disableRightClick);
         document.addEventListener("keydown", disableInspectKeys);
-        fetchRequests();
+        checkAdmin();
         return () => {
             document.removeEventListener("contextmenu", disableRightClick);
             document.removeEventListener("keydown", disableInspectKeys);
@@ -224,7 +271,7 @@ function IdRequests() {
                         type="text"
                         placeholder={t("searchPlaceholder")}
                         value={search}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={(e) => setSearch(e.target.value.slice(0, 50))}
                     />
                     {search && <button className="idreq__search-clear" onClick={() => setSearch("")}>✕</button>}
                 </div>

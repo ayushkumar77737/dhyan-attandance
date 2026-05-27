@@ -29,11 +29,31 @@ function ShowQR() {
         document.addEventListener("keydown", disableInspectKeys);
 
         const unsub = onAuthStateChanged(auth, async (user) => {
-            if (!user) return;
-            const id = user.email.split("@")[0].toUpperCase();
+            if (!user || !user.email) {
+                navigate("/");
+                return;
+            }
+
+            const id = user.email
+                .split("@")[0]
+                .toUpperCase();
             setUserId(id);
             const snap = await getDoc(doc(db, "users", id));
-            if (snap.exists()) setUserName(snap.data().name || id);
+
+            if (!snap.exists()) {
+                navigate("/");
+                return;
+            }
+            const userData = snap.data();
+
+            // Block admin access
+            if (userData.role === "admin") {
+                navigate("/admin-dashboard");
+                return;
+            }
+
+            setUserName(snap.data().name || id);
+
             generateQR(id);
         });
 
@@ -45,7 +65,7 @@ function ShowQR() {
     }, []);
 
     const generateQR = async (id) => {
-        if (!canvasRef.current) return;
+        if (!canvasRef.current || !userId) return;
         try {
             await QRCode.toCanvas(canvasRef.current, id, {
                 width: 280,
@@ -77,6 +97,8 @@ function ShowQR() {
     };
 
     const handleCopyId = () => {
+        if (!userId) return;
+
         navigator.clipboard.writeText(userId);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);

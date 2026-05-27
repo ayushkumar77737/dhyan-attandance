@@ -3,7 +3,17 @@ import "./TicketingSupport.css";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, addDoc, getDocs, query, where, serverTimestamp, doc, updateDoc } from "firebase/firestore";
+import {
+    collection,
+    addDoc,
+    getDocs,
+    query,
+    where,
+    serverTimestamp,
+    doc,
+    updateDoc,
+    getDoc
+} from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
 function TicketingSupport() {
@@ -36,7 +46,7 @@ function TicketingSupport() {
         try {
             const q = query(
                 collection(db, "tickets"),
-                where("idNo", "==", userId)
+                where("userId", "==", auth.currentUser.uid)
             );
             const snapshot = await getDocs(q);
             const list = snapshot.docs.map(doc => ({
@@ -52,12 +62,38 @@ function TicketingSupport() {
     };
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user && user.email) {
+
                 setCurrentUser(user);
-                const id = user.email.split("@")[0].toUpperCase();
+
+                const id = user.email
+                    .split("@")[0]
+                    .toUpperCase();
+
+                const userRef = doc(db, "users", id);
+
+                const userSnap = await getDoc(userRef);
+
+                if (!userSnap.exists()) {
+                    navigate("/");
+                    return;
+                }
+
+                const userData = userSnap.data();
+
+                // Block admin access
+                if (userData.role === "admin") {
+                    navigate("/admin-dashboard");
+                    return;
+                }
+
                 setLoggedInId(id);
+
                 fetchTickets(id);
+
+            } else {
+                navigate("/");
             }
         });
         return () => unsubscribe();
@@ -131,6 +167,7 @@ function TicketingSupport() {
                 idNo: form.idNo.trim().toUpperCase(),
                 email: form.email.trim(),
                 issue: form.issue.trim(),
+                userId: auth.currentUser.uid,
                 status: "Pending",
                 createdAt: serverTimestamp()
             };

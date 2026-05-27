@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./ProfileRegistration.css";
 import { useNavigate } from "react-router-dom";
-import { db } from "../firebase/firebase";
+import { db, auth } from "../firebase/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
@@ -25,6 +25,42 @@ function ProfileRegistration() {
     });
 
     const [errors, setErrors] = useState({});
+    const checkAdmin = async () => {
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            navigate("/");
+            return;
+        }
+
+        try {
+
+            const userRef = doc(
+                db,
+                "users",
+                localStorage.getItem("userId")
+            );
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            if (userData.role !== "admin") {
+                navigate("/");
+                return;
+            }
+
+        } catch (error) {
+            console.error(error);
+            navigate("/");
+        }
+    };
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -41,6 +77,9 @@ function ProfileRegistration() {
             document.removeEventListener("keydown", disableInspectKeys);
         };
     }, []);
+    useEffect(() => {
+        checkAdmin();
+    }, []);
 
     const showMsg = (text, type = "error") => {
         setMessage({ text, type });
@@ -49,7 +88,17 @@ function ProfileRegistration() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm({ ...form, [name]: value });
+        if (name === "idNo") {
+            setForm({
+                ...form,
+                [name]: value.toUpperCase()
+            });
+        } else {
+            setForm({
+                ...form,
+                [name]: value
+            });
+        }
         if (errors[name]) setErrors({ ...errors, [name]: "" });
     };
 
@@ -98,6 +147,13 @@ function ProfileRegistration() {
 
         if (!form.dob) {
             newErrors.dob = "Date of birth is required";
+        } else {
+
+            const today = new Date().toISOString().split("T")[0];
+
+            if (form.dob > today) {
+                newErrors.dob = "Future date not allowed";
+            }
         }
 
         setErrors(newErrors);

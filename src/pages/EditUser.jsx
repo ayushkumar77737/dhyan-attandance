@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { db } from "../firebase/firebase";
+import { db, auth } from "../firebase/firebase";
 import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 
 import "./EditUser.css";
@@ -35,9 +35,42 @@ function EditUser() {
     const [name, setName] = useState("");
     const [userId, setUserId] = useState("");
     const [message, setMessage] = useState({ text: "", type: "" }); // ← ADD
+    const checkAdmin = async () => {
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            navigate("/");
+            return;
+        }
+
+        try {
+
+            const userRef = doc(db, "users", localStorage.getItem("userId"));
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            if (userData.role !== "admin") {
+                navigate("/");
+                return;
+            }
+
+            fetchUser();
+
+        } catch (error) {
+            console.log(error);
+            navigate("/");
+        }
+    };
 
     useEffect(() => {
-        fetchUser();
+        checkAdmin();
     }, [id]);
 
     // ← ADD

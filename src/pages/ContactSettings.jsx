@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./ContactSettings.css";
 import { useNavigate } from "react-router-dom";
-import { db } from "../firebase/firebase";
+import { db, auth } from "../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
@@ -19,6 +19,39 @@ function ContactSettings() {
     const [saving, setSaving] = useState(false);
     const [toast, setToast] = useState(null); // { msg, type }
     const [errors, setErrors] = useState({});
+    const checkAdmin = async () => {
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            navigate("/");
+            return;
+        }
+
+        try {
+
+            const userRef = doc(db, "users", localStorage.getItem("userId"));
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            if (userData.role !== "admin") {
+                navigate("/");
+                return;
+            }
+
+            fetchContact();
+
+        } catch (error) {
+            console.error(error);
+            navigate("/");
+        }
+    };
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -30,7 +63,7 @@ function ContactSettings() {
         };
         document.addEventListener("contextmenu", disableRightClick);
         document.addEventListener("keydown", disableInspectKeys);
-        fetchContact();
+        checkAdmin();
         return () => {
             document.removeEventListener("contextmenu", disableRightClick);
             document.removeEventListener("keydown", disableInspectKeys);

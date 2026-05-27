@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./ActivityLogs.css";
 import { useNavigate } from "react-router-dom";
-import { db } from "../firebase/firebase";
-import { collection, getDocs, orderBy, query, deleteDoc, doc } from "firebase/firestore";
+import { db, auth } from "../firebase/firebase";
+import {
+    collection,
+    getDocs,
+    orderBy,
+    query,
+    deleteDoc,
+    doc,
+    getDoc
+} from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
 function ActivityLogs() {
@@ -19,6 +27,44 @@ function ActivityLogs() {
     const [showDeleteAllModal, setShowDeleteAllModal] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(null);
     const [deletingAll, setDeletingAll] = useState(false);
+    const checkAdmin = async () => {
+
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            navigate("/");
+            return;
+        }
+
+        try {
+
+            const userRef = doc(
+                db,
+                "users",
+                localStorage.getItem("userId")
+            );
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                navigate("/");
+                return;
+            }
+
+            const userData = userSnap.data();
+
+            if (userData.role !== "admin") {
+                navigate("/");
+                return;
+            }
+
+            fetchLogs();
+
+        } catch (error) {
+            console.error(error);
+            navigate("/");
+        }
+    };
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -30,7 +76,7 @@ function ActivityLogs() {
         };
         document.addEventListener("contextmenu", disableRightClick);
         document.addEventListener("keydown", disableInspectKeys);
-        fetchLogs();
+        checkAdmin();
         return () => {
             document.removeEventListener("contextmenu", disableRightClick);
             document.removeEventListener("keydown", disableInspectKeys);
