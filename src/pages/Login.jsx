@@ -101,17 +101,17 @@ const Login = () => {
       const userName = userDoc.exists() ? userDoc.data().name || id.toUpperCase() : id.toUpperCase();
       await logLogin(id.toUpperCase(), userName);
 
-      const ADMIN_EMAIL = "admin1@dhyan.in";
+      const role = userDoc.exists() ? userDoc.data().role : "user";
 
-      if (loggedEmail === ADMIN_EMAIL) {
+      if (role === "admin") {
         localStorage.setItem("adminAuth", "true");
         localStorage.removeItem("userAuth");
-        localStorage.setItem("userId", id);
+        localStorage.setItem("userId", id.toUpperCase());
         navigate("/admin-dashboard");
       } else {
         localStorage.setItem("userAuth", "true");
         localStorage.removeItem("adminAuth");
-        localStorage.setItem("userId", id);
+        localStorage.setItem("userId", id.toUpperCase());
         navigate("/user-dashboard");
       }
 
