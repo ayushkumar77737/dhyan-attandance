@@ -718,6 +718,14 @@ MOBILE
     font-size: 13px;
   }
 
+  .notifications-page .notif-list {
+    overflow-x: auto;        /* ← ADD */
+  }
+
+  .notifications-page .notif-table {
+    min-width: 480px;        /* ← ADD */
+  }
+
   .notifications-page .notif-table th,
   .notifications-page .notif-table td {
     font-size: 12px;
@@ -731,6 +739,14 @@ MOBILE
   .notif-action-btns {
     flex-direction: column;
     gap: 4px;
+    align-items: stretch;    /* ← ADD */
+  }
+
+  .notif-edit-btn,
+  .notif-delete-btn {
+    text-align: center;      /* ← ADD */
+    padding: 6px 8px;        /* ← ADD */
+    font-size: 11px;         /* ← ADD */
   }
 
   .notif-modal {
