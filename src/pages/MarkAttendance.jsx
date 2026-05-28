@@ -93,6 +93,8 @@ function MarkAttendance() {
 
         if (date > today) {
             setMessage("Future attendance not allowed");
+            setUsers([]);
+            setAttendance({});
             setTimeout(() => setMessage(""), 3000);
             return;
         }
@@ -217,7 +219,11 @@ function MarkAttendance() {
                 <input
                     type="date"
                     value={date}
-                    onChange={(e) => setDate(e.target.value)}
+                    onChange={(e) => {
+                        setDate(e.target.value);
+                        setUsers([]);
+                        setAttendance({});
+                    }}
                 />
                 <button onClick={loadUsers}>
                     {t("loadUsers")} {/* ← CHANGED */}
