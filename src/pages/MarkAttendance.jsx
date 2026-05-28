@@ -261,7 +261,7 @@ function MarkAttendance() {
                     onClick={saveAttendance}
                     disabled={loading}
                 >
-                    {loading ? t("savingAttendance") : t("saveAttendance")} {/* ← CHANGED */}
+                    {loading ? t("savingAttendance") : t("saveAttendance")} 
                 </button>
             )}
 
