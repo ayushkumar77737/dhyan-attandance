@@ -13,7 +13,7 @@ function SessionFeedbacks() {
     const [loading, setLoading] = useState(true);
     const [filterSession, setFilterSession] = useState("all");
     const [filterRating, setFilterRating] = useState("all");
-    const [filterDate, setFilterDate] = useState("");
+    const [filterDate, setFilterDate] = useState(new Date().toISOString().split("T")[0]);
     const [expandedRow, setExpandedRow] = useState(null);
     const checkAdmin = async () => {
 
@@ -320,7 +320,6 @@ function SessionFeedbacks() {
                         type="date"
                         className="ssfb__date-input"
                         value={filterDate}
-                        placeholder={new Date().toISOString().split("T")[0]}
                         onChange={e => setFilterDate(e.target.value)}
                     />
                 </div>
