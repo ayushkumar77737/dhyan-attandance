@@ -290,6 +290,8 @@ NOTIFICATIONS LIST
   width: 100%;
   max-width: 800px;
   margin-top: 28px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .notif-list-header {
@@ -329,11 +331,11 @@ TABLE
   width: 100%;
   border-collapse: collapse;
   border-radius: 16px;
-  overflow: hidden;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(16px);
+  table-layout: auto;
 }
 
 .notifications-page .notif-table th {
@@ -722,10 +724,12 @@ MOBILE
   .notifications-page .notif-list {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    width: 100%;
   }
 
   .notifications-page .notif-table {
-    min-width: 500px;
+    min-width: 460px;
+    width: 460px;
   }
 
   .notifications-page .notif-table th,
