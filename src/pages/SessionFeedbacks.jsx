@@ -320,6 +320,7 @@ function SessionFeedbacks() {
                         type="date"
                         className="ssfb__date-input"
                         value={filterDate}
+                        placeholder={new Date().toISOString().split("T")[0]}
                         onChange={e => setFilterDate(e.target.value)}
                     />
                 </div>

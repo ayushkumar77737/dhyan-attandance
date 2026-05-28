@@ -432,6 +432,7 @@
     transition: all 0.22s ease;
     backdrop-filter: blur(10px);
     min-width: 160px;
+    color-scheme: dark;
 }
 
 .ssfb__select:focus,
