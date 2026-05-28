@@ -544,5 +544,26 @@
       "lockUntil": "Lock Until",
       "remaining": "Remaining"
     }
-  }
+  },
+  "attendancePortal": "Attendance Portal",
+  "viewDetails": "View Details",
+  "requestLeave": "Request Leave",
+  "trackStatus": "Track Status",
+  "raiseIssue": "Raise an Issue",
+  "giveFeedback": "Give Feedback",
+  "documentation": "Documentation",
+  "quickActions": "Quick Actions",
+  "attendanceLog": "Attendance Log",
+  "activity": "Activity",
+  "allClear": "All Clear",
+  "adminLabel": "Admin",
+  "signOut": "Sign out",
+  "coreManagement": "Core Management",
+  "toolsAndSettings": "Tools & Settings",
+  "addUserSub": "Register new member",
+  "markAttendanceSub": "Record daily presence",
+  "smartAttendanceSub": "QR scanner mode",
+  "allUsersSub": "Manage all members",
+  "attendanceReportSub": "Daily log view",
+  "percentageReportSub": "Analytics by user"
 }

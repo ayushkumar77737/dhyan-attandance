@@ -545,5 +545,26 @@
       "lockUntil": "లాక్ వరకు",
       "remaining": "మిగిలిన సమయం"
     }
-  }
+  },
+  "attendancePortal": "హాజరు పోర్టల్",
+  "viewDetails": "వివరాలు చూడండి",
+  "requestLeave": "సెలవు కోసం అభ్యర్థించండి",
+  "trackStatus": "స్థితిని ట్రాక్ చేయండి",
+  "raiseIssue": "సమస్యను నమోదు చేయండి",
+  "giveFeedback": "అభిప్రాయం తెలపండి",
+  "documentation": "పత్రాలు",
+  "quickActions": "త్వరిత చర్యలు",
+  "attendanceLog": "హాజరు నమోదు",
+  "activity": "కార్యకలాపం",
+  "allClear": "అన్నీ సరిగ్గా ఉన్నాయి",
+  "adminLabel": "నిర్వాహకుడు",
+  "signOut": "సైన్ అవుట్",
+  "coreManagement": "ప్రధాన నిర్వహణ",
+  "toolsAndSettings": "సాధనాలు మరియు సెట్టింగులు",
+  "addUserSub": "కొత్త సభ్యుడిని నమోదు చేయండి",
+  "markAttendanceSub": "రోజువారీ హాజరు నమోదు చేయండి",
+  "smartAttendanceSub": "QR స్కానర్ మోడ్",
+  "allUsersSub": "అందరు సభ్యులను నిర్వహించండి",
+  "attendanceReportSub": "రోజువారీ లాగ్ చూడండి",
+  "percentageReportSub": "వినియోగదారు వారీగా విశ్లేషణ"
 }

@@ -545,5 +545,26 @@
       "lockUntil": "ലോക്ക് സമയം",
       "remaining": "ശേഷിക്കുന്ന സമയം"
     }
-  }
+  },
+  "attendancePortal": "ഹാജർ പോർട്ടൽ",
+  "viewDetails": "വിശദാംശങ്ങൾ കാണുക",
+  "requestLeave": "അവധിക്ക് അപേക്ഷിക്കുക",
+  "trackStatus": "സ്ഥിതി ട്രാക്ക് ചെയ്യുക",
+  "raiseIssue": "പ്രശ്നം രേഖപ്പെടുത്തുക",
+  "giveFeedback": "അഭിപ്രായം നൽകുക",
+  "documentation": "രേഖകൾ",
+  "quickActions": "ദ്രുത പ്രവർത്തനങ്ങൾ",
+  "attendanceLog": "ഹാജർ രേഖ",
+  "activity": "പ്രവർത്തനം",
+  "allClear": "എല്ലാം ശരിയാണ്",
+  "adminLabel": "അഡ്മിൻ",
+  "signOut": "സൈൻ ഔട്ട്",
+  "coreManagement": "പ്രധാന മാനേജ്മെന്റ്",
+  "toolsAndSettings": "ടൂളുകളും ക്രമീകരണങ്ങളും",
+  "addUserSub": "പുതിയ അംഗത്തെ ചേർക്കുക",
+  "markAttendanceSub": "ദൈനംദിന ഹാജർ രേഖപ്പെടുത്തുക",
+  "smartAttendanceSub": "QR സ്കാനർ മോഡ്",
+  "allUsersSub": "എല്ലാ അംഗങ്ങളെയും നിയന്ത്രിക്കുക",
+  "attendanceReportSub": "ദൈനംദിന ലോഗ് കാണുക",
+  "percentageReportSub": "ഉപയോക്താവ് അനുസരിച്ച് വിശകലനം"
 }

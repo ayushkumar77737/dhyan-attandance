@@ -430,5 +430,116 @@
   "faq4Question": "সহায়তার সময় কী?",
   "faq4Answer": "আমাদের টিম সোমবার থেকে শনিবার সকাল ৯:০০ থেকে সন্ধ্যা ৬:০০ IST পর্যন্ত উপলব্ধ। এই সময়ের বাইরে অনুগ্রহ করে টেলিগ্রাম চ্যানেল ব্যবহার করুন।",
   "footerNote": "জয় গুরুবন্দে — ভক্তি ও যত্নের সাথে সেবা",
-  "blockedAccounts": "অবরুদ্ধ অ্যাকাউন্ট" 
+  "blockedAccounts": {
+    "label": "ব্লক করা অ্যাকাউন্ট",
+    "securityMonitor": "নিরাপত্তা পর্যবেক্ষণ",
+    "title": "ব্লক করা",
+    "titleAccent": "অ্যাকাউন্ট",
+    "subtitle": "প্ল্যাটফর্মে ব্যর্থ লগইন প্রচেষ্টা এবং লক করা অ্যাকাউন্ট পর্যবেক্ষণ করুন।",
+    "back": "ফিরে যান",
+    "stats": {
+      "lockedAccounts": "লক করা অ্যাকাউন্ট",
+      "highRisk": "উচ্চ ঝুঁকি",
+      "totalAttempts": "মোট প্রচেষ্টা",
+      "totalRecords": "মোট রেকর্ড"
+    },
+    "search": {
+      "placeholder": "ব্যবহারকারী আইডি দিয়ে খুঁজুন..."
+    },
+    "filter": {
+      "all": "সব",
+      "locked": "লক করা",
+      "active": "সক্রিয়",
+      "clean": "পরিষ্কার"
+    },
+    "sort": {
+      "attempts": "সাজান: প্রচেষ্টা",
+      "id": "সাজান: আইডি",
+      "status": "সাজান: অবস্থা"
+    },
+    "refresh": "রিফ্রেশ করুন",
+    "section": {
+      "title": "ব্লক করা অ্যাকাউন্টের রেকর্ড",
+      "deleteAll": "সব মুছুন"
+    },
+    "table": {
+      "hash": "#",
+      "userId": "ব্যবহারকারী আইডি",
+      "attempts": "প্রচেষ্টা",
+      "status": "অবস্থা",
+      "lockUntil": "লক থাকবে",
+      "actions": "পদক্ষেপ"
+    },
+    "status": {
+      "locked": "লক করা",
+      "atRisk": "ঝুঁকিতে",
+      "clean": "পরিষ্কার"
+    },
+    "remaining": {
+      "hoursMinutes": "{{hours}}ঘ {{minutes}}মি বাকি",
+      "minutesOnly": "{{minutes}}মি বাকি"
+    },
+    "actions": {
+      "reset": "রিসেট",
+      "delete": "মুছুন",
+      "resetTitle": "প্রচেষ্টা রিসেট করুন",
+      "deleteTitle": "রেকর্ড মুছুন"
+    },
+    "loading": "রেকর্ড আনা হচ্ছে...",
+    "empty": {
+      "icon": "কোনো রেকর্ড পাওয়া যায়নি",
+      "withSearch": "অন্য ব্যবহারকারী আইডি দিয়ে চেষ্টা করুন।",
+      "withoutSearch": "কোনো ব্লক করা অ্যাকাউন্টের রেকর্ড নেই।"
+    },
+    "modal": {
+      "deleteSingle": {
+        "title": "রেকর্ড মুছবেন?",
+        "description": "এটি স্থায়ীভাবে এই রেকর্ডটি মুছে ফেলবে",
+        "cancel": "বাতিল",
+        "confirm": "মুছুন"
+      },
+      "deleteAll": {
+        "title": "সব রেকর্ড মুছবেন?",
+        "description": "এটি স্থায়ীভাবে মুছে ফেলবে",
+        "descriptionSuffix": "টি রেকর্ড। এই কাজ পূর্বাবস্থায় ফেরানো যাবে না।",
+        "cancel": "বাতিল",
+        "confirm": "সব মুছুন"
+      }
+    },
+    "toast": {
+      "resetSuccess": "{{userId}} সফলভাবে রিসেট হয়েছে",
+      "resetFailed": "রিসেট ব্যর্থ হয়েছে",
+      "deleteSuccess": "{{userId}} সফলভাবে মুছে ফেলা হয়েছে",
+      "deleteFailed": "মুছে ফেলা ব্যর্থ হয়েছে",
+      "deleteAllSuccess": "{{count}}টি রেকর্ড মুছে ফেলা হয়েছে",
+      "deleteAllFailed": "সব মুছে ফেলা ব্যর্থ হয়েছে",
+      "fetchFailed": "ডেটা আনতে ব্যর্থ হয়েছে"
+    },
+    "card": {
+      "attempts": "প্রচেষ্টা",
+      "lockUntil": "লক থাকবে",
+      "remaining": "বাকি সময়"
+    }
+  },
+  "attendancePortal": "উপস্থিতি পোর্টাল",
+  "viewDetails": "বিবরণ দেখুন",
+  "requestLeave": "ছুটির জন্য অনুরোধ করুন",
+  "trackStatus": "অবস্থা ট্র্যাক করুন",
+  "raiseIssue": "সমস্যা নথিভুক্ত করুন",
+  "giveFeedback": "মতামত দিন",
+  "documentation": "নথিপত্র",
+  "quickActions": "দ্রুত কার্যক্রম",
+  "attendanceLog": "উপস্থিতি রেকর্ড",
+  "activity": "কার্যকলাপ",
+  "allClear": "সব ঠিক আছে",
+  "adminLabel": "অ্যাডমিন",
+  "signOut": "সাইন আউট",
+  "coreManagement": "মূল ব্যবস্থাপনা",
+  "toolsAndSettings": "টুলস এবং সেটিংস",
+  "addUserSub": "নতুন সদস্য নিবন্ধন করুন",
+  "markAttendanceSub": "দৈনিক উপস্থিতি নথিভুক্ত করুন",
+  "smartAttendanceSub": "QR স্ক্যানার মোড",
+  "allUsersSub": "সকল সদস্য পরিচালনা করুন",
+  "attendanceReportSub": "দৈনিক লগ দেখুন",
+  "percentageReportSub": "ব্যবহারকারী অনুযায়ী বিশ্লেষণ"
 }

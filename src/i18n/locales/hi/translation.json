@@ -545,5 +545,26 @@
       "lockUntil": "लॉक समय तक",
       "remaining": "शेष समय"
     }
-  }
+  },
+  "attendancePortal": "उपस्थिति पोर्टल",
+  "viewDetails": "विवरण देखें",
+  "requestLeave": "छुट्टी का अनुरोध करें",
+  "trackStatus": "स्थिति ट्रैक करें",
+  "raiseIssue": "समस्या दर्ज करें",
+  "giveFeedback": "प्रतिक्रिया दें",
+  "documentation": "दस्तावेज़",
+  "quickActions": "त्वरित क्रियाएं",
+  "attendanceLog": "उपस्थिति लॉग",
+  "activity": "गतिविधि",
+  "allClear": "सब ठीक है",
+  "adminLabel": "एडमिन",
+  "signOut": "साइन आउट",
+  "coreManagement": "मुख्य प्रबंधन",
+  "toolsAndSettings": "टूल्स और सेटिंग्स",
+  "addUserSub": "नया सदस्य जोड़ें",
+  "markAttendanceSub": "दैनिक उपस्थिति दर्ज करें",
+  "smartAttendanceSub": "QR स्कैनर मोड",
+  "allUsersSub": "सभी सदस्यों को प्रबंधित करें",
+  "attendanceReportSub": "दैनिक लॉग देखें",
+  "percentageReportSub": "उपयोगकर्ता के अनुसार विश्लेषण"
 }

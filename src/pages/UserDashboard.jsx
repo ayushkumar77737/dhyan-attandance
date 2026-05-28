@@ -9,7 +9,6 @@ import useAutoLogout from "../hooks/useAutoLogout";
 import { useTranslation } from "react-i18next";
 
 function UserDashboard() {
-
   const { t } = useTranslation();
   const navigate = useNavigate();
   useAutoLogout();
@@ -20,8 +19,7 @@ function UserDashboard() {
       if (e.key === "F12") e.preventDefault();
       if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
         e.preventDefault();
-      if (e.ctrlKey && e.key.toUpperCase() === "U")
-        e.preventDefault();
+      if (e.ctrlKey && e.key.toUpperCase() === "U") e.preventDefault();
     };
     document.addEventListener("contextmenu", disableRightClick);
     document.addEventListener("keydown", disableInspectKeys);
@@ -39,8 +37,6 @@ function UserDashboard() {
   const [percentage, setPercentage] = useState(0);
   const [todayStatus, setTodayStatus] = useState(null);
   const [calendarMonth, setCalendarMonth] = useState(new Date());
-
-  // ── NEW: quick action counts ──
   const [notifCount, setNotifCount] = useState(null);
   const [pendingCount, setPendingCount] = useState(null);
   const [ticketCount, setTicketCount] = useState(null);
@@ -48,57 +44,31 @@ function UserDashboard() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user || !user.email) {
-        navigate("/");
-        return;
-      }
-
+      if (!user || !user.email) { navigate("/"); return; }
       const email = user.email;
-
-      const id = email
-        .split("@")[0]
-        .toUpperCase();
+      const id = email.split("@")[0].toUpperCase();
       setUserId(id);
 
       const userRef = doc(db, "users", id);
       const userSnap = await getDoc(userRef);
-      if (!userSnap.exists()) {
-        navigate("/");
-        return;
-      }
+      if (!userSnap.exists()) { navigate("/"); return; }
       const userData = userSnap.data();
-      if (userData.role === "admin") {
-        navigate("/admin-dashboard");
-        return;
-      }
-
+      if (userData.role === "admin") { navigate("/admin-dashboard"); return; }
       setUserName(userSnap.data().name || id);
 
       const snapshot = await getDocs(collection(db, "attendance"));
-      let list = [];
-      let present = 0;
-      let absent = 0;
-
+      let list = [], present = 0, absent = 0;
       snapshot.forEach((docItem) => {
         const data = docItem.data();
         if (data.userId === id) {
           list.push({ date: data.date, status: data.status });
           if (data.status?.trim() === "Present") present++;
-
           if (data.status?.trim() === "Absent") absent++;
         }
       });
-
       list.sort((a, b) => new Date(a.date) - new Date(b.date));
       const total = present + absent;
-      const percent =
-        total > 0
-          ? Math.min(
-            100,
-            ((present / total) * 100).toFixed(2)
-          )
-          : 0;
-
+      const percent = total > 0 ? Math.min(100, ((present / total) * 100).toFixed(2)) : 0;
       setAttendance(list);
       setPresentCount(present);
       setAbsentCount(absent);
@@ -106,20 +76,13 @@ function UserDashboard() {
 
       const today = new Date().toISOString().split("T")[0];
       const todayRecord = list.find((item) => item.date === today);
-
       if (todayRecord) {
         setTodayStatus(todayRecord.status);
       } else {
         const sorted = [...list].sort((a, b) => new Date(b.date) - new Date(a.date));
-        const lastRecord = sorted[0];
-        if (lastRecord) {
-          setTodayStatus(lastRecord.status);
-        } else {
-          setTodayStatus("none");
-        }
+        setTodayStatus(sorted[0] ? sorted[0].status : "none");
       }
 
-      // ── NEW: Notifications count ──
       const notifSnap = await getDocs(collection(db, "notifications"));
       let notifTotal = 0;
       notifSnap.forEach((docItem) => {
@@ -129,7 +92,6 @@ function UserDashboard() {
       });
       setNotifCount(notifTotal);
 
-      // ── NEW: Pending absence requests count ──
       const absenceSnap = await getDocs(collection(db, "absenceRequests"));
       let pendingTotal = 0;
       absenceSnap.forEach((docItem) => {
@@ -138,32 +100,24 @@ function UserDashboard() {
       });
       setPendingCount(pendingTotal);
 
-      // ── NEW: Tickets count ──
       const ticketsSnap = await getDocs(collection(db, "tickets"));
-      let ticketTotal = 0;
-      let resolvedTotal = 0;
+      let ticketTotal = 0, resolvedTotal = 0;
       ticketsSnap.forEach((docItem) => {
         const data = docItem.data();
-        if (
-          data.idNo &&
-          data.idNo.toUpperCase() === id
-        ) {
+        if (data.idNo && data.idNo.toUpperCase() === id) {
           ticketTotal++;
           if (data.status === "Resolved") resolvedTotal++;
         }
       });
       setTicketCount(ticketTotal);
       setResolvedCount(resolvedTotal);
-
     });
     return () => unsubscribe();
   }, []);
 
   const handleLogout = async () => {
     try {
-      if (userId?.trim()) {
-        await logLogout(userId.trim());
-      }
+      if (userId?.trim()) await logLogout(userId.trim());
       await signOut(auth);
       navigate("/");
     } catch (error) {
@@ -171,278 +125,325 @@ function UserDashboard() {
     }
   };
 
+  /* Initials helper */
+  const getInitials = (name) =>
+    name ? name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 3) : "?";
+
   return (
-    <div className="dashboard-container">
+    <div className="ud-container">
 
-      <button className="logout-btn" onClick={handleLogout}>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-          <polyline points="16 17 21 12 16 7" />
-          <line x1="21" y1="12" x2="9" y2="12" />
-        </svg>
-        {t("logout")}
-      </button>
-
-      <div className="dashboard-header">
-        <h1 className="dashboard-title">{t("userDashboard")}</h1>
+      {/* ── TOP BAR ── */}
+      <div className="ud-topbar">
+        <div className="ud-topbar-left">
+          <span className="ud-portal-label">{t("attendancePortal") || "Attendance Portal"}</span>
+        </div>
+        <button className="ud-logout-btn" onClick={handleLogout}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+          {t("logout")}
+        </button>
       </div>
 
-      <div className="dashboard-card">
+      <div className="ud-body">
 
-        <h2>{t("yourAttendance")}</h2>
+        {/* ── HERO PROFILE CARD ── */}
+        <div className="ud-hero-card">
+          <div className="ud-hero-top">
+            <div className="ud-avatar-row">
+              <div className="ud-avatar">{getInitials(userName)}</div>
+              <div className="ud-user-info">
+                <div className="ud-user-name">{userName || "—"}</div>
+                <div className="ud-user-id">ID: {userId}</div>
+              </div>
+            </div>
 
-        {/* ── TODAY STATUS BADGE ── */}
-        <div className="today-status-wrap">
-          {todayStatus === null ? (
-            <div className="today-status-badge today-status-loading">
-              <span className="today-status-dot today-dot-loading" />
-              {t("loading")}
+            {/* Today status pill */}
+            {todayStatus === null ? (
+              <div className="ud-status-pill ud-status-loading">
+                <span className="ud-dot ud-dot-loading" /> {t("loading")}
+              </div>
+            ) : todayStatus === "none" ? (
+              <div className="ud-status-pill ud-status-none">
+                <span className="ud-dot ud-dot-none" /> {t("notMarked")}
+              </div>
+            ) : todayStatus === "Present" ? (
+              <div className="ud-status-pill ud-status-present">
+                <span className="ud-dot ud-dot-present" /> ✓ {t("present")}
+              </div>
+            ) : (
+              <div className="ud-status-pill ud-status-absent">
+                <span className="ud-dot ud-dot-absent" /> ✗ {t("absent")}
+              </div>
+            )}
+          </div>
+
+          {/* Attendance stats */}
+          <div className="ud-stats-row">
+            <div className="ud-stat">
+              <span className="ud-stat-val ud-stat-green">{percentage}%</span>
+              <span className="ud-stat-label">{t("attendance")}</span>
             </div>
-          ) : todayStatus === "none" ? (
-            <div className="today-status-badge today-status-none">
-              <span className="today-status-dot today-dot-none" />
-              {t("notMarked")}
+            <div className="ud-stat-divider" />
+            <div className="ud-stat">
+              <span className="ud-stat-val ud-stat-white">{presentCount}</span>
+              <span className="ud-stat-label">{t("presentDays")}</span>
             </div>
-          ) : todayStatus === "Present" ? (
-            <div className="today-status-badge today-status-present">
-              <span className="today-status-dot today-dot-present" />
-              ✓ {t("present")}
+            <div className="ud-stat-divider" />
+            <div className="ud-stat">
+              <span className="ud-stat-val ud-stat-red">{absentCount}</span>
+              <span className="ud-stat-label">{t("absentDays")}</span>
             </div>
-          ) : (
-            <div className="today-status-badge today-status-absent">
-              <span className="today-status-dot today-dot-absent" />
-              ✗ {t("absent")}
-            </div>
-          )}
+          </div>
         </div>
 
-        {/* ── NEW: QUICK ACTION SHORTCUTS ── */}
-        <div className="quick-actions">
-
-          <div className="quick-card quick-card--blue" onClick={() => navigate("/my-notifications")}>
-            <div className="quick-card-icon">🔔</div>
-            <div className="quick-card-info">
-              <span className="quick-card-title">{t("notifications")}</span>
-              <span className="quick-card-count">
-                {notifCount === null ? <span className="quick-spinner" /> : notifCount}
-              </span>
-            </div>
+        {/* ── ACTIVITY CARDS ── */}
+        <div className="ud-section">
+          <div className="ud-section-header">
+            <span className="ud-section-title">{t("activity") || "Activity"}</span>
           </div>
+          <div className="ud-activity-grid">
 
-          <div className="quick-card quick-card--amber" onClick={() => navigate("/my-requests")}>
-            <div className="quick-card-icon">📋</div>
-            <div className="quick-card-info">
-              <span className="quick-card-title">{t("pendingRequests")}</span>
-              <span className="quick-card-count">
-                {pendingCount === null ? <span className="quick-spinner" /> : pendingCount}
-              </span>
+            <div className="ud-act-card ud-act-amber" onClick={() => navigate("/my-notifications")}>
+              <div className="ud-act-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                </svg>
+              </div>
+              <div className="ud-act-info">
+                <span className="ud-act-val">{notifCount === null ? <span className="ud-spinner" /> : notifCount}</span>
+                <span className="ud-act-label">{t("notifications")}</span>
+              </div>
             </div>
-          </div>
 
-          <div className="quick-card quick-card--green" onClick={() => navigate("/ticketing-support")}>
-            <div className="quick-card-icon">🎫</div>
-            <div className="quick-card-info">
-              <span className="quick-card-title">{t("myTickets")}</span>
-              <span className="quick-card-count">
-                {ticketCount === null ? <span className="quick-spinner" /> : ticketCount}
-              </span>
-              <span className="quick-card-sub">
-                {resolvedCount === null ? "" : `${resolvedCount} ${t("resolved")}`}
-              </span>
+            <div className="ud-act-card ud-act-blue" onClick={() => navigate("/my-requests")}>
+              <div className="ud-act-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                </svg>
+              </div>
+              <div className="ud-act-info">
+                <span className="ud-act-val">{pendingCount === null ? <span className="ud-spinner" /> : pendingCount}</span>
+                <span className="ud-act-label">{t("pendingRequests")}</span>
+              </div>
             </div>
-          </div>
 
+            <div className="ud-act-card ud-act-purple" onClick={() => navigate("/ticketing-support")}>
+              <div className="ud-act-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
+                </svg>
+              </div>
+              <div className="ud-act-info">
+                <span className="ud-act-val">{ticketCount === null ? <span className="ud-spinner" /> : ticketCount}</span>
+                <span className="ud-act-label">{t("myTickets")}</span>
+                {resolvedCount !== null && resolvedCount > 0 && (
+                  <span className="ud-act-sub">{resolvedCount} {t("resolved")}</span>
+                )}
+              </div>
+            </div>
+
+          </div>
         </div>
 
-        {/* ── USER SUMMARY ── */}
-        <div className="user-summary">
-
-          <div className="summary-item">
-            <span className="summary-label">{t("name")}</span>
-            <span className="summary-value">{userName}</span>
+        {/* ── QUICK ACTIONS ── */}
+        <div className="ud-section">
+          <div className="ud-section-header">
+            <span className="ud-section-title">{t("quickActions") || "Quick Actions"}</span>
           </div>
+          <div className="ud-action-grid">
 
-          <div className="summary-item">
-            <span className="summary-label">{t("userId")}</span>
-            <span className="summary-value">{userId}</span>
+            <button className="ud-action-btn ud-action-teal" onClick={() => navigate("/show-qr")}>
+              <div className="ud-action-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
+                  <path d="M14 14h3v3h-3z" /><path d="M17 17h4" /><path d="M17 21v-4" />
+                </svg>
+              </div>
+              <div className="ud-action-text">
+                <span className="ud-action-name">{t("showQR")}</span>
+                <span className="ud-action-sub">{t("markAttendance") || "Mark attendance"}</span>
+              </div>
+            </button>
+
+            <button className="ud-action-btn ud-action-teal" onClick={() => navigate("/my-profile")}>
+              <div className="ud-action-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
+              <div className="ud-action-text">
+                <span className="ud-action-name">{t("myProfile")}</span>
+                <span className="ud-action-sub">{t("viewDetails") || "View details"}</span>
+              </div>
+            </button>
+
+            <button className="ud-action-btn ud-action-amber" onClick={() => navigate("/submit-reason")}>
+              <div className="ud-action-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                </svg>
+              </div>
+              <div className="ud-action-text">
+                <span className="ud-action-name">{t("submitAbsenceReason")}</span>
+                <span className="ud-action-sub">{t("requestLeave") || "Request leave"}</span>
+              </div>
+            </button>
+
+            <button className="ud-action-btn ud-action-blue" onClick={() => navigate("/my-requests")}>
+              <div className="ud-action-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                </svg>
+              </div>
+              <div className="ud-action-text">
+                <span className="ud-action-name">{t("myRequests")}</span>
+                <span className="ud-action-sub">{t("trackStatus") || "Track status"}</span>
+              </div>
+            </button>
+
+            <button className="ud-action-btn ud-action-purple" onClick={() => navigate("/ticketing-support")}>
+              <div className="ud-action-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
+              <div className="ud-action-text">
+                <span className="ud-action-name">{t("ticketingSupport")}</span>
+                <span className="ud-action-sub">{t("raiseIssue") || "Raise an issue"}</span>
+              </div>
+            </button>
+
+            <button className="ud-action-btn ud-action-rose" onClick={() => navigate("/my-notifications")}>
+              <div className="ud-action-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                </svg>
+              </div>
+              <div className="ud-action-text">
+                <span className="ud-action-name">{t("myNotifications")}</span>
+                <span className="ud-action-sub">
+                  {notifCount !== null && notifCount > 0 ? `${notifCount} unread` : t("allClear") || "All clear"}
+                </span>
+              </div>
+            </button>
+
+            <button className="ud-action-btn ud-action-slate" onClick={() => navigate("/share-experience")}>
+              <div className="ud-action-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                </svg>
+              </div>
+              <div className="ud-action-text">
+                <span className="ud-action-name">{t("shareExperience")}</span>
+                <span className="ud-action-sub">{t("giveFeedback") || "Give feedback"}</span>
+              </div>
+            </button>
+
+            <button className="ud-action-btn ud-action-slate" onClick={() => navigate("/help-support")}>
+              <div className="ud-action-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                  <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+              </div>
+              <div className="ud-action-text">
+                <span className="ud-action-name">{t("helpAndSupport")}</span>
+                <span className="ud-action-sub">{t("documentation") || "Documentation"}</span>
+              </div>
+            </button>
+
           </div>
-
-          <div className="summary-item present-stat">
-            <span className="summary-label">{t("presentDays")}</span>
-            <span className="summary-value stat-present">{presentCount}</span>
-          </div>
-
-          <div className="summary-item absent-stat">
-            <span className="summary-label">{t("absentDays")}</span>
-            <span className="summary-value stat-absent">{absentCount}</span>
-          </div>
-
-          <div className="summary-item percentage-stat">
-            <span className="summary-label">{t("attendance")}</span>
-            <span className="summary-value stat-percent">{percentage}%</span>
-          </div>
-
-        </div>
-
-        {/* ── ACTION BUTTONS ── */}
-        <div className="reason-btn-container">
-
-          <button className="reason-btn" onClick={() => navigate("/submit-reason")}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-            </svg>
-            {t("submitAbsenceReason")}
-          </button>
-
-          <button className="reason-btn" onClick={() => navigate("/my-requests")}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-              <polyline points="14 2 14 8 20 8" />
-              <line x1="16" y1="13" x2="8" y2="13" />
-              <line x1="16" y1="17" x2="8" y2="17" />
-            </svg>
-            {t("myRequests")}
-          </button>
-
-          <button className="reason-btn" onClick={() => navigate("/my-notifications")}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-            </svg>
-            {t("myNotifications")}
-          </button>
-
-          <button className="reason-btn" onClick={() => navigate("/ticketing-support")}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-            {t("ticketingSupport")}
-          </button>
-
-          <button className="reason-btn" onClick={() => navigate("/my-profile")}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-            {t("myProfile")}
-          </button>
-
-          <button className="reason-btn" onClick={() => navigate("/share-experience")}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="18" cy="5" r="3" />
-              <circle cx="6" cy="12" r="3" />
-              <circle cx="18" cy="19" r="3" />
-              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-            </svg>
-            {t("shareExperience")}
-          </button>
-
-          <button className="reason-btn reason-btn--qr" onClick={() => navigate("/show-qr")}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
-              <path d="M14 14h3v3h-3z" /><path d="M17 17h4" /><path d="M17 21v-4" />
-            </svg>
-            {t("showQR")}
-          </button>
-
-          <button className="reason-btn" onClick={() => navigate("/help-support")}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-              <line x1="12" y1="17" x2="12.01" y2="17" />
-            </svg>
-            {t("helpAndSupport")}
-          </button>
-
         </div>
 
         {/* ── ATTENDANCE TABLE ── */}
-        <table className="attendance-table">
-          <thead>
-            <tr>
-              <th>{t("date")}</th>
-              <th>{t("status")}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {attendance.length === 0 ? (
-              <tr>
-                <td colSpan="2" className="no-data">
-                  {t("noAttendanceFound")}
-                </td>
-              </tr>
-            ) : (
-              attendance.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.date}</td>
-                  <td>
-                    <span className={item.status === "Present" ? "present" : "absent"}>
-                      {item.status === "Present"
-                        ? `✓ ${t("present")}`
-                        : `✗ ${t("absent")}`}
-                    </span>
-                  </td>
+        <div className="ud-section">
+          <div className="ud-section-header">
+            <span className="ud-section-title">{t("attendanceLog") || "Attendance Log"}</span>
+          </div>
+          <div className="ud-table-wrap">
+            <table className="ud-table">
+              <thead>
+                <tr>
+                  <th>{t("date")}</th>
+                  <th>{t("status")}</th>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {attendance.length === 0 ? (
+                  <tr>
+                    <td colSpan="2" className="ud-no-data">{t("noAttendanceFound")}</td>
+                  </tr>
+                ) : (
+                  attendance.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item.date}</td>
+                      <td>
+                        <span className={item.status === "Present" ? "ud-badge ud-badge-present" : "ud-badge ud-badge-absent"}>
+                          {item.status === "Present" ? `✓ ${t("present")}` : `✗ ${t("absent")}`}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-        {/* ── ATTENDANCE CALENDAR ── */}
-        <div className="att-calendar">
-
-          <div className="att-cal-header">
-            <button
-              className="att-cal-nav"
-              onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1))}
-            >
-              ‹
-            </button>
-            <span className="att-cal-month">
+        {/* ── CALENDAR ── */}
+        <div className="ud-section">
+          <div className="ud-section-header">
+            <span className="ud-section-title">
               {calendarMonth.toLocaleString("default", { month: "long", year: "numeric" })}
             </span>
-            <button
-              className="att-cal-nav"
-              onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1))}
-            >
-              ›
-            </button>
+            <div className="ud-cal-nav-row">
+              <button className="ud-cal-nav" onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1))}>‹</button>
+              <button className="ud-cal-nav" onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1))}>›</button>
+            </div>
           </div>
 
-          <div className="att-cal-grid">
+          <div className="ud-cal-grid">
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
-              <div key={d} className="att-cal-day-label">{d}</div>
+              <div key={d} className="ud-cal-dow">{d}</div>
             ))}
-
             {Array.from({ length: new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1).getDay() }).map((_, i) => (
-              <div key={`empty-${i}`} className="att-cal-cell att-cal-empty" />
+              <div key={`e-${i}`} className="ud-cal-cell ud-cal-empty" />
             ))}
-
             {Array.from({ length: new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 0).getDate() }).map((_, i) => {
               const day = i + 1;
               const dateStr = `${calendarMonth.getFullYear()}-${String(calendarMonth.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
               const record = attendance.find((a) => a.date === dateStr);
               const isToday = dateStr === new Date().toISOString().split("T")[0];
               return (
-                <div
-                  key={day}
-                  className={`att-cal-cell ${record?.status === "Present" ? "att-cal-present" : record?.status === "Absent" ? "att-cal-absent" : "att-cal-unmarked"} ${isToday ? "att-cal-today" : ""}`}
-                >
+                <div key={day} className={`ud-cal-cell ${record?.status === "Present" ? "ud-cal-present" : record?.status === "Absent" ? "ud-cal-absent" : "ud-cal-unmarked"} ${isToday ? "ud-cal-today" : ""}`}>
                   {day}
                 </div>
               );
             })}
           </div>
 
-          <div className="att-cal-legend">
-            <span className="att-cal-legend-dot att-dot-present" />{t("present")}
-            <span className="att-cal-legend-dot att-dot-absent" />{t("absent")}
-            <span className="att-cal-legend-dot att-dot-unmarked" />{t("notMarked")}
+          <div className="ud-cal-legend">
+            <span><span className="ud-leg-dot ud-leg-present" />{t("present")}</span>
+            <span><span className="ud-leg-dot ud-leg-absent" />{t("absent")}</span>
+            <span><span className="ud-leg-dot ud-leg-unmarked" />{t("notMarked")}</span>
           </div>
-
         </div>
 
       </div>
@@ -450,4 +451,4 @@ function UserDashboard() {
   );
 }
 
-export default UserDashboard; 
+export default UserDashboard;

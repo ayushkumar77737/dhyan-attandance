@@ -545,5 +545,26 @@
       "lockUntil": "பூட்டு காலம்",
       "remaining": "மீதமுள்ள நேரம்"
     }
-  }
+  },
+  "attendancePortal": "வருகை போர்டல்",
+  "viewDetails": "விவரங்களை காணுங்கள்",
+  "requestLeave": "விடுப்பு கோரிக்கை செய்யுங்கள்",
+  "trackStatus": "நிலையை கண்காணியுங்கள்",
+  "raiseIssue": "பிரச்சனையை பதிவு செய்யுங்கள்",
+  "giveFeedback": "கருத்து தெரிவியுங்கள்",
+  "documentation": "ஆவணங்கள்",
+  "quickActions": "விரைவு செயல்கள்",
+  "attendanceLog": "வருகை பதிவேடு",
+  "activity": "செயல்பாடு",
+  "allClear": "அனைத்தும் சரியாக உள்ளது",
+  "adminLabel": "நிர்வாகி",
+  "signOut": "வெளியேறு",
+  "coreManagement": "முக்கிய மேலாண்மை",
+  "toolsAndSettings": "கருவிகள் மற்றும் அமைப்புகள்",
+  "addUserSub": "புதிய உறுப்பினரை பதிவு செய்யுங்கள்",
+  "markAttendanceSub": "தினசரி வருகையை பதிவு செய்யுங்கள்",
+  "smartAttendanceSub": "QR ஸ்கேனர் முறை",
+  "allUsersSub": "அனைத்து உறுப்பினர்களையும் நிர்வகிக்கவும்",
+  "attendanceReportSub": "தினசரி பதிவை காணுங்கள்",
+  "percentageReportSub": "பயனர் வாரியாக பகுப்பாய்வு"
 }

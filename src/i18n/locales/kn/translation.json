@@ -545,5 +545,26 @@
       "lockUntil": "ಲಾಕ್ ಸಮಯ",
       "remaining": "ಉಳಿದ ಸಮಯ"
     }
-  }
+  },
+  "attendancePortal": "ಹಾಜರಾತಿ ಪೋರ್ಟಲ್",
+  "viewDetails": "ವಿವರಗಳನ್ನು ನೋಡಿ",
+  "requestLeave": "ರಜೆಗಾಗಿ ವಿನಂತಿಸಿ",
+  "trackStatus": "ಸ್ಥಿತಿ ಟ್ರ್ಯಾಕ್ ಮಾಡಿ",
+  "raiseIssue": "ಸಮಸ್ಯೆ ದಾಖಲಿಸಿ",
+  "giveFeedback": "ಪ್ರತಿಕ್ರಿಯೆ ನೀಡಿ",
+  "documentation": "ದಾಖಲೆಗಳು",
+  "quickActions": "ತ್ವರಿತ ಕ್ರಿಯೆಗಳು",
+  "attendanceLog": "ಹಾಜರಾತಿ ದಾಖಲೆ",
+  "activity": "ಚಟುವಟಿಕೆ",
+  "allClear": "ಎಲ್ಲವೂ ಸರಿಯಾಗಿದೆ",
+  "adminLabel": "ನಿರ್ವಾಹಕ",
+  "signOut": "ಸೈನ್ ಔಟ್",
+  "coreManagement": "ಮುಖ್ಯ ನಿರ್ವಹಣೆ",
+  "toolsAndSettings": "ಪರಿಕರಗಳು ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+  "addUserSub": "ಹೊಸ ಸದಸ್ಯರನ್ನು ನೋಂದಾಯಿಸಿ",
+  "markAttendanceSub": "ದೈನಂದಿನ ಹಾಜರಾತಿ ದಾಖಲಿಸಿ",
+  "smartAttendanceSub": "QR ಸ್ಕ್ಯಾನರ್ ಮೋಡ್",
+  "allUsersSub": "ಎಲ್ಲಾ ಸದಸ್ಯರನ್ನು ನಿರ್ವಹಿಸಿ",
+  "attendanceReportSub": "ದೈನಂದಿನ ಲಾಗ್ ವೀಕ್ಷಿಸಿ",
+  "percentageReportSub": "ಬಳಕೆದಾರರ ಪ್ರಕಾರ ವಿಶ್ಲೇಷಣೆ"
 }
