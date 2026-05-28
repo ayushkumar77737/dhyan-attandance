@@ -17,7 +17,8 @@ PAGE
   align-items: center;
   font-family: "DM Sans", sans-serif;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   animation: fadeIn 0.6s ease-in-out;
 }
 
@@ -718,6 +719,15 @@ MOBILE
     font-size: 13px;
   }
 
+  .notifications-page .notif-list {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .notifications-page .notif-table {
+    min-width: 500px;
+  }
+
   .notifications-page .notif-table th,
   .notifications-page .notif-table td {
     font-size: 12px;
@@ -731,6 +741,14 @@ MOBILE
   .notif-action-btns {
     flex-direction: column;
     gap: 4px;
+    align-items: stretch;
+  }
+
+  .notif-edit-btn,
+  .notif-delete-btn {
+    text-align: center;
+    padding: 6px 8px;
+    font-size: 11px;
   }
 
   .notif-modal {
