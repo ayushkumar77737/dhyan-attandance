@@ -1,6 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
-
-/* ── VARIABLES ── */
 :root {
     --diry-bg: #080f1a;
     --diry-card: rgba(255, 255, 255, 0.04);
@@ -27,12 +24,18 @@
     font-family: var(--diry-font);
     padding: 28px 24px 60px;
     animation: diry-fade 0.6s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 /* ── INNER WRAPPER ── */
 .diry__inner {
-    max-width: 860px;
+    max-width: 880px;
+    width: 100%;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* ── ORBS ── */
@@ -62,8 +65,10 @@
 
 /* ── BACK ── */
 .diry__back {
-    position: relative;
-    z-index: 2;
+    position: absolute;
+    top: 28px;
+    left: 24px;
+    z-index: 3;
     display: inline-flex;
     align-items: center;
     gap: 7px;
@@ -77,7 +82,6 @@
     font-family: var(--diry-font);
     cursor: pointer;
     transition: all 0.22s ease;
-    margin-bottom: 28px;
 }
 
 .diry__back:hover {
@@ -92,8 +96,10 @@
     z-index: 2;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 16px;
     margin-bottom: 28px;
+    width: 100%;
 }
 
 .diry__header-icon {
@@ -220,13 +226,84 @@
     color: var(--diry-teal-light);
 }
 
+/* ── STATS BAR ── */
+.diry__stats {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.diry__stat-card {
+    flex: 1;
+    min-width: 120px;
+    padding: 14px 18px;
+    background: var(--diry-card);
+    border: 1px solid var(--diry-border);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.diry__stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--diry-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+}
+
+.diry__stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    font-family: var(--diry-font-display);
+    color: var(--diry-text);
+    line-height: 1;
+}
+
+.diry__stat-value.teal {
+    color: var(--diry-teal-light);
+}
+
+.diry__stat-value.amber {
+    color: #fbbf24;
+}
+
+/* ── SECTION LABEL ── */
+.diry__section-label {
+    position: relative;
+    z-index: 2;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--diry-muted);
+    margin-bottom: 10px;
+    padding-left: 2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.diry__section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--diry-border);
+}
+
 /* ── GRID ── */
 .diry__grid {
     position: relative;
     z-index: 2;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 10px;
+    gap: 12px;
+    width: 100%;
+    align-content: start;
 }
 
 /* ── CARD ── */
@@ -234,13 +311,29 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 14px 16px;
+    padding: 16px 18px;
     background: var(--diry-card);
     border: 1px solid var(--diry-border);
     border-radius: var(--diry-radius);
     transition: all 0.22s ease;
     animation: diry-slide 0.4s ease both;
     cursor: default;
+    position: relative;
+    overflow: hidden;
+}
+
+.diry__card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(14, 165, 160, 0.04) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.22s ease;
+    pointer-events: none;
+}
+
+.diry__card:hover::before {
+    opacity: 1;
 }
 
 .diry__card:hover {
@@ -252,9 +345,9 @@
 
 /* ── AVATAR ── */
 .diry__avatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -305,7 +398,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 4px;
     min-width: 0;
 }
 
@@ -324,6 +417,14 @@
     font-family: monospace;
     letter-spacing: 0.5px;
     opacity: 0.8;
+}
+
+.diry__card-email {
+    font-size: 11px;
+    color: var(--diry-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* ── ROLE BADGE ── */
@@ -429,6 +530,22 @@
         padding: 20px 14px 50px;
     }
 
+    .diry__back {
+        top: 20px;
+        left: 14px;
+    }
+
+    .diry__inner {
+        padding-top: 48px;
+        /* push content below the back button */
+    }
+
+    .diry__header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
     .diry__title {
         font-size: 22px;
     }
@@ -444,6 +561,10 @@
 
     .diry__grid {
         grid-template-columns: 1fr;
+    }
+
+    .diry__stats {
+        flex-wrap: wrap;
     }
 }
 

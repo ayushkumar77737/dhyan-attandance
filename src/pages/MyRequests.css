@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-/* ── VARIABLES ── */
+/* ── VARIABLES (Directory dark theme) ── */
 :root {
-  --mr-bg: #f0f4f8;
-  --mr-card: #ffffff;
-  --mr-border: #e2e8f0;
-  --mr-teal: #0d9488;
-  --mr-teal-light: #14b8a6;
-  --mr-teal-glow: rgba(13, 148, 136, 0.15);
-  --mr-text: #0f172a;
-  --mr-text-mid: #475569;
-  --mr-text-soft: #94a3b8;
+  --mr-bg: #080f1a;
+  --mr-card: rgba(255, 255, 255, 0.04);
+  --mr-border: rgba(255, 255, 255, 0.07);
+  --mr-teal: #0ea5a0;
+  --mr-teal-light: #2dd4cf;
+  --mr-teal-glow: rgba(14, 165, 160, 0.15);
+  --mr-text: #e8f4f4;
+  --mr-text-mid: #94b8c8;
+  --mr-text-soft: #6b8fa3;
   --mr-font-display: 'Fraunces', serif;
   --mr-font-body: 'DM Sans', sans-serif;
   --mr-radius: 14px;
@@ -21,12 +21,12 @@
   min-height: 100vh;
   background-color: var(--mr-bg);
   background-image:
-    radial-gradient(ellipse 70% 50% at 10% 0%, rgba(13, 148, 136, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 10% 0%, rgba(14, 165, 160, 0.1) 0%, transparent 60%),
     radial-gradient(ellipse 50% 40% at 90% 100%, rgba(16, 185, 129, 0.07) 0%, transparent 55%),
-    repeating-linear-gradient(0deg, transparent, transparent 60px,
-      rgba(13, 148, 136, 0.03) 60px, rgba(13, 148, 136, 0.03) 61px),
-    repeating-linear-gradient(90deg, transparent, transparent 60px,
-      rgba(13, 148, 136, 0.03) 60px, rgba(13, 148, 136, 0.03) 61px);
+    repeating-linear-gradient(0deg, transparent, transparent 80px,
+      rgba(255, 255, 255, 0.012) 80px, rgba(255, 255, 255, 0.012) 81px),
+    repeating-linear-gradient(90deg, transparent, transparent 80px,
+      rgba(255, 255, 255, 0.012) 80px, rgba(255, 255, 255, 0.012) 81px);
   padding: 25px 20px;
   display: flex;
   flex-direction: column;
@@ -51,10 +51,10 @@
   align-self: flex-start;
   margin-bottom: 10px;
   padding: 9px 18px;
-  border: 1.5px solid rgba(13, 148, 136, 0.3);
+  border: 1px solid rgba(14, 165, 160, 0.2);
   border-radius: 50px;
-  background: rgba(13, 148, 136, 0.07);
-  color: var(--mr-teal);
+  background: rgba(14, 165, 160, 0.07);
+  color: var(--mr-teal-light);
   font-size: 13px;
   font-weight: 500;
   font-family: var(--mr-font-body);
@@ -63,8 +63,8 @@
 }
 
 .my-requests-page .myreq-back-btn:hover {
-  background: rgba(13, 148, 136, 0.14);
-  border-color: var(--mr-teal);
+  background: rgba(14, 165, 160, 0.15);
+  border-color: rgba(14, 165, 160, 0.45);
   transform: translateX(-3px);
 }
 
@@ -77,12 +77,13 @@
   border-radius: 22px;
   border: 1px solid var(--mr-border);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.9) inset,
-    0 20px 50px rgba(15, 23, 42, 0.08),
-    0 4px 16px rgba(13, 148, 136, 0.06);
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 20px 50px rgba(0, 0, 0, 0.4),
+    0 4px 16px rgba(14, 165, 160, 0.08);
   position: relative;
   overflow: visible;
   margin-top: 8px;
+  backdrop-filter: blur(12px);
   animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
@@ -106,7 +107,7 @@
   left: 0;
   right: 0;
   height: 100px;
-  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(13, 148, 136, 0.04) 0%, transparent 100%);
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(14, 165, 160, 0.06) 0%, transparent 100%);
   pointer-events: none;
   border-radius: 22px;
 }
@@ -135,9 +136,9 @@
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--mr-teal);
-  background: rgba(13, 148, 136, 0.08);
-  border: 1px solid rgba(13, 148, 136, 0.18);
+  color: var(--mr-teal-light);
+  background: rgba(14, 165, 160, 0.1);
+  border: 1px solid rgba(14, 165, 160, 0.25);
   border-radius: 50px;
   padding: 4px 12px;
   margin-bottom: 12px;
@@ -175,15 +176,15 @@
 }
 
 .my-requests-page .myreq-table th {
-  background: rgba(13, 148, 136, 0.08);
-  color: var(--mr-teal);
+  background: rgba(14, 165, 160, 0.1);
+  color: var(--mr-teal-light);
   padding: 13px 16px;
   text-align: left;
   font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  border-bottom: 1px solid rgba(13, 148, 136, 0.15);
+  border-bottom: 1px solid rgba(14, 165, 160, 0.2);
 }
 
 .my-requests-page .myreq-table td {
@@ -200,7 +201,7 @@
 }
 
 .my-requests-page .myreq-table tbody tr:hover td {
-  background: rgba(13, 148, 136, 0.03);
+  background: rgba(14, 165, 160, 0.06);
 }
 
 /* Date & Reason cells */
@@ -234,21 +235,21 @@
 }
 
 .my-requests-page .status.pending {
-  background: #fef9ec;
-  color: #92400e;
-  border: 1px solid rgba(251, 191, 36, 0.3);
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
 .my-requests-page .status.approved {
-  background: #ecfdf5;
-  color: #065f46;
-  border: 1px solid rgba(16, 185, 129, 0.25);
+  background: rgba(16, 185, 129, 0.1);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
 .my-requests-page .status.rejected {
-  background: #fff1f2;
-  color: #9f1239;
-  border: 1px solid rgba(244, 63, 94, 0.2);
+  background: rgba(244, 63, 94, 0.1);
+  color: #fda4af;
+  border: 1px solid rgba(244, 63, 94, 0.3);
 }
 
 /* ── NO DATA ── */
@@ -260,6 +261,7 @@
 .no-data-icon {
   font-size: 40px;
   margin-bottom: 12px;
+  opacity: 0.5;
 }
 
 .my-requests-page .no-data p {
@@ -312,10 +314,10 @@
 /* ── EDIT BUTTON ── */
 .myreq-edit-btn {
   padding: 5px 12px;
-  background: rgba(13, 148, 136, 0.08);
-  border: 1px solid rgba(13, 148, 136, 0.25);
+  background: rgba(14, 165, 160, 0.1);
+  border: 1px solid rgba(14, 165, 160, 0.25);
   border-radius: 8px;
-  color: var(--mr-teal);
+  color: var(--mr-teal-light);
   font-size: 12px;
   font-weight: 600;
   font-family: var(--mr-font-body);
@@ -325,8 +327,8 @@
 }
 
 .myreq-edit-btn:hover {
-  background: rgba(13, 148, 136, 0.16);
-  border-color: var(--mr-teal);
+  background: rgba(14, 165, 160, 0.18);
+  border-color: rgba(14, 165, 160, 0.45);
   transform: translateY(-1px);
 }
 
@@ -334,7 +336,7 @@
 .myreq-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
@@ -344,13 +346,13 @@
 }
 
 .myreq-modal {
-  background: #ffffff;
+  background: #0d1623;
   border: 1px solid var(--mr-border);
   border-radius: 20px;
   padding: 28px;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.15);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
   animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -370,7 +372,7 @@
 }
 
 .myreq-modal-close {
-  background: rgba(15, 23, 42, 0.06);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--mr-border);
   color: var(--mr-text-soft);
   width: 30px;
@@ -385,14 +387,14 @@
 }
 
 .myreq-modal-close:hover {
-  background: rgba(239, 68, 68, 0.1);
-  border-color: rgba(239, 68, 68, 0.3);
-  color: #ef4444;
+  background: rgba(244, 63, 94, 0.12);
+  border-color: rgba(244, 63, 94, 0.3);
+  color: #fb7185;
 }
 
 .myreq-modal-info {
-  background: rgba(13, 148, 136, 0.05);
-  border: 1px solid rgba(13, 148, 136, 0.12);
+  background: rgba(14, 165, 160, 0.06);
+  border: 1px solid rgba(14, 165, 160, 0.15);
   border-radius: 10px;
   padding: 10px 14px;
   margin-bottom: 16px;
@@ -423,7 +425,7 @@
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid var(--mr-border);
-  background: #f8fafc;
+  background: rgba(255, 255, 255, 0.03);
   color: var(--mr-text);
   font-size: 14px;
   font-family: var(--mr-font-body);
@@ -434,8 +436,8 @@
 }
 
 .myreq-modal-field textarea:focus {
-  border-color: var(--mr-teal);
-  background: #fff;
+  border-color: rgba(14, 165, 160, 0.4);
+  background: rgba(14, 165, 160, 0.04);
 }
 
 .myreq-modal-footer {
@@ -446,7 +448,7 @@
 
 .myreq-modal-cancel {
   padding: 9px 18px;
-  background: rgba(15, 23, 42, 0.05);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--mr-border);
   color: var(--mr-text-mid);
   border-radius: 10px;
@@ -458,21 +460,21 @@
 }
 
 .myreq-modal-cancel:hover {
-  background: rgba(15, 23, 42, 0.09);
+  background: rgba(255, 255, 255, 0.09);
 }
 
 .myreq-modal-save {
   padding: 9px 20px;
   background: var(--mr-teal);
   border: none;
-  color: white;
+  color: #061015;
   border-radius: 10px;
   font-size: 13px;
   font-weight: 600;
   font-family: var(--mr-font-body);
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.3);
+  box-shadow: 0 4px 14px rgba(14, 165, 160, 0.3);
 }
 
 .myreq-modal-save:hover {
