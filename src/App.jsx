@@ -34,6 +34,7 @@ import ShowQR from "./pages/ShowQR";
 import ContactSettings from "./pages/ContactSettings";
 import HelpSupport from "./pages/HelpSupport";
 import BlockedAccounts from "./pages/BlockedAccounts";
+import Directory from "./pages/Directory";
 
 function App() {
   return (
@@ -184,6 +185,15 @@ function App() {
           element={
             <ProtectedRoute>
               <HelpSupport />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/directory"
+          element={
+            <ProtectedRoute>
+              <Directory />
             </ProtectedRoute>
           }
         />

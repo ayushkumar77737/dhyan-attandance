@@ -541,5 +541,6 @@
   "smartAttendanceSub": "QR স্ক্যানার মোড",
   "allUsersSub": "সকল সদস্য পরিচালনা করুন",
   "attendanceReportSub": "দৈনিক লগ দেখুন",
-  "percentageReportSub": "ব্যবহারকারী অনুযায়ী বিশ্লেষণ"
+  "percentageReportSub": "ব্যবহারকারী অনুযায়ী বিশ্লেষণ",
+  "directory": "ডিরেক্টরি"
 }

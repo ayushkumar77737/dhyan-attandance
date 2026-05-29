@@ -566,5 +566,11 @@
   "smartAttendanceSub": "QR ஸ்கேனர் முறை",
   "allUsersSub": "அனைத்து உறுப்பினர்களையும் நிர்வகிக்கவும்",
   "attendanceReportSub": "தினசரி பதிவை காணுங்கள்",
-  "percentageReportSub": "பயனர் வாரியாக பகுப்பாய்வு"
+  "percentageReportSub": "பயனர் வாரியாக பகுப்பாய்வு",
+  "directory": "அடைவு",
+  "member": "உறுப்பினர்",
+  "members": "உறுப்பினர்கள்",
+  "loadingMembers": "உறுப்பினர்கள் ஏற்றப்படுகிறது...",
+  "noMembersFound": "உறுப்பினர்கள் கிடைக்கவில்லை",
+  "onlyTodayAllowed": "இன்றைய வருகை மட்டுமே பதிவு செய்யலாம்"
 }

@@ -566,5 +566,11 @@
   "smartAttendanceSub": "QR ಸ್ಕ್ಯಾನರ್ ಮೋಡ್",
   "allUsersSub": "ಎಲ್ಲಾ ಸದಸ್ಯರನ್ನು ನಿರ್ವಹಿಸಿ",
   "attendanceReportSub": "ದೈನಂದಿನ ಲಾಗ್ ವೀಕ್ಷಿಸಿ",
-  "percentageReportSub": "ಬಳಕೆದಾರರ ಪ್ರಕಾರ ವಿಶ್ಲೇಷಣೆ"
+  "percentageReportSub": "ಬಳಕೆದಾರರ ಪ್ರಕಾರ ವಿಶ್ಲೇಷಣೆ",
+  "directory": "ನಿರ್ದೇಶಿಕೆ",
+  "member": "ಸದಸ್ಯ",
+  "members": "ಸದಸ್ಯರು",
+  "loadingMembers": "ಸದಸ್ಯರನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...",
+  "noMembersFound": "ಯಾವುದೇ ಸದಸ್ಯರು ಕಂಡುಬಂದಿಲ್ಲ",
+  "onlyTodayAllowed": "ಇಂದಿನ ಹಾಜರಾತಿ ಮಾತ್ರ ದಾಖಲಿಸಬಹುದು"
 }

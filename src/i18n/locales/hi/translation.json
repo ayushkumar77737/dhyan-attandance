@@ -566,5 +566,11 @@
   "smartAttendanceSub": "QR स्कैनर मोड",
   "allUsersSub": "सभी सदस्यों को प्रबंधित करें",
   "attendanceReportSub": "दैनिक लॉग देखें",
-  "percentageReportSub": "उपयोगकर्ता के अनुसार विश्लेषण"
+  "percentageReportSub": "उपयोगकर्ता के अनुसार विश्लेषण",
+  "directory": "निर्देशिका",
+  "member": "सदस्य",
+  "members": "सदस्य",
+  "loadingMembers": "सदस्य लोड हो रहे हैं...",
+  "noMembersFound": "कोई सदस्य नहीं मिला",
+  "onlyTodayAllowed": "केवल आज की उपस्थिति दर्ज की जा सकती है"
 }

@@ -565,5 +565,11 @@
   "smartAttendanceSub": "QR scanner mode",
   "allUsersSub": "Manage all members",
   "attendanceReportSub": "Daily log view",
-  "percentageReportSub": "Analytics by user"
+  "percentageReportSub": "Analytics by user",
+  "directory": "Directory",
+  "member": "member",
+  "members": "members",
+  "loadingMembers": "Loading members...",
+  "noMembersFound": "No members found",
+  "onlyTodayAllowed": "Only today's attendance can be marked"
 }
