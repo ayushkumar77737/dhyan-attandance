@@ -15,6 +15,10 @@ function SessionFeedbacks() {
     const [filterRating, setFilterRating] = useState("all");
     const [filterDate, setFilterDate] = useState(new Date().toISOString().split("T")[0]);
     const [expandedRow, setExpandedRow] = useState(null);
+
+    const [showDeleteAll, setShowDeleteAll] = useState(false);
+    const [deletingAll, setDeletingAll] = useState(false);
+
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -149,14 +153,17 @@ function SessionFeedbacks() {
     const stars = (n) => "★".repeat(n) + "☆".repeat(5 - n);
 
     const handleDeleteAll = async () => {
-        if (!window.confirm(t("deleteAllConfirm"))) return;
         try {
+            setDeletingAll(true);
             const snap = await getDocs(collection(db, "experiences"));
             await Promise.all(snap.docs.map(d => deleteDoc(doc(db, "experiences", d.id))));
             setFeedbacks([]);
             setExpandedRow(null);
+            setShowDeleteAll(false);
         } catch (err) {
             console.error(err);
+        } finally {
+            setDeletingAll(false);
         }
     };
 
@@ -334,7 +341,7 @@ function SessionFeedbacks() {
                     📥 {t("exportCsv")}
                 </button>
 
-                <button className="ssfb__deleteall-btn" onClick={handleDeleteAll} disabled={feedbacks.length === 0}>
+                <button className="ssfb__deleteall-btn" onClick={() => setShowDeleteAll(true)} disabled={feedbacks.length === 0}>
                     🗑️ {t("deleteAll")}
                 </button>
             </div>
@@ -455,6 +462,25 @@ function SessionFeedbacks() {
                 <p className="ssfb__count-note">
                     {t("showingCount", { filtered: filtered.length, total: feedbacks.length })}
                 </p>
+            )}
+
+            {/* Delete All Confirm Modal */}
+            {showDeleteAll && (
+                <div className="ssfb__modal-overlay" onClick={() => !deletingAll && setShowDeleteAll(false)}>
+                    <div className="ssfb__modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="ssfb__modal-icon">🗑️</div>
+                        <h3 className="ssfb__modal-title">{t("deleteAllFeedbacksTitle")}</h3>
+                        <p className="ssfb__modal-desc">{t("deleteAllFeedbacksMsg")}</p>
+                        <div className="ssfb__modal-actions">
+                            <button className="ssfb__modal-cancel" onClick={() => setShowDeleteAll(false)} disabled={deletingAll}>
+                                {t("cancel")}
+                            </button>
+                            <button className="ssfb__modal-confirm" onClick={handleDeleteAll} disabled={deletingAll}>
+                                {deletingAll ? `⏳ ${t("deleting")}` : `🗑 ${t("deleteAll")}`}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
 
         </div>

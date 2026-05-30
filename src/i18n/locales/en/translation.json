@@ -588,5 +588,7 @@
   "confirmPassword": "Confirm Password",
   "passwordHint": "Minimum 6 characters",
   "passwordMismatch": "Passwords do not match.",
-  "emailInUse": "This email is already registered in Authentication."
+  "emailInUse": "This email is already registered in Authentication.",
+  "deleteAllFeedbacksTitle": "Delete All Feedbacks?",
+  "deleteAllFeedbacksMsg": "This will permanently delete all session feedbacks. This action cannot be undone."
 }

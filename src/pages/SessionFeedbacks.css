@@ -918,3 +918,92 @@
         padding: 12px 12px;
     }
 }
+
+/* ---- Delete All Modal ---- */
+.ssfb__modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+    animation: ssfb-fadein 0.2s ease;
+}
+
+.ssfb__modal {
+    background: #0e1018;
+    border: 1px solid var(--ssfb-border);
+    border-radius: 22px;
+    padding: 32px 28px 26px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    animation: ssfb-slideup 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ssfb__modal-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+}
+
+.ssfb__modal-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ssfb-text);
+    margin: 0 0 10px;
+}
+
+.ssfb__modal-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ssfb-text-dim);
+    margin: 0 0 24px;
+}
+
+.ssfb__modal-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.ssfb__modal-cancel,
+.ssfb__modal-confirm {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: "DM Sans", sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ssfb__modal-cancel {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--ssfb-text-dim);
+}
+
+.ssfb__modal-cancel:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.ssfb__modal-confirm {
+    background: rgba(220, 80, 80, 0.15);
+    border: 1px solid rgba(220, 80, 80, 0.4);
+    color: #f87171;
+}
+
+.ssfb__modal-confirm:hover:not(:disabled) {
+    background: rgba(220, 80, 80, 0.25);
+}
+
+.ssfb__modal-cancel:disabled,
+.ssfb__modal-confirm:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
