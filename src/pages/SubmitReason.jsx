@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./SubmitReason.css";
 
 import { auth, db } from "../firebase/firebase";
-import { addDoc, collection, query, where, getDocs } from "firebase/firestore";
+import { addDoc, collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
