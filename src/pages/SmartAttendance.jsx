@@ -101,7 +101,10 @@ function SmartAttendance() {
             const today = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
             const usersSnap = await getDocs(collection(db, "users"));
             let totalUsers = 0;
-            usersSnap.forEach(d => { if (d.data().deleted !== true) totalUsers++; });
+            usersSnap.forEach(d => {
+                const u = d.data();
+                if (u.deleted !== true && u.role !== "admin") totalUsers++;
+            });
 
             const attSnap = await getDocs(collection(db, "smartAttendance"));
             let present = 0;
