@@ -542,5 +542,7 @@
   "allUsersSub": "সকল সদস্য পরিচালনা করুন",
   "attendanceReportSub": "দৈনিক লগ দেখুন",
   "percentageReportSub": "ব্যবহারকারী অনুযায়ী বিশ্লেষণ",
-  "directory": "ডিরেক্টরি"
+  "directory": "ডিরেক্টরি",
+  "addAdmin": "অ্যাডমিন যোগ করুন",
+  "addAdminSub": "নতুন অ্যাডমিন নিবন্ধন করুন"
 }

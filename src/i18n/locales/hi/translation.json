@@ -572,5 +572,7 @@
   "members": "सदस्य",
   "loadingMembers": "सदस्य लोड हो रहे हैं...",
   "noMembersFound": "कोई सदस्य नहीं मिला",
-  "onlyTodayAllowed": "केवल आज की उपस्थिति दर्ज की जा सकती है"
+  "onlyTodayAllowed": "केवल आज की उपस्थिति दर्ज की जा सकती है",
+  "addAdmin": "एडमिन जोड़ें",
+  "addAdminSub": "नया एडमिन पंजीकृत करें"
 }

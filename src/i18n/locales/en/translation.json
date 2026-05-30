@@ -571,5 +571,7 @@
   "members": "members",
   "loadingMembers": "Loading members...",
   "noMembersFound": "No members found",
-  "onlyTodayAllowed": "Only today's attendance can be marked"
+  "onlyTodayAllowed": "Only today's attendance can be marked",
+  "addAdmin": "Add Admin",
+  "addAdminSub": "Register new admin"
 }

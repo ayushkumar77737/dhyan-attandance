@@ -625,6 +625,14 @@ function AdminDashboard() {
           </div>
         </div>
 
+        <div className="core-card" onClick={() => navigate("/add-admin")}>
+          <div className="core-card-icon icon-red">{icons.shield}</div>
+          <div className="core-card-text">
+            <p className="core-card-title">{t("addAdmin")}</p>
+            <p className="core-card-sub">{t("addAdminSub")}</p>
+          </div>
+        </div>
+
         <div className="core-card" onClick={() => navigate("/mark-attendance")}>
           <div className="core-card-icon icon-teal">{icons.calendarCheck}</div>
           <div className="core-card-text">
