@@ -184,6 +184,7 @@ function AddUser() {
                         placeholder={t("enterFullName")}
                         value={name}
                         maxLength={30}
+                        autoComplete="off"
                         onChange={(e) => {
                             const value = e.target.value;
                             if (/^[a-zA-Z ]*$/.test(value)) setName(value);
@@ -196,6 +197,7 @@ function AddUser() {
                         placeholder={t("enterIdNumber")}
                         value={idNo}
                         maxLength={10}
+                        autoComplete="off"
                         onChange={(e) => {
                             const value = e.target.value;
                             if (/^[a-zA-Z0-9]*$/.test(value)) setIdNo(value.toUpperCase());
@@ -208,6 +210,7 @@ function AddUser() {
                         placeholder={t("enterPassword")}
                         value={password}
                         maxLength={10}
+                        autoComplete="new-password"
                         onChange={(e) => {
                             const value = e.target.value;
                             if (/^[a-zA-Z0-9]*$/.test(value)) setPassword(value);
