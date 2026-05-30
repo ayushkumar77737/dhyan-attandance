@@ -35,6 +35,7 @@ import ContactSettings from "./pages/ContactSettings";
 import HelpSupport from "./pages/HelpSupport";
 import BlockedAccounts from "./pages/BlockedAccounts";
 import Directory from "./pages/Directory";
+import AddAdmin from "./pages/AddAdmin";
 
 function App() {
   return (
@@ -231,6 +232,15 @@ function App() {
           element={
             <ProtectedRoute>
               <AddUser />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/add-admin"
+          element={
+            <ProtectedRoute>
+              <AddAdmin />
             </ProtectedRoute>
           }
         />

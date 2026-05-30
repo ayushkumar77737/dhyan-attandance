@@ -573,5 +573,20 @@
   "noMembersFound": "No members found",
   "onlyTodayAllowed": "Only today's attendance can be marked",
   "addAdmin": "Add Admin",
-  "addAdminSub": "Register new admin"
+  "addAdminSub": "Register new admin",
+  "adminId": "Admin ID (Document ID)",
+  "adminIdHint": "Uppercase, no spaces — e.g. ADMIN2",
+  "addAdminDesc": "Create a new administrator. The Admin ID is used as the document ID in Firestore.",
+  "autoFields": "Auto-set fields",
+  "allFieldsRequired": "All fields are required.",
+  "idNoSpaces": "Admin ID cannot contain spaces.",
+  "invalidEmail": "Please enter a valid email address.",
+  "idAlreadyExists": "A user with this ID already exists.",
+  "adminAddedSuccess": "Admin added successfully.",
+  "saving": "Saving...",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
+  "passwordHint": "Minimum 6 characters",
+  "passwordMismatch": "Passwords do not match.",
+  "emailInUse": "This email is already registered in Authentication."
 }

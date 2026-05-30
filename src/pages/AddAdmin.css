@@ -1,0 +1,446 @@
+/* ===============================
+FONTS
+================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap');
+
+/* ===============================
+CSS VARIABLES  (scoped to this page)
+================================ */
+
+.aapg-container {
+    --ad-bg: #0b0e18;
+    --ad-bg-card: #111827;
+    --ad-bg-stat: #0f1623;
+
+    --ad-blue: #3b82f6;
+    --ad-blue-dark: #2563eb;
+    --ad-blue-glow: rgba(59, 130, 246, 0.22);
+    --ad-blue-subtle: rgba(59, 130, 246, 0.08);
+
+    --ad-red: #ef4444;
+    --ad-green: #2dce89;
+    --ad-amber: #f59e0b;
+
+    --ad-text-primary: #e8edf5;
+    --ad-text-secondary: #64748b;
+
+    --ad-border: rgba(255, 255, 255, 0.06);
+    --ad-border-strong: rgba(255, 255, 255, 0.1);
+    --ad-border-blue: rgba(59, 130, 246, 0.3);
+
+    --ad-radius-sm: 10px;
+    --ad-radius-md: 14px;
+    --ad-radius-lg: 18px;
+
+    --ad-shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--ad-border);
+    --ad-shadow-glow-blue: 0 0 20px var(--ad-blue-glow);
+
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+}
+
+/* ===============================
+PAGE
+================================ */
+
+.aapg-container {
+    min-height: 100vh;
+    padding: 40px 24px;
+    font-family: var(--font-body);
+    background: var(--ad-bg);
+    color: var(--ad-text-primary);
+    background-image:
+        radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.05) 0%, transparent 60%),
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 100% 100%, 44px 44px, 44px 44px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* ===============================
+CARD
+================================ */
+
+.aapg-card {
+    width: 100%;
+    max-width: 540px;
+    background: #0d1b2a;
+    border: 1px solid var(--ad-border);
+    border-radius: var(--ad-radius-lg);
+    padding: 28px 28px 32px;
+    box-shadow: var(--ad-shadow-card);
+    position: relative;
+    overflow: hidden;
+    animation: aapg-fadeIn 0.5s ease;
+}
+
+.aapg-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--ad-blue), transparent);
+    opacity: 0.6;
+}
+
+/* ===============================
+HEADER
+================================ */
+
+.aapg-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.aapg-back {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--ad-border-strong);
+    border-radius: var(--ad-radius-sm);
+    background: transparent;
+    color: var(--ad-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.aapg-back svg {
+    width: 18px;
+    height: 18px;
+}
+
+.aapg-back:hover {
+    border-color: var(--ad-blue);
+    color: var(--ad-blue);
+}
+
+.aapg-head-text {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.aapg-head-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--ad-red);
+    flex-shrink: 0;
+}
+
+.aapg-head-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.aapg-portal-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ad-text-secondary);
+    margin: 0 0 2px;
+}
+
+.aapg-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.aapg-desc {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ad-text-secondary);
+    margin: 0 0 22px;
+}
+
+/* ===============================
+ALERTS
+================================ */
+
+.aapg-alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: var(--ad-radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 18px;
+    animation: aapg-fadeIn 0.3s ease;
+}
+
+.aapg-alert svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.aapg-alert--error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+}
+
+.aapg-alert--success {
+    background: rgba(45, 206, 137, 0.1);
+    border: 1px solid rgba(45, 206, 137, 0.3);
+    color: #6ee7b7;
+}
+
+/* ===============================
+FIELDS
+================================ */
+
+.aapg-field {
+    margin-bottom: 18px;
+}
+
+.aapg-field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--ad-text-primary);
+    margin-bottom: 7px;
+}
+
+.aapg-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.aapg-input-icon {
+    position: absolute;
+    left: 13px;
+    display: flex;
+    align-items: center;
+    color: var(--ad-text-secondary);
+    pointer-events: none;
+}
+
+.aapg-input-icon svg {
+    width: 17px;
+    height: 17px;
+}
+
+.aapg-input-wrap input {
+    width: 100%;
+    padding: 12px 14px 12px 40px;
+    background: var(--ad-bg);
+    border: 1px solid var(--ad-border-strong);
+    border-radius: var(--ad-radius-sm);
+    color: var(--ad-text-primary);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.aapg-input-wrap input::placeholder {
+    color: var(--ad-text-secondary);
+    opacity: 0.6;
+}
+
+.aapg-input-wrap input:focus {
+    border-color: var(--ad-blue);
+    box-shadow: 0 0 0 3px var(--ad-blue-subtle);
+}
+
+.aapg-input-wrap:focus-within .aapg-input-icon {
+    color: var(--ad-blue);
+}
+
+.aapg-hint {
+    font-size: 11px;
+    color: var(--ad-text-secondary);
+    margin: 6px 0 0 2px;
+}
+
+/* ===============================
+AUTO FIELDS
+================================ */
+
+.aapg-auto {
+    margin: 4px 0 24px;
+    padding: 14px 16px;
+    background: var(--ad-bg-stat);
+    border: 1px dashed var(--ad-border-strong);
+    border-radius: var(--ad-radius-md);
+}
+
+.aapg-auto-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--ad-text-secondary);
+    margin-bottom: 10px;
+}
+
+.aapg-auto-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.aapg-chip {
+    font-size: 12px;
+    font-family: var(--font-body);
+    color: var(--ad-text-secondary);
+    background: var(--ad-blue-subtle);
+    border: 1px solid var(--ad-border-blue);
+    border-radius: 999px;
+    padding: 5px 12px;
+}
+
+.aapg-chip b {
+    color: var(--ad-blue);
+    font-weight: 700;
+}
+
+/* ===============================
+SUBMIT
+================================ */
+
+.aapg-submit {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px;
+    border: none;
+    border-radius: var(--ad-radius-sm);
+    background: var(--ad-blue);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.aapg-submit svg {
+    width: 17px;
+    height: 17px;
+}
+
+.aapg-submit:hover:not(:disabled) {
+    background: var(--ad-blue-dark);
+    box-shadow: var(--ad-shadow-glow-blue);
+}
+
+.aapg-submit:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.aapg-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.aapg-spinner {
+    width: 17px;
+    height: 17px;
+    border: 2.5px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: aapg-spin 0.8s linear infinite;
+}
+
+/* ===============================
+ANIMATIONS
+================================ */
+
+@keyframes aapg-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes aapg-fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===============================
+MOBILE
+================================ */
+
+@media (max-width: 600px) {
+    .aapg-container {
+        padding: 24px 14px;
+    }
+
+    .aapg-card {
+        padding: 22px 18px 26px;
+    }
+
+    .aapg-title {
+        font-size: 19px;
+    }
+}
+
+/* ===============================
+PASSWORD TOGGLE
+================================ */
+
+.aapg-pwd-toggle {
+    position: absolute;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: transparent;
+    color: var(--ad-text-secondary);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.aapg-pwd-toggle svg {
+    width: 17px;
+    height: 17px;
+}
+
+.aapg-pwd-toggle:hover {
+    color: var(--ad-blue);
+    background: var(--ad-blue-subtle);
+}
+
+/* Give password inputs room for the toggle on the right */
+.aapg-field .aapg-input-wrap input[type="password"],
+.aapg-field .aapg-input-wrap input[type="text"] {
+    padding-right: 44px;
+}
