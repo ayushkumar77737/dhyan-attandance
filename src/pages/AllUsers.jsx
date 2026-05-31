@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./AllUsers.css";
-
+import { logAdminAction } from "../utils/logAdminAction";
 import { db, auth } from "../firebase/firebase";
 import {
   collection,
@@ -115,6 +115,10 @@ function AllUsers() {
   const confirmDelete = async () => {
     try {
       await updateDoc(doc(db, "users", selectedUser), { deleted: true });
+      await logAdminAction("delete_user", {
+        targetId: selectedUser,
+        details: t("logDeletedUser", { id: selectedUser }),
+      });
       setShowModal(false);
       fetchUsers();
     } catch (error) {

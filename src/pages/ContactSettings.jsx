@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./ContactSettings.css";
+import { logAdminAction } from "../utils/logAdminAction";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
@@ -119,6 +120,10 @@ function ContactSettings() {
         try {
             setSaving(true);
             await setDoc(doc(db, "settings", "contact"), form);
+            await logAdminAction("update_contact_settings", {
+                targetId: "contact",
+                details: t("logUpdatedContactSettings"),
+            });
             showToast(t("csContactSaved"), "success");
         } catch (err) {
             console.error(err);

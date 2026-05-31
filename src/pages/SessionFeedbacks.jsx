@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./SessionFeedbacks.css";
+import { logAdminAction } from "../utils/logAdminAction";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase/firebase";
 import { collection, getDocs, doc, getDoc, deleteDoc } from "firebase/firestore";
@@ -157,6 +158,9 @@ function SessionFeedbacks() {
             setDeletingAll(true);
             const snap = await getDocs(collection(db, "experiences"));
             await Promise.all(snap.docs.map(d => deleteDoc(doc(db, "experiences", d.id))));
+            await logAdminAction("delete_all_feedbacks", {
+                details: t("logDeletedAllFeedbacks", { count: snap.docs.length }),
+            });
             setFeedbacks([]);
             setExpandedRow(null);
             setShowDeleteAll(false);

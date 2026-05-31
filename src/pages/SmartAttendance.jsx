@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./SmartAttendance.css";
+import { logAdminAction } from "../utils/logAdminAction";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase/firebase";
 import {
@@ -230,7 +231,10 @@ function SmartAttendance() {
                 status: "Present",
                 scannedAt: serverTimestamp(),
             });
-
+            await logAdminAction("mark_attendance", {
+                targetId: userId.toUpperCase(),
+                details: t("logScannedPresent", { name: userData.name || userId }),
+            });
             setScanStatus("success");
             setScannedUser(userData);
             showToast(`✅ ${userData.name || userId} ${t("markedPresentSuccess")}`, "success");

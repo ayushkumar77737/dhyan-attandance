@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./IdRequests.css";
+import { logAdminAction } from "../utils/logAdminAction";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase/firebase";
 import {
@@ -114,6 +115,10 @@ function IdRequests() {
         try {
             setUpdatingId(docId);
             await updateDoc(doc(db, "idRequests", docId), { status: newStatus });
+            await logAdminAction("update_id_request", {
+                targetId: docId,
+                details: t("logUpdatedIdRequest", { status: newStatus }),
+            });
             setRequests((prev) =>
                 prev.map((r) => r.docId === docId ? { ...r, status: newStatus } : r)
             );
@@ -136,6 +141,10 @@ function IdRequests() {
         try {
             setUpdatingId(docId);
             await deleteDoc(doc(db, "idRequests", docId));
+            await logAdminAction("delete_id_request", {
+                targetId: docId,
+                details: t("logDeletedIdRequest"),
+            });
             setRequests((prev) => prev.filter((r) => r.docId !== docId));
             showToast(`🗑️ ${t("requestDeleted")}`, "error");
         } catch (err) {

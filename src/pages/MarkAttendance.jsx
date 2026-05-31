@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./MarkAttendance.css";
 import { useNavigate } from "react-router-dom";
-
+import { logAdminAction } from "../utils/logAdminAction";
 import { db, auth } from "../firebase/firebase";
 import {
     collection,
@@ -180,7 +180,7 @@ function MarkAttendance() {
                     status: attendance[userId]
                 });
             }
-
+            await logAdminAction("mark_attendance", { targetId: date, details: t("logMarkedAttendance", { count: users.length }) });
             setMessage(t("attendanceSavedSuccess"));
             setUsers([]);
             setAttendance({});
@@ -261,7 +261,7 @@ function MarkAttendance() {
                     onClick={saveAttendance}
                     disabled={loading}
                 >
-                    {loading ? t("savingAttendance") : t("saveAttendance")} 
+                    {loading ? t("savingAttendance") : t("saveAttendance")}
                 </button>
             )}
 

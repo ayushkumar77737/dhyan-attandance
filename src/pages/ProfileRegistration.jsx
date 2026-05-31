@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./ProfileRegistration.css";
+import { logAdminAction } from "../utils/logAdminAction";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
@@ -188,8 +189,10 @@ function ProfileRegistration() {
                 phoneType: form.phoneType,
                 dob: form.dob,
                 createdAt: new Date().toISOString()
+            }); await logAdminAction("create_profile", {
+                targetId: idNo,
+                details: t("logRegisteredProfile", { name: form.name.trim() }),
             });
-
             showMsg(t("profileRegisteredSuccess"), "success");
             setForm({
                 idNo: "", name: "", fatherHusbandName: "",

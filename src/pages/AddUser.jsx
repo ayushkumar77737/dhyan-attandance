@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AddUser.css";
-
+import { logAdminAction } from "../utils/logAdminAction";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db, secondaryAuth } from "../firebase/firebase"; // ✅ added secondaryAuth
+import { auth, db, secondaryAuth } from "../firebase/firebase";
 import {
     doc,
     setDoc,
@@ -135,7 +135,7 @@ function AddUser() {
                 deleted: false,
                 createdAt: serverTimestamp()
             });
-
+            await logAdminAction("create_user", { targetId: cleanId, details: t("logCreatedUser", { name }) });
             setMessage(t("userAddedSuccess"));
             setName("");
             setIdNo("");

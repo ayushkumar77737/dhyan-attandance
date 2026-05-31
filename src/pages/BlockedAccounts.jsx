@@ -12,6 +12,7 @@ import {
     getDoc
 } from "firebase/firestore";
 import "./BlockedAccounts.css";
+import { logAdminAction } from "../utils/logAdminAction";
 
 const BlockedAccounts = () => {
     const navigate = useNavigate();
@@ -126,6 +127,10 @@ const BlockedAccounts = () => {
                 attempts: 0,
                 lockUntil: null,
             });
+            await logAdminAction("update_blocked_account", {
+                targetId: userId,
+                details: t("logResetBlockedAccount", { id: userId }),
+            });
             setRecords((prev) =>
                 prev.map((r) => r.id === userId ? { ...r, attempts: 0, lockUntil: null } : r)
             );
@@ -142,6 +147,10 @@ const BlockedAccounts = () => {
         try {
             setDeleting(userId);
             await deleteDoc(doc(db, "loginAttempts", userId));
+            await logAdminAction("delete_blocked_account", {
+                targetId: userId,
+                details: t("logDeletedBlockedAccount", { id: userId }),
+            });
             setRecords((prev) => prev.filter((r) => r.id !== userId));
             showToast(t("blockedAccounts.toast.deleteSuccess", { userId }));
         } catch (err) {
@@ -161,6 +170,9 @@ const BlockedAccounts = () => {
                 batch.delete(doc(db, "loginAttempts", record.id));
             });
             await batch.commit();
+            await logAdminAction("delete_all_blocked_accounts", {
+                details: t("logDeletedAllBlockedAccounts", { count: filtered.length }),
+            });
             const deletedIds = new Set(filtered.map((r) => r.id));
             setRecords((prev) => prev.filter((r) => !deletedIds.has(r.id)));
             showToast(t("blockedAccounts.toast.deleteAllSuccess", { count: filtered.length }));

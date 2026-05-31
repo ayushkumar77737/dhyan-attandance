@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./AbsenceManagement.css";
-
+import { logAdminAction } from "../utils/logAdminAction";
 import { db, auth } from "../firebase/firebase";
 import {
     collection,
@@ -126,6 +126,10 @@ function AbsenceManagement() {
     const updateStatus = async (id, newStatus) => {
         try {
             await updateDoc(doc(db, "absenceRequests", id), { status: newStatus });
+            await logAdminAction("update_absence", {
+                targetId: id,
+                details: t("logUpdatedAbsence", { status: newStatus }),
+            });
             fetchRequests();
         } catch (error) {
             console.error("Error updating status:", error);
@@ -152,6 +156,10 @@ function AbsenceManagement() {
         if (!editItem) return;
         try {
             await deleteDoc(doc(db, "absenceRequests", editItem.id));
+            await logAdminAction("delete_absence", {
+                targetId: editItem.userId || editItem.id,
+                details: t("logDeletedAbsence", { name: editItem.name }),
+            });
             setShowEditModal(false);
             setEditItem(null);
             fetchRequests();

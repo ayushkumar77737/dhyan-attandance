@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./AddAdmin.css";
 import { useNavigate } from "react-router-dom";
-
+import { logAdminAction } from "../utils/logAdminAction";
 import { auth, db } from "../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -199,7 +199,7 @@ function AddAdmin() {
                 deleted: false,
                 uid, // link to the Auth account
             });
-
+            await logAdminAction("create_admin", { targetId: id, details: t("logCreatedAdmin", { name: trimmedName }) });
             setSuccess(t("adminAddedSuccess"));
             setAdminId("");
             setName("");

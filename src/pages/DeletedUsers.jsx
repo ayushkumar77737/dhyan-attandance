@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./DeletedUsers.css";
-
+import { logAdminAction } from "../utils/logAdminAction";
 import { db, auth } from "../firebase/firebase";
 import {
   collection,
@@ -87,6 +87,10 @@ function DeletedUsers() {
   const restoreUser = async (id) => {
     try {
       await updateDoc(doc(db, "users", id), { deleted: false });
+      await logAdminAction("restore_user", {
+        targetId: id,
+        details: t("logRestoredUser", { id }),
+      });
       fetchDeletedUsers();
     } catch (error) {
       console.log(error);

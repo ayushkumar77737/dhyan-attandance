@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./ToggleStatus.css";
+import { logAdminAction } from "../utils/logAdminAction";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase/firebase";
 import {
@@ -116,6 +117,12 @@ function ToggleStatus() {
             await updateDoc(doc(db, "users", user.docId), {
                 disabled: newStatus
             });
+            await logAdminAction("toggle_status", {
+                targetId: user.idNo,
+                details: newStatus
+                    ? t("logDisabledUser", { name: user.name })
+                    : t("logEnabledUser", { name: user.name }),
+            });
             setUsers((prev) =>
                 prev.map((u) =>
                     u.docId === user.docId ? { ...u, disabled: newStatus } : u
@@ -145,6 +152,12 @@ function ToggleStatus() {
                     updateDoc(doc(db, "users", user.docId), { disabled: newStatus })
                 )
             );
+            await logAdminAction("toggle_status", {
+                targetId: "ALL",
+                details: newStatus
+                    ? t("logDisabledAll", { count: users.length })
+                    : t("logEnabledAll", { count: users.length }),
+            });
             setUsers((prev) => prev.map((u) => ({ ...u, disabled: newStatus })));
             showMsg(
                 newStatus ? t("allDisabledMsg") : t("allEnabledMsg"),

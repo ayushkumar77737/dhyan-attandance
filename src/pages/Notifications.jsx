@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Notifications.css";
-
+import { logAdminAction } from "../utils/logAdminAction";
 import { db, auth } from "../firebase/firebase";
 import {
   collection,
@@ -131,6 +131,9 @@ function Notifications() {
         userId: "ALL",
         createdAt: serverTimestamp()
       });
+      await logAdminAction("create_notification", {
+        details: t("logPostedNotification", { msg: message.slice(0, 40) }),
+      });
       setStatus(t("notificationPosted"));
       setMessage("");
     } catch (error) {
@@ -155,6 +158,10 @@ function Notifications() {
       await updateDoc(doc(db, "notifications", editItem.id), {
         message: editMessage.trim()
       });
+      await logAdminAction("update_notification", {
+        targetId: editItem.id,
+        details: t("logEditedNotification"),
+      });
       setShowEditModal(false);
       setEditItem(null);
       setStatus(t("notificationPosted"));
@@ -174,6 +181,10 @@ function Notifications() {
   const confirmDelete = async () => {
     try {
       await deleteDoc(doc(db, "notifications", deleteId));
+      await logAdminAction("delete_notification", {
+        targetId: deleteId,
+        details: t("logDeletedNotification"),
+      });
       setShowDeleteModal(false);
       setDeleteId(null);
     } catch (error) {

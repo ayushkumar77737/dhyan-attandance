@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./ActivityLogs.css";
+import { logAdminAction } from "../utils/logAdminAction";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase/firebase";
 import {
@@ -122,6 +123,10 @@ function ActivityLogs() {
         try {
             setDeletingId(showDeleteModal);
             await deleteDoc(doc(db, "activityLogs", showDeleteModal));
+            await logAdminAction("delete_activity_log", {
+                targetId: showDeleteModal,
+                details: t("logDeletedActivityLog"),
+            });
             setLogs((prev) => prev.filter((l) => l.docId !== showDeleteModal));
             if (expandedLog === showDeleteModal) setExpandedLog(null);
         } catch (err) {
@@ -137,6 +142,9 @@ function ActivityLogs() {
             setDeletingAll(true);
             const deletePromises = logs.map((l) => deleteDoc(doc(db, "activityLogs", l.docId)));
             await Promise.all(deletePromises);
+            await logAdminAction("delete_all_activity_logs", {
+                details: t("logDeletedAllActivityLogs", { count: logs.length }),
+            });
             setLogs([]);
             setFiltered([]);
             setExpandedLog(null);

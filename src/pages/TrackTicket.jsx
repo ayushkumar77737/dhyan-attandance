@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./TrackTicket.css";
+import { logAdminAction } from "../utils/logAdminAction";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase/firebase";
 import {
@@ -117,6 +118,10 @@ function TrackTicket() {
     const updateStatus = async (id, newStatus) => {
         try {
             await updateDoc(doc(db, "tickets", id), { status: newStatus });
+            await logAdminAction("update_ticket", {
+                targetId: id,
+                details: t("logUpdatedTicket", { status: newStatus }),
+            });
             setTickets(tickets.map(tk => tk.id === id ? { ...tk, status: newStatus } : tk));
             showMsg(`${t("statusUpdated")} ${newStatus}`, "success");
         } catch (error) {
@@ -128,6 +133,10 @@ function TrackTicket() {
     const deleteTicket = async (id) => {
         try {
             await deleteDoc(doc(db, "tickets", id));
+            await logAdminAction("delete_ticket", {
+                targetId: id,
+                details: t("logDeletedTicket"),
+            });
             setTickets(tickets.filter(tk => tk.id !== id));
             showMsg(t("ticketDeleted"), "success");
         } catch (error) {

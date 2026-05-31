@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
+import { logAdminAction } from "../utils/logAdminAction";
 import { db, auth } from "../firebase/firebase";
 import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 
@@ -121,6 +121,10 @@ function EditUser() {
             if (userId !== id) {
                 await deleteDoc(oldRef);
             }
+            await logAdminAction("update_user", {
+                targetId: userId,
+                details: t("logUpdatedUser", { name: name.trim() }),
+            });
             showMessage(t("userUpdatedSuccess"), "success"); // ← CHANGED
             setTimeout(() => navigate("/all-users"), 1500); // ← navigate after showing success
         } catch (error) {

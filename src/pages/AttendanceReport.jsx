@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./AttendanceReport.css";
-
+import { logAdminAction } from "../utils/logAdminAction";
 import { db, auth } from "../firebase/firebase";
 import {
     collection,
@@ -162,7 +162,10 @@ function AttendanceReport() {
             await updateDoc(doc(db, "attendance", docId), {
                 status: editStatus
             });
-
+            await logAdminAction("update_attendance", {
+                targetId: editUser.id,
+                details: t("logEditedAttendance", { name: editUser.name, status: editStatus }),
+            });
             // Update local state
             const updated = reportUsers.map(u =>
                 u.id === editUser.id ? { ...u, status: editStatus } : u

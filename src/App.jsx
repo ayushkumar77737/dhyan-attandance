@@ -36,6 +36,7 @@ import HelpSupport from "./pages/HelpSupport";
 import BlockedAccounts from "./pages/BlockedAccounts";
 import Directory from "./pages/Directory";
 import AddAdmin from "./pages/AddAdmin";
+import AdminLogs from "./pages/AdminLogs";
 
 function App() {
   return (
@@ -328,6 +329,23 @@ function App() {
           element={
             <ProtectedRoute>
               <BlockedAccounts />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/blocked-accounts"
+          element={
+            <ProtectedRoute>
+              <BlockedAccounts />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin-logs"
+          element={
+            <ProtectedRoute>
+              <AdminLogs />
             </ProtectedRoute>
           }
         />

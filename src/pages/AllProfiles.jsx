@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./AllProfiles.css";
+import { logAdminAction } from "../utils/logAdminAction";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase/firebase";
 import {
@@ -170,6 +171,10 @@ function AllProfiles() {
             await updateDoc(doc(db, "users", selectedProfile.docId), {
                 name: editForm.name.trim()
             });
+            await logAdminAction("update_profile", {
+                targetId: selectedProfile.idNo || selectedProfile.docId,
+                details: t("logUpdatedProfile", { name: editForm.name.trim() }),
+            });
             // update local state so UI reflects immediately
             const updated = { ...selectedProfile, ...editForm };
             setProfiles((prev) => prev.map((p) => p.docId === selectedProfile.docId ? updated : p));
@@ -187,6 +192,10 @@ function AllProfiles() {
         try {
             setDeleteLoading(true);
             await deleteDoc(doc(db, "profiles", selectedProfile.docId));
+            await logAdminAction("delete_profile", {
+                targetId: selectedProfile.idNo || selectedProfile.docId,
+                details: t("logDeletedProfile", { name: selectedProfile.name }),
+            });
             setProfiles((prev) => prev.filter((p) => p.docId !== selectedProfile.docId));
             setFiltered((prev) => prev.filter((p) => p.docId !== selectedProfile.docId));
             setShowDeleteConfirm(false);

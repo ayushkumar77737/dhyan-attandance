@@ -1,0 +1,913 @@
+/* ===============================
+   ADMIN LOGS — Activity Monitor
+   Prefix: aamon__  (collision-free)
+================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap');
+
+.aamon__page {
+    --aamon-bg: #070b15;
+    --aamon-surface: rgba(255, 255, 255, 0.025);
+    --aamon-card: #0d1726;
+    --aamon-card-hover: #111f33;
+
+    --aamon-blue: #3b82f6;
+    --aamon-purple: #8b5cf6;
+    --aamon-green: #2dce89;
+    --aamon-red: #ef4444;
+    --aamon-amber: #f59e0b;
+    --aamon-cyan: #06b6d4;
+
+    --aamon-text: #e8edf5;
+    --aamon-text-dim: #8294ad;
+    --aamon-text-mute: #475569;
+
+    --aamon-border: rgba(255, 255, 255, 0.06);
+    --aamon-border-strong: rgba(255, 255, 255, 0.1);
+
+    --aamon-radius-sm: 10px;
+    --aamon-radius-md: 14px;
+    --aamon-radius-lg: 20px;
+
+    --aamon-font: 'Outfit', sans-serif;
+    --aamon-display: 'Syne', sans-serif;
+
+    min-height: 100vh;
+    background: var(--aamon-bg);
+    color: var(--aamon-text);
+    font-family: var(--aamon-font);
+    padding: 32px 28px 80px;
+    position: relative;
+    overflow-x: hidden;
+    animation: aamon-fade 0.5s ease;
+}
+
+/* ---- Background ---- */
+.aamon__grid-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 46px 46px;
+}
+
+.aamon__orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(130px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+}
+
+.aamon__orb--1 {
+    width: 560px;
+    height: 560px;
+    top: -200px;
+    left: -160px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.18), transparent 70%);
+}
+
+.aamon__orb--2 {
+    width: 460px;
+    height: 460px;
+    bottom: -160px;
+    right: -140px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.14), transparent 70%);
+}
+
+.aamon__orb--3 {
+    width: 320px;
+    height: 320px;
+    top: 45%;
+    left: 55%;
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.1), transparent 70%);
+}
+
+.aamon__page>*:not(.aamon__grid-bg):not(.aamon__orb) {
+    position: relative;
+    z-index: 2;
+}
+
+/* ---- Back ---- */
+.aamon__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 18px;
+    margin-bottom: 26px;
+    background: var(--aamon-surface);
+    border: 1px solid var(--aamon-border-strong);
+    border-radius: 50px;
+    color: var(--aamon-text-dim);
+    font-family: var(--aamon-font);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    backdrop-filter: blur(10px);
+}
+
+.aamon__back svg {
+    width: 14px;
+    height: 14px;
+}
+
+.aamon__back:hover {
+    color: var(--aamon-blue);
+    border-color: rgba(59, 130, 246, 0.4);
+    transform: translateX(-3px);
+}
+
+/* ---- Header ---- */
+.aamon__header {
+    margin-bottom: 28px;
+}
+
+.aamon__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--aamon-blue);
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    padding: 5px 16px;
+    border-radius: 50px;
+    margin-bottom: 14px;
+}
+
+.aamon__eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--aamon-blue);
+    box-shadow: 0 0 10px var(--aamon-blue);
+    animation: aamon-pulse 2s ease-in-out infinite;
+}
+
+.aamon__title {
+    font-family: var(--aamon-display);
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin: 0 0 8px;
+    line-height: 1.1;
+}
+
+.aamon__title-accent {
+    background: linear-gradient(135deg, var(--aamon-blue), var(--aamon-cyan));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.aamon__subtitle {
+    font-size: 14px;
+    color: var(--aamon-text-dim);
+    margin: 0;
+}
+
+/* ---- Analytics ---- */
+.aamon__stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 26px;
+}
+
+.aamon__stat {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 22px;
+    background: var(--aamon-card);
+    border: 1px solid var(--aamon-border);
+    border-radius: var(--aamon-radius-lg);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    transition: transform 0.25s ease, border-color 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.aamon__stat::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    opacity: 0.7;
+}
+
+.aamon__stat:hover {
+    transform: translateY(-4px);
+    border-color: var(--aamon-border-strong);
+}
+
+.aamon__stat-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.aamon__stat-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.aamon__stat-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.aamon__stat-num {
+    font-family: var(--aamon-display);
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.aamon__stat-lbl {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--aamon-text-mute);
+}
+
+.aamon__stat--blue::before {
+    background: var(--aamon-blue);
+}
+
+.aamon__stat--blue .aamon__stat-icon {
+    background: rgba(59, 130, 246, 0.15);
+    color: var(--aamon-blue);
+    box-shadow: 0 0 22px rgba(59, 130, 246, 0.35);
+}
+
+.aamon__stat--blue .aamon__stat-num {
+    color: var(--aamon-blue);
+}
+
+.aamon__stat--purple::before {
+    background: var(--aamon-purple);
+}
+
+.aamon__stat--purple .aamon__stat-icon {
+    background: rgba(139, 92, 246, 0.15);
+    color: var(--aamon-purple);
+    box-shadow: 0 0 22px rgba(139, 92, 246, 0.35);
+}
+
+.aamon__stat--purple .aamon__stat-num {
+    color: var(--aamon-purple);
+}
+
+.aamon__stat--green::before {
+    background: var(--aamon-green);
+}
+
+.aamon__stat--green .aamon__stat-icon {
+    background: rgba(45, 206, 137, 0.15);
+    color: var(--aamon-green);
+    box-shadow: 0 0 22px rgba(45, 206, 137, 0.35);
+}
+
+.aamon__stat--green .aamon__stat-num {
+    color: var(--aamon-green);
+}
+
+.aamon__stat--red::before {
+    background: var(--aamon-red);
+}
+
+.aamon__stat--red .aamon__stat-icon {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--aamon-red);
+    box-shadow: 0 0 22px rgba(239, 68, 68, 0.35);
+}
+
+.aamon__stat--red .aamon__stat-num {
+    color: var(--aamon-red);
+}
+
+/* ---- Filters ---- */
+.aamon__filters {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+.aamon__search-wrap {
+    position: relative;
+    flex: 1 1 240px;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+}
+
+.aamon__search-icon {
+    position: absolute;
+    left: 14px;
+    display: flex;
+    color: var(--aamon-text-mute);
+    pointer-events: none;
+}
+
+.aamon__search-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.aamon__search {
+    width: 100%;
+    padding: 11px 14px 11px 40px;
+    background: var(--aamon-surface);
+    border: 1px solid var(--aamon-border-strong);
+    border-radius: var(--aamon-radius-sm);
+    color: var(--aamon-text);
+    font-family: var(--aamon-font);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.aamon__search:focus {
+    border-color: var(--aamon-blue);
+}
+
+.aamon__search::placeholder {
+    color: var(--aamon-text-mute);
+}
+
+.aamon__search-clear {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--aamon-text-mute);
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.aamon__select,
+.aamon__date {
+    padding: 11px 14px;
+    background: var(--aamon-surface);
+    border: 1px solid var(--aamon-border-strong);
+    border-radius: var(--aamon-radius-sm);
+    color: var(--aamon-text);
+    font-family: var(--aamon-font);
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+    color-scheme: dark;
+    transition: border-color 0.2s ease;
+}
+
+.aamon__select {
+    min-width: 150px;
+}
+
+.aamon__select:focus,
+.aamon__date:focus {
+    border-color: var(--aamon-blue);
+}
+
+.aamon__select option {
+    background: #0d1726;
+}
+
+.aamon__date-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.aamon__date-sep {
+    color: var(--aamon-text-mute);
+    font-size: 13px;
+}
+
+.aamon__date::-webkit-calendar-picker-indicator {
+    filter: invert(0.6);
+    cursor: pointer;
+}
+
+.aamon__clear-btn {
+    padding: 11px 16px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: var(--aamon-radius-sm);
+    color: #fca5a5;
+    font-family: var(--aamon-font);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.aamon__clear-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+.aamon__icon-btn {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--aamon-surface);
+    border: 1px solid var(--aamon-border-strong);
+    border-radius: var(--aamon-radius-sm);
+    color: var(--aamon-text-dim);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.aamon__icon-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.aamon__icon-btn:hover {
+    color: var(--aamon-blue);
+    border-color: rgba(59, 130, 246, 0.4);
+    transform: rotate(45deg);
+}
+
+.aamon__export-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 11px 18px;
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: var(--aamon-radius-sm);
+    color: var(--aamon-blue);
+    font-family: var(--aamon-font);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.aamon__export-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
+.aamon__export-btn:hover:not(:disabled) {
+    background: rgba(59, 130, 246, 0.22);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.aamon__export-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ---- Main grid ---- */
+.aamon__main {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 18px;
+    align-items: start;
+}
+
+.aamon__table-card,
+.aamon__feed-card {
+    background: var(--aamon-card);
+    border: 1px solid var(--aamon-border);
+    border-radius: var(--aamon-radius-lg);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+}
+
+.aamon__card-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--aamon-border);
+}
+
+.aamon__card-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--aamon-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--aamon-text);
+}
+
+.aamon__count-pill {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--aamon-blue);
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    padding: 3px 10px;
+    border-radius: 50px;
+}
+
+.aamon__live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--aamon-green);
+    box-shadow: 0 0 10px var(--aamon-green);
+    animation: aamon-pulse 1.5s ease-in-out infinite;
+}
+
+/* ---- Table ---- */
+.aamon__table-wrap {
+    overflow-x: auto;
+}
+
+.aamon__table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 680px;
+}
+
+.aamon__table thead tr {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.aamon__table th {
+    padding: 13px 18px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--aamon-text-mute);
+    white-space: nowrap;
+}
+
+.aamon__row {
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    transition: background 0.18s ease;
+}
+
+.aamon__row:hover {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.aamon__row td {
+    padding: 13px 18px;
+    font-size: 13px;
+    color: var(--aamon-text-dim);
+    vertical-align: middle;
+}
+
+.aamon__td-num {
+    color: var(--aamon-text-mute) !important;
+    font-family: monospace;
+    font-size: 11px !important;
+    width: 38px;
+}
+
+.aamon__admin-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.aamon__avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--aamon-blue), var(--aamon-purple));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+    box-shadow: 0 0 14px rgba(59, 130, 246, 0.25);
+}
+
+.aamon__admin-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.aamon__admin-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--aamon-text);
+}
+
+.aamon__admin-id {
+    font-size: 10px;
+    font-family: monospace;
+    color: var(--aamon-text-mute);
+}
+
+.aamon__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 11px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.aamon__badge--create {
+    background: rgba(45, 206, 137, 0.12);
+    color: var(--aamon-green);
+    border: 1px solid rgba(45, 206, 137, 0.3);
+}
+
+.aamon__badge--update {
+    background: rgba(59, 130, 246, 0.12);
+    color: var(--aamon-blue);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.aamon__badge--delete {
+    background: rgba(239, 68, 68, 0.12);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.aamon__badge--auth {
+    background: rgba(139, 92, 246, 0.12);
+    color: #c4b5fd;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.aamon__badge--other {
+    background: rgba(100, 116, 139, 0.12);
+    color: var(--aamon-text-dim);
+    border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+.aamon__target {
+    font-family: monospace;
+    font-size: 12px;
+    color: var(--aamon-text);
+}
+
+.aamon__details {
+    font-size: 12px;
+    color: var(--aamon-text-dim);
+    display: inline-block;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aamon__time {
+    font-size: 12px;
+    font-family: monospace;
+    color: var(--aamon-text-mute);
+    white-space: nowrap;
+}
+
+/* ---- Loading / Empty ---- */
+.aamon__loading,
+.aamon__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 60px 20px;
+    color: var(--aamon-text-dim);
+    font-size: 14px;
+}
+
+.aamon__loading--sm {
+    padding: 36px 20px;
+}
+
+.aamon__ring {
+    width: 38px;
+    height: 38px;
+    border: 3px solid var(--aamon-border-strong);
+    border-top-color: var(--aamon-blue);
+    border-radius: 50%;
+    animation: aamon-spin 0.8s linear infinite;
+}
+
+.aamon__empty-icon {
+    font-size: 38px;
+    opacity: 0.4;
+}
+
+/* ---- Feed ---- */
+.aamon__feed-list {
+    padding: 10px 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 620px;
+    overflow-y: auto;
+}
+
+.aamon__feed-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.aamon__feed-list::-webkit-scrollbar-thumb {
+    background: var(--aamon-blue);
+    border-radius: 10px;
+}
+
+.aamon__feed-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 12px;
+    border-radius: var(--aamon-radius-sm);
+    transition: background 0.18s ease;
+    animation: aamon-slide 0.4s ease both;
+}
+
+.aamon__feed-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.aamon__feed-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.aamon__feed-icon--create {
+    background: rgba(45, 206, 137, 0.14);
+    box-shadow: 0 0 16px rgba(45, 206, 137, 0.2);
+}
+
+.aamon__feed-icon--update {
+    background: rgba(59, 130, 246, 0.14);
+    box-shadow: 0 0 16px rgba(59, 130, 246, 0.2);
+}
+
+.aamon__feed-icon--delete {
+    background: rgba(239, 68, 68, 0.14);
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.2);
+}
+
+.aamon__feed-icon--auth {
+    background: rgba(139, 92, 246, 0.14);
+    box-shadow: 0 0 16px rgba(139, 92, 246, 0.2);
+}
+
+.aamon__feed-icon--other {
+    background: rgba(100, 116, 139, 0.14);
+}
+
+.aamon__feed-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.aamon__feed-text {
+    font-size: 13px;
+    color: var(--aamon-text-dim);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.aamon__feed-text strong {
+    color: var(--aamon-text);
+    font-weight: 600;
+}
+
+.aamon__feed-time {
+    font-size: 11px;
+    color: var(--aamon-text-mute);
+}
+
+.aamon__feed-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 50px 20px;
+    color: var(--aamon-text-mute);
+    font-size: 13px;
+}
+
+.aamon__feed-empty span {
+    font-size: 32px;
+    opacity: 0.4;
+}
+
+/* ---- Animations ---- */
+@keyframes aamon-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes aamon-fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes aamon-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(0.7);
+    }
+}
+
+@keyframes aamon-slide {
+    from {
+        opacity: 0;
+        transform: translateX(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1100px) {
+    .aamon__main {
+        grid-template-columns: 1fr;
+    }
+
+    .aamon__stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .aamon__feed-list {
+        max-height: 420px;
+    }
+}
+
+@media (max-width: 600px) {
+    .aamon__page {
+        padding: 20px 14px 60px;
+    }
+
+    .aamon__title {
+        font-size: 28px;
+    }
+
+    .aamon__stats {
+        grid-template-columns: 1fr;
+    }
+
+    .aamon__filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .aamon__select,
+    .aamon__date-group {
+        width: 100%;
+    }
+
+    .aamon__date {
+        flex: 1;
+    }
+}
