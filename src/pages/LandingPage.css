@@ -5,8 +5,8 @@ VARIABLES
 ========================= */
 
 :root {
-    --ldpg-bg: #06060e;
-    --ldpg-bg2: #0b0b18;
+    --ldpg-bg: #14141f;
+    --ldpg-bg2: #1c1c2b;
     --ldpg-gold: #c9a84c;
     --ldpg-gold-light: #e8c97e;
     --ldpg-gold-pale: #f5e4b0;
@@ -14,8 +14,8 @@ VARIABLES
     --ldpg-gold-glow: rgba(201, 168, 76, 0.3);
     --ldpg-amber: #d4812a;
     --ldpg-cream: #f5efe0;
-    --ldpg-muted: rgba(245, 239, 224, 0.42);
-    --ldpg-dim: rgba(245, 239, 224, 0.18);
+    --ldpg-muted: rgba(245, 239, 224, 0.72);
+    --ldpg-dim: rgba(245, 239, 224, 0.40);
     --ldpg-border: rgba(201, 168, 76, 0.18);
     --ldpg-font-display: 'Cormorant Garamond', serif;
     --ldpg-font-body: 'Jost', sans-serif;
@@ -207,6 +207,22 @@ LEFT CONTENT
     text-transform: uppercase;
     color: var(--ldpg-gold);
     margin-bottom: 22px;
+    animation: ldpg__popInOut 2.4s ease-in-out infinite;
+}
+
+@keyframes ldpg__popInOut {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.75;
+    }
+
+    50% {
+        transform: scale(1.12);
+        opacity: 1;
+        text-shadow: 0 0 14px var(--ldpg-gold-glow);
+    }
 }
 
 .ldpg__eyebrow-dot {
