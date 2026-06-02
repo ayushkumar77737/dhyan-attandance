@@ -46,6 +46,33 @@
   background: rgba(8, 15, 26, 0.85);
 }
 
+.ud-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ud-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ud-logo {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.ud-favicon {
+  height: 30px;
+  width: 30px;
+  object-fit: contain;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
 .ud-portal-label {
   font-size: 11px;
   font-weight: 600;
@@ -856,6 +883,15 @@
 @media (max-width: 768px) {
   .ud-topbar {
     padding: 14px 18px;
+  }
+
+  .ud-logo {
+    height: 30px;
+  }
+
+  .ud-favicon {
+    height: 26px;
+    width: 26px;
   }
 
   .ud-body {

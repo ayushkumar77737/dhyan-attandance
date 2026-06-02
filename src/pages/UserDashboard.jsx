@@ -7,6 +7,8 @@ import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import useAutoLogout from "../hooks/useAutoLogout";
 import { useTranslation } from "react-i18next";
+import logo from "../assets/logo2.png";
+import favicon from "../assets/favicon.png";
 
 function UserDashboard() {
   const { t } = useTranslation();
@@ -133,18 +135,23 @@ function UserDashboard() {
     <div className="ud-container">
 
       {/* ── TOP BAR ── */}
+      {/* ── TOP BAR ── */}
       <div className="ud-topbar">
         <div className="ud-topbar-left">
+          <img src={logo} alt="Logo" className="ud-logo" />
           <span className="ud-portal-label">{t("attendancePortal") || "Attendance Portal"}</span>
         </div>
-        <button className="ud-logout-btn" onClick={handleLogout}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-            <polyline points="16 17 21 12 16 7" />
-            <line x1="21" y1="12" x2="9" y2="12" />
-          </svg>
-          {t("logout")}
-        </button>
+        <div className="ud-topbar-right">
+          <img src={favicon} alt="" className="ud-favicon" />
+          <button className="ud-logout-btn" onClick={handleLogout}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+            {t("logout")}
+          </button>
+        </div>
       </div>
 
       <div className="ud-body">
