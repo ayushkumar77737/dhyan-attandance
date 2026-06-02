@@ -657,5 +657,6 @@
   "logResetBlockedAccount": "Reset login attempts for {{id}}",
   "logDeletedBlockedAccount": "Deleted block record for {{id}}",
   "logDeletedAllBlockedAccounts": "Deleted all {{count}} block records",
-  "logRestoredUser": "Restored user {{id}}"
+  "logRestoredUser": "Restored user {{id}}",
+  "greetingMessage": "Jai Gurubande Saheb Sabaka"
 }

@@ -658,5 +658,6 @@
   "logResetBlockedAccount": "{{id}} ಗಾಗಿ ಲಾಗಿನ್ ಪ್ರಯತ್ನಗಳನ್ನು ಮರುಹೊಂದಿಸಲಾಗಿದೆ",
   "logDeletedBlockedAccount": "{{id}} ನ ಬ್ಲಾಕ್ ದಾಖಲೆ ಅಳಿಸಲಾಗಿದೆ",
   "logDeletedAllBlockedAccounts": "ಎಲ್ಲಾ {{count}} ಬ್ಲಾಕ್ ದಾಖಲೆಗಳನ್ನು ಅಳಿಸಲಾಗಿದೆ",
-  "logRestoredUser": "ಬಳಕೆದಾರ {{id}} ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ"
+  "logRestoredUser": "ಬಳಕೆದಾರ {{id}} ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ",
+  "greetingMessage": "ಜೈ ಗುರುಬಂದೆ ಸಾಹೇಬ್ ಸಬಕಾ"
 }

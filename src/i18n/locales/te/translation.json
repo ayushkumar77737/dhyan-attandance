@@ -657,5 +657,6 @@
   "logResetBlockedAccount": "{{id}} కోసం లాగిన్ ప్రయత్నాలు రీసెట్ చేయబడ్డాయి",
   "logDeletedBlockedAccount": "{{id}} యొక్క బ్లాక్ రికార్డ్ తొలగించబడింది",
   "logDeletedAllBlockedAccounts": "అన్ని {{count}} బ్లాక్ రికార్డులు తొలగించబడ్డాయి",
-  "logRestoredUser": "వినియోగదారు {{id}} పునరుద్ధరించబడింది"
+  "logRestoredUser": "వినియోగదారు {{id}} పునరుద్ధరించబడింది",
+  "greetingMessage": "జై గురుబందే సాహెబ్ సబకా"
 }

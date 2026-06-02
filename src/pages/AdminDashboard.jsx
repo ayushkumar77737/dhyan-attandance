@@ -195,6 +195,7 @@ const icons = {
 function AdminDashboard() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [showGreeting, setShowGreeting] = useState(true);
   useAutoLogout();
 
   const [totalUsers, setTotalUsers] = useState(0);
@@ -249,9 +250,11 @@ function AdminDashboard() {
     fetchOpenTickets();
     fetchTrendData(7);
     fetchMonthlyData(selectedMonth);
+    const greetingTimer = setTimeout(() => setShowGreeting(false), 4000);
     return () => {
       document.removeEventListener("contextmenu", disableRightClick);
       document.removeEventListener("keydown", disableInspectKeys);
+      clearTimeout(greetingTimer);
     };
   }, []);
 
@@ -475,8 +478,12 @@ function AdminDashboard() {
 
   return (
     <div className="admin-container">
-
-      {/* ── Header ── */}
+      {showGreeting && (
+        <div className="dashboard-greeting" onClick={() => setShowGreeting(false)}>
+          <span className="dashboard-greeting-icon">🙏</span>
+          {t("greetingMessage")}
+        </div>
+      )}
       {/* ── Header ── */}
       <div className="dashboard-header">
         <div className="dashboard-header-left">

@@ -658,5 +658,6 @@
   "logResetBlockedAccount": "{{id}} के लॉगिन प्रयास रीसेट किए",
   "logDeletedBlockedAccount": "{{id}} का ब्लॉक रिकॉर्ड हटाया",
   "logDeletedAllBlockedAccounts": "सभी {{count}} ब्लॉक रिकॉर्ड हटाए",
-  "logRestoredUser": "उपयोगकर्ता {{id}} पुनर्स्थापित किया"
+  "logRestoredUser": "उपयोगकर्ता {{id}} पुनर्स्थापित किया",
+  "greetingMessage": "जय गुरुबंदे साहेब सबका"
 }

@@ -657,5 +657,6 @@
   "logResetBlockedAccount": "{{id}} இன் உள்நுழைவு முயற்சிகள் மீட்டமைக்கப்பட்டன",
   "logDeletedBlockedAccount": "{{id}} இன் தடுப்பு பதிவு நீக்கப்பட்டது",
   "logDeletedAllBlockedAccounts": "அனைத்து {{count}} தடுப்பு பதிவுகளும் நீக்கப்பட்டன",
-  "logRestoredUser": "பயனர் {{id}} மீட்டமைக்கப்பட்டது"
+  "logRestoredUser": "பயனர் {{id}} மீட்டமைக்கப்பட்டது",
+  "greetingMessage": "ஜெய் குருபந்தே சாஹேப் சபகா"
 }

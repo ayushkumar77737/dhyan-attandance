@@ -658,5 +658,6 @@
   "logResetBlockedAccount": "{{id}} ന്റെ ലോഗിൻ ശ്രമങ്ങൾ റീസെറ്റ് ചെയ്തു",
   "logDeletedBlockedAccount": "{{id}} ന്റെ ബ്ലോക്ക് റെക്കോർഡ് ഇല്ലാതാക്കി",
   "logDeletedAllBlockedAccounts": "എല്ലാ {{count}} ബ്ലോക്ക് റെക്കോർഡുകളും ഇല്ലാതാക്കി",
-  "logRestoredUser": "ഉപയോക്താവ് {{id}} പുനഃസ്ഥാപിച്ചു"
+  "logRestoredUser": "ഉപയോക്താവ് {{id}} പുനഃസ്ഥാപിച്ചു",
+  "greetingMessage": "ജയ് ഗുരുബന്ദേ സാഹേബ് സബകാ"
 }

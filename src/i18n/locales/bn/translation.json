@@ -627,5 +627,6 @@
   "logResetBlockedAccount": "{{id}} এর লগইন প্রচেষ্টা রিসেট করা হয়েছে",
   "logDeletedBlockedAccount": "{{id}} এর ব্লক রেকর্ড মুছে ফেলা হয়েছে",
   "logDeletedAllBlockedAccounts": "সমস্ত {{count}} ব্লক রেকর্ড মুছে ফেলা হয়েছে",
-  "logRestoredUser": "ব্যবহারকারী {{id}} পুনরুদ্ধার করা হয়েছে"
+  "logRestoredUser": "ব্যবহারকারী {{id}} পুনরুদ্ধার করা হয়েছে",
+  "greetingMessage": "জয় গুরুবন্দে সাহেব সবকা"
 }

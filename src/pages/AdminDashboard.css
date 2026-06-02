@@ -156,6 +156,49 @@ HEADER
   justify-content: center;
 }
 
+.dashboard-greeting {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 13px 30px;
+  background: linear-gradient(135deg, #0a1424 0%, #0d1f38 50%, #0a1424 100%);
+  border: 1px solid rgba(59, 130, 246, 0.5);
+  border-radius: 50px;
+  color: #93c5fd;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(59, 130, 246, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  cursor: pointer;
+  animation: greeting-drop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.dashboard-greeting-icon {
+  font-size: 18px;
+}
+
+@keyframes greeting-drop {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
 /* ===============================
 LOGOUT BUTTON
 ================================ */
