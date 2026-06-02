@@ -12,6 +12,10 @@ import { useTranslation } from "react-i18next";
 import useAutoLogout from "../hooks/useAutoLogout";
 
 import { logLogout } from "../utils/logActivity";
+
+import logo from "../assets/logo2.png";
+import favicon from "../assets/favicon.png";
+
 import { Pie, Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -473,12 +477,17 @@ function AdminDashboard() {
     <div className="admin-container">
 
       {/* ── Header ── */}
+      {/* ── Header ── */}
       <div className="dashboard-header">
         <div className="dashboard-header-left">
-          <p className="dashboard-portal-label">{t("appTitle")}</p>
-          <h1 className="dashboard-title">{t("adminDashboard")}</h1>
+          <img src={logo} alt="Logo" className="dashboard-logo" />
+          <div className="dashboard-header-text">
+            <p className="dashboard-portal-label">{t("appTitle")}</p>
+            <h1 className="dashboard-title">{t("adminDashboard")}</h1>
+          </div>
         </div>
         <div className="dashboard-header-right">
+          <img src={favicon} alt="" className="dashboard-favicon" />
           <div className="admin-badge">
             <span className="admin-badge-dot">A</span>
             {t("adminLabel")}

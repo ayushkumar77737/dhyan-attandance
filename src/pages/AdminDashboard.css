@@ -80,8 +80,30 @@ HEADER
 
 .dashboard-header-left {
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.dashboard-header-text {
+  display: flex;
   flex-direction: column;
   gap: 2px;
+}
+
+.dashboard-logo {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.dashboard-favicon {
+  height: 32px;
+  width: 32px;
+  object-fit: contain;
+  border-radius: 8px;
+  flex-shrink: 0;
 }
 
 .dashboard-portal-label {
@@ -821,6 +843,15 @@ MOBILE — 768px
 
   .admin-badge {
     display: none;
+  }
+
+  .dashboard-logo {
+    height: 34px;
+  }
+
+  .dashboard-favicon {
+    height: 26px;
+    width: 26px;
   }
 }
 
