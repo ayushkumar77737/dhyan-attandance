@@ -195,7 +195,9 @@ const icons = {
 function AdminDashboard() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [showGreeting, setShowGreeting] = useState(true);
+  const [showGreeting, setShowGreeting] = useState(
+    () => !sessionStorage.getItem("greetingShown")
+  );
   useAutoLogout();
 
   const [totalUsers, setTotalUsers] = useState(0);
@@ -250,6 +252,7 @@ function AdminDashboard() {
     fetchOpenTickets();
     fetchTrendData(7);
     fetchMonthlyData(selectedMonth);
+    sessionStorage.setItem("greetingShown", "true");
     const greetingTimer = setTimeout(() => setShowGreeting(false), 4000);
     return () => {
       document.removeEventListener("contextmenu", disableRightClick);
@@ -409,6 +412,7 @@ function AdminDashboard() {
     try {
       const userId = localStorage.getItem("userId");
       if (userId) await logLogout(userId.toUpperCase());
+      sessionStorage.removeItem("greetingShown");
       await signOut(auth);
       navigate("/");
     } catch (err) { console.log(err); }
