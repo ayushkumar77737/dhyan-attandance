@@ -910,4 +910,10 @@
     .aamon__date {
         flex: 1;
     }
+
+    .aamon__search-wrap {
+        flex: 0 0 auto;
+        width: 100%;
+        min-width: 0;
+    }
 }
