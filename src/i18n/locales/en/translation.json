@@ -664,5 +664,9 @@
   "logDeletedBlockedAccount": "Deleted block record for {{id}}",
   "logDeletedAllBlockedAccounts": "Deleted all {{count}} block records",
   "logRestoredUser": "Restored user {{id}}",
-  "greetingMessage": "Jai Gurubande Saheb Sabaka"
+  "greetingMessage": "Jai Gurubande Saheb Sabaka",
+  "alDeleteLogTitle": "Delete Log?",
+  "alDeleteLogMsg": "This log entry will be permanently deleted and cannot be recovered.",
+  "alDeleteAllTitle": "Delete All Logs?",
+  "alDeleteAllMsg": "This will permanently delete {{count}} log entries. This action cannot be undone."
 }

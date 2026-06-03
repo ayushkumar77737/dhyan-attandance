@@ -628,6 +628,12 @@
   "alMinutesAgo": "{{n}} ನಿಮಿಷಗಳ ಹಿಂದೆ",
   "alHoursAgo": "{{n}} ಗಂಟೆಗಳ ಹಿಂದೆ",
   "alDaysAgo": "{{n}} ದಿನಗಳ ಹಿಂದೆ",
+  "alDeleteAll": "ಎಲ್ಲವನ್ನೂ ಅಳಿಸಿ",
+  "alDeleteLog": "ಈ ಲಾಗ್ ಅಳಿಸಿ",
+  "alConfirmDeleteOne": "ಈ ಲಾಗ್ ನಮೂದನ್ನು ಅಳಿಸಬೇಕೆ?",
+  "alConfirmDeleteAll": "{{count}} ನಮೂದುಗಳನ್ನು ಅಳಿಸಬೇಕೆ? ಇದನ್ನು ಹಿಂಪಡೆಯಲಾಗದು.",
+  "alDeleteFailed": "ಅಳಿಸುವಿಕೆ ವಿಫಲವಾಯಿತು.",
+  "alBulkDeleteFailed": "ಸಮೂಹ ಅಳಿಸುವಿಕೆ ವಿಫಲವಾಯಿತು.",
   "logCreatedAdmin": "ಅಡ್ಮಿನ್ {{name}} ಸೇರಿಸಲಾಗಿದೆ",
   "logMarkedAttendance": "{{count}} ಬಳಕೆದಾರರ ಹಾಜರಾತಿ ಗುರುತಿಸಲಾಗಿದೆ",
   "logCreatedUser": "{{name}} ಸೇರಿಸಲಾಗಿದೆ",
@@ -659,5 +665,9 @@
   "logDeletedBlockedAccount": "{{id}} ನ ಬ್ಲಾಕ್ ದಾಖಲೆ ಅಳಿಸಲಾಗಿದೆ",
   "logDeletedAllBlockedAccounts": "ಎಲ್ಲಾ {{count}} ಬ್ಲಾಕ್ ದಾಖಲೆಗಳನ್ನು ಅಳಿಸಲಾಗಿದೆ",
   "logRestoredUser": "ಬಳಕೆದಾರ {{id}} ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ",
-  "greetingMessage": "ಜೈ ಗುರುಬಂದೆ ಸಾಹೇಬ್ ಸಬಕಾ"
+  "greetingMessage": "ಜೈ ಗುರುಬಂದೆ ಸಾಹೇಬ್ ಸಬಕಾ",
+  "alDeleteLogTitle": "ಲಾಗ್ ಅಳಿಸಬೇಕೆ?",
+  "alDeleteLogMsg": "ಈ ಲಾಗ್ ನಮೂದು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಲ್ಪಡುತ್ತದೆ ಮತ್ತು ಮರುಪಡೆಯಲಾಗದು.",
+  "alDeleteAllTitle": "ಎಲ್ಲಾ ಲಾಗ್‌ಗಳನ್ನು ಅಳಿಸಬೇಕೆ?",
+  "alDeleteAllMsg": "ಇದು {{count}} ಲಾಗ್ ನಮೂದುಗಳನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸುತ್ತದೆ. ಈ ಕ್ರಿಯೆಯನ್ನು ಹಿಂಪಡೆಯಲಾಗದು."
 }

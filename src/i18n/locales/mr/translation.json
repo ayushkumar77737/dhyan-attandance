@@ -628,6 +628,12 @@
   "alMinutesAgo": "{{n}} मिनिटांपूर्वी",
   "alHoursAgo": "{{n}} तासांपूर्वी",
   "alDaysAgo": "{{n}} दिवसांपूर्वी",
+  "alDeleteAll": "सर्व हटवा",
+  "alDeleteLog": "हा लॉग हटवा",
+  "alConfirmDeleteOne": "ही लॉग नोंद हटवायची आहे का?",
+  "alConfirmDeleteAll": "{{count}} नोंदी हटवायच्या आहेत का? हे पूर्ववत करता येणार नाही.",
+  "alDeleteFailed": "हटवणे अयशस्वी झाले.",
+  "alBulkDeleteFailed": "सामूहिक हटवणे अयशस्वी झाले.",
   "logCreatedAdmin": "अ‍ॅडमिन {{name}} जोडले",
   "logMarkedAttendance": "{{count}} वापरकर्त्यांची उपस्थिती नोंदवली",
   "logCreatedUser": "{{name}} जोडले",
@@ -658,5 +664,9 @@
   "logDeletedBlockedAccount": "{{id}} चा ब्लॉक रेकॉर्ड हटवला",
   "logDeletedAllBlockedAccounts": "सर्व {{count}} ब्लॉक रेकॉर्ड हटवले",
   "logRestoredUser": "वापरकर्ता {{id}} पुनर्संचयित केला",
-  "greetingMessage": "जय गुरुबंदे साहेब सबका"
+  "greetingMessage": "जय गुरुबंदे साहेब सबका",
+  "alDeleteLogTitle": "लॉग हटवायचा?",
+  "alDeleteLogMsg": "ही लॉग नोंद कायमची हटवली जाईल आणि परत मिळवता येणार नाही.",
+  "alDeleteAllTitle": "सर्व लॉग हटवायचे?",
+  "alDeleteAllMsg": "यामुळे {{count}} लॉग नोंदी कायमच्या हटवल्या जातील. ही क्रिया पूर्ववत करता येणार नाही."
 }

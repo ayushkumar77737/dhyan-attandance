@@ -628,6 +628,12 @@
   "alMinutesAgo": "{{n}} నిమిషాల క్రితం",
   "alHoursAgo": "{{n}} గంటల క్రితం",
   "alDaysAgo": "{{n}} రోజుల క్రితం",
+  "alDeleteAll": "అన్నీ తొలగించు",
+  "alDeleteLog": "ఈ లాగ్‌ను తొలగించు",
+  "alConfirmDeleteOne": "ఈ లాగ్ ఎంట్రీని తొలగించాలా?",
+  "alConfirmDeleteAll": "{{count}} ఎంట్రీలను తొలగించాలా? దీన్ని తిరిగి పొందలేరు.",
+  "alDeleteFailed": "తొలగింపు విఫలమైంది.",
+  "alBulkDeleteFailed": "సామూహిక తొలగింపు విఫలమైంది.",
   "logCreatedAdmin": "అడ్మిన్ {{name}} జోడించబడింది",
   "logMarkedAttendance": "{{count}} వినియోగదారుల హాజరు నమోదు చేయబడింది",
   "logCreatedUser": "{{name}} జోడించబడింది",
@@ -658,5 +664,9 @@
   "logDeletedBlockedAccount": "{{id}} యొక్క బ్లాక్ రికార్డ్ తొలగించబడింది",
   "logDeletedAllBlockedAccounts": "అన్ని {{count}} బ్లాక్ రికార్డులు తొలగించబడ్డాయి",
   "logRestoredUser": "వినియోగదారు {{id}} పునరుద్ధరించబడింది",
-  "greetingMessage": "జై గురుబందే సాహెబ్ సబకా"
+  "greetingMessage": "జై గురుబందే సాహెబ్ సబకా",
+  "alDeleteLogTitle": "లాగ్ తొలగించాలా?",
+  "alDeleteLogMsg": "ఈ లాగ్ ఎంట్రీ శాశ్వతంగా తొలగించబడుతుంది మరియు తిరిగి పొందలేరు.",
+  "alDeleteAllTitle": "అన్ని లాగ్‌లను తొలగించాలా?",
+  "alDeleteAllMsg": "ఇది {{count}} లాగ్ ఎంట్రీలను శాశ్వతంగా తొలగిస్తుంది. ఈ చర్యను రద్దు చేయలేరు."
 }

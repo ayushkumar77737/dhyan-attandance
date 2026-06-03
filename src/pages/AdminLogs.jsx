@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
+import { createPortal } from "react-dom";
 import "./AdminLogs.css";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase/firebase";
@@ -98,6 +99,9 @@ function AdminLogs() {
     const [filterAction, setFilterAction] = useState("all");
     const [dateFrom, setDateFrom] = useState("");
     const [dateTo, setDateTo] = useState("");
+
+    const [confirmModal, setConfirmModal] = useState(null);
+    const [deleting, setDeleting] = useState(false);
 
     /* ── Admin guard ── */
     const checkAdmin = async () => {
@@ -250,32 +254,35 @@ function AdminLogs() {
         URL.revokeObjectURL(url);
     };
 
-    /* ── Delete single log ── */
-    const deleteLog = async (id) => {
-        if (!window.confirm(t("alConfirmDeleteOne"))) return;
-        try {
-            await deleteDoc(doc(db, "adminLogs", id));
-        } catch (err) {
-            console.error(err);
-            alert(t("alDeleteFailed"));
-        }
+    /* ── Open confirm modals ── */
+    const askDeleteOne = (id) => setConfirmModal({ type: "one", id });
+    const askDeleteAll = () => {
+        if (filtered.length === 0) return;
+        setConfirmModal({ type: "all", count: filtered.length });
     };
 
-    /* ── Delete all (currently filtered) logs ── */
-    const deleteAll = async () => {
-        const target = filtered;
-        if (target.length === 0) return;
-        if (!window.confirm(t("alConfirmDeleteAll", { count: target.length }))) return;
+    /* ── Run the delete after confirm ── */
+    const confirmDelete = async () => {
+        if (!confirmModal) return;
+        setDeleting(true);
         try {
-            for (let i = 0; i < target.length; i += 450) {
-                const chunk = target.slice(i, i + 450);
-                const batch = writeBatch(db);
-                chunk.forEach((l) => batch.delete(doc(db, "adminLogs", l.id)));
-                await batch.commit();
+            if (confirmModal.type === "one") {
+                await deleteDoc(doc(db, "adminLogs", confirmModal.id));
+            } else {
+                const target = filtered;
+                for (let i = 0; i < target.length; i += 450) {
+                    const chunk = target.slice(i, i + 450);
+                    const batch = writeBatch(db);
+                    chunk.forEach((l) => batch.delete(doc(db, "adminLogs", l.id)));
+                    await batch.commit();
+                }
             }
+            setConfirmModal(null);
         } catch (err) {
             console.error(err);
-            alert(t("alBulkDeleteFailed"));
+            alert(confirmModal.type === "one" ? t("alDeleteFailed") : t("alBulkDeleteFailed"));
+        } finally {
+            setDeleting(false);
         }
     };
 
@@ -380,7 +387,7 @@ function AdminLogs() {
                 <button className="aamon__export-btn" onClick={exportCSV} disabled={filtered.length === 0}>
                     {icons.download}{t("exportCsv")}
                 </button>
-                <button className="aamon__delete-all-btn" onClick={deleteAll} disabled={filtered.length === 0}>
+                <button className="aamon__delete-all-btn" onClick={askDeleteAll} disabled={filtered.length === 0}>
                     {icons.trash}{t("alDeleteAll")}
                 </button>
             </div>
@@ -446,7 +453,7 @@ function AdminLogs() {
                                                 <td>
                                                     <button
                                                         className="aamon__row-del"
-                                                        onClick={() => deleteLog(l.id)}
+                                                        onClick={() => askDeleteOne(l.id)}
                                                         title={t("alDeleteLog")}
                                                     >
                                                         🗑️
@@ -495,6 +502,32 @@ function AdminLogs() {
                     )}
                 </div>
             </div>
+
+            {/* Confirm Delete Modal — portaled to body so it centers on screen */}
+            {confirmModal && createPortal(
+                <div className="aamon__modal-overlay" onClick={() => !deleting && setConfirmModal(null)}>
+                    <div className="aamon__modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="aamon__modal-icon">{icons.trash}</div>
+                        <h3 className="aamon__modal-title">
+                            {confirmModal.type === "one" ? t("alDeleteLogTitle") : t("alDeleteAllTitle")}
+                        </h3>
+                        <p className="aamon__modal-msg">
+                            {confirmModal.type === "one"
+                                ? t("alDeleteLogMsg")
+                                : t("alDeleteAllMsg", { count: confirmModal.count })}
+                        </p>
+                        <div className="aamon__modal-actions">
+                            <button className="aamon__modal-cancel" onClick={() => setConfirmModal(null)} disabled={deleting}>
+                                {t("cancel")}
+                            </button>
+                            <button className="aamon__modal-confirm" onClick={confirmDelete} disabled={deleting}>
+                                {deleting ? t("deleting") : (confirmModal.type === "one" ? t("alDeleteLog") : t("alDeleteAll"))}
+                            </button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )}
         </div>
     );
 }

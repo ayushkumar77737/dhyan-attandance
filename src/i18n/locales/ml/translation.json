@@ -628,6 +628,12 @@
   "alMinutesAgo": "{{n}} മിനിറ്റ് മുമ്പ്",
   "alHoursAgo": "{{n}} മണിക്കൂർ മുമ്പ്",
   "alDaysAgo": "{{n}} ദിവസം മുമ്പ്",
+  "alDeleteAll": "എല്ലാം ഇല്ലാതാക്കുക",
+  "alDeleteLog": "ഈ ലോഗ് ഇല്ലാതാക്കുക",
+  "alConfirmDeleteOne": "ഈ ലോഗ് എൻട്രി ഇല്ലാതാക്കണോ?",
+  "alConfirmDeleteAll": "{{count}} എൻട്രികൾ ഇല്ലാതാക്കണോ? ഇത് പുനഃസ്ഥാപിക്കാനാവില്ല.",
+  "alDeleteFailed": "ഇല്ലാതാക്കൽ പരാജയപ്പെട്ടു.",
+  "alBulkDeleteFailed": "കൂട്ടത്തോടെയുള്ള ഇല്ലാതാക്കൽ പരാജയപ്പെട്ടു.",
   "logCreatedAdmin": "അഡ്മിൻ {{name}} ചേർത്തു",
   "logMarkedAttendance": "{{count}} ഉപയോക്താക്കളുടെ ഹാജർ രേഖപ്പെടുത്തി",
   "logCreatedUser": "{{name}} ചേർത്തു",
@@ -659,5 +665,9 @@
   "logDeletedBlockedAccount": "{{id}} ന്റെ ബ്ലോക്ക് റെക്കോർഡ് ഇല്ലാതാക്കി",
   "logDeletedAllBlockedAccounts": "എല്ലാ {{count}} ബ്ലോക്ക് റെക്കോർഡുകളും ഇല്ലാതാക്കി",
   "logRestoredUser": "ഉപയോക്താവ് {{id}} പുനഃസ്ഥാപിച്ചു",
-  "greetingMessage": "ജയ് ഗുരുബന്ദേ സാഹേബ് സബകാ"
+  "greetingMessage": "ജയ് ഗുരുബന്ദേ സാഹേബ് സബകാ",
+  "alDeleteLogTitle": "ലോഗ് ഇല്ലാതാക്കണോ?",
+  "alDeleteLogMsg": "ഈ ലോഗ് എൻട്രി ശാശ്വതമായി ഇല്ലാതാക്കും, പുനഃസ്ഥാപിക്കാനാവില്ല.",
+  "alDeleteAllTitle": "എല്ലാ ലോഗുകളും ഇല്ലാതാക്കണോ?",
+  "alDeleteAllMsg": "ഇത് {{count}} ലോഗ് എൻട്രികൾ ശാശ്വതമായി ഇല്ലാതാക്കും. ഈ പ്രവർത്തനം പഴയപടിയാക്കാനാവില്ല."
 }

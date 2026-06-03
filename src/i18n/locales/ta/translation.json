@@ -628,6 +628,12 @@
   "alMinutesAgo": "{{n}} நிமிடங்களுக்கு முன்",
   "alHoursAgo": "{{n}} மணி நேரத்திற்கு முன்",
   "alDaysAgo": "{{n}} நாட்களுக்கு முன்",
+  "alDeleteAll": "அனைத்தையும் நீக்கு",
+  "alDeleteLog": "இந்த பதிவை நீக்கு",
+  "alConfirmDeleteOne": "இந்த பதிவு உள்ளீட்டை நீக்கவா?",
+  "alConfirmDeleteAll": "{{count}} உள்ளீடுகளை நீக்கவா? இதை மீட்டெடுக்க முடியாது.",
+  "alDeleteFailed": "நீக்குதல் தோல்வியடைந்தது.",
+  "alBulkDeleteFailed": "மொத்த நீக்குதல் தோல்வியடைந்தது.",
   "logCreatedAdmin": "நிர்வாகி {{name}} சேர்க்கப்பட்டது",
   "logMarkedAttendance": "{{count}} பயனர்களின் வருகை பதிவு செய்யப்பட்டது",
   "logCreatedUser": "{{name}} சேர்க்கப்பட்டது",
@@ -658,5 +664,9 @@
   "logDeletedBlockedAccount": "{{id}} இன் தடுப்பு பதிவு நீக்கப்பட்டது",
   "logDeletedAllBlockedAccounts": "அனைத்து {{count}} தடுப்பு பதிவுகளும் நீக்கப்பட்டன",
   "logRestoredUser": "பயனர் {{id}} மீட்டமைக்கப்பட்டது",
-  "greetingMessage": "ஜெய் குருபந்தே சாஹேப் சபகா"
+  "greetingMessage": "ஜெய் குருபந்தே சாஹேப் சபகா",
+  "alDeleteLogTitle": "பதிவை நீக்கவா?",
+  "alDeleteLogMsg": "இந்த பதிவு உள்ளீடு நிரந்தரமாக நீக்கப்படும், மீட்டெடுக்க முடியாது.",
+  "alDeleteAllTitle": "அனைத்து பதிவுகளையும் நீக்கவா?",
+  "alDeleteAllMsg": "இது {{count}} பதிவு உள்ளீடுகளை நிரந்தரமாக நீக்கும். இந்த செயலை மீட்டெடுக்க முடியாது."
 }

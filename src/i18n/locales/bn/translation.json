@@ -598,6 +598,12 @@
   "alMinutesAgo": "{{n}} মিনিট আগে",
   "alHoursAgo": "{{n}} ঘণ্টা আগে",
   "alDaysAgo": "{{n}} দিন আগে",
+  "alDeleteAll": "সব মুছুন",
+  "alDeleteLog": "এই লগটি মুছুন",
+  "alConfirmDeleteOne": "এই লগ এন্ট্রিটি মুছবেন?",
+  "alConfirmDeleteAll": "{{count}}টি এন্ট্রি মুছবেন? এটি আর ফিরিয়ে আনা যাবে না।",
+  "alDeleteFailed": "মোছা ব্যর্থ হয়েছে।",
+  "alBulkDeleteFailed": "একসাথে মোছা ব্যর্থ হয়েছে।",
   "logCreatedAdmin": "অ্যাডমিন {{name}} যোগ করা হয়েছে",
   "logMarkedAttendance": "{{count}} ব্যবহারকারীর উপস্থিতি চিহ্নিত করা হয়েছে",
   "logCreatedUser": "{{name}} যোগ করা হয়েছে",
@@ -628,5 +634,9 @@
   "logDeletedBlockedAccount": "{{id}} এর ব্লক রেকর্ড মুছে ফেলা হয়েছে",
   "logDeletedAllBlockedAccounts": "সমস্ত {{count}} ব্লক রেকর্ড মুছে ফেলা হয়েছে",
   "logRestoredUser": "ব্যবহারকারী {{id}} পুনরুদ্ধার করা হয়েছে",
-  "greetingMessage": "জয় গুরুবন্দে সাহেব সবকা"
+  "greetingMessage": "জয় গুরুবন্দে সাহেব সবকা",
+  "alDeleteLogTitle": "লগ মুছবেন?",
+  "alDeleteLogMsg": "এই লগ এন্ট্রিটি স্থায়ীভাবে মুছে যাবে এবং পুনরুদ্ধার করা যাবে না।",
+  "alDeleteAllTitle": "সব লগ মুছবেন?",
+  "alDeleteAllMsg": "এটি {{count}}টি লগ এন্ট্রি স্থায়ীভাবে মুছে দেবে। এই ক্রিয়াটি আর ফিরিয়ে আনা যাবে না।"
 }

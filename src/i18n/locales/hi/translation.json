@@ -628,6 +628,12 @@
   "alMinutesAgo": "{{n}} मिनट पहले",
   "alHoursAgo": "{{n}} घंटे पहले",
   "alDaysAgo": "{{n}} दिन पहले",
+  "alDeleteAll": "सभी हटाएँ",
+  "alDeleteLog": "यह लॉग हटाएँ",
+  "alConfirmDeleteOne": "क्या यह लॉग प्रविष्टि हटानी है?",
+  "alConfirmDeleteAll": "{{count}} प्रविष्टियाँ हटानी हैं? इसे पूर्ववत नहीं किया जा सकता।",
+  "alDeleteFailed": "हटाना विफल रहा।",
+  "alBulkDeleteFailed": "सामूहिक रूप से हटाना विफल रहा।",
   "logCreatedAdmin": "एडमिन {{name}} जोड़ा",
   "logMarkedAttendance": "{{count}} उपयोगकर्ताओं की उपस्थिति दर्ज की",
   "logCreatedUser": "{{name}} जोड़ा गया",
@@ -659,5 +665,9 @@
   "logDeletedBlockedAccount": "{{id}} का ब्लॉक रिकॉर्ड हटाया",
   "logDeletedAllBlockedAccounts": "सभी {{count}} ब्लॉक रिकॉर्ड हटाए",
   "logRestoredUser": "उपयोगकर्ता {{id}} पुनर्स्थापित किया",
-  "greetingMessage": "जय गुरुबंदे साहेब सबका"
+  "greetingMessage": "जय गुरुबंदे साहेब सबका",
+  "alDeleteLogTitle": "लॉग हटाएँ?",
+  "alDeleteLogMsg": "यह लॉग प्रविष्टि स्थायी रूप से हटा दी जाएगी और पुनर्प्राप्त नहीं की जा सकती।",
+  "alDeleteAllTitle": "सभी लॉग हटाएँ?",
+  "alDeleteAllMsg": "इससे {{count}} लॉग प्रविष्टियाँ स्थायी रूप से हट जाएँगी। इस क्रिया को पूर्ववत नहीं किया जा सकता।"
 }
