@@ -917,3 +917,61 @@
         min-width: 0;
     }
 }
+
+.aamon__delete-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 11px 18px;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: var(--aamon-radius-sm);
+    color: #fca5a5;
+    font-family: var(--aamon-font);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.aamon__delete-all-btn svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+
+.aamon__delete-all-btn:hover:not(:disabled) {
+    background: rgba(239, 68, 68, 0.22);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+}
+
+.aamon__delete-all-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.aamon__row-del {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: 8px;
+    color: #fca5a5;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.18s ease;
+}
+
+.aamon__row-del svg {
+    width: 15px;
+    height: 15px;
+}
+
+.aamon__row-del:hover {
+    background: rgba(239, 68, 68, 0.25);
+    transform: scale(1.05);
+}

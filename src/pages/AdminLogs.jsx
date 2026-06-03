@@ -10,6 +10,8 @@ import {
     onSnapshot,
     getDoc,
     doc,
+    deleteDoc,
+    writeBatch,
 } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
@@ -57,6 +59,13 @@ const icons = {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
             <polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+    ),
+    trash: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+            <line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" />
         </svg>
     ),
 };
@@ -241,6 +250,35 @@ function AdminLogs() {
         URL.revokeObjectURL(url);
     };
 
+    /* ── Delete single log ── */
+    const deleteLog = async (id) => {
+        if (!window.confirm(t("alConfirmDeleteOne"))) return;
+        try {
+            await deleteDoc(doc(db, "adminLogs", id));
+        } catch (err) {
+            console.error(err);
+            alert(t("alDeleteFailed"));
+        }
+    };
+
+    /* ── Delete all (currently filtered) logs ── */
+    const deleteAll = async () => {
+        const target = filtered;
+        if (target.length === 0) return;
+        if (!window.confirm(t("alConfirmDeleteAll", { count: target.length }))) return;
+        try {
+            for (let i = 0; i < target.length; i += 450) {
+                const chunk = target.slice(i, i + 450);
+                const batch = writeBatch(db);
+                chunk.forEach((l) => batch.delete(doc(db, "adminLogs", l.id)));
+                await batch.commit();
+            }
+        } catch (err) {
+            console.error(err);
+            alert(t("alBulkDeleteFailed"));
+        }
+    };
+
     /* ── Render ── */
     return (
         <div className="aamon__page">
@@ -342,6 +380,9 @@ function AdminLogs() {
                 <button className="aamon__export-btn" onClick={exportCSV} disabled={filtered.length === 0}>
                     {icons.download}{t("exportCsv")}
                 </button>
+                <button className="aamon__delete-all-btn" onClick={deleteAll} disabled={filtered.length === 0}>
+                    {icons.trash}{t("alDeleteAll")}
+                </button>
             </div>
 
             {/* Main */}
@@ -375,6 +416,7 @@ function AdminLogs() {
                                         <th>{t("alTarget")}</th>
                                         <th>{t("alDetails")}</th>
                                         <th>{t("alTime")}</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -401,6 +443,15 @@ function AdminLogs() {
                                                 <td><span className="aamon__target">{l.targetId || "—"}</span></td>
                                                 <td><span className="aamon__details">{l.details || "—"}</span></td>
                                                 <td><span className="aamon__time">{formatTime(l.timestamp)}</span></td>
+                                                <td>
+                                                    <button
+                                                        className="aamon__row-del"
+                                                        onClick={() => deleteLog(l.id)}
+                                                        title={t("alDeleteLog")}
+                                                    >
+                                                        🗑️
+                                                    </button>
+                                                </td>
                                             </tr>
                                         );
                                     })}
