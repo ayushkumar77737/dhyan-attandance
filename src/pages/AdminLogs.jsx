@@ -98,7 +98,7 @@ function AdminLogs() {
     const [filterAdmin, setFilterAdmin] = useState("all");
     const [filterAction, setFilterAction] = useState("all");
     const [dateFrom, setDateFrom] = useState("");
-    const [dateTo, setDateTo] = useState("");
+    const [dateTo, setDateTo] = useState(() => new Date().toISOString().split("T")[0]);
 
     const [confirmModal, setConfirmModal] = useState(null);
     const [deleting, setDeleting] = useState(false);
@@ -227,7 +227,8 @@ function AdminLogs() {
 
     const hasFilters = search || filterAdmin !== "all" || filterAction !== "all" || dateFrom || dateTo;
     const clearFilters = () => {
-        setSearch(""); setFilterAdmin("all"); setFilterAction("all"); setDateFrom(""); setDateTo("");
+        setSearch(""); setFilterAdmin("all"); setFilterAction("all"); setDateFrom("");
+        setDateTo(new Date().toISOString().split("T")[0]);
     };
 
     const exportCSV = () => {
