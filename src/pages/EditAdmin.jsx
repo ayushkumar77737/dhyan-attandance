@@ -23,6 +23,7 @@ function EditAdmin() {
     const [saving, setSaving] = useState(false);
     const [notFound, setNotFound] = useState(false);
     const [msg, setMsg] = useState({ type: "", text: "" });
+    const [original, setOriginal] = useState({ name: "", email: "" });
 
     /* ── Guard: only admins can view this page ── */
     const checkAdmin = async () => {
@@ -50,6 +51,7 @@ function EditAdmin() {
             const data = snap.data();
             setName(data.name || "");
             setEmail(data.email || "");
+            setOriginal({ name: data.name || "", email: data.email || "" });
         } catch (err) {
             console.error(err);
             setNotFound(true);
@@ -97,6 +99,10 @@ function EditAdmin() {
         }
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
             setMsg({ type: "error", text: t("invalidEmail") });
+            return;
+        }
+        if (trimmedName === original.name && trimmedEmail === original.email) {
+            setMsg({ type: "error", text: t("noChangesMade") });
             return;
         }
 

@@ -152,6 +152,12 @@
     border: 1px solid rgba(239, 68, 68, 0.4);
 }
 
+.editadmin-msg--info {
+    color: var(--ad-amber, #f59e0b);
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
 .editadmin-save-btn {
     padding: 12px 18px;
     border: none;
