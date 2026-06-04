@@ -5,7 +5,6 @@
   z-index: 9999;
 }
 
-/* TRIGGER BUTTON */
 .lang-trigger {
   display: flex;
   align-items: center;
@@ -28,7 +27,6 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* ← TEXT BADGE replaces flag */
 .lang-badge {
   background: rgba(139, 92, 246, 0.6);
   color: #fff;
@@ -62,7 +60,6 @@
   transform: rotate(180deg);
 }
 
-/* DROPDOWN MENU */
 .lang-dropdown {
   position: absolute;
   top: calc(100% + 8px);
@@ -91,7 +88,6 @@
   }
 }
 
-/* EACH OPTION */
 .lang-option {
   display: flex;
   align-items: center;
@@ -110,7 +106,6 @@
   background: rgba(130, 80, 255, 0.25);
 }
 
-/* ← TEXT BADGE in dropdown */
 .lang-option-badge {
   background: rgba(139, 92, 246, 0.5);
   color: #fff;
@@ -143,7 +138,6 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* MOBILE */
 @media (max-width: 480px) {
   .lang-trigger {
     min-width: 100px;

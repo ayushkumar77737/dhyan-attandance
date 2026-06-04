@@ -18,7 +18,7 @@ function ProtectedRoute({ children }) {
     }, []);
 
     if (user === undefined) {
-        return null; // waiting for auth check
+        return null;
     }
 
     if (!user) {
