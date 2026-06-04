@@ -97,7 +97,7 @@ function AdminLogs() {
     const [search, setSearch] = useState("");
     const [filterAdmin, setFilterAdmin] = useState("all");
     const [filterAction, setFilterAction] = useState("all");
-    const [dateFrom, setDateFrom] = useState("");
+    const [dateFrom, setDateFrom] = useState(() => new Date().toISOString().split("T")[0]);
     const [dateTo, setDateTo] = useState(() => new Date().toISOString().split("T")[0]);
 
     const [confirmModal, setConfirmModal] = useState(null);
