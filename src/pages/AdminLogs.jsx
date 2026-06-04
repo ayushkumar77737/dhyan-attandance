@@ -178,7 +178,10 @@ function AdminLogs() {
     const dateKey = (ts) => {
         const d = toDate(ts);
         if (!d || isNaN(d)) return "";
-        return d.toISOString().split("T")[0];
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${y}-${m}-${day}`;
     };
 
     /* ── Unique admins for filter ── */
@@ -212,7 +215,8 @@ function AdminLogs() {
 
     /* ── Analytics ── */
     const stats = useMemo(() => {
-        const todayKey = new Date().toISOString().split("T")[0];
+        const now = new Date();
+        const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
         const admins = new Set();
         let today = 0, critical = 0;
         logs.forEach((l) => {
