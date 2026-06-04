@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 
-const TIMEOUT_MS = 10 * 60 * 1000; 
+const TIMEOUT_MS = 10 * 60 * 1000;
 
 function useAutoLogout() {
     const navigate = useNavigate();
@@ -20,7 +20,7 @@ function useAutoLogout() {
     useEffect(() => {
         const events = ["mousemove", "mousedown", "keydown", "touchstart", "scroll", "click"];
         events.forEach((e) => window.addEventListener(e, resetTimer));
-        resetTimer(); // start timer on mount
+        resetTimer();
         return () => {
             events.forEach((e) => window.removeEventListener(e, resetTimer));
             if (timerRef.current) clearTimeout(timerRef.current);
