@@ -1,7 +1,6 @@
 import { db } from "../firebase/firebase";
 import { collection, addDoc, serverTimestamp, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
 
-// Detect browser/device info
 const getBrowserInfo = () => {
     const ua = navigator.userAgent;
     let browser = "Unknown";
@@ -17,7 +16,6 @@ const getBrowserInfo = () => {
     return `${browser} / ${device}`;
 };
 
-// Fetch IP address (best effort)
 const getIPAddress = async () => {
     try {
         const res = await fetch("https://api.ipify.org?format=json");
@@ -28,7 +26,6 @@ const getIPAddress = async () => {
     }
 };
 
-// Call this on LOGIN
 export const logLogin = async (userId, userName) => {
     try {
         const ip = await getIPAddress();
@@ -50,7 +47,6 @@ export const logLogin = async (userId, userName) => {
     }
 };
 
-// Call this on LOGOUT
 export const logLogout = async (userId) => {
     try {
         const q = query(
