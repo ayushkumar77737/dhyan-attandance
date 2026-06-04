@@ -38,6 +38,7 @@ import BlockedAccounts from "./pages/BlockedAccounts";
 import Directory from "./pages/Directory";
 import AddAdmin from "./pages/AddAdmin";
 import AdminLogs from "./pages/AdminLogs";
+import EditAdmin from "./pages/EditAdmin";
 
 function App() {
   return (
@@ -309,6 +310,16 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/edit-admin/:id"
+          element={
+            <ProtectedRoute>
+              <EditAdmin />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path="/id-requests"
           element={

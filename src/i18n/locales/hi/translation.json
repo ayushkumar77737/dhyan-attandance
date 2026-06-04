@@ -674,5 +674,9 @@
   "allAdminsSub": "सभी एडमिन प्रबंधित करें",
   "totalAdmins": "कुल एडमिन",
   "searchAdmins": "एडमिन खोजें...",
-  "noAdminsFound": "कोई एडमिन नहीं मिला"
+  "noAdminsFound": "कोई एडमिन नहीं मिला",
+  "editAdmin": "एडमिन संपादित करें",
+  "updateAdmin": "एडमिन अपडेट करें",
+  "adminUpdatedSuccess": "एडमिन सफलतापूर्वक अपडेट किया गया!",
+  "errorUpdatingAdmin": "एडमिन अपडेट करने में त्रुटि"
 }

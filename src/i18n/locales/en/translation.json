@@ -673,5 +673,9 @@
   "allAdminsSub": "Manage all admins",
   "totalAdmins": "Total Admins",
   "searchAdmins": "Search admins...",
-  "noAdminsFound": "No admins found"
+  "noAdminsFound": "No admins found",
+  "editAdmin": "Edit Admin",
+  "updateAdmin": "Update Admin",
+  "adminUpdatedSuccess": "Admin updated successfully!",
+  "errorUpdatingAdmin": "Error updating admin"
 }

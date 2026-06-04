@@ -1,0 +1,256 @@
+/* ===============================
+   EDIT ADMIN — scoped with editadmin- prefix
+   Reuses global --ad-* variables defined in AdminDashboard.css
+================================ */
+
+.editadmin-container {
+    padding: 28px 32px;
+    font-family: var(--font-body, 'Outfit', sans-serif);
+    min-height: 100vh;
+    background: var(--ad-bg, #0b0e18);
+    color: var(--ad-text-primary, #e8edf5);
+    background-image:
+        radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.05) 0%, transparent 60%),
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 100% 100%, 44px 44px, 44px 44px;
+    animation: editadmin-fade 0.5s ease;
+}
+
+/* ── Header ── */
+.editadmin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.editadmin-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.editadmin-logo {
+    height: 44px;
+    width: auto;
+    object-fit: contain;
+}
+
+.editadmin-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.editadmin-portal-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ad-text-secondary, #64748b);
+    margin: 0;
+}
+
+.editadmin-title {
+    font-family: var(--font-display, 'Syne', sans-serif);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    margin: 0;
+    color: var(--ad-text-primary, #e8edf5);
+}
+
+.editadmin-back-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--ad-border-strong, rgba(255, 255, 255, 0.1));
+    border-radius: var(--ad-radius-sm, 10px);
+    background: transparent;
+    color: var(--ad-text-primary, #e8edf5);
+    font-family: var(--font-body, 'Outfit', sans-serif);
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.editadmin-back-btn:hover {
+    border-color: var(--ad-blue, #3b82f6);
+    color: var(--ad-blue, #3b82f6);
+}
+
+/* ── Form card ── */
+.editadmin-card {
+    max-width: 480px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    background: var(--ad-bg-card, #111827);
+    border: 1px solid var(--ad-border, rgba(255, 255, 255, 0.06));
+    border-radius: var(--ad-radius-lg, 18px);
+    padding: 28px 26px;
+    box-shadow: var(--ad-shadow-card, 0 4px 24px rgba(0, 0, 0, 0.4));
+    animation: editadmin-rise 0.5s ease;
+}
+
+.editadmin-id-pill {
+    align-self: flex-start;
+    padding: 4px 12px;
+    margin-bottom: 22px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-radius: 50px;
+    color: var(--ad-blue, #3b82f6);
+    background: var(--ad-blue-subtle, rgba(59, 130, 246, 0.08));
+    border: 1px solid var(--ad-border-blue, rgba(59, 130, 246, 0.3));
+}
+
+.editadmin-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ad-text-secondary, #64748b);
+    margin-bottom: 7px;
+}
+
+.editadmin-input {
+    background: var(--ad-bg-stat, #0f1623);
+    border: 1px solid var(--ad-border-strong, rgba(255, 255, 255, 0.1));
+    border-radius: var(--ad-radius-sm, 10px);
+    color: var(--ad-text-primary, #e8edf5);
+    font-family: var(--font-body, 'Outfit', sans-serif);
+    font-size: 14px;
+    padding: 11px 14px;
+    margin-bottom: 18px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.editadmin-input:focus {
+    border-color: var(--ad-blue, #3b82f6);
+}
+
+.editadmin-msg {
+    padding: 10px 14px;
+    border-radius: var(--ad-radius-sm, 10px);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.editadmin-msg--success {
+    color: var(--ad-green, #2dce89);
+    background: rgba(45, 206, 137, 0.12);
+    border: 1px solid rgba(45, 206, 137, 0.4);
+}
+
+.editadmin-msg--error {
+    color: var(--ad-red, #ef4444);
+    background: var(--ad-red-glow, rgba(239, 68, 68, 0.2));
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.editadmin-save-btn {
+    padding: 12px 18px;
+    border: none;
+    border-radius: var(--ad-radius-sm, 10px);
+    background: var(--ad-blue, #3b82f6);
+    color: #fff;
+    font-family: var(--font-body, 'Outfit', sans-serif);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.editadmin-save-btn:hover:not(:disabled) {
+    background: var(--ad-blue-dark, #2563eb);
+    box-shadow: var(--ad-shadow-glow-blue, 0 0 20px rgba(59, 130, 246, 0.22));
+}
+
+.editadmin-save-btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.editadmin-save-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ── States ── */
+.editadmin-spinner-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
+
+.editadmin-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--ad-border-strong, rgba(255, 255, 255, 0.1));
+    border-top-color: var(--ad-blue, #3b82f6);
+    border-radius: 50%;
+    animation: editadmin-spin 0.8s linear infinite;
+}
+
+@keyframes editadmin-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.editadmin-empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    gap: 8px;
+    color: var(--ad-text-secondary, #64748b);
+    font-size: 14px;
+}
+
+.editadmin-empty span {
+    font-size: 32px;
+}
+
+@keyframes editadmin-fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes editadmin-rise {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+    .editadmin-container {
+        padding: 18px 14px;
+    }
+
+    .editadmin-title {
+        font-size: 18px;
+    }
+
+    .editadmin-card {
+        max-width: 100%;
+        padding: 22px 18px;
+    }
+}

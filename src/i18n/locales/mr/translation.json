@@ -673,5 +673,9 @@
   "allAdminsSub": "सर्व प्रशासक व्यवस्थापित करा",
   "totalAdmins": "एकूण प्रशासक",
   "searchAdmins": "प्रशासक शोधा...",
-  "noAdminsFound": "कोणतेही प्रशासक आढळले नाहीत"
+  "noAdminsFound": "कोणतेही प्रशासक आढळले नाहीत",
+  "editAdmin": "प्रशासक संपादित करा",
+  "updateAdmin": "प्रशासक अपडेट करा",
+  "adminUpdatedSuccess": "प्रशासक यशस्वीरित्या अपडेट केला!",
+  "errorUpdatingAdmin": "प्रशासक अपडेट करताना त्रुटी"
 }

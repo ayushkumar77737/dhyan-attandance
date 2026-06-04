@@ -643,5 +643,9 @@
   "allAdminsSub": "সমস্ত অ্যাডমিন পরিচালনা করুন",
   "totalAdmins": "মোট অ্যাডমিন",
   "searchAdmins": "অ্যাডমিন খুঁজুন...",
-  "noAdminsFound": "কোনো অ্যাডমিন পাওয়া যায়নি"
+  "noAdminsFound": "কোনো অ্যাডমিন পাওয়া যায়নি",
+  "editAdmin": "অ্যাডমিন সম্পাদনা করুন",
+  "updateAdmin": "অ্যাডমিন আপডেট করুন",
+  "adminUpdatedSuccess": "অ্যাডমিন সফলভাবে আপডেট করা হয়েছে!",
+  "errorUpdatingAdmin": "অ্যাডমিন আপডেট করতে ত্রুটি"
 }

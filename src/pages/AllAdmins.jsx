@@ -62,6 +62,23 @@ function AllAdmins() {
     };
 
     useEffect(() => {
+        const disableRightClick = (e) => e.preventDefault();
+        const disableInspectKeys = (e) => {
+            if (e.key === "F12") e.preventDefault();
+            if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
+                e.preventDefault();
+            if (e.ctrlKey && e.key.toUpperCase() === "U") e.preventDefault();
+        };
+        document.addEventListener("contextmenu", disableRightClick);
+        document.addEventListener("keydown", disableInspectKeys);
+        checkAdmin();
+        return () => {
+            document.removeEventListener("contextmenu", disableRightClick);
+            document.removeEventListener("keydown", disableInspectKeys);
+        };
+    }, []);
+
+    useEffect(() => {
         checkAdmin();
         fetchAdmins();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -117,7 +134,7 @@ function AllAdmins() {
             ) : (
                 <div className="alladm-grid">
                     {filtered.map((a) => (
-                        <div className="alladm-card" key={a.docId}>
+                        <div className="alladm-card" key={a.docId} onClick={() => navigate(`/edit-admin/${a.docId}`)}>
                             <div className="alladm-avatar">{initial(a.name)}</div>
                             <div className="alladm-card-body">
                                 <p className="alladm-name">{a.name}</p>
