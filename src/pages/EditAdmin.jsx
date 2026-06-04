@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./EditAdmin.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { logAdminAction } from "../utils/logActivity";
+import { logAdminAction } from "../utils/logAdminAction";
 import { db, auth } from "../firebase/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
