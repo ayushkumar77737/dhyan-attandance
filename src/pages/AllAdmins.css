@@ -14,7 +14,7 @@
         linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
     background-size: 100% 100%, 44px 44px, 44px 44px;
-    animation: alladm-fadeIn 0.5s ease;
+    animation: alladm-fade 0.5s ease;
 }
 
 /* ── Header ── */
@@ -137,7 +137,7 @@
     padding: 16px 18px;
     box-shadow: var(--ad-shadow-card, 0 4px 24px rgba(0, 0, 0, 0.4));
     transition: transform 0.2s ease, border-color 0.2s ease;
-    animation: alladm-fadeIn 0.6s ease;
+    animation: alladm-rise 0.6s ease;
 }
 
 .alladm-card:hover {
@@ -245,7 +245,17 @@
     font-size: 32px;
 }
 
-@keyframes alladm-fadeIn {
+@keyframes alladm-fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes alladm-rise {
     from {
         opacity: 0;
         transform: translateY(10px);
