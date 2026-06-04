@@ -647,5 +647,6 @@
   "editAdmin": "অ্যাডমিন সম্পাদনা করুন",
   "updateAdmin": "অ্যাডমিন আপডেট করুন",
   "adminUpdatedSuccess": "অ্যাডমিন সফলভাবে আপডেট করা হয়েছে!",
-  "errorUpdatingAdmin": "অ্যাডমিন আপডেট করতে ত্রুটি"
+  "errorUpdatingAdmin": "অ্যাডমিন আপডেট করতে ত্রুটি",
+  "noChangesMade": "আপডেট করার জন্য কোনো পরিবর্তন নেই"
 }

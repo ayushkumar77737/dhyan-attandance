@@ -82,6 +82,13 @@ function EditAdmin() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
+    useEffect(() => {
+        if (!msg.text) return;
+        if (msg.type === "success") return; // success navigates away on its own
+        const timer = setTimeout(() => setMsg({ type: "", text: "" }), 3000);
+        return () => clearTimeout(timer);
+    }, [msg]);
+
     /* ── Save changes ── */
     const handleUpdate = async () => {
         setMsg({ type: "", text: "" });

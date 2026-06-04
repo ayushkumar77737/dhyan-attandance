@@ -678,5 +678,6 @@
   "editAdmin": "एडमिन संपादित करें",
   "updateAdmin": "एडमिन अपडेट करें",
   "adminUpdatedSuccess": "एडमिन सफलतापूर्वक अपडेट किया गया!",
-  "errorUpdatingAdmin": "एडमिन अपडेट करने में त्रुटि"
+  "errorUpdatingAdmin": "एडमिन अपडेट करने में त्रुटि",
+  "noChangesMade": "अपडेट करने के लिए कोई बदलाव नहीं"
 }

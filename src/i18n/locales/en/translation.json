@@ -677,5 +677,6 @@
   "editAdmin": "Edit Admin",
   "updateAdmin": "Update Admin",
   "adminUpdatedSuccess": "Admin updated successfully!",
-  "errorUpdatingAdmin": "Error updating admin"
+  "errorUpdatingAdmin": "Error updating admin",
+  "noChangesMade": "No changes to update"
 }
