@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./EditAdmin.css";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { logAdminAction } from "../utils/logActivity";
 import { db, auth } from "../firebase/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
@@ -106,6 +106,10 @@ function EditAdmin() {
             await updateDoc(ref, {
                 name: trimmedName,
                 email: trimmedEmail,
+            });
+            await logAdminAction("update_admin", {
+                targetId: id,
+                details: `Updated admin ${trimmedName}`,
             });
             setMsg({ type: "success", text: t("adminUpdatedSuccess") });
             setTimeout(() => navigate("/all-admins"), 900);
