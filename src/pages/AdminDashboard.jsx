@@ -683,6 +683,14 @@ function AdminDashboard() {
           </div>
         </div>
 
+        <div className="core-card" onClick={() => navigate("/all-admins")}>
+          <div className="core-card-icon icon-red">{icons.shield}</div>
+          <div className="core-card-text">
+            <p className="core-card-title">{t("allAdmins")}</p>
+            <p className="core-card-sub">{t("allAdminsSub")}</p>
+          </div>
+        </div>
+
         <div className="core-card" onClick={() => navigate("/attendance-report")}>
           <div className="core-card-icon icon-green">{icons.fileText}</div>
           <div className="core-card-text">

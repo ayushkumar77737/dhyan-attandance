@@ -668,5 +668,10 @@
   "alDeleteLogTitle": "Delete Log?",
   "alDeleteLogMsg": "This log entry will be permanently deleted and cannot be recovered.",
   "alDeleteAllTitle": "Delete All Logs?",
-  "alDeleteAllMsg": "This will permanently delete {{count}} log entries. This action cannot be undone."
+  "alDeleteAllMsg": "This will permanently delete {{count}} log entries. This action cannot be undone.",
+  "allAdmins": "All Admins",
+  "allAdminsSub": "Manage all admins",
+  "totalAdmins": "Total Admins",
+  "searchAdmins": "Search admins...",
+  "noAdminsFound": "No admins found"
 }

@@ -7,6 +7,7 @@ import AttendancePage from "./pages/AttendancePage";
 import AddUser from "./pages/AddUser";
 import MarkAttendance from "./pages/MarkAttendance";
 import AllUsers from "./pages/AllUsers";
+import AllAdmins from "./pages/AllAdmins";
 import EditUser from "./pages/EditUser";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -260,6 +261,15 @@ function App() {
           element={
             <ProtectedRoute>
               <AllUsers />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/all-admins"
+          element={
+            <ProtectedRoute>
+              <AllAdmins />
             </ProtectedRoute>
           }
         />

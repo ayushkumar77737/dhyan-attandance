@@ -1,0 +1,282 @@
+/* ===============================
+   ALL ADMINS — scoped with alladm- prefix
+   Reuses global --ad-* variables defined in AdminDashboard.css
+================================ */
+
+.alladm-container {
+    padding: 28px 32px;
+    font-family: var(--font-body, 'Outfit', sans-serif);
+    min-height: 100vh;
+    background: var(--ad-bg, #0b0e18);
+    color: var(--ad-text-primary, #e8edf5);
+    background-image:
+        radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.05) 0%, transparent 60%),
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 100% 100%, 44px 44px, 44px 44px;
+    animation: alladm-fadeIn 0.5s ease;
+}
+
+/* ── Header ── */
+.alladm-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.alladm-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.alladm-logo {
+    height: 44px;
+    width: auto;
+    object-fit: contain;
+}
+
+.alladm-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.alladm-portal-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ad-text-secondary, #64748b);
+    margin: 0;
+}
+
+.alladm-title {
+    font-family: var(--font-display, 'Syne', sans-serif);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    margin: 0;
+    color: var(--ad-text-primary, #e8edf5);
+}
+
+.alladm-back-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--ad-border-strong, rgba(255, 255, 255, 0.1));
+    border-radius: var(--ad-radius-sm, 10px);
+    background: transparent;
+    color: var(--ad-text-primary, #e8edf5);
+    font-family: var(--font-body, 'Outfit', sans-serif);
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.alladm-back-btn:hover {
+    border-color: var(--ad-blue, #3b82f6);
+    color: var(--ad-blue, #3b82f6);
+}
+
+/* ── Toolbar ── */
+.alladm-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.alladm-count {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ad-text-secondary, #64748b);
+}
+
+.alladm-count span {
+    color: var(--ad-blue, #3b82f6);
+    font-weight: 800;
+    font-family: var(--font-display, 'Syne', sans-serif);
+    font-size: 16px;
+}
+
+.alladm-search {
+    background: var(--ad-bg-stat, #0f1623);
+    border: 1px solid var(--ad-border-strong, rgba(255, 255, 255, 0.1));
+    border-radius: var(--ad-radius-sm, 10px);
+    color: var(--ad-text-primary, #e8edf5);
+    font-family: var(--font-body, 'Outfit', sans-serif);
+    font-size: 13px;
+    padding: 9px 14px;
+    min-width: 240px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.alladm-search:focus {
+    border-color: var(--ad-blue, #3b82f6);
+}
+
+/* ── Grid ── */
+.alladm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+}
+
+.alladm-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--ad-bg-card, #111827);
+    border: 1px solid var(--ad-border, rgba(255, 255, 255, 0.06));
+    border-radius: var(--ad-radius-md, 14px);
+    padding: 16px 18px;
+    box-shadow: var(--ad-shadow-card, 0 4px 24px rgba(0, 0, 0, 0.4));
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    animation: alladm-fadeIn 0.6s ease;
+}
+
+.alladm-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--ad-border-blue, rgba(59, 130, 246, 0.3));
+}
+
+.alladm-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display, 'Syne', sans-serif);
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    background: linear-gradient(135deg, var(--ad-blue, #3b82f6), var(--ad-blue-dark, #2563eb));
+}
+
+.alladm-card-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.alladm-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ad-text-primary, #e8edf5);
+    margin: 0 0 2px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.alladm-id {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--ad-blue, #3b82f6);
+    margin: 0 0 4px 0;
+}
+
+.alladm-meta {
+    font-size: 12px;
+    color: var(--ad-text-secondary, #64748b);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.alladm-role-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 3px 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-radius: 50px;
+    color: var(--ad-red, #ef4444);
+    background: var(--ad-red-glow, rgba(239, 68, 68, 0.2));
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+/* ── States ── */
+.alladm-spinner-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
+
+.alladm-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--ad-border-strong, rgba(255, 255, 255, 0.1));
+    border-top-color: var(--ad-blue, #3b82f6);
+    border-radius: 50%;
+    animation: alladm-spin 0.8s linear infinite;
+}
+
+@keyframes alladm-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.alladm-empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    gap: 8px;
+    color: var(--ad-text-secondary, #64748b);
+    font-size: 14px;
+}
+
+.alladm-empty span {
+    font-size: 32px;
+}
+
+@keyframes alladm-fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+    .alladm-container {
+        padding: 18px 14px;
+    }
+
+    .alladm-title {
+        font-size: 18px;
+    }
+
+    .alladm-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .alladm-search {
+        min-width: 100%;
+    }
+
+    .alladm-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
