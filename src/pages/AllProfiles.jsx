@@ -167,7 +167,6 @@ function AllProfiles() {
                 dob: editForm.dob.trim(),
                 address: editForm.address.trim()
             });
-            // also sync name to users collection
             await updateDoc(doc(db, "users", selectedProfile.docId), {
                 name: editForm.name.trim()
             });
@@ -175,7 +174,6 @@ function AllProfiles() {
                 targetId: selectedProfile.idNo || selectedProfile.docId,
                 details: t("logUpdatedProfile", { name: editForm.name.trim() }),
             });
-            // update local state so UI reflects immediately
             const updated = { ...selectedProfile, ...editForm };
             setProfiles((prev) => prev.map((p) => p.docId === selectedProfile.docId ? updated : p));
             setFiltered((prev) => prev.map((p) => p.docId === selectedProfile.docId ? updated : p));
@@ -227,11 +225,9 @@ function AllProfiles() {
     return (
         <div className="allprf__page">
 
-            {/* Ambient background orbs */}
             <div className="allprf__orb allprf__orb--1" />
             <div className="allprf__orb allprf__orb--2" />
 
-            {/* Back */}
             <button className="allprf__back-btn" onClick={() => navigate("/admin-dashboard")}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="15 18 9 12 15 6" />
@@ -239,7 +235,6 @@ function AllProfiles() {
                 {t("back")}
             </button>
 
-            {/* Header */}
             <div className="allprf__header">
                 <div className="allprf__eyebrow">
                     <span className="allprf__eyebrow-dot" />
@@ -252,7 +247,6 @@ function AllProfiles() {
                 </p>
             </div>
 
-            {/* Controls */}
             <div className="allprf__controls">
                 <div className="allprf__search-wrap">
                     <svg className="allprf__search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -279,7 +273,6 @@ function AllProfiles() {
                 </button>
             </div>
 
-            {/* Loading */}
             {loading && (
                 <div className="allprf__loading">
                     <div className="allprf__loader">
@@ -291,7 +284,6 @@ function AllProfiles() {
                 </div>
             )}
 
-            {/* Empty */}
             {!loading && filtered.length === 0 && (
                 <div className="allprf__empty">
                     <div className="allprf__empty-icon">👤</div>
@@ -299,7 +291,6 @@ function AllProfiles() {
                 </div>
             )}
 
-            {/* Grid */}
             {!loading && filtered.length > 0 && (
                 <div className="allprf__grid">
                     {filtered.map((profile, index) => (
@@ -328,7 +319,6 @@ function AllProfiles() {
                 </div>
             )}
 
-            {/* Detail Modal */}
             {selectedProfile && (
                 <div className="allprf__overlay" onClick={() => setSelectedProfile(null)}>
                     <div className="allprf__modal" onClick={(e) => e.stopPropagation()}>
@@ -341,12 +331,10 @@ function AllProfiles() {
                             </svg>
                         </button>
 
-                        {/* Edit button */}
                         <button className="allprf__modal-edit-btn" onClick={openEdit}>
                             ✎ {t("edit")}
                         </button>
 
-                        {/* Delete button */}
                         <button className="allprf__modal-delete-btn" onClick={() => setShowDeleteConfirm(true)}>
                             🗑 {t("delete")}
                         </button>
@@ -436,7 +424,6 @@ function AllProfiles() {
                 </div>
             )}
 
-            {/* Edit Modal */}
             {showEditModal && (
                 <div className="allprf__edit-overlay" onClick={() => setShowEditModal(false)}>
                     <div className="allprf__edit-modal" onClick={(e) => e.stopPropagation()}>
@@ -517,7 +504,6 @@ function AllProfiles() {
                 </div>
             )}
 
-            {/* Delete Confirm Modal */}
             {showDeleteConfirm && (
                 <div className="allprf__edit-overlay" onClick={() => setShowDeleteConfirm(false)}>
                     <div className="allprf__delete-modal" onClick={(e) => e.stopPropagation()}>
