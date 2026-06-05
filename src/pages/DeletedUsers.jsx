@@ -12,11 +12,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 
-import { useTranslation } from "react-i18next"; // ← ADD
+import { useTranslation } from "react-i18next";
 
 function DeletedUsers() {
 
-  const { t } = useTranslation(); // ← ADD
+  const { t } = useTranslation();
 
   useEffect(() => {
     const disableRightClick = (e) => e.preventDefault();
@@ -99,7 +99,7 @@ function DeletedUsers() {
 
   const exportExcel = () => {
     if (users.length === 0) {
-      alert(t("noDeletedUsersExport")); // ← CHANGED
+      alert(t("noDeletedUsersExport"));
       return;
     }
     const exportData = users.map(user => ({
@@ -115,12 +115,10 @@ function DeletedUsers() {
   return (
     <div className="deleted-container">
 
-      {/* Decorative Orbs */}
       <div className="du-orb du-orb-1" />
       <div className="du-orb du-orb-2" />
       <div className="du-orb du-orb-3" />
 
-      {/* Header */}
       <div className="deleted-header">
 
         <button
@@ -128,7 +126,7 @@ function DeletedUsers() {
           onClick={() => navigate("/admin-dashboard")}
         >
           <span className="back-arrow">←</span>
-          <span>{t("back")}</span> {/* ← CHANGED */}
+          <span>{t("back")}</span>
         </button>
 
         <button
@@ -136,30 +134,27 @@ function DeletedUsers() {
           onClick={exportExcel}
         >
           <span className="export-icon">↓</span>
-          {t("exportExcel")} {/* ← CHANGED */}
+          {t("exportExcel")}
         </button>
 
       </div>
 
-      {/* Title Block */}
       <div className="du-title-block">
-        <div className="du-eyebrow">{t("adminPanel")}</div> {/* ← CHANGED */}
+        <div className="du-eyebrow">{t("adminPanel")}</div>
         <h1 className="deleted-title">
-          {t("deletedUsers")} {/* ← CHANGED */}
+          {t("deletedUsers")}
         </h1>
         <div className="du-title-underline" />
       </div>
 
-      {/* Stats Pill */}
       <div className="du-stats-strip">
         <div className="du-stat-pill">
           <span className="du-stat-icon">🗑️</span>
-          <span className="du-stat-label">{t("totalDeleted")}</span> {/* ← CHANGED */}
+          <span className="du-stat-label">{t("totalDeleted")}</span>
           <span className="du-stat-value">{users.length}</span>
         </div>
       </div>
 
-      {/* Card */}
       <div className="deleted-card">
         <div className="du-table-wrapper">
           <table className="deleted-table">
@@ -178,7 +173,7 @@ function DeletedUsers() {
                 <tr>
                   <td colSpan="3" className="no-data">
                     <span className="du-no-data-icon">📭</span>
-                    <p>{t("noDeletedUsersFound")}</p> {/* ← CHANGED */}
+                    <p>{t("noDeletedUsersFound")}</p>
                   </td>
                 </tr>
               ) : (
@@ -203,7 +198,7 @@ function DeletedUsers() {
                         className="restore-btn"
                         onClick={() => restoreUser(user.docId)}
                       >
-                        ↩ {t("restore")} {/* ← CHANGED */}
+                        ↩ {t("restore")}
                       </button>
                     </td>
 
