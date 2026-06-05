@@ -41,7 +41,6 @@ function AbsenceManagement() {
     const navigate = useNavigate();
     const [requests, setRequests] = useState([]);
 
-    // ← ADD: modal state
     const [showEditModal, setShowEditModal] = useState(false);
     const [editItem, setEditItem] = useState(null);
     const [selectedStatus, setSelectedStatus] = useState("");
@@ -136,14 +135,12 @@ function AbsenceManagement() {
         }
     };
 
-    // ← ADD: open edit modal
     const openEditModal = (item) => {
         setEditItem(item);
         setSelectedStatus(item.status?.toLowerCase());
         setShowEditModal(true);
     };
 
-    // ← ADD: save from modal
     const saveEditModal = async () => {
         if (editItem && selectedStatus) {
             await updateStatus(editItem.id, selectedStatus);
@@ -195,12 +192,10 @@ function AbsenceManagement() {
     return (
         <div className="absence-management-page">
 
-            {/* Decorative orbs */}
             <div className="am-orb am-orb-1" />
             <div className="am-orb am-orb-2" />
             <div className="am-orb am-orb-3" />
 
-            {/* Back Button */}
             <button
                 className="absence-management-back-btn"
                 onClick={() => navigate("/admin-dashboard")}
@@ -208,7 +203,6 @@ function AbsenceManagement() {
                 <span>←</span> {t("back")}
             </button>
 
-            {/* Title Block */}
             <div className="am-title-block">
                 <span className="am-eyebrow">{t("adminPanel")}</span>
                 <h2 className="absence-management-title">
@@ -217,7 +211,6 @@ function AbsenceManagement() {
                 <p className="am-subtitle">{t("absenceSubtitle")}</p>
             </div>
 
-            {/* Stats Strip */}
             <div className="am-stats-strip">
                 <div className="am-stat-pill">
                     <span className="am-stat-icon">📋</span>
@@ -241,10 +234,8 @@ function AbsenceManagement() {
                 </div>
             </div>
 
-            {/* Card */}
             <div className="absence-management-card">
 
-                {/* Toolbar */}
                 <div className="am-card-toolbar">
                     <span className="am-record-count">
                         {requests.length} {t("records")}
@@ -329,7 +320,6 @@ function AbsenceManagement() {
                                                         </button>
                                                     </>
                                                 )}
-                                                {/* Edit only for approved or rejected */}
                                                 {(item.status?.toLowerCase() === "approved" || item.status?.toLowerCase() === "rejected") && (
                                                     <button
                                                         className="am-edit-btn"
@@ -351,7 +341,6 @@ function AbsenceManagement() {
 
             </div>
 
-            {/* ← EDIT MODAL */}
             {showEditModal && editItem && (
                 <div className="am-modal-overlay" onClick={() => setShowEditModal(false)}>
                     <div className="am-modal" onClick={(e) => e.stopPropagation()}>

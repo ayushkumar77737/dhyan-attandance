@@ -1,12 +1,4 @@
-/* =========================
-IMPORTS
-========================= */
-
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
-
-/* =========================
-PAGE
-========================= */
 
 .absence-management-page {
   min-height: 100vh;
@@ -20,10 +12,6 @@ PAGE
   overflow: hidden;
   animation: am-fadeIn 0.6s ease-in-out;
 }
-
-/* =========================
-DECORATIVE ORBS
-========================= */
 
 .am-orb {
   position: fixed;
@@ -65,10 +53,6 @@ DECORATIVE ORBS
   z-index: 1;
 }
 
-/* =========================
-BACK BUTTON
-========================= */
-
 .absence-management-back-btn {
   align-self: flex-start;
   margin-bottom: 20px;
@@ -94,10 +78,6 @@ BACK BUTTON
   color: #c7d2fe;
   transform: translateX(-2px);
 }
-
-/* =========================
-TITLE BLOCK
-========================= */
 
 .am-title-block {
   text-align: center;
@@ -136,10 +116,6 @@ TITLE BLOCK
   margin: 0;
   font-weight: 400;
 }
-
-/* =========================
-STATS STRIP
-========================= */
 
 .am-stats-strip {
   display: flex;
@@ -198,10 +174,6 @@ STATS STRIP
   color: #f87171;
 }
 
-/* =========================
-CARD
-========================= */
-
 .absence-management-card {
   width: 100%;
   max-width: 1100px;
@@ -214,10 +186,6 @@ CARD
   animation: am-slideUp 0.5s ease;
   overflow-x: auto;
 }
-
-/* =========================
-CARD TOOLBAR
-========================= */
 
 .am-card-toolbar {
   display: flex;
@@ -234,10 +202,6 @@ CARD TOOLBAR
   color: #64748b;
   font-weight: 500;
 }
-
-/* =========================
-EXPORT BUTTON
-========================= */
 
 .absence-management-export-btn {
   padding: 10px 20px;
@@ -262,20 +226,12 @@ EXPORT BUTTON
   transform: translateY(-2px);
 }
 
-/* =========================
-TABLE WRAPPER
-========================= */
-
 .am-table-wrapper {
   width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   border-radius: 14px;
 }
-
-/* =========================
-TABLE
-========================= */
 
 .absence-management-table {
   width: 100%;
@@ -320,10 +276,6 @@ TABLE
 .absence-management-table tr:hover td {
   background: rgba(99, 102, 241, 0.07);
 }
-
-/* =========================
-CUSTOM CELLS
-========================= */
 
 .am-id-chip {
   display: inline-block;
@@ -380,10 +332,6 @@ CUSTOM CELLS
   text-overflow: ellipsis;
 }
 
-/* =========================
-STATUS BADGE
-========================= */
-
 .absence-management-status {
   padding: 5px 12px;
   border-radius: 50px;
@@ -413,10 +361,6 @@ STATUS BADGE
   color: #f87171;
   border: 1px solid rgba(239, 68, 68, 0.25);
 }
-
-/* =========================
-ACTION BUTTONS
-========================= */
 
 .am-action-btns {
   display: flex;
@@ -465,7 +409,6 @@ ACTION BUTTONS
   transform: translateY(-1px);
 }
 
-/* ← NEW: Edit button */
 .am-edit-btn {
   background: rgba(99, 102, 241, 0.12);
   border: 1px solid rgba(99, 102, 241, 0.3);
@@ -486,10 +429,6 @@ ACTION BUTTONS
   color: #c7d2fe;
   transform: translateY(-1px);
 }
-
-/* =========================
-EDIT MODAL  ← NEW
-========================= */
 
 .am-modal-overlay {
   position: fixed;
@@ -711,10 +650,6 @@ EDIT MODAL  ← NEW
   box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
 }
 
-/* =========================
-NO DATA
-========================= */
-
 .absence-management-no-data {
   display: flex;
   flex-direction: column;
@@ -733,10 +668,6 @@ NO DATA
   font-size: 14px;
   margin: 0;
 }
-
-/* =========================
-ANIMATIONS
-========================= */
 
 @keyframes am-fadeIn {
   from {
@@ -783,10 +714,6 @@ ANIMATIONS
     transform: translateX(0);
   }
 }
-
-/* =========================
-MOBILE (<=480px)
-========================= */
 
 @media (max-width: 480px) {
   .absence-management-page {
@@ -837,10 +764,6 @@ MOBILE (<=480px)
   }
 }
 
-/* =========================
-TABLET (481px–768px)
-========================= */
-
 @media (min-width: 481px) and (max-width: 768px) {
   .absence-management-card {
     max-width: 95%;
@@ -852,19 +775,11 @@ TABLET (481px–768px)
   }
 }
 
-/* =========================
-LAPTOP (769px–1200px)
-========================= */
-
 @media (min-width: 769px) and (max-width: 1200px) {
   .absence-management-card {
     max-width: 900px;
   }
 }
-
-/* =========================
-LARGE SCREENS (>1200px)
-========================= */
 
 @media (min-width: 1201px) {
   .absence-management-card {
