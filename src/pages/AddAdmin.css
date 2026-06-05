@@ -1,12 +1,4 @@
-/* ===============================
-FONTS
-================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap');
-
-/* ===============================
-CSS VARIABLES  (scoped to this page)
-================================ */
 
 .aapg-container {
     --ad-bg: #0b0e18;
@@ -40,10 +32,6 @@ CSS VARIABLES  (scoped to this page)
     --font-body: 'Outfit', sans-serif;
 }
 
-/* ===============================
-PAGE
-================================ */
-
 .aapg-container {
     min-height: 100vh;
     padding: 40px 24px;
@@ -59,10 +47,6 @@ PAGE
     justify-content: center;
     align-items: flex-start;
 }
-
-/* ===============================
-CARD
-================================ */
 
 .aapg-card {
     width: 100%;
@@ -87,10 +71,6 @@ CARD
     background: linear-gradient(90deg, transparent, var(--ad-blue), transparent);
     opacity: 0.6;
 }
-
-/* ===============================
-HEADER
-================================ */
 
 .aapg-head {
     display: flex;
@@ -171,10 +151,6 @@ HEADER
     margin: 0 0 22px;
 }
 
-/* ===============================
-ALERTS
-================================ */
-
 .aapg-alert {
     display: flex;
     align-items: center;
@@ -204,10 +180,6 @@ ALERTS
     border: 1px solid rgba(45, 206, 137, 0.3);
     color: #6ee7b7;
 }
-
-/* ===============================
-FIELDS
-================================ */
 
 .aapg-field {
     margin-bottom: 18px;
@@ -276,10 +248,6 @@ FIELDS
     margin: 6px 0 0 2px;
 }
 
-/* ===============================
-AUTO FIELDS
-================================ */
-
 .aapg-auto {
     margin: 4px 0 24px;
     padding: 14px 16px;
@@ -318,10 +286,6 @@ AUTO FIELDS
     color: var(--ad-blue);
     font-weight: 700;
 }
-
-/* ===============================
-SUBMIT
-================================ */
 
 .aapg-submit {
     width: 100%;
@@ -369,10 +333,6 @@ SUBMIT
     animation: aapg-spin 0.8s linear infinite;
 }
 
-/* ===============================
-ANIMATIONS
-================================ */
-
 @keyframes aapg-spin {
     to {
         transform: rotate(360deg);
@@ -391,10 +351,6 @@ ANIMATIONS
     }
 }
 
-/* ===============================
-MOBILE
-================================ */
-
 @media (max-width: 600px) {
     .aapg-container {
         padding: 24px 14px;
@@ -408,10 +364,6 @@ MOBILE
         font-size: 19px;
     }
 }
-
-/* ===============================
-PASSWORD TOGGLE
-================================ */
 
 .aapg-pwd-toggle {
     position: absolute;
@@ -439,7 +391,6 @@ PASSWORD TOGGLE
     background: var(--ad-blue-subtle);
 }
 
-/* Give password inputs room for the toggle on the right */
 .aapg-field .aapg-input-wrap input[type="password"],
 .aapg-field .aapg-input-wrap input[type="text"] {
     padding-right: 44px;

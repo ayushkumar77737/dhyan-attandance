@@ -15,8 +15,6 @@ import {
 import { useTranslation } from "react-i18next";
 import useAutoLogout from "../hooks/useAutoLogout";
 
-/* ─── SVG Icons ─────────────────────────────────────────────── */
-
 const icons = {
     shield: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -73,8 +71,6 @@ const icons = {
     ),
 };
 
-/* ─── Component ─────────────────────────────────────────────── */
-
 function AddAdmin() {
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -91,7 +87,6 @@ function AddAdmin() {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
-    /* ── Guard: only admins can reach this page ── */
     useEffect(() => {
         const checkAdmin = async () => {
             const currentUser = auth.currentUser;
@@ -141,7 +136,6 @@ function AddAdmin() {
         const trimmedName = name.trim();
         const trimmedEmail = email.trim();
 
-        // ── Validation ──
         if (!id || !trimmedName || !trimmedEmail || !password || !confirm) {
             setError(t("allFieldsRequired"));
             return;
@@ -167,7 +161,6 @@ function AddAdmin() {
         try {
             setSaving(true);
 
-            // ── Prevent overwriting an existing Firestore document ──
             const ref = doc(db, "users", id);
             const existing = await getDoc(ref);
             if (existing.exists()) {
@@ -176,8 +169,6 @@ function AddAdmin() {
                 return;
             }
 
-            // ── Create the Auth account via a SECONDARY app ──
-            // This avoids signing the current admin out of the session.
             secondaryApp = initializeApp(getApp().options, "Secondary");
             const secondaryAuth = getAuth(secondaryApp);
             const cred = await createUserWithEmailAndPassword(
@@ -187,17 +178,15 @@ function AddAdmin() {
             );
             const uid = cred.user.uid;
 
-            // Sign the temporary session out immediately.
             await authSignOut(secondaryAuth);
 
-            // ── Write the admin record to Firestore ──
             await setDoc(ref, {
                 id,
                 name: trimmedName,
                 email: trimmedEmail,
                 role: "admin",
                 deleted: false,
-                uid, // link to the Auth account
+                uid,
             });
             await logAdminAction("create_admin", { targetId: id, details: t("logCreatedAdmin", { name: trimmedName }) });
             setSuccess(t("adminAddedSuccess"));
@@ -217,12 +206,10 @@ function AddAdmin() {
         }
     };
 
-    /* ── Render ── */
     return (
         <div className="aapg-container">
             <div className="aapg-card">
 
-                {/* Header */}
                 <div className="aapg-head">
                     <button className="aapg-back" onClick={() => navigate(-1)}>
                         {icons.back}
@@ -238,7 +225,6 @@ function AddAdmin() {
 
                 <p className="aapg-desc">{t("addAdminDesc")}</p>
 
-                {/* Alerts */}
                 {error && (
                     <div className="aapg-alert aapg-alert--error">
                         {icons.alert}<span>{error}</span>
@@ -250,7 +236,6 @@ function AddAdmin() {
                     </div>
                 )}
 
-                {/* Admin ID */}
                 <div className="aapg-field">
                     <label>{t("adminId")}</label>
                     <div className="aapg-input-wrap">
@@ -266,7 +251,6 @@ function AddAdmin() {
                     <p className="aapg-hint">{t("adminIdHint")}</p>
                 </div>
 
-                {/* Name */}
                 <div className="aapg-field">
                     <label>{t("name")}</label>
                     <div className="aapg-input-wrap">
@@ -281,7 +265,6 @@ function AddAdmin() {
                     </div>
                 </div>
 
-                {/* Email */}
                 <div className="aapg-field">
                     <label>{t("email")}</label>
                     <div className="aapg-input-wrap">
@@ -296,7 +279,6 @@ function AddAdmin() {
                     </div>
                 </div>
 
-                {/* Password */}
                 <div className="aapg-field">
                     <label>{t("password")}</label>
                     <div className="aapg-input-wrap">
@@ -320,7 +302,6 @@ function AddAdmin() {
                     <p className="aapg-hint">{t("passwordHint")}</p>
                 </div>
 
-                {/* Confirm Password */}
                 <div className="aapg-field">
                     <label>{t("confirmPassword")}</label>
                     <div className="aapg-input-wrap">
@@ -335,7 +316,6 @@ function AddAdmin() {
                     </div>
                 </div>
 
-                {/* Auto fields preview */}
                 <div className="aapg-auto">
                     <span className="aapg-auto-label">{t("autoFields")}</span>
                     <div className="aapg-auto-row">
@@ -344,7 +324,6 @@ function AddAdmin() {
                     </div>
                 </div>
 
-                {/* Submit */}
                 <button className="aapg-submit" onClick={handleSubmit} disabled={saving}>
                     {saving ? <span className="aapg-spinner" /> : icons.shield}
                     {saving ? t("saving") : t("addAdmin")}
