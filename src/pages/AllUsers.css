@@ -1,12 +1,4 @@
-/* ===============================
-FONTS
-================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap');
-
-/* ===============================
-CSS VARIABLES
-================================ */
 
 :root {
   --bg-base: #0d1117;
@@ -48,10 +40,6 @@ CSS VARIABLES
   --font-body: 'DM Sans', sans-serif;
 }
 
-/* ===============================
-PAGE
-================================ */
-
 .users-container {
   padding: 48px 40px;
   min-height: 100vh;
@@ -61,19 +49,12 @@ PAGE
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  /* Subtle grid texture */
   background-image:
     linear-gradient(rgba(79, 140, 255, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(79, 140, 255, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
-
   animation: usersFadeIn 0.7s ease;
 }
-
-/* ===============================
-HEADER
-================================ */
 
 .users-container .users-header {
   width: 100%;
@@ -82,10 +63,6 @@ HEADER
   align-items: center;
   margin-bottom: 20px;
 }
-
-/* ===============================
-BACK BUTTON
-================================ */
 
 .users-container .back-btn {
   background: transparent;
@@ -111,10 +88,6 @@ BACK BUTTON
   box-shadow: var(--shadow-glow-blue);
   transform: translateX(-2px);
 }
-
-/* ===============================
-EXPORT BUTTON
-================================ */
 
 .export-btn {
   padding: 9px 22px;
@@ -155,10 +128,6 @@ EXPORT BUTTON
   transform: scale(0.97);
 }
 
-/* ===============================
-TITLE
-================================ */
-
 .users-container .users-title {
   text-align: center;
   margin-bottom: 36px;
@@ -168,19 +137,12 @@ TITLE
   color: var(--text-primary);
   letter-spacing: 1.5px;
   text-transform: uppercase;
-
-  /* Gradient text */
   background: linear-gradient(135deg, #e6edf3 30%, var(--accent-blue));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-
   animation: usersSlideDown 0.6s ease;
 }
-
-/* ===============================
-CARD
-================================ */
 
 .users-container .users-card {
   width: 95%;
@@ -203,18 +165,12 @@ CARD
   box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border-strong);
 }
 
-/* ===============================
-TABLE
-================================ */
-
 .users-container .users-table {
   width: 100%;
   border-collapse: collapse;
   overflow: hidden;
   border-radius: var(--radius-md);
 }
-
-/* TABLE HEADER */
 
 .users-container .users-table thead tr {
   background: transparent;
@@ -241,8 +197,6 @@ TABLE
   border-radius: 0 var(--radius-sm) 0 0;
 }
 
-/* TABLE DATA */
-
 .users-container .users-table td {
   padding: 16px 18px;
   border-bottom: 1px solid var(--border);
@@ -255,8 +209,6 @@ TABLE
 .users-container .users-table tbody tr:last-child td {
   border-bottom: none;
 }
-
-/* ROW HOVER */
 
 .users-container .users-table tbody tr {
   transition: all 0.2s ease;
@@ -271,19 +223,11 @@ TABLE
   color: var(--text-primary);
 }
 
-/* ===============================
-ACTION BUTTONS CELL
-================================ */
-
 .users-container .action-buttons {
   display: flex;
   gap: 10px;
   align-items: center;
 }
-
-/* ===============================
-EDIT BUTTON
-================================ */
 
 .users-container .edit-btn {
   background: transparent;
@@ -305,10 +249,6 @@ EDIT BUTTON
   box-shadow: var(--shadow-glow-blue);
   transform: translateY(-2px);
 }
-
-/* ===============================
-DELETE BUTTON
-================================ */
 
 .users-container .delete-btn {
   background: transparent;
@@ -335,10 +275,6 @@ DELETE BUTTON
 .users-container .delete-btn:active {
   transform: scale(0.95);
 }
-
-/* ===============================
-ANIMATIONS
-================================ */
 
 @keyframes usersFadeIn {
   from {
@@ -374,10 +310,6 @@ ANIMATIONS
   }
 }
 
-/* ===============================
-TABLET
-================================ */
-
 @media (max-width: 992px) {
 
   .users-container {
@@ -405,10 +337,6 @@ TABLET
   }
 
 }
-
-/* ===============================
-MOBILE
-================================ */
 
 @media (max-width: 768px) {
 
@@ -442,10 +370,6 @@ MOBILE
 
 }
 
-/* ===============================
-SMALL MOBILE
-================================ */
-
 @media (max-width: 480px) {
 
   .users-container {
@@ -472,10 +396,6 @@ SMALL MOBILE
 
 }
 
-/* ===============================
-MODAL OVERLAY
-================================ */
-
 .delete-modal-overlay {
   position: fixed;
   top: 0;
@@ -485,18 +405,12 @@ MODAL OVERLAY
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 20px;
   z-index: 1000;
 }
-
-/* ===============================
-MODAL BOX
-================================ */
 
 .delete-modal {
   background: var(--bg-card);
@@ -529,10 +443,6 @@ MODAL BOX
   font-weight: 400;
   line-height: 1.6;
 }
-
-/* ===============================
-MODAL BUTTONS
-================================ */
 
 .modal-buttons {
   display: flex;
@@ -586,10 +496,6 @@ MODAL BUTTONS
   transform: scale(0.97);
 }
 
-/* ===============================
-MODAL ANIMATION
-================================ */
-
 @keyframes popup {
   from {
     transform: scale(0.75);
@@ -601,10 +507,6 @@ MODAL ANIMATION
     opacity: 1;
   }
 }
-
-/* ===============================
-MODAL - TABLET
-================================ */
 
 @media (max-width: 768px) {
 
@@ -618,10 +520,6 @@ MODAL - TABLET
   }
 
 }
-
-/* ===============================
-MODAL - MOBILE
-================================ */
 
 @media (max-width: 480px) {
 

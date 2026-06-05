@@ -13,11 +13,11 @@ import { useNavigate } from "react-router-dom";
 
 import * as XLSX from "xlsx";
 
-import { useTranslation } from "react-i18next"; // ← ADD
+import { useTranslation } from "react-i18next";
 
 function AllUsers() {
 
-  const { t } = useTranslation(); // ← ADD
+  const { t } = useTranslation();
 
   useEffect(() => {
     const disableRightClick = (e) => e.preventDefault();
@@ -132,27 +132,25 @@ function AllUsers() {
 
   return (
     <div className="users-container">
-
-      {/* Header */}
       <div className="users-header">
 
         <button
           className="back-btn"
           onClick={() => navigate("/admin-dashboard")}
         >
-          ← {t("back")} {/* ← CHANGED */}
+          ← {t("back")}
         </button>
 
         <button
           className="export-btn"
           onClick={exportToExcel}
         >
-          {t("exportExcel")} {/* ← CHANGED */}
+          {t("exportExcel")}
         </button>
 
       </div>
 
-      <h1 className="users-title">{t("allUsers")}</h1> {/* ← CHANGED */}
+      <h1 className="users-title">{t("allUsers")}</h1>
 
       <div className="users-card">
         <table className="users-table">
@@ -178,14 +176,14 @@ function AllUsers() {
                     className="edit-btn"
                     onClick={() => handleEdit(user.id)}
                   >
-                    {t("edit")} {/* ← CHANGED */}
+                    {t("edit")}
                   </button>
 
                   <button
                     className="delete-btn"
                     onClick={() => openDeleteModal(user.docId)}
                   >
-                    {t("delete")} {/* ← CHANGED */}
+                    {t("delete")}
                   </button>
 
                 </td>
@@ -196,13 +194,12 @@ function AllUsers() {
         </table>
       </div>
 
-      {/* DELETE MODAL */}
       {showModal && (
         <div className="delete-modal-overlay">
           <div className="delete-modal">
 
-            <h3>{t("deleteUser")}</h3>               {/* ← CHANGED */}
-            <p>{t("deleteConfirmMsg")}</p>            {/* ← CHANGED */}
+            <h3>{t("deleteUser")}</h3>
+            <p>{t("deleteConfirmMsg")}</p>
 
             <div className="modal-buttons">
 
@@ -210,14 +207,14 @@ function AllUsers() {
                 className="cancel-btn"
                 onClick={() => setShowModal(false)}
               >
-                {t("cancel")} {/* ← CHANGED */}
+                {t("cancel")}
               </button>
 
               <button
                 className="confirm-delete-btn"
                 onClick={confirmDelete}
               >
-                {t("delete")} {/* ← CHANGED */}
+                {t("delete")}
               </button>
 
             </div>
