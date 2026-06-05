@@ -19,7 +19,6 @@ function AllAdmins() {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
 
-    /* ── Guard: only admins can view this page ── */
     const checkAdmin = async () => {
         const currentUser = auth.currentUser;
         if (!currentUser) { navigate("/"); return; }
@@ -32,7 +31,6 @@ function AllAdmins() {
         } catch (err) { console.error(err); navigate("/"); }
     };
 
-    /* ── Fetch all admins ── */
     const fetchAdmins = async () => {
         try {
             setLoading(true);
@@ -50,7 +48,6 @@ function AllAdmins() {
                     });
                 }
             });
-            // sort by name
             list.sort((a, b) => a.name.localeCompare(b.name));
             setAdmins(list);
         } catch (err) {
@@ -81,7 +78,6 @@ function AllAdmins() {
     useEffect(() => {
         checkAdmin();
         fetchAdmins();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const filtered = admins.filter((a) => {
@@ -98,7 +94,6 @@ function AllAdmins() {
 
     return (
         <div className="alladm-container">
-            {/* ── Header ── */}
             <div className="alladm-header">
                 <div className="alladm-header-left">
                     <img src={logo} alt="Logo" className="alladm-logo" />
@@ -112,7 +107,6 @@ function AllAdmins() {
                 </button>
             </div>
 
-            {/* ── Toolbar ── */}
             <div className="alladm-toolbar">
                 <div className="alladm-count">
                     {t("totalAdmins")}: <span>{admins.length}</span>
@@ -126,7 +120,6 @@ function AllAdmins() {
                 />
             </div>
 
-            {/* ── Body ── */}
             {loading ? (
                 <div className="alladm-spinner-wrap"><div className="alladm-spinner" /></div>
             ) : filtered.length === 0 ? (
