@@ -48,8 +48,6 @@ function AttendanceReport() {
     const [selectedDate, setSelectedDate] = useState("");
     const [reportGenerated, setReportGenerated] = useState(false);
     const [noAttendance, setNoAttendance] = useState(false);
-
-    // ← ADD: edit modal state
     const [showEditModal, setShowEditModal] = useState(false);
     const [editUser, setEditUser] = useState(null);
     const [editStatus, setEditStatus] = useState("");
@@ -147,14 +145,12 @@ function AttendanceReport() {
         setAbsentCount(updated.filter(u => u.status === "Absent").length);
     };
 
-    // ← ADD: open edit modal
     const openEditModal = (user) => {
         setEditUser(user);
         setEditStatus(user.status);
         setShowEditModal(true);
     };
 
-    // ← ADD: save edited attendance
     const saveEdit = async () => {
         if (!editUser || !editStatus) return;
         try {
@@ -166,14 +162,12 @@ function AttendanceReport() {
                 targetId: editUser.id,
                 details: t("logEditedAttendance", { name: editUser.name, status: editStatus }),
             });
-            // Update local state
             const updated = reportUsers.map(u =>
                 u.id === editUser.id ? { ...u, status: editStatus } : u
             );
             setReportUsers(updated);
             setPresentCount(updated.filter(u => u.status === "Present").length);
             setAbsentCount(updated.filter(u => u.status === "Absent").length);
-
             setShowEditModal(false);
             setEditUser(null);
         } catch (error) {
@@ -196,24 +190,20 @@ function AttendanceReport() {
     return (
         <div className="report-container">
 
-            {/* Decorative orbs */}
             <div className="ar-orb ar-orb-1" />
             <div className="ar-orb ar-orb-2" />
             <div className="ar-orb ar-orb-3" />
 
-            {/* Back Button */}
             <button className="back-btn" onClick={() => navigate("/admin-dashboard")}>
                 <span>←</span> {t("back")}
             </button>
 
-            {/* Title Block */}
             <div className="ar-title-block">
                 <span className="ar-eyebrow">{t("adminPanel")}</span>
                 <h1 className="report-title">{t("attendanceReport")}</h1>
                 <p className="ar-subtitle">{t("reportSubtitle")}</p>
             </div>
 
-            {/* Date Section */}
             <div className="date-section">
                 <input
                     type="date"
@@ -230,7 +220,6 @@ function AttendanceReport() {
                 </button>
             </div>
 
-            {/* No Attendance Message */}
             {reportGenerated && noAttendance && (
                 <div className="no-attendance">
                     <span className="no-att-icon">📭</span>
@@ -238,10 +227,8 @@ function AttendanceReport() {
                 </div>
             )}
 
-            {/* Report Content */}
             {reportGenerated && !noAttendance && reportUsers.length > 0 && (
                 <>
-                    {/* Summary Cards */}
                     <div className="report-cards">
                         <div className="report-card">
                             <div className="card-icon">👥</div>
@@ -260,14 +247,12 @@ function AttendanceReport() {
                         </div>
                     </div>
 
-                    {/* Export */}
                     <div className="export-section">
                         <button className="export-btn" onClick={exportToExcel}>
                             <span>⬇</span> {t("exportExcel")}
                         </button>
                     </div>
 
-                    {/* Table */}
                     <table className="report-table">
                         <thead>
                             <tr>
@@ -298,7 +283,6 @@ function AttendanceReport() {
                                         </span>
                                     </td>
 
-                                    {/* ← ADD edit button */}
                                     <td>
                                         <button
                                             className="ar-edit-btn"
@@ -315,7 +299,6 @@ function AttendanceReport() {
                 </>
             )}
 
-            {/* ← EDIT MODAL */}
             {showEditModal && editUser && (
                 <div className="ar-modal-overlay" onClick={() => setShowEditModal(false)}>
                     <div className="ar-modal" onClick={(e) => e.stopPropagation()}>
