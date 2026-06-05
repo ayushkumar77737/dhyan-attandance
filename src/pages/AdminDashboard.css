@@ -1,12 +1,4 @@
-/* ===============================
-FONTS
-================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap');
-
-/* ===============================
-CSS VARIABLES
-================================ */
 
 :root {
   --ad-bg: #0b0e18;
@@ -49,10 +41,6 @@ CSS VARIABLES
   --font-body: 'Outfit', sans-serif;
 }
 
-/* ===============================
-PAGE
-================================ */
-
 .admin-container {
   padding: 28px 32px;
   font-family: var(--font-body);
@@ -66,10 +54,6 @@ PAGE
   background-size: 100% 100%, 44px 44px, 44px 44px;
   animation: fadeIn 0.5s ease;
 }
-
-/* ===============================
-HEADER
-================================ */
 
 .dashboard-header {
   display: flex;
@@ -199,10 +183,6 @@ HEADER
   }
 }
 
-/* ===============================
-LOGOUT BUTTON
-================================ */
-
 .logout-btn {
   display: flex;
   align-items: center;
@@ -234,10 +214,6 @@ LOGOUT BUTTON
 .logout-btn:active {
   transform: scale(0.97);
 }
-
-/* ===============================
-STATS SECTION
-================================ */
 
 .stats-container {
   display: grid;
@@ -292,7 +268,6 @@ STATS SECTION
   margin: 0;
 }
 
-/* ── Stat card color variants ── */
 .stat-card--tickets::before {
   background: linear-gradient(90deg, transparent, var(--ad-amber), transparent);
 }
@@ -317,7 +292,6 @@ STATS SECTION
   color: var(--ad-red) !important;
 }
 
-/* ── Spinners ── */
 .stat-spinner {
   width: 24px;
   height: 24px;
@@ -335,10 +309,6 @@ STATS SECTION
 .stat-spinner--absent {
   border-top-color: var(--ad-red);
 }
-
-/* ===============================
-CHARTS GRID
-================================ */
 
 .charts-row {
   display: grid;
@@ -423,7 +393,6 @@ CHARTS GRID
   font-size: 28px;
 }
 
-/* ── Chart date picker ── */
 .chart-date-picker {
   display: flex;
   justify-content: center;
@@ -461,7 +430,6 @@ CHARTS GRID
   cursor: pointer;
 }
 
-/* ── Trend chart ── */
 .chart-section-trend {
   margin-bottom: 20px;
 }
@@ -538,10 +506,6 @@ CHARTS GRID
   border-radius: 10px;
 }
 
-/* ===============================
-SECTION LABEL
-================================ */
-
 .section-label {
   font-size: 10px;
   font-weight: 700;
@@ -560,10 +524,6 @@ SECTION LABEL
   height: 1px;
   background: var(--ad-border);
 }
-
-/* ===============================
-CORE MANAGEMENT — WIDE CARDS (3 col)
-================================ */
 
 .core-grid {
   display: grid;
@@ -627,10 +587,6 @@ CORE MANAGEMENT — WIDE CARDS (3 col)
   margin: 0;
 }
 
-/* ===============================
-TOOLS GRID — SMALL ICON CARDS (6 col)
-================================ */
-
 .tools-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -681,10 +637,6 @@ TOOLS GRID — SMALL ICON CARDS (6 col)
   margin: 0;
   line-height: 1.3;
 }
-
-/* ===============================
-ICON COLOR VARIANTS
-================================ */
 
 .icon-blue {
   background: rgba(59, 130, 246, 0.15);
@@ -746,10 +698,6 @@ ICON COLOR VARIANTS
   color: #84cc16;
 }
 
-/* ===============================
-ANIMATIONS
-================================ */
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -761,10 +709,6 @@ ANIMATIONS
     transform: translateY(0);
   }
 }
-
-/* ===============================
-TABLET — 1200px
-================================ */
 
 @media (max-width: 1200px) {
   .stats-container {
@@ -792,10 +736,6 @@ TABLET — 1200px
   }
 }
 
-/* ===============================
-TABLET — 1024px
-================================ */
-
 @media (max-width: 1024px) {
   .stats-container {
     grid-template-columns: repeat(3, 1fr);
@@ -822,10 +762,6 @@ TABLET — 1024px
     height: 240px;
   }
 }
-
-/* ===============================
-MOBILE — 768px
-================================ */
 
 @media (max-width: 768px) {
 
@@ -914,10 +850,6 @@ MOBILE — 768px
     width: 26px;
   }
 }
-
-/* ===============================
-SMALL MOBILE — 480px
-================================ */
 
 @media (max-width: 480px) {
   .stats-container {

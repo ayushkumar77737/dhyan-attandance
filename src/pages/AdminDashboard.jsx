@@ -36,8 +36,6 @@ ChartJS.register(
   CategoryScale, LinearScale, Filler
 );
 
-/* ─── Shared tooltip config ─────────────────────────────────── */
-
 const sharedTooltip = {
   backgroundColor: "#0d1b2a",
   borderColor: "rgba(255,255,255,0.1)",
@@ -61,8 +59,6 @@ const makeCircleLegend = () => ({
     boxHeight: 8,
   },
 });
-
-/* ─── SVG Icons ─────────────────────────────────────────────── */
 
 const icons = {
   userPlus: (
@@ -190,8 +186,6 @@ const icons = {
   ),
 };
 
-/* ─── Component ─────────────────────────────────────────────── */
-
 function AdminDashboard() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -260,8 +254,6 @@ function AdminDashboard() {
       clearTimeout(greetingTimer);
     };
   }, []);
-
-  /* ── Firestore fetchers ── */
 
   const fetchUserStats = async () => {
     try {
@@ -418,8 +410,6 @@ function AdminDashboard() {
     } catch (err) { console.log(err); }
   };
 
-  /* ── Chart configs ── */
-
   const attendancePieData = {
     labels: [t("present"), t("absent")],
     datasets: [{ data: chartData.map((d) => d.value), backgroundColor: ["#2563EB", "#ef4444"], borderColor: ["#1d4ed8", "#dc2626"], borderWidth: 2, hoverOffset: 14 }],
@@ -478,8 +468,6 @@ function AdminDashboard() {
     },
   };
 
-  /* ── Render ── */
-
   return (
     <div className="admin-container">
       {showGreeting && (
@@ -488,7 +476,6 @@ function AdminDashboard() {
           {t("greetingMessage")}
         </div>
       )}
-      {/* ── Header ── */}
       <div className="dashboard-header">
         <div className="dashboard-header-left">
           <img src={logo} alt="Logo" className="dashboard-logo" />
@@ -510,7 +497,6 @@ function AdminDashboard() {
         </div>
       </div>
 
-      {/* ── Stats ── */}
       <div className="stats-container">
         <div className="stat-card">
           <h3>{t("totalUsers")}</h3>
@@ -544,7 +530,6 @@ function AdminDashboard() {
         </div>
       </div>
 
-      {/* ── Three Charts ── */}
       <div className="charts-row">
 
         <div className="chart-section">
@@ -591,7 +576,6 @@ function AdminDashboard() {
 
       </div>
 
-      {/* ── Attendance Trend ── */}
       <div className="chart-section chart-section-trend">
         <div className="trend-header">
           <h2 className="chart-title">{t("attendanceTrend")}</h2>
@@ -615,7 +599,6 @@ function AdminDashboard() {
         )}
       </div>
 
-      {/* ── Monthly Attendance ── */}
       <div className="chart-section chart-section-trend">
         <div className="trend-header">
           <h2 className="chart-title">{t("monthlyAttendance")}</h2>
@@ -636,9 +619,6 @@ function AdminDashboard() {
         )}
       </div>
 
-      {/* ══════════════════════════════════════
-          CORE MANAGEMENT SECTION
-      ══════════════════════════════════════ */}
       <p className="section-label">{t("coreManagement")}</p>
 
       <div className="core-grid">
@@ -709,9 +689,6 @@ function AdminDashboard() {
 
       </div>
 
-      {/* ══════════════════════════════════════
-          TOOLS & SETTINGS SECTION
-      ══════════════════════════════════════ */}
       <p className="section-label">{t("toolsAndSettings")}</p>
 
       <div className="tools-grid">
