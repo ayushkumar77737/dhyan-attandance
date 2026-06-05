@@ -18,7 +18,7 @@ function ContactSettings() {
     });
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-    const [toast, setToast] = useState(null); // { msg, type }
+    const [toast, setToast] = useState(null);
     const [errors, setErrors] = useState({});
     const checkAdmin = async () => {
 
@@ -151,13 +151,11 @@ function ContactSettings() {
 
     return (
         <div className="cset__page">
-            {/* Background orbs */}
             <div className="cset__orb cset__orb--1" />
             <div className="cset__orb cset__orb--2" />
             <div className="cset__orb cset__orb--3" />
             <div className="cset__grid" />
 
-            {/* Toast */}
             {toast && (
                 <div className={`cset__toast cset__toast--${toast.type}`}>
                     <span className="cset__toast-icon">
@@ -167,7 +165,6 @@ function ContactSettings() {
                 </div>
             )}
 
-            {/* Back Button */}
             <button className="cset__back-btn" onClick={() => navigate("/admin-dashboard")}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="15 18 9 12 15 6" />
@@ -175,7 +172,6 @@ function ContactSettings() {
                 {t("back")}
             </button>
 
-            {/* Header */}
             <div className="cset__header">
                 <div className="cset__eyebrow">
                     <span className="cset__eyebrow-pulse" />
@@ -188,7 +184,6 @@ function ContactSettings() {
                 <p className="cset__subtitle">{t("csPageSubtitle")}</p>
             </div>
 
-            {/* Loading */}
             {loading ? (
                 <div className="cset__loading">
                     <div className="cset__loader">
@@ -200,7 +195,6 @@ function ContactSettings() {
                 </div>
             ) : (
                 <div className="cset__content">
-                    {/* Live Preview Cards */}
                     <div className="cset__preview-row">
                         <a href={`mailto:${form.supportEmail}`} className="cset__preview-card cset__preview-card--blue" target="_blank" rel="noreferrer">
                             <div className="cset__preview-icon-wrap cset__preview-icon-wrap--blue">
@@ -259,7 +253,6 @@ function ContactSettings() {
                         </a>
                     </div>
 
-                    {/* Form */}
                     <div className="cset__form-card">
                         <div className="cset__form-header">
                             <div className="cset__form-header-icon">
@@ -275,7 +268,6 @@ function ContactSettings() {
                         </div>
 
                         <div className="cset__form-grid">
-                            {/* Support Email */}
                             <div className="cset__field">
                                 <label className="cset__label">
                                     <span className="cset__label-icon">✉️</span>
@@ -294,7 +286,6 @@ function ContactSettings() {
                                 {errors.supportEmail && <span className="cset__error">{errors.supportEmail}</span>}
                             </div>
 
-                            {/* Support Phone 1 */}
                             <div className="cset__field">
                                 <label className="cset__label">
                                     <span className="cset__label-icon">📞</span>
@@ -313,7 +304,6 @@ function ContactSettings() {
                                 {errors.supportPhone1 && <span className="cset__error">{errors.supportPhone1}</span>}
                             </div>
 
-                            {/* Support Phone 2 */}
                             <div className="cset__field">
                                 <label className="cset__label">
                                     <span className="cset__label-icon">📱</span>
@@ -332,7 +322,6 @@ function ContactSettings() {
                                 {errors.supportPhone2 && <span className="cset__error">{errors.supportPhone2}</span>}
                             </div>
 
-                            {/* Telegram */}
                             <div className="cset__field">
                                 <label className="cset__label">
                                     <span className="cset__label-icon">✈️</span>
@@ -351,7 +340,6 @@ function ContactSettings() {
                                 {errors.telegramChannel && <span className="cset__error">{errors.telegramChannel}</span>}
                             </div>
 
-                            {/* Ashram Address */}
                             <div className="cset__field cset__field--full">
                                 <label className="cset__label">
                                     <span className="cset__label-icon">📍</span>
@@ -371,7 +359,6 @@ function ContactSettings() {
                             </div>
                         </div>
 
-                        {/* Actions */}
                         <div className="cset__actions">
                             <button className="cset__reset-btn" onClick={handleReset}>
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -400,7 +387,6 @@ function ContactSettings() {
                         </div>
                     </div>
 
-                    {/* Info Note */}
                     <div className="cset__note">
                         <span className="cset__note-icon">💡</span>
                         <p>{t("csNote")}</p>

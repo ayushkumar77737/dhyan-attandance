@@ -1,11 +1,5 @@
-/* ═══════════════════════════════════════════════
-   ContactSettings.css  —  prefix: cset__
-   Zero overlap with any other page stylesheet
-═══════════════════════════════════════════════ */
-
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-/* ── CSS Variables ── */
 .cset__page {
     --cset-blue: #4d9fff;
     --cset-blue-dim: rgba(77, 159, 255, 0.1);
@@ -44,7 +38,6 @@
     overflow-x: hidden;
 }
 
-/* ── Grid ── */
 .cset__grid {
     position: fixed;
     inset: 0;
@@ -56,7 +49,6 @@
     z-index: 0;
 }
 
-/* ── Orbs ── */
 .cset__orb {
     position: fixed;
     border-radius: 50%;
@@ -89,7 +81,6 @@
     left: 40%;
 }
 
-/* ── Z-index above orbs ── */
 .cset__back-btn,
 .cset__header,
 .cset__loading,
@@ -99,7 +90,6 @@
     z-index: 1;
 }
 
-/* ── Toast ── */
 .cset__toast {
     position: fixed;
     top: 24px;
@@ -142,7 +132,6 @@
     }
 }
 
-/* ── Back Button ── */
 .cset__back-btn {
     display: inline-flex;
     align-items: center;
@@ -167,7 +156,6 @@
     border-color: rgba(255, 255, 255, 0.12);
 }
 
-/* ── Header ── */
 .cset__header {
     margin-bottom: 36px;
 }
@@ -242,7 +230,6 @@
     margin: 0;
 }
 
-/* ── Loading ── */
 .cset__loading {
     display: flex;
     flex-direction: column;
@@ -294,14 +281,12 @@
     }
 }
 
-/* ── Content ── */
 .cset__content {
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
 
-/* ── Preview Row ── */
 .cset__preview-row {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -439,7 +424,6 @@
     transform: translate(2px, -2px);
 }
 
-/* ── Form Card ── */
 .cset__form-card {
     background: var(--cset-surface);
     border: 1px solid var(--cset-border);
@@ -486,7 +470,6 @@
     letter-spacing: 0.03em;
 }
 
-/* ── Form Grid ── */
 .cset__form-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -571,7 +554,6 @@
     font-weight: 600;
 }
 
-/* ── Actions ── */
 .cset__actions {
     display: flex;
     gap: 12px;
@@ -642,7 +624,6 @@
     display: inline-block;
 }
 
-/* ── Info Note ── */
 .cset__note {
     display: flex;
     align-items: flex-start;
@@ -668,7 +649,6 @@
     letter-spacing: 0.02em;
 }
 
-/* ── Scrollbar ── */
 .cset__page ::-webkit-scrollbar {
     width: 4px;
 }
@@ -686,7 +666,6 @@
     background: rgba(0, 229, 160, 0.3);
 }
 
-/* ── Responsive ── */
 @media (max-width: 600px) {
     .cset__preview-row {
         grid-template-columns: 1fr;
