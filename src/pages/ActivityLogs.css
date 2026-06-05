@@ -1,11 +1,5 @@
-/* ═══════════════════════════════════════════════
-   ActivityLogs.css  —  prefix: actlog__
-   Zero overlap with any other page stylesheet
-═══════════════════════════════════════════════ */
-
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-/* ── CSS Variables ── */
 .actlog__page {
     --actlog-green: #00e5a0;
     --actlog-green-dim: rgba(0, 229, 160, 0.12);
@@ -36,7 +30,6 @@
     overflow-x: hidden;
 }
 
-/* ── Grid Lines ── */
 .actlog__grid-lines {
     position: fixed;
     inset: 0;
@@ -48,7 +41,6 @@
     z-index: 0;
 }
 
-/* ── Orbs ── */
 .actlog__orb {
     position: fixed;
     border-radius: 50%;
@@ -81,7 +73,6 @@
     left: 45%;
 }
 
-/* ── All content above orbs ── */
 .actlog__back-btn,
 .actlog__header,
 .actlog__stats,
@@ -94,7 +85,6 @@
     z-index: 1;
 }
 
-/* ── Back Button ── */
 .actlog__back-btn {
     display: inline-flex;
     align-items: center;
@@ -119,7 +109,6 @@
     border-color: rgba(255, 255, 255, 0.12);
 }
 
-/* ── Header ── */
 .actlog__header {
     margin-bottom: 32px;
 }
@@ -195,7 +184,6 @@
     margin: 0;
 }
 
-/* ── Stats ── */
 .actlog__stats {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
@@ -344,7 +332,6 @@
     background: var(--actlog-purple);
 }
 
-/* ── Controls ── */
 .actlog__controls {
     display: flex;
     align-items: center;
@@ -475,7 +462,6 @@
     transform: translateY(-1px);
 }
 
-/* ── Result count ── */
 .actlog__result-count {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
@@ -489,7 +475,6 @@
     font-weight: 600;
 }
 
-/* ── Loading ── */
 .actlog__loading {
     display: flex;
     flex-direction: column;
@@ -542,7 +527,6 @@
     }
 }
 
-/* ── Empty ── */
 .actlog__empty {
     display: flex;
     flex-direction: column;
@@ -559,14 +543,12 @@
     font-size: 44px;
 }
 
-/* ── Timeline ── */
 .actlog__timeline {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-/* ── Entry ── */
 .actlog__entry {
     background: var(--actlog-surface);
     border: 1px solid var(--actlog-border);
@@ -615,7 +597,6 @@
     background: var(--actlog-surface-hover);
 }
 
-/* Main row */
 .actlog__entry-main {
     display: flex;
     align-items: center;
@@ -632,7 +613,6 @@
     min-width: 0;
 }
 
-/* Badge */
 .actlog__badge {
     display: inline-flex;
     align-items: center;
@@ -737,7 +717,6 @@
     color: var(--actlog-green);
 }
 
-/* ── Expanded Details ── */
 .actlog__entry-details {
     border-top: 1px solid rgba(255, 255, 255, 0.04);
     padding: 16px 18px 18px 20px;
@@ -826,7 +805,6 @@
     letter-spacing: 0.04em;
 }
 
-/* ── Scrollbar ── */
 ::-webkit-scrollbar {
     width: 4px;
 }
@@ -844,7 +822,6 @@
     background: rgba(0, 229, 160, 0.3);
 }
 
-/* ── Responsive ── */
 @media (max-width: 540px) {
     .actlog__stats {
         grid-template-columns: repeat(2, 1fr);
@@ -880,7 +857,7 @@
         font-size: 28px;
     }
 }
-/* ── Delete All Button ── */
+
 .actlog__delete-all-btn {
     display: inline-flex;
     align-items: center;
@@ -904,7 +881,6 @@
     transform: translateY(-1px);
 }
 
-/* ── Per-Entry Delete Button ── */
 .actlog__entry-delete-btn {
     display: inline-flex;
     align-items: center;
@@ -946,7 +922,6 @@
     display: inline-block;
 }
 
-/* ── Modal ── */
 .actlog__modal-overlay {
     position: fixed;
     inset: 0;
@@ -962,8 +937,13 @@
 }
 
 @keyframes actlog-fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .actlog__modal {
@@ -983,8 +963,15 @@
 }
 
 @keyframes actlog-popup {
-    from { opacity: 0; transform: scale(0.88) translateY(12px); }
-    to   { opacity: 1; transform: scale(1) translateY(0); }
+    from {
+        opacity: 0;
+        transform: scale(0.88) translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 .actlog__modal-icon {
@@ -1074,7 +1061,6 @@
     box-shadow: 0 6px 22px rgba(255, 95, 126, 0.5);
 }
 
-/* ── Responsive additions ── */
 @media (max-width: 540px) {
     .actlog__delete-all-btn {
         justify-content: center;

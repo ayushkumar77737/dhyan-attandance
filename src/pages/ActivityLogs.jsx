@@ -233,7 +233,6 @@ function ActivityLogs() {
             <div className="actlog__orb actlog__orb--3" />
             <div className="actlog__grid-lines" />
 
-            {/* Back */}
             <button className="actlog__back-btn" onClick={() => navigate("/admin-dashboard")}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="15 18 9 12 15 6" />
@@ -241,7 +240,6 @@ function ActivityLogs() {
                 {t("back")}
             </button>
 
-            {/* Header */}
             <div className="actlog__header">
                 <div className="actlog__eyebrow">
                     <span className="actlog__eyebrow-pulse" />
@@ -254,7 +252,6 @@ function ActivityLogs() {
                 <p className="actlog__subtitle">{t("activityLogsSubtitle")}</p>
             </div>
 
-            {/* Stats Row */}
             <div className="actlog__stats">
                 <div className="actlog__stat actlog__stat--total">
                     <div className="actlog__stat-icon-wrap actlog__stat-icon-wrap--blue">
@@ -298,7 +295,6 @@ function ActivityLogs() {
                 </div>
             </div>
 
-            {/* Controls */}
             <div className="actlog__controls">
                 <div className="actlog__search-wrap">
                     <svg className="actlog__search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -352,14 +348,12 @@ function ActivityLogs() {
                 )}
             </div>
 
-            {/* Count */}
             {!loading && (
                 <p className="actlog__result-count">
                     {t("showing")} <span>{filtered.length}</span> {t("of")} <span>{logs.length}</span> {t("logsLabel")}
                 </p>
             )}
 
-            {/* Loading */}
             {loading && (
                 <div className="actlog__loading">
                     <div className="actlog__loader">
@@ -371,7 +365,6 @@ function ActivityLogs() {
                 </div>
             )}
 
-            {/* Empty */}
             {!loading && filtered.length === 0 && (
                 <div className="actlog__empty">
                     <span className="actlog__empty-icon">📭</span>
@@ -379,7 +372,6 @@ function ActivityLogs() {
                 </div>
             )}
 
-            {/* Logs Timeline */}
             {!loading && filtered.length > 0 && (
                 <div className="actlog__timeline">
                     {filtered.map((log, index) => {
@@ -434,7 +426,6 @@ function ActivityLogs() {
                                     </div>
                                 </div>
 
-                                {/* Expanded details */}
                                 {isExpanded && (
                                     <div className="actlog__entry-details">
                                         <div className="actlog__detail-grid">
@@ -509,7 +500,6 @@ function ActivityLogs() {
                 </div>
             )}
 
-            {/* ── Delete Single Log Modal ── */}
             {showDeleteModal && (
                 <div className="actlog__modal-overlay" onClick={() => setShowDeleteModal(null)}>
                     <div className="actlog__modal" onClick={(e) => e.stopPropagation()}>
@@ -535,7 +525,6 @@ function ActivityLogs() {
                 </div>
             )}
 
-            {/* ── Delete All Logs Modal ── */}
             {showDeleteAllModal && (
                 <div className="actlog__modal-overlay" onClick={() => setShowDeleteAllModal(false)}>
                     <div className="actlog__modal" onClick={(e) => e.stopPropagation()}>
