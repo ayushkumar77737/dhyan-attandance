@@ -239,7 +239,6 @@ const BlockedAccounts = () => {
                 </div>
             )}
 
-            {/* Confirm Delete Single Modal */}
             {confirmDeleteId && (
                 <div className="ba-modal-overlay" onClick={() => setConfirmDeleteId(null)}>
                     <div className="ba-modal" onClick={(e) => e.stopPropagation()}>
@@ -267,7 +266,6 @@ const BlockedAccounts = () => {
                 </div>
             )}
 
-            {/* Confirm Delete All Modal */}
             {confirmDeleteAll && (
                 <div className="ba-modal-overlay" onClick={() => setConfirmDeleteAll(false)}>
                     <div className="ba-modal" onClick={(e) => e.stopPropagation()}>
@@ -296,7 +294,6 @@ const BlockedAccounts = () => {
                 </div>
             )}
 
-            {/* Back Button */}
             <button className="ba-back-btn ba-back-btn--fixed" onClick={() => navigate("/admin-dashboard")}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="15" height="15">
                     <polyline points="15 18 9 12 15 6" />
@@ -304,7 +301,6 @@ const BlockedAccounts = () => {
                 {t("blockedAccounts.back")}
             </button>
 
-            {/* Header */}
             <div className="ba-header">
                 <div className="ba-header-badge">
                     <span className="ba-badge-dot" />
@@ -316,7 +312,6 @@ const BlockedAccounts = () => {
                 <p className="ba-subtitle">{t("blockedAccounts.subtitle")}</p>
             </div>
 
-            {/* Analytics */}
             <div className="ba-analytics">
                 <div className="ba-stat ba-stat--red">
                     <div className="ba-stat-icon">
@@ -366,7 +361,6 @@ const BlockedAccounts = () => {
                 </div>
             </div>
 
-            {/* Controls */}
             <div className="ba-controls">
                 <div className="ba-search-wrap">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="15" height="15" className="ba-search-icon">
@@ -409,7 +403,6 @@ const BlockedAccounts = () => {
                 </div>
             </div>
 
-            {/* Section Label + Delete All */}
             <div className="ba-section-label">
                 <span>{t("blockedAccounts.section.title")}</span>
                 {!loading && <span className="ba-count-pill">{filtered.length}</span>}
@@ -430,7 +423,6 @@ const BlockedAccounts = () => {
                 )}
             </div>
 
-            {/* Table */}
             {loading ? (
                 <div className="ba-loading">
                     <div className="ba-ring" />
@@ -447,7 +439,6 @@ const BlockedAccounts = () => {
                 </div>
             ) : (
                 <>
-                    {/* Desktop Table */}
                     <div className="ba-table-wrap">
                         <table className="ba-table">
                             <thead>
@@ -567,7 +558,6 @@ const BlockedAccounts = () => {
                         </table>
                     </div>
 
-                    {/* Mobile Cards */}
                     <div className="ba-mobile-cards">
                         {filtered.map((record) => {
                             const locked = isLocked(record.lockUntil);

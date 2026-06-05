@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
-/* ── PAGE ── */
 .ba-wrapper {
     min-height: 100vh;
     background: #04090f;
@@ -29,7 +28,6 @@
             rgba(37, 99, 235, 0.02) 60px, rgba(37, 99, 235, 0.02) 61px);
 }
 
-/* ── ORBS ── */
 .ba-orb {
     position: fixed;
     border-radius: 50%;
@@ -75,7 +73,6 @@
     }
 }
 
-/* ── MODAL ── */
 .ba-modal-overlay {
     position: fixed;
     inset: 0;
@@ -207,7 +204,6 @@
     border-color: rgba(239, 68, 68, 0.35);
 }
 
-/* ── TOAST ── */
 .ba-toast {
     position: fixed;
     top: 20px;
@@ -246,7 +242,6 @@
     }
 }
 
-/* ── HEADER ── */
 .ba-header {
     width: 100%;
     max-width: 1100px;
@@ -351,7 +346,6 @@
     margin: 0;
 }
 
-/* ── ANALYTICS ── */
 .ba-analytics {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -462,7 +456,6 @@
     line-height: 1;
 }
 
-/* ── CONTROLS ── */
 .ba-controls {
     display: flex;
     gap: 10px;
@@ -607,7 +600,6 @@
     border-color: rgba(59, 130, 246, 0.4);
 }
 
-/* ── SECTION LABEL ── */
 .ba-section-label {
     width: 100%;
     max-width: 1100px;
@@ -634,7 +626,6 @@
     border-radius: 50px;
 }
 
-/* ── DELETE ALL BUTTON ── */
 .ba-delete-all-btn {
     margin-left: auto;
     display: inline-flex;
@@ -666,7 +657,6 @@
     cursor: not-allowed;
 }
 
-/* ── TABLE ── */
 .ba-table-wrap {
     width: 100%;
     max-width: 1100px;
@@ -736,7 +726,6 @@
     width: 40px;
 }
 
-/* ── ID + DOT ── */
 .ba-id-wrap {
     display: flex;
     align-items: center;
@@ -780,7 +769,6 @@
     letter-spacing: 0.02em;
 }
 
-/* ── ATTEMPTS ── */
 .ba-attempts-wrap {
     display: flex;
     align-items: center;
@@ -834,7 +822,6 @@
     background: linear-gradient(90deg, #f59e0b, #ef4444);
 }
 
-/* ── STATUS ── */
 .ba-status {
     display: inline-flex;
     align-items: center;
@@ -898,7 +885,6 @@
     margin-left: 2px;
 }
 
-/* ── LOCK TIME ── */
 .ba-lock-val {
     font-family: "JetBrains Mono", monospace;
     font-size: 11.5px;
@@ -910,14 +896,12 @@
     font-size: 18px;
 }
 
-/* ── ACTION GROUP ── */
 .ba-action-group {
     display: flex;
     align-items: center;
     gap: 7px;
 }
 
-/* ── RESET BUTTON ── */
 .ba-reset-btn {
     display: inline-flex;
     align-items: center;
@@ -952,7 +936,6 @@
     padding: 10px;
 }
 
-/* ── DELETE BUTTON ── */
 .ba-delete-btn {
     display: inline-flex;
     align-items: center;
@@ -987,7 +970,6 @@
     padding: 10px;
 }
 
-/* ── SPINNER ── */
 .ba-spinner {
     display: inline-block;
     width: 13px;
@@ -1009,7 +991,6 @@
     }
 }
 
-/* ── MOBILE CARDS ── */
 .ba-mobile-cards {
     display: none;
     flex-direction: column;
@@ -1077,14 +1058,12 @@
     color: #f87171;
 }
 
-/* ── CARD ACTIONS ── */
 .ba-card-actions {
     display: flex;
     gap: 8px;
     margin-top: 4px;
 }
 
-/* ── LOADING / EMPTY ── */
 .ba-loading {
     display: flex;
     flex-direction: column;
@@ -1132,7 +1111,6 @@
     margin: 0;
 }
 
-/* ── ANIMATIONS ── */
 @keyframes ba__fadeIn {
     from {
         opacity: 0;
@@ -1181,7 +1159,6 @@
     box-sizing: border-box;
 }
 
-/* ── RESPONSIVE ── */
 @media (max-width: 768px) {
     .ba-wrapper {
         padding: 20px 16px 48px;
