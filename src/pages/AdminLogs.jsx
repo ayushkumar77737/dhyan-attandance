@@ -16,7 +16,6 @@ import {
 } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
-/* ─── SVG Icons (glowing) ───────────────────────────────────── */
 const icons = {
     back: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -71,7 +70,6 @@ const icons = {
     ),
 };
 
-/* ─── Action categorisation ─────────────────────────────────── */
 const getActionMeta = (action) => {
     const a = (action || "").toLowerCase();
     if (a.includes("delete") || a.includes("remove")) return { cat: "delete", emoji: "🗑️" };
@@ -103,7 +101,6 @@ function AdminLogs() {
     const [confirmModal, setConfirmModal] = useState(null);
     const [deleting, setDeleting] = useState(false);
 
-    /* ── Admin guard ── */
     const checkAdmin = async () => {
         const currentUser = auth.currentUser;
         if (!currentUser) { navigate("/"); return false; }
@@ -115,7 +112,6 @@ function AdminLogs() {
         } catch (err) { console.error(err); navigate("/"); return false; }
     };
 
-    /* ── Real-time subscription ── */
     const subscribe = () => {
         setLoading(true);
         const q = query(collection(db, "adminLogs"), orderBy("timestamp", "desc"), limit(300));
@@ -151,10 +147,8 @@ function AdminLogs() {
             document.removeEventListener("keydown", disableInspectKeys);
             if (unsubRef.current) unsubRef.current();
         };
-        // eslint-disable-next-line
     }, []);
 
-    /* ── Helpers ── */
     const toDate = (ts) => (ts?.toDate ? ts.toDate() : ts ? new Date(ts) : null);
 
     const formatTime = (ts) => {
@@ -184,7 +178,6 @@ function AdminLogs() {
         return `${y}-${m}-${day}`;
     };
 
-    /* ── Unique admins for filter ── */
     const adminOptions = useMemo(() => {
         const set = new Map();
         logs.forEach((l) => {
@@ -194,7 +187,6 @@ function AdminLogs() {
         return Array.from(set, ([id, name]) => ({ id, name }));
     }, [logs]);
 
-    /* ── Filtering ── */
     const filtered = useMemo(() => {
         return logs.filter((l) => {
             const adminId = l.adminId || l.userId || "";
@@ -213,7 +205,6 @@ function AdminLogs() {
         });
     }, [logs, filterAdmin, filterAction, dateFrom, dateTo, search]);
 
-    /* ── Analytics ── */
     const stats = useMemo(() => {
         const now = new Date();
         const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
@@ -258,14 +249,12 @@ function AdminLogs() {
         URL.revokeObjectURL(url);
     };
 
-    /* ── Open confirm modals ── */
     const askDeleteOne = (id) => setConfirmModal({ type: "one", id });
     const askDeleteAll = () => {
         if (filtered.length === 0) return;
         setConfirmModal({ type: "all", count: filtered.length });
     };
 
-    /* ── Run the delete after confirm ── */
     const confirmDelete = async () => {
         if (!confirmModal) return;
         setDeleting(true);
@@ -290,7 +279,6 @@ function AdminLogs() {
         }
     };
 
-    /* ── Render ── */
     return (
         <div className="aamon__page">
             <div className="aamon__grid-bg" />
@@ -298,12 +286,10 @@ function AdminLogs() {
             <div className="aamon__orb aamon__orb--2" />
             <div className="aamon__orb aamon__orb--3" />
 
-            {/* Back */}
             <button className="aamon__back" onClick={() => navigate("/admin-dashboard")}>
                 {icons.back}{t("back")}
             </button>
 
-            {/* Header */}
             <div className="aamon__header">
                 <div className="aamon__eyebrow">
                     <span className="aamon__eyebrow-dot" />
@@ -315,7 +301,6 @@ function AdminLogs() {
                 <p className="aamon__subtitle">{t("alSubtitle")}</p>
             </div>
 
-            {/* Analytics */}
             <div className="aamon__stats">
                 <div className="aamon__stat aamon__stat--blue">
                     <div className="aamon__stat-icon">{icons.pulse}</div>
@@ -347,7 +332,6 @@ function AdminLogs() {
                 </div>
             </div>
 
-            {/* Filters */}
             <div className="aamon__filters">
                 <div className="aamon__search-wrap">
                     <span className="aamon__search-icon">{icons.search}</span>
@@ -396,7 +380,6 @@ function AdminLogs() {
                 </button>
             </div>
 
-            {/* Main */}
             <div className="aamon__main">
 
                 {/* Audit Table */}
@@ -472,7 +455,6 @@ function AdminLogs() {
                     )}
                 </div>
 
-                {/* Live Feed */}
                 <div className="aamon__feed-card">
                     <div className="aamon__card-head">
                         <span className="aamon__card-title">
@@ -507,7 +489,6 @@ function AdminLogs() {
                 </div>
             </div>
 
-            {/* Confirm Delete Modal — portaled to body so it centers on screen */}
             {confirmModal && createPortal(
                 <div className="aamon__modal-overlay" onClick={() => !deleting && setConfirmModal(null)}>
                     <div className="aamon__modal" onClick={(e) => e.stopPropagation()}>
