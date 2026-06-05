@@ -124,7 +124,6 @@ function AddUser() {
             const cleanId = idNo.toUpperCase();
             const email = cleanId + "@dhyan.in";
 
-            // ✅ Using secondaryAuth so admin stays logged in
             await createUserWithEmailAndPassword(secondaryAuth, email, password);
 
             await setDoc(doc(db, "users", cleanId), {

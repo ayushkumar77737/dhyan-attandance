@@ -1,12 +1,4 @@
-/* ===============================
-FONTS
-================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap');
-
-/* ===============================
-CSS VARIABLES
-================================ */
 
 :root {
     --au-purple: #8b5cf6;
@@ -43,10 +35,6 @@ CSS VARIABLES
     --font-body: 'Outfit', sans-serif;
 }
 
-/* ===============================
-PAGE
-================================ */
-
 .adduser-container {
     display: flex;
     align-items: center;
@@ -63,8 +51,6 @@ PAGE
     animation: adduser-fadeIn 0.8s ease;
 }
 
-/* Dark + purple tinted overlay */
-
 .adduser-container::before {
     content: "";
     position: absolute;
@@ -74,10 +60,6 @@ PAGE
         radial-gradient(ellipse 50% 40% at 80% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 60%),
         rgba(4, 2, 14, 0.65);
 }
-
-/* ===============================
-CARD
-================================ */
 
 .adduser-container .adduser-card {
     position: relative;
@@ -102,10 +84,6 @@ CARD
     animation: adduser-cardFade 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ===============================
-IMAGE SECTION
-================================ */
-
 .adduser-container .adduser-image {
     flex: 1;
 
@@ -124,7 +102,6 @@ IMAGE SECTION
     overflow: hidden;
 }
 
-/* Decorative glow blob behind image */
 .adduser-container .adduser-image::before {
     content: '';
     position: absolute;
@@ -153,15 +130,9 @@ IMAGE SECTION
     transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* image hover zoom */
-
 .adduser-container .adduser-image:hover img {
     transform: scale(1.06);
 }
-
-/* ===============================
-FORM
-================================ */
 
 .adduser-container .adduser-form {
     flex: 1;
@@ -173,10 +144,6 @@ FORM
     padding: 44px 48px;
     gap: 0;
 }
-
-/* ===============================
-TITLE
-================================ */
 
 .adduser-container .adduser-form h2 {
     text-align: center;
@@ -192,10 +159,6 @@ TITLE
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
-
-/* ===============================
-INPUTS
-================================ */
 
 .adduser-container .adduser-form input {
     width: 100%;
@@ -221,18 +184,12 @@ INPUTS
     color: var(--au-text-placeholder);
 }
 
-/* input focus */
-
 .adduser-container .adduser-form input:focus {
     background: var(--au-input-bg-focus);
     border-color: var(--au-glass-border-focus);
     box-shadow: 0 0 0 3px var(--au-purple-subtle);
     transform: scale(1.02);
 }
-
-/* ===============================
-SUBMIT BUTTON
-================================ */
 
 .adduser-container .adduser-form button[type="submit"] {
     width: 100%;
@@ -272,10 +229,6 @@ SUBMIT BUTTON
     transform: none;
 }
 
-/* ===============================
-BACK BUTTON
-================================ */
-
 .adduser-container .back-btn {
     width: 100%;
     padding: 12px;
@@ -301,10 +254,6 @@ BACK BUTTON
     border-color: var(--au-glass-border-focus);
     box-shadow: 0 0 16px var(--au-purple-subtle);
 }
-
-/* ===============================
-MESSAGES
-================================ */
 
 .adduser-container .success-message {
     background: var(--au-success-bg);
@@ -340,10 +289,6 @@ MESSAGES
     animation: adduser-fadeIn 0.4s ease;
 }
 
-/* ===============================
-ANIMATIONS
-================================ */
-
 @keyframes adduser-fadeIn {
     from {
         opacity: 0;
@@ -366,10 +311,6 @@ ANIMATIONS
     }
 }
 
-/* ===============================
-TABLET
-================================ */
-
 @media (max-width: 1024px) {
 
     .adduser-container .adduser-card {
@@ -381,10 +322,6 @@ TABLET
     }
 
 }
-
-/* ===============================
-MOBILE
-================================ */
 
 @media (max-width: 768px) {
 
@@ -416,10 +353,6 @@ MOBILE
     }
 
 }
-
-/* ===============================
-SMALL MOBILE
-================================ */
 
 @media (max-width: 480px) {
 
