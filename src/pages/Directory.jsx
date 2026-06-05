@@ -54,7 +54,6 @@ function Directory() {
 
             const userData = userSnap.data();
 
-            // Block admin access
             if (userData.role === "admin") {
                 navigate("/admin-dashboard");
                 return;
@@ -114,13 +113,11 @@ function Directory() {
     return (
         <div className="diry__page">
 
-            {/* Orbs */}
             <div className="diry__orb diry__orb-1" />
             <div className="diry__orb diry__orb-2" />
 
             <div className="diry__inner">
 
-                {/* Back */}
                 <button className="diry__back" onClick={() => navigate(-1)}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="15 18 9 12 15 6" />
@@ -128,7 +125,6 @@ function Directory() {
                     {t("back")}
                 </button>
 
-                {/* Header */}
                 <div className="diry__header">
                     <div className="diry__header-icon">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -146,7 +142,6 @@ function Directory() {
                     </div>
                 </div>
 
-                {/* Controls */}
                 <div className="diry__controls">
                     <div className="diry__search-wrap">
                         <svg className="diry__search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -176,7 +171,6 @@ function Directory() {
                     </div>
                 </div>
 
-                {/* Content */}
                 {loading ? (
                     <div className="diry__loading">
                         <div className="diry__loader" />
