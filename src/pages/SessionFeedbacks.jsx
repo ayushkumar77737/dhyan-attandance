@@ -202,7 +202,6 @@ function SessionFeedbacks() {
             <div className="ssfb__orb ssfb__orb--3" />
             <div className="ssfb__grid" />
 
-            {/* Back */}
             <button className="ssfb__back" onClick={() => navigate("/admin-dashboard")}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="15 18 9 12 15 6" />
@@ -210,7 +209,6 @@ function SessionFeedbacks() {
                 {t("back")}
             </button>
 
-            {/* Hero */}
             <div className="ssfb__hero">
                 <div className="ssfb__badge">
                     <span className="ssfb__badge-dot" />
@@ -221,7 +219,6 @@ function SessionFeedbacks() {
                 <div className="ssfb__title-line" />
             </div>
 
-            {/* Summary Cards */}
             {!loading && (
                 <div className="ssfb__summary">
                     <div className="ssfb__scard ssfb__scard--total">
@@ -255,7 +252,6 @@ function SessionFeedbacks() {
                 </div>
             )}
 
-            {/* Analytics */}
             {!loading && filtered.length > 0 && (
                 <div className="ssfb__analytics">
                     <div className="ssfb__chart-card">
@@ -301,7 +297,6 @@ function SessionFeedbacks() {
                 </div>
             )}
 
-            {/* Filters */}
             <div className="ssfb__filters">
                 <div className="ssfb__filter-group">
                     <label className="ssfb__filter-lbl">🧘 {t("session")}</label>
@@ -350,7 +345,6 @@ function SessionFeedbacks() {
                 </button>
             </div>
 
-            {/* Loading */}
             {loading && (
                 <div className="ssfb__loading">
                     <div className="ssfb__loader">
@@ -361,7 +355,6 @@ function SessionFeedbacks() {
                 </div>
             )}
 
-            {/* Table */}
             {!loading && (
                 <div className="ssfb__table-wrap">
                     {filtered.length === 0 ? (
@@ -468,7 +461,6 @@ function SessionFeedbacks() {
                 </p>
             )}
 
-            {/* Delete All Confirm Modal */}
             {showDeleteAll && (
                 <div className="ssfb__modal-overlay" onClick={() => !deletingAll && setShowDeleteAll(false)}>
                     <div className="ssfb__modal" onClick={(e) => e.stopPropagation()}>

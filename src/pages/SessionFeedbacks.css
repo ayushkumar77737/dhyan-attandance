@@ -1,10 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-/* ================================
-   SSFB — SESSION FEEDBACKS PAGE
-   Prefix: ssfb__  (no conflicts)
-================================ */
-
 .ssfb__page {
     --ssfb-gold: #c9a84c;
     --ssfb-gold-lt: #e8c97a;
@@ -32,7 +27,6 @@
     animation: ssfb-fadein 0.7s ease both;
 }
 
-/* ---- Grid ---- */
 .ssfb__grid {
     position: fixed;
     inset: 0;
@@ -43,7 +37,6 @@
         repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(201, 168, 76, 0.013) 80px, rgba(201, 168, 76, 0.013) 81px);
 }
 
-/* ---- Orbs ---- */
 .ssfb__orb {
     position: fixed;
     border-radius: 50%;
@@ -89,7 +82,6 @@
     }
 }
 
-/* ---- Back ---- */
 .ssfb__back {
     align-self: flex-start;
     margin-bottom: 28px;
@@ -119,7 +111,6 @@
     transform: translateX(-4px);
 }
 
-/* ---- Hero ---- */
 .ssfb__hero {
     text-align: center;
     margin-bottom: 32px;
@@ -198,7 +189,6 @@
     opacity: 0.5;
 }
 
-/* ---- Summary Cards ---- */
 .ssfb__summary {
     width: 100%;
     max-width: 1100px;
@@ -286,7 +276,6 @@
     color: var(--ssfb-text-muted);
 }
 
-/* ---- Analytics ---- */
 .ssfb__analytics {
     width: 100%;
     max-width: 1100px;
@@ -389,7 +378,6 @@
     flex-shrink: 0;
 }
 
-/* ---- Filters ---- */
 .ssfb__filters {
     width: 100%;
     max-width: 1100px;
@@ -525,7 +513,6 @@
     cursor: not-allowed;
 }
 
-/* ---- Loading ---- */
 .ssfb__loading {
     display: flex;
     flex-direction: column;
@@ -567,7 +554,6 @@
     }
 }
 
-/* ---- Empty ---- */
 .ssfb__empty {
     display: flex;
     flex-direction: column;
@@ -589,7 +575,6 @@
     opacity: 0.35;
 }
 
-/* ---- Table Wrap ---- */
 .ssfb__table-wrap {
     width: 100%;
     max-width: 1100px;
@@ -605,7 +590,6 @@
     overflow-x: auto;
 }
 
-/* ---- Table ---- */
 .ssfb__table {
     width: 100%;
     border-collapse: collapse;
@@ -768,7 +752,6 @@
     display: block;
 }
 
-/* ---- Expanded Row ---- */
 .ssfb__expand-row td {
     padding: 0 !important;
     border-bottom: 1px solid rgba(201, 168, 76, 0.1) !important;
@@ -819,7 +802,6 @@
     text-transform: capitalize;
 }
 
-/* ---- Count note ---- */
 .ssfb__count-note {
     margin-top: 16px;
     font-family: "Cormorant Garamond", serif;
@@ -830,7 +812,6 @@
     z-index: 2;
 }
 
-/* ---- Animations ---- */
 @keyframes ssfb-fadein {
     from {
         opacity: 0;
@@ -865,7 +846,6 @@
     }
 }
 
-/* ---- Responsive ---- */
 @media (max-width: 900px) {
     .ssfb__summary {
         grid-template-columns: repeat(2, 1fr);
@@ -919,7 +899,6 @@
     }
 }
 
-/* ---- Delete All Modal ---- */
 .ssfb__modal-overlay {
     position: fixed;
     inset: 0;
