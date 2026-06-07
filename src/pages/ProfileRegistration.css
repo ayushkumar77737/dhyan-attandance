@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-/* =========================
-PAGE
-========================= */
-
 .preg__page {
     min-height: 100vh;
     background: #060c17;
@@ -17,10 +13,6 @@ PAGE
     animation: preg__fadeIn 0.7s ease-in-out;
 }
 
-/* =========================
-GRID
-========================= */
-
 .preg__grid {
     position: fixed;
     inset: 0;
@@ -32,10 +24,6 @@ GRID
         repeating-linear-gradient(90deg, transparent, transparent 70px,
             rgba(139, 92, 246, 0.025) 70px, rgba(139, 92, 246, 0.025) 71px);
 }
-
-/* =========================
-ORBS
-========================= */
 
 .preg__orb {
     position: fixed;
@@ -82,10 +70,6 @@ ORBS
     }
 }
 
-/* =========================
-BACK BUTTON
-========================= */
-
 .preg__back-btn {
     align-self: flex-start;
     margin-bottom: 24px;
@@ -113,10 +97,6 @@ BACK BUTTON
     color: #ddd6fe;
     transform: translateX(-3px);
 }
-
-/* =========================
-HERO
-========================= */
 
 .preg__hero {
     text-align: center;
@@ -192,10 +172,6 @@ HERO
     letter-spacing: 0.02em;
 }
 
-/* =========================
-MESSAGE
-========================= */
-
 .preg__message {
     width: 100%;
     max-width: 780px;
@@ -224,9 +200,6 @@ MESSAGE
     box-shadow: 0 0 20px rgba(239, 68, 68, 0.06);
 }
 
-/* =========================
-CARD
-========================= */
 
 .preg__card {
     width: 100%;
@@ -254,10 +227,6 @@ CARD
     background: linear-gradient(90deg, #8b5cf6, #ec4899, #0ea5e9, transparent);
     border-radius: 24px 24px 0 0;
 }
-
-/* =========================
-PROFILE IMAGE
-========================= */
 
 .preg__image-section {
     display: flex;
@@ -336,10 +305,6 @@ PROFILE IMAGE
 .preg__image-wrap:hover .preg__image-overlay {
     opacity: 1;
 }
-
-/* =========================
-FORM GRID
-========================= */
 
 .preg__form-grid {
     display: grid;
@@ -433,10 +398,6 @@ FORM GRID
     padding-left: 2px;
 }
 
-/* =========================
-SUBMIT BUTTON
-========================= */
-
 .preg__submit-btn {
     width: 100%;
     padding: 15px 20px;
@@ -494,10 +455,6 @@ SUBMIT BUTTON
     }
 }
 
-/* =========================
-ANIMATIONS
-========================= */
-
 @keyframes preg__fadeIn {
     from {
         opacity: 0;
@@ -531,10 +488,6 @@ ANIMATIONS
         transform: translateY(0);
     }
 }
-
-/* =========================
-RESPONSIVE
-========================= */
 
 @media (max-width: 600px) {
     .preg__page {

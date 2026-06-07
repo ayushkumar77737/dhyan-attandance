@@ -219,7 +219,6 @@ function ProfileRegistration() {
                 <span>←</span> {t("back")}
             </button>
 
-            {/* Hero */}
             <div className="preg__hero">
                 <div className="preg__hero-badge">
                     <span className="preg__badge-dot" />
@@ -231,21 +230,17 @@ function ProfileRegistration() {
                 <p className="preg__hero-sub">{t("registerAndStore")}</p>
             </div>
 
-            {/* Message */}
             {message.text && (
                 <div className={`preg__message preg__message--${message.type}`}>
                     {message.text}
                 </div>
             )}
 
-            {/* Form Card */}
             <div className="preg__card">
                 <div className="preg__card-stripe" />
 
-                {/* Form Grid */}
                 <div className="preg__form-grid">
 
-                    {/* ID No */}
                     <div className="preg__field">
                         <label className="preg__label">{t("idNo")} <span className="preg__req">*</span></label>
                         <input
@@ -260,7 +255,6 @@ function ProfileRegistration() {
                         {errors.idNo && <span className="preg__err-msg">{errors.idNo}</span>}
                     </div>
 
-                    {/* Full Name */}
                     <div className="preg__field">
                         <label className="preg__label">{t("fullName")} <span className="preg__req">*</span></label>
                         <input
@@ -274,7 +268,6 @@ function ProfileRegistration() {
                         {errors.name && <span className="preg__err-msg">{errors.name}</span>}
                     </div>
 
-                    {/* Father/Husband Name */}
                     <div className="preg__field">
                         <label className="preg__label">{t("fatherHusbandName")} <span className="preg__req">*</span></label>
                         <input
@@ -288,7 +281,6 @@ function ProfileRegistration() {
                         {errors.fatherHusbandName && <span className="preg__err-msg">{errors.fatherHusbandName}</span>}
                     </div>
 
-                    {/* Phone Number */}
                     <div className="preg__field">
                         <label className="preg__label">{t("phoneNumberLabel")} <span className="preg__req">*</span></label>
                         <input
@@ -303,7 +295,6 @@ function ProfileRegistration() {
                         {errors.phoneNumber && <span className="preg__err-msg">{errors.phoneNumber}</span>}
                     </div>
 
-                    {/* Date of Birth */}
                     <div className="preg__field">
                         <label className="preg__label">{t("dateOfBirth")} <span className="preg__req">*</span></label>
                         <input
@@ -316,7 +307,6 @@ function ProfileRegistration() {
                         {errors.dob && <span className="preg__err-msg">{errors.dob}</span>}
                     </div>
 
-                    {/* Phone Type */}
                     <div className="preg__field">
                         <label className="preg__label">{t("phoneType")} <span className="preg__req">*</span></label>
                         <select
@@ -332,7 +322,6 @@ function ProfileRegistration() {
                         {errors.phoneType && <span className="preg__err-msg">{errors.phoneType}</span>}
                     </div>
 
-                    {/* Email */}
                     <div className="preg__field">
                         <label className="preg__label">{t("emailIdLabel")} <span className="preg__req">*</span></label>
                         <input
@@ -346,7 +335,6 @@ function ProfileRegistration() {
                         {errors.email && <span className="preg__err-msg">{errors.email}</span>}
                     </div>
 
-                    {/* Address - Full Width */}
                     <div className="preg__field preg__field--full">
                         <label className="preg__label">{t("address")} <span className="preg__req">*</span></label>
                         <textarea
@@ -361,7 +349,6 @@ function ProfileRegistration() {
 
                 </div>
 
-                {/* Submit */}
                 <button
                     className="preg__submit-btn"
                     onClick={handleSubmit}
