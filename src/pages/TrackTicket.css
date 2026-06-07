@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-/* =========================
-PAGE
-========================= */
-
 .trkt__page {
     min-height: 100vh;
     background: #060c17;
@@ -17,10 +13,6 @@ PAGE
     animation: trkt__fadeIn 0.7s ease-in-out;
 }
 
-/* =========================
-GRID
-========================= */
-
 .trkt__grid {
     position: fixed;
     inset: 0;
@@ -32,10 +24,6 @@ GRID
         repeating-linear-gradient(90deg, transparent, transparent 70px,
             rgba(99, 102, 241, 0.025) 70px, rgba(99, 102, 241, 0.025) 71px);
 }
-
-/* =========================
-ORBS
-========================= */
 
 .trkt__orb {
     position: fixed;
@@ -82,10 +70,6 @@ ORBS
     }
 }
 
-/* =========================
-BACK BUTTON
-========================= */
-
 .trkt__back-btn {
     align-self: flex-start;
     margin-bottom: 24px;
@@ -113,10 +97,6 @@ BACK BUTTON
     color: #c7d2fe;
     transform: translateX(-3px);
 }
-
-/* =========================
-HERO
-========================= */
 
 .trkt__hero {
     text-align: center;
@@ -191,10 +171,6 @@ HERO
     font-weight: 400;
     letter-spacing: 0.02em;
 }
-
-/* =========================
-DATE BAR
-========================= */
 
 .trkt__date-bar {
     width: 100%;
@@ -286,10 +262,6 @@ DATE BAR
     box-shadow: none;
 }
 
-/* =========================
-MESSAGE
-========================= */
-
 .trkt__msg {
     width: 100%;
     max-width: 840px;
@@ -317,10 +289,6 @@ MESSAGE
     color: #f87171;
     box-shadow: 0 0 20px rgba(239, 68, 68, 0.06);
 }
-
-/* =========================
-STATS
-========================= */
 
 .trkt__stats {
     width: 100%;
@@ -396,10 +364,6 @@ STATS
     color: #3a5060;
 }
 
-/* =========================
-LIST
-========================= */
-
 .trkt__list {
     width: 100%;
     max-width: 840px;
@@ -410,7 +374,6 @@ LIST
     z-index: 1;
 }
 
-/* Empty */
 .trkt__empty {
     display: flex;
     flex-direction: column;
@@ -452,10 +415,6 @@ LIST
     line-height: 1.7;
 }
 
-/* =========================
-TICKET CARD
-========================= */
-
 .trkt__card {
     display: flex;
     background: rgba(255, 255, 255, 0.022);
@@ -480,7 +439,6 @@ TICKET CARD
         inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-/* Left bar */
 .trkt__card-bar {
     width: 5px;
     flex-shrink: 0;
@@ -504,7 +462,6 @@ TICKET CARD
     padding: 20px 24px;
 }
 
-/* Card Header */
 .trkt__card-header {
     display: flex;
     align-items: center;
@@ -540,7 +497,6 @@ TICKET CARD
     letter-spacing: -0.2px;
 }
 
-/* Status badge */
 .trkt__status-badge {
     padding: 5px 14px;
     border-radius: 50px;
@@ -572,7 +528,6 @@ TICKET CARD
     color: #4ade80;
 }
 
-/* Contact row */
 .trkt__contact-row {
     display: flex;
     align-items: center;
@@ -598,7 +553,6 @@ TICKET CARD
     border-radius: 6px;
 }
 
-/* Issue box */
 .trkt__issue-box {
     background: rgba(99, 102, 241, 0.04);
     border: 1px solid rgba(99, 102, 241, 0.1);
@@ -624,7 +578,6 @@ TICKET CARD
     line-height: 1.7;
 }
 
-/* Actions */
 .trkt__actions {
     display: flex;
     gap: 8px;
@@ -683,10 +636,6 @@ TICKET CARD
     box-shadow: 0 6px 18px rgba(239, 68, 68, 0.2);
 }
 
-/* =========================
-ANIMATIONS
-========================= */
-
 @keyframes trkt__fadeIn {
     from {
         opacity: 0;
@@ -720,10 +669,6 @@ ANIMATIONS
         transform: translateY(0);
     }
 }
-
-/* =========================
-RESPONSIVE
-========================= */
 
 @media (max-width: 480px) {
     .trkt__page {

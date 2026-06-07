@@ -175,20 +175,16 @@ function TrackTicket() {
     return (
         <div className="trkt__page">
 
-            {/* Orbs */}
             <div className="trkt__orb trkt__orb--1" />
             <div className="trkt__orb trkt__orb--2" />
             <div className="trkt__orb trkt__orb--3" />
 
-            {/* Grid */}
             <div className="trkt__grid" />
 
-            {/* Back */}
             <button className="trkt__back-btn" onClick={() => navigate("/admin-dashboard")}>
                 <span>←</span> {t("back")}
             </button>
 
-            {/* Hero */}
             <div className="trkt__hero">
                 <div className="trkt__hero-badge">
                     <span className="trkt__badge-dot" />
@@ -200,7 +196,6 @@ function TrackTicket() {
                 <p className="trkt__hero-sub">{t("selectDateToView")}</p>
             </div>
 
-            {/* Date Picker */}
             <div className="trkt__date-bar">
                 <div className="trkt__date-wrapper">
                     <span className="trkt__date-icon">📅</span>
@@ -221,14 +216,12 @@ function TrackTicket() {
                 </button>
             </div>
 
-            {/* Message */}
             {message.text && (
                 <div className={`trkt__msg trkt__msg--${message.type}`}>
                     {message.text}
                 </div>
             )}
 
-            {/* Stats */}
             {searched && (
                 <div className="trkt__stats">
                     <div className="trkt__stat-card">
@@ -260,7 +253,6 @@ function TrackTicket() {
                 </div>
             )}
 
-            {/* Ticket List */}
             <div className="trkt__list">
 
                 {searched && tickets.length === 0 && !loading && (
@@ -283,7 +275,6 @@ function TrackTicket() {
 
                         <div className="trkt__card-body">
 
-                            {/* Header Row */}
                             <div className="trkt__card-header">
                                 <div className="trkt__card-meta">
                                     <span className="trkt__id-chip">{ticket.idNo}</span>
@@ -294,7 +285,6 @@ function TrackTicket() {
                                 </span>
                             </div>
 
-                            {/* Contact Row */}
                             <div className="trkt__contact-row">
                                 <span className="trkt__email">📧 {ticket.email}</span>
                                 <span className="trkt__date-chip">
@@ -302,13 +292,11 @@ function TrackTicket() {
                                 </span>
                             </div>
 
-                            {/* Issue Box */}
                             <div className="trkt__issue-box">
                                 <span className="trkt__issue-label">🔖 {t("issue")}</span>
                                 <p className="trkt__issue-text">{ticket.issue}</p>
                             </div>
 
-                            {/* Actions */}
                             <div className="trkt__actions">
                                 {ticket.status !== "In Progress" && ticket.status !== "Resolved" && (
                                     <button
