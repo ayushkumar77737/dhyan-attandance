@@ -13,11 +13,11 @@ import {
     getDoc
 } from "firebase/firestore";
 
-import { useTranslation } from "react-i18next"; // ← ADD
+import { useTranslation } from "react-i18next";
 
 function MarkAttendance() {
 
-    const { t } = useTranslation(); // ← ADD
+    const { t } = useTranslation();
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -110,7 +110,7 @@ function MarkAttendance() {
             const attendanceCheck = await getDocs(q);
 
             if (!attendanceCheck.empty) {
-                setMessage(t("attendanceAlreadyMarked")); // ← CHANGED
+                setMessage(t("attendanceAlreadyMarked"));
                 setUsers([]);
                 const today = new Date().toISOString().split("T")[0];
                 setDate(today);
@@ -140,7 +140,7 @@ function MarkAttendance() {
 
         } catch (error) {
             console.log(error);
-            setMessage(t("errorLoadingUsers")); // ← CHANGED
+            setMessage(t("errorLoadingUsers"));
             setTimeout(() => setMessage(""), 3000);
         }
     };
@@ -157,7 +157,6 @@ function MarkAttendance() {
             return;
         }
 
-        // ← FIX: Check count AND that no value is empty
         const attendedKeys = Object.keys(attendance);
         const hasEmptySelection = attendedKeys.some(
             (userId) => attendance[userId] === "" || attendance[userId] === undefined
@@ -205,10 +204,10 @@ function MarkAttendance() {
                     className="markattendance-back-btn"
                     onClick={() => navigate("/admin-dashboard")}
                 >
-                    ← {t("back")} {/* ← CHANGED */}
+                    ← {t("back")}
                 </button>
 
-                <h1 className="markattendance-title">{t("markAttendance")}</h1> {/* ← CHANGED */}
+                <h1 className="markattendance-title">{t("markAttendance")}</h1>
             </div>
 
             {message && (
@@ -226,7 +225,7 @@ function MarkAttendance() {
                     }}
                 />
                 <button onClick={loadUsers}>
-                    {t("loadUsers")} {/* ← CHANGED */}
+                    {t("loadUsers")}
                 </button>
             </div>
 
@@ -245,9 +244,9 @@ function MarkAttendance() {
                                     handleAttendanceChange(user.id, e.target.value)
                                 }
                             >
-                                <option value="">{t("select")}</option>        {/* ← CHANGED */}
-                                <option value="Present">{t("present")}</option> {/* ← CHANGED */}
-                                <option value="Absent">{t("absent")}</option>   {/* ← CHANGED */}
+                                <option value="">{t("select")}</option>
+                                <option value="Present">{t("present")}</option>
+                                <option value="Absent">{t("absent")}</option>
                             </select>
 
                         </div>
