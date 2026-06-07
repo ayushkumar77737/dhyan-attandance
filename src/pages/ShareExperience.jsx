@@ -82,7 +82,6 @@ function ShareExperience() {
 
             const userData = userSnap.data();
 
-            // Block admin access
             if (userData.role === "admin") {
                 navigate("/admin-dashboard");
                 return;
@@ -253,7 +252,6 @@ function ShareExperience() {
             <div className="shrexp__orb shrexp__orb--3" />
             <div className="shrexp__grid-bg" />
 
-            {/* Back */}
             <button className="shrexp__back-btn" onClick={() => navigate("/user-dashboard")}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="15 18 9 12 15 6" />
@@ -261,7 +259,6 @@ function ShareExperience() {
                 {t("back")}
             </button>
 
-            {/* Hero */}
             <div className="shrexp__hero">
                 <div className="shrexp__mandala-symbol">❋</div>
                 <div className="shrexp__badge">
@@ -273,7 +270,6 @@ function ShareExperience() {
                 <div className="shrexp__hero-divider" />
             </div>
 
-            {/* Toast */}
             {message.text && (
                 <div className={`shrexp__toast shrexp__toast--${message.type}`}>
                     <span className="shrexp__toast-indicator" />
@@ -281,12 +277,10 @@ function ShareExperience() {
                 </div>
             )}
 
-            {/* Card */}
             <div className="shrexp__card">
                 <div className="shrexp__card-top-glow" />
                 <div className="shrexp__card-inner-shine" />
 
-                {/* Session Type */}
                 <div className="shrexp__section">
                     <div className="shrexp__sec-header">
                         <span className="shrexp__sec-ico">🧘</span>
@@ -307,7 +301,6 @@ function ShareExperience() {
 
                 <div className="shrexp__divider" />
 
-                {/* Stars */}
                 <div className="shrexp__section">
                     <div className="shrexp__sec-header">
                         <span className="shrexp__sec-ico">✦</span>
@@ -331,7 +324,6 @@ function ShareExperience() {
 
                 <div className="shrexp__divider" />
 
-                {/* Mood Before */}
                 <div className="shrexp__section">
                     <div className="shrexp__sec-header">
                         <span className="shrexp__sec-ico">🌑</span>
@@ -352,7 +344,6 @@ function ShareExperience() {
 
                 <div className="shrexp__divider" />
 
-                {/* Mood After */}
                 <div className="shrexp__section">
                     <div className="shrexp__sec-header">
                         <span className="shrexp__sec-ico">🌕</span>
@@ -373,7 +364,6 @@ function ShareExperience() {
 
                 <div className="shrexp__divider" />
 
-                {/* Comment */}
                 <div className="shrexp__section">
                     <div className="shrexp__sec-header">
                         <span className="shrexp__sec-ico">🪶</span>
@@ -390,7 +380,6 @@ function ShareExperience() {
                     <div className="shrexp__char-counter">{comment.length} / 500</div>
                 </div>
 
-                {/* Submit */}
                 <button className="shrexp__submit" onClick={handleSubmit} disabled={loading}>
                     <span className="shrexp__submit-shimmer" />
                     {loading ? (

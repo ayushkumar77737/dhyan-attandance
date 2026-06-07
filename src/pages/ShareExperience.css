@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-/* ================================
-   SHREXP — SHARE EXPERIENCE PAGE
-   Prefix: shrexp__  (no conflicts)
-================================ */
-
-/* ---- Variables ---- */
 .shrexp__page {
     --shrexp-gold: #c9a84c;
     --shrexp-gold-lt: #e8c97a;
@@ -19,7 +13,6 @@
     --shrexp-rose: rgba(200, 100, 120, 0.12);
 }
 
-/* ---- Page ---- */
 .shrexp__page {
     min-height: 100vh;
     background: var(--shrexp-bg);
@@ -33,7 +26,6 @@
     animation: shrexp-fadein 0.8s ease both;
 }
 
-/* ---- Grid bg ---- */
 .shrexp__grid-bg {
     position: fixed;
     inset: 0;
@@ -44,7 +36,6 @@
         repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(201, 168, 76, 0.015) 80px, rgba(201, 168, 76, 0.015) 81px);
 }
 
-/* ---- Orbs ---- */
 .shrexp__orb {
     position: fixed;
     border-radius: 50%;
@@ -90,7 +81,6 @@
     }
 }
 
-/* ---- Particles ---- */
 .shrexp__particle {
     position: fixed;
     border-radius: 50%;
@@ -122,7 +112,6 @@
     }
 }
 
-/* ---- Back Button ---- */
 .shrexp__back-btn {
     align-self: flex-start;
     margin-bottom: 30px;
@@ -152,7 +141,6 @@
     transform: translateX(-4px);
 }
 
-/* ---- Hero ---- */
 .shrexp__hero {
     text-align: center;
     margin-bottom: 36px;
@@ -256,7 +244,6 @@
     opacity: 0.5;
 }
 
-/* ---- Toast ---- */
 .shrexp__toast {
     width: 100%;
     max-width: 700px;
@@ -295,7 +282,6 @@
     flex-shrink: 0;
 }
 
-/* ---- Card ---- */
 .shrexp__card {
     width: 100%;
     max-width: 700px;
@@ -339,7 +325,6 @@
     border-radius: 26px 26px 0 0;
 }
 
-/* ---- Section ---- */
 .shrexp__section {
     margin-bottom: 4px;
 }
@@ -361,14 +346,12 @@
     font-size: 15px;
 }
 
-/* ---- Divider ---- */
 .shrexp__divider {
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--shrexp-border), transparent);
     margin: 26px 0;
 }
 
-/* ---- Pills ---- */
 .shrexp__pill-row {
     display: flex;
     flex-wrap: wrap;
@@ -404,7 +387,6 @@
     box-shadow: 0 0 20px rgba(201, 168, 76, 0.12), inset 0 1px 0 rgba(201, 168, 76, 0.15);
 }
 
-/* ---- Stars ---- */
 .shrexp__stars-wrap {
     display: flex;
     align-items: center;
@@ -443,7 +425,6 @@
     animation: shrexp-fadein 0.3s ease;
 }
 
-/* ---- Textarea ---- */
 .shrexp__textarea {
     width: 100%;
     background: rgba(255, 255, 255, 0.022);
@@ -483,7 +464,6 @@
     letter-spacing: 0.5px;
 }
 
-/* ---- Submit ---- */
 .shrexp__submit {
     width: 100%;
     margin-top: 30px;
@@ -567,7 +547,6 @@
     }
 }
 
-/* ---- Footer note ---- */
 .shrexp__footnote {
     margin-top: 26px;
     font-size: 13px;
@@ -579,9 +558,6 @@
     font-family: "Cormorant Garamond", serif;
 }
 
-/* ================================
-   FULLSCREEN STATES
-================================ */
 .shrexp__loader-screen,
 .shrexp__fullscreen {
     position: fixed;
@@ -594,7 +570,6 @@
     z-index: 10;
 }
 
-/* Loader */
 .shrexp__lotus {
     position: relative;
     width: 54px;
@@ -664,7 +639,6 @@
     margin: 0;
 }
 
-/* Fullscreen success/already */
 .shrexp__fs-glow {
     position: absolute;
     width: 450px;
@@ -782,9 +756,6 @@
     box-shadow: 0 6px 20px rgba(201, 168, 76, 0.15);
 }
 
-/* ================================
-   ANIMATIONS
-================================ */
 @keyframes shrexp-fadein {
     from {
         opacity: 0;
@@ -831,9 +802,6 @@
     }
 }
 
-/* ================================
-   RESPONSIVE
-================================ */
 @media (max-width: 600px) {
     .shrexp__page {
         padding: 20px 14px 70px;
