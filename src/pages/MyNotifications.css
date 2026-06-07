@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
 
-/* ===== CSS VARIABLES ===== */
 :root {
   --bg-page: #0d0f14;
   --bg-container: #13161e;
@@ -22,7 +21,6 @@
   --shadow-card-hover: 0 8px 28px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(108, 143, 255, 0.12);
 }
 
-/* ===== MAIN WRAPPER ===== */
 .my-notifications-page {
   min-height: 100vh;
   display: flex;
@@ -36,10 +34,8 @@
     radial-gradient(ellipse 60% 40% at 50% 0%, rgba(108, 143, 255, 0.06) 0%, transparent 70%);
   position: relative;
   animation: fadeIn 0.5s ease-in-out;
-  /* ← ADD */
 }
 
-/* ===== INNER CONTAINER ===== */
 .my-notifications-container {
   width: 100%;
   max-width: 640px;
@@ -51,10 +47,8 @@
   box-sizing: border-box;
   margin-top: 16px;
   animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-  /* ← ADD */
 }
 
-/* ===== HEADER ===== */
 .my-notifications-header {
   display: flex;
   align-items: center;
@@ -64,7 +58,6 @@
   position: relative;
 }
 
-/* ===== TITLE GROUP ===== */
 .header-title-group {
   display: flex;
   align-items: center;
@@ -93,7 +86,6 @@
   letter-spacing: -0.3px;
 }
 
-/* ===== COUNT BADGE ===== */
 .header-count {
   position: absolute;
   right: 0;
@@ -113,7 +105,6 @@
   letter-spacing: 0.3px;
 }
 
-/* ===== BACK BUTTON ===== */
 .my-notifications-page .back-btn {
   display: flex;
   align-items: center;
@@ -143,21 +134,18 @@
   color: var(--text-primary);
 }
 
-/* ===== DIVIDER ===== */
 .divider {
   height: 1px;
   background: var(--border);
   margin: 22px 0;
 }
 
-/* ===== LIST ===== */
 .notification-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-/* ===== CARD ===== */
 .notification-card {
   display: flex;
   align-items: flex-start;
@@ -180,7 +168,6 @@
   border-color: rgba(108, 143, 255, 0.15);
 }
 
-/* ===== DOT ===== */
 .card-dot {
   width: 8px;
   height: 8px;
@@ -191,7 +178,6 @@
   margin-top: 5px;
 }
 
-/* ===== CARD CONTENT ===== */
 .card-content {
   flex: 1;
   min-width: 0;
@@ -215,7 +201,6 @@
   letter-spacing: 0.1px;
 }
 
-/* ===== EMPTY STATE ===== */
 .no-data-wrapper {
   display: flex;
   flex-direction: column;
@@ -251,7 +236,6 @@
   font-size: 13px;
 }
 
-/* ===== ANIMATION ===== */
 @keyframes fadeSlideUp {
   from {
     transform: translateY(12px);
@@ -264,9 +248,6 @@
   }
 }
 
-/* ===== RESPONSIVE ===== */
-
-/* Mobile */
 @media (max-width: 480px) {
   .my-notifications-page {
     padding: 20px 12px 40px;
@@ -286,14 +267,12 @@
   }
 }
 
-/* Tablet */
 @media (min-width: 481px) and (max-width: 768px) {
   .my-notifications-container {
     max-width: 90%;
   }
 }
 
-/* Desktop */
 @media (min-width: 769px) {
   .my-notifications-container {
     max-width: 640px;

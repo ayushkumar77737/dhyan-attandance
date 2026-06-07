@@ -13,11 +13,11 @@ import {
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-import { useTranslation } from "react-i18next"; // ← ADD
+import { useTranslation } from "react-i18next";
 
 function MyNotifications() {
 
-    const { t } = useTranslation(); // ← ADD
+    const { t } = useTranslation();
     const [notifications, setNotifications] = useState([]);
     const navigate = useNavigate();
 
@@ -59,7 +59,6 @@ function MyNotifications() {
 
             const userData = userSnap.data();
 
-            // Block admin access
             if (userData.role === "admin") {
                 navigate("/admin-dashboard");
                 return;
@@ -67,7 +66,6 @@ function MyNotifications() {
 
             let list = [];
 
-            // Personal notifications
             const personalQuery = query(
                 collection(db, "notifications"),
                 where("userId", "==", id)
@@ -86,7 +84,6 @@ function MyNotifications() {
                 });
             });
 
-            // Global notifications
             const globalQuery = query(
                 collection(db, "notifications"),
                 where("userId", "==", "ALL")
@@ -122,7 +119,7 @@ function MyNotifications() {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M19 12H5M12 5l-7 7 7 7" />
                 </svg>
-                {t("back")} {/* ← CHANGED */}
+                {t("back")}
             </button>
 
             <div className="my-notifications-container">
@@ -135,7 +132,7 @@ function MyNotifications() {
                                 <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                             </svg>
                         </div>
-                        <h1>{t("notifications")}</h1> {/* ← CHANGED */}
+                        <h1>{t("notifications")}</h1>
                     </div>
                     <div className="header-count">
                         {notifications.length > 0 && (
@@ -154,8 +151,8 @@ function MyNotifications() {
                                 <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                             </svg>
                         </div>
-                        <p className="no-data">{t("noNotificationsYet")}</p>  {/* ← CHANGED */}
-                        <span className="no-data-sub">{t("allCaughtUp")}</span> {/* ← CHANGED */}
+                        <p className="no-data">{t("noNotificationsYet")}</p>
+                        <span className="no-data-sub">{t("allCaughtUp")}</span>
                     </div>
                 ) : (
                     <div className="notification-list">
