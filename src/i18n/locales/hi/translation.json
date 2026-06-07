@@ -679,5 +679,7 @@
   "updateAdmin": "एडमिन अपडेट करें",
   "adminUpdatedSuccess": "एडमिन सफलतापूर्वक अपडेट किया गया!",
   "errorUpdatingAdmin": "एडमिन अपडेट करने में त्रुटि",
-  "noChangesMade": "अपडेट करने के लिए कोई बदलाव नहीं"
+  "noChangesMade": "अपडेट करने के लिए कोई बदलाव नहीं",
+  "dashSearchPlaceholder": "फ़ीचर, टूल, पेज खोजें...",
+  "dashNoResults": "कोई मिलता-जुलता फ़ीचर नहीं मिला"
 }

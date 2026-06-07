@@ -648,5 +648,7 @@
   "updateAdmin": "অ্যাডমিন আপডেট করুন",
   "adminUpdatedSuccess": "অ্যাডমিন সফলভাবে আপডেট করা হয়েছে!",
   "errorUpdatingAdmin": "অ্যাডমিন আপডেট করতে ত্রুটি",
-  "noChangesMade": "আপডেট করার জন্য কোনো পরিবর্তন নেই"
+  "noChangesMade": "আপডেট করার জন্য কোনো পরিবর্তন নেই",
+  "dashSearchPlaceholder": "ফিচার, টুল, পেজ খুঁজুন...",
+  "dashNoResults": "মিলে যায় এমন কোনো ফিচার পাওয়া যায়নি"
 }
