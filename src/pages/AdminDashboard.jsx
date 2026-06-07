@@ -184,6 +184,11 @@ const icons = {
       <polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" />
     </svg>
   ),
+  search: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+  ),
 };
 
 function AdminDashboard() {
@@ -193,6 +198,8 @@ function AdminDashboard() {
     () => !sessionStorage.getItem("greetingShown")
   );
   useAutoLogout();
+
+  const [search, setSearch] = useState("");
 
   const [totalUsers, setTotalUsers] = useState(0);
   const [deletedUsers, setDeletedUsers] = useState(0);
@@ -468,6 +475,43 @@ function AdminDashboard() {
     },
   };
 
+  const q = search.trim().toLowerCase();
+
+  const coreItems = [
+    { path: "/add-user", icon: icons.userPlus, cls: "icon-blue", title: t("addUser"), sub: t("addUserSub") },
+    { path: "/add-admin", icon: icons.shield, cls: "icon-red", title: t("addAdmin"), sub: t("addAdminSub") },
+    { path: "/mark-attendance", icon: icons.calendarCheck, cls: "icon-teal", title: t("markAttendance"), sub: t("markAttendanceSub") },
+    { path: "/smart-attendance", icon: icons.qrCode, cls: "icon-purple", title: t("smartAttendance"), sub: t("smartAttendanceSub") },
+    { path: "/all-users", icon: icons.users, cls: "icon-blue", title: t("allUsers"), sub: t("allUsersSub") },
+    { path: "/all-admins", icon: icons.shield, cls: "icon-red", title: t("allAdmins"), sub: t("allAdminsSub") },
+    { path: "/attendance-report", icon: icons.fileText, cls: "icon-green", title: t("attendanceReport"), sub: t("attendanceReportSub") },
+    { path: "/user-percentage", icon: icons.pieChart, cls: "icon-amber", title: t("percentageReport"), sub: t("percentageReportSub") },
+  ];
+
+  const toolItems = [
+    { path: "/absence-management", icon: icons.calendarX, cls: "icon-teal", label: t("absenceManagement") },
+    { path: "/notifications", icon: icons.bell, cls: "icon-amber", label: t("notifications") },
+    { path: "/track-ticket", icon: icons.ticket, cls: "icon-coral", label: t("trackTicket") },
+    { path: "/profile-registration", icon: icons.userCog, cls: "icon-blue", label: t("profileRegistration") },
+    { path: "/toggle-status", icon: icons.toggleLeft, cls: "icon-green", label: t("toggleStatus") },
+    { path: "/session-feedbacks", icon: icons.star, cls: "icon-pink", label: t("sessionFeedbacks") },
+    { path: "/all-profiles", icon: icons.userList, cls: "icon-indigo", label: t("allProfiles") },
+    { path: "/activity-logs", icon: icons.activity, cls: "icon-cyan", label: t("activityLogs") },
+    { path: "/admin-logs", icon: icons.adminLog, cls: "icon-purple", label: t("adminLogs") },
+    { path: "/id-requests", icon: icons.idCard, cls: "icon-lime", label: t("idRequests") },
+    { path: "/contact-settings", icon: icons.settings, cls: "icon-gray", label: t("contactSettings") },
+    { path: "/blocked-accounts", icon: icons.shield, cls: "icon-red", label: t("blockedAccounts.label") },
+    { path: "/deleted-users", icon: icons.trash, cls: "icon-red", label: t("deletedUsers") },
+  ];
+
+  const coreFiltered = coreItems.filter(
+    (c) => !q || c.title.toLowerCase().includes(q) || c.sub.toLowerCase().includes(q)
+  );
+  const toolsFiltered = toolItems.filter(
+    (c) => !q || c.label.toLowerCase().includes(q)
+  );
+  const hasResults = coreFiltered.length > 0 || toolsFiltered.length > 0;
+
   return (
     <div className="admin-container">
       {showGreeting && (
@@ -619,146 +663,52 @@ function AdminDashboard() {
         )}
       </div>
 
-      <p className="section-label">{t("coreManagement")}</p>
-
-      <div className="core-grid">
-
-        <div className="core-card" onClick={() => navigate("/add-user")}>
-          <div className="core-card-icon icon-blue">{icons.userPlus}</div>
-          <div className="core-card-text">
-            <p className="core-card-title">{t("addUser")}</p>
-            <p className="core-card-sub">{t("addUserSub")}</p>
-          </div>
-        </div>
-
-        <div className="core-card" onClick={() => navigate("/add-admin")}>
-          <div className="core-card-icon icon-red">{icons.shield}</div>
-          <div className="core-card-text">
-            <p className="core-card-title">{t("addAdmin")}</p>
-            <p className="core-card-sub">{t("addAdminSub")}</p>
-          </div>
-        </div>
-
-        <div className="core-card" onClick={() => navigate("/mark-attendance")}>
-          <div className="core-card-icon icon-teal">{icons.calendarCheck}</div>
-          <div className="core-card-text">
-            <p className="core-card-title">{t("markAttendance")}</p>
-            <p className="core-card-sub">{t("markAttendanceSub")}</p>
-          </div>
-        </div>
-
-        <div className="core-card" onClick={() => navigate("/smart-attendance")}>
-          <div className="core-card-icon icon-purple">{icons.qrCode}</div>
-          <div className="core-card-text">
-            <p className="core-card-title">{t("smartAttendance")}</p>
-            <p className="core-card-sub">{t("smartAttendanceSub")}</p>
-          </div>
-        </div>
-
-        <div className="core-card" onClick={() => navigate("/all-users")}>
-          <div className="core-card-icon icon-blue">{icons.users}</div>
-          <div className="core-card-text">
-            <p className="core-card-title">{t("allUsers")}</p>
-            <p className="core-card-sub">{t("allUsersSub")}</p>
-          </div>
-        </div>
-
-        <div className="core-card" onClick={() => navigate("/all-admins")}>
-          <div className="core-card-icon icon-red">{icons.shield}</div>
-          <div className="core-card-text">
-            <p className="core-card-title">{t("allAdmins")}</p>
-            <p className="core-card-sub">{t("allAdminsSub")}</p>
-          </div>
-        </div>
-
-        <div className="core-card" onClick={() => navigate("/attendance-report")}>
-          <div className="core-card-icon icon-green">{icons.fileText}</div>
-          <div className="core-card-text">
-            <p className="core-card-title">{t("attendanceReport")}</p>
-            <p className="core-card-sub">{t("attendanceReportSub")}</p>
-          </div>
-        </div>
-
-        <div className="core-card" onClick={() => navigate("/user-percentage")}>
-          <div className="core-card-icon icon-amber">{icons.pieChart}</div>
-          <div className="core-card-text">
-            <p className="core-card-title">{t("percentageReport")}</p>
-            <p className="core-card-sub">{t("percentageReportSub")}</p>
-          </div>
-        </div>
-
+      <div className="dash-search-wrap">
+        <span className="dash-search-icon">{icons.search}</span>
+        <input
+          className="dash-search"
+          type="text"
+          placeholder={t("dashSearchPlaceholder")}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        {search && (
+          <button className="dash-search-clear" onClick={() => setSearch("")}>✕</button>
+        )}
       </div>
 
-      <p className="section-label">{t("toolsAndSettings")}</p>
+      {!hasResults && (
+        <div className="dash-no-results">🔍 {t("dashNoResults")}</div>
+      )}
 
-      <div className="tools-grid">
+      {coreFiltered.length > 0 && <p className="section-label">{t("coreManagement")}</p>}
 
-        <div className="tool-card" onClick={() => navigate("/absence-management")}>
-          <div className="tool-card-icon icon-teal">{icons.calendarX}</div>
-          <p className="tool-card-label">{t("absenceManagement")}</p>
+      {coreFiltered.length > 0 && (
+        <div className="core-grid">
+          {coreFiltered.map((c) => (
+            <div className="core-card" key={c.path} onClick={() => navigate(c.path)}>
+              <div className={`core-card-icon ${c.cls}`}>{c.icon}</div>
+              <div className="core-card-text">
+                <p className="core-card-title">{c.title}</p>
+                <p className="core-card-sub">{c.sub}</p>
+              </div>
+            </div>
+          ))}
         </div>
+      )}
 
-        <div className="tool-card" onClick={() => navigate("/notifications")}>
-          <div className="tool-card-icon icon-amber">{icons.bell}</div>
-          <p className="tool-card-label">{t("notifications")}</p>
+      {toolsFiltered.length > 0 && <p className="section-label">{t("toolsAndSettings")}</p>}
+
+      {toolsFiltered.length > 0 && (
+        <div className="tools-grid">
+          {toolsFiltered.map((c) => (
+            <div className="tool-card" key={c.path} onClick={() => navigate(c.path)}>
+              <div className={`tool-card-icon ${c.cls}`}>{c.icon}</div>
+              <p className="tool-card-label">{c.label}</p>
+            </div>
+          ))}
         </div>
-
-        <div className="tool-card" onClick={() => navigate("/track-ticket")}>
-          <div className="tool-card-icon icon-coral">{icons.ticket}</div>
-          <p className="tool-card-label">{t("trackTicket")}</p>
-        </div>
-
-        <div className="tool-card" onClick={() => navigate("/profile-registration")}>
-          <div className="tool-card-icon icon-blue">{icons.userCog}</div>
-          <p className="tool-card-label">{t("profileRegistration")}</p>
-        </div>
-
-        <div className="tool-card" onClick={() => navigate("/toggle-status")}>
-          <div className="tool-card-icon icon-green">{icons.toggleLeft}</div>
-          <p className="tool-card-label">{t("toggleStatus")}</p>
-        </div>
-
-        <div className="tool-card" onClick={() => navigate("/session-feedbacks")}>
-          <div className="tool-card-icon icon-pink">{icons.star}</div>
-          <p className="tool-card-label">{t("sessionFeedbacks")}</p>
-        </div>
-
-        <div className="tool-card" onClick={() => navigate("/all-profiles")}>
-          <div className="tool-card-icon icon-indigo">{icons.userList}</div>
-          <p className="tool-card-label">{t("allProfiles")}</p>
-        </div>
-
-        <div className="tool-card" onClick={() => navigate("/activity-logs")}>
-          <div className="tool-card-icon icon-cyan">{icons.activity}</div>
-          <p className="tool-card-label">{t("activityLogs")}</p>
-        </div>
-
-        <div className="tool-card" onClick={() => navigate("/admin-logs")}>
-          <div className="tool-card-icon icon-purple">{icons.adminLog}</div>
-          <p className="tool-card-label">{t("adminLogs")}</p>
-        </div>
-
-        <div className="tool-card" onClick={() => navigate("/id-requests")}>
-          <div className="tool-card-icon icon-lime">{icons.idCard}</div>
-          <p className="tool-card-label">{t("idRequests")}</p>
-        </div>
-
-        <div className="tool-card" onClick={() => navigate("/contact-settings")}>
-          <div className="tool-card-icon icon-gray">{icons.settings}</div>
-          <p className="tool-card-label">{t("contactSettings")}</p>
-        </div>
-
-        <div className="tool-card" onClick={() => navigate("/blocked-accounts")}>
-          <div className="tool-card-icon icon-red">{icons.shield}</div>
-          <p className="tool-card-label">{t("blockedAccounts.label")}</p>
-        </div>
-
-        <div className="tool-card" onClick={() => navigate("/deleted-users")}>
-          <div className="tool-card-icon icon-red">{icons.trash}</div>
-          <p className="tool-card-label">{t("deletedUsers")}</p>
-        </div>
-
-      </div>
+      )}
 
     </div>
   );

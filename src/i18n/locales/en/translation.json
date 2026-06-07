@@ -678,5 +678,7 @@
   "updateAdmin": "Update Admin",
   "adminUpdatedSuccess": "Admin updated successfully!",
   "errorUpdatingAdmin": "Error updating admin",
-  "noChangesMade": "No changes to update"
+  "noChangesMade": "No changes to update",
+  "dashSearchPlaceholder": "Search features, tools, pages...",
+  "dashNoResults": "No matching features found"
 }
