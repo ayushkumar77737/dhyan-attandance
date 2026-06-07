@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ForgotPassword.css";
 
-import { useTranslation } from "react-i18next"; // ← ADD
+import { useTranslation } from "react-i18next";
 
 import guruji from "../assets/Dhyan.png";
 import bgImage from "../assets/bg1.webp";
 
 function ForgotPassword() {
 
-    const { t } = useTranslation(); // ← ADD
+    const { t } = useTranslation();
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -35,7 +35,6 @@ function ForgotPassword() {
             className="forgot-container"
             style={{ backgroundImage: `url(${bgImage})` }}
         >
-            {/* Decorative orbs */}
             <div className="orb orb-1" />
             <div className="orb orb-2" />
             <div className="orb orb-3" />
@@ -44,14 +43,14 @@ function ForgotPassword() {
 
                 <div className="forgot-left">
 
-                    <div className="title-badge">{t("sacredPortal")}</div> {/* ← CHANGED */}
+                    <div className="title-badge">{t("sacredPortal")}</div>
 
-                    <h1>{t("appTitle")}</h1>         {/* ← CHANGED (reuses login key) */}
+                    <h1>{t("appTitle")}</h1>
 
-                    <h2>{t("guruText")}</h2>          {/* ← CHANGED (reuses login key) */}
+                    <h2>{t("guruText")}</h2>
 
                     <p className="forgot-text">
-                        {t("forgotPasswordText")} {/* ← CHANGED */}
+                        {t("forgotPasswordText")}
                     </p>
 
                     <div className="email-box">
@@ -65,7 +64,7 @@ function ForgotPassword() {
                         onClick={() => navigate("/login")}
                     >
                         <span className="btn-icon">←</span>
-                        <span>{t("backToLogin")}</span> {/* ← CHANGED */}
+                        <span>{t("backToLogin")}</span>
                         <div className="btn-shine" />
                     </button>
 
