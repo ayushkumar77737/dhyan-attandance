@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
 
-/* ── VARIABLES ── */
 :root {
   --bg: #080f1a;
   --bg-mid: #0d1828;
@@ -19,7 +18,6 @@
   --radius: 16px;
 }
 
-/* ── PAGE ── */
 .ud-container {
   min-height: 100vh;
   background-color: var(--bg);
@@ -32,7 +30,6 @@
   animation: ud-fade 0.8s ease;
 }
 
-/* ── TOP BAR ── */
 .ud-topbar {
   display: flex;
   align-items: center;
@@ -103,7 +100,6 @@
   color: #fff;
 }
 
-/* ── BODY ── */
 .ud-body {
   max-width: 860px;
   margin: 0 auto;
@@ -113,7 +109,6 @@
   gap: 20px;
 }
 
-/* ── SECTION ── */
 .ud-section {
   display: flex;
   flex-direction: column;
@@ -134,7 +129,6 @@
   color: var(--text-muted);
 }
 
-/* ── HERO CARD ── */
 .ud-hero-card {
   background: rgba(14, 165, 160, 0.06);
   border: 1px solid rgba(14, 165, 160, 0.15);
@@ -199,7 +193,6 @@
   opacity: 0.8;
 }
 
-/* Status pill */
 .ud-status-pill {
   display: inline-flex;
   align-items: center;
@@ -261,7 +254,6 @@
   animation: ud-pulse 1s ease-in-out infinite;
 }
 
-/* Hero stats */
 .ud-stats-row {
   display: flex;
   align-items: center;
@@ -315,7 +307,6 @@
   color: var(--text-muted);
 }
 
-/* ── ACTIVITY GRID ── */
 .ud-activity-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -440,7 +431,6 @@
   margin-top: 2px;
 }
 
-/* ── ACTION BUTTONS GRID ── */
 .ud-action-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -496,7 +486,6 @@
   color: var(--text-muted);
 }
 
-/* Color variants */
 .ud-action-teal {
   background: rgba(14, 165, 160, 0.08);
   border-color: rgba(14, 165, 160, 0.2);
@@ -636,7 +625,6 @@
   color: #bbf7d0;
 }
 
-/* ── TABLE ── */
 .ud-table-wrap {
   overflow-x: auto;
   border-radius: 14px;
@@ -711,7 +699,6 @@
   font-size: 14px;
 }
 
-/* ── CALENDAR ── */
 .ud-cal-nav-row {
   display: flex;
   gap: 8px;
@@ -836,7 +823,6 @@
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* ── SPINNER ── */
 .ud-spinner {
   display: inline-block;
   width: 16px;
@@ -848,7 +834,6 @@
   vertical-align: middle;
 }
 
-/* ── ANIMATIONS ── */
 @keyframes ud-fade {
   from {
     opacity: 0;
@@ -879,7 +864,6 @@
   }
 }
 
-/* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .ud-topbar {
     padding: 14px 18px;

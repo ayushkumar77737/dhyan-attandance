@@ -127,15 +127,12 @@ function UserDashboard() {
     }
   };
 
-  /* Initials helper */
   const getInitials = (name) =>
     name ? name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 3) : "?";
 
   return (
     <div className="ud-container">
 
-      {/* ── TOP BAR ── */}
-      {/* ── TOP BAR ── */}
       <div className="ud-topbar">
         <div className="ud-topbar-left">
           <img src={logo} alt="Logo" className="ud-logo" />
@@ -156,7 +153,6 @@ function UserDashboard() {
 
       <div className="ud-body">
 
-        {/* ── HERO PROFILE CARD ── */}
         <div className="ud-hero-card">
           <div className="ud-hero-top">
             <div className="ud-avatar-row">
@@ -167,7 +163,6 @@ function UserDashboard() {
               </div>
             </div>
 
-            {/* Today status pill */}
             {todayStatus === null ? (
               <div className="ud-status-pill ud-status-loading">
                 <span className="ud-dot ud-dot-loading" /> {t("loading")}
@@ -187,7 +182,6 @@ function UserDashboard() {
             )}
           </div>
 
-          {/* Attendance stats */}
           <div className="ud-stats-row">
             <div className="ud-stat">
               <span className="ud-stat-val ud-stat-green">{percentage}%</span>
@@ -206,7 +200,6 @@ function UserDashboard() {
           </div>
         </div>
 
-        {/* ── ACTIVITY CARDS ── */}
         <div className="ud-section">
           <div className="ud-section-header">
             <span className="ud-section-title">{t("activity") || "Activity"}</span>
@@ -259,7 +252,6 @@ function UserDashboard() {
           </div>
         </div>
 
-        {/* ── QUICK ACTIONS ── */}
         <div className="ud-section">
           <div className="ud-section-header">
             <span className="ud-section-title">{t("quickActions") || "Quick Actions"}</span>
@@ -392,7 +384,6 @@ function UserDashboard() {
           </div>
         </div>
 
-        {/* ── ATTENDANCE TABLE ── */}
         <div className="ud-section">
           <div className="ud-section-header">
             <span className="ud-section-title">{t("attendanceLog") || "Attendance Log"}</span>
@@ -427,7 +418,6 @@ function UserDashboard() {
           </div>
         </div>
 
-        {/* ── CALENDAR ── */}
         <div className="ud-section">
           <div className="ud-section-header">
             <span className="ud-section-title">
