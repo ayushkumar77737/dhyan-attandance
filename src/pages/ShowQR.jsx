@@ -46,7 +46,6 @@ function ShowQR() {
             }
             const userData = snap.data();
 
-            // Block admin access
             if (userData.role === "admin") {
                 navigate("/admin-dashboard");
                 return;
@@ -111,7 +110,6 @@ function ShowQR() {
     return (
         <>
             <div className="qrv2__page">
-                {/* Background */}
                 <div className="qrv2__bg-mesh" />
                 <div className="qrv2__orb qrv2__orb--1" />
                 <div className="qrv2__orb qrv2__orb--2" />
@@ -129,7 +127,6 @@ function ShowQR() {
                     ))}
                 </div>
 
-                {/* Back */}
                 <button className="qrv2__back-btn" onClick={() => navigate("/user-dashboard")}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="15 18 9 12 15 6" />
@@ -137,7 +134,6 @@ function ShowQR() {
                     {t("back")}
                 </button>
 
-                {/* Main card */}
                 <div className="qrv2__card">
                     <div className="qrv2__card-topbar" />
                     <div className="qrv2__card-shine" />
@@ -152,7 +148,6 @@ function ShowQR() {
                         <p className="qrv2__date">{today}</p>
                     </div>
 
-                    {/* Avatar + name */}
                     <div className="qrv2__user-section">
                         <div className="qrv2__avatar-wrap">
                             <div className="qrv2__avatar-ring" />
@@ -175,7 +170,6 @@ function ShowQR() {
                         </div>
                     </div>
 
-                    {/* QR Code */}
                     <div className="qrv2__qr-section">
                         <div className={`qrv2__qr-frame ${qrReady ? "qrv2__qr-frame--ready" : ""}`}>
                             <span className="qrv2__fc qrv2__fc--tl" />
@@ -202,7 +196,6 @@ function ShowQR() {
                         </p>
                     </div>
 
-                    {/* Action Buttons */}
                     <div className="qrv2__actions">
                         <button
                             className="qrv2__btn qrv2__btn--download"
@@ -236,7 +229,6 @@ function ShowQR() {
                         </button>
                     </div>
 
-                    {/* Info strip */}
                     <div className="qrv2__info-strip">
                         <div className="qrv2__info-item">
                             <span className="qrv2__info-icon">🔒</span>
@@ -256,7 +248,6 @@ function ShowQR() {
                 </div>
             </div>
 
-            {/* Fullscreen Modal */}
             {fullscreen && (
                 <div className="qrv2__fullscreen" onClick={() => setFullscreen(false)}>
                     <div className="qrv2__fullscreen-card" onClick={e => e.stopPropagation()}>

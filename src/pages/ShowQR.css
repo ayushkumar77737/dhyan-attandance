@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;600;700&family=Fira+Code:wght@500;600&display=swap');
 
-/* ── Variables ── */
 .qrv2__page {
     --qv-blue: #3b82f6;
     --qv-blue-dark: #1d4ed8;
@@ -19,7 +18,6 @@
     --qv-muted: #3d5a78;
     --qv-dim: #1a2d40;
     min-height: 100vh;
-    /* Single static background — zero repaint cost */
     background:
         radial-gradient(ellipse 100% 50% at 10% 0%, rgba(59, 130, 246, 0.13) 0%, transparent 55%),
         radial-gradient(ellipse 70% 40% at 90% 100%, rgba(34, 211, 238, 0.07) 0%, transparent 55%),
@@ -35,7 +33,6 @@
     box-sizing: border-box;
 }
 
-/* ── Back Button ── */
 .qrv2__back-btn {
     align-self: flex-start;
     display: inline-flex;
@@ -63,9 +60,6 @@
     border-color: var(--qv-blue-border);
 }
 
-/* ── Card ──
-   NO backdrop-filter — replaced by solid dark bg + opaque overlay.
-   This alone eliminates the biggest GPU bottleneck on mobile. */
 .qrv2__card {
     width: 100%;
     max-width: 460px;
@@ -95,7 +89,6 @@
     }
 }
 
-/* Top gradient bar — opacity animation only (compositor-safe) */
 .qrv2__card-topbar {
     position: absolute;
     top: 0;
@@ -106,7 +99,6 @@
     pointer-events: none;
 }
 
-/* ── Card Header ── */
 .qrv2__card-header {
     margin-bottom: 26px;
 }
@@ -127,7 +119,6 @@
     margin-bottom: 14px;
 }
 
-/* Dot — opacity-only animation (free on compositor) */
 .qrv2__eyebrow-dot {
     width: 6px;
     height: 6px;
@@ -175,7 +166,6 @@
     letter-spacing: 0.04em;
 }
 
-/* ── User Section ── */
 .qrv2__user-section {
     display: flex;
     align-items: center;
@@ -190,7 +180,6 @@
     overflow: hidden;
 }
 
-/* Static left accent bar — no animation */
 .qrv2__user-section::before {
     content: '';
     position: absolute;
@@ -207,7 +196,6 @@
     flex-shrink: 0;
 }
 
-/* Static gradient ring — no spinning, no conic-gradient repaint */
 .qrv2__avatar-ring {
     position: absolute;
     inset: -3px;
@@ -292,7 +280,6 @@
     align-items: center;
 }
 
-/* ── QR Section ── */
 .qrv2__qr-section {
     display: flex;
     flex-direction: column;
@@ -316,7 +303,6 @@
     opacity: 1;
 }
 
-/* Corner brackets — static, no animation */
 .qrv2__fc {
     position: absolute;
     width: 26px;
@@ -392,7 +378,6 @@
     font-weight: 600;
 }
 
-/* Spinner — transform-only, compositor thread */
 .qrv2__qr-spinner {
     width: 32px;
     height: 32px;
@@ -409,7 +394,6 @@
     }
 }
 
-/* Scan line — transform+opacity only (compositor-safe) */
 .qrv2__scan-line {
     position: absolute;
     left: 8px;
@@ -467,7 +451,6 @@
     font-size: 14px;
 }
 
-/* ── Action Buttons ── */
 .qrv2__actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -487,7 +470,6 @@
     border-radius: 14px;
     cursor: pointer;
     border: 1px solid;
-    /* Only transform transition — no layout triggers */
     transition: transform 0.18s ease, box-shadow 0.18s ease;
     letter-spacing: 0.02em;
     white-space: nowrap;
@@ -500,7 +482,6 @@
     transform: none !important;
 }
 
-/* Download — static gradient, no animation */
 .qrv2__btn--download {
     background: linear-gradient(135deg, #2563eb, #3b82f6 55%, #22d3ee);
     border-color: transparent;
@@ -540,7 +521,6 @@
     will-change: transform;
 }
 
-/* ── Info Strip ── */
 .qrv2__info-strip {
     display: flex;
     align-items: center;
@@ -575,11 +555,9 @@
     flex-shrink: 0;
 }
 
-/* ── Fullscreen Modal ── */
 .qrv2__fullscreen {
     position: fixed;
     inset: 0;
-    /* Solid dark overlay — no backdrop-filter */
     background: rgba(2, 5, 14, 0.96);
     z-index: 9999;
     display: flex;
@@ -714,7 +692,6 @@
     letter-spacing: 0.03em;
 }
 
-/* ── Responsive ── */
 @media (max-width: 520px) {
     .qrv2__page {
         padding: 18px 14px 44px;
@@ -783,7 +760,6 @@
     }
 }
 
-/* ── Reduced-motion ── */
 @media (prefers-reduced-motion: reduce) {
 
     .qrv2__eyebrow-dot,
