@@ -1,11 +1,5 @@
-/* ═══════════════════════════════════════════════
-   IdRequests.css  —  prefix: idreq__
-   Zero overlap with any other page stylesheet
-═══════════════════════════════════════════════ */
-
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
-/* ── Variables ── */
 .idreq__page {
     --ir-blue: #3b82f6;
     --ir-blue-dim: rgba(59, 130, 246, 0.12);
@@ -36,7 +30,6 @@
     overflow-x: hidden;
 }
 
-/* ── Grid overlay ── */
 .idreq__grid-overlay {
     position: fixed;
     inset: 0;
@@ -48,7 +41,6 @@
     z-index: 0;
 }
 
-/* ── Orbs ── */
 .idreq__orb {
     position: fixed;
     border-radius: 50%;
@@ -81,7 +73,6 @@
     left: 42%;
 }
 
-/* z-index lift */
 .idreq__back-btn,
 .idreq__header,
 .idreq__stats,
@@ -95,7 +86,6 @@
     z-index: 1;
 }
 
-/* ── Toast ── */
 .idreq__toast {
     position: fixed;
     top: 24px;
@@ -171,7 +161,6 @@
     }
 }
 
-/* ── Back Button ── */
 .idreq__back-btn {
     display: inline-flex;
     align-items: center;
@@ -195,7 +184,6 @@
     border-color: rgba(255, 255, 255, 0.12);
 }
 
-/* ── Header ── */
 .idreq__header {
     margin-bottom: 30px;
 }
@@ -261,7 +249,6 @@
     margin: 0;
 }
 
-/* ── Stats ── */
 .idreq__stats {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -384,7 +371,6 @@
     background: var(--ir-red);
 }
 
-/* ── Controls ── */
 .idreq__controls {
     display: flex;
     align-items: center;
@@ -498,7 +484,6 @@
     color: #f87171;
 }
 
-/* ── Count ── */
 .idreq__count {
     font-size: 12px;
     color: var(--ir-muted);
@@ -511,7 +496,6 @@
     font-weight: 700;
 }
 
-/* ── Loading ── */
 .idreq__loading {
     display: flex;
     flex-direction: column;
@@ -562,7 +546,6 @@
     }
 }
 
-/* ── Empty ── */
 .idreq__empty {
     display: flex;
     flex-direction: column;
@@ -577,7 +560,6 @@
     font-size: 44px;
 }
 
-/* ── Table ── */
 .idreq__table-wrap {
     overflow-x: auto;
     border-radius: 20px;
@@ -678,7 +660,6 @@
     font-weight: 500;
 }
 
-/* ── Status Badge ── */
 .idreq__status-badge {
     display: inline-flex;
     align-items: center;
@@ -708,7 +689,6 @@
     border: 1px solid var(--ir-red-border);
 }
 
-/* ── Action Buttons ── */
 .idreq__action-group {
     display: flex;
     gap: 6px;
@@ -783,7 +763,6 @@
     display: inline-block;
 }
 
-/* ── Scrollbar ── */
 .idreq__table-wrap::-webkit-scrollbar {
     height: 4px;
 }
@@ -801,7 +780,6 @@
     background: var(--ir-blue-border);
 }
 
-/* ── Responsive ── */
 @media (max-width: 540px) {
     .idreq__stats {
         grid-template-columns: repeat(2, 1fr);

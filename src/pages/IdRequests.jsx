@@ -180,7 +180,6 @@ function IdRequests() {
             <div className="idreq__orb idreq__orb--3" />
             <div className="idreq__grid-overlay" />
 
-            {/* Toast */}
             {toast && (
                 <div className={`idreq__toast idreq__toast--${toast.type}`}>
                     <span className="idreq__toast-dot" />
@@ -188,7 +187,6 @@ function IdRequests() {
                 </div>
             )}
 
-            {/* Delete Modal */}
             {deleteModal.show && (
                 <div className="idreq__modal-overlay">
                     <div className="idreq__modal">
@@ -213,7 +211,6 @@ function IdRequests() {
                 </div>
             )}
 
-            {/* Back */}
             <button className="idreq__back-btn" onClick={() => navigate("/admin-dashboard")}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="15 18 9 12 15 6" />
@@ -221,7 +218,6 @@ function IdRequests() {
                 {t("back")}
             </button>
 
-            {/* Header */}
             <div className="idreq__header">
                 <div className="idreq__eyebrow">
                     <span className="idreq__eyebrow-dot" />
@@ -233,7 +229,6 @@ function IdRequests() {
                 <p className="idreq__subtitle">{t("idRequestsSubtitle")}</p>
             </div>
 
-            {/* Stats */}
             <div className="idreq__stats">
                 <div className="idreq__stat idreq__stat--total">
                     <div className="idreq__stat-icon-wrap">📋</div>
@@ -269,7 +264,6 @@ function IdRequests() {
                 </div>
             </div>
 
-            {/* Controls */}
             <div className="idreq__controls">
                 <div className="idreq__search-wrap">
                     <svg className="idreq__search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -301,7 +295,6 @@ function IdRequests() {
                 {t("showingOf")} <span>{filtered.length}</span> {t("of")} <span>{requests.length}</span> {t("requests")}
             </p>
 
-            {/* Loading */}
             {loading && (
                 <div className="idreq__loading">
                     <div className="idreq__loader">
@@ -313,7 +306,6 @@ function IdRequests() {
                 </div>
             )}
 
-            {/* Empty */}
             {!loading && filtered.length === 0 && (
                 <div className="idreq__empty">
                     <span className="idreq__empty-icon">📭</span>
@@ -321,7 +313,6 @@ function IdRequests() {
                 </div>
             )}
 
-            {/* Table */}
             {!loading && filtered.length > 0 && (
                 <div className="idreq__table-wrap">
                     <table className="idreq__table">
