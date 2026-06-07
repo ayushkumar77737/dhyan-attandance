@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-/* =========================
-PAGE
-========================= */
 .helpsup__wrapper {
     min-height: 100vh;
     background: #060c17;
@@ -16,9 +13,6 @@ PAGE
     animation: helpsup__fadeIn 0.7s ease-in-out;
 }
 
-/* =========================
-GRID OVERLAY
-========================= */
 .helpsup__wrapper::before {
     content: '';
     position: fixed;
@@ -32,9 +26,6 @@ GRID OVERLAY
             rgba(14, 165, 160, 0.03) 70px, rgba(14, 165, 160, 0.03) 71px);
 }
 
-/* =========================
-ORBS
-========================= */
 .helpsup__orb {
     position: fixed;
     border-radius: 50%;
@@ -80,9 +71,6 @@ ORBS
     }
 }
 
-/* =========================
-BACK BUTTON
-========================= */
 .helpsup__back-btn {
     align-self: flex-start;
     margin-bottom: 24px;
@@ -118,9 +106,6 @@ BACK BUTTON
     stroke: currentColor;
 }
 
-/* =========================
-HERO / HEADER
-========================= */
 .helpsup__header {
     text-align: center;
     margin-bottom: 32px;
@@ -203,9 +188,6 @@ HERO / HEADER
     opacity: 1;
 }
 
-/* =========================
-SECTIONS
-========================= */
 .helpsup__section {
     width: 100%;
     max-width: 820px;
@@ -225,9 +207,6 @@ SECTIONS
     margin: 0 0 14px 4px;
 }
 
-/* =========================
-CARDS GRID
-========================= */
 .helpsup__cards-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -270,7 +249,6 @@ CARDS GRID
     grid-column: 1 / -1;
 }
 
-/* Color themes */
 .helpsup__card--phone::before {
     background: linear-gradient(90deg, #0ea5a0, #2dd4cf);
 }
@@ -303,9 +281,6 @@ CARDS GRID
     border-color: rgba(239, 68, 68, 0.3);
 }
 
-/* =========================
-CARD ICON WRAPS
-========================= */
 .helpsup__card-icon-wrap {
     width: 44px;
     height: 44px;
@@ -360,9 +335,6 @@ CARD ICON WRAPS
     stroke: #f87171;
 }
 
-/* =========================
-CARD CONTENT
-========================= */
 .helpsup__card-content {
     flex: 1;
     min-width: 0;
@@ -405,9 +377,6 @@ CARD CONTENT
     text-decoration: underline;
 }
 
-/* =========================
-COPY BUTTON
-========================= */
 .helpsup__copy-btn {
     width: 34px;
     height: 34px;
@@ -442,9 +411,6 @@ COPY BUTTON
     color: #4ade80 !important;
 }
 
-/* =========================
-OPEN / EXTERNAL BUTTON
-========================= */
 .helpsup__open-btn {
     width: 34px;
     height: 34px;
@@ -473,9 +439,6 @@ OPEN / EXTERNAL BUTTON
     color: #818cf8;
 }
 
-/* =========================
-FAQ ACCORDION
-========================= */
 .helpsup__faq-list {
     display: flex;
     flex-direction: column;
@@ -567,9 +530,6 @@ FAQ ACCORDION
     font-family: "DM Sans", sans-serif;
 }
 
-/* =========================
-FOOTER NOTE
-========================= */
 .helpsup__footer-note {
     width: 100%;
     max-width: 820px;
@@ -594,9 +554,6 @@ FOOTER NOTE
     letter-spacing: 0.02em;
 }
 
-/* =========================
-LOADING DOTS
-========================= */
 .helpsup__loading {
     display: flex;
     align-items: center;
@@ -636,9 +593,6 @@ LOADING DOTS
     }
 }
 
-/* =========================
-NO DATA
-========================= */
 .helpsup__no-data {
     text-align: center;
     color: #4a6070;
@@ -646,9 +600,6 @@ NO DATA
     padding: 30px 0;
 }
 
-/* =========================
-ANIMATIONS
-========================= */
 @keyframes helpsup__fadeIn {
     from {
         opacity: 0;
@@ -683,9 +634,6 @@ ANIMATIONS
     }
 }
 
-/* =========================
-RESPONSIVE
-========================= */
 @media (max-width: 480px) {
     .helpsup__wrapper {
         padding: 15px 14px 50px;

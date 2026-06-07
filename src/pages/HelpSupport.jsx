@@ -53,7 +53,6 @@ const HelpSupport = () => {
 
             const userData = userSnap.data();
 
-            // Block admin access
             if (userData.role === "admin") {
                 navigate("/admin-dashboard");
                 return;
@@ -146,7 +145,6 @@ const HelpSupport = () => {
                     </div>
                 ) : contactData ? (
                     <div className="helpsup__cards-grid">
-                        {/* Phone 1 */}
                         <div className="helpsup__card helpsup__card--phone">
                             <div className="helpsup__card-icon-wrap">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -167,7 +165,6 @@ const HelpSupport = () => {
                                 {copiedKey === "phone1" ? <CheckIcon /> : <CopyIcon />}
                             </button>
                         </div>
-                        {/* Phone 2 */}
                         <div className="helpsup__card helpsup__card--phone">
                             <div className="helpsup__card-icon-wrap">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -188,7 +185,6 @@ const HelpSupport = () => {
                                 {copiedKey === "phone2" ? <CheckIcon /> : <CopyIcon />}
                             </button>
                         </div>
-                        {/* Email */}
                         <div className="helpsup__card helpsup__card--email">
                             <div className="helpsup__card-icon-wrap">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -210,7 +206,6 @@ const HelpSupport = () => {
                                 {copiedKey === "email" ? <CheckIcon /> : <CopyIcon />}
                             </button>
                         </div>
-                        {/* Telegram */}
                         <div className="helpsup__card helpsup__card--telegram">
                             <div className="helpsup__card-icon-wrap">
                                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -227,7 +222,6 @@ const HelpSupport = () => {
                                 <ExternalIcon />
                             </a>
                         </div>
-                        {/* Ashram Address */}
                         <div className="helpsup__card helpsup__card--location helpsup__card--full">
                             <div className="helpsup__card-icon-wrap">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -250,7 +244,6 @@ const HelpSupport = () => {
                     <p className="helpsup__no-data">{t("noContactFound")}</p>
                 )}
             </section>
-            {/* FAQ */}
             <section className="helpsup__section">
                 <h2 className="helpsup__section-title">❓ {t("faqTitle")}</h2>
                 <div className="helpsup__faq-list">
