@@ -1,11 +1,5 @@
-/* ═══════════════════════════════════════════════
-   GetId.css  —  prefix: gidpg__
-   Zero overlap with any other page stylesheet
-═══════════════════════════════════════════════ */
-
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-/* ── Variables ── */
 .gidpg__page {
     --gp-purple: #8b5cf6;
     --gp-purple-dark: #6d3fd6;
@@ -40,7 +34,6 @@
     overflow-x: hidden;
 }
 
-/* ── Subtle grid ── */
 .gidpg__grid {
     position: fixed;
     inset: 0;
@@ -52,7 +45,6 @@
     z-index: 0;
 }
 
-/* ── Orbs ── */
 .gidpg__orb {
     position: fixed;
     border-radius: 50%;
@@ -85,7 +77,6 @@
     left: 48%;
 }
 
-/* ── Back Button ── */
 .gidpg__back-btn {
     position: relative;
     z-index: 1;
@@ -112,7 +103,6 @@
     border-color: rgba(255, 255, 255, 0.12);
 }
 
-/* ── Main Container ── */
 .gidpg__container {
     position: relative;
     z-index: 1;
@@ -123,9 +113,6 @@
     align-items: flex-start;
 }
 
-/* ══════════════════════════
-   LEFT — FORM
-══════════════════════════ */
 .gidpg__left {
     flex: 1;
     min-width: 0;
@@ -167,7 +154,6 @@
     }
 }
 
-/* Header */
 .gidpg__header {
     margin-bottom: 34px;
 }
@@ -235,7 +221,6 @@
     margin: 0;
 }
 
-/* Form */
 .gidpg__form {
     display: flex;
     flex-direction: column;
@@ -387,7 +372,6 @@
     }
 }
 
-/* Submit */
 .gidpg__submit-btn {
     display: flex;
     align-items: center;
@@ -457,9 +441,6 @@
     opacity: 0.65;
 }
 
-/* ══════════════════════════
-   RIGHT — QR
-══════════════════════════ */
 .gidpg__right {
     width: 344px;
     flex-shrink: 0;
@@ -522,7 +503,6 @@
     color: var(--gp-muted);
 }
 
-/* QR Frame */
 .gidpg__qr-frame {
     position: relative;
     display: flex;
@@ -533,7 +513,6 @@
     height: 224px;
 }
 
-/* Corner brackets */
 .gidpg__fc {
     position: absolute;
     width: 22px;
@@ -606,7 +585,6 @@
     }
 }
 
-/* UPI */
 .gidpg__upi-row {
     display: flex;
     justify-content: center;
@@ -634,7 +612,6 @@
     text-align: center;
 }
 
-/* Steps */
 .gidpg__steps {
     display: flex;
     flex-direction: column;
@@ -670,9 +647,6 @@
     line-height: 1.45;
 }
 
-/* ══════════════════════════
-   SUCCESS STATE
-══════════════════════════ */
 .gidpg__success-wrap {
     position: relative;
     z-index: 1;
@@ -802,7 +776,6 @@
     box-shadow: 0 14px 36px var(--gp-purple-glow);
 }
 
-/* ── Responsive ── */
 @media (max-width: 780px) {
     .gidpg__container {
         flex-direction: column;
@@ -967,7 +940,6 @@
     margin: 0;
 }
 
-/* ── Check Status Card ── */
 .gidpg__check-card {
     background: var(--gp-glass);
     border: 1px solid var(--gp-border);

@@ -128,13 +128,11 @@ const GetId = () => {
     return (
         <div className="gidpg__page">
 
-            {/* Background */}
             <div className="gidpg__orb gidpg__orb--1" />
             <div className="gidpg__orb gidpg__orb--2" />
             <div className="gidpg__orb gidpg__orb--3" />
             <div className="gidpg__grid" />
 
-            {/* Back button */}
             <button className="gidpg__back-btn" onClick={() => navigate("/login")}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="15 18 9 12 15 6" />
@@ -172,7 +170,6 @@ const GetId = () => {
             ) : (
                 <div className="gidpg__container">
 
-                    {/* LEFT FORM */}
                     <div className="gidpg__left">
                         <div className="gidpg__left-glow" />
 
@@ -190,7 +187,6 @@ const GetId = () => {
 
                         <form className="gidpg__form" onSubmit={handleSubmit}>
 
-                            {/* Mobile */}
                             <div className="gidpg__field">
                                 <label className="gidpg__label">
                                     <span className="gidpg__label-icon">📱</span>
@@ -214,7 +210,6 @@ const GetId = () => {
                                 {mobileError && <p className="gidpg__err-msg">{mobileError}</p>}
                             </div>
 
-                            {/* Transaction ID */}
                             <div className="gidpg__field">
                                 <label className="gidpg__label">
                                     <span className="gidpg__label-icon">🧾</span>
@@ -262,7 +257,6 @@ const GetId = () => {
                         <p className="gidpg__note">{t("secureNote")}</p>
                     </div>
 
-                    {/* RIGHT QR */}
                     <div className="gidpg__right">
                         <div className="gidpg__qr-card">
                             <div className="gidpg__qr-topbar" />
@@ -302,7 +296,6 @@ const GetId = () => {
                             <p>{t("offlineNote")}</p>
                         </div>
 
-                        {/* Check Status */}
                         <div className="gidpg__check-card">
                             <div className="gidpg__check-header">
                                 <span className="gidpg__check-icon">🔍</span>
