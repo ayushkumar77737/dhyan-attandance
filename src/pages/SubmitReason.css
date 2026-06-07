@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-/* ── VARIABLES (Directory dark theme) ── */
 :root {
   --sr-bg: #080f1a;
   --sr-card: rgba(255, 255, 255, 0.04);
@@ -19,7 +18,6 @@
   --sr-radius: 14px;
 }
 
-/* ── PAGE ── */
 .submit-reason-page {
   min-height: 100vh;
   background-color: var(--sr-bg);
@@ -49,7 +47,6 @@
   }
 }
 
-/* ── BACK BUTTON ── */
 .submit-reason-page .reason-back-btn {
   align-self: flex-start;
   margin-bottom: 10px;
@@ -73,7 +70,6 @@
   transform: translateX(-3px);
 }
 
-/* ── CARD ── */
 .submit-reason-page .reason-card {
   width: 100%;
   max-width: 500px;
@@ -92,7 +88,6 @@
   animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* top teal stripe */
 .submit-reason-page .reason-card::before {
   content: '';
   position: absolute;
@@ -104,7 +99,6 @@
   border-radius: 2px;
 }
 
-/* subtle inner glow */
 .submit-reason-page .reason-card::after {
   content: '';
   position: absolute;
@@ -129,7 +123,6 @@
   }
 }
 
-/* ── BADGE ── */
 .reason-card-badge {
   display: inline-block;
   font-size: 11px;
@@ -144,7 +137,6 @@
   margin-bottom: 14px;
 }
 
-/* ── TITLE ── */
 .submit-reason-page .reason-card h2 {
   font-family: var(--sr-font-display);
   font-size: 26px;
@@ -163,14 +155,12 @@
   line-height: 1.5;
 }
 
-/* ── FORM ── */
 .submit-reason-page .reason-form {
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
 
-/* ── INPUT GROUP ── */
 .submit-reason-page .reason-group {
   display: flex;
   flex-direction: column;
@@ -185,7 +175,6 @@
   color: var(--sr-text-mid);
 }
 
-/* ── INPUTS ── */
 .submit-reason-page .reason-group input,
 .submit-reason-page .reason-group textarea {
   padding: 12px 14px;
@@ -217,14 +206,12 @@
   border-color: rgba(14, 165, 160, 0.25);
 }
 
-/* ── TEXTAREA ── */
 .submit-reason-page .reason-group textarea {
   min-height: 110px;
   resize: none;
   line-height: 1.6;
 }
 
-/* ── SUBMIT BUTTON ── */
 .submit-reason-page .reason-submit-btn {
   margin-top: 6px;
   padding: 13px;
@@ -263,7 +250,6 @@
   cursor: not-allowed;
 }
 
-/* Spinner */
 .spinner {
   width: 14px;
   height: 14px;
@@ -280,7 +266,6 @@
   }
 }
 
-/* ── MESSAGE ── */
 .reason-message {
   width: 100%;
   margin-bottom: 18px;
@@ -307,7 +292,6 @@
   border: 1px solid rgba(244, 63, 94, 0.3);
 }
 
-/* ── RESPONSIVE ── */
 @media (max-width: 480px) {
   .submit-reason-page {
     padding: 15px;

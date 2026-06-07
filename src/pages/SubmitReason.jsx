@@ -13,7 +13,6 @@ function SubmitReason() {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  // ← ADDED: returns today as "YYYY-MM-DD"
   const getTodayString = () => {
     const now = new Date();
     const yyyy = now.getFullYear();
@@ -23,7 +22,7 @@ function SubmitReason() {
   };
 
   const [userId, setUserId] = useState("");
-  const [date, setDate] = useState(getTodayString); // ← CHANGED: was useState("")
+  const [date, setDate] = useState(getTodayString);
   const [reason, setReason] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -48,7 +47,6 @@ function SubmitReason() {
 
         const userData = userSnap.data();
 
-        // Block admin access
         if (userData.role === "admin") {
           navigate("/admin-dashboard");
           return;
@@ -131,7 +129,7 @@ function SubmitReason() {
 
       setMessage(t("reasonSubmittedSuccess"));
       setType("success");
-      setDate(getTodayString()); // ← reset to today after submit
+      setDate(getTodayString());
       setReason("");
 
       setTimeout(() => navigate("/user-dashboard"), 1500);
