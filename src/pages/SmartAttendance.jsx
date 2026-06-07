@@ -280,7 +280,6 @@ function SmartAttendance() {
             <div className="satnv2__orb satnv2__orb--2" />
             <div className="satnv2__orb satnv2__orb--3" />
 
-            {/* Toast */}
             {toast && (
                 <div className={`satnv2__toast satnv2__toast--${toast.type}`}>
                     <span className="satnv2__toast-dot" />
@@ -288,7 +287,6 @@ function SmartAttendance() {
                 </div>
             )}
 
-            {/* Header */}
             <div className="satnv2__header">
                 <button className="satnv2__back-btn" onClick={() => navigate("/admin-dashboard")}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -312,7 +310,6 @@ function SmartAttendance() {
                 </div>
             </div>
 
-            {/* Stats */}
             <div className="satnv2__stats">
                 <div className="satnv2__stat satnv2__stat--total">
                     <div className="satnv2__stat-icon">👥</div>
@@ -351,10 +348,8 @@ function SmartAttendance() {
                 </div>
             </div>
 
-            {/* Main Content */}
             <div className="satnv2__main">
 
-                {/* LEFT — Scanner */}
                 <div className="satnv2__scanner-panel">
                     <div className="satnv2__panel-header">
                         <span className="satnv2__panel-title">📷 {t("qrScannerTitle")}</span>
@@ -363,7 +358,6 @@ function SmartAttendance() {
                         </span>
                     </div>
 
-                    {/* Camera View */}
                     <div className={`satnv2__camera-wrap ${pulseActive ? "satnv2__camera-wrap--pulse" : ""}`}>
                         <video ref={videoRef} className="satnv2__video" playsInline muted />
                         <canvas ref={canvasRef} className="satnv2__canvas" />
@@ -397,7 +391,6 @@ function SmartAttendance() {
                         )}
                     </div>
 
-                    {/* Camera Controls */}
                     <div className="satnv2__camera-controls">
                         {!scanning ? (
                             <button className="satnv2__btn satnv2__btn--start" onClick={startCamera}>
@@ -422,7 +415,6 @@ function SmartAttendance() {
                         </button>
                     </div>
 
-                    {/* Manual Entry */}
                     <div className="satnv2__manual">
                         <p className="satnv2__manual-label">{t("manualIdEntry")}</p>
                         <form className="satnv2__manual-form" onSubmit={handleManualScan}>
@@ -440,10 +432,8 @@ function SmartAttendance() {
                     </div>
                 </div>
 
-                {/* RIGHT — User Card + Activity */}
                 <div className="satnv2__right-panel">
 
-                    {/* Scanned User Card */}
                     <div className={`satnv2__user-card ${scanStatus ? `satnv2__user-card--${scanStatus}` : ""}`}>
                         <div className="satnv2__user-card-header">
                             <span className="satnv2__user-card-title">{t("lastScanResult")}</span>
@@ -480,7 +470,6 @@ function SmartAttendance() {
                         )}
                     </div>
 
-                    {/* Progress Ring */}
                     <div className="satnv2__progress-card">
                         <span className="satnv2__progress-title">{t("todaysProgress")}</span>
                         <div className="satnv2__progress-ring-wrap">
@@ -511,7 +500,6 @@ function SmartAttendance() {
                         </div>
                     </div>
 
-                    {/* Recent Scans */}
                     <div className="satnv2__activity">
                         <div className="satnv2__activity-header">
                             <span className="satnv2__activity-title">🕐 {t("recentScans")}</span>
