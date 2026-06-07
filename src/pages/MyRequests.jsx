@@ -14,11 +14,11 @@ import {
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-import { useTranslation } from "react-i18next"; // ← ADD
+import { useTranslation } from "react-i18next";
 
 function MyRequests() {
 
-  const { t } = useTranslation(); // ← ADD
+  const { t } = useTranslation();
   const navigate = useNavigate();
   useEffect(() => {
     const disableRightClick = (e) => e.preventDefault();
@@ -62,7 +62,6 @@ function MyRequests() {
 
         const userData = userSnap.data();
 
-        // Block admin access
         if (userData.role === "admin") {
           navigate("/admin-dashboard");
           return;
@@ -132,21 +131,21 @@ function MyRequests() {
         className="myreq-back-btn"
         onClick={() => navigate("/user-dashboard")}
       >
-        ← {t("back")} {/* ← CHANGED */}
+        ← {t("back")}
       </button>
 
       <div className="myreq-card">
 
         <div className="myreq-header">
-          <div className="myreq-badge">📋 {t("absenceRequests")}</div> {/* ← CHANGED */}
-          <h2>{t("myRequests")}</h2>                                    {/* ← CHANGED */}
-          <p className="myreq-subtitle">{t("myRequestsSubtitle")}</p>  {/* ← CHANGED */}
+          <div className="myreq-badge">📋 {t("absenceRequests")}</div>
+          <h2>{t("myRequests")}</h2>
+          <p className="myreq-subtitle">{t("myRequestsSubtitle")}</p>
         </div>
 
         {requests.length === 0 ? (
           <div className="no-data">
             <div className="no-data-icon">📭</div>
-            <p>{t("noRequestsFound")}</p> {/* ← CHANGED */}
+            <p>{t("noRequestsFound")}</p>
           </div>
         ) : (
           <div className="myreq-table-wrapper">
@@ -200,7 +199,6 @@ function MyRequests() {
           </div>
         )}
 
-        {/* EDIT MODAL */}
         {showEditModal && editItem && (
           <div className="myreq-modal-overlay" onClick={() => setShowEditModal(false)}>
             <div className="myreq-modal" onClick={(e) => e.stopPropagation()}>

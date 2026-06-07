@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-/* ── VARIABLES (Directory dark theme) ── */
 :root {
   --mr-bg: #080f1a;
   --mr-card: rgba(255, 255, 255, 0.04);
@@ -16,7 +15,6 @@
   --mr-radius: 14px;
 }
 
-/* ── PAGE ── */
 .my-requests-page {
   min-height: 100vh;
   background-color: var(--mr-bg);
@@ -46,7 +44,6 @@
   }
 }
 
-/* ── BACK BUTTON ── */
 .my-requests-page .myreq-back-btn {
   align-self: flex-start;
   margin-bottom: 10px;
@@ -68,7 +65,6 @@
   transform: translateX(-3px);
 }
 
-/* ── CARD ── */
 .my-requests-page .myreq-card {
   width: 100%;
   max-width: 800px;
@@ -87,7 +83,6 @@
   animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* top teal stripe */
 .my-requests-page .myreq-card::before {
   content: '';
   position: absolute;
@@ -99,7 +94,6 @@
   border-radius: 2px;
 }
 
-/* inner glow */
 .my-requests-page .myreq-card::after {
   content: '';
   position: absolute;
@@ -124,7 +118,6 @@
   }
 }
 
-/* ── HEADER ── */
 .myreq-header {
   text-align: center;
   margin-bottom: 28px;
@@ -161,14 +154,12 @@
   line-height: 1.5;
 }
 
-/* ── TABLE WRAPPER ── */
 .myreq-table-wrapper {
   overflow-x: auto;
   border-radius: var(--mr-radius);
   border: 1px solid var(--mr-border);
 }
 
-/* ── TABLE ── */
 .my-requests-page .myreq-table {
   width: 100%;
   border-collapse: collapse;
@@ -217,7 +208,6 @@
   line-height: 1.5;
 }
 
-/* ── STATUS BADGES ── */
 .my-requests-page .status {
   padding: 5px 12px;
   border-radius: 50px;
@@ -252,7 +242,6 @@
   border: 1px solid rgba(244, 63, 94, 0.3);
 }
 
-/* ── NO DATA ── */
 .my-requests-page .no-data {
   text-align: center;
   padding: 40px 20px;
@@ -270,7 +259,6 @@
   font-weight: 400;
 }
 
-/* ── RESPONSIVE ── */
 @media (max-width: 480px) {
   .my-requests-page {
     padding: 15px;
@@ -311,7 +299,6 @@
   }
 }
 
-/* ── EDIT BUTTON ── */
 .myreq-edit-btn {
   padding: 5px 12px;
   background: rgba(14, 165, 160, 0.1);
@@ -332,7 +319,6 @@
   transform: translateY(-1px);
 }
 
-/* ── EDIT MODAL ── */
 .myreq-modal-overlay {
   position: fixed;
   inset: 0;
