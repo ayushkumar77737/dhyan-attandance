@@ -34,7 +34,7 @@ function EditUser() {
 
     const [name, setName] = useState("");
     const [userId, setUserId] = useState("");
-    const [message, setMessage] = useState({ text: "", type: "" }); // ← ADD
+    const [message, setMessage] = useState({ text: "", type: "" });
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -88,7 +88,7 @@ function EditUser() {
                 setName(data.name || "");
                 setUserId(data.id || id);
             } else {
-                showMessage(t("userNotFound")); // ← CHANGED
+                showMessage(t("userNotFound"));
             }
         } catch (error) {
             console.log("Fetch Error:", error);
@@ -97,7 +97,7 @@ function EditUser() {
 
     const handleUpdate = async () => {
         if (!name.trim() || !userId.trim()) {
-            showMessage(t("fillAllFields")); // ← CHANGED
+            showMessage(t("fillAllFields"));
             return;
         }
         try {
@@ -107,7 +107,7 @@ function EditUser() {
             if (userId !== id) {
                 const existingDoc = await getDoc(newRef);
                 if (existingDoc.exists()) {
-                    showMessage(t("userIdAlreadyExists")); // ← CHANGED
+                    showMessage(t("userIdAlreadyExists"));
                     return;
                 }
             }
@@ -125,11 +125,11 @@ function EditUser() {
                 targetId: userId,
                 details: t("logUpdatedUser", { name: name.trim() }),
             });
-            showMessage(t("userUpdatedSuccess"), "success"); // ← CHANGED
-            setTimeout(() => navigate("/all-users"), 1500); // ← navigate after showing success
+            showMessage(t("userUpdatedSuccess"), "success");
+            setTimeout(() => navigate("/all-users"), 1500);
         } catch (error) {
             console.log("Update Error:", error);
-            showMessage(t("errorUpdatingUser")); // ← CHANGED
+            showMessage(t("errorUpdatingUser"));
         }
     };
 
@@ -148,7 +148,6 @@ function EditUser() {
 
                 <h2 className="edit-title">{t("editUser")}</h2>
 
-                {/* ← ADD message box */}
                 {message.text && (
                     <div className={`edit-message ${message.type}`}>
                         {message.type === "error" ? "⚠ " : "✓ "}
