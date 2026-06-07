@@ -31,28 +31,22 @@ const LandingPage = () => {
         <div className="ldpg__page">
             <img src={logo2} alt="Logo" className="ldpg__logo" />
 
-            {/* Ambient orbs */}
             <div className="ldpg__orb ldpg__orb--1" />
             <div className="ldpg__orb ldpg__orb--2" />
             <div className="ldpg__orb ldpg__orb--3" />
             <div className="ldpg__orb ldpg__orb--4" />
 
-            {/* Grain overlay */}
             <div className="ldpg__grain" />
 
-            {/* Decorative lines */}
             <div className="ldpg__line ldpg__line--left" />
             <div className="ldpg__line ldpg__line--right" />
 
-            {/* Language Switcher */}
             <div className="ldpg__lang">
                 <LanguageSwitcher />
             </div>
 
-            {/* HERO SECTION */}
             <section className="ldpg__hero" ref={heroRef}>
 
-                {/* Left content */}
                 <div className="ldpg__hero-left">
 
                     <div className="ldpg__eyebrow">
@@ -73,7 +67,6 @@ const LandingPage = () => {
 
                     <p className="ldpg__about">{t("landingAbout")}</p>
 
-                    {/* Stats row */}
                     <div className="ldpg__stats">
                         <div className="ldpg__stat">
                             <span className="ldpg__stat-icon">🧘</span>
@@ -91,7 +84,6 @@ const LandingPage = () => {
                         </div>
                     </div>
 
-                    {/* CTA Button */}
                     <button className="ldpg__cta" onClick={() => navigate("/login")}>
                         <span className="ldpg__cta-shine" />
                         <span className="ldpg__cta-text">{t("landingLogin")}</span>
@@ -100,7 +92,6 @@ const LandingPage = () => {
 
                 </div>
 
-                {/* Right image */}
                 <div className="ldpg__hero-right">
 
                     <div className="ldpg__image-frame">
@@ -116,7 +107,6 @@ const LandingPage = () => {
                         <div className="ldpg__image-glow ldpg__image-glow--top" />
                     </div>
 
-                    {/* Corner decorations */}
                     <div className="ldpg__corner ldpg__corner--tl" />
                     <div className="ldpg__corner ldpg__corner--br" />
 
@@ -124,7 +114,6 @@ const LandingPage = () => {
 
             </section>
 
-            {/* Bottom bar */}
             <div className="ldpg__bottom-bar">
                 <div className="ldpg__bottom-line" />
             </div>

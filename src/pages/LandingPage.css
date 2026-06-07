@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap');
 
-/* =========================
-VARIABLES
-========================= */
-
 :root {
     --ldpg-bg: #14141f;
     --ldpg-bg2: #1c1c2b;
@@ -21,10 +17,6 @@ VARIABLES
     --ldpg-font-body: 'Jost', sans-serif;
 }
 
-/* =========================
-RESET
-========================= */
-
 *,
 *::before,
 *::after {
@@ -32,10 +24,6 @@ RESET
     margin: 0;
     padding: 0;
 }
-
-/* =========================
-PAGE
-========================= */
 
 .ldpg__page {
     min-height: 100vh;
@@ -49,10 +37,6 @@ PAGE
     justify-content: center;
 }
 
-/* =========================
-GRAIN OVERLAY
-========================= */
-
 .ldpg__grain {
     position: fixed;
     inset: 0;
@@ -63,10 +47,6 @@ GRAIN OVERLAY
     background-repeat: repeat;
     background-size: 128px;
 }
-
-/* =========================
-DECORATIVE VERTICAL LINES
-========================= */
 
 .ldpg__line {
     position: fixed;
@@ -85,10 +65,6 @@ DECORATIVE VERTICAL LINES
 .ldpg__line--right {
     right: 60px;
 }
-
-/* =========================
-AMBIENT ORBS
-========================= */
 
 .ldpg__orb {
     position: fixed;
@@ -144,20 +120,12 @@ AMBIENT ORBS
     }
 }
 
-/* =========================
-LANGUAGE SWITCHER
-========================= */
-
 .ldpg__lang {
     position: fixed;
     top: 20px;
     right: 24px;
     z-index: 100;
 }
-
-/* =========================
-HERO
-========================= */
 
 .ldpg__hero {
     position: relative;
@@ -171,10 +139,6 @@ HERO
     gap: 60px;
     padding: 60px 100px;
 }
-
-/* =========================
-LEFT CONTENT
-========================= */
 
 .ldpg__hero-left {
     flex: 1;
@@ -195,7 +159,6 @@ LEFT CONTENT
     }
 }
 
-/* Eyebrow */
 .ldpg__eyebrow {
     display: inline-flex;
     align-items: center;
@@ -256,7 +219,6 @@ LEFT CONTENT
     }
 }
 
-/* Title */
 .ldpg__hero-title {
     font-family: var(--ldpg-font-display);
     font-size: 76px;
@@ -288,7 +250,6 @@ LEFT CONTENT
     }
 }
 
-/* Subtitle */
 .ldpg__hero-sub {
     font-family: var(--ldpg-font-display);
     font-size: 19px;
@@ -299,7 +260,6 @@ LEFT CONTENT
     animation: ldpg__fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
 }
 
-/* Divider with gem */
 .ldpg__divider {
     display: flex;
     align-items: center;
@@ -332,7 +292,6 @@ LEFT CONTENT
     box-shadow: 0 0 10px var(--ldpg-gold-glow);
 }
 
-/* About */
 .ldpg__about {
     font-size: 14.5px;
     font-weight: 300;
@@ -344,7 +303,6 @@ LEFT CONTENT
     animation: ldpg__fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.32s both;
 }
 
-/* Stats */
 .ldpg__stats {
     display: flex;
     align-items: center;
@@ -381,7 +339,6 @@ LEFT CONTENT
     background: linear-gradient(180deg, transparent, rgba(201, 168, 76, 0.25), transparent);
 }
 
-/* CTA Button */
 .ldpg__cta {
     display: inline-flex;
     align-items: center;
@@ -456,7 +413,6 @@ LEFT CONTENT
     transform: translateX(5px);
 }
 
-/* Sacred text */
 .ldpg__sacred {
     font-family: var(--ldpg-font-display);
     font-size: 13px;
@@ -465,10 +421,6 @@ LEFT CONTENT
     letter-spacing: 0.5px;
     animation: ldpg__fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
 }
-
-/* =========================
-RIGHT IMAGE
-========================= */
 
 .ldpg__hero-right {
     flex: 0 0 420px;
@@ -615,7 +567,6 @@ RIGHT IMAGE
     background: radial-gradient(ellipse, rgba(201, 168, 76, 0.12), transparent 70%);
 }
 
-/* Corner decorations */
 .ldpg__corner {
     position: absolute;
     width: 24px;
@@ -642,7 +593,6 @@ RIGHT IMAGE
     opacity: 0.5;
 }
 
-/* Floating badge */
 .ldpg__badge {
     position: absolute;
     bottom: 10px;
@@ -693,10 +643,6 @@ RIGHT IMAGE
     white-space: nowrap;
 }
 
-/* =========================
-BOTTOM BAR
-========================= */
-
 .ldpg__bottom-bar {
     position: fixed;
     bottom: 0;
@@ -709,10 +655,6 @@ BOTTOM BAR
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.25), rgba(201, 168, 76, 0.25), transparent);
 }
-
-/* =========================
-RESPONSIVE
-========================= */
 
 @media (max-width: 1024px) {
     .ldpg__hero {
