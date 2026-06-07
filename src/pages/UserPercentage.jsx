@@ -11,11 +11,11 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import "./UserPercentage.css";
 
-import { useTranslation } from "react-i18next"; // ← ADD
+import { useTranslation } from "react-i18next";
 
 const UserPercentage = () => {
 
-  const { t } = useTranslation(); // ← ADD
+  const { t } = useTranslation();
 
   const [data, setData] = useState([]);
   const navigate = useNavigate();
@@ -162,42 +162,38 @@ const UserPercentage = () => {
   return (
     <div className="user-percentage-page">
 
-      {/* Decorative orbs */}
       <div className="orb orb-1" />
       <div className="orb orb-2" />
       <div className="orb orb-3" />
 
-      {/* Header */}
       <div className="user-percentage-header">
         <button
           className="user-back-btn"
           onClick={() => navigate("/admin-dashboard")}
         >
-          <span className="back-arrow">←</span> {t("back")} {/* ← CHANGED */}
+          <span className="back-arrow">←</span> {t("back")}
         </button>
       </div>
 
-      {/* Title */}
       <div className="title-block">
-        <span className="title-eyebrow">{t("adminPanel")}</span> {/* ← CHANGED */}
+        <span className="title-eyebrow">{t("adminPanel")}</span>
         <h2 className="user-percentage-title">
-          {t("attendanceOverview")} {/* ← CHANGED */}
+          {t("attendanceOverview")}
         </h2>
-        <p className="title-sub">{t("overviewSubtitle")}</p> {/* ← CHANGED */}
+        <p className="title-sub">{t("overviewSubtitle")}</p>
       </div>
 
-      {/* Stats strip */}
       <div className="stats-strip">
 
         <div className="stat-pill">
           <span className="stat-icon">👥</span>
-          <span className="stat-label">{t("totalUsers")}</span> {/* ← CHANGED */}
+          <span className="stat-label">{t("totalUsers")}</span>
           <span className="stat-value">{data.length}</span>
         </div>
 
         <div className="stat-pill">
           <span className="stat-icon">✅</span>
-          <span className="stat-label">{t("above85")}</span> {/* ← CHANGED */}
+          <span className="stat-label">{t("above85")}</span>
           <span className="stat-value">
             {data.filter(d => parseFloat(d["Attendance %"]) >= 85).length}
           </span>
@@ -205,7 +201,7 @@ const UserPercentage = () => {
 
         <div className="stat-pill">
           <span className="stat-icon">⚠️</span>
-          <span className="stat-label">{t("below60")}</span> {/* ← CHANGED */}
+          <span className="stat-label">{t("below60")}</span>
           <span className="stat-value">
             {data.filter(d => parseFloat(d["Attendance %"]) < 60).length}
           </span>
@@ -213,14 +209,12 @@ const UserPercentage = () => {
 
       </div>
 
-      {/* Export Button */}
       <div className="user-export-wrapper">
         <button className="user-export-btn" onClick={exportToExcel}>
-          <span className="export-icon">⬇</span> {t("exportExcel")} {/* ← CHANGED */}
+          <span className="export-icon">⬇</span> {t("exportExcel")}
         </button>
       </div>
 
-      {/* Card */}
       <div className="user-percentage-card">
         <table className="user-percentage-table">
 

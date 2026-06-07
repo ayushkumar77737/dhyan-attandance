@@ -1,12 +1,4 @@
-/* ===============================
-IMPORTS
-================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
-
-/* ===============================
-PAGE
-================================ */
 
 .user-percentage-page {
   padding: 40px;
@@ -25,10 +17,6 @@ PAGE
 
   animation: userFadeIn 0.8s ease;
 }
-
-/* ===============================
-DECORATIVE ORBS
-================================ */
 
 .orb {
   position: fixed;
@@ -62,7 +50,6 @@ DECORATIVE ORBS
   background: radial-gradient(circle, rgba(168, 85, 247, 0.12), transparent 70%);
 }
 
-/* All content above orbs */
 .user-percentage-header,
 .title-block,
 .stats-strip,
@@ -72,20 +59,12 @@ DECORATIVE ORBS
   z-index: 1;
 }
 
-/* ===============================
-HEADER
-================================ */
-
 .user-percentage-header {
   width: 100%;
   display: flex;
   justify-content: flex-start;
   margin-bottom: 16px;
 }
-
-/* ===============================
-BACK BUTTON
-================================ */
 
 .user-back-btn {
   background: rgba(255, 255, 255, 0.05);
@@ -115,10 +94,6 @@ BACK BUTTON
 .back-arrow {
   font-size: 15px;
 }
-
-/* ===============================
-TITLE BLOCK
-================================ */
 
 .title-block {
   text-align: center;
@@ -163,10 +138,6 @@ TITLE BLOCK
   margin: 0;
   font-weight: 400;
 }
-
-/* ===============================
-STATS STRIP
-================================ */
 
 .stats-strip {
   display: flex;
@@ -213,10 +184,6 @@ STATS STRIP
   margin-left: auto;
 }
 
-/* ===============================
-EXPORT BUTTON
-================================ */
-
 .user-export-wrapper {
   margin-bottom: 28px;
 }
@@ -249,10 +216,6 @@ EXPORT BUTTON
   font-size: 16px;
 }
 
-/* ===============================
-CARD
-================================ */
-
 .user-percentage-card {
   width: 95%;
   max-width: 1100px;
@@ -271,18 +234,12 @@ CARD
   border-color: rgba(99, 102, 241, 0.2);
 }
 
-/* ===============================
-TABLE
-================================ */
-
 .user-percentage-table {
   width: 100%;
   border-collapse: collapse;
   overflow: hidden;
   border-radius: 16px;
 }
-
-/* Table header */
 
 .user-percentage-table th {
   background: rgba(99, 102, 241, 0.12);
@@ -304,8 +261,6 @@ TABLE
   border-radius: 0 14px 0 0;
 }
 
-/* Table data */
-
 .user-percentage-table td {
   padding: 14px 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
@@ -313,8 +268,6 @@ TABLE
   color: #cbd5e1;
   vertical-align: middle;
 }
-
-/* Row animation + hover */
 
 .user-percentage-table tbody tr {
   transition: all 0.2s ease;
@@ -329,11 +282,6 @@ TABLE
   border-bottom: none;
 }
 
-/* ===============================
-CUSTOM CELLS
-================================ */
-
-/* User ID chip */
 .uid-chip {
   display: inline-block;
   font-family: "DM Mono", "Courier New", monospace;
@@ -347,7 +295,6 @@ CUSTOM CELLS
   letter-spacing: 0.5px;
 }
 
-/* Name cell with avatar */
 .user-name-cell {
   display: flex;
   align-items: center;
@@ -371,7 +318,6 @@ CUSTOM CELLS
   flex-shrink: 0;
 }
 
-/* Attendance badge */
 .attendance-badge {
   display: inline-block;
   padding: 5px 14px;
@@ -399,10 +345,6 @@ CUSTOM CELLS
   color: #f87171;
   border: 1px solid rgba(239, 68, 68, 0.25);
 }
-
-/* =========================
-Animations
-========================= */
 
 @keyframes userFadeIn {
   from {
@@ -450,10 +392,6 @@ Animations
   }
 }
 
-/* =========================
-Tablet
-========================= */
-
 @media (max-width: 992px) {
 
   .user-percentage-page {
@@ -480,10 +418,6 @@ Tablet
 
 }
 
-/* =========================
-Mobile
-========================= */
-
 @media (max-width: 768px) {
 
   .user-percentage-page {
@@ -509,10 +443,6 @@ Mobile
   }
 
 }
-
-/* =========================
-Small Mobile
-========================= */
 
 @media (max-width: 480px) {
 
