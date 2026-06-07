@@ -37,7 +37,6 @@ function TicketingSupport() {
 
     const [errors, setErrors] = useState({});
 
-    // ── NEW: edit modal state ──
     const [showEditModal, setShowEditModal] = useState(false);
     const [editTicket, setEditTicket] = useState(null);
     const [editIssue, setEditIssue] = useState("");
@@ -82,7 +81,6 @@ function TicketingSupport() {
 
                 const userData = userSnap.data();
 
-                // Block admin access
                 if (userData.role === "admin") {
                     navigate("/admin-dashboard");
                     return;
@@ -189,14 +187,12 @@ function TicketingSupport() {
         }
     };
 
-    // ── NEW: open edit modal ──
     const openEditModal = (ticket) => {
         setEditTicket(ticket);
         setEditIssue(ticket.issue);
         setShowEditModal(true);
     };
 
-    // ── NEW: save edited ticket to Firebase ──
     const saveEditTicket = async () => {
         if (!editTicket || !editIssue.trim()) return;
         try {
@@ -216,20 +212,16 @@ function TicketingSupport() {
     return (
         <div className="tsp__page">
 
-            {/* Orbs */}
             <div className="tsp__orb tsp__orb--1" />
             <div className="tsp__orb tsp__orb--2" />
             <div className="tsp__orb tsp__orb--3" />
 
-            {/* Grid overlay */}
             <div className="tsp__grid-overlay" />
 
-            {/* Back Button */}
             <button className="tsp__back-btn" onClick={() => navigate("/user-dashboard")}>
                 <span>←</span> {t("back")}
             </button>
 
-            {/* Hero Header */}
             <div className="tsp__hero">
                 <div className="tsp__hero-badge">
                     <span className="tsp__badge-dot" />
@@ -241,7 +233,6 @@ function TicketingSupport() {
                 <p className="tsp__hero-sub">{t("submitAndTrack")}</p>
             </div>
 
-            {/* Stats + Raise Button Bar */}
             <div className="tsp__action-bar">
                 <div className="tsp__stats-row">
                     <div className="tsp__stat-item">
@@ -277,14 +268,12 @@ function TicketingSupport() {
                 </button>
             </div>
 
-            {/* Message */}
             {message.text && (
                 <div className={`tsp__message tsp__message--${message.type}`}>
                     {message.text}
                 </div>
             )}
 
-            {/* Tickets List */}
             <div className="tsp__list">
                 {tickets.length === 0 ? (
                     <div className="tsp__empty">
@@ -321,7 +310,6 @@ function TicketingSupport() {
 
                                 <p className="tsp__ticket-issue">{ticket.issue}</p>
 
-                                {/* ── UPDATED: footer with edit button ── */}
                                 <div className="tsp__ticket-footer">
                                     <span className="tsp__ticket-email">📧 {ticket.email}</span>
                                     <span className="tsp__ticket-date">
@@ -342,7 +330,6 @@ function TicketingSupport() {
                 )}
             </div>
 
-            {/* ── NEW: Edit Ticket Modal ── */}
             {showEditModal && editTicket && (
                 <div className="tsp__modal-overlay" onClick={() => setShowEditModal(false)}>
                     <div className="tsp__modal" onClick={(e) => e.stopPropagation()}>
@@ -390,7 +377,6 @@ function TicketingSupport() {
                 </div>
             )}
 
-            {/* Raise Ticket Modal */}
             {showModal && (
                 <div className="tsp__modal-overlay" onClick={() => setShowModal(false)}>
                     <div className="tsp__modal" onClick={(e) => e.stopPropagation()}>
