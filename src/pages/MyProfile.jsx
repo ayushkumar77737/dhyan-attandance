@@ -62,7 +62,6 @@ function MyProfile() {
 
             const userData = userSnap.data();
 
-            // Block admin access
             if (userData.role === "admin") {
                 navigate("/admin-dashboard");
                 return;
@@ -119,7 +118,6 @@ function MyProfile() {
             const safeEmail = editForm.email
                 .trim()
                 .slice(0, 100);
-            // Update profiles collection
             await updateDoc(doc(db, "profiles", profileId), {
                 name: safeName,
                 fatherHusbandName: safeFather,
@@ -127,7 +125,6 @@ function MyProfile() {
                 email: safeEmail
             });
 
-            // Also sync name to users collection
             await updateDoc(doc(db, "users", profileId), {
                 name: safeName
             });
@@ -144,7 +141,6 @@ function MyProfile() {
     return (
         <div className="mprf__page">
 
-            {/* Back Button */}
             <button className="mprf__back-btn" onClick={() => navigate("/user-dashboard")}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="15 18 9 12 15 6" />
@@ -152,7 +148,6 @@ function MyProfile() {
                 {t("back")}
             </button>
 
-            {/* Header */}
             <div className="mprf__header">
                 <div className="mprf__header-badge">
                     <span className="mprf__badge-dot" />
@@ -162,7 +157,6 @@ function MyProfile() {
                 <p className="mprf__subtitle">{t("profileInfoSubtitle")}</p>
             </div>
 
-            {/* Loading */}
             {loading && (
                 <div className="mprf__loading">
                     <div className="mprf__loader">
@@ -173,7 +167,6 @@ function MyProfile() {
                 </div>
             )}
 
-            {/* Not Found */}
             {!loading && notFound && (
                 <div className="mprf__card">
                     <div className="mprf__card-glow" />
@@ -187,18 +180,15 @@ function MyProfile() {
                 </div>
             )}
 
-            {/* Profile Card */}
             {!loading && profile && (
                 <div className="mprf__card">
                     <div className="mprf__card-glow" />
                     <div className="mprf__card-stripe" />
 
-                    {/* Edit Button */}
                     <button className="mprf__edit-trigger" onClick={() => setShowEditModal(true)}>
                         ✎ {t("edit")}
                     </button>
 
-                    {/* Avatar Section */}
                     <div className="mprf__avatar-section">
                         <div className="mprf__avatar-ring">
                             <div className="mprf__avatar">
@@ -214,10 +204,8 @@ function MyProfile() {
                         </div>
                     </div>
 
-                    {/* Divider */}
                     <div className="mprf__divider" />
 
-                    {/* Details Grid */}
                     <div className="mprf__grid">
 
                         <div className="mprf__item">
@@ -293,7 +281,6 @@ function MyProfile() {
                 </div>
             )}
 
-            {/* Edit Modal */}
             {showEditModal && (
                 <div className="mprf__modal-overlay" onClick={() => setShowEditModal(false)}>
                     <div className="mprf__modal" onClick={(e) => e.stopPropagation()}>
