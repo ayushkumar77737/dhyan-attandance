@@ -1,12 +1,4 @@
-/* =========================
-IMPORTS
-========================= */
-
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
-
-/* =========================
-PAGE
-========================= */
 
 .notifications-page {
   min-height: 100vh;
@@ -20,10 +12,6 @@ PAGE
   overflow: hidden;
   animation: fadeIn 0.6s ease-in-out;
 }
-
-/* =========================
-DECORATIVE ORBS
-========================= */
 
 .notif-orb {
   position: fixed;
@@ -65,10 +53,6 @@ DECORATIVE ORBS
   z-index: 1;
 }
 
-/* =========================
-BACK BUTTON
-========================= */
-
 .notifications-page .notif-back-btn {
   align-self: flex-start;
   margin-bottom: 20px;
@@ -94,10 +78,6 @@ BACK BUTTON
   color: #c7d2fe;
   transform: translateX(-2px);
 }
-
-/* =========================
-TITLE BLOCK
-========================= */
 
 .notif-title-block {
   text-align: center;
@@ -136,10 +116,6 @@ TITLE BLOCK
   font-weight: 400;
 }
 
-/* =========================
-CARD
-========================= */
-
 .notifications-page .notif-card {
   width: 100%;
   max-width: 800px;
@@ -151,10 +127,6 @@ CARD
   backdrop-filter: blur(20px);
   animation: slideUp 0.5s ease;
 }
-
-/* =========================
-STATUS MESSAGE
-========================= */
 
 .notifications-page .status-message {
   margin-bottom: 18px;
@@ -184,10 +156,6 @@ STATUS MESSAGE
   color: #fbbf24;
   border: 1px solid rgba(234, 179, 8, 0.25);
 }
-
-/* =========================
-TEXTAREA
-========================= */
 
 .textarea-wrapper {
   position: relative;
@@ -228,10 +196,6 @@ TEXTAREA
   pointer-events: none;
   opacity: 0.5;
 }
-
-/* =========================
-SUBMIT BUTTON
-========================= */
 
 .notifications-page .notif-card button[type="submit"] {
   width: 100%;
@@ -281,10 +245,6 @@ SUBMIT BUTTON
   }
 }
 
-/* =========================
-NOTIFICATIONS LIST
-========================= */
-
 .notifications-page .notif-list {
   width: 100%;
   max-width: 800px;
@@ -319,10 +279,6 @@ NOTIFICATIONS LIST
   border-radius: 50px;
   min-width: 24px;
 }
-
-/* =========================
-TABLE
-========================= */
 
 .notifications-page .notif-table {
   width: 100%;
@@ -398,10 +354,6 @@ TABLE
   font-family: "Courier New", monospace;
 }
 
-/* =========================
-ACTION BUTTONS ← NEW
-========================= */
-
 .notif-action-btns {
   display: flex;
   gap: 6px;
@@ -449,10 +401,6 @@ ACTION BUTTONS ← NEW
   border-color: rgba(239, 68, 68, 0.6);
   transform: translateY(-1px);
 }
-
-/* =========================
-MODALS ← NEW
-========================= */
 
 .notif-modal-overlay {
   position: fixed;
@@ -620,10 +568,6 @@ MODALS ← NEW
   transform: translateY(-1px);
 }
 
-/* =========================
-NO DATA
-========================= */
-
 .notifications-page .no-data {
   display: flex;
   flex-direction: column;
@@ -645,10 +589,6 @@ NO DATA
   font-size: 14px;
   margin: 0;
 }
-
-/* =========================
-ANIMATIONS
-========================= */
 
 @keyframes fadeIn {
   from {
@@ -696,10 +636,6 @@ ANIMATIONS
   }
 }
 
-/* =========================
-MOBILE
-========================= */
-
 @media (max-width: 480px) {
   .notifications-page {
     padding: 15px;
@@ -719,11 +655,11 @@ MOBILE
   }
 
   .notifications-page .notif-list {
-    overflow-x: auto;        /* ← ADD */
+    overflow-x: auto;
   }
 
   .notifications-page .notif-table {
-    min-width: 480px;        /* ← ADD */
+    min-width: 480px;
   }
 
   .notifications-page .notif-table th,
@@ -739,14 +675,14 @@ MOBILE
   .notif-action-btns {
     flex-direction: column;
     gap: 4px;
-    align-items: stretch;    /* ← ADD */
+    align-items: stretch;
   }
 
   .notif-edit-btn,
   .notif-delete-btn {
-    text-align: center;      /* ← ADD */
-    padding: 6px 8px;        /* ← ADD */
-    font-size: 11px;         /* ← ADD */
+    text-align: center;
+    padding: 6px 8px;
+    font-size: 11px;
   }
 
   .notif-modal {
@@ -754,10 +690,6 @@ MOBILE
     margin: 0 16px;
   }
 }
-
-/* =========================
-TABLET
-========================= */
 
 @media (min-width: 481px) and (max-width: 768px) {
   .notifications-page .notif-card {
@@ -768,10 +700,6 @@ TABLET
     font-size: 34px;
   }
 }
-
-/* =========================
-LAPTOP
-========================= */
 
 @media (min-width: 769px) {
   .notifications-page .notif-card {

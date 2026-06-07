@@ -28,12 +28,10 @@ function Notifications() {
   const [status, setStatus] = useState("");
   const [notifications, setNotifications] = useState([]);
 
-  // ← ADD: edit modal state
   const [showEditModal, setShowEditModal] = useState(false);
   const [editItem, setEditItem] = useState(null);
   const [editMessage, setEditMessage] = useState("");
 
-  // ← ADD: delete modal state
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
@@ -144,14 +142,12 @@ function Notifications() {
     }
   };
 
-  // ← ADD: open edit modal
   const openEditModal = (item) => {
     setEditItem(item);
     setEditMessage(item.message);
     setShowEditModal(true);
   };
 
-  // ← ADD: save edited notification
   const saveEdit = async () => {
     if (!editMessage.trim()) return;
     try {
@@ -171,13 +167,11 @@ function Notifications() {
     }
   };
 
-  // ← ADD: open delete modal
   const openDeleteModal = (id) => {
     setDeleteId(id);
     setShowDeleteModal(true);
   };
 
-  // ← ADD: confirm delete
   const confirmDelete = async () => {
     try {
       await deleteDoc(doc(db, "notifications", deleteId));
@@ -195,24 +189,20 @@ function Notifications() {
   return (
     <div className="notifications-page">
 
-      {/* Decorative orbs */}
       <div className="notif-orb notif-orb-1" />
       <div className="notif-orb notif-orb-2" />
       <div className="notif-orb notif-orb-3" />
 
-      {/* Back Button */}
       <button className="notif-back-btn" onClick={() => navigate(-1)}>
         <span>←</span> {t("back")}
       </button>
 
-      {/* Title Block */}
       <div className="notif-title-block">
         <span className="notif-eyebrow">{t("adminPanel")}</span>
         <h1 className="notif-main-title">{t("postNotification")}</h1>
         <p className="notif-subtitle">{t("notificationSubtitle")}</p>
       </div>
 
-      {/* Card */}
       <div className="notif-card">
 
         {status && (
@@ -243,7 +233,6 @@ function Notifications() {
 
       </div>
 
-      {/* Notifications List */}
       <div className="notif-list">
 
         <div className="notif-list-header">
@@ -284,7 +273,6 @@ function Notifications() {
                     </span>
                   </td>
 
-                  {/* ← ADD: edit and delete buttons */}
                   <td>
                     <div className="notif-action-btns">
                       <button
@@ -310,7 +298,6 @@ function Notifications() {
 
       </div>
 
-      {/* ← EDIT MODAL */}
       {showEditModal && editItem && (
         <div className="notif-modal-overlay" onClick={() => setShowEditModal(false)}>
           <div className="notif-modal" onClick={(e) => e.stopPropagation()}>
@@ -341,7 +328,6 @@ function Notifications() {
         </div>
       )}
 
-      {/* ← DELETE MODAL */}
       {showDeleteModal && (
         <div className="notif-modal-overlay" onClick={() => setShowDeleteModal(false)}>
           <div className="notif-modal notif-modal-sm" onClick={(e) => e.stopPropagation()}>
