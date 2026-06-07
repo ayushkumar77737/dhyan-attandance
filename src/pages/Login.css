@@ -1,12 +1,4 @@
-/* ===============================
-FONTS
-================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
-
-/* ===============================
-CSS VARIABLES
-================================ */
 
 :root {
     --ln-purple: #8b5cf6;
@@ -40,10 +32,6 @@ CSS VARIABLES
     --font-body: 'Outfit', sans-serif;
 }
 
-/* ===============================
-GLOBAL RESET
-================================ */
-
 * {
     box-sizing: border-box;
 }
@@ -56,10 +44,6 @@ html {
     font-family: var(--font-body);
 }
 
-/* ===============================
-PAGE
-================================ */
-
 .login-page {
     height: 100vh;
     width: 100%;
@@ -69,10 +53,6 @@ PAGE
     position: relative;
     overflow: hidden;
 }
-
-/* ===============================
-BACKGROUND CAROUSEL IMAGES
-================================ */
 
 .login-bg-wrapper {
     position: absolute;
@@ -106,10 +86,6 @@ BACKGROUND CAROUSEL IMAGES
         radial-gradient(ellipse 60% 50% at 25% 50%, rgba(80, 30, 160, 0.35) 0%, transparent 65%),
         rgba(4, 2, 14, 0.55);
 }
-
-/* ===============================
-CAROUSEL DOTS — over background
-================================ */
 
 .carousel-dots {
     position: fixed;
@@ -145,10 +121,6 @@ CAROUSEL DOTS — over background
     transform: scale(1.2);
 }
 
-/* ===============================
-MAIN CONTAINER
-================================ */
-
 .login-container {
     position: relative;
     z-index: 1;
@@ -172,10 +144,6 @@ MAIN CONTAINER
 
     animation: cardFade 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
-
-/* ===============================
-LEFT LOGIN FORM
-================================ */
 
 .login-left {
     flex: 1;
@@ -204,20 +172,12 @@ LEFT LOGIN FORM
     filter: blur(20px);
 }
 
-/* ===============================
-FORM LAYOUT
-================================ */
-
 .login-left form {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 14px;
 }
-
-/* ===============================
-TITLES
-================================ */
 
 .card-title {
     font-size: 26px;
@@ -271,10 +231,6 @@ TITLES
     font-family: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans', sans-serif;
 }
 
-/* ===============================
-INPUTS
-================================ */
-
 .login-input {
     width: 100%;
     padding: 13px 16px;
@@ -306,10 +262,6 @@ INPUTS
     transform: scale(1.02);
 }
 
-/* ===============================
-PASSWORD WRAPPER
-================================ */
-
 .password-wrapper {
     position: relative;
     width: 100%;
@@ -319,10 +271,6 @@ PASSWORD WRAPPER
     width: 100%;
     padding-right: 44px;
 }
-
-/* ===============================
-EYE ICON
-================================ */
 
 .toggle-password {
     position: absolute;
@@ -339,10 +287,6 @@ EYE ICON
 .toggle-password:hover {
     color: var(--ln-text-primary);
 }
-
-/* ===============================
-LOGIN BUTTON
-================================ */
 
 .login-button {
     width: 100%;
@@ -382,10 +326,6 @@ LOGIN BUTTON
     cursor: not-allowed;
     transform: none;
 }
-
-/* ===============================
-FORGOT PASSWORD
-================================ */
 
 .login-bottom-links {
     width: 100%;
@@ -427,10 +367,6 @@ FORGOT PASSWORD
     text-decoration: underline;
 }
 
-/* ===============================
-ERROR MESSAGE
-================================ */
-
 .login-error {
     color: var(--ln-error);
     font-size: 13px;
@@ -469,10 +405,6 @@ ERROR MESSAGE
     }
 }
 
-/* ===============================
-RIGHT IMAGE SECTION
-================================ */
-
 .login-right {
     flex: 1;
 
@@ -499,10 +431,6 @@ RIGHT IMAGE SECTION
         0 0 0 1px rgba(255, 255, 255, 0.06);
     animation: imageZoom 6s infinite alternate;
 }
-
-/* ===============================
-ANIMATIONS
-================================ */
 
 @keyframes cardFade {
     from {
@@ -550,10 +478,6 @@ ANIMATIONS
     }
 }
 
-/* ===============================
-TABLET
-================================ */
-
 @media (max-width: 1024px) {
     .login-container {
         width: 90%;
@@ -568,10 +492,6 @@ TABLET
         height: 80%;
     }
 }
-
-/* ===============================
-MOBILE
-================================ */
 
 @media (max-width: 768px) {
     .login-container {
@@ -620,10 +540,6 @@ MOBILE
         padding: 12px;
     }
 }
-
-/* ===============================
-SMALL MOBILE
-================================ */
 
 @media (max-width: 480px) {
     .login-container {

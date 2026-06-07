@@ -28,7 +28,6 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Auto-advance carousel every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setBgIndex((prev) => (prev + 1) % bgImages.length);
@@ -97,7 +96,6 @@ const Login = () => {
         return;
       }
 
-      // ← ADD THIS — log the login after disabled check passes
       const userName = userDoc.exists() ? userDoc.data().name || id.toUpperCase() : id.toUpperCase();
       await logLogin(id.toUpperCase(), userName);
 
@@ -142,7 +140,6 @@ const Login = () => {
   return (
     <div className="login-page">
 
-      {/* ← BACKGROUND CAROUSEL IMAGES */}
       <div className="login-bg-wrapper">
         {bgImages.map((img, index) => (
           <div
@@ -153,7 +150,6 @@ const Login = () => {
         ))}
       </div>
 
-      {/* ← CAROUSEL DOTS OVER BACKGROUND */}
       <div className="carousel-dots">
         {bgImages.map((_, index) => (
           <span
@@ -166,7 +162,6 @@ const Login = () => {
 
       <div className="login-container">
 
-        {/* LEFT SIDE FORM */}
         <div className="login-left">
 
           <h2 className="card-title">{t("appTitle")}</h2>
@@ -228,7 +223,6 @@ const Login = () => {
 
         </div>
 
-        {/* RIGHT SIDE IMAGE */}
         <div className="login-right">
           <img src={dhyanImage} alt="Dhyan" />
         </div>
