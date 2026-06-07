@@ -144,7 +144,7 @@ function ToggleStatus() {
 
     const handleToggleAll = async () => {
         const allDisabled = users.every((u) => u.disabled);
-        const newStatus = !allDisabled; // if all disabled → enable all; else → disable all
+        const newStatus = !allDisabled;
         setTogglingId("__all__");
         try {
             await Promise.all(
@@ -189,7 +189,6 @@ function ToggleStatus() {
             <div className="tgls__orb tgls__orb--3" />
             <div className="tgls__grid" />
 
-            {/* Back */}
             <button className="tgls__back-btn" onClick={() => navigate("/admin-dashboard")}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="15 18 9 12 15 6" />
@@ -197,7 +196,6 @@ function ToggleStatus() {
                 {t("back")}
             </button>
 
-            {/* Hero */}
             <div className="tgls__hero">
                 <div className="tgls__hero-badge">
                     <span className="tgls__badge-dot" />
@@ -207,14 +205,12 @@ function ToggleStatus() {
                 <p className="tgls__hero-sub">{t("toggleStatusSub")}</p>
             </div>
 
-            {/* Message */}
             {message.text && (
                 <div className={`tgls__msg tgls__msg--${message.type}`}>
                     {message.text}
                 </div>
             )}
 
-            {/* Stats */}
             {!loading && (
                 <div className="tgls__stats">
                     <div className="tgls__stat-card">
@@ -235,11 +231,8 @@ function ToggleStatus() {
                 </div>
             )}
 
-            {/* Search */}
-            {/* Search */}
             <div className="tgls__search-wrap">
 
-                {/* ✅ New inner wrapper */}
                 <div className="tgls__search-inner">
                     <span className="tgls__search-icon">🔍</span>
                     <input
@@ -271,7 +264,6 @@ function ToggleStatus() {
 
             </div>
 
-            {/* Loading */}
             {loading && (
                 <div className="tgls__loading">
                     <div className="tgls__loader">
@@ -282,7 +274,6 @@ function ToggleStatus() {
                 </div>
             )}
 
-            {/* User List */}
             {!loading && (
                 <div className="tgls__list">
                     {filtered.length === 0 ? (
@@ -297,24 +288,20 @@ function ToggleStatus() {
                                 className={`tgls__row ${user.disabled ? "tgls__row--disabled" : ""}`}
                                 style={{ animationDelay: `${index * 0.04}s` }}
                             >
-                                {/* Avatar */}
                                 <div className={`tgls__avatar ${user.disabled ? "tgls__avatar--off" : "tgls__avatar--on"}`}>
                                     {user.name ? user.name.charAt(0).toUpperCase() : "?"}
                                 </div>
 
-                                {/* Info */}
                                 <div className="tgls__info">
                                     <span className="tgls__name">{user.name}</span>
                                     <span className="tgls__id-chip">{user.idNo}</span>
                                 </div>
 
-                                {/* Status badge */}
                                 <div className={`tgls__status ${user.disabled ? "tgls__status--off" : "tgls__status--on"}`}>
                                     <span className="tgls__status-dot" />
                                     {user.disabled ? t("disabled") : t("active")}
                                 </div>
 
-                                {/* Toggle Button */}
                                 <button
                                     className={`tgls__btn ${user.disabled ? "tgls__btn--enable" : "tgls__btn--disable"}`}
                                     onClick={() => handleToggle(user)}

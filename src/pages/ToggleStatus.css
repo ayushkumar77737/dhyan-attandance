@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-/* =========================
-PAGE
-========================= */
-
 .tgls__page {
     min-height: 100vh;
     background: #060c17;
@@ -17,10 +13,6 @@ PAGE
     animation: tgls__fadeIn 0.7s ease-in-out;
 }
 
-/* =========================
-GRID
-========================= */
-
 .tgls__grid {
     position: fixed;
     inset: 0;
@@ -32,10 +24,6 @@ GRID
         repeating-linear-gradient(90deg, transparent, transparent 70px,
             rgba(239, 68, 68, 0.018) 70px, rgba(239, 68, 68, 0.018) 71px);
 }
-
-/* =========================
-ORBS
-========================= */
 
 .tgls__orb {
     position: fixed;
@@ -82,10 +70,6 @@ ORBS
     }
 }
 
-/* =========================
-BACK BUTTON
-========================= */
-
 .tgls__back-btn {
     align-self: flex-start;
     margin-bottom: 24px;
@@ -114,10 +98,6 @@ BACK BUTTON
     color: #fff;
     transform: translateX(-3px);
 }
-
-/* =========================
-HERO
-========================= */
 
 .tgls__hero {
     text-align: center;
@@ -186,10 +166,6 @@ HERO
     letter-spacing: 0.02em;
 }
 
-/* =========================
-MESSAGE
-========================= */
-
 .tgls__msg {
     width: 100%;
     max-width: 720px;
@@ -217,10 +193,6 @@ MESSAGE
     color: #f87171;
     box-shadow: 0 0 20px rgba(239, 68, 68, 0.06);
 }
-
-/* =========================
-STATS
-========================= */
 
 .tgls__stats {
     width: 100%;
@@ -289,10 +261,6 @@ STATS
     color: #3a5060;
 }
 
-/* =========================
-SEARCH
-========================= */
-
 .tgls__search-wrap {
     width: 100%;
     max-width: 720px;
@@ -300,8 +268,6 @@ SEARCH
     margin-bottom: 18px;
     z-index: 1;
     animation: tgls__slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
-
-    /* ✅ Add these 3 lines */
     display: flex;
     align-items: center;
     gap: 10px;
@@ -364,10 +330,6 @@ SEARCH
     color: #fff;
 }
 
-/* =========================
-LOADING
-========================= */
-
 .tgls__loading {
     display: flex;
     flex-direction: column;
@@ -407,10 +369,6 @@ LOADING
     }
 }
 
-/* =========================
-LIST
-========================= */
-
 .tgls__list {
     width: 100%;
     max-width: 720px;
@@ -440,10 +398,6 @@ LIST
     opacity: 0.4;
 }
 
-/* =========================
-ROW
-========================= */
-
 .tgls__row {
     display: flex;
     align-items: center;
@@ -471,7 +425,6 @@ ROW
     background: rgba(239, 68, 68, 0.025);
 }
 
-/* Avatar */
 .tgls__avatar {
     width: 44px;
     height: 44px;
@@ -500,7 +453,6 @@ ROW
     box-shadow: 0 0 16px rgba(239, 68, 68, 0.1);
 }
 
-/* Info */
 .tgls__info {
     flex: 1;
     display: flex;
@@ -534,7 +486,6 @@ ROW
     width: fit-content;
 }
 
-/* Status badge */
 .tgls__status {
     display: inline-flex;
     align-items: center;
@@ -567,7 +518,6 @@ ROW
     background: currentColor;
 }
 
-/* Toggle Button */
 .tgls__btn {
     padding: 9px 18px;
     border-radius: 10px;
@@ -634,10 +584,6 @@ ROW
     display: inline-block;
 }
 
-/* =========================
-ANIMATIONS
-========================= */
-
 @keyframes tgls__fadeIn {
     from {
         opacity: 0;
@@ -671,10 +617,6 @@ ANIMATIONS
         transform: translateY(0);
     }
 }
-
-/* =========================
-RESPONSIVE
-========================= */
 
 @media (max-width: 600px) {
     .tgls__page {
@@ -716,7 +658,6 @@ RESPONSIVE
         display: none;
     }
 
-    /* ✅ Add these 3 */
     .tgls__search-wrap {
         flex-wrap: wrap;
     }
@@ -732,10 +673,6 @@ RESPONSIVE
     }
 }
 
-/* =========================
-SEARCH WRAP UPDATE
-========================= */
-
 .tgls__search-wrap {
     display: flex;
     align-items: center;
@@ -744,12 +681,7 @@ SEARCH WRAP UPDATE
 
 .tgls__search {
     flex: 1;
-    /* makes input take remaining space */
 }
-
-/* =========================
-BULK TOGGLE BUTTON
-========================= */
 
 .tgls__bulk-btn {
     padding: 11px 18px;
