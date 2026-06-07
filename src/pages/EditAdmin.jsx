@@ -13,7 +13,7 @@ import logo from "../assets/logo2.png";
 function EditAdmin() {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { id } = useParams(); // Firestore doc id = Admin ID (e.g. ADMIN1)
+    const { id } = useParams();
 
     useAutoLogout();
 
@@ -25,7 +25,6 @@ function EditAdmin() {
     const [msg, setMsg] = useState({ type: "", text: "" });
     const [original, setOriginal] = useState({ name: "", email: "" });
 
-    /* ── Guard: only admins can view this page ── */
     const checkAdmin = async () => {
         const currentUser = auth.currentUser;
         if (!currentUser) { navigate("/"); return; }
@@ -38,7 +37,6 @@ function EditAdmin() {
         } catch (err) { console.error(err); navigate("/"); }
     };
 
-    /* ── Load the admin being edited ── */
     const fetchAdmin = async () => {
         try {
             setLoading(true);
@@ -79,17 +77,15 @@ function EditAdmin() {
     useEffect(() => {
         checkAdmin();
         fetchAdmin();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     useEffect(() => {
         if (!msg.text) return;
-        if (msg.type === "success") return; // success navigates away on its own
+        if (msg.type === "success") return;
         const timer = setTimeout(() => setMsg({ type: "", text: "" }), 3000);
         return () => clearTimeout(timer);
     }, [msg]);
 
-    /* ── Save changes ── */
     const handleUpdate = async () => {
         setMsg({ type: "", text: "" });
 
@@ -136,7 +132,6 @@ function EditAdmin() {
 
     return (
         <div className="editadmin-container">
-            {/* ── Header ── */}
             <div className="editadmin-header">
                 <div className="editadmin-header-left">
                     <img src={logo} alt="Logo" className="editadmin-logo" />
@@ -150,7 +145,6 @@ function EditAdmin() {
                 </button>
             </div>
 
-            {/* ── Body ── */}
             {loading ? (
                 <div className="editadmin-spinner-wrap"><div className="editadmin-spinner" /></div>
             ) : notFound ? (
@@ -184,8 +178,6 @@ function EditAdmin() {
                     <button className="editadmin-save-btn" onClick={handleUpdate} disabled={saving}>
                         {saving ? t("saving") : t("updateAdmin")}
                     </button>
-
-                    {/* Note: password is managed in Firebase Auth, not editable here */}
                 </div>
             )}
         </div>
