@@ -95,8 +95,12 @@ function AdminLogs() {
     const [search, setSearch] = useState("");
     const [filterAdmin, setFilterAdmin] = useState("all");
     const [filterAction, setFilterAction] = useState("all");
-    const [dateFrom, setDateFrom] = useState("");
-    const [dateTo, setDateTo] = useState("");
+    const todayStr = (() => {
+        const d = new Date();
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    })();
+    const [dateFrom, setDateFrom] = useState(todayStr);
+    const [dateTo, setDateTo] = useState(todayStr);
 
     const [confirmModal, setConfirmModal] = useState(null);
     const [deleting, setDeleting] = useState(false);
