@@ -171,6 +171,10 @@ function UserDashboard() {
       path: "/directory", cls: "ud-action-green", name: t("directory") || "Directory", sub: t("viewDetails") || "View details",
       icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>)
     },
+    {
+      path: "/my-activity", cls: "ud-action-blue", name: t("myActivity") || "My Activity", sub: t("viewDetails") || "View details",
+      icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>)
+    },
   ];
 
   const actionsFiltered = quickActions.filter(

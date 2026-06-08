@@ -680,5 +680,6 @@
   "errorUpdatingAdmin": "Error updating admin",
   "noChangesMade": "No changes to update",
   "dashSearchPlaceholder": "Search features, tools, pages...",
-  "dashNoResults": "No matching features found"
+  "dashNoResults": "No matching features found",
+  "myActivity": "My Activity"
 }
