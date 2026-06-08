@@ -39,6 +39,7 @@ import Directory from "./pages/Directory";
 import AddAdmin from "./pages/AddAdmin";
 import AdminLogs from "./pages/AdminLogs";
 import EditAdmin from "./pages/EditAdmin";
+import MyActivity from "./pages/MyActivity";
 
 function App() {
   return (
@@ -118,6 +119,15 @@ function App() {
           element={
             <ProtectedRoute>
               <ShareExperience />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/my-activity"
+          element={
+            <ProtectedRoute>
+              <MyActivity />
             </ProtectedRoute>
           }
         />

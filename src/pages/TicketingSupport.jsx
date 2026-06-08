@@ -15,6 +15,7 @@ import {
     getDoc
 } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
+import { logUserAction } from "../utils/logUserAction";
 
 function TicketingSupport() {
 
@@ -171,7 +172,7 @@ function TicketingSupport() {
             };
 
             await addDoc(collection(db, "tickets"), ticketData);
-
+            await logUserAction("raise_ticket", { details: t("uaRaiseTicketDetail", { issue: form.issue.trim() }) });
             const id = form.idNo.trim().toUpperCase();
             setForm({ name: "", idNo: "", email: "", issue: "" });
             setShowModal(false);

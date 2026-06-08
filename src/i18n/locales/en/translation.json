@@ -681,5 +681,14 @@
   "noChangesMade": "No changes to update",
   "dashSearchPlaceholder": "Search features, tools, pages...",
   "dashNoResults": "No matching features found",
-  "myActivity": "My Activity"
+  "myActivity": "My Activity",
+  "uaMarkAttendance": "Marked attendance",
+  "uaUpdateProfile": "Updated profile",
+  "uaSubmitAbsence": "Submitted absence reason",
+  "uaRaiseTicket": "Raised a ticket",
+  "uaShareExperience": "Shared an experience",
+  "uaSubmitAbsenceDetail": "Absence reason for {{date}}",
+  "uaRaiseTicketDetail": "Raised ticket: {{issue}}",
+  "uaShareExperienceDetail": "Shared experience · {{rating}}★",
+  "uaUpdateProfileDetail": "Updated profile details"
 }

@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useTranslation } from "react-i18next";
+import { logUserAction } from "../utils/logUserAction";
 
 function ShareExperience() {
     const { t } = useTranslation();
@@ -144,6 +145,7 @@ function ShareExperience() {
                 date: today,
                 createdAt: new Date().toISOString(),
             });
+            await logUserAction("share_experience", { details: t("uaShareExperienceDetail", { rating }) });
             setSubmitted(true);
         } catch (err) {
             console.error(err);

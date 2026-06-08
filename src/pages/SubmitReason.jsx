@@ -7,6 +7,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
+import { logUserAction } from "../utils/logUserAction";
 
 function SubmitReason() {
 
@@ -126,7 +127,7 @@ function SubmitReason() {
         status: "Pending",
         createdAt: new Date()
       });
-
+      await logUserAction("submit_absence", { details: t("uaSubmitAbsenceDetail", { date }) });
       setMessage(t("reasonSubmittedSuccess"));
       setType("success");
       setDate(getTodayString());

@@ -5,6 +5,7 @@ import { auth, db } from "../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
+import { logUserAction } from "../utils/logUserAction";
 
 function MyProfile() {
 
@@ -128,7 +129,7 @@ function MyProfile() {
             await updateDoc(doc(db, "users", profileId), {
                 name: safeName
             });
-
+            await logUserAction("update_profile", { details: t("uaUpdateProfileDetail") });
             setProfile((prev) => ({ ...prev, ...editForm }));
             setShowEditModal(false);
         } catch (error) {
