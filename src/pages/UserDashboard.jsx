@@ -25,12 +25,17 @@ function UserDashboard() {
     };
     document.addEventListener("contextmenu", disableRightClick);
     document.addEventListener("keydown", disableInspectKeys);
+    sessionStorage.setItem("greetingShown", "true");
+    const greetingTimer = setTimeout(() => setShowGreeting(false), 4000);
     return () => {
+      clearTimeout(greetingTimer);
       document.removeEventListener("contextmenu", disableRightClick);
       document.removeEventListener("keydown", disableInspectKeys);
     };
   }, []);
-
+  const [showGreeting, setShowGreeting] = useState(
+    () => !sessionStorage.getItem("greetingShown")
+  );
   const [search, setSearch] = useState("");
   const [attendance, setAttendance] = useState([]);
   const [userName, setUserName] = useState("");
@@ -183,7 +188,12 @@ function UserDashboard() {
 
   return (
     <div className="ud-container">
-
+      {showGreeting && (
+        <div className="ud-greeting" onClick={() => setShowGreeting(false)}>
+          <span className="ud-greeting-icon">🙏</span>
+          {t("greetingMessage")}
+        </div>
+      )}
       <div className="ud-topbar">
         <div className="ud-topbar-left">
           <img src={logo} alt="Logo" className="ud-logo" />
