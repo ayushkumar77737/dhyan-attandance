@@ -307,6 +307,66 @@
   color: var(--text-muted);
 }
 
+.ud-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.ud-search-icon {
+  position: absolute;
+  left: 16px;
+  width: 17px;
+  height: 17px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.ud-search {
+  width: 100%;
+  padding: 13px 40px 13px 44px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(14, 165, 160, 0.2);
+  border-radius: 50px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ud-search:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(14, 165, 160, 0.12);
+}
+
+.ud-search::placeholder {
+  color: var(--text-muted);
+}
+
+.ud-search-clear {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 15px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.ud-search-clear:hover {
+  color: var(--text-primary);
+}
+
+.ud-no-results {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: 28px 0;
+}
+
 .ud-activity-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
