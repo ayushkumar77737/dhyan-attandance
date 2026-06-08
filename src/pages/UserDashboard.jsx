@@ -15,26 +15,8 @@ function UserDashboard() {
   const navigate = useNavigate();
   useAutoLogout();
 
-  useEffect(() => {
-    const disableRightClick = (e) => e.preventDefault();
-    const disableInspectKeys = (e) => {
-      if (e.key === "F12") e.preventDefault();
-      if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
-        e.preventDefault();
-      if (e.ctrlKey && e.key.toUpperCase() === "U") e.preventDefault();
-    };
-    document.addEventListener("contextmenu", disableRightClick);
-    document.addEventListener("keydown", disableInspectKeys);
-    sessionStorage.setItem("greetingShown", "true");
-    const greetingTimer = setTimeout(() => setShowGreeting(false), 4000);
-    return () => {
-      clearTimeout(greetingTimer);
-      document.removeEventListener("contextmenu", disableRightClick);
-      document.removeEventListener("keydown", disableInspectKeys);
-    };
-  }, []);
   const [showGreeting, setShowGreeting] = useState(
-    () => !sessionStorage.getItem("greetingShown")
+    () => !sessionStorage.getItem("udGreetingShown")
   );
   const [search, setSearch] = useState("");
   const [attendance, setAttendance] = useState([]);
@@ -49,6 +31,25 @@ function UserDashboard() {
   const [pendingCount, setPendingCount] = useState(null);
   const [ticketCount, setTicketCount] = useState(null);
   const [resolvedCount, setResolvedCount] = useState(null);
+
+  useEffect(() => {
+    const disableRightClick = (e) => e.preventDefault();
+    const disableInspectKeys = (e) => {
+      if (e.key === "F12") e.preventDefault();
+      if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
+        e.preventDefault();
+      if (e.ctrlKey && e.key.toUpperCase() === "U") e.preventDefault();
+    };
+    document.addEventListener("contextmenu", disableRightClick);
+    document.addEventListener("keydown", disableInspectKeys);
+    sessionStorage.setItem("udGreetingShown", "true");
+    const greetingTimer = setTimeout(() => setShowGreeting(false), 4000);
+    return () => {
+      clearTimeout(greetingTimer);
+      document.removeEventListener("contextmenu", disableRightClick);
+      document.removeEventListener("keydown", disableInspectKeys);
+    };
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -126,6 +127,7 @@ function UserDashboard() {
   const handleLogout = async () => {
     try {
       if (userId?.trim()) await logLogout(userId.trim());
+      sessionStorage.removeItem("udGreetingShown");
       await signOut(auth);
       navigate("/");
     } catch (error) {
