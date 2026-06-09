@@ -681,5 +681,15 @@
   "errorUpdatingAdmin": "एडमिन अपडेट करने में त्रुटि",
   "noChangesMade": "अपडेट करने के लिए कोई बदलाव नहीं",
   "dashSearchPlaceholder": "फ़ीचर, टूल, पेज खोजें...",
-  "dashNoResults": "कोई मिलता-जुलता फ़ीचर नहीं मिला"
+  "dashNoResults": "कोई मिलता-जुलता फ़ीचर नहीं मिला",
+  "myActivity": "मेरी गतिविधि",
+  "uaMarkAttendance": "उपस्थिति दर्ज की",
+  "uaUpdateProfile": "प्रोफ़ाइल अपडेट की",
+  "uaSubmitAbsence": "अनुपस्थिति का कारण सबमिट किया",
+  "uaRaiseTicket": "टिकट उठाया",
+  "uaShareExperience": "अनुभव साझा किया",
+  "uaSubmitAbsenceDetail": "{{date}} के लिए अनुपस्थिति का कारण",
+  "uaRaiseTicketDetail": "टिकट उठाया: {{issue}}",
+  "uaShareExperienceDetail": "अनुभव साझा किया · {{rating}}★",
+  "uaUpdateProfileDetail": "प्रोफ़ाइल विवरण अपडेट किया"
 }

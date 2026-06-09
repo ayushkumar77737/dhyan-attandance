@@ -650,5 +650,15 @@
   "errorUpdatingAdmin": "অ্যাডমিন আপডেট করতে ত্রুটি",
   "noChangesMade": "আপডেট করার জন্য কোনো পরিবর্তন নেই",
   "dashSearchPlaceholder": "ফিচার, টুল, পেজ খুঁজুন...",
-  "dashNoResults": "মিলে যায় এমন কোনো ফিচার পাওয়া যায়নি"
+  "dashNoResults": "মিলে যায় এমন কোনো ফিচার পাওয়া যায়নি",
+  "myActivity": "আমার কার্যক্রম",
+  "uaMarkAttendance": "উপস্থিতি চিহ্নিত করা হয়েছে",
+  "uaUpdateProfile": "প্রোফাইল আপডেট করা হয়েছে",
+  "uaSubmitAbsence": "অনুপস্থিতির কারণ জমা দেওয়া হয়েছে",
+  "uaRaiseTicket": "টিকেট উত্থাপন করা হয়েছে",
+  "uaShareExperience": "অভিজ্ঞতা শেয়ার করা হয়েছে",
+  "uaSubmitAbsenceDetail": "{{date}} তারিখের অনুপস্থিতির কারণ",
+  "uaRaiseTicketDetail": "টিকেট উত্থাপন করা হয়েছে: {{issue}}",
+  "uaShareExperienceDetail": "অভিজ্ঞতা শেয়ার করা হয়েছে · {{rating}}★",
+  "uaUpdateProfileDetail": "প্রোফাইল বিবরণ আপডেট করা হয়েছে"
 }

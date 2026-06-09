@@ -680,5 +680,15 @@
   "errorUpdatingAdmin": "प्रशासक अपडेट करताना त्रुटी",
   "noChangesMade": "अपडेट करण्यासाठी कोणतेही बदल नाहीत",
   "dashSearchPlaceholder": "वैशिष्ट्ये, साधने, पृष्ठे शोधा...",
-  "dashNoResults": "जुळणारी कोणतीही वैशिष्ट्ये आढळली नाहीत"
+  "dashNoResults": "जुळणारी कोणतीही वैशिष्ट्ये आढळली नाहीत",
+  "myActivity": "माझी क्रियाकलाप",
+  "uaMarkAttendance": "उपस्थिती नोंदवली",
+  "uaUpdateProfile": "प्रोफाइल अपडेट केली",
+  "uaSubmitAbsence": "अनुपस्थितीचे कारण सादर केले",
+  "uaRaiseTicket": "तिकीट उघडले",
+  "uaShareExperience": "अनुभव शेअर केला",
+  "uaSubmitAbsenceDetail": "{{date}} साठी अनुपस्थितीचे कारण",
+  "uaRaiseTicketDetail": "तिकीट उघडले: {{issue}}",
+  "uaShareExperienceDetail": "अनुभव शेअर केला · {{rating}}★",
+  "uaUpdateProfileDetail": "प्रोफाइल तपशील अपडेट केले"
 }

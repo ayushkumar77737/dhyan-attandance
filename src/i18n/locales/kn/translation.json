@@ -681,5 +681,15 @@
   "errorUpdatingAdmin": "ನಿರ್ವಾಹಕರನ್ನು ನವೀಕರಿಸುವಲ್ಲಿ ದೋಷ",
   "noChangesMade": "ನವೀಕರಿಸಲು ಯಾವುದೇ ಬದಲಾವಣೆಗಳಿಲ್ಲ",
   "dashSearchPlaceholder": "ವೈಶಿಷ್ಟ್ಯಗಳು, ಪರಿಕರಗಳು, ಪುಟಗಳನ್ನು ಹುಡುಕಿ...",
-  "dashNoResults": "ಹೊಂದಿಕೆಯಾಗುವ ವೈಶಿಷ್ಟ್ಯಗಳು ಯಾವುವೂ ಸಿಗಲಿಲ್ಲ"
+  "dashNoResults": "ಹೊಂದಿಕೆಯಾಗುವ ವೈಶಿಷ್ಟ್ಯಗಳು ಯಾವುವೂ ಸಿಗಲಿಲ್ಲ",
+  "myActivity": "ನನ್ನ ಚಟುವಟಿಕೆ",
+  "uaMarkAttendance": "ಹಾಜರಾತಿ ದಾಖಲಿಸಲಾಗಿದೆ",
+  "uaUpdateProfile": "ಪ್ರೊಫೈಲ್ ನವೀಕರಿಸಲಾಗಿದೆ",
+  "uaSubmitAbsence": "ಗೈರುಹಾಜರಿ ಕಾರಣ ಸಲ್ಲಿಸಲಾಗಿದೆ",
+  "uaRaiseTicket": "ಟಿಕೆಟ್ ಎತ್ತಲಾಗಿದೆ",
+  "uaShareExperience": "ಅನುಭವ ಹಂಚಿಕೊಳ್ಳಲಾಗಿದೆ",
+  "uaSubmitAbsenceDetail": "{{date}} ಗಾಗಿ ಗೈರುಹಾಜರಿ ಕಾರಣ",
+  "uaRaiseTicketDetail": "ಟಿಕೆಟ್ ಎತ್ತಲಾಗಿದೆ: {{issue}}",
+  "uaShareExperienceDetail": "ಅನುಭವ ಹಂಚಿಕೊಳ್ಳಲಾಗಿದೆ · {{rating}}★",
+  "uaUpdateProfileDetail": "ಪ್ರೊಫೈಲ್ ವಿವರಗಳನ್ನು ನವೀಕರಿಸಲಾಗಿದೆ"
 }

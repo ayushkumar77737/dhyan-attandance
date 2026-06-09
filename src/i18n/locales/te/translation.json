@@ -680,5 +680,15 @@
   "errorUpdatingAdmin": "అడ్మిన్‌ను నవీకరించడంలో లోపం",
   "noChangesMade": "నవీకరించడానికి ఎలాంటి మార్పులు లేవు",
   "dashSearchPlaceholder": "ఫీచర్లు, టూల్స్, పేజీలను శోధించండి...",
-  "dashNoResults": "సరిపోలే ఫీచర్లు ఏవీ కనబడలేదు"
+  "dashNoResults": "సరిపోలే ఫీచర్లు ఏవీ కనబడలేదు",
+  "myActivity": "నా కార్యకలాపం",
+  "uaMarkAttendance": "హాజరు నమోదు చేయబడింది",
+  "uaUpdateProfile": "ప్రొఫైల్ అప్‌డేట్ చేయబడింది",
+  "uaSubmitAbsence": "గైర్హాజరు కారణం సమర్పించబడింది",
+  "uaRaiseTicket": "టికెట్ నమోదు చేయబడింది",
+  "uaShareExperience": "అనుభవం పంచుకోబడింది",
+  "uaSubmitAbsenceDetail": "{{date}} తేదీకి గైర్హాజరు కారణం",
+  "uaRaiseTicketDetail": "టికెట్ నమోదు చేయబడింది: {{issue}}",
+  "uaShareExperienceDetail": "అనుభవం పంచుకోబడింది · {{rating}}★",
+  "uaUpdateProfileDetail": "ప్రొఫైల్ వివరాలు అప్‌డేట్ చేయబడ్డాయి"
 }

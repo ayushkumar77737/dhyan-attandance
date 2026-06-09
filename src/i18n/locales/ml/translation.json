@@ -681,5 +681,15 @@
   "errorUpdatingAdmin": "അഡ്മിനെ അപ്ഡേറ്റ് ചെയ്യുന്നതിൽ പിശക്",
   "noChangesMade": "അപ്ഡേറ്റ് ചെയ്യാൻ മാറ്റങ്ങളൊന്നുമില്ല",
   "dashSearchPlaceholder": "ഫീച്ചറുകൾ, ടൂളുകൾ, പേജുകൾ തിരയുക...",
-  "dashNoResults": "പൊരുത്തപ്പെടുന്ന ഫീച്ചറുകളൊന്നും കണ്ടെത്തിയില്ല"
+  "dashNoResults": "പൊരുത്തപ്പെടുന്ന ഫീച്ചറുകളൊന്നും കണ്ടെത്തിയില്ല",
+  "myActivity": "എന്റെ പ്രവർത്തനങ്ങൾ",
+  "uaMarkAttendance": "ഹാജർ രേഖപ്പെടുത്തി",
+  "uaUpdateProfile": "പ്രൊഫൈൽ അപ്‌ഡേറ്റ് ചെയ്തു",
+  "uaSubmitAbsence": "അഭാവ കാരണം സമർപ്പിച്ചു",
+  "uaRaiseTicket": "ടിക്കറ്റ് ഉന്നയിച്ചു",
+  "uaShareExperience": "അനുഭവം പങ്കുവെച്ചു",
+  "uaSubmitAbsenceDetail": "{{date}} തീയതിക്കുള്ള അഭാവ കാരണം",
+  "uaRaiseTicketDetail": "ടിക്കറ്റ് ഉന്നയിച്ചു: {{issue}}",
+  "uaShareExperienceDetail": "അനുഭവം പങ്കുവെച്ചു · {{rating}}★",
+  "uaUpdateProfileDetail": "പ്രൊഫൈൽ വിവരങ്ങൾ അപ്‌ഡേറ്റ് ചെയ്തു"
 }
