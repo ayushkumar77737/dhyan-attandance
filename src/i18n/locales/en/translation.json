@@ -690,5 +690,6 @@
   "uaSubmitAbsenceDetail": "Absence reason for {{date}}",
   "uaRaiseTicketDetail": "Raised ticket: {{issue}}",
   "uaShareExperienceDetail": "Shared experience · {{rating}}★",
-  "uaUpdateProfileDetail": "Updated profile details"
+  "uaUpdateProfileDetail": "Updated profile details",
+  "accessControl": "Access Control"
 }
