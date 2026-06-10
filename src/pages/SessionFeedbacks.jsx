@@ -89,7 +89,12 @@ function SessionFeedbacks() {
                 let userName = data.userId || "Unknown";
                 try {
                     const userSnap = await getDoc(doc(db, "users", data.userId));
-                    if (userSnap.exists()) userName = userSnap.data().name || data.userId;
+                    if (
+                        userSnap.exists() &&
+                        userSnap.data().deleted !== true
+                    ) {
+                        userName = userSnap.data().name || data.userId;
+                    }
                 } catch (_) { }
                 list.push({
                     id: docItem.id,
@@ -413,7 +418,9 @@ function SessionFeedbacks() {
                                             <td><span className="ssfb__date">{f.date}</span></td>
                                             <td>
                                                 <span className="ssfb__comment-preview">
-                                                    {f.comment.length > 40 ? f.comment.slice(0, 40) + "..." : f.comment}
+                                                    {(f.comment || "").length > 40
+                                                        ? (f.comment || "").slice(0, 40) + "..."
+                                                        : (f.comment || "")}
                                                 </span>
                                             </td>
                                         </tr>

@@ -117,7 +117,14 @@ function TrackTicket() {
 
     const updateStatus = async (id, newStatus) => {
         try {
-            await updateDoc(doc(db, "tickets", id), { status: newStatus });
+            await updateDoc(
+                doc(db, "tickets", id),
+                {
+                    status: newStatus,
+                    updatedBy: localStorage.getItem("userId"),
+                    updatedAt: new Date().toISOString()
+                }
+            );
             await logAdminAction("update_ticket", {
                 targetId: id,
                 details: t("logUpdatedTicket", { status: newStatus }),

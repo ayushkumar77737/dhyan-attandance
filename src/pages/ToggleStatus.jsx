@@ -91,7 +91,7 @@ function ToggleStatus() {
                     list.push({
                         docId: docItem.id,
                         name: data.name || "",
-                        idNo: data.idNo || data.userId || docItem.id,
+                        idNo: data.id || docItem.id,
                         disabled: data.disabled === true,
                     });
                 }
@@ -173,7 +173,7 @@ function ToggleStatus() {
 
     const filtered = users.filter(
         (u) =>
-            u.name.toLowerCase().includes(search.toLowerCase()) ||
+            (u.name || "").toLowerCase().includes(search.toLowerCase()) ||
             u.idNo.toLowerCase().includes(search.toLowerCase())
     );
 

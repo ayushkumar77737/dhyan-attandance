@@ -230,6 +230,7 @@ function SmartAttendance() {
                 date: today,
                 status: "Present",
                 scannedAt: serverTimestamp(),
+                markedBy: localStorage.getItem("userId")
             });
             await logAdminAction("mark_attendance", {
                 targetId: userId.toUpperCase(),

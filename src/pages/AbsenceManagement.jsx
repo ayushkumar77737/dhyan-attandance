@@ -124,7 +124,14 @@ function AbsenceManagement() {
 
     const updateStatus = async (id, newStatus) => {
         try {
-            await updateDoc(doc(db, "absenceRequests", id), { status: newStatus });
+            await updateDoc(
+                doc(db, "absenceRequests", id),
+                {
+                    status: newStatus,
+                    updatedBy: localStorage.getItem("userId"),
+                    updatedAt: new Date().toISOString()
+                }
+            );
             await logAdminAction("update_absence", {
                 targetId: id,
                 details: t("logUpdatedAbsence", { status: newStatus }),

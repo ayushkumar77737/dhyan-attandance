@@ -127,6 +127,7 @@ function Notifications() {
       await addDoc(collection(db, "notifications"), {
         message: message,
         userId: "ALL",
+        createdBy: localStorage.getItem("userId"),
         createdAt: serverTimestamp()
       });
       await logAdminAction("create_notification", {
@@ -151,9 +152,14 @@ function Notifications() {
   const saveEdit = async () => {
     if (!editMessage.trim()) return;
     try {
-      await updateDoc(doc(db, "notifications", editItem.id), {
-        message: editMessage.trim()
-      });
+      await updateDoc(
+        doc(db, "notifications", editItem.id),
+        {
+          message: editMessage.trim(),
+          updatedBy: localStorage.getItem("userId"),
+          updatedAt: new Date().toISOString()
+        }
+      );
       await logAdminAction("update_notification", {
         targetId: editItem.id,
         details: t("logEditedNotification"),

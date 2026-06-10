@@ -114,7 +114,11 @@ function AllUsers() {
 
   const confirmDelete = async () => {
     try {
-      await updateDoc(doc(db, "users", selectedUser), { deleted: true });
+      await updateDoc(doc(db, "users", selectedUser), {
+        deleted: true,
+        deletedBy: localStorage.getItem("userId"),
+        deletedAt: new Date().toISOString()
+      });
       await logAdminAction("delete_user", {
         targetId: selectedUser,
         details: t("logDeletedUser", { id: selectedUser }),

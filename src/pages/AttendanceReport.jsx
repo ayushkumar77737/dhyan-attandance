@@ -156,7 +156,9 @@ function AttendanceReport() {
         try {
             const docId = `${editUser.id}_${selectedDate}`;
             await updateDoc(doc(db, "attendance", docId), {
-                status: editStatus
+                status: editStatus,
+                editedBy: localStorage.getItem("userId"),
+                editedAt: new Date().toISOString()
             });
             await logAdminAction("update_attendance", {
                 targetId: editUser.id,

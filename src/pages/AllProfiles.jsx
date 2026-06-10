@@ -167,9 +167,19 @@ function AllProfiles() {
                 dob: editForm.dob.trim(),
                 address: editForm.address.trim()
             });
-            await updateDoc(doc(db, "users", selectedProfile.docId), {
-                name: editForm.name.trim()
-            });
+            const userRef = doc(
+                db,
+                "users",
+                selectedProfile.docId
+            );
+
+            const userSnap = await getDoc(userRef);
+
+            if (userSnap.exists()) {
+                await updateDoc(userRef, {
+                    name: editForm.name.trim()
+                });
+            }
             await logAdminAction("update_profile", {
                 targetId: selectedProfile.idNo || selectedProfile.docId,
                 details: t("logUpdatedProfile", { name: editForm.name.trim() }),

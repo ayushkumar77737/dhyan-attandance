@@ -124,9 +124,17 @@ function AddUser() {
             const cleanId = idNo.toUpperCase();
             const email = cleanId + "@dhyan.in";
 
-            await createUserWithEmailAndPassword(secondaryAuth, email, password);
+            const userCredential =
+                await createUserWithEmailAndPassword(
+                    secondaryAuth,
+                    email,
+                    password
+                );
+
+            const uid = userCredential.user.uid;
 
             await setDoc(doc(db, "users", cleanId), {
+                uid: uid,
                 name: name,
                 id: idNo,
                 email: email,
