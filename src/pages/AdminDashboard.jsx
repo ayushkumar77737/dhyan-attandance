@@ -422,7 +422,7 @@ function AdminDashboard() {
   const handleLogout = async () => {
     try {
       const userId = localStorage.getItem("userId");
-      if (userId) await logLogout(userId.toUpperCase());
+      if (userId && auth.currentUser) await logLogout(userId.toUpperCase());
       sessionStorage.removeItem("greetingShown");
       await signOut(auth);
       navigate("/");

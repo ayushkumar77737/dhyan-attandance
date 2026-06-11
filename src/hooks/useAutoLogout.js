@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase";
+import { logLogout } from "../utils/logActivity";
 
 const TIMEOUT_MS = 10 * 60 * 1000;
 
@@ -12,6 +13,11 @@ function useAutoLogout() {
     const resetTimer = () => {
         if (timerRef.current) clearTimeout(timerRef.current);
         timerRef.current = setTimeout(async () => {
+            const userId = localStorage.getItem("userId");
+            if (userId && auth.currentUser) {
+                await logLogout(userId.toUpperCase());
+            }
+            sessionStorage.removeItem("greetingShown");
             await signOut(auth);
             navigate("/");
         }, TIMEOUT_MS);
