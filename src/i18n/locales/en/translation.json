@@ -691,5 +691,16 @@
   "uaRaiseTicketDetail": "Raised ticket: {{issue}}",
   "uaShareExperienceDetail": "Shared experience · {{rating}}★",
   "uaUpdateProfileDetail": "Updated profile details",
-  "accessControl": "Access Control"
+  "accessControl": "Access Control",
+  "aclSubtitle": "Control which admins can access each page. ADMIN1 always has full access.",
+  "aclPagesLabel": "pages",
+  "aclAllAdmins": "All Admins",
+  "aclSelectedAdmins": "Selected Admins",
+  "aclNoOtherAdmins": "No other admins to select.",
+  "aclSuperNote": "{{id}} always has access and isn't listed.",
+  "aclSaved": "✅ Access settings saved",
+  "aclSaveError": "❌ Failed to save settings",
+  "aclLoadError": "❌ Failed to load data",
+  "saveChanges": "Save Changes",
+  "logUpdatedAccessControl": "Updated page access control settings"
 }

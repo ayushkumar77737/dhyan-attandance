@@ -40,6 +40,8 @@ import AddAdmin from "./pages/AddAdmin";
 import AdminLogs from "./pages/AdminLogs";
 import EditAdmin from "./pages/EditAdmin";
 import MyActivity from "./pages/MyActivity";
+import AccessControl from "./pages/AccessControl";
+import RequireAccess from "./components/RequireAccess";
 
 function App() {
   return (
@@ -133,59 +135,6 @@ function App() {
         />
 
         <Route
-          path="/track-ticket"
-          element={
-            <ProtectedRoute>
-              <TrackTicket />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/profile-registration"
-          element={
-            <ProtectedRoute>
-              <ProfileRegistration />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/toggle-status"
-          element={
-            <ProtectedRoute>
-              <ToggleStatus />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/session-feedbacks"
-          element={
-            <ProtectedRoute>
-              <SessionFeedbacks />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/all-profiles"
-          element={
-            <ProtectedRoute>
-              <AllProfiles />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/activity-logs"
-          element={
-            <ProtectedRoute>
-              <ActivityLogs />
-            </ProtectedRoute>
-          }
-        />
-        <Route
           path="/show-qr"
           element={
             <ProtectedRoute>
@@ -212,7 +161,7 @@ function App() {
           }
         />
 
-        {/* Admin Routes */}
+        {/* Admin Dashboard — never gated, everyone lands here */}
         <Route
           path="/admin-dashboard"
           element={
@@ -222,11 +171,24 @@ function App() {
           }
         />
 
+        {/* Access Control — super-admin gate is inside the component */}
+        <Route
+          path="/access-control"
+          element={
+            <ProtectedRoute>
+              <AccessControl />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Controllable Admin Routes — wrapped in RequireAccess */}
         <Route
           path="/notifications"
           element={
             <ProtectedRoute>
-              <Notifications />
+              <RequireAccess pageId="notifications">
+                <Notifications />
+              </RequireAccess>
             </ProtectedRoute>
           }
         />
@@ -235,7 +197,9 @@ function App() {
           path="/absence-management"
           element={
             <ProtectedRoute>
-              <AbsenceManagement />
+              <RequireAccess pageId="absenceManagement">
+                <AbsenceManagement />
+              </RequireAccess>
             </ProtectedRoute>
           }
         />
@@ -244,7 +208,9 @@ function App() {
           path="/add-user"
           element={
             <ProtectedRoute>
-              <AddUser />
+              <RequireAccess pageId="addUser">
+                <AddUser />
+              </RequireAccess>
             </ProtectedRoute>
           }
         />
@@ -253,7 +219,9 @@ function App() {
           path="/add-admin"
           element={
             <ProtectedRoute>
-              <AddAdmin />
+              <RequireAccess pageId="addAdmin">
+                <AddAdmin />
+              </RequireAccess>
             </ProtectedRoute>
           }
         />
@@ -262,7 +230,20 @@ function App() {
           path="/mark-attendance"
           element={
             <ProtectedRoute>
-              <MarkAttendance />
+              <RequireAccess pageId="markAttendance">
+                <MarkAttendance />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/smart-attendance"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="smartAttendance">
+                <SmartAttendance />
+              </RequireAccess>
             </ProtectedRoute>
           }
         />
@@ -271,7 +252,9 @@ function App() {
           path="/all-users"
           element={
             <ProtectedRoute>
-              <AllUsers />
+              <RequireAccess pageId="allUsers">
+                <AllUsers />
+              </RequireAccess>
             </ProtectedRoute>
           }
         />
@@ -280,7 +263,9 @@ function App() {
           path="/all-admins"
           element={
             <ProtectedRoute>
-              <AllAdmins />
+              <RequireAccess pageId="allAdmins">
+                <AllAdmins />
+              </RequireAccess>
             </ProtectedRoute>
           }
         />
@@ -289,7 +274,9 @@ function App() {
           path="/deleted-users"
           element={
             <ProtectedRoute>
-              <DeletedUsers />
+              <RequireAccess pageId="deletedUsers">
+                <DeletedUsers />
+              </RequireAccess>
             </ProtectedRoute>
           }
         />
@@ -298,7 +285,9 @@ function App() {
           path="/attendance-report"
           element={
             <ProtectedRoute>
-              <AttendanceReport />
+              <RequireAccess pageId="attendanceReport">
+                <AttendanceReport />
+              </RequireAccess>
             </ProtectedRoute>
           }
         />
@@ -307,11 +296,124 @@ function App() {
           path="/user-percentage"
           element={
             <ProtectedRoute>
-              <UserPercentage />
+              <RequireAccess pageId="userPercentage">
+                <UserPercentage />
+              </RequireAccess>
             </ProtectedRoute>
           }
         />
 
+        <Route
+          path="/track-ticket"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="trackTicket">
+                <TrackTicket />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile-registration"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="profileRegistration">
+                <ProfileRegistration />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/toggle-status"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="toggleStatus">
+                <ToggleStatus />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/session-feedbacks"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="sessionFeedbacks">
+                <SessionFeedbacks />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/all-profiles"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="allProfiles">
+                <AllProfiles />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/activity-logs"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="activityLogs">
+                <ActivityLogs />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/id-requests"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="idRequests">
+                <IdRequests />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/contact-settings"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="contactSettings">
+                <ContactSettings />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/blocked-accounts"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="blockedAccounts">
+                <BlockedAccounts />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin-logs"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="adminLogs">
+                <AdminLogs />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Edit pages — reached only from within gated pages, left ungated */}
         <Route
           path="/edit-user/:id"
           element={
@@ -330,56 +432,7 @@ function App() {
           }
         />
 
-        <Route
-          path="/id-requests"
-          element={
-            <ProtectedRoute>
-              <IdRequests />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/smart-attendance"
-          element={
-            <ProtectedRoute>
-              <SmartAttendance />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/contact-settings"
-          element={
-            <ProtectedRoute>
-              <ContactSettings />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/blocked-accounts"
-          element={
-            <ProtectedRoute>
-              <BlockedAccounts />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/blocked-accounts"
-          element={
-            <ProtectedRoute>
-              <BlockedAccounts />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/admin-logs"
-          element={
-            <ProtectedRoute>
-              <AdminLogs />
-            </ProtectedRoute>
-          }
-        />
+        {/* Public auth helpers */}
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/get-id" element={<GetId />} />
       </Routes>

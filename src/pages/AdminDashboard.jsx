@@ -30,6 +30,8 @@ import {
   Filler,
 } from "chart.js";
 
+import { SUPER_ADMIN_ID, fetchAccessConfig, canAccessPath } from "../utils/accessControl";
+
 ChartJS.register(
   ArcElement, Tooltip, Legend,
   LineElement, BarElement, PointElement,
@@ -206,6 +208,9 @@ function AdminDashboard() {
   useAutoLogout();
 
   const [search, setSearch] = useState("");
+  const [accessConfig, setAccessConfig] = useState({});
+  const currentUserId = localStorage.getItem("userId") || "";
+  const isSuperAdmin = currentUserId.toUpperCase() === SUPER_ADMIN_ID;
 
   const [totalUsers, setTotalUsers] = useState(0);
   const [deletedUsers, setDeletedUsers] = useState(0);
@@ -259,6 +264,7 @@ function AdminDashboard() {
     fetchOpenTickets();
     fetchTrendData(7);
     fetchMonthlyData(selectedMonth);
+    fetchAccessConfig().then(setAccessConfig).catch(() => { });
     sessionStorage.setItem("greetingShown", "true");
     const greetingTimer = setTimeout(() => setShowGreeting(false), 4000);
     return () => {
@@ -506,17 +512,19 @@ function AdminDashboard() {
     { path: "/admin-logs", icon: icons.adminLog, cls: "icon-purple", label: t("adminLogs") },
     { path: "/id-requests", icon: icons.idCard, cls: "icon-lime", label: t("idRequests") },
     { path: "/contact-settings", icon: icons.settings, cls: "icon-gray", label: t("contactSettings") },
-    { path: "/access-control", icon: icons.accessControl, cls: "icon-gray", label: t("accessControl") },
+    ...(isSuperAdmin
+      ? [{ path: "/access-control", icon: icons.accessControl, cls: "icon-gray", label: t("accessControl") }]
+      : []),
     { path: "/blocked-accounts", icon: icons.shield, cls: "icon-red", label: t("blockedAccounts.label") },
     { path: "/deleted-users", icon: icons.trash, cls: "icon-red", label: t("deletedUsers") },
   ];
 
-  const coreFiltered = coreItems.filter(
-    (c) => !q || c.title.toLowerCase().includes(q) || c.sub.toLowerCase().includes(q)
-  );
-  const toolsFiltered = toolItems.filter(
-    (c) => !q || c.label.toLowerCase().includes(q)
-  );
+  const coreFiltered = coreItems
+    .filter((c) => canAccessPath(accessConfig, c.path, currentUserId))
+    .filter((c) => !q || c.title.toLowerCase().includes(q) || c.sub.toLowerCase().includes(q));
+  const toolsFiltered = toolItems
+    .filter((c) => canAccessPath(accessConfig, c.path, currentUserId))
+    .filter((c) => !q || c.label.toLowerCase().includes(q));
   const hasResults = coreFiltered.length > 0 || toolsFiltered.length > 0;
 
   return (
