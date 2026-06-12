@@ -691,5 +691,17 @@
   "uaSubmitAbsenceDetail": "{{date}} के लिए अनुपस्थिति का कारण",
   "uaRaiseTicketDetail": "टिकट उठाया: {{issue}}",
   "uaShareExperienceDetail": "अनुभव साझा किया · {{rating}}★",
-  "uaUpdateProfileDetail": "प्रोफ़ाइल विवरण अपडेट किया"
+  "uaUpdateProfileDetail": "प्रोफ़ाइल विवरण अपडेट किया",
+  "accessControl": "एक्सेस नियंत्रण",
+  "aclSubtitle": "नियंत्रित करें कि कौन से एडमिन प्रत्येक पेज तक पहुंच सकते हैं। ADMIN1 के पास हमेशा पूर्ण एक्सेस रहता है।",
+  "aclPagesLabel": "पेज",
+  "aclAllAdmins": "सभी एडमिन",
+  "aclSelectedAdmins": "चयनित एडमिन",
+  "aclNoOtherAdmins": "चुनने के लिए कोई अन्य एडमिन नहीं है।",
+  "aclSuperNote": "{{id}} के पास हमेशा एक्सेस रहता है और वह सूची में नहीं है।",
+  "aclSaved": "✅ एक्सेस सेटिंग्स सहेजी गईं",
+  "aclSaveError": "❌ सेटिंग्स सहेजने में विफल",
+  "aclLoadError": "❌ डेटा लोड करने में विफल",
+  "saveChanges": "परिवर्तन सहेजें",
+  "logUpdatedAccessControl": "पेज एक्सेस नियंत्रण सेटिंग्स अपडेट कीं"
 }

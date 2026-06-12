@@ -691,5 +691,17 @@
   "uaSubmitAbsenceDetail": "{{date}} തീയതിക്കുള്ള അഭാവ കാരണം",
   "uaRaiseTicketDetail": "ടിക്കറ്റ് ഉന്നയിച്ചു: {{issue}}",
   "uaShareExperienceDetail": "അനുഭവം പങ്കുവെച്ചു · {{rating}}★",
-  "uaUpdateProfileDetail": "പ്രൊഫൈൽ വിവരങ്ങൾ അപ്‌ഡേറ്റ് ചെയ്തു"
+  "uaUpdateProfileDetail": "പ്രൊഫൈൽ വിവരങ്ങൾ അപ്‌ഡേറ്റ് ചെയ്തു",
+  "accessControl": "ആക്സസ് നിയന്ത്രണം",
+  "aclSubtitle": "ഓരോ പേജും ഏതെല്ലാം അഡ്മിൻമാർക്ക് ആക്സസ് ചെയ്യാമെന്ന് നിയന്ത്രിക്കുക. ADMIN1-ന് എപ്പോഴും പൂർണ്ണ ആക്സസ് ഉണ്ടായിരിക്കും.",
+  "aclPagesLabel": "പേജുകൾ",
+  "aclAllAdmins": "എല്ലാ അഡ്മിൻമാരും",
+  "aclSelectedAdmins": "തിരഞ്ഞെടുത്ത അഡ്മിൻമാർ",
+  "aclNoOtherAdmins": "തിരഞ്ഞെടുക്കാൻ മറ്റ് അഡ്മിൻമാരില്ല.",
+  "aclSuperNote": "{{id}}-ന് എപ്പോഴും ആക്സസ് ഉണ്ട്, പട്ടികയിൽ കാണിക്കുന്നില്ല.",
+  "aclSaved": "✅ ആക്സസ് ക്രമീകരണങ്ങൾ സംരക്ഷിച്ചു",
+  "aclSaveError": "❌ ക്രമീകരണങ്ങൾ സംരക്ഷിക്കാനായില്ല",
+  "aclLoadError": "❌ ഡാറ്റ ലോഡ് ചെയ്യാനായില്ല",
+  "saveChanges": "മാറ്റങ്ങൾ സംരക്ഷിക്കുക",
+  "logUpdatedAccessControl": "പേജ് ആക്സസ് നിയന്ത്രണ ക്രമീകരണങ്ങൾ അപ്ഡേറ്റ് ചെയ്തു"
 }

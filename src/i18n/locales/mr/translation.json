@@ -690,5 +690,17 @@
   "uaSubmitAbsenceDetail": "{{date}} साठी अनुपस्थितीचे कारण",
   "uaRaiseTicketDetail": "तिकीट उघडले: {{issue}}",
   "uaShareExperienceDetail": "अनुभव शेअर केला · {{rating}}★",
-  "uaUpdateProfileDetail": "प्रोफाइल तपशील अपडेट केले"
+  "uaUpdateProfileDetail": "प्रोफाइल तपशील अपडेट केले",
+  "accessControl": "प्रवेश नियंत्रण",
+  "aclSubtitle": "प्रत्येक पेजवर कोणते अ‍ॅडमिन प्रवेश करू शकतात हे नियंत्रित करा. ADMIN1 ला नेहमी पूर्ण प्रवेश असतो.",
+  "aclPagesLabel": "पेजेस",
+  "aclAllAdmins": "सर्व अ‍ॅडमिन",
+  "aclSelectedAdmins": "निवडलेले अ‍ॅडमिन",
+  "aclNoOtherAdmins": "निवडण्यासाठी इतर अ‍ॅडमिन नाहीत.",
+  "aclSuperNote": "{{id}} ला नेहमी प्रवेश असतो आणि तो यादीत दाखवला जात नाही.",
+  "aclSaved": "✅ प्रवेश सेटिंग्ज जतन केल्या",
+  "aclSaveError": "❌ सेटिंग्ज जतन करण्यात अयशस्वी",
+  "aclLoadError": "❌ डेटा लोड करण्यात अयशस्वी",
+  "saveChanges": "बदल जतन करा",
+  "logUpdatedAccessControl": "पेज प्रवेश नियंत्रण सेटिंग्ज अपडेट केल्या"
 }

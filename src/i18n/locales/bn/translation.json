@@ -660,5 +660,17 @@
   "uaSubmitAbsenceDetail": "{{date}} তারিখের অনুপস্থিতির কারণ",
   "uaRaiseTicketDetail": "টিকেট উত্থাপন করা হয়েছে: {{issue}}",
   "uaShareExperienceDetail": "অভিজ্ঞতা শেয়ার করা হয়েছে · {{rating}}★",
-  "uaUpdateProfileDetail": "প্রোফাইল বিবরণ আপডেট করা হয়েছে"
+  "uaUpdateProfileDetail": "প্রোফাইল বিবরণ আপডেট করা হয়েছে",
+  "accessControl": "অ্যাক্সেস নিয়ন্ত্রণ",
+  "aclSubtitle": "কোন অ্যাডমিনরা প্রতিটি পেজ অ্যাক্সেস করতে পারবেন তা নিয়ন্ত্রণ করুন। ADMIN1-এর সবসময় সম্পূর্ণ অ্যাক্সেস থাকে।",
+  "aclPagesLabel": "পেজ",
+  "aclAllAdmins": "সকল অ্যাডমিন",
+  "aclSelectedAdmins": "নির্বাচিত অ্যাডমিন",
+  "aclNoOtherAdmins": "নির্বাচন করার জন্য অন্য কোনো অ্যাডমিন নেই।",
+  "aclSuperNote": "{{id}}-এর সবসময় অ্যাক্সেস আছে এবং তালিকায় দেখানো হয় না।",
+  "aclSaved": "✅ অ্যাক্সেস সেটিংস সংরক্ষিত হয়েছে",
+  "aclSaveError": "❌ সেটিংস সংরক্ষণ করতে ব্যর্থ হয়েছে",
+  "aclLoadError": "❌ ডেটা লোড করতে ব্যর্থ হয়েছে",
+  "saveChanges": "পরিবর্তন সংরক্ষণ করুন",
+  "logUpdatedAccessControl": "পেজ অ্যাক্সেস নিয়ন্ত্রণ সেটিংস আপডেট করা হয়েছে"
 }

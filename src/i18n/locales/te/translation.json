@@ -690,5 +690,17 @@
   "uaSubmitAbsenceDetail": "{{date}} తేదీకి గైర్హాజరు కారణం",
   "uaRaiseTicketDetail": "టికెట్ నమోదు చేయబడింది: {{issue}}",
   "uaShareExperienceDetail": "అనుభవం పంచుకోబడింది · {{rating}}★",
-  "uaUpdateProfileDetail": "ప్రొఫైల్ వివరాలు అప్‌డేట్ చేయబడ్డాయి"
+  "uaUpdateProfileDetail": "ప్రొఫైల్ వివరాలు అప్‌డేట్ చేయబడ్డాయి",
+  "accessControl": "యాక్సెస్ నియంత్రణ",
+  "aclSubtitle": "ప్రతి పేజీని ఏ అడ్మిన్‌లు యాక్సెస్ చేయగలరో నియంత్రించండి. ADMIN1కి ఎల్లప్పుడూ పూర్తి యాక్సెస్ ఉంటుంది.",
+  "aclPagesLabel": "పేజీలు",
+  "aclAllAdmins": "అందరు అడ్మిన్‌లు",
+  "aclSelectedAdmins": "ఎంచుకున్న అడ్మిన్‌లు",
+  "aclNoOtherAdmins": "ఎంచుకోవడానికి ఇతర అడ్మిన్‌లు లేరు.",
+  "aclSuperNote": "{{id}}కి ఎల్లప్పుడూ యాక్సెస్ ఉంటుంది, జాబితాలో చూపబడదు.",
+  "aclSaved": "✅ యాక్సెస్ సెట్టింగ్‌లు సేవ్ చేయబడ్డాయి",
+  "aclSaveError": "❌ సెట్టింగ్‌లను సేవ్ చేయడంలో విఫలమైంది",
+  "aclLoadError": "❌ డేటాను లోడ్ చేయడంలో విఫలమైంది",
+  "saveChanges": "మార్పులను సేవ్ చేయండి",
+  "logUpdatedAccessControl": "పేజీ యాక్సెస్ నియంత్రణ సెట్టింగ్‌లు అప్‌డేట్ చేయబడ్డాయి"
 }
