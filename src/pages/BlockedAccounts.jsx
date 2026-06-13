@@ -55,7 +55,10 @@ const BlockedAccounts = () => {
 
             const userData = userSnap.data();
 
-            if (userData.role !== "admin") {
+            if (
+                userData.role !== "admin" ||
+                userData.uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
                 return;
             }
@@ -123,6 +126,9 @@ const BlockedAccounts = () => {
     const handleReset = async (userId) => {
         try {
             setResetting(userId);
+            if (!userId) {
+                return;
+            }
             await updateDoc(doc(db, "loginAttempts", userId), {
                 attempts: 0,
                 lockUntil: null,
@@ -146,6 +152,9 @@ const BlockedAccounts = () => {
     const handleDelete = async (userId) => {
         try {
             setDeleting(userId);
+            if (!userId) {
+                return;
+            }
             await deleteDoc(doc(db, "loginAttempts", userId));
             await logAdminAction("delete_blocked_account", {
                 targetId: userId,
@@ -165,6 +174,9 @@ const BlockedAccounts = () => {
     const handleDeleteAll = async () => {
         try {
             setDeletingAll(true);
+            if (filtered.length === 0) {
+                return;
+            }
             const batch = writeBatch(db);
             filtered.forEach((record) => {
                 batch.delete(doc(db, "loginAttempts", record.id));

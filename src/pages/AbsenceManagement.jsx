@@ -70,7 +70,10 @@ function AbsenceManagement() {
 
             const userData = userSnap.data();
 
-            if (userData.role !== "admin") {
+            if (
+                userData.role !== "admin" ||
+                userData.uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
                 return;
             }
@@ -124,6 +127,13 @@ function AbsenceManagement() {
 
     const updateStatus = async (id, newStatus) => {
         try {
+            if (
+                newStatus !== "pending" &&
+                newStatus !== "approved" &&
+                newStatus !== "rejected"
+            ) {
+                return;
+            }
             await updateDoc(
                 doc(db, "absenceRequests", id),
                 {
@@ -149,6 +159,13 @@ function AbsenceManagement() {
     };
 
     const saveEditModal = async () => {
+        if (
+            selectedStatus !== "pending" &&
+            selectedStatus !== "approved" &&
+            selectedStatus !== "rejected"
+        ) {
+            return;
+        }
         if (editItem && selectedStatus) {
             await updateStatus(editItem.id, selectedStatus);
             setShowEditModal(false);
@@ -353,7 +370,7 @@ function AbsenceManagement() {
                     <div className="am-modal" onClick={(e) => e.stopPropagation()}>
 
                         <div className="am-modal-header">
-                            <h3>✎ Edit Status</h3>
+                            <h3>✎ {t("editStatus")}</h3>
                             <button
                                 className="am-modal-close"
                                 onClick={() => setShowEditModal(false)}

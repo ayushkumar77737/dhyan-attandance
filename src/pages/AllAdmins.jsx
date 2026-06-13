@@ -25,8 +25,13 @@ function AllAdmins() {
         try {
             const userRef = doc(db, "users", localStorage.getItem("userId"));
             const userSnap = await getDoc(userRef);
-            if (!userSnap.exists() || userSnap.data().role !== "admin") {
+            if (
+                !userSnap.exists() ||
+                userSnap.data().role !== "admin" ||
+                userSnap.data().uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
+                return;
             }
         } catch (err) { console.error(err); navigate("/"); }
     };
@@ -41,8 +46,8 @@ function AllAdmins() {
                 if (data.role === "admin" && data.deleted !== true) {
                     list.push({
                         docId: docItem.id,
-                        id: data.id || docItem.id,
-                        name: data.name || "—",
+                        id: String(data.id || docItem.id).toUpperCase(),
+                        name: String(data.name || "—").substring(0, 50),
                         email: data.email || "—",
                         phone: data.phone || data.mobile || "—",
                     });
@@ -81,7 +86,7 @@ function AllAdmins() {
     }, []);
 
     const filtered = admins.filter((a) => {
-        const q = search.trim().toLowerCase();
+        const q = String(search || "").trim().toLowerCase();
         if (!q) return true;
         return (
             a.name.toLowerCase().includes(q) ||

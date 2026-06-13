@@ -13,12 +13,24 @@ function useAutoLogout() {
     const resetTimer = () => {
         if (timerRef.current) clearTimeout(timerRef.current);
         timerRef.current = setTimeout(async () => {
-            const userId = localStorage.getItem("userId");
-            if (userId && auth.currentUser) {
-                await logLogout(userId.toUpperCase());
+            const userId = auth.currentUser?.uid;
+            try {
+                if (auth.currentUser) {
+                    await logLogout(auth.currentUser.uid);
+                }
+            } catch (error) {
+                console.error(error);
             }
             sessionStorage.removeItem("greetingShown");
-            await signOut(auth);
+            localStorage.removeItem("userId");
+            localStorage.removeItem("adminAuth");
+            localStorage.removeItem("userAuth");
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error(error);
+            }
+
             navigate("/");
         }, TIMEOUT_MS);
     };

@@ -52,9 +52,11 @@ const GetId = () => {
 
     const validate = () => {
         let valid = true;
-        if (mobile.length !== 10) {
-            setMobileError(t("mobileExact10"));
+        if (!/^[6-9][0-9]{9}$/.test(mobile)) {
+            setMobileError(t("invalidMobile"));
             valid = false;
+        } else {
+            setMobileError("");
         }
         if (transactionId.length !== 12) {
             setTransactionError(t("transactionExact12"));
@@ -67,6 +69,10 @@ const GetId = () => {
         e.preventDefault();
         setDuplicateError("");
         if (!validate()) return;
+        if (!/^[A-Z0-9]{12}$/i.test(transactionId)) {
+            setTransactionError(t("transactionInvalid"));
+            return;
+        }
         try {
             setLoading(true);
             const q = query(
@@ -100,7 +106,7 @@ const GetId = () => {
 
     const handleCheckStatus = async () => {
         if (checkId.trim().length === 0) {
-            setCheckError("Please enter a Transaction ID.");
+            setCheckError(t("enterTransactionId"));
             return;
         }
         try {
@@ -113,13 +119,13 @@ const GetId = () => {
             );
             const snap = await getDocs(q);
             if (snap.empty) {
-                setCheckError("No request found with this Transaction ID.");
+                setCheckError(t("requestNotFound"));
             } else {
                 const data = snap.docs[0].data();
                 setCheckStatus(data.status);
             }
         } catch (err) {
-            setCheckError("Error checking status. Try again.");
+            setCheckError(t("errorCheckingStatus"));
         } finally {
             setCheckLoading(false);
         }
@@ -271,7 +277,12 @@ const GetId = () => {
                                 <span className="gidpg__fc gidpg__fc--tr" />
                                 <span className="gidpg__fc gidpg__fc--bl" />
                                 <span className="gidpg__fc gidpg__fc--br" />
-                                <img src={barcodeImage} alt="Payment QR Code" className="gidpg__qr-img" />
+                                <img
+                                    src={barcodeImage}
+                                    alt="Payment QR Code"
+                                    className="gidpg__qr-img"
+                                    loading="lazy"
+                                />
                                 <div className="gidpg__scan-line" />
                             </div>
 
@@ -299,13 +310,15 @@ const GetId = () => {
                         <div className="gidpg__check-card">
                             <div className="gidpg__check-header">
                                 <span className="gidpg__check-icon">🔍</span>
-                                <span className="gidpg__check-title">Check Request Status</span>
+                                <span className="gidpg__check-title">
+                                    {t("checkRequestStatus")}
+                                </span>
                             </div>
                             <div className="gidpg__check-input-row">
                                 <input
                                     className="gidpg__check-input"
                                     type="text"
-                                    placeholder="Enter Transaction ID"
+                                    placeholder={t("enterTransactionId")}
                                     value={checkId}
                                     onChange={(e) => {
                                         setCheckId(e.target.value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase());

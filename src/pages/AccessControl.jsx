@@ -32,7 +32,14 @@ function AccessControl() {
         if (!auth.currentUser || !userId) { navigate("/"); return false; }
         try {
             const snap = await getDoc(doc(db, "users", userId));
-            if (!snap.exists() || snap.data().role !== "admin") { navigate("/"); return false; }
+            if (
+                !snap.exists() ||
+                snap.data().role !== "admin" ||
+                snap.data().uid !== auth.currentUser.uid
+            ) {
+                navigate("/");
+                return false;
+            }
             if (userId.toUpperCase() !== SUPER_ADMIN_ID) { navigate("/admin-dashboard"); return false; }
             return true;
         } catch (e) { console.error(e); navigate("/"); return false; }
@@ -46,7 +53,10 @@ function AccessControl() {
             snap.forEach((d) => {
                 const u = d.data();
                 if (u.role === "admin" && u.deleted !== true && d.id.toUpperCase() !== SUPER_ADMIN_ID) {
-                    list.push({ id: d.id, name: u.name || d.id });
+                    list.push({
+                        id: String(d.id).toUpperCase(),
+                        name: String(u.name || d.id).substring(0, 50)
+                    });
                 }
             });
             setAdmins(list);
@@ -87,13 +97,19 @@ function AccessControl() {
         setConfig((prev) => {
             const entry = prev[pageId] || { mode: "selected", admins: [] };
             const has = entry.admins.includes(adminId);
-            const next = has ? entry.admins.filter((a) => a !== adminId) : [...entry.admins, adminId];
+            const next = has
+                ? entry.admins.filter((a) => a !== adminId)
+                : [...new Set([...entry.admins, adminId])];
             return { ...prev, [pageId]: { mode: "selected", admins: next } };
         });
 
     const handleSave = async () => {
         setSaving(true);
         try {
+            if (!config || typeof config !== "object") {
+                showMsg(t("aclSaveError"), "error");
+                return;
+            }
             await saveAccessConfig(config);
             await logAdminAction("update_access_control", { details: t("logUpdatedAccessControl") });
             showMsg(t("aclSaved"), "success");

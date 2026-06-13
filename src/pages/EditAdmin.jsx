@@ -31,8 +31,13 @@ function EditAdmin() {
         try {
             const userRef = doc(db, "users", localStorage.getItem("userId"));
             const userSnap = await getDoc(userRef);
-            if (!userSnap.exists() || userSnap.data().role !== "admin") {
+            if (
+                !userSnap.exists() ||
+                userSnap.data().role !== "admin" ||
+                userSnap.data().uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
+                return;
             }
         } catch (err) { console.error(err); navigate("/"); }
     };
@@ -90,7 +95,15 @@ function EditAdmin() {
         setMsg({ type: "", text: "" });
 
         const trimmedName = name.trim();
-        const trimmedEmail = email.trim();
+        const trimmedEmail = String(email).trim().toLowerCase();
+        if (id.toUpperCase() === "ADMIN1") {
+            setMsg({ type: "error", text: t("superAdminProtected") });
+            return;
+        }
+        if (trimmedName.length > 50) {
+            setMsg({ type: "error", text: t("nameTooLong") });
+            return;
+        }
 
         if (!trimmedName) {
             setMsg({ type: "error", text: t("nameRequired") });
@@ -100,6 +113,11 @@ function EditAdmin() {
             setMsg({ type: "error", text: t("nameLettersOnly") });
             return;
         }
+        if (trimmedEmail.length > 100) {
+            setMsg({ type: "error", text: t("emailTooLong") });
+            return;
+        }
+
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
             setMsg({ type: "error", text: t("invalidEmail") });
             return;
@@ -158,7 +176,9 @@ function EditAdmin() {
                         type="text"
                         className="editadmin-input"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) =>
+                            setName(e.target.value.replace(/[^a-zA-Z .]/g, ""))
+                        }
                         placeholder={t("enterFullName")}
                     />
 

@@ -74,7 +74,10 @@ function AddUser() {
 
             const userData = userSnap.data();
 
-            if (userData.role !== "admin") {
+            if (
+                userData.role !== "admin" ||
+                userData.uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
                 return;
             }
@@ -123,6 +126,16 @@ function AddUser() {
         try {
             const cleanId = idNo.toUpperCase();
             const email = cleanId + "@dhyan.in";
+
+            const existingUser = await getDoc(
+                doc(db, "users", cleanId)
+            );
+
+            if (existingUser.exists()) {
+                setErrorMsg(t("userIdExists"));
+                setLoading(false);
+                return;
+            }
 
             const userCredential =
                 await createUserWithEmailAndPassword(

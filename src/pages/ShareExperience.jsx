@@ -67,11 +67,9 @@ function ShareExperience() {
                 return;
             }
 
-            const email = user.email;
-
-            const id = email
-                .split("@")[0]
-                .toUpperCase();
+            const id = String(
+                user.email?.split("@")[0] || ""
+            ).toUpperCase();
             const userRef = doc(db, "users", id);
 
             const userSnap = await getDoc(userRef);
@@ -83,7 +81,10 @@ function ShareExperience() {
 
             const userData = userSnap.data();
 
-            if (userData.role === "admin") {
+            if (
+                userData.role === "admin" &&
+                userData.uid === auth.currentUser.uid
+            ) {
                 navigate("/admin-dashboard");
                 return;
             }
@@ -149,13 +150,20 @@ function ShareExperience() {
             setSubmitted(true);
         } catch (err) {
             console.error(err);
-            showMsg("Something went wrong. Please try again.", "error");
+            showMsg(t("somethingWentWrong"), "error");
         } finally {
             setLoading(false);
         }
     };
 
-    const ratingLabels = ["", "Difficult", "Okay", "Good", "Great", "Transcendent"];
+    const ratingLabels = [
+        "",
+        t("ratingDifficult"),
+        t("ratingOkay"),
+        t("ratingGood"),
+        t("ratingGreat"),
+        t("ratingTranscendent")
+    ];
 
     const sessionTypes = [
         { value: "breathing", label: "🌬️ Breathing" },
@@ -375,7 +383,11 @@ function ShareExperience() {
                         className="shrexp__textarea"
                         placeholder={t("textareaPlaceholder")}
                         value={comment}
-                        onChange={(e) => setComment(e.target.value)}
+                        onChange={(e) =>
+                            setComment(
+                                e.target.value.replace(/[<>]/g, "")
+                            )
+                        }
                         maxLength={500}
                         rows={4}
                     />

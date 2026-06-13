@@ -14,7 +14,7 @@ function SessionFeedbacks() {
     const [loading, setLoading] = useState(true);
     const [filterSession, setFilterSession] = useState("all");
     const [filterRating, setFilterRating] = useState("all");
-    const [filterDate, setFilterDate] = useState(new Date().toISOString().split("T")[0]);
+    const [filterDate, setFilterDate] = useState("");
     const [expandedRow, setExpandedRow] = useState(null);
 
     const [showDeleteAll, setShowDeleteAll] = useState(false);
@@ -46,7 +46,10 @@ function SessionFeedbacks() {
 
             const userData = userSnap.data();
 
-            if (userData.role !== "admin") {
+            if (
+                userData.role !== "admin" ||
+                userData.uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
                 return;
             }
@@ -101,7 +104,10 @@ function SessionFeedbacks() {
                     userId: data.userId,
                     userName,
                     sessionType: data.sessionType || "-",
-                    rating: data.rating || 0,
+                    rating: Math.min(
+                        Math.max(Number(data.rating) || 0, 0),
+                        5
+                    ),
                     comment: data.comment || "",
                     moodBefore: data.moodBefore || "-",
                     moodAfter: data.moodAfter || "-",
@@ -156,7 +162,10 @@ function SessionFeedbacks() {
     };
     const ratingLabels = { 1: "Difficult", 2: "Okay", 3: "Good", 4: "Great", 5: "Transcendent" };
 
-    const stars = (n) => "★".repeat(n) + "☆".repeat(5 - n);
+    const stars = (n) => {
+        n = Math.min(Math.max(Number(n) || 0, 0), 5);
+        return "★".repeat(n) + "☆".repeat(5 - n);
+    };
 
     const handleDeleteAll = async () => {
         try {
@@ -178,6 +187,9 @@ function SessionFeedbacks() {
 
     const handleExport = () => {
         const headers = ["User Name", "User ID", "Session", "Rating", "Rating Label", "Mood Before", "Mood After", "Date", "Comment"];
+        if (filtered.length === 0) {
+            return;
+        }
         const rows = filtered.map(f => [
             f.userName,
             f.userId,

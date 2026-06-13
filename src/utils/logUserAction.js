@@ -19,12 +19,14 @@ export const logUserAction = async (action, extra = {}) => {
             (currentUser?.email ? currentUser.email.split("@")[0].toUpperCase() : null) ||
             (localStorage.getItem("userId") || "").toUpperCase() ||
             "UNKNOWN";
-
+        if (!action) {
+            return;
+        }
         await addDoc(collection(db, "userLogs"), {
             userId,
-            action,
-            details: extra.details || "",
-            target: extra.target || "",
+            action: String(action).substring(0, 100),
+            details: String(extra.details || "").substring(0, 500),
+            target: String(extra.target || "").substring(0, 100),
             timestamp: serverTimestamp(),
         });
     } catch (err) {

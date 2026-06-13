@@ -56,7 +56,10 @@ function EditUser() {
 
             const userData = userSnap.data();
 
-            if (userData.role !== "admin") {
+            if (
+                userData.role !== "admin" ||
+                userData.uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
                 return;
             }
@@ -100,12 +103,25 @@ function EditUser() {
             showMessage(t("fillAllFields"));
             return;
         }
+        if (!/^[a-zA-Z ]+$/.test(name)) {
+            showMessage(t("nameLettersOnly"));
+            return;
+        }
+
+        if (!/^[a-zA-Z0-9]+$/.test(userId)) {
+            showMessage(t("idLettersNumbers"));
+            return;
+        }
         try {
             const oldRef = doc(db, "users", id);
             const newRef = doc(db, "users", userId);
 
+            const oldSnap = await getDoc(oldRef);
+            const oldData = oldSnap.data();
+
             if (userId !== id) {
                 const existingDoc = await getDoc(newRef);
+
                 if (existingDoc.exists()) {
                     showMessage(t("userIdAlreadyExists"));
                     return;
@@ -113,8 +129,9 @@ function EditUser() {
             }
 
             await setDoc(newRef, {
+                ...oldData,
                 name: name.trim(),
-                email: `${userId}@dhyan.com`,
+                email: `${userId}@dhyan.in`,
                 id: userId,
                 role: "user"
             });

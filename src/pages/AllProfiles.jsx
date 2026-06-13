@@ -62,7 +62,10 @@ function AllProfiles() {
 
             const userData = userSnap.data();
 
-            if (userData.role !== "admin") {
+            if (
+                userData.role !== "admin" ||
+                userData.uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
                 return;
             }
@@ -100,7 +103,7 @@ function AllProfiles() {
                     p.name?.toLowerCase().includes(q) ||
                     p.idNo?.toLowerCase().includes(q) ||
                     p.email?.toLowerCase().includes(q) ||
-                    p.phoneNumber?.includes(q)
+                    String(p.phoneNumber || "").includes(q)
             )
         );
     }, [search, profiles]);
@@ -156,13 +159,34 @@ function AllProfiles() {
     };
 
     const saveEdit = async () => {
-        if (!editForm.name.trim() || !editForm.address.trim()) return;
+        if (!editForm.name.trim() || !editForm.address.trim()) {
+            return;
+        }
+
+        if (!selectedProfile?.docId) {
+            return;
+        }
+        if (!/^[a-zA-Z ]+$/.test(editForm.name.trim())) {
+            return;
+        }
+
+        // Change 4
+        if (
+            editForm.phoneNumber &&
+            !/^[0-9]{10}$/.test(editForm.phoneNumber.trim())
+        ) {
+            return;
+        }
         try {
             setEditLoading(true);
+            const phone = String(editForm.phoneNumber).replace(/\D/g, "");
+            console.log("selectedProfile.docId =", selectedProfile.docId);
+            console.log("phone =", phone);
+            console.log("editForm.phoneNumber =", editForm.phoneNumber);
             await updateDoc(doc(db, "profiles", selectedProfile.docId), {
                 name: editForm.name.trim(),
                 fatherHusbandName: editForm.fatherHusbandName.trim(),
-                phoneNumber: editForm.phoneNumber.trim(),
+                phoneNumber: phone,
                 email: editForm.email.trim(),
                 dob: editForm.dob.trim(),
                 address: editForm.address.trim()
@@ -177,14 +201,19 @@ function AllProfiles() {
 
             if (userSnap.exists()) {
                 await updateDoc(userRef, {
-                    name: editForm.name.trim()
+                    name: editForm.name.trim(),
+                    phoneNumber: phone
                 });
             }
             await logAdminAction("update_profile", {
                 targetId: selectedProfile.idNo || selectedProfile.docId,
                 details: t("logUpdatedProfile", { name: editForm.name.trim() }),
             });
-            const updated = { ...selectedProfile, ...editForm };
+            const updated = {
+                ...selectedProfile,
+                ...editForm,
+                phoneNumber: phone
+            };
             setProfiles((prev) => prev.map((p) => p.docId === selectedProfile.docId ? updated : p));
             setFiltered((prev) => prev.map((p) => p.docId === selectedProfile.docId ? updated : p));
             setSelectedProfile(updated);
@@ -199,6 +228,9 @@ function AllProfiles() {
     const deleteProfile = async () => {
         try {
             setDeleteLoading(true);
+            if (!selectedProfile?.docId) {
+                return;
+            }
             await deleteDoc(doc(db, "profiles", selectedProfile.docId));
             await logAdminAction("delete_profile", {
                 targetId: selectedProfile.idNo || selectedProfile.docId,
@@ -468,7 +500,12 @@ function AllProfiles() {
                             <input
                                 type="text"
                                 value={editForm.phoneNumber}
-                                onChange={(e) => setEditForm({ ...editForm, phoneNumber: e.target.value })}
+                                onChange={(e) =>
+                                    setEditForm({
+                                        ...editForm,
+                                        phoneNumber: e.target.value.replace(/\D/g, "").slice(0, 10)
+                                    })
+                                }
                                 placeholder={t("phoneNumberLabel")}
                             />
                         </div>

@@ -59,7 +59,10 @@ function DeletedUsers() {
 
       const userData = userSnap.data();
 
-      if (userData.role !== "admin") {
+      if (
+        userData.role !== "admin" ||
+        userData.uid !== auth.currentUser.uid
+      ) {
         navigate("/");
         return;
       }
@@ -76,7 +79,10 @@ function DeletedUsers() {
     const querySnapshot = await getDocs(collection(db, "users"));
     const deletedList = querySnapshot.docs
       .map((docItem) => ({ docId: docItem.id, ...docItem.data() }))
-      .filter(user => user.deleted === true);
+      .filter(user =>
+        user.deleted === true &&
+        user.role !== "admin"
+      );
     setUsers(deletedList);
   };
 
@@ -86,6 +92,9 @@ function DeletedUsers() {
 
   const restoreUser = async (id) => {
     try {
+      if (!id) {
+        return;
+      }
       await updateDoc(doc(db, "users", id), { deleted: false });
       await logAdminAction("restore_user", {
         targetId: id,

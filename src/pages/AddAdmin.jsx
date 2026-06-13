@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./AddAdmin.css";
 import { useNavigate } from "react-router-dom";
 import { logAdminAction } from "../utils/logAdminAction";
-import { auth, db } from "../firebase/firebase";
+import { auth, db, secondaryAuth } from "../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-
-import { initializeApp, getApp, deleteApp } from "firebase/app";
 import {
     getAuth,
     createUserWithEmailAndPassword,
@@ -94,7 +92,14 @@ function AddAdmin() {
             try {
                 const userRef = doc(db, "users", localStorage.getItem("userId"));
                 const userSnap = await getDoc(userRef);
-                if (!userSnap.exists() || userSnap.data().role !== "admin") navigate("/");
+                if (
+                    !userSnap.exists() ||
+                    userSnap.data().role !== "admin" ||
+                    userSnap.data().uid !== auth.currentUser.uid
+                ) {
+                    navigate("/");
+                    return;
+                }
             } catch (err) { console.error(err); navigate("/"); }
         };
         checkAdmin();
@@ -135,6 +140,15 @@ function AddAdmin() {
         const id = adminId.trim().toUpperCase();
         const trimmedName = name.trim();
         const trimmedEmail = email.trim();
+        if (!/^[A-Z0-9]+$/.test(id)) {
+            setError(t("idLettersNumbers"));
+            return;
+        }
+
+        if (!/^[a-zA-Z ]+$/.test(trimmedName)) {
+            setError(t("nameLettersOnly"));
+            return;
+        }
 
         if (!id || !trimmedName || !trimmedEmail || !password || !confirm) {
             setError(t("allFieldsRequired"));
@@ -157,10 +171,13 @@ function AddAdmin() {
             return;
         }
 
-        let secondaryApp;
         try {
             setSaving(true);
-
+            if (id === "ADMIN1") {
+                setError(t("admin1Reserved"));
+                setSaving(false);
+                return;
+            }
             const ref = doc(db, "users", id);
             const existing = await getDoc(ref);
             if (existing.exists()) {
@@ -169,8 +186,6 @@ function AddAdmin() {
                 return;
             }
 
-            secondaryApp = initializeApp(getApp().options, "Secondary");
-            const secondaryAuth = getAuth(secondaryApp);
             const cred = await createUserWithEmailAndPassword(
                 secondaryAuth,
                 trimmedEmail,
@@ -187,6 +202,7 @@ function AddAdmin() {
                 role: "admin",
                 deleted: false,
                 uid,
+                createdAt: new Date().toISOString(),
             });
             await logAdminAction("create_admin", { targetId: id, details: t("logCreatedAdmin", { name: trimmedName }) });
             setSuccess(t("adminAddedSuccess"));
@@ -199,9 +215,6 @@ function AddAdmin() {
             console.error(err);
             setError(mapAuthError(err.code));
         } finally {
-            if (secondaryApp) {
-                try { await deleteApp(secondaryApp); } catch (e) { /* ignore */ }
-            }
             setSaving(false);
         }
     };

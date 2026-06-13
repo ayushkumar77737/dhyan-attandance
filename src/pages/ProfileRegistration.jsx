@@ -52,7 +52,10 @@ function ProfileRegistration() {
 
             const userData = userSnap.data();
 
-            if (userData.role !== "admin") {
+            if (
+                userData.role !== "admin" ||
+                userData.uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
                 return;
             }
@@ -132,13 +135,15 @@ function ProfileRegistration() {
             newErrors.phoneNumber = t("phoneRequired");
         } else if (!/^\d+$/.test(form.phoneNumber)) {
             newErrors.phoneNumber = t("phoneNumbersOnly");
-        } else if (form.phoneNumber.length < 10) {
-            newErrors.phoneNumber = t("phoneMinDigits");
+        } else if (!/^\d{10}$/.test(form.phoneNumber)) {
+            newErrors.phoneNumber = t("phoneMustBe10Digits");
         }
 
         if (!form.email.trim()) {
             newErrors.email = t("emailRequired");
-        } else if (!/^[a-zA-Z0-9@.]+$/.test(form.email) || !form.email.includes("@")) {
+        } else if (
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)
+        ) {
             newErrors.email = t("emailInvalid");
         }
 
@@ -166,7 +171,17 @@ function ProfileRegistration() {
 
         setLoading(true);
         try {
+            if (form.address.trim().length > 500) {
+                showMsg(t("addressTooLong"));
+                setLoading(false);
+                return;
+            }
             const idNo = form.idNo.trim().toUpperCase();
+            if (!/^[A-Z]\d{3}$/.test(idNo)) {
+                showMsg(t("idNoFormat"));
+                setLoading(false);
+                return;
+            }
 
             const existingDoc = await getDoc(doc(db, "profiles", idNo));
             if (existingDoc.exists()) {

@@ -15,7 +15,15 @@ export default function RequireAccess({ pageId, children }) {
             if (!auth.currentUser || !userId) { navigate("/"); return; }
             try {
                 const snap = await getDoc(doc(db, "users", userId));
-                if (!snap.exists() || snap.data().role !== "admin") { navigate("/"); return; }
+
+                if (
+                    !snap.exists() ||
+                    snap.data().role !== "admin" ||
+                    snap.data().uid !== auth.currentUser.uid
+                ) {
+                    navigate("/");
+                    return;
+                }
                 const config = await fetchAccessConfig();
                 if (!active) return;
                 if (canAccess(config, pageId, userId)) setOk(true);

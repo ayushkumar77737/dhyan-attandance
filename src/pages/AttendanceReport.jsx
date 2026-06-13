@@ -77,7 +77,10 @@ function AttendanceReport() {
 
             const userData = userSnap.data();
 
-            if (userData.role !== "admin") {
+            if (
+                userData.role !== "admin" ||
+                userData.uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
                 return;
             }
@@ -97,7 +100,16 @@ function AttendanceReport() {
         const fetchUsers = async () => {
             const snap = await getDocs(collection(db, "users"));
             let list = [];
-            snap.forEach((doc) => list.push(doc.data()));
+            snap.forEach((doc) => {
+                const data = doc.data();
+
+                if (
+                    data.deleted !== true &&
+                    data.role !== "admin"
+                ) {
+                    list.push(data);
+                }
+            });
             setUsers(list);
         };
         fetchUsers();
@@ -155,6 +167,12 @@ function AttendanceReport() {
         if (!editUser || !editStatus) return;
         try {
             const docId = `${editUser.id}_${selectedDate}`;
+            if (
+                editStatus !== "Present" &&
+                editStatus !== "Absent"
+            ) {
+                return;
+            }
             await updateDoc(doc(db, "attendance", docId), {
                 status: editStatus,
                 editedBy: localStorage.getItem("userId"),

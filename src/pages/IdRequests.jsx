@@ -53,7 +53,10 @@ function IdRequests() {
 
             const userData = userSnap.data();
 
-            if (userData.role !== "admin") {
+            if (
+                userData.role !== "admin" ||
+                userData.uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
                 return;
             }
@@ -89,7 +92,7 @@ function IdRequests() {
         if (search.trim()) {
             const q = search.toLowerCase();
             result = result.filter(
-                (r) => r.mobileNumber?.includes(q) || r.transactionId?.toLowerCase().includes(q)
+                (r) => String(r.mobileNumber || "").includes(q) || r.transactionId?.toLowerCase().includes(q)
             );
         }
         setFiltered(result);
@@ -114,6 +117,13 @@ function IdRequests() {
     const updateStatus = async (docId, newStatus) => {
         try {
             setUpdatingId(docId);
+            if (
+                newStatus !== "pending" &&
+                newStatus !== "approved" &&
+                newStatus !== "rejected"
+            ) {
+                return;
+            }
             await updateDoc(doc(db, "idRequests", docId), { status: newStatus });
             await logAdminAction("update_id_request", {
                 targetId: docId,
@@ -136,6 +146,9 @@ function IdRequests() {
     };
 
     const deleteRequest = async () => {
+        if (!deleteModal.docId) {
+            return;
+        }
         const docId = deleteModal.docId;
         setDeleteModal({ show: false, docId: null });
         try {

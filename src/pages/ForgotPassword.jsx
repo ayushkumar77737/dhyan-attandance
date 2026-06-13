@@ -55,7 +55,12 @@ function ForgotPassword() {
 
                     <div className="email-box">
                         <span className="email-icon">📧</span>
-                        <span className="email-text">support@jaigurubande.in</span>
+                        <a
+                            href="mailto:support@jaigurubande.in"
+                            className="email-text"
+                        >
+                            support@jaigurubande.in
+                        </a>
                         <div className="email-glow" />
                     </div>
 
@@ -77,7 +82,11 @@ function ForgotPassword() {
                         <div className="image-ring ring-1" />
                         <div className="image-ring ring-2" />
                         <div className="image-ring ring-3" />
-                        <img src={guruji} alt="Guruji" />
+                        <img
+                            src={guruji}
+                            alt="Guruji"
+                            loading="lazy"
+                        />
                     </div>
                 </div>
 

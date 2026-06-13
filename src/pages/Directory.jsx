@@ -54,6 +54,11 @@ function Directory() {
 
             const userData = userSnap.data();
 
+            if (userData.uid !== user.uid) {
+                navigate("/");
+                return;
+            }
+
             if (userData.role === "admin") {
                 navigate("/admin-dashboard");
                 return;
@@ -74,12 +79,15 @@ function Directory() {
             const list = [];
             snap.forEach((docItem) => {
                 const data = docItem.data();
-                if (data.deleted !== true) {
+                if (
+                    data.deleted !== true &&
+                    data.disabled !== true
+                ) {
                     list.push({
                         id: data.id || docItem.id,
                         name: data.name || "—",
                         role: data.role || "user",
-                        email: data.email || "",
+                        email: "",
                     });
                 }
             });
@@ -97,7 +105,7 @@ function Directory() {
         const matchSearch =
             u.name.toLowerCase().includes(q) ||
             u.id.toLowerCase().includes(q) ||
-            u.email.toLowerCase().includes(q);
+            false;
         const matchRole = filterRole === "all" || u.role === filterRole;
         return matchSearch && matchRole;
     });

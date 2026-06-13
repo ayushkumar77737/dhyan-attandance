@@ -49,7 +49,10 @@ function TrackTicket() {
 
             const userData = userSnap.data();
 
-            if (userData.role !== "admin") {
+            if (
+                userData.role !== "admin" ||
+                userData.uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
                 return;
             }
@@ -102,7 +105,12 @@ function TrackTicket() {
                     createdAt: doc.data().createdAt?.toDate().toISOString() || new Date().toISOString()
                 }))
                 .filter(ticket => {
-                    const ticketDate = new Date(ticket.createdAt).toISOString().split("T")[0];
+                    const ticketDate =
+                        ticket.createdAt
+                            ? new Date(ticket.createdAt)
+                                .toISOString()
+                                .split("T")[0]
+                            : "";
                     return ticketDate === selectedDate;
                 });
             list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -116,7 +124,17 @@ function TrackTicket() {
     };
 
     const updateStatus = async (id, newStatus) => {
+        if (
+            newStatus !== "Pending" &&
+            newStatus !== "In Progress" &&
+            newStatus !== "Resolved"
+        ) {
+            return;
+        }
         try {
+            if (!id) {
+                return;
+            }
             await updateDoc(
                 doc(db, "tickets", id),
                 {
@@ -139,6 +157,9 @@ function TrackTicket() {
 
     const deleteTicket = async (id) => {
         try {
+            if (!id) {
+                return;
+            }
             await deleteDoc(doc(db, "tickets", id));
             await logAdminAction("delete_ticket", {
                 targetId: id,

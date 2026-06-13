@@ -28,17 +28,17 @@ const getIPAddress = async () => {
 
 export const logLogin = async (userId, userName) => {
     try {
-        const ip = await getIPAddress();
+        const ip = "Hidden";
         const browser = getBrowserInfo();
         await addDoc(collection(db, "activityLogs"), {
-            userId,
+            userId: String(userId).toUpperCase(),
             userName: userName || userId,
             action: "login",
             loginTime: serverTimestamp(),
             logoutTime: null,
             lastActive: serverTimestamp(),
             timestamp: serverTimestamp(),
-            browser,
+            browser: browser.substring(0, 50),
             ipAddress: ip,
             loginClientTime: Date.now(),
         });
@@ -49,9 +49,13 @@ export const logLogin = async (userId, userName) => {
 
 export const logLogout = async (userId) => {
     try {
+        if (!userId) {
+            return;
+        }
+        const safeUserId = String(userId).toUpperCase();
         const q = query(
             collection(db, "activityLogs"),
-            where("userId", "==", userId),
+            where("userId", "==", safeUserId),
             where("action", "==", "login"),
             where("logoutTime", "==", null)
         );

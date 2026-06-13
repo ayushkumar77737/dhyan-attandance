@@ -45,7 +45,10 @@ const UserPercentage = () => {
 
       const userData = userSnap.data();
 
-      if (userData.role !== "admin") {
+      if (
+        userData.role !== "admin" ||
+        userData.uid !== auth.currentUser.uid
+      ) {
         navigate("/");
         return;
       }
@@ -82,12 +85,16 @@ const UserPercentage = () => {
       const attendanceSnapshot = await getDocs(collection(db, "attendance"));
 
       const users = usersSnapshot.docs
-        .map((docItem) => ({
-          id: docItem.data().id,
-          name: docItem.data().name,
-          role: docItem.data().role,
-          deleted: docItem.data().deleted
-        }))
+        .map((docItem) => {
+          const data = docItem.data();
+
+          return {
+            id: data.id,
+            name: data.name,
+            role: data.role,
+            deleted: data.deleted
+          };
+        })
         .filter(
           (user) =>
             user.deleted !== true &&

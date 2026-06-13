@@ -99,13 +99,21 @@ function MyActivity() {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (!user || !user.email) { navigate("/"); return; }
-            const id = user.email.split("@")[0].toUpperCase();
+            const id = String(
+                user.email?.split("@")[0] || ""
+            ).toUpperCase();
             setUserId(id);
 
             try {
                 const userSnap = await getDoc(doc(db, "users", id));
                 if (!userSnap.exists()) { navigate("/"); return; }
-                if (userSnap.data().role === "admin") { navigate("/admin-dashboard"); return; }
+                if (
+                    userSnap.data().role === "admin" &&
+                    userSnap.data().uid === auth.currentUser.uid
+                ) {
+                    navigate("/admin-dashboard");
+                    return;
+                }
 
                 // Try ordered query first; fall back to unordered if composite index missing.
                 let list = [];
@@ -160,7 +168,9 @@ function MyActivity() {
     };
 
     const titleFor = (l) =>
-        l.meta.titleKey ? t(l.meta.titleKey) : (l.action || "—");
+        l.meta.titleKey
+            ? t(l.meta.titleKey)
+            : String(l.action || "—").substring(0, 50);
 
     const formatTime = (ts) => {
         if (!ts) return "—";
@@ -249,7 +259,11 @@ function MyActivity() {
                                 <div className={`myactv__item-icon myactv__item-icon--${l.meta.type}`}>{l.meta.icon}</div>
                                 <div className="myactv__item-body">
                                     <span className="myactv__item-title">{titleFor(l)}</span>
-                                    {l.details && <span className="myactv__item-sub">{l.details}</span>}
+                                    {l.details && (
+                                        <span className="myactv__item-sub">
+                                            {String(l.details).substring(0, 200)}
+                                        </span>
+                                    )}
                                 </div>
                                 <span className="myactv__item-date">{formatTime(l.timestamp)}</span>
                             </div>

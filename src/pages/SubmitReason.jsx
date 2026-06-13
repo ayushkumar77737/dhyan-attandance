@@ -33,9 +33,9 @@ function SubmitReason() {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user && user.email) {
 
-        const id = user.email
-          .split("@")[0]
-          .toUpperCase();
+        const id = String(
+          user.email?.split("@")[0] || ""
+        ).toUpperCase();
 
         const userRef = doc(db, "users", id);
 
@@ -48,7 +48,10 @@ function SubmitReason() {
 
         const userData = userSnap.data();
 
-        if (userData.role === "admin") {
+        if (
+          userData.role === "admin" &&
+          userData.uid === auth.currentUser.uid
+        ) {
           navigate("/admin-dashboard");
           return;
         }
@@ -90,6 +93,17 @@ function SubmitReason() {
     e.preventDefault();
 
     if (!userId || !date || !reason.trim()) {
+      if (reason.trim().length < 10) {
+        setMessage(t("reasonTooShort"));
+        setType("error");
+        return;
+      }
+
+      if (reason.trim().length > 500) {
+        setMessage(t("reasonTooLong"));
+        setType("error");
+        return;
+      }
       setMessage(t("fillAllFields"));
       setType("error");
       return;
@@ -180,9 +194,14 @@ function SubmitReason() {
           <div className="reason-group">
             <label>{t("reason")}</label>
             <textarea
+              maxLength={500}
               placeholder={t("reasonPlaceholder")}
               value={reason}
-              onChange={(e) => setReason(e.target.value)}
+              onChange={(e) =>
+                setReason(
+                  e.target.value.replace(/[<>]/g, "")
+                )
+              }
             />
           </div>
 

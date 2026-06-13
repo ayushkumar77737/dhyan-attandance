@@ -17,6 +17,15 @@ function ShowQR() {
     const [fullscreen, setFullscreen] = useState(false);
     const [copied, setCopied] = useState(false);
     const [downloading, setDownloading] = useState(false);
+    const [particles] = useState(
+        Array.from({ length: 20 }, (_, i) => ({
+            id: i,
+            left: Math.random() * 100,
+            delay: Math.random() * 8,
+            duration: 6 + Math.random() * 6,
+            size: 2 + Math.random() * 3,
+        }))
+    );
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -34,9 +43,9 @@ function ShowQR() {
                 return;
             }
 
-            const id = user.email
-                .split("@")[0]
-                .toUpperCase();
+            const id = String(
+                user.email?.split("@")[0] || ""
+            ).toUpperCase();
             setUserId(id);
             const snap = await getDoc(doc(db, "users", id));
 
@@ -46,7 +55,10 @@ function ShowQR() {
             }
             const userData = snap.data();
 
-            if (userData.role === "admin") {
+            if (
+                userData.role === "admin" &&
+                userData.uid === auth.currentUser.uid
+            ) {
                 navigate("/admin-dashboard");
                 return;
             }
@@ -64,7 +76,7 @@ function ShowQR() {
     }, []);
 
     const generateQR = async (id) => {
-        if (!canvasRef.current || !userId) return;
+        if (!canvasRef.current || !id) return;
         try {
             await QRCode.toCanvas(canvasRef.current, id, {
                 width: 280,
@@ -98,9 +110,13 @@ function ShowQR() {
     const handleCopyId = () => {
         if (!userId) return;
 
-        navigator.clipboard.writeText(userId);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        navigator.clipboard
+            .writeText(userId)
+            .then(() => {
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            })
+            .catch(console.error);
     };
 
     const today = new Date().toLocaleDateString("en-IN", {
@@ -116,14 +132,18 @@ function ShowQR() {
                 <div className="qrv2__orb qrv2__orb--3" />
                 <div className="qrv2__grid-overlay" />
                 <div className="qrv2__particles">
-                    {Array.from({ length: 20 }).map((_, i) => (
-                        <span key={i} className="qrv2__particle" style={{
-                            left: `${Math.random() * 100}%`,
-                            animationDelay: `${Math.random() * 8}s`,
-                            animationDuration: `${6 + Math.random() * 6}s`,
-                            width: `${2 + Math.random() * 3}px`,
-                            height: `${2 + Math.random() * 3}px`,
-                        }} />
+                    {particles.map((p) => (
+                        <span
+                            key={p.id}
+                            className="qrv2__particle"
+                            style={{
+                                left: `${p.left}%`,
+                                animationDelay: `${p.delay}s`,
+                                animationDuration: `${p.duration}s`,
+                                width: `${p.size}px`,
+                                height: `${p.size}px`,
+                            }}
+                        />
                     ))}
                 </div>
 

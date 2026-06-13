@@ -63,6 +63,13 @@ function MyProfile() {
 
             const userData = userSnap.data();
 
+            if (
+                userData.uid !== user.uid
+            ) {
+                navigate("/");
+                return;
+            }
+
             if (userData.role === "admin") {
                 navigate("/admin-dashboard");
                 return;
@@ -106,12 +113,17 @@ function MyProfile() {
         }
         try {
             setEditLoading(true);
+            if (!/^[a-zA-Z ]+$/.test(editForm.name.trim())) {
+                return;
+            }
             const safeName = editForm.name.trim().slice(0, 60);
 
             const safeFather = editForm.fatherHusbandName
                 .trim()
                 .slice(0, 60);
-
+            if (editForm.address.trim().length < 5) {
+                return;
+            }
             const safeAddress = editForm.address
                 .trim()
                 .slice(0, 300);

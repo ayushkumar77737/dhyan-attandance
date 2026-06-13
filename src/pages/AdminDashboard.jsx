@@ -243,7 +243,14 @@ function AdminDashboard() {
     try {
       const userRef = doc(db, "users", localStorage.getItem("userId"));
       const userSnap = await getDoc(userRef);
-      if (!userSnap.exists() || userSnap.data().role !== "admin") { navigate("/"); return; }
+      if (
+        !userSnap.exists() ||
+        userSnap.data().role !== "admin" ||
+        userSnap.data().uid !== auth.currentUser.uid
+      ) {
+        navigate("/");
+        return;
+      }
     } catch (error) { console.error(error); navigate("/"); }
   };
 
@@ -306,6 +313,10 @@ function AdminDashboard() {
     try {
       setChartLoading(true);
       const targetDate = dateParam || new Date().toISOString().split("T")[0];
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(targetDate)) {
+        setChartData([]);
+        return;
+      }
       const snap = await getDocs(collection(db, "attendance"));
       let present = 0, absent = 0;
       snap.forEach((d) => {
@@ -424,6 +435,11 @@ function AdminDashboard() {
       const userId = localStorage.getItem("userId");
       if (userId && auth.currentUser) await logLogout(userId.toUpperCase());
       sessionStorage.removeItem("greetingShown");
+
+      localStorage.removeItem("userId");
+      localStorage.removeItem("adminAuth");
+      localStorage.removeItem("userAuth");
+
       await signOut(auth);
       navigate("/");
     } catch (err) { console.log(err); }
@@ -487,7 +503,7 @@ function AdminDashboard() {
     },
   };
 
-  const q = search.trim().toLowerCase();
+  const q = String(search || "").trim().toLowerCase();
 
   const coreItems = [
     { path: "/add-user", icon: icons.userPlus, cls: "icon-blue", title: t("addUser"), sub: t("addUserSub") },
@@ -671,7 +687,13 @@ function AdminDashboard() {
           <div className="chart-empty"><span>📭</span>{t("noDataAvailable")}</div>
         ) : (
           <div className="trend-wrapper--monthly">
-            <div style={{ width: `${Math.max(monthlyData.length * 100, 100 + "%")}px`, height: "280px", minWidth: "100%" }}>
+            <div
+              style={{
+                width: `${Math.max(monthlyData.length * 100, 100)}px`,
+                height: "280px",
+                minWidth: "100%"
+              }}
+            >
               <Bar data={monthlyBarData} options={monthlyBarOptions} />
             </div>
           </div>

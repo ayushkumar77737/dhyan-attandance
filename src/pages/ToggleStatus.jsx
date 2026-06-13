@@ -44,7 +44,10 @@ function ToggleStatus() {
 
             const userData = userSnap.data();
 
-            if (userData.role !== "admin") {
+            if (
+                userData.role !== "admin" ||
+                userData.uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
                 return;
             }
@@ -96,7 +99,9 @@ function ToggleStatus() {
                     });
                 }
             });
-            list.sort((a, b) => a.idNo.localeCompare(b.idNo));
+            list.sort((a, b) =>
+                (a.idNo || "").localeCompare(b.idNo || "")
+            );
             setUsers(list);
         } catch (error) {
             console.error(error);
@@ -111,6 +116,10 @@ function ToggleStatus() {
     };
 
     const handleToggle = async (user) => {
+        if (!user?.docId) {
+            return;
+        }
+
         setTogglingId(user.docId);
         try {
             const newStatus = !user.disabled;
@@ -143,6 +152,9 @@ function ToggleStatus() {
     };
 
     const handleToggleAll = async () => {
+        if (users.length === 0) {
+            return;
+        }
         const allDisabled = users.every((u) => u.disabled);
         const newStatus = !allDisabled;
         setTogglingId("__all__");
@@ -174,7 +186,7 @@ function ToggleStatus() {
     const filtered = users.filter(
         (u) =>
             (u.name || "").toLowerCase().includes(search.toLowerCase()) ||
-            u.idNo.toLowerCase().includes(search.toLowerCase())
+            (u.idNo || "").toLowerCase().includes(search.toLowerCase())
     );
 
     const activeCount = users.filter((u) => !u.disabled).length;

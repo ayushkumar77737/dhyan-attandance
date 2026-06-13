@@ -54,7 +54,10 @@ function ActivityLogs() {
 
             const userData = userSnap.data();
 
-            if (userData.role !== "admin") {
+            if (
+                userData.role !== "admin" ||
+                userData.uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
                 return;
             }
@@ -140,6 +143,9 @@ function ActivityLogs() {
     const handleDeleteAll = async () => {
         try {
             setDeletingAll(true);
+            if (logs.length === 0) {
+                return;
+            }
             const deletePromises = logs.map((l) => deleteDoc(doc(db, "activityLogs", l.docId)));
             await Promise.all(deletePromises);
             await logAdminAction("delete_all_activity_logs", {
@@ -177,7 +183,12 @@ function ActivityLogs() {
             l.browser || "",
             l.ipAddress || "",
         ]);
-        const csv = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+        const csv = [
+            headers.join(","),
+            ...rows.map((r) =>
+                r.map((cell) => `"${cell}"`).join(",")
+            )
+        ].join("\n");
         const blob = new Blob([csv], { type: "text/csv" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");

@@ -65,10 +65,15 @@ const Login = () => {
       showError(t("fillAllFields"));
       return;
     }
+    if (!/^[A-Z0-9]{1,10}$/.test(id)) {
+      showError(t("invalidIdFormat"));
+      return;
+    }
 
     setLoading(true);
 
-    const userRef = doc(db, "loginAttempts", id);
+    const safeId = id.toUpperCase();
+    const userRef = doc(db, "loginAttempts", safeId);
     const userSnap = await getDoc(userRef);
 
     if (userSnap.exists()) {
@@ -82,9 +87,8 @@ const Login = () => {
     }
 
     try {
-      const email = id + "@dhyan.in";
+      const email = safeId + "@dhyan.in";
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const loggedEmail = userCredential.user.email;
 
       await setDoc(userRef, { attempts: 0, lockUntil: null });
 
@@ -206,7 +210,11 @@ const Login = () => {
 
             {errorMessage && <p className="login-error">{errorMessage}</p>}
 
-            <button className="login-button" disabled={loading}>
+            <button
+              type="submit"
+              className="login-button"
+              disabled={loading}
+            >
               {loading ? t("pleaseWait") : t("login")}
             </button>
 
@@ -224,7 +232,11 @@ const Login = () => {
         </div>
 
         <div className="login-right">
-          <img src={dhyanImage} alt="Dhyan" />
+          <img
+            src={dhyanImage}
+            alt="Dhyan"
+            loading="lazy"
+          />
         </div>
 
       </div>

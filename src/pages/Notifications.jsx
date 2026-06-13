@@ -63,7 +63,10 @@ function Notifications() {
 
       const userData = userSnap.data();
 
-      if (userData.role !== "admin") {
+      if (
+        userData.role !== "admin" ||
+        userData.uid !== auth.currentUser.uid
+      ) {
         navigate("/");
         return;
       }
@@ -122,6 +125,10 @@ function Notifications() {
       setStatus(t("enterNotification"));
       return;
     }
+    if (message.trim().length > 500) {
+      setStatus(t("notificationTooLong"));
+      return;
+    }
     try {
       setLoading(true);
       await addDoc(collection(db, "notifications"), {
@@ -151,7 +158,15 @@ function Notifications() {
 
   const saveEdit = async () => {
     if (!editMessage.trim()) return;
+
+    if (editMessage.trim().length > 500) {
+      setStatus(t("notificationTooLong"));
+      return;
+    }
     try {
+      if (!editItem?.id) {
+        return;
+      }
       await updateDoc(
         doc(db, "notifications", editItem.id),
         {

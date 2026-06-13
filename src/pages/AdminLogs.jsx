@@ -111,13 +111,24 @@ function AdminLogs() {
         try {
             const userRef = doc(db, "users", localStorage.getItem("userId"));
             const userSnap = await getDoc(userRef);
-            if (!userSnap.exists() || userSnap.data().role !== "admin") { navigate("/"); return false; }
+            if (
+                !userSnap.exists() ||
+                userSnap.data().role !== "admin" ||
+                userSnap.data().uid !== auth.currentUser.uid
+            ) {
+                navigate("/");
+                return false;
+            }
             return true;
         } catch (err) { console.error(err); navigate("/"); return false; }
     };
 
     const subscribe = () => {
         setLoading(true);
+        if (!auth.currentUser) {
+            navigate("/");
+            return;
+        }
         const q = query(collection(db, "adminLogs"), orderBy("timestamp", "desc"), limit(300));
         unsubRef.current = onSnapshot(
             q,
@@ -243,7 +254,11 @@ function AdminLogs() {
                 d ? d.toLocaleString("en-IN") : "",
             ];
         });
-        const csv = [headers, ...rows].map((r) => r.join(",")).join("\n");
+        const csv = [headers, ...rows]
+            .map((r) =>
+                r.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(",")
+            )
+            .join("\n");
         const blob = new Blob([csv], { type: "text/csv" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");

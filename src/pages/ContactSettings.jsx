@@ -41,7 +41,10 @@ function ContactSettings() {
 
             const userData = userSnap.data();
 
-            if (userData.role !== "admin") {
+            if (
+                userData.role !== "admin" ||
+                userData.uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
                 return;
             }
@@ -119,6 +122,15 @@ function ContactSettings() {
         if (!validate()) return;
         try {
             setSaving(true);
+            if (
+                form.supportEmail.length > 100 ||
+                form.supportPhone1.length > 20 ||
+                form.supportPhone2.length > 20 ||
+                form.telegramChannel.length > 300 ||
+                form.ashramAddress.length > 300
+            ) {
+                return;
+            }
             await setDoc(doc(db, "settings", "contact"), form);
             await logAdminAction("update_contact_settings", {
                 targetId: "contact",
@@ -134,7 +146,13 @@ function ContactSettings() {
     };
 
     const handleChange = (field, value) => {
-        setForm((prev) => ({ ...prev, [field]: value }));
+
+        value = value.trimStart();
+
+        setForm((prev) => ({
+            ...prev,
+            [field]: value
+        }));
         if (errors[field]) setErrors((prev) => ({ ...prev, [field]: "" }));
     };
 
@@ -147,6 +165,7 @@ function ContactSettings() {
             ashramAddress: "https://maps.app.goo.gl/2YCp1hCbfK66C7mo7",
         });
         setErrors({});
+        setToast(null);
     };
 
     return (

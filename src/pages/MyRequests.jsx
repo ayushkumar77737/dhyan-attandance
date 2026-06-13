@@ -62,6 +62,11 @@ function MyRequests() {
 
         const userData = userSnap.data();
 
+        if (userData.uid !== user.uid) {
+          navigate("/");
+          return;
+        }
+
         if (userData.role === "admin") {
           navigate("/admin-dashboard");
           return;
@@ -104,6 +109,14 @@ function MyRequests() {
   const saveEdit = async () => {
 
     if (!editItem || !editReason.trim()) return;
+
+    if (editReason.trim().length < 5) {
+      return;
+    }
+
+    if (editReason.trim().length > 500) {
+      return;
+    }
 
     if (editItem.userId !== userId) {
       return;

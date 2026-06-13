@@ -66,7 +66,10 @@ function MarkAttendance() {
 
             const userData = userSnap.data();
 
-            if (userData.role !== "admin") {
+            if (
+                userData.role !== "admin" ||
+                userData.uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
                 return;
             }
@@ -92,7 +95,7 @@ function MarkAttendance() {
         const today = new Date().toISOString().split("T")[0];
 
         if (date > today) {
-            setMessage("Future attendance not allowed");
+            setMessage(t("futureAttendanceNotAllowed"));
             setUsers([]);
             setAttendance({});
             setTimeout(() => setMessage(""), 3000);

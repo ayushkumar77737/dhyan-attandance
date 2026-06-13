@@ -53,6 +53,11 @@ const HelpSupport = () => {
 
             const userData = userSnap.data();
 
+            if (userData.uid !== user.uid) {
+                navigate("/");
+                return;
+            }
+
             if (userData.role === "admin") {
                 navigate("/admin-dashboard");
                 return;
@@ -84,7 +89,9 @@ const HelpSupport = () => {
     };
     const handleCopy = (text, key) => {
         if (!text) return;
-
+        if (!text || typeof text !== "string") {
+            return;
+        }
         navigator.clipboard.writeText(text).then(() => {
             setCopiedKey(key);
             setTimeout(() => setCopiedKey(null), 2000);
@@ -114,6 +121,15 @@ const HelpSupport = () => {
             <line x1="10" y1="14" x2="21" y2="3" />
         </svg>
     );
+    const telegramLink =
+        contactData?.telegramChannel?.startsWith("https://")
+            ? contactData.telegramChannel
+            : "#";
+
+    const mapsLink =
+        contactData?.ashramAddress?.startsWith("https://")
+            ? contactData.ashramAddress
+            : "#";
     return (
         <div className="helpsup__wrapper">
             <div className="helpsup__orb helpsup__orb--1" />
@@ -214,11 +230,11 @@ const HelpSupport = () => {
                             </div>
                             <div className="helpsup__card-content">
                                 <span className="helpsup__card-label">{t("telegramChannel")}</span>
-                                <a href={contactData.telegramChannel} target="_blank" rel="noopener noreferrer" className="helpsup__card-value helpsup__card-value--link">
+                                <a href={telegramLink} target="_blank" rel="noopener noreferrer" className="helpsup__card-value helpsup__card-value--link">
                                     {t("joinTelegram")}
                                 </a>
                             </div>
-                            <a href={contactData.telegramChannel} target="_blank" rel="noopener noreferrer" className="helpsup__open-btn" title="Open">
+                            <a href={telegramLink} target="_blank" rel="noopener noreferrer" className="helpsup__open-btn" title="Open">
                                 <ExternalIcon />
                             </a>
                         </div>
@@ -231,11 +247,11 @@ const HelpSupport = () => {
                             </div>
                             <div className="helpsup__card-content">
                                 <span className="helpsup__card-label">{t("ashramAddress")}</span>
-                                <a href={contactData.ashramAddress} target="_blank" rel="noopener noreferrer" className="helpsup__card-value helpsup__card-value--link">
+                                <a href={mapsLink} target="_blank" rel="noopener noreferrer" className="helpsup__card-value helpsup__card-value--link">
                                     {t("viewOnMaps")}
                                 </a>
                             </div>
-                            <a href={contactData.ashramAddress} target="_blank" rel="noopener noreferrer" className="helpsup__open-btn" title="Open Maps">
+                            <a href={mapsLink} target="_blank" rel="noopener noreferrer" className="helpsup__open-btn" title="Open Maps">
                                 <ExternalIcon />
                             </a>
                         </div>

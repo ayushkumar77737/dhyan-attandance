@@ -44,6 +44,9 @@ function TicketingSupport() {
 
     const fetchTickets = async (userId) => {
         try {
+            if (!auth.currentUser?.uid) {
+                return;
+            }
             const q = query(
                 collection(db, "tickets"),
                 where("userId", "==", auth.currentUser.uid)
@@ -81,6 +84,11 @@ function TicketingSupport() {
                 }
 
                 const userData = userSnap.data();
+
+                if (userData.uid !== user.uid) {
+                    navigate("/");
+                    return;
+                }
 
                 if (userData.role === "admin") {
                     navigate("/admin-dashboard");
@@ -138,12 +146,17 @@ function TicketingSupport() {
 
         if (!form.email.trim()) {
             newErrors.email = t("emailRequired");
-        } else if (!/^[a-zA-Z0-9@.]+$/.test(form.email) || !form.email.includes("@")) {
+        } else if (
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)
+        ) {
             newErrors.email = t("emailInvalid");
         }
 
         if (!form.issue.trim()) {
             newErrors.issue = t("issueRequired");
+        }
+        else if (form.issue.trim().length > 1000) {
+            newErrors.issue = t("issueTooLong");
         }
 
         setErrors(newErrors);
@@ -195,8 +208,17 @@ function TicketingSupport() {
     };
 
     const saveEditTicket = async () => {
-        if (!editTicket || !editIssue.trim()) return;
+        if (
+            !editTicket ||
+            !editTicket.id ||
+            !editIssue.trim()
+        ) {
+            return;
+        }
         try {
+            if (editIssue.trim().length > 1000) {
+                return;
+            }
             await updateDoc(doc(db, "tickets", editTicket.id), {
                 issue: editIssue.trim()
             });

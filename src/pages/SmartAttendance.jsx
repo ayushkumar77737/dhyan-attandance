@@ -63,7 +63,10 @@ function SmartAttendance() {
 
             const userData = userSnap.data();
 
-            if (userData.role !== "admin") {
+            if (
+                userData.role !== "admin" ||
+                userData.uid !== auth.currentUser.uid
+            ) {
                 navigate("/");
                 stopCamera();
                 return;
@@ -201,14 +204,22 @@ function SmartAttendance() {
             setPulseActive(true);
             setTimeout(() => setPulseActive(false), 1000);
 
-            const userSnap = await getDocs(query(collection(db, "users"), where("id", "==", userId.toUpperCase())));
-            if (userSnap.empty) {
+            const userRef = doc(
+                db,
+                "users",
+                userId.toUpperCase()
+            );
+
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
                 setScanStatus("error");
                 setScannedUser(null);
                 showToast(`❌ ${t("userNotFoundScan")} ${userId}`, "error");
                 return;
             }
-            const userData = userSnap.docs[0].data();
+
+            const userData = userSnap.data();
 
             const today = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
             const existingSnap = await getDocs(query(
@@ -252,6 +263,10 @@ function SmartAttendance() {
     const handleManualScan = async (e) => {
         e.preventDefault();
         const val = e.target.manualId.value.trim().toUpperCase();
+        if (!/^[A-Z0-9]+$/.test(val)) {
+            showToast(t("invalidUserId"), "error");
+            return;
+        }
         if (!val) return;
         setScanResult(val);
         await handleScan(val);

@@ -42,11 +42,9 @@ function MyNotifications() {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (!user) return;
 
-            const email = user.email;
-
-            const id = email
-                .split("@")[0]
-                .toUpperCase();
+            const id = String(
+                user.email?.split("@")[0] || ""
+            ).toUpperCase();
 
             const userRef = doc(db, "users", id);
 
@@ -59,7 +57,10 @@ function MyNotifications() {
 
             const userData = userSnap.data();
 
-            if (userData.role === "admin") {
+            if (
+                userData.role === "admin" &&
+                userData.uid === auth.currentUser.uid
+            ) {
                 navigate("/admin-dashboard");
                 return;
             }
@@ -158,13 +159,13 @@ function MyNotifications() {
                     <div className="notification-list">
                         {notifications.map((item, index) => (
                             <div
-                                key={index}
+                                key={`${item.createdAt}-${index}`}
                                 className="notification-card"
                                 style={{ animationDelay: `${index * 60}ms` }}
                             >
                                 <div className="card-dot" />
                                 <div className="card-content">
-                                    <p>{item.message}</p>
+                                    <p>{String(item.message).substring(0, 500)}</p>
                                     <span>
                                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                             <circle cx="12" cy="12" r="10" />

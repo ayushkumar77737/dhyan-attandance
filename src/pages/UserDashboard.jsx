@@ -54,15 +54,22 @@ function UserDashboard() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user || !user.email) { navigate("/"); return; }
-      const email = user.email;
-      const id = email.split("@")[0].toUpperCase();
+      const id = String(
+        user.email?.split("@")[0] || ""
+      ).toUpperCase();
       setUserId(id);
 
       const userRef = doc(db, "users", id);
       const userSnap = await getDoc(userRef);
       if (!userSnap.exists()) { navigate("/"); return; }
       const userData = userSnap.data();
-      if (userData.role === "admin") { navigate("/admin-dashboard"); return; }
+      if (
+        userData.role === "admin" &&
+        userData.uid === auth.currentUser.uid
+      ) {
+        navigate("/admin-dashboard");
+        return;
+      }
       setUserName(userSnap.data().name || id);
 
       const snapshot = await getDocs(collection(db, "attendance"));
@@ -128,6 +135,9 @@ function UserDashboard() {
     try {
       if (userId?.trim()) await logLogout(userId.trim());
       sessionStorage.removeItem("udGreetingShown");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("userAuth");
+      localStorage.removeItem("adminAuth");
       await signOut(auth);
       navigate("/");
     } catch (error) {
@@ -163,7 +173,8 @@ function UserDashboard() {
     },
     {
       path: "/my-notifications", cls: "ud-action-rose", name: t("myNotifications"),
-      sub: notifCount !== null && notifCount > 0 ? `${notifCount} unread` : (t("allClear") || "All clear"),
+      sub: notifCount !== null && notifCount > 0
+        ? `${notifCount} ${t("unread")}` : (t("allClear") || "All clear"),
       icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>)
     },
     {
@@ -272,7 +283,11 @@ function UserDashboard() {
             type="text"
             placeholder={t("dashSearchPlaceholder")}
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) =>
+              setSearch(
+                e.target.value.replace(/[<>]/g, "")
+              )
+            }
           />
           {search && <button className="ud-search-clear" onClick={() => setSearch("")}>✕</button>}
         </div>
@@ -396,7 +411,15 @@ function UserDashboard() {
           </div>
 
           <div className="ud-cal-grid">
-            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
+            {[
+              t("sun"),
+              t("mon"),
+              t("tue"),
+              t("wed"),
+              t("thu"),
+              t("fri"),
+              t("sat")
+            ].map((d) => (
               <div key={d} className="ud-cal-dow">{d}</div>
             ))}
             {Array.from({ length: new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1).getDay() }).map((_, i) => (

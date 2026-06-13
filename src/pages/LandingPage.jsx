@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
 import { useTranslation } from "react-i18next";
@@ -9,7 +9,6 @@ import logo2 from "../assets/logo2.png";
 const LandingPage = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const heroRef = useRef(null);
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -29,7 +28,12 @@ const LandingPage = () => {
 
     return (
         <div className="ldpg__page">
-            <img src={logo2} alt="Logo" className="ldpg__logo" />
+            <img
+                src={logo2}
+                alt="Logo"
+                className="ldpg__logo"
+                loading="lazy"
+            />
 
             <div className="ldpg__orb ldpg__orb--1" />
             <div className="ldpg__orb ldpg__orb--2" />
@@ -45,7 +49,7 @@ const LandingPage = () => {
                 <LanguageSwitcher />
             </div>
 
-            <section className="ldpg__hero" ref={heroRef}>
+            <section className="ldpg__hero">
 
                 <div className="ldpg__hero-left">
 
@@ -84,7 +88,11 @@ const LandingPage = () => {
                         </div>
                     </div>
 
-                    <button className="ldpg__cta" onClick={() => navigate("/login")}>
+                    <button
+                        type="button"
+                        className="ldpg__cta"
+                        onClick={() => navigate("/login")}
+                    >
                         <span className="ldpg__cta-shine" />
                         <span className="ldpg__cta-text">{t("landingLogin")}</span>
                         <span className="ldpg__cta-arrow">→</span>
@@ -100,7 +108,12 @@ const LandingPage = () => {
                         <div className="ldpg__image-ring ldpg__image-ring--inner" />
 
                         <div className="ldpg__image-wrap">
-                            <img src={dhyanImage} alt="Guruji" className="ldpg__guruji-img" />
+                            <img
+                                src={dhyanImage}
+                                alt="Guruji"
+                                className="ldpg__guruji-img"
+                                loading="lazy"
+                            />
                         </div>
 
                         <div className="ldpg__image-glow" />

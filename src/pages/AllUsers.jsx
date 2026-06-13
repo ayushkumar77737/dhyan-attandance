@@ -63,7 +63,10 @@ function AllUsers() {
 
       const userData = userSnap.data();
 
-      if (userData.role !== "admin") {
+      if (
+        userData.role !== "admin" ||
+        userData.uid !== auth.currentUser.uid
+      ) {
         navigate("/");
         return;
       }
@@ -77,7 +80,14 @@ function AllUsers() {
   };
 
   const fetchUsers = async () => {
+
+    if (!auth.currentUser) {
+      navigate("/");
+      return;
+    }
+
     const querySnapshot = await getDocs(collection(db, "users"));
+
     const userList = querySnapshot.docs
       .map((docItem) => ({
         docId: docItem.id,
@@ -87,6 +97,7 @@ function AllUsers() {
         user.deleted !== true &&
         user.role !== "admin"
       );
+
     setUsers(userList);
   };
 

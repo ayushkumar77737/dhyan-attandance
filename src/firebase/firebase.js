@@ -12,13 +12,15 @@ const firebaseConfig = {
 };
 
 
-const app = getApps().find((a) => a.name === "[DEFAULT]") || initializeApp(firebaseConfig);
+const app = getApps().length
+  ? getApp()
+  : initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 const secondaryApp =
-  getApps().find((a) => a.name === "Secondary") ||
+  getApps().find(app => app.name === "Secondary") ||
   initializeApp(firebaseConfig, "Secondary");
 
 export const secondaryAuth = getAuth(secondaryApp);

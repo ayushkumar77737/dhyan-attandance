@@ -29,8 +29,23 @@ export default function LanguageSwitcher() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('appLanguage');
+
+    if (
+      savedLanguage &&
+      savedLanguage !== i18n.language
+    ) {
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, []);
 
   const handleSelect = (code) => {
+    if (code === i18n.language) {
+      setOpen(false);
+      return;
+    }
+
     i18n.changeLanguage(code);
     localStorage.setItem('appLanguage', code);
     setOpen(false);
@@ -38,11 +53,15 @@ export default function LanguageSwitcher() {
 
   return (
     <div className="lang-wrapper" ref={ref}>
-      <div className="lang-trigger" onClick={() => setOpen(!open)}>
+      <button
+        type="button"
+        className="lang-trigger"
+        onClick={() => setOpen(!open)}
+      >
         <span className="lang-badge">{current.short}</span>
         <span className="lang-label">{current.label}</span>
         <span className={`lang-arrow ${open ? 'open' : ''}`}>▾</span>
-      </div>
+      </button>
 
       {open && (
         <div className="lang-dropdown">
