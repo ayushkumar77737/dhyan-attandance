@@ -545,6 +545,7 @@ function AdminDashboard() {
     { path: "/session-feedbacks", icon: icons.star, cls: "icon-pink", label: t("sessionFeedbacks") },
     { path: "/all-profiles", icon: icons.userList, cls: "icon-indigo", label: t("allProfiles") },
     { path: "/activity-logs", icon: icons.activity, cls: "icon-cyan", label: t("activityLogs") },
+    { path: "/user-activities", icon: icons.activity, cls: "icon-cyan", label: t("userActivities") },
     { path: "/admin-logs", icon: icons.adminLog, cls: "icon-purple", label: t("adminLogs") },
     { path: "/id-requests", icon: icons.idCard, cls: "icon-lime", label: t("idRequests") },
     { path: "/contact-settings", icon: icons.settings, cls: "icon-gray", label: t("contactSettings") },

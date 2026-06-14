@@ -740,5 +740,18 @@
   "accEmail": "Email",
   "accRole": "Role",
   "accUid": "UID",
-  "copy": "Copy"
+  "copy": "Copy",
+  "userActivities": "User Activities",
+  "ua_deleteAll": "Delete All",
+  "ua_deleteUser": "Delete all for this user",
+  "ua_deleteOne": "Delete this activity",
+  "ua_searchPlaceholder": "Search by name or ID...",
+  "ua_noActivities": "No user activities found",
+  "ua_confirmDeleteOne": "Delete this activity? This cannot be undone.",
+  "ua_confirmDeleteUser": "Delete ALL activities for this user? This cannot be undone.",
+  "ua_confirmDeleteAll": "Delete ALL user activities? This cannot be undone.",
+  "ua_deleteFailed": "Delete failed. Please try again.",
+  "ua_deletedOne": "Activity deleted",
+  "ua_deletedUser": "All activities for this user deleted",
+  "ua_deletedAll": "All user activities deleted"
 }

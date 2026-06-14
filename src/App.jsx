@@ -28,6 +28,7 @@ import ShareExperience from "./pages/ShareExperience";
 import SessionFeedbacks from "./pages/SessionFeedbacks";
 import AllProfiles from "./pages/AllProfiles";
 import ActivityLogs from "./pages/ActivityLogs";
+import UserActivities from "./pages/UserActivities";
 import GetId from "./pages/GetId";
 import IdRequests from "./pages/IdRequests";
 import SmartAttendance from "./pages/SmartAttendance";
@@ -364,6 +365,28 @@ function App() {
             <ProtectedRoute>
               <RequireAccess pageId="activityLogs">
                 <ActivityLogs />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/activity-logs"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="activityLogs">
+                <ActivityLogs />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/user-activities"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="userActivities">
+                <UserActivities />
               </RequireAccess>
             </ProtectedRoute>
           }

@@ -20,6 +20,7 @@ export const CONTROLLABLE_PAGES = [
     { id: "sessionFeedbacks", path: "/session-feedbacks", labelKey: "sessionFeedbacks" },
     { id: "allProfiles", path: "/all-profiles", labelKey: "allProfiles" },
     { id: "activityLogs", path: "/activity-logs", labelKey: "activityLogs" },
+    { id: "userActivities", path: "/user-activities", labelKey: "userActivities" },
     { id: "adminLogs", path: "/admin-logs", labelKey: "adminLogs" },
     { id: "idRequests", path: "/id-requests", labelKey: "idRequests" },
     { id: "contactSettings", path: "/contact-settings", labelKey: "contactSettings" },
