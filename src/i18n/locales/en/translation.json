@@ -734,5 +734,11 @@
   "wed": "Wed",
   "thu": "Thu",
   "fri": "Fri",
-  "sat": "Sat"
+  "sat": "Sat",
+  "myAccount": "My Account",
+  "accAdminId": "Admin ID",
+  "accEmail": "Email",
+  "accRole": "Role",
+  "accUid": "UID",
+  "copy": "Copy"
 }

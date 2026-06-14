@@ -7,6 +7,8 @@ import { auth, db } from "../firebase/firebase";
 
 import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 
+import { createPortal } from "react-dom";
+
 import { useTranslation } from "react-i18next";
 
 import useAutoLogout from "../hooks/useAutoLogout";
@@ -211,7 +213,9 @@ function AdminDashboard() {
   const [accessConfig, setAccessConfig] = useState({});
   const currentUserId = localStorage.getItem("userId") || "";
   const isSuperAdmin = currentUserId.toUpperCase() === SUPER_ADMIN_ID;
-
+  const [showAccount, setShowAccount] = useState(false);
+  const [adminInfo, setAdminInfo] = useState(null);
+  const [copied, setCopied] = useState("");
   const [totalUsers, setTotalUsers] = useState(0);
   const [deletedUsers, setDeletedUsers] = useState(0);
   const [activeUsers, setActiveUsers] = useState(0);
@@ -254,6 +258,21 @@ function AdminDashboard() {
     } catch (error) { console.error(error); navigate("/"); }
   };
 
+  const fetchAdminInfo = async () => {
+    try {
+      const userId = localStorage.getItem("userId");
+      if (!userId) return;
+      const snap = await getDoc(doc(db, "users", userId));
+      if (snap.exists()) setAdminInfo({ id: userId, ...snap.data() });
+    } catch (err) { console.log(err); }
+  };
+
+  const copyValue = (val, key) => {
+    navigator.clipboard?.writeText(val);
+    setCopied(key);
+    setTimeout(() => setCopied(""), 1500);
+  };
+
   useEffect(() => {
     const disableRightClick = (e) => e.preventDefault();
     const disableInspectKeys = (e) => {
@@ -264,6 +283,7 @@ function AdminDashboard() {
     document.addEventListener("contextmenu", disableRightClick);
     document.addEventListener("keydown", disableInspectKeys);
     checkAdmin();
+    fetchAdminInfo();
     fetchUserStats();
     fetchChartData(chartDate);
     fetchTicketData();
@@ -528,6 +548,7 @@ function AdminDashboard() {
     { path: "/admin-logs", icon: icons.adminLog, cls: "icon-purple", label: t("adminLogs") },
     { path: "/id-requests", icon: icons.idCard, cls: "icon-lime", label: t("idRequests") },
     { path: "/contact-settings", icon: icons.settings, cls: "icon-gray", label: t("contactSettings") },
+    { path: "myaccount", icon: icons.userCog, cls: "icon-blue", label: t("myAccount"), action: async () => { if (!adminInfo) await fetchAdminInfo(); setShowAccount(true); }, skipAccess: true },
     ...(isSuperAdmin
       ? [{ path: "/access-control", icon: icons.accessControl, cls: "icon-gray", label: t("accessControl") }]
       : []),
@@ -539,7 +560,7 @@ function AdminDashboard() {
     .filter((c) => canAccessPath(accessConfig, c.path, currentUserId))
     .filter((c) => !q || c.title.toLowerCase().includes(q) || c.sub.toLowerCase().includes(q));
   const toolsFiltered = toolItems
-    .filter((c) => canAccessPath(accessConfig, c.path, currentUserId))
+    .filter((c) => c.skipAccess || canAccessPath(accessConfig, c.path, currentUserId))
     .filter((c) => !q || c.label.toLowerCase().includes(q));
   const hasResults = coreFiltered.length > 0 || toolsFiltered.length > 0;
 
@@ -739,14 +760,61 @@ function AdminDashboard() {
       {toolsFiltered.length > 0 && (
         <div className="tools-grid">
           {toolsFiltered.map((c) => (
-            <div className="tool-card" key={c.path} onClick={() => navigate(c.path)}>
+            <div className="tool-card" key={c.path} onClick={() => c.action ? c.action() : navigate(c.path)}>
               <div className={`tool-card-icon ${c.cls}`}>{c.icon}</div>
               <p className="tool-card-label">{c.label}</p>
             </div>
           ))}
         </div>
       )}
+      {showAccount && createPortal(
+        <div className="myacc__overlay" onClick={() => setShowAccount(false)}>
+          <div className="myacc__modal" onClick={(e) => e.stopPropagation()}>
+            <button className="myacc__close" onClick={() => setShowAccount(false)}>✕</button>
 
+            {!adminInfo ? (
+              <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>
+            ) : (
+              <>
+                <div className="myacc__head">
+                  <div className="myacc__avatar">
+                    {(adminInfo.name || "?").charAt(0).toUpperCase()}
+                  </div>
+                  <div className="myacc__head-text">
+                    <p className="myacc__name">{adminInfo.name || "—"}</p>
+                    <span className="myacc__role-tag">{adminInfo.role || "—"}</span>
+                  </div>
+                </div>
+
+                <div className="myacc__fields">
+                  {[
+                    { key: "id", label: t("accAdminId"), value: adminInfo.id },
+                    { key: "email", label: t("accEmail"), value: adminInfo.email },
+                    { key: "role", label: t("accRole"), value: adminInfo.role },
+                    { key: "uid", label: t("accUid"), value: adminInfo.uid },
+                  ].map((f) => (
+                    <div className="myacc__field" key={f.key}>
+                      <span className="myacc__label">{f.label}</span>
+                      <div className="myacc__valrow">
+                        <span className="myacc__value">{f.value || "—"}</span>
+                        {f.value && (
+                          <button
+                            className="myacc__copy"
+                            onClick={() => copyValue(f.value, f.key)}
+                          >
+                            {copied === f.key ? "✓" : t("copy")}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }
