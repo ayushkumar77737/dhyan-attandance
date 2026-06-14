@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap');
 
-.myatt__container {
+.myattn__container {
     padding: 28px 32px;
     font-family: 'Outfit', sans-serif;
     min-height: 100vh;
@@ -12,10 +12,10 @@
         linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
     background-size: 100% 100%, 44px 44px, 44px 44px;
-    animation: myatt-fade 0.5s ease;
+    animation: myattn-fade 0.5s ease;
 }
 
-@keyframes myatt-fade {
+@keyframes myattn-fade {
     from {
         opacity: 0;
     }
@@ -25,19 +25,19 @@
     }
 }
 
-.myatt__header {
+.myattn__header {
     display: flex;
     align-items: center;
     margin-bottom: 24px;
 }
 
-.myatt__header-left {
+.myattn__header-left {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-.myatt__back-btn {
+.myattn__back-btn {
     width: 38px;
     height: 38px;
     border-radius: 10px;
@@ -52,30 +52,30 @@
     transition: border-color 0.2s ease, color 0.2s ease;
 }
 
-.myatt__back-btn svg {
+.myattn__back-btn svg {
     width: 18px;
     height: 18px;
 }
 
-.myatt__back-btn:hover {
+.myattn__back-btn:hover {
     border-color: #3b82f6;
     color: #3b82f6;
 }
 
-.myatt__logo {
+.myattn__logo {
     height: 40px;
     width: auto;
     object-fit: contain;
     flex-shrink: 0;
 }
 
-.myatt__header-text {
+.myattn__header-text {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-.myatt__portal-label {
+.myattn__portal-label {
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 1.5px;
@@ -84,7 +84,7 @@
     margin: 0;
 }
 
-.myatt__title {
+.myattn__title {
     font-family: 'Syne', sans-serif;
     font-size: 22px;
     font-weight: 800;
@@ -94,14 +94,14 @@
 }
 
 /* Stats */
-.myatt__stats {
+.myattn__stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
     margin-bottom: 20px;
 }
 
-.myatt__stat {
+.myattn__stat {
     background: #0f1623;
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 14px;
@@ -114,7 +114,7 @@
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
-.myatt__stat::before {
+.myattn__stat::before {
     content: '';
     position: absolute;
     top: 0;
@@ -124,46 +124,46 @@
     opacity: 0.6;
 }
 
-.myatt__stat--pct::before {
+.myattn__stat--pct::before {
     background: linear-gradient(90deg, transparent, #2dce89, transparent);
 }
 
-.myatt__stat--present::before {
+.myattn__stat--present::before {
     background: linear-gradient(90deg, transparent, #3b82f6, transparent);
 }
 
-.myatt__stat--absent::before {
+.myattn__stat--absent::before {
     background: linear-gradient(90deg, transparent, #ef4444, transparent);
 }
 
-.myatt__stat--total::before {
+.myattn__stat--total::before {
     background: linear-gradient(90deg, transparent, #f59e0b, transparent);
 }
 
-.myatt__stat-val {
+.myattn__stat-val {
     font-family: 'Syne', sans-serif;
     font-size: 30px;
     font-weight: 800;
     line-height: 1;
 }
 
-.myatt__stat--pct .myatt__stat-val {
+.myattn__stat--pct .myattn__stat-val {
     color: #2dce89;
 }
 
-.myatt__stat--present .myatt__stat-val {
+.myattn__stat--present .myattn__stat-val {
     color: #3b82f6;
 }
 
-.myatt__stat--absent .myatt__stat-val {
+.myattn__stat--absent .myattn__stat-val {
     color: #ef4444;
 }
 
-.myatt__stat--total .myatt__stat-val {
+.myattn__stat--total .myattn__stat-val {
     color: #f59e0b;
 }
 
-.myatt__stat-label {
+.myattn__stat-label {
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 1px;
@@ -172,14 +172,14 @@
 }
 
 /* Filter */
-.myatt__filter {
+.myattn__filter {
     position: relative;
     display: inline-flex;
     align-items: center;
     margin-bottom: 18px;
 }
 
-.myatt__filter-icon {
+.myattn__filter-icon {
     position: absolute;
     left: 14px;
     display: flex;
@@ -187,12 +187,12 @@
     pointer-events: none;
 }
 
-.myatt__filter-icon svg {
+.myattn__filter-icon svg {
     width: 16px;
     height: 16px;
 }
 
-.myatt__select {
+.myattn__select {
     appearance: none;
     background: #0f1623;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -211,30 +211,30 @@
     background-position: right 14px center;
 }
 
-.myatt__select:hover,
-.myatt__select:focus {
+.myattn__select:hover,
+.myattn__select:focus {
     border-color: #3b82f6;
 }
 
-.myatt__select option {
+.myattn__select option {
     background: #0f1623;
     color: #e8edf5;
 }
 
 /* Table */
-.myatt__table-wrap {
+.myattn__table-wrap {
     background: #111827;
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 14px;
     overflow: hidden;
 }
 
-.myatt__table {
+.myattn__table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.myatt__table thead th {
+.myattn__table thead th {
     text-align: left;
     padding: 14px 18px;
     font-size: 11px;
@@ -246,22 +246,22 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.myatt__table tbody td {
+.myattn__table tbody td {
     padding: 14px 18px;
     font-size: 14px;
     color: #e8edf5;
     border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.myatt__table tbody tr:last-child td {
+.myattn__table tbody tr:last-child td {
     border-bottom: none;
 }
 
-.myatt__table tbody tr:hover {
+.myattn__table tbody tr:hover {
     background: #161f33;
 }
 
-.myatt__badge {
+.myattn__badge {
     display: inline-flex;
     align-items: center;
     padding: 4px 12px;
@@ -270,40 +270,40 @@
     font-weight: 600;
 }
 
-.myatt__badge--present {
+.myattn__badge--present {
     background: rgba(45, 206, 137, 0.15);
     color: #2dce89;
 }
 
-.myatt__badge--absent {
+.myattn__badge--absent {
     background: rgba(239, 68, 68, 0.15);
     color: #ef4444;
 }
 
 /* Spinner / empty */
-.myatt__spinner-wrap {
+.myattn__spinner-wrap {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 240px;
 }
 
-.myatt__spinner {
+.myattn__spinner {
     width: 38px;
     height: 38px;
     border: 3px solid rgba(255, 255, 255, 0.1);
     border-top-color: #3b82f6;
     border-radius: 50%;
-    animation: myatt-spin 0.8s linear infinite;
+    animation: myattn-spin 0.8s linear infinite;
 }
 
-@keyframes myatt-spin {
+@keyframes myattn-spin {
     to {
         transform: rotate(360deg);
     }
 }
 
-.myatt__empty {
+.myattn__empty {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -314,33 +314,33 @@
     font-size: 14px;
 }
 
-.myatt__empty span {
+.myattn__empty span {
     font-size: 32px;
 }
 
 @media (max-width: 768px) {
-    .myatt__container {
+    .myattn__container {
         padding: 18px 14px;
     }
 
-    .myatt__title {
+    .myattn__title {
         font-size: 18px;
     }
 
-    .myatt__logo {
+    .myattn__logo {
         height: 32px;
     }
 
-    .myatt__stats {
+    .myattn__stats {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .myatt__select {
+    .myattn__select {
         min-width: 0;
         width: 100%;
     }
 
-    .myatt__filter {
+    .myattn__filter {
         display: flex;
         width: 100%;
     }
