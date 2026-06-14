@@ -14,7 +14,6 @@ import {
 import { useTranslation } from "react-i18next";
 
 import guruji from "../assets/guruji.webp";
-import bgImage from "../assets/bg1.webp";
 
 function AddUser() {
 
@@ -182,10 +181,7 @@ function AddUser() {
     };
 
     return (
-        <div
-            className="adduser-container"
-            style={{ backgroundImage: `url(${bgImage})` }}
-        >
+        <div className="adduser-container">
             <div className="adduser-card">
 
                 <div className="adduser-image">
