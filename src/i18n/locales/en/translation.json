@@ -753,5 +753,8 @@
   "ua_deleteFailed": "Delete failed. Please try again.",
   "ua_deletedOne": "Activity deleted",
   "ua_deletedUser": "All activities for this user deleted",
-  "ua_deletedAll": "All user activities deleted"
+  "ua_deletedAll": "All user activities deleted",
+  "myAttendance": "My Attendance",
+  "totalDays": "Total Days",
+  "allMonths": "All Months"
 }

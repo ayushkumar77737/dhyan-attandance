@@ -43,6 +43,7 @@ import EditAdmin from "./pages/EditAdmin";
 import MyActivity from "./pages/MyActivity";
 import AccessControl from "./pages/AccessControl";
 import RequireAccess from "./components/RequireAccess";
+import MyAttendance from "./pages/MyAttendance";
 
 function App() {
   return (
@@ -131,6 +132,15 @@ function App() {
           element={
             <ProtectedRoute>
               <MyActivity />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/my-attendance"
+          element={
+            <ProtectedRoute>
+              <MyAttendance />
             </ProtectedRoute>
           }
         />
