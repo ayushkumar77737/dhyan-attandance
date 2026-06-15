@@ -87,7 +87,7 @@ const Login = () => {
     }
 
     try {
-      const email = safeId + "@dhyan.in";
+      const email = safeId + "@gmail.com";
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
       await setDoc(userRef, { attempts: 0, lockUntil: null });

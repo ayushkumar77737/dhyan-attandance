@@ -131,7 +131,7 @@ function EditUser() {
             await setDoc(newRef, {
                 ...oldData,
                 name: name.trim(),
-                email: `${userId}@dhyan.in`,
+                email: `${userId}@gmail.com`,
                 id: userId,
                 role: "user"
             });

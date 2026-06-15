@@ -284,7 +284,7 @@ function AddAdmin() {
                         <span className="aapg-input-icon">{icons.mail}</span>
                         <input
                             type="email"
-                            placeholder="admin3@dhyan.in"
+                            placeholder="admin3@gmail.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             autoComplete="off"

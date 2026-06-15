@@ -124,7 +124,7 @@ function AddUser() {
 
         try {
             const cleanId = idNo.toUpperCase();
-            const email = cleanId + "@dhyan.in";
+            const email = cleanId + "@gmail.com";
 
             const existingUser = await getDoc(
                 doc(db, "users", cleanId)
