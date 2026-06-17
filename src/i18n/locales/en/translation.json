@@ -756,5 +756,8 @@
   "ua_deletedAll": "All user activities deleted",
   "myAttendance": "My Attendance",
   "totalDays": "Total Days",
-  "allMonths": "All Months"
+  "allMonths": "All Months",
+  "leavesRequest": "Leaves Request",
+  "applyLeave": "Apply Leave",
+  "requestTimeOff": "Request time off"
 }
