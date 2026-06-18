@@ -19,9 +19,16 @@
     --alvr-font-body: 'Outfit', sans-serif;
 }
 
+.alvr-container,
+.alvr-container *,
+.alvr-container *::before,
+.alvr-container *::after {
+    box-sizing: border-box;
+}
 
 .alvr-container {
     min-height: 100vh;
+    overflow-x: hidden;
     padding: 28px 32px;
     font-family: var(--alvr-font-body);
     color: var(--alvr-text);
@@ -31,7 +38,7 @@
         linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
     background-size: 100% 100%, 44px 44px, 44px 44px;
-    animation: alvr-fade 0.5s ease;
+    animation: alvr-fadein 0.5s ease;
 }
 
 /* ===== Header ===== */
@@ -608,6 +615,16 @@
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes alvr-fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
     }
 }
 
