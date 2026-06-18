@@ -786,5 +786,11 @@
   "updateFailed": "अद्यतन अयशस्वी. पुन्हा प्रयत्न करा.",
   "deleteFailed": "हटवणे अयशस्वी. पुन्हा प्रयत्न करा.",
   "allDeleted": "सर्व विनंत्या हटवल्या",
-  "noLeaveRequestsAdmin": "दाखवण्यासाठी कोणत्याही रजेच्या विनंत्या नाहीत"
+  "noLeaveRequestsAdmin": "दाखवण्यासाठी कोणत्याही रजेच्या विनंत्या नाहीत",
+  "logLeaveStatus": "रजा {{status}}",
+  "logLeaveStatusDetails": "{{id}} साठी रजा {{status}}",
+  "logLeaveDeleted": "रजा विनंती हटवली",
+  "logLeaveDeletedDetails": "{{who}} साठी रजा हटवली",
+  "logLeaveDeletedAll": "सर्व रजा विनंत्या हटवल्या",
+  "logLeaveDeletedAllDetails": "सर्व {{count}} रजा विनंत्या साफ केल्या"
 }

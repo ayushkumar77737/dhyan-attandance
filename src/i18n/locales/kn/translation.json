@@ -787,5 +787,11 @@
   "updateFailed": "ನವೀಕರಣ ವಿಫಲವಾಗಿದೆ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
   "deleteFailed": "ಅಳಿಸುವಿಕೆ ವಿಫಲವಾಗಿದೆ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
   "allDeleted": "ಎಲ್ಲಾ ವಿನಂತಿಗಳನ್ನು ಅಳಿಸಲಾಗಿದೆ",
-  "noLeaveRequestsAdmin": "ತೋರಿಸಲು ಯಾವುದೇ ರಜೆ ವಿನಂತಿಗಳಿಲ್ಲ"
+  "noLeaveRequestsAdmin": "ತೋರಿಸಲು ಯಾವುದೇ ರಜೆ ವಿನಂತಿಗಳಿಲ್ಲ",
+  "logLeaveStatus": "ರಜೆ {{status}}",
+  "logLeaveStatusDetails": "{{id}} ಗಾಗಿ ರಜೆ {{status}}",
+  "logLeaveDeleted": "ರಜೆ ವಿನಂತಿ ಅಳಿಸಲಾಗಿದೆ",
+  "logLeaveDeletedDetails": "{{who}} ಗಾಗಿ ರಜೆ ಅಳಿಸಲಾಗಿದೆ",
+  "logLeaveDeletedAll": "ಎಲ್ಲಾ ರಜೆ ವಿನಂತಿಗಳನ್ನು ಅಳಿಸಲಾಗಿದೆ",
+  "logLeaveDeletedAllDetails": "ಎಲ್ಲಾ {{count}} ರಜೆ ವಿನಂತಿಗಳನ್ನು ತೆರವುಗೊಳಿಸಲಾಗಿದೆ"
 }

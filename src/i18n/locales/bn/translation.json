@@ -756,5 +756,11 @@
   "updateFailed": "আপডেট ব্যর্থ হয়েছে। আবার চেষ্টা করুন।",
   "deleteFailed": "মুছে ফেলা ব্যর্থ হয়েছে। আবার চেষ্টা করুন।",
   "allDeleted": "সব অনুরোধ মুছে ফেলা হয়েছে",
-  "noLeaveRequestsAdmin": "দেখানোর মতো কোনো ছুটির অনুরোধ নেই"
+  "noLeaveRequestsAdmin": "দেখানোর মতো কোনো ছুটির অনুরোধ নেই",
+  "logLeaveStatus": "ছুটি {{status}}",
+  "logLeaveStatusDetails": "{{id}} এর জন্য ছুটি {{status}}",
+  "logLeaveDeleted": "ছুটির অনুরোধ মুছে ফেলা হয়েছে",
+  "logLeaveDeletedDetails": "{{who}} এর জন্য ছুটি মুছে ফেলা হয়েছে",
+  "logLeaveDeletedAll": "সমস্ত ছুটির অনুরোধ মুছে ফেলা হয়েছে",
+  "logLeaveDeletedAllDetails": "সমস্ত {{count}} ছুটির অনুরোধ পরিষ্কার করা হয়েছে"
 }

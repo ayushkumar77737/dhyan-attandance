@@ -13,6 +13,7 @@ export const CONTROLLABLE_PAGES = [
     { id: "attendanceReport", path: "/attendance-report", labelKey: "attendanceReport" },
     { id: "userPercentage", path: "/user-percentage", labelKey: "percentageReport" },
     { id: "absenceManagement", path: "/absence-management", labelKey: "absenceManagement" },
+    { id: "leavesRequest", path: "/leaves-request", labelKey: "leavesRequest" },
     { id: "notifications", path: "/notifications", labelKey: "notifications" },
     { id: "trackTicket", path: "/track-ticket", labelKey: "trackTicket" },
     { id: "profileRegistration", path: "/profile-registration", labelKey: "profileRegistration" },

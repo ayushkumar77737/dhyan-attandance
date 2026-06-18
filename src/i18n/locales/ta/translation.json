@@ -786,5 +786,11 @@
   "updateFailed": "புதுப்பிப்பு தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவும்.",
   "deleteFailed": "நீக்குதல் தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவும்.",
   "allDeleted": "அனைத்து கோரிக்கைகளும் நீக்கப்பட்டன",
-  "noLeaveRequestsAdmin": "காட்ட விடுப்பு கோரிக்கைகள் இல்லை"
+  "noLeaveRequestsAdmin": "காட்ட விடுப்பு கோரிக்கைகள் இல்லை",
+  "logLeaveStatus": "விடுப்பு {{status}}",
+  "logLeaveStatusDetails": "{{id}} க்கான விடுப்பு {{status}}",
+  "logLeaveDeleted": "விடுப்பு கோரிக்கை நீக்கப்பட்டது",
+  "logLeaveDeletedDetails": "{{who}} க்கான விடுப்பு நீக்கப்பட்டது",
+  "logLeaveDeletedAll": "அனைத்து விடுப்பு கோரிக்கைகளும் நீக்கப்பட்டன",
+  "logLeaveDeletedAllDetails": "அனைத்து {{count}} விடுப்பு கோரிக்கைகளும் அழிக்கப்பட்டன"
 }

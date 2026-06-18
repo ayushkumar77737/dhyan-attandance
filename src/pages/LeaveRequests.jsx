@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import useAutoLogout from "../hooks/useAutoLogout";
 import logo from "../assets/logo2.png";
 import favicon from "../assets/favicon.png";
+import { logAdminAction } from "../utils/logAdminAction";
 
 const LEAVE_TYPE_NAMES = {
   CL: { key: "casualLeave", fallback: "Casual Leave" },
@@ -117,7 +118,10 @@ function LeaveRequests() {
         reviewedBy: adminId,
         reviewedAt: new Date().toISOString(),
       });
-      // optional: logAdminAction(adminId, `Leave ${status} for ${id}`);
+      logAdminAction(t("logLeaveStatus", { status }), {
+        targetId: id,
+        details: t("logLeaveStatusDetails", { status, id }),
+      });
       setRequests((prev) =>
         prev.map((r) => (r.id === id ? { ...r, status, reviewedBy: adminId } : r))
       );
@@ -135,7 +139,12 @@ function LeaveRequests() {
     try {
       setDeleting(true);
       await deleteDoc(doc(db, "leaveRequests", confirmDelete.id));
-      // optional: logAdminAction(adminId, `Deleted leave ${confirmDelete.id}`);
+      logAdminAction(t("logLeaveDeleted"), {
+        targetId: confirmDelete.id,
+        details: t("logLeaveDeletedDetails", {
+          who: confirmDelete.userName || confirmDelete.userId,
+        }),
+      });
       setRequests((prev) => prev.filter((r) => r.id !== confirmDelete.id));
       showToast("success", t("requestDeleted") || "Request deleted");
     } catch (err) {
@@ -154,7 +163,9 @@ function LeaveRequests() {
       const batch = writeBatch(db);
       snap.forEach((d) => batch.delete(doc(db, "leaveRequests", d.id)));
       await batch.commit();
-      // optional: logAdminAction(adminId, "Deleted ALL leave requests");
+      logAdminAction(t("logLeaveDeletedAll"), {
+        details: t("logLeaveDeletedAllDetails", { count: requests.length }),
+      });
       setRequests([]);
       showToast("success", t("allDeleted") || "All requests deleted");
     } catch (err) {

@@ -786,5 +786,11 @@
   "updateFailed": "నవీకరణ విఫలమైంది. మళ్లీ ప్రయత్నించండి.",
   "deleteFailed": "తొలగింపు విఫలమైంది. మళ్లీ ప్రయత్నించండి.",
   "allDeleted": "అన్ని అభ్యర్థనలు తొలగించబడ్డాయి",
-  "noLeaveRequestsAdmin": "చూపించడానికి సెలవు అభ్యర్థనలు లేవు"
+  "noLeaveRequestsAdmin": "చూపించడానికి సెలవు అభ్యర్థనలు లేవు",
+  "logLeaveStatus": "సెలవు {{status}}",
+  "logLeaveStatusDetails": "{{id}} కోసం సెలవు {{status}}",
+  "logLeaveDeleted": "సెలవు అభ్యర్థన తొలగించబడింది",
+  "logLeaveDeletedDetails": "{{who}} కోసం సెలవు తొలగించబడింది",
+  "logLeaveDeletedAll": "అన్ని సెలవు అభ్యర్థనలు తొలగించబడ్డాయి",
+  "logLeaveDeletedAllDetails": "అన్ని {{count}} సెలవు అభ్యర్థనలు క్లియర్ చేయబడ్డాయి"
 }

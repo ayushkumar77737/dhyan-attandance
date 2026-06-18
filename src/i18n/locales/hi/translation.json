@@ -787,5 +787,11 @@
   "updateFailed": "अपडेट विफल। पुनः प्रयास करें।",
   "deleteFailed": "हटाना विफल। पुनः प्रयास करें।",
   "allDeleted": "सभी अनुरोध हटा दिए गए",
-  "noLeaveRequestsAdmin": "दिखाने के लिए कोई छुट्टी अनुरोध नहीं"
+  "noLeaveRequestsAdmin": "दिखाने के लिए कोई छुट्टी अनुरोध नहीं",
+  "logLeaveStatus": "छुट्टी {{status}}",
+  "logLeaveStatusDetails": "{{id}} के लिए छुट्टी {{status}}",
+  "logLeaveDeleted": "छुट्टी अनुरोध हटाया गया",
+  "logLeaveDeletedDetails": "{{who}} के लिए छुट्टी हटाई गई",
+  "logLeaveDeletedAll": "सभी छुट्टी अनुरोध हटाए गए",
+  "logLeaveDeletedAllDetails": "सभी {{count}} छुट्टी अनुरोध हटाए गए"
 }

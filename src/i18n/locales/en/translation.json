@@ -786,5 +786,11 @@
   "updateFailed": "Update failed. Try again.",
   "deleteFailed": "Delete failed. Try again.",
   "allDeleted": "All requests deleted",
-  "noLeaveRequestsAdmin": "No leave requests to show"
+  "noLeaveRequestsAdmin": "No leave requests to show",
+  "logLeaveStatus": "Leave {{status}}",
+  "logLeaveStatusDetails": "{{status}} leave for {{id}}",
+  "logLeaveDeleted": "Deleted leave request",
+  "logLeaveDeletedDetails": "Deleted leave for {{who}}",
+  "logLeaveDeletedAll": "Deleted ALL leave requests",
+  "logLeaveDeletedAllDetails": "Cleared all {{count}} leave request(s)"
 }

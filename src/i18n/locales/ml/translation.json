@@ -787,5 +787,11 @@
   "updateFailed": "അപ്ഡേറ്റ് പരാജയപ്പെട്ടു. വീണ്ടും ശ്രമിക്കുക.",
   "deleteFailed": "ഇല്ലാതാക്കൽ പരാജയപ്പെട്ടു. വീണ്ടും ശ്രമിക്കുക.",
   "allDeleted": "എല്ലാ അഭ്യർത്ഥനകളും ഇല്ലാതാക്കി",
-  "noLeaveRequestsAdmin": "കാണിക്കാൻ അവധി അഭ്യർത്ഥനകളൊന്നുമില്ല"
+  "noLeaveRequestsAdmin": "കാണിക്കാൻ അവധി അഭ്യർത്ഥനകളൊന്നുമില്ല",
+  "logLeaveStatus": "അവധി {{status}}",
+  "logLeaveStatusDetails": "{{id}} നായി അവധി {{status}}",
+  "logLeaveDeleted": "അവധി അഭ്യർത്ഥന ഇല്ലാതാക്കി",
+  "logLeaveDeletedDetails": "{{who}} നായി അവധി ഇല്ലാതാക്കി",
+  "logLeaveDeletedAll": "എല്ലാ അവധി അഭ്യർത്ഥനകളും ഇല്ലാതാക്കി",
+  "logLeaveDeletedAllDetails": "എല്ലാ {{count}} അവധി അഭ്യർത്ഥനകളും മായ്ച്ചു"
 }
