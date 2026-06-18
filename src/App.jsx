@@ -45,6 +45,7 @@ import AccessControl from "./pages/AccessControl";
 import RequireAccess from "./components/RequireAccess";
 import MyAttendance from "./pages/MyAttendance";
 import ApplyLeave from "./pages/ApplyLeave";
+import LeaveRequests from "./pages/LeaveRequests";
 
 function App() {
   return (
@@ -220,6 +221,17 @@ function App() {
             <ProtectedRoute>
               <RequireAccess pageId="absenceManagement">
                 <AbsenceManagement />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/leaves-request"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="leavesRequest">
+                <LeaveRequests />
               </RequireAccess>
             </ProtectedRoute>
           }

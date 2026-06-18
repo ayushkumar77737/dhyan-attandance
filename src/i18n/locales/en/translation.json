@@ -773,5 +773,18 @@
   "enterReasonError": "Please enter a reason",
   "leaveSubmitted": "Leave request submitted",
   "submitFailed": "Submission failed. Try again.",
-  "leaveAlreadyApplied": "Leave already applied for this date"
+  "leaveAlreadyApplied": "Leave already applied for this date",
+  "leaveRequests": "Leave Requests",
+  "filterAll": "All",
+  "filterPending": "Pending",
+  "filterApproved": "Approved",
+  "filterRejected": "Rejected",
+  "deleteRequest": "Delete this request?",
+  "deleteRequestText": "This will permanently delete the leave request from",
+  "deleteAllRequests": "Delete ALL requests?",
+  "deleteAllText": "This will permanently delete every leave request. This cannot be undone.",
+  "updateFailed": "Update failed. Try again.",
+  "deleteFailed": "Delete failed. Try again.",
+  "allDeleted": "All requests deleted",
+  "noLeaveRequestsAdmin": "No leave requests to show"
 }
