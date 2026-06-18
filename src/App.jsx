@@ -44,6 +44,7 @@ import MyActivity from "./pages/MyActivity";
 import AccessControl from "./pages/AccessControl";
 import RequireAccess from "./components/RequireAccess";
 import MyAttendance from "./pages/MyAttendance";
+import ApplyLeave from "./pages/ApplyLeave";
 
 function App() {
   return (
@@ -78,6 +79,15 @@ function App() {
           element={
             <ProtectedRoute>
               <SubmitReason />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/apply-leave"
+          element={
+            <ProtectedRoute>
+              <ApplyLeave />
             </ProtectedRoute>
           }
         />
@@ -364,17 +374,6 @@ function App() {
             <ProtectedRoute>
               <RequireAccess pageId="allProfiles">
                 <AllProfiles />
-              </RequireAccess>
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/activity-logs"
-          element={
-            <ProtectedRoute>
-              <RequireAccess pageId="activityLogs">
-                <ActivityLogs />
               </RequireAccess>
             </ProtectedRoute>
           }

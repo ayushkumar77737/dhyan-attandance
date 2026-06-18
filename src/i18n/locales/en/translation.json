@@ -759,5 +759,19 @@
   "allMonths": "All Months",
   "leavesRequest": "Leaves Request",
   "applyLeave": "Apply Leave",
-  "requestTimeOff": "Request time off"
+  "requestTimeOff": "Request time off",
+  "applyLeaveSub": "Submit a leave request for approval",
+  "leaveType": "Leave Type",
+  "casualLeave": "Casual Leave",
+  "sickLeave": "Sick Leave",
+  "privilegeLeave": "Privilege Leave",
+  "selectDate": "Select Date",
+  "myLeaveRequests": "My Leave Requests",
+  "noLeaveRequests": "No leave requests yet",
+  "selectLeaveTypeError": "Please select a leave type",
+  "selectDateError": "Please select a date",
+  "enterReasonError": "Please enter a reason",
+  "leaveSubmitted": "Leave request submitted",
+  "submitFailed": "Submission failed. Try again.",
+  "leaveAlreadyApplied": "Leave already applied for this date"
 }
