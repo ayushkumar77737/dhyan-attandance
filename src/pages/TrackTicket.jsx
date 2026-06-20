@@ -173,6 +173,45 @@ function TrackTicket() {
         }
     };
 
+    const exportCSV = () => {
+        if (tickets.length === 0) {
+            showMsg(t("nothingToExport") || "Nothing to export");
+            return;
+        }
+
+        const headers = ["Ticket ID", "Name", "Email", "Issue", "Status", "Created At"];
+        const escape = (val) => `"${(val ?? "").toString().replace(/"/g, '""')}"`;
+
+        const rows = tickets.map((tk) =>
+            [
+                tk.idNo,
+                tk.name,
+                tk.email,
+                tk.issue,
+                tk.status,
+                tk.createdAt ? new Date(tk.createdAt).toLocaleString() : "",
+            ].map(escape).join(",")
+        );
+
+        const csv = [headers.map(escape).join(","), ...rows].join("\n");
+        const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `tickets-${selectedDate || new Date().toISOString().slice(0, 10)}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        logAdminAction("export_tickets", {
+            details:
+                t("logExportedTickets", { count: tickets.length, date: selectedDate }) ||
+                `Exported ${tickets.length} tickets for ${selectedDate}`,
+        });
+        showMsg(t("ticketsExported") || "Exported", "success");
+    };
+
     const getStatusIcon = (status) => {
         if (status === "Pending") return "⏳";
         if (status === "In Progress") return "🔄";
@@ -241,6 +280,13 @@ function TrackTicket() {
                 <button className="trkt__search-btn" onClick={fetchTickets} disabled={loading}>
                     <span className="trkt__search-icon">🔍</span>
                     {loading ? t("loading") : t("searchTickets")}
+                </button>
+                <button
+                    className="trkt__export-btn"
+                    onClick={exportCSV}
+                    disabled={tickets.length === 0}
+                >
+                    <span>⬇</span> {t("export") || "Export"}
                 </button>
             </div>
 
