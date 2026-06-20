@@ -798,5 +798,7 @@
   "exported": "Exported",
   "nothingToExport": "Nothing to export",
   "logLeaveExported": "Exported leave requests",
-  "logLeaveExportedDetails": "Exported {{count}} {{filter}} requests"
+  "logLeaveExportedDetails": "Exported {{count}} {{filter}} requests",
+  "notificationsExported": "Notifications exported",
+  "logExportedNotifications": "Exported {{count}} notifications"
 }

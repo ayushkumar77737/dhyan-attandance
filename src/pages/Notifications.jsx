@@ -207,6 +207,42 @@ function Notifications() {
     }
   };
 
+  const exportCSV = () => {
+    if (notifications.length === 0) {
+      setStatus(t("nothingToExport") || "Nothing to export");
+      return;
+    }
+
+    const headers = ["Message", "Created By", "Date"];
+    const escape = (val) => `"${(val ?? "").toString().replace(/"/g, '""')}"`;
+
+    const rows = notifications.map((item) => {
+      const date =
+        item.createdAt && item.createdAt.seconds
+          ? new Date(item.createdAt.seconds * 1000).toLocaleString()
+          : "";
+      return [item.message, item.createdBy, date].map(escape).join(",");
+    });
+
+    const csv = [headers.map(escape).join(","), ...rows].join("\n");
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `notifications-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    logAdminAction("export_notifications", {
+      details:
+        t("logExportedNotifications", { count: notifications.length }) ||
+        `Exported ${notifications.length} notifications`,
+    });
+    setStatus(t("notificationsExported") || "Exported");
+  };
+
   return (
     <div className="notifications-page">
 
@@ -259,6 +295,13 @@ function Notifications() {
         <div className="notif-list-header">
           <span className="notif-list-title">{t("recentNotifications")}</span>
           <span className="notif-count-badge">{notifications.length}</span>
+          <button
+            className="notif-export-btn"
+            onClick={exportCSV}
+            disabled={notifications.length === 0}
+          >
+            ⬇ {t("export") || "Export"}
+          </button>
         </div>
 
         {notifications.length === 0 ? (
