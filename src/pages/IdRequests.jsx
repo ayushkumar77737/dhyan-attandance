@@ -182,6 +182,43 @@ function IdRequests() {
         });
     };
 
+    const exportCSV = () => {
+        if (filtered.length === 0) {
+            showToast(`❌ ${t("nothingToExport") || "Nothing to export"}`, "error");
+            return;
+        }
+
+        const headers = ["Mobile Number", "Transaction ID", "Submitted At", "Status"];
+        const escape = (val) => `"${(val ?? "").toString().replace(/"/g, '""')}"`;
+
+        const rows = filtered.map((r) =>
+            [
+                `+91 ${r.mobileNumber || ""}`,
+                r.transactionId,
+                formatDate(r.submittedAt),
+                r.status,
+            ].map(escape).join(",")
+        );
+
+        const csv = [headers.map(escape).join(","), ...rows].join("\n");
+        const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `id-requests-${filterStatus}-${new Date().toISOString().slice(0, 10)}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        logAdminAction("export_id_requests", {
+            details:
+                t("logExportedIdRequests", { count: filtered.length, filter: filterStatus }) ||
+                `Exported ${filtered.length} ${filterStatus} ID requests`,
+        });
+        showToast(`✅ ${t("requestsExported") || "Exported"}`, "approved");
+    };
+
     const pendingCount = requests.filter((r) => r.status === "pending").length;
     const approvedCount = requests.filter((r) => r.status === "approved").length;
     const rejectedCount = requests.filter((r) => r.status === "rejected").length;
@@ -302,6 +339,17 @@ function IdRequests() {
                         </button>
                     ))}
                 </div>
+                <button
+                    className="idreq__export-btn"
+                    onClick={exportCSV}
+                    disabled={loading || filtered.length === 0}
+                >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    {t("export") || "Export"}
+                </button>
             </div>
 
             <p className="idreq__count">

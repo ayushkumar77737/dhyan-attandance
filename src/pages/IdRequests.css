@@ -484,6 +484,34 @@
     color: #f87171;
 }
 
+.idreq__export-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--ir-blue-dim);
+    border: 1px solid var(--ir-blue-border);
+    color: #60a5fa;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    padding: 8px 16px;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.idreq__export-btn:hover:not(:disabled) {
+    background: rgba(59, 130, 246, 0.2);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.idreq__export-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
 .idreq__count {
     font-size: 12px;
     color: var(--ir-muted);
@@ -801,6 +829,10 @@
 
     .idreq__title {
         font-size: 26px;
+    }
+
+    .idreq__export-btn {
+        justify-content: center;
     }
 }
 

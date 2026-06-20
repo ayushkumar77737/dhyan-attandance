@@ -804,5 +804,7 @@
   "ticketsExported": "Tickets exported",
   "logExportedTickets": "Exported {{count}} tickets for {{date}}",
   "ua_exported": "Activities exported",
-  "ua_nothingToExport": "Nothing to export"
+  "ua_nothingToExport": "Nothing to export",
+  "requestsExported": "Requests exported",
+  "logExportedIdRequests": "Exported {{count}} {{filter}} ID requests"
 }
