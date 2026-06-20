@@ -200,6 +200,39 @@
     cursor: not-allowed;
 }
 
+.alvr-toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alvr-export-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    background: transparent;
+    border: 1px solid var(--alvr-border-blue);
+    border-radius: 10px;
+    color: #93c5fd;
+    font-family: var(--alvr-font-body);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.alvr-export-btn:hover:not(:disabled) {
+    background: var(--alvr-blue);
+    color: #fff;
+    box-shadow: 0 0 18px rgba(59, 130, 246, 0.25);
+}
+
+.alvr-export-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 /* ===== List & Cards ===== */
 .alvr-list {
     display: flex;
@@ -692,6 +725,12 @@
         align-items: stretch;
     }
 
+    .alvr-toolbar-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .alvr-export-btn,
     .alvr-delete-all-btn {
         justify-content: center;
     }

@@ -177,6 +177,46 @@ function LeaveRequests() {
     }
   };
 
+  const exportCSV = () => {
+    if (filtered.length === 0) {
+      showToast("error", t("nothingToExport") || "Nothing to export");
+      return;
+    }
+
+    const headers = ["Name", "User ID", "Leave Type", "Date", "Reason", "Status", "Reviewed By"];
+    const escape = (val) => `"${(val ?? "").toString().replace(/"/g, '""')}"`;
+
+    const rows = filtered.map((r) =>
+      [
+        r.userName,
+        r.userId,
+        typeLabel(r.leaveType),
+        r.date,
+        r.reason,
+        r.status || "Pending",
+        r.reviewedBy,
+      ].map(escape).join(",")
+    );
+
+    const csv = [headers.map(escape).join(","), ...rows].join("\n");
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `leave-requests-${filter.toLowerCase()}-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    logAdminAction(t("logLeaveExported") || "Exported leave requests", {
+      details:
+        t("logLeaveExportedDetails", { count: filtered.length, filter }) ||
+        `Exported ${filtered.length} ${filter} requests`,
+    });
+    showToast("success", t("exported") || "Exported");
+  };
+
   const getInitials = (name) =>
     name ? name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2) : "?";
 
@@ -252,17 +292,32 @@ function LeaveRequests() {
             </button>
           ))}
         </div>
-        <button
-          className="alvr-delete-all-btn"
-          onClick={() => setConfirmDeleteAll(true)}
-          disabled={requests.length === 0}
-        >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14H6L5 6" />
-            <path d="M10 11v6" /><path d="M14 11v6" /><path d="M9 6V4h6v2" />
-          </svg>
-          {t("deleteAll") || "Delete All"}
-        </button>
+        <div className="alvr-toolbar-actions">
+          <button
+            className="alvr-export-btn"
+            onClick={exportCSV}
+            disabled={filtered.length === 0}
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            {t("export") || "Export"}
+          </button>
+
+          <button
+            className="alvr-delete-all-btn"
+            onClick={() => setConfirmDeleteAll(true)}
+            disabled={requests.length === 0}
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14H6L5 6" />
+              <path d="M10 11v6" /><path d="M14 11v6" /><path d="M9 6V4h6v2" />
+            </svg>
+            {t("deleteAll") || "Delete All"}
+          </button>
+        </div>
       </div>
 
       {/* List */}
