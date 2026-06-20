@@ -802,5 +802,7 @@
   "notificationsExported": "Notifications exported",
   "logExportedNotifications": "Exported {{count}} notifications",
   "ticketsExported": "Tickets exported",
-  "logExportedTickets": "Exported {{count}} tickets for {{date}}"
+  "logExportedTickets": "Exported {{count}} tickets for {{date}}",
+  "ua_exported": "Activities exported",
+  "ua_nothingToExport": "Nothing to export"
 }

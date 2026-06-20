@@ -46,6 +46,12 @@ const icons = {
             <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
         </svg>
     ),
+    download: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+    ),
     warn: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
@@ -202,6 +208,36 @@ function UserActivities() {
         finally { setBusy(false); }
     };
 
+    const exportCSV = () => {
+        if (logs.length === 0) {
+            showToast(t("ua_nothingToExport") || "Nothing to export", "error");
+            return;
+        }
+
+        const headers = ["User ID", "Name", "Action", "Page", "Date & Time"];
+        const escape = (val) => `"${(val ?? "").toString().replace(/"/g, '""')}"`;
+
+        const rows = logs.map((l) =>
+            [l.userId, l.name, l.action, l.page, fmtDateTime(l.ts)].map(escape).join(",")
+        );
+
+        const csv = [headers.map(escape).join(","), ...rows].join("\n");
+        const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `user-activities-${new Date().toISOString().slice(0, 10)}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        logAdminAction("Exported user activity logs", {
+            details: `Exported ${logs.length} activity log(s)`,
+        });
+        showToast(t("ua_exported") || "Exported", "success");
+    };
+
     return (
         <div className="usract__container">
             <div className="usract__header">
@@ -216,14 +252,24 @@ function UserActivities() {
                     </div>
                 </div>
                 {logs.length > 0 && (
-                    <button
-                        className="usract__delete-all-btn"
-                        onClick={() => askConfirm(t("ua_confirmDeleteAll"), doDeleteAll)}
-                        disabled={busy}
-                    >
-                        {icons.trash}
-                        {t("ua_deleteAll")}
-                    </button>
+                    <div className="usract__header-actions">
+                        <button
+                            className="usract__export-btn"
+                            onClick={exportCSV}
+                            disabled={busy}
+                        >
+                            {icons.download}
+                            {t("export") || "Export"}
+                        </button>
+                        <button
+                            className="usract__delete-all-btn"
+                            onClick={() => askConfirm(t("ua_confirmDeleteAll"), doDeleteAll)}
+                            disabled={busy}
+                        >
+                            {icons.trash}
+                            {t("ua_deleteAll")}
+                        </button>
+                    </div>
                 )}
             </div>
 

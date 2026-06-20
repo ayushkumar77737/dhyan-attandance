@@ -128,6 +128,44 @@
     cursor: not-allowed;
 }
 
+.usract__header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.usract__export-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    border-radius: 10px;
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.usract__export-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
+.usract__export-btn:hover:not(:disabled) {
+    background: #3b82f6;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.usract__export-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .usract__search-wrap {
     position: relative;
     display: flex;
