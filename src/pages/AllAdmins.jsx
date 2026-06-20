@@ -96,6 +96,28 @@ function AllAdmins() {
     });
 
     const initial = (name) => (name && name !== "—" ? name.charAt(0).toUpperCase() : "A");
+    const exportCSV = () => {                                    // ← ADD THIS BLOCK
+        if (filtered.length === 0) return;
+
+        const headers = ["ID", "Name", "Email", "Phone"];
+        const escape = (val) => `"${String(val ?? "").replace(/"/g, '""')}"`;
+
+        const rows = filtered.map((a) =>
+            [a.id, a.name, a.email, a.phone].map(escape).join(",")
+        );
+
+        const csv = "\uFEFF" + [headers.map(escape).join(","), ...rows].join("\r\n");
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `admins_${new Date().toISOString().split("T")[0]}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    };
 
     return (
         <div className="alladm-container">
@@ -116,13 +138,22 @@ function AllAdmins() {
                 <div className="alladm-count">
                     {t("totalAdmins")}: <span>{admins.length}</span>
                 </div>
-                <input
-                    type="text"
-                    className="alladm-search"
-                    placeholder={t("searchAdmins")}
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
+                <div className="alladm-toolbar-actions">
+                    <input
+                        type="text"
+                        className="alladm-search"
+                        placeholder={t("searchAdmins")}
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                    <button
+                        className="alladm-export-btn"
+                        onClick={exportCSV}
+                        disabled={filtered.length === 0}
+                    >
+                        ⬇ {t("exportCSV")}
+                    </button>
+                </div>
             </div>
 
             {loading ? (

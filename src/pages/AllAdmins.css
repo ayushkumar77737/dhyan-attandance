@@ -112,6 +112,40 @@
     border-color: var(--ad-blue, #3b82f6);
 }
 
+.alladm-toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alladm-export-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border: 1px solid var(--ad-border-blue, rgba(59, 130, 246, 0.3));
+    border-radius: var(--ad-radius-sm, 10px);
+    background: var(--ad-blue-glow, rgba(59, 130, 246, 0.12));
+    color: var(--ad-blue, #3b82f6);
+    font-family: var(--font-body, 'Outfit', sans-serif);
+    font-weight: 600;
+    font-size: 13px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.alladm-export-btn:hover:not(:disabled) {
+    background: var(--ad-blue, #3b82f6);
+    color: #fff;
+    border-color: var(--ad-blue, #3b82f6);
+}
+
+.alladm-export-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 .alladm-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -278,5 +312,15 @@
     .alladm-toolbar {
         flex-direction: column;
         align-items: stretch;
+    }
+
+    .alladm-toolbar-actions {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .alladm-export-btn {
+        justify-content: center;
     }
 }

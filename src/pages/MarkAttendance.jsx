@@ -85,6 +85,7 @@ function MarkAttendance() {
     const [attendance, setAttendance] = useState({});
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const today = new Date().toISOString().split("T")[0];
 
     useEffect(() => {
         const today = new Date().toISOString().split("T")[0];
@@ -96,6 +97,13 @@ function MarkAttendance() {
 
         if (date > today) {
             setMessage(t("futureAttendanceNotAllowed"));
+            setUsers([]);
+            setAttendance({});
+            setTimeout(() => setMessage(""), 3000);
+            return;
+        }
+        if (date < today) {
+            setMessage(t("pastAttendanceNotAllowed"));
             setUsers([]);
             setAttendance({});
             setTimeout(() => setMessage(""), 3000);
@@ -221,6 +229,7 @@ function MarkAttendance() {
                 <input
                     type="date"
                     value={date}
+                    min={today}
                     onChange={(e) => {
                         setDate(e.target.value);
                         setUsers([]);

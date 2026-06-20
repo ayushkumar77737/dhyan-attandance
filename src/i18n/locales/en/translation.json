@@ -792,5 +792,7 @@
   "logLeaveDeleted": "Deleted leave request",
   "logLeaveDeletedDetails": "Deleted leave for {{who}}",
   "logLeaveDeletedAll": "Deleted ALL leave requests",
-  "logLeaveDeletedAllDetails": "Cleared all {{count}} leave request(s)"
+  "logLeaveDeletedAllDetails": "Cleared all {{count}} leave request(s)",
+  "pastAttendanceNotAllowed": "Past dates are not allowed",
+  "exportCSV": "Export CSV"
 }
