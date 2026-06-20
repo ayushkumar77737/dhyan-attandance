@@ -187,6 +187,7 @@ function SubmitReason() {
             <input
               type="date"
               value={date}
+              max={getTodayString()}
               onChange={(e) => setDate(e.target.value)}
             />
           </div>
