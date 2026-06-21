@@ -40,31 +40,49 @@ ChartJS.register(
   CategoryScale, LinearScale, Filler
 );
 
-const sharedTooltip = {
-  backgroundColor: "#0d1b2a",
-  borderColor: "rgba(255,255,255,0.1)",
-  borderWidth: 1,
-  titleColor: "#e8edf5",
-  bodyColor: "#e8edf5",
-  padding: 12,
-  titleFont: { family: "Outfit, sans-serif", size: 13 },
-  bodyFont: { family: "Outfit, sans-serif", size: 13 },
-};
-
-const makeCircleLegend = () => ({
-  position: "bottom",
-  labels: {
-    color: "#e8edf5",
-    font: { family: "Outfit, sans-serif", size: 12 },
-    padding: 24,
-    usePointStyle: true,
-    pointStyle: "circle",
-    pointStyleWidth: 8,
-    boxHeight: 8,
-  },
-});
-
+/* ------------------------------------------------------------------ */
+/* Icons                                                              */
+/* ------------------------------------------------------------------ */
 const icons = {
+  grid: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" />
+      <rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
+    </svg>
+  ),
+  menu: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" />
+    </svg>
+  ),
+  sun: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="4" /><line x1="12" y1="2" x2="12" y2="4" /><line x1="12" y1="20" x2="12" y2="22" />
+      <line x1="4.93" y1="4.93" x2="6.34" y2="6.34" /><line x1="17.66" y1="17.66" x2="19.07" y2="19.07" />
+      <line x1="2" y1="12" x2="4" y2="12" /><line x1="20" y1="12" x2="22" y2="12" />
+      <line x1="4.93" y1="19.07" x2="6.34" y2="17.66" /><line x1="17.66" y1="6.34" x2="19.07" y2="4.93" />
+    </svg>
+  ),
+  moon: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  ),
+  chevronDown: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  ),
+  arrowUp: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="12" y1="19" x2="12" y2="5" /><polyline points="5 12 12 5 19 12" />
+    </svg>
+  ),
+  arrowUpRight: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" />
+    </svg>
+  ),
   userPlus: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" />
@@ -206,10 +224,61 @@ const icons = {
       <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
     </svg>
   ),
+  calendar: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
+    </svg>
+  ),
 };
 
+/* ------------------------------------------------------------------ */
+/* Tiny SVG sparkline used in the stat cards                          */
+/* ------------------------------------------------------------------ */
+function Sparkline({ data = [], color = "#3b82f6" }) {
+  if (!data || data.length < 2) return null;
+  const w = 90, h = 30, pad = 3;
+  const max = Math.max(...data);
+  const min = Math.min(...data);
+  const range = max - min || 1;
+  const step = (w - pad * 2) / (data.length - 1);
+  const pts = data.map((v, i) => {
+    const x = pad + i * step;
+    const y = h - pad - ((v - min) / range) * (h - pad * 2);
+    return [x, y];
+  });
+  const line = pts.map((p, i) => `${i === 0 ? "M" : "L"}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ");
+  const area = `${line} L${pts[pts.length - 1][0].toFixed(1)},${h} L${pts[0][0].toFixed(1)},${h} Z`;
+  return (
+    <svg className="spark" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" aria-hidden="true">
+      <path d={area} fill={color} opacity="0.13" />
+      <path d={line} fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Empty-state illustration for "Today's Attendance"                  */
+/* ------------------------------------------------------------------ */
+function AttendanceEmptyArt() {
+  return (
+    <svg className="empty-art" viewBox="0 0 220 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="110" cy="132" rx="78" ry="10" fill="var(--ad-blue)" opacity="0.08" />
+      <rect x="70" y="34" width="80" height="92" rx="10" fill="var(--ad-blue)" opacity="0.14" />
+      <rect x="78" y="44" width="64" height="76" rx="6" fill="var(--ad-blue)" opacity="0.22" />
+      <rect x="92" y="26" width="36" height="16" rx="5" fill="var(--ad-blue)" />
+      <circle cx="110" cy="78" r="20" fill="var(--ad-blue)" opacity="0.85" />
+      <path d="M101 78l6 6 12-13" stroke="#fff" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="56" cy="108" r="10" fill="var(--ad-blue)" opacity="0.45" />
+      <path d="M46 126c0-6 4.5-10 10-10s10 4 10 10" fill="var(--ad-blue)" opacity="0.45" />
+      <circle cx="164" cy="108" r="10" fill="var(--ad-blue)" opacity="0.45" />
+      <path d="M154 126c0-6 4.5-10 10-10s10 4 10 10" fill="var(--ad-blue)" opacity="0.45" />
+    </svg>
+  );
+}
+
 function AdminDashboard() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [showGreeting, setShowGreeting] = useState(
     () => !sessionStorage.getItem("greetingShown")
@@ -229,6 +298,11 @@ function AdminDashboard() {
   const [openTickets, setOpenTickets] = useState(null);
   const [presentToday, setPresentToday] = useState(null);
   const [absentToday, setAbsentToday] = useState(null);
+  const [notifCount, setNotifCount] = useState(0);
+
+  // shell UI state
+  const [theme, setTheme] = useState(() => localStorage.getItem("dashTheme") || "dark");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const [chartDate, setChartDate] = useState(new Date().toISOString().split("T")[0]);
   const [chartData, setChartData] = useState([]);
@@ -247,6 +321,10 @@ function AdminDashboard() {
   const [monthlyData, setMonthlyData] = useState([]);
   const [monthlyLoading, setMonthlyLoading] = useState(true);
   const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
+
+  useEffect(() => {
+    localStorage.setItem("dashTheme", theme);
+  }, [theme]);
 
   const checkAdmin = async () => {
     const currentUser = auth.currentUser;
@@ -296,6 +374,7 @@ function AdminDashboard() {
     fetchTicketData();
     fetchAbsenceData();
     fetchOpenTickets();
+    fetchNotifCount();
     fetchTrendData(7);
     fetchMonthlyData(selectedMonth);
     fetchAccessConfig().then(setAccessConfig).catch(() => { });
@@ -334,6 +413,13 @@ function AdminDashboard() {
       });
       setOpenTickets(open);
     } catch (err) { console.log(err); setOpenTickets(0); }
+  };
+
+  const fetchNotifCount = async () => {
+    try {
+      const snap = await getDocs(collection(db, "notifications"));
+      setNotifCount(snap.size);
+    } catch (err) { console.log(err); setNotifCount(0); }
   };
 
   const fetchChartData = async (dateParam) => {
@@ -472,6 +558,35 @@ function AdminDashboard() {
     } catch (err) { console.log(err); }
   };
 
+  /* ---------- theme-aware chart palette ---------- */
+  const cT = theme === "light"
+    ? { text: "#1e293b", sub: "#64748b", grid: "rgba(15,23,42,0.07)", border: "rgba(15,23,42,0.10)", tipBg: "#ffffff", tipText: "#1e293b" }
+    : { text: "#e8edf5", sub: "#64748b", grid: "rgba(255,255,255,0.04)", border: "rgba(255,255,255,0.06)", tipBg: "#0d1b2a", tipText: "#e8edf5" };
+
+  const sharedTooltip = {
+    backgroundColor: cT.tipBg,
+    borderColor: cT.border,
+    borderWidth: 1,
+    titleColor: cT.tipText,
+    bodyColor: cT.tipText,
+    padding: 12,
+    titleFont: { family: "Outfit, sans-serif", size: 13 },
+    bodyFont: { family: "Outfit, sans-serif", size: 13 },
+  };
+
+  const makeCircleLegend = () => ({
+    position: "bottom",
+    labels: {
+      color: cT.text,
+      font: { family: "Outfit, sans-serif", size: 12 },
+      padding: 24,
+      usePointStyle: true,
+      pointStyle: "circle",
+      pointStyleWidth: 8,
+      boxHeight: 8,
+    },
+  });
+
   const attendancePieData = {
     labels: [t("present"), t("absent")],
     datasets: [{ data: chartData.map((d) => d.value), backgroundColor: ["#2563EB", "#ef4444"], borderColor: ["#1d4ed8", "#dc2626"], borderWidth: 2, hoverOffset: 14 }],
@@ -483,11 +598,11 @@ function AdminDashboard() {
 
   const ticketDonutData = {
     labels: [t("pending"), t("inProgress"), t("resolved")],
-    datasets: [{ data: ticketData.map((d) => d.value), backgroundColor: ["#f59e0b", "#3b82f6", "#2dce89"], borderColor: ["#d97706", "#2563eb", "#22a86e"], borderWidth: 2, hoverOffset: 14 }],
+    datasets: [{ data: ticketData.map((d) => d.value), backgroundColor: ["#f59e0b", "#3b82f6", "#2dce89"], borderColor: ["#d97706", "#2563eb", "#22a86e"], borderWidth: 2, hoverOffset: 12 }],
   };
   const ticketDonutOptions = {
-    responsive: true, maintainAspectRatio: false, cutout: "58%",
-    plugins: { legend: makeCircleLegend(), tooltip: { ...sharedTooltip, callbacks: { label: (ctx) => `  ${ctx.label}: ${ctx.parsed}` } } },
+    responsive: true, maintainAspectRatio: false, cutout: "68%",
+    plugins: { legend: { display: false }, tooltip: { ...sharedTooltip, callbacks: { label: (ctx) => `  ${ctx.label}: ${ctx.parsed}` } } },
   };
 
   const absenceBarData = {
@@ -499,8 +614,8 @@ function AdminDashboard() {
     plugins: { legend: { display: false }, tooltip: { ...sharedTooltip, callbacks: { label: (ctx) => `  ${ctx.label}: ${ctx.parsed.y}` } } },
     layout: { padding: { left: 8, right: 8 } },
     scales: {
-      x: { ticks: { color: "#e8edf5", font: { family: "Outfit, sans-serif", size: 12, weight: "600" }, maxRotation: 35, autoSkip: false }, grid: { display: false }, border: { color: "rgba(255,255,255,0.06)" } },
-      y: { beginAtZero: true, ticks: { color: "#64748b", font: { family: "Outfit, sans-serif", size: 11 }, maxTicksLimit: 8, precision: 0 }, grid: { color: "rgba(255,255,255,0.04)" }, border: { color: "rgba(255,255,255,0.06)" } },
+      x: { ticks: { color: cT.text, font: { family: "Outfit, sans-serif", size: 12, weight: "600" }, maxRotation: 35, autoSkip: false }, grid: { display: false }, border: { color: cT.border } },
+      y: { beginAtZero: true, ticks: { color: cT.sub, font: { family: "Outfit, sans-serif", size: 11 }, maxTicksLimit: 8, precision: 0 }, grid: { color: cT.grid }, border: { color: cT.border } },
     },
   };
 
@@ -512,8 +627,8 @@ function AdminDashboard() {
     responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false }, tooltip: { ...sharedTooltip, callbacks: { label: (ctx) => `  ${t("present")}: ${ctx.parsed.y}` } } },
     scales: {
-      x: { ticks: { color: "#64748b", font: { family: "Outfit, sans-serif", size: 11 }, maxRotation: 0 }, grid: { color: "rgba(255,255,255,0.04)" } },
-      y: { beginAtZero: true, suggestedMax: 5, ticks: { color: "#64748b", font: { family: "Outfit, sans-serif", size: 11 }, stepSize: 1, precision: 0 }, grid: { color: "rgba(255,255,255,0.04)" } },
+      x: { ticks: { color: cT.sub, font: { family: "Outfit, sans-serif", size: 11 }, maxRotation: 0 }, grid: { color: cT.grid } },
+      y: { beginAtZero: true, suggestedMax: 5, ticks: { color: cT.sub, font: { family: "Outfit, sans-serif", size: 11 }, stepSize: 1, precision: 0 }, grid: { color: cT.grid } },
     },
   };
 
@@ -523,12 +638,22 @@ function AdminDashboard() {
   };
   const monthlyBarOptions = {
     responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false }, tooltip: { ...sharedTooltip, callbacks: { label: (ctx) => `  ${t("present")}: ${ctx.parsed.y} days` } } },
+    plugins: { legend: { display: false }, tooltip: { ...sharedTooltip, callbacks: { label: (ctx) => `  ${t("present")}: ${ctx.parsed.y} ${t("days")}` } } },
     scales: {
-      x: { ticks: { color: "#e8edf5", font: { family: "Outfit, sans-serif", size: 12, weight: "600" }, maxRotation: 35, autoSkip: false }, grid: { display: false }, border: { color: "rgba(255,255,255,0.06)" } },
-      y: { beginAtZero: true, ticks: { color: "#64748b", font: { family: "Outfit, sans-serif", size: 11 }, precision: 0, stepSize: 1 }, grid: { color: "rgba(255,255,255,0.04)" }, border: { color: "rgba(255,255,255,0.06)" } },
+      x: { ticks: { color: cT.text, font: { family: "Outfit, sans-serif", size: 12, weight: "600" }, maxRotation: 35, autoSkip: false }, grid: { display: false }, border: { color: cT.border } },
+      y: { beginAtZero: true, ticks: { color: cT.sub, font: { family: "Outfit, sans-serif", size: 11 }, precision: 0, stepSize: 1 }, grid: { color: cT.grid }, border: { color: cT.border } },
     },
   };
+
+  /* ---------- ticket legend + resolution progress ---------- */
+  const totalTickets = ticketData.reduce((s, d) => s + d.value, 0);
+  const resolvedCount = ticketData.find((d) => d.name === t("resolved"))?.value || 0;
+  const resolutionPct = totalTickets ? Math.round((resolvedCount / totalTickets) * 100) : 0;
+  const ticketLegend = [
+    { label: t("pending"), value: ticketData.find((d) => d.name === t("pending"))?.value || 0, color: "#f59e0b" },
+    { label: t("inProgress"), value: ticketData.find((d) => d.name === t("inProgress"))?.value || 0, color: "#3b82f6" },
+    { label: t("resolved"), value: resolvedCount, color: "#2dce89" },
+  ];
 
   const q = String(search || "").trim().toLowerCase();
 
@@ -573,228 +698,340 @@ function AdminDashboard() {
     .filter((c) => !q || c.label.toLowerCase().includes(q));
   const hasResults = coreFiltered.length > 0 || toolsFiltered.length > 0;
 
+  /* ---------- sidebar primary nav (access-filtered) ---------- */
+  const sidebarItems = [
+    { path: null, icon: icons.grid, label: t("navDashboard") },
+    { path: "/all-users", icon: icons.users, label: t("navUsers") },
+    { path: "/mark-attendance", icon: icons.calendarCheck, label: t("navAttendance") },
+    { path: "/track-ticket", icon: icons.ticket, label: t("navTickets") },
+    { path: "/attendance-report", icon: icons.fileText, label: t("navReports") },
+    { path: "/all-admins", icon: icons.shield, label: t("navAdmins") },
+    { path: "/contact-settings", icon: icons.settings, label: t("navSettings") },
+  ];
+  const sidebarFiltered = sidebarItems.filter((s) => !s.path || canAccessPath(accessConfig, s.path, currentUserId));
+
+  /* ---------- stat cards config ---------- */
+  // NOTE: `delta` values + non-derived `spark` arrays below are decorative
+  // placeholders mirroring the reference design. Wire real month-over-month
+  // numbers when you have them.
+  const statCards = [
+    { key: "total", label: t("totalUsers"), value: totalUsers, icon: icons.userPlus, accent: "blue", delta: "+12%", up: true, spark: [3, 4, 4, 5, 5, 6, 6] },
+    { key: "active", label: t("activeUsers"), value: activeUsers, icon: icons.users, accent: "purple", delta: "+8%", up: true, spark: [2, 3, 3, 4, 4, 5, 5] },
+    { key: "deleted", label: t("deletedUsers"), value: deletedUsers, icon: icons.trash, accent: "green", delta: t("noChange"), up: null, spark: [0, 1, 0, 0, 1, 0, 0] },
+    { key: "tickets", label: t("openTickets"), value: openTickets, icon: icons.ticket, accent: "amber", delta: "+100%", up: true, loading: openTickets === null, spark: [1, 2, 1, 3, 2, 2, 2] },
+    { key: "present", label: t("presentToday"), value: presentToday, icon: icons.calendarCheck, accent: "teal", delta: t("noChange"), up: null, loading: presentToday === null, spark: trendData.length ? trendData.map((d) => d.count) : [2, 3, 1, 4, 2, 5, 3] },
+    { key: "absent", label: t("absentToday"), value: absentToday, icon: icons.calendarX, accent: "red", delta: t("noChange"), up: null, loading: absentToday === null, spark: [1, 0, 1, 0, 1, 0, 0] },
+  ];
+  const accentHex = { blue: "#3b82f6", purple: "#8b5cf6", green: "#2dce89", amber: "#f59e0b", teal: "#14b8a6", red: "#ef4444" };
+
+  const headerDate = new Date().toLocaleDateString(i18n.language || undefined, {
+    weekday: "long", day: "numeric", month: "long", year: "numeric",
+  });
+  const adminInitial = (adminInfo?.name || "A").charAt(0).toUpperCase();
+
+  const openMyAccount = async () => {
+    if (!adminInfo) await fetchAdminInfo();
+    setShowAccount(true);
+  };
+
   return (
-    <div className="admin-container">
+    <div className={`dash-shell ${sidebarOpen ? "sidebar-open" : ""}`} data-theme={theme}>
       {showGreeting && (
         <div className="dashboard-greeting" onClick={() => setShowGreeting(false)}>
           <span className="dashboard-greeting-icon">🙏</span>
           {t("greetingMessage")}
         </div>
       )}
-      <div className="dashboard-header">
-        <div className="dashboard-header-left">
-          <img src={logo} alt="Logo" className="dashboard-logo" />
-          <div className="dashboard-header-text">
-            <p className="dashboard-portal-label">{t("appTitle")}</p>
-            <h1 className="dashboard-title">{t("adminDashboard")}</h1>
-          </div>
+
+      {/* backdrop for mobile sidebar */}
+      <div className="sidebar-backdrop" onClick={() => setSidebarOpen(false)} />
+
+      {/* ============================= SIDEBAR ============================ */}
+      <aside className="sidebar">
+        <div className="sidebar-brand">
+          <img src={logo} alt="Logo" className="sidebar-logo" />
         </div>
-        <div className="dashboard-header-right">
-          <img src={favicon} alt="" className="dashboard-favicon" />
-          <div className="admin-badge">
-            <span className="admin-badge-dot">A</span>
-            {t("adminLabel")}
-          </div>
-          <button className="logout-btn" onClick={handleLogout}>
+
+        <nav className="sidebar-nav">
+          {sidebarFiltered.map((s, idx) => (
+            <button
+              key={s.path || "dashboard"}
+              className={`side-link ${idx === 0 ? "active" : ""}`}
+              onClick={() => { if (s.path) navigate(s.path); setSidebarOpen(false); }}
+            >
+              <span className="side-link-icon">{s.icon}</span>
+              <span className="side-link-label">{s.label}</span>
+            </button>
+          ))}
+        </nav>
+
+        <div className="sidebar-profile">
+          <button className="sidebar-profile-card" onClick={openMyAccount}>
+            <div className="sidebar-avatar">{adminInitial}</div>
+            <div className="sidebar-profile-text">
+              <p className="sidebar-profile-name">{adminInfo?.name || t("adminLabel")}</p>
+              <span className="sidebar-profile-role">{isSuperAdmin ? "Super Admin" : (adminInfo?.role || "Admin")}</span>
+            </div>
+          </button>
+          <button className="sidebar-signout" onClick={handleLogout}>
             {icons.logout}
             {t("signOut")}
           </button>
         </div>
-      </div>
+      </aside>
 
-      <div className="stats-container">
-        <div className="stat-card">
-          <h3>{t("totalUsers")}</h3>
-          <p>{totalUsers}</p>
-        </div>
-        <div className="stat-card">
-          <h3>{t("activeUsers")}</h3>
-          <p>{activeUsers}</p>
-        </div>
-        <div className="stat-card">
-          <h3>{t("deletedUsers")}</h3>
-          <p>{deletedUsers}</p>
-        </div>
-        <div className="stat-card stat-card--tickets">
-          <h3>{t("openTickets")}</h3>
-          {openTickets === null ? <div className="stat-spinner" /> : (
-            <p className={openTickets > 0 ? "stat-tickets-warn" : ""}>{openTickets}</p>
-          )}
-        </div>
-        <div className="stat-card stat-card--present">
-          <h3>{t("presentToday")}</h3>
-          {presentToday === null ? <div className="stat-spinner stat-spinner--present" /> : (
-            <p className="stat-present-num">{presentToday}</p>
-          )}
-        </div>
-        <div className="stat-card stat-card--absent">
-          <h3>{t("absentToday")}</h3>
-          {absentToday === null ? <div className="stat-spinner stat-spinner--absent" /> : (
-            <p className="stat-absent-num">{absentToday}</p>
-          )}
-        </div>
-      </div>
-
-      <div className="charts-row">
-
-        <div className="chart-section">
-          <h2 className="chart-title">{t("todayAttendance")}</h2>
-          <div className="chart-date-picker">
-            <input type="date" value={chartDate} onChange={(e) => { setChartDate(e.target.value); fetchChartData(e.target.value); }} />
-          </div>
-          {chartLoading ? (
-            <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>
-          ) : chartData.length === 0 ? (
-            <div className="chart-empty"><span>📭</span>{t("noDataAvailable")}</div>
-          ) : (
-            <div className="chart-wrapper">
-              <Pie data={attendancePieData} options={attendancePieOptions} />
-            </div>
-          )}
-        </div>
-
-        <div className="chart-section">
-          <h2 className="chart-title">{t("ticketStatusOverview")}</h2>
-          {ticketLoading ? (
-            <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>
-          ) : ticketData.length === 0 ? (
-            <div className="chart-empty"><span>📭</span>{t("noDataAvailable")}</div>
-          ) : (
-            <div className="chart-wrapper">
-              <Pie data={ticketDonutData} options={ticketDonutOptions} />
-            </div>
-          )}
-        </div>
-
-        <div className="chart-section">
-          <h2 className="chart-title">{t("absenceRequests")}</h2>
-          {absenceLoading ? (
-            <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>
-          ) : absenceData.length === 0 ? (
-            <div className="chart-empty"><span>📭</span>{t("noDataAvailable")}</div>
-          ) : (
-            <div className="chart-wrapper">
-              <Bar data={absenceBarData} options={absenceBarOptions} />
-            </div>
-          )}
-        </div>
-
-      </div>
-
-      <div className="chart-section chart-section-trend">
-        <div className="trend-header">
-          <h2 className="chart-title">{t("attendanceTrend")}</h2>
-          <div className="trend-toggle">
-            <button className={`trend-btn ${trendDays === 7 ? "active" : ""}`} onClick={() => { setTrendDays(7); fetchTrendData(7); }}>
-              7 {t("days")}
+      {/* =============================== MAIN ============================= */}
+      <div className="dash-main">
+        {/* ---------------------------- TOPBAR ---------------------------- */}
+        <header className="topbar">
+          <div className="topbar-left">
+            <button className="hamburger" onClick={() => setSidebarOpen((v) => !v)} aria-label="Menu">
+              {icons.menu}
             </button>
-            <button className={`trend-btn ${trendDays === 30 ? "active" : ""}`} onClick={() => { setTrendDays(30); fetchTrendData(30); }}>
-              30 {t("days")}
-            </button>
+            <div className="topbar-titles">
+              <p className="topbar-portal-label">{t("appTitle")}</p>
+              <h1 className="topbar-title">{t("adminDashboard")}</h1>
+            </div>
           </div>
-        </div>
-        {trendLoading ? (
-          <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>
-        ) : trendData.length === 0 ? (
-          <div className="chart-empty"><span>📭</span>{t("noDataAvailable")}</div>
-        ) : (
-          <div className="trend-wrapper">
-            <Line data={trendLineData} options={trendLineOptions} />
-          </div>
-        )}
-      </div>
 
-      <div className="chart-section chart-section-trend">
-        <div className="trend-header">
-          <h2 className="chart-title">{t("monthlyAttendance")}</h2>
-          <div className="chart-date-picker">
-            <input type="month" value={selectedMonth} onChange={(e) => { setSelectedMonth(e.target.value); fetchMonthlyData(e.target.value); }} />
+          <div className="topbar-search">
+            <span className="topbar-search-icon">{icons.search}</span>
+            <input
+              type="text"
+              placeholder={t("dashSearchPlaceholder")}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            {search && <button className="topbar-search-clear" onClick={() => setSearch("")}>✕</button>}
           </div>
-        </div>
-        {monthlyLoading ? (
-          <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>
-        ) : monthlyData.length === 0 ? (
-          <div className="chart-empty"><span>📭</span>{t("noDataAvailable")}</div>
-        ) : (
-          <div className="trend-wrapper--monthly">
-            <div
-              style={{
-                width: `${Math.max(monthlyData.length * 100, 100)}px`,
-                height: "280px",
-                minWidth: "100%"
-              }}
+
+          <div className="topbar-right">
+            <button className="topbar-icon-btn" onClick={() => navigate("/notifications")} aria-label="Notifications">
+              {icons.bell}
+              {notifCount > 0 && <span className="topbar-badge">{notifCount}</span>}
+            </button>
+            <button
+              className="topbar-icon-btn"
+              onClick={() => setTheme((v) => (v === "dark" ? "light" : "dark"))}
+              aria-label="Toggle theme"
             >
-              <Bar data={monthlyBarData} options={monthlyBarOptions} />
+              {theme === "dark" ? icons.sun : icons.moon}
+            </button>
+            <button className="topbar-avatar" onClick={openMyAccount} aria-label={t("myAccount")}>
+              {adminInitial}
+              <span className="topbar-avatar-dot" />
+            </button>
+          </div>
+        </header>
+
+        {/* --------------------------- CONTENT ---------------------------- */}
+        <div className="dash-content">
+          <div className="content-toprow">
+            <div className="date-pill">
+              <span className="date-pill-icon">{icons.calendar}</span>
+              <span>{headerDate}</span>
+              <span className="date-pill-chevron">{icons.chevronDown}</span>
             </div>
           </div>
-        )}
-      </div>
 
-      <div className="dash-search-wrap">
-        <span className="dash-search-icon">{icons.search}</span>
-        <input
-          className="dash-search"
-          type="text"
-          placeholder={t("dashSearchPlaceholder")}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        {search && (
-          <button className="dash-search-clear" onClick={() => setSearch("")}>✕</button>
-        )}
-      </div>
-
-      {!hasResults && (
-        <div className="dash-no-results">🔍 {t("dashNoResults")}</div>
-      )}
-
-      {coreFiltered.length > 0 && <p className="section-label">{t("coreManagement")}</p>}
-
-      {coreFiltered.length > 0 && (
-        <div className="core-grid">
-          {coreFiltered.map((c) => (
-            <div className="core-card" key={c.path} onClick={() => navigate(c.path)}>
-              <div className={`core-card-icon ${c.cls}`}>{c.icon}</div>
-              <div className="core-card-text">
-                <p className="core-card-title">{c.title}</p>
-                <p className="core-card-sub">{c.sub}</p>
+          {/* ----- STAT CARDS ----- */}
+          <div className="stats-container">
+            {statCards.map((s) => (
+              <div className={`stat-card stat-${s.accent}`} key={s.key}>
+                <div className="stat-card-top">
+                  <div className={`stat-icon icon-${s.accent}`}>{s.icon}</div>
+                  <Sparkline data={s.spark} color={accentHex[s.accent]} />
+                </div>
+                <h3>{s.label}</h3>
+                {s.loading ? (
+                  <div className="stat-spinner" />
+                ) : (
+                  <p className="stat-value">{s.value}</p>
+                )}
+                <div className={`stat-delta ${s.up === true ? "up" : s.up === false ? "down" : "flat"}`}>
+                  {s.up === true && icons.arrowUp}
+                  <span>{s.delta}{s.up !== null ? ` ${t("fromLastMonth")}` : ""}</span>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
 
-      {toolsFiltered.length > 0 && <p className="section-label">{t("toolsAndSettings")}</p>}
-
-      {toolsFiltered.length > 0 && (
-        <div className="tools-grid">
-          {toolsFiltered.map((c) => (
-            <div className="tool-card" key={c.path} onClick={() => c.action ? c.action() : navigate(c.path)}>
-              <div className={`tool-card-icon ${c.cls}`}>{c.icon}</div>
-              <p className="tool-card-label">{c.label}</p>
+          {/* ----- CHARTS ROW ----- */}
+          <div className="charts-row">
+            {/* Today's attendance */}
+            <div className="chart-section">
+              <h2 className="chart-title">{t("todayAttendance")}</h2>
+              <div className="chart-date-picker">
+                <input type="date" value={chartDate} onChange={(e) => { setChartDate(e.target.value); fetchChartData(e.target.value); }} />
+              </div>
+              {chartLoading ? (
+                <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>
+              ) : chartData.length === 0 ? (
+                <div className="chart-empty chart-empty--art">
+                  <AttendanceEmptyArt />
+                  <p className="chart-empty-title">{t("noDataAvailable")}</p>
+                  <p className="chart-empty-sub">{t("checkBackLater")}</p>
+                </div>
+              ) : (
+                <div className="chart-wrapper">
+                  <Pie data={attendancePieData} options={attendancePieOptions} />
+                </div>
+              )}
             </div>
-          ))}
+
+            {/* Ticket status overview */}
+            <div className="chart-section">
+              <h2 className="chart-title">{t("ticketStatusOverview")}</h2>
+              {ticketLoading ? (
+                <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>
+              ) : ticketData.length === 0 ? (
+                <div className="chart-empty"><span>📭</span>{t("noDataAvailable")}</div>
+              ) : (
+                <div className="ticket-overview">
+                  <div className="ticket-donut">
+                    <Pie data={ticketDonutData} options={ticketDonutOptions} />
+                    <div className="ticket-donut-center">
+                      <span className="ticket-donut-total">{totalTickets}</span>
+                      <span className="ticket-donut-label">{t("totalTickets")}</span>
+                    </div>
+                  </div>
+                  <div className="ticket-side">
+                    <ul className="ticket-legend">
+                      {ticketLegend.map((l) => (
+                        <li key={l.label}>
+                          <span className="ticket-legend-dot" style={{ background: l.color }} />
+                          <span className="ticket-legend-label">{l.label}</span>
+                          <span className="ticket-legend-val">
+                            {l.value} ({totalTickets ? Math.round((l.value / totalTickets) * 100) : 0}%)
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="resolution-chip">
+                      <div className="resolution-chip-text">
+                        <span className="resolution-pct">{resolutionPct}%</span>
+                        <span className="resolution-label">{t("resolutionProgress")}</span>
+                      </div>
+                      <span className="resolution-arrow">{icons.arrowUpRight}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Absence requests */}
+            <div className="chart-section">
+              <h2 className="chart-title">{t("absenceRequests")}</h2>
+              {absenceLoading ? (
+                <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>
+              ) : absenceData.length === 0 ? (
+                <div className="chart-empty"><span>📭</span>{t("noDataAvailable")}</div>
+              ) : (
+                <div className="chart-wrapper">
+                  <Bar data={absenceBarData} options={absenceBarOptions} />
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* ----- TREND ROW ----- */}
+          <div className="trend-row">
+            <div className="chart-section chart-section-trend">
+              <div className="trend-header">
+                <h2 className="chart-title">{t("attendanceTrend")}</h2>
+                <div className="trend-toggle">
+                  <button className={`trend-btn ${trendDays === 7 ? "active" : ""}`} onClick={() => { setTrendDays(7); fetchTrendData(7); }}>
+                    7 {t("days")}
+                  </button>
+                  <button className={`trend-btn ${trendDays === 30 ? "active" : ""}`} onClick={() => { setTrendDays(30); fetchTrendData(30); }}>
+                    30 {t("days")}
+                  </button>
+                </div>
+              </div>
+              {trendLoading ? (
+                <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>
+              ) : trendData.length === 0 ? (
+                <div className="chart-empty"><span>📭</span>{t("noDataAvailable")}</div>
+              ) : (
+                <div className="trend-wrapper">
+                  <Line data={trendLineData} options={trendLineOptions} />
+                </div>
+              )}
+            </div>
+
+            <div className="chart-section chart-section-trend">
+              <div className="trend-header">
+                <h2 className="chart-title">{t("monthlyAttendance")}</h2>
+                <div className="chart-date-picker">
+                  <input type="month" value={selectedMonth} onChange={(e) => { setSelectedMonth(e.target.value); fetchMonthlyData(e.target.value); }} />
+                </div>
+              </div>
+              {monthlyLoading ? (
+                <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>
+              ) : monthlyData.length === 0 ? (
+                <div className="chart-empty"><span>📭</span>{t("noDataAvailable")}</div>
+              ) : (
+                <div className="trend-wrapper--monthly">
+                  <div style={{ width: `${Math.max(monthlyData.length * 100, 100)}px`, height: "280px", minWidth: "100%" }}>
+                    <Bar data={monthlyBarData} options={monthlyBarOptions} />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* ----- QUICK ACTIONS (core items) ----- */}
+          {coreFiltered.length > 0 && (
+            <>
+              <p className="section-label">{t("quickActions")}</p>
+              <div className="quick-actions">
+                {coreFiltered.map((c) => (
+                  <button className="quick-action" key={c.path} onClick={() => navigate(c.path)}>
+                    <div className={`quick-action-icon ${c.cls}`}>{c.icon}</div>
+                    <div className="quick-action-text">
+                      <p className="quick-action-title">{c.title}</p>
+                      <p className="quick-action-sub">{c.sub}</p>
+                    </div>
+                    <span className="quick-action-chevron">›</span>
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* ----- TOOLS & SETTINGS (tool items) ----- */}
+          {toolsFiltered.length > 0 && <p className="section-label">{t("toolsAndSettings")}</p>}
+          {toolsFiltered.length > 0 && (
+            <div className="tools-grid">
+              {toolsFiltered.map((c) => (
+                <div className="tool-card" key={c.path} onClick={() => (c.action ? c.action() : navigate(c.path))}>
+                  <div className={`tool-card-icon ${c.cls}`}>{c.icon}</div>
+                  <p className="tool-card-label">{c.label}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {!hasResults && q && <div className="dash-no-results">🔍 {t("dashNoResults")}</div>}
         </div>
-      )}
+      </div>
+
+      {/* ============================ MY ACCOUNT ========================= */}
       {showAccount && createPortal(
-        <div className="myacc__overlay" onClick={() => setShowAccount(false)}>
+        <div className="myacc__overlay dash-shell" data-theme={theme} onClick={() => setShowAccount(false)}>
           <div className="myacc__modal" onClick={(e) => e.stopPropagation()}>
             <button className="myacc__close" onClick={() => setShowAccount(false)}>✕</button>
-
             {!adminInfo ? (
               <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>
             ) : (
               <>
                 <div className="myacc__head">
-                  <div className="myacc__avatar">
-                    {(adminInfo.name || "?").charAt(0).toUpperCase()}
-                  </div>
+                  <div className="myacc__avatar">{(adminInfo.name || "?").charAt(0).toUpperCase()}</div>
                   <div className="myacc__head-text">
                     <p className="myacc__name">{adminInfo.name || "—"}</p>
                     <span className="myacc__role-tag">{adminInfo.role || "—"}</span>
                   </div>
                 </div>
-
                 <div className="myacc__fields">
                   {[
                     { key: "id", label: t("accAdminId"), value: adminInfo.id },
@@ -807,10 +1044,7 @@ function AdminDashboard() {
                       <div className="myacc__valrow">
                         <span className="myacc__value">{f.value || "—"}</span>
                         {f.value && (
-                          <button
-                            className="myacc__copy"
-                            onClick={() => copyValue(f.value, f.key)}
-                          >
+                          <button className="myacc__copy" onClick={() => copyValue(f.value, f.key)}>
                             {copied === f.key ? "✓" : t("copy")}
                           </button>
                         )}
