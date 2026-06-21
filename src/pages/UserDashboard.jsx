@@ -21,6 +21,7 @@ function UserDashboard() {
   const [search, setSearch] = useState("");
   const [attendance, setAttendance] = useState([]);
   const [userName, setUserName] = useState("");
+  const [profileImage, setProfileImage] = useState("");
   const [userId, setUserId] = useState("");
   const [presentCount, setPresentCount] = useState(0);
   const [absentCount, setAbsentCount] = useState(0);
@@ -71,6 +72,14 @@ function UserDashboard() {
         return;
       }
       setUserName(userSnap.data().name || id);
+      const profileRef = doc(db, "profiles", id);
+      const profileSnap = await getDoc(profileRef);
+
+      if (profileSnap.exists()) {
+        setProfileImage(
+          profileSnap.data().profileImage || ""
+        );
+      }
 
       const snapshot = await getDocs(collection(db, "attendance"));
       let list = [], present = 0, absent = 0;
@@ -238,7 +247,17 @@ function UserDashboard() {
         <div className="ud-hero-card">
           <div className="ud-hero-top">
             <div className="ud-avatar-row">
-              <div className="ud-avatar">{getInitials(userName)}</div>
+              <div className="ud-avatar">
+                {profileImage ? (
+                  <img
+                    src={profileImage}
+                    alt={userName}
+                    className="ud-avatar-img"
+                  />
+                ) : (
+                  getInitials(userName)
+                )}
+              </div>
               <div className="ud-user-info">
                 <div className="ud-user-name">{userName || "—"}</div>
                 <div className="ud-user-id">ID: {userId}</div>

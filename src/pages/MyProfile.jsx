@@ -205,9 +205,17 @@ function MyProfile() {
                     <div className="mprf__avatar-section">
                         <div className="mprf__avatar-ring">
                             <div className="mprf__avatar">
-                                <span className="mprf__avatar-letter">
-                                    {profile.name ? profile.name.charAt(0).toUpperCase() : "?"}
-                                </span>
+                                {profile.profileImage ? (
+                                    <img
+                                        src={profile.profileImage}
+                                        alt={profile.name}
+                                        className="mprf__avatar-img"
+                                    />
+                                ) : (
+                                    <span className="mprf__avatar-letter">
+                                        {profile.name ? profile.name.charAt(0).toUpperCase() : "?"}
+                                    </span>
+                                )}
                             </div>
                         </div>
                         <h2 className="mprf__profile-name">{profile.name}</h2>

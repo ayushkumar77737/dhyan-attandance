@@ -226,8 +226,8 @@
 }
 
 .ud-avatar {
-  width: 48px;
-  height: 48px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   background: rgba(14, 165, 160, 0.15);
   border: 1.5px solid rgba(14, 165, 160, 0.35);
@@ -238,6 +238,13 @@
   font-weight: 700;
   color: var(--teal-light);
   flex-shrink: 0;
+}
+
+.ud-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .ud-user-name {

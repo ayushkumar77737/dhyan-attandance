@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
 
 function ProfileRegistration() {
 
@@ -26,6 +27,8 @@ function ProfileRegistration() {
     });
 
     const [errors, setErrors] = useState({});
+    const [imageFile, setImageFile] = useState(null);
+    const [previewImage, setPreviewImage] = useState("");
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -152,18 +155,38 @@ function ProfileRegistration() {
         }
 
         if (!form.dob) {
-            newErrors.dob = "Date of birth is required";
+            newErrors.dob = t("dobRequired");
         } else {
-
             const today = new Date().toISOString().split("T")[0];
 
             if (form.dob > today) {
-                newErrors.dob = "Future date not allowed";
+                newErrors.dob = t("futureDateNotAllowed");
             }
         }
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
+    };
+
+    const uploadImageToCloudinary = async () => {
+        if (!imageFile) return "";
+
+        const formData = new FormData();
+
+        formData.append("file", imageFile);
+        formData.append("upload_preset", "user_profile");
+
+        formData.append(
+            "public_id",
+            `${form.idNo}_${form.name.replace(/\s+/g, "_")}`
+        );
+
+        const response = await axios.post(
+            "https://api.cloudinary.com/v1_1/dgvjq9bhl/image/upload",
+            formData
+        );
+
+        return response.data.secure_url;
     };
 
     const handleSubmit = async () => {
@@ -193,6 +216,8 @@ function ProfileRegistration() {
                 setLoading(false);
                 return;
             }
+            const imageUrl =
+                await uploadImageToCloudinary();
 
             await setDoc(doc(db, "profiles", idNo), {
                 idNo: idNo,
@@ -203,6 +228,7 @@ function ProfileRegistration() {
                 email: form.email.trim(),
                 phoneType: form.phoneType,
                 dob: form.dob,
+                profileImage: imageUrl,
                 createdAt: new Date().toISOString()
             }); await logAdminAction("create_profile", {
                 targetId: idNo,
@@ -253,6 +279,49 @@ function ProfileRegistration() {
 
             <div className="preg__card">
                 <div className="preg__card-stripe" />
+                <div className="preg__image-section">
+                    <label className="preg__image-wrap">
+
+                        <input
+                            type="file"
+                            accept="image/*"
+                            hidden
+                            onChange={(e) => {
+                                const file = e.target.files[0];
+
+                                if (file) {
+                                    setImageFile(file);
+                                    setPreviewImage(
+                                        URL.createObjectURL(file)
+                                    );
+                                }
+                            }}
+                        />
+
+                        {previewImage ? (
+                            <>
+                                <img
+                                    src={previewImage}
+                                    alt="Profile"
+                                    className="preg__preview-img"
+                                />
+                                <div className="preg__image-overlay">
+                                    Change
+                                </div>
+                            </>
+                        ) : (
+                            <div className="preg__image-placeholder">
+                                <div className="preg__camera-icon">
+                                    📷
+                                </div>
+                                <div className="preg__upload-text">
+                                    Upload Photo
+                                </div>
+                            </div>
+                        )}
+
+                    </label>
+                </div>
 
                 <div className="preg__form-grid">
 
