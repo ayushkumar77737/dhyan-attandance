@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { logAdminAction } from "../utils/logAdminAction";
 import { db, auth } from "../firebase/firebase";
-import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, deleteDoc, updateDoc } from "firebase/firestore";
 
 import "./EditUser.css";
 
@@ -137,6 +137,23 @@ function EditUser() {
             });
             if (userId !== id) {
                 await deleteDoc(oldRef);
+            }
+            // 🔹 also sync name into the profiles collection
+            const oldProfileRef = doc(db, "profiles", id);
+            const oldProfileSnap = await getDoc(oldProfileRef);
+
+            if (oldProfileSnap.exists()) {
+                if (userId !== id) {
+                    const newProfileRef = doc(db, "profiles", userId);
+                    await setDoc(newProfileRef, {
+                        ...oldProfileSnap.data(),
+                        name: name.trim(),
+                        idNo: userId,
+                    });
+                    await deleteDoc(oldProfileRef);
+                } else {
+                    await updateDoc(oldProfileRef, { name: name.trim() });
+                }
             }
             await logAdminAction("update_user", {
                 targetId: userId,
