@@ -834,5 +834,17 @@
   "noAchievementsYet": "Mark your attendance to earn badges",
   "noPendingItems": "No pending items",
   "teamMeeting": "Team Meeting",
-  "dashQuote": "Discipline is the bridge between goals and accomplishment."
+  "dashQuote": "Discipline is the bridge between goals and accomplishment.",
+  "navHome": "Home",
+  "navAbout": "About",
+  "navBenefits": "Benefits",
+  "navTeachings": "Teachings",
+  "navEvents": "Events",
+  "navContact": "Contact",
+  "landingHeroTitle": "Discover Inner Peace Through",
+  "landingHeroAccent": "Meditation",
+  "guruName": "Param Sant Swami Jai Gurubande Ji Maharaj",
+  "landingAboutPre": "The Dhyan Portal is a sacred spiritual journey guided by ",
+  "landingAboutPost": ". Through daily meditation, members experience inner peace, self-awareness, and divine connection.",
+  "landingTrust": "Secure • Private • Spiritual"
 }
