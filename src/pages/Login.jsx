@@ -19,7 +19,7 @@ import logo2 from "../assets/logo2.png";
 import bg1 from "../assets/bg1.webp";
 import bg2 from "../assets/bg2.webp";
 import bg3 from "../assets/bg3.webp";
-import bg4 from "../assets/pic.jpeg";
+import bg4 from "../assets/pic.webp";
 import { logLogin } from "../utils/logActivity";
 
 /* ------------------------------------------------------------------ */
