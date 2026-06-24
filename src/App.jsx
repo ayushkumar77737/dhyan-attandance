@@ -46,6 +46,7 @@ import RequireAccess from "./components/RequireAccess";
 import MyAttendance from "./pages/MyAttendance";
 import ApplyLeave from "./pages/ApplyLeave";
 import LeaveRequests from "./pages/LeaveRequests";
+import About from "./pages/About";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
         {/* Public Route */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/about" element={<About />} />
 
         {/* User Routes */}
         <Route
