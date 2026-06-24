@@ -46,6 +46,7 @@ html {
     padding: 0;
     height: 100%;
     font-family: var(--font-body);
+    background-color: #04020e;
 }
 
 .login-page {
