@@ -37,7 +37,7 @@ html, body {
 /* BASE                                                               */
 /* ================================================================== */
 .mdpa-page {
-    position: relative;
+    position: absolute;
     min-height: 100vh;
     min-height: 100dvh;
     background-color: var(--ab-bg);
