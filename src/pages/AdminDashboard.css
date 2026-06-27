@@ -552,11 +552,11 @@
   @keyframes greeting-drop {
     from {
       opacity: 0;
-      transform: translateY(-100%);
+      transform: translateX(-50%) translateY(-20px);
     }
     to {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(-50%) translateY(0);
     }
   }
 }
@@ -1383,26 +1383,21 @@
   }
 
   .dashboard-greeting {
-    top: 0;
-    left: 0;
-    right: 0;
-    transform: none;
-    width: 100%;
-    max-width: 100%;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    padding: 12px 16px;
-    font-size: 13px;
+    top: 72px;                        /* just below the topbar */
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;               /* shrink to text width */
+    max-width: calc(100vw - 32px);    /* but never overflow screen */
+    border-radius: 50px;              /* keep the pill shape */
+    padding: 10px 20px;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    white-space: nowrap;              /* single line, no wrapping */
     text-align: center;
-    white-space: normal;
-    box-sizing: border-box;
-    justify-content: center;
   }
 
   .dashboard-greeting-icon {
-    font-size: 15px;
+    font-size: 14px;
     flex-shrink: 0;
   }
 
