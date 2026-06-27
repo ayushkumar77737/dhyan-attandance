@@ -112,7 +112,6 @@
   display: flex;
   flex-direction: column;
   padding: 20px 14px;
-  overflow: hidden;
   z-index: 100;
 }
 
@@ -130,9 +129,11 @@
 }
 
 .sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   flex: 1;
   overflow-y: auto;
-  min-height: 0;
 }
 
 .side-link {
@@ -175,10 +176,11 @@
 }
 
 .sidebar-profile {
-  flex-shrink: 0;
   border-top: 1px solid var(--ad-border);
-  padding-top: 12px;
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .sidebar-profile-card {
@@ -1317,7 +1319,6 @@
     transform: translateX(-100%);
     transition: transform 0.28s ease;
     width: 256px;
-    height: 100dvh;
   }
 
   .dash-shell.sidebar-open .sidebar {
