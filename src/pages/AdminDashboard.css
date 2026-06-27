@@ -106,12 +106,20 @@
   top: 0;
   left: 0;
   width: var(--sidebar-w);
-  height: 100vh;
+  height: 100dvh;
   background: var(--ad-bg-side);
   border-right: 1px solid var(--ad-border);
+
   display: flex;
   flex-direction: column;
+
   padding: 20px 14px;
+
+  overflow-y: auto;      /* Added */
+  overflow-x: hidden;    /* Added */
+
+  -webkit-overflow-scrolling: touch;
+
   z-index: 100;
 }
 
@@ -133,7 +141,6 @@
   flex-direction: column;
   gap: 4px;
   flex: 1;
-  overflow-y: auto;
 }
 
 .side-link {
