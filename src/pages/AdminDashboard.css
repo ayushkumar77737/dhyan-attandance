@@ -1340,6 +1340,29 @@
 }
 
 @media (max-width: 768px) {
+  .sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.sidebar-profile {
+  margin-top: auto;
+  background: var(--ad-bg-side);
+  padding-top: 12px;
+  border-top: 1px solid var(--ad-border);
+}
+
+.sidebar-signout {
+  display: flex;
+  width: 100%;
+}
   .topbar {
     padding: 14px 16px;
     gap: 12px;
