@@ -113,6 +113,8 @@
   flex-direction: column;
   padding: 20px 14px;
   z-index: 100;
+  overflow-y: auto;
+  overflow-x: hidden; 
 }
 
 .sidebar-brand {
@@ -133,7 +135,6 @@
   flex-direction: column;
   gap: 4px;
   flex: 1;
-  overflow-y: auto;
 }
 
 .side-link {
@@ -181,6 +182,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex-shrink: 0;
+  padding-bottom: 8px;
 }
 
 .sidebar-profile-card {
