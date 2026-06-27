@@ -1317,6 +1317,7 @@
     transform: translateX(-100%);
     transition: transform 0.28s ease;
     width: 256px;
+    height: 100dvh;
   }
 
   .dash-shell.sidebar-open .sidebar {
