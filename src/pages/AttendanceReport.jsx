@@ -49,6 +49,7 @@ function AttendanceReport() {
     const [reportGenerated, setReportGenerated] = useState(false);
     const [noAttendance, setNoAttendance] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const [editUser, setEditUser] = useState(null);
     const [editStatus, setEditStatus] = useState("");
     const checkAdmin = async () => {
@@ -208,7 +209,7 @@ function AttendanceReport() {
     };
 
     return (
-        <div className="report-container">
+        <div className="report-container" data-theme={theme}>
 
             <div className="ar-orb ar-orb-1" />
             <div className="ar-orb ar-orb-2" />
