@@ -70,6 +70,88 @@
 }
 
 /* ================================================================== */
+/* PAGE ENTRY ANIMATION                                               */
+/* ================================================================== */
+@keyframes ctmsg-page-in {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes ctmsg-slide-down {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes ctmsg-scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* topbar slides down */
+.ctmsg-topbar {
+    animation: ctmsg-slide-down 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* content fades up */
+.ctmsg-content {
+    animation: ctmsg-page-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+/* stat cards stagger in */
+.ctmsg-stat:nth-child(1) {
+    animation: ctmsg-page-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+.ctmsg-stat:nth-child(2) {
+    animation: ctmsg-page-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+}
+
+.ctmsg-stat:nth-child(3) {
+    animation: ctmsg-page-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.29s both;
+}
+
+/* toolbar scales in */
+.ctmsg-toolbar {
+    animation: ctmsg-scale-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+}
+
+/* table fades up last */
+.ctmsg-table-wrap {
+    animation: ctmsg-page-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.42s both;
+}
+
+/* empty state */
+.ctmsg-empty {
+    animation: ctmsg-scale-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+}
+
+/* loading */
+.ctmsg-loading {
+    animation: ctmsg-page-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+/* ================================================================== */
 /* TOPBAR                                                             */
 /* ================================================================== */
 .ctmsg-topbar {
