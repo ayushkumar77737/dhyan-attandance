@@ -85,6 +85,7 @@ function MarkAttendance() {
     const [attendance, setAttendance] = useState({});
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const today = new Date().toISOString().split("T")[0];
 
     useEffect(() => {
@@ -208,7 +209,7 @@ function MarkAttendance() {
     };
 
     return (
-        <div className="markattendance-container">
+        <div className="markattendance-container" data-theme={theme}>
 
             <div className="markattendance-header">
                 <button
