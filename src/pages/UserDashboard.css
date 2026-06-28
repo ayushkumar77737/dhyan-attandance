@@ -251,6 +251,20 @@
   }
 }
 
+@media (max-width: 768px) {
+  @keyframes ud-greeting-drop {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+}
+
 /* ================================================================== */
 /* BODY + LAYOUT                                                      */
 /* ================================================================== */
@@ -1467,6 +1481,24 @@
 
   .ud-topbar-right {
     margin-left: auto;
+  }
+
+  .ud-greeting {
+    top: 72px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: calc(100vw - 32px);
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+
+  .ud-greeting-icon {
+    font-size: 14px;
+    flex-shrink: 0;
   }
 }
 
