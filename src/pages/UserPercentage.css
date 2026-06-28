@@ -479,3 +479,98 @@
   }
 
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.user-percentage-page[data-theme="light"] {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.user-percentage-page[data-theme="light"] .orb-1 {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.07), transparent 70%);
+}
+
+.user-percentage-page[data-theme="light"] .orb-2 {
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.05), transparent 70%);
+}
+
+.user-percentage-page[data-theme="light"] .orb-3 {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.04), transparent 70%);
+}
+
+.user-percentage-page[data-theme="light"] .user-back-btn {
+  background: #ffffff;
+  color: #6366f1;
+  border-color: rgba(99, 102, 241, 0.25);
+}
+
+.user-percentage-page[data-theme="light"] .user-back-btn:hover {
+  background: #eff6ff;
+  color: #4f46e5;
+  border-color: rgba(99, 102, 241, 0.45);
+}
+
+.user-percentage-page[data-theme="light"] .user-percentage-title {
+  color: #1e293b;
+}
+
+.user-percentage-page[data-theme="light"] .title-sub {
+  color: #64748b;
+}
+
+.user-percentage-page[data-theme="light"] .stat-pill {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+}
+
+.user-percentage-page[data-theme="light"] .stat-pill:hover {
+  background: #f8fafc;
+  border-color: rgba(99, 102, 241, 0.25);
+}
+
+.user-percentage-page[data-theme="light"] .stat-label {
+  color: #64748b;
+}
+
+.user-percentage-page[data-theme="light"] .stat-value {
+  color: #1e293b;
+}
+
+.user-percentage-page[data-theme="light"] .user-percentage-card {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.07);
+}
+
+.user-percentage-page[data-theme="light"] .user-percentage-card:hover {
+  border-color: rgba(99, 102, 241, 0.20);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.10);
+}
+
+.user-percentage-page[data-theme="light"] .user-percentage-table th {
+  background: #eff6ff;
+  color: #4f46e5;
+  border-bottom-color: rgba(99, 102, 241, 0.12);
+}
+
+.user-percentage-page[data-theme="light"] .user-percentage-table td {
+  color: #475569;
+  border-bottom-color: rgba(15, 23, 42, 0.05);
+}
+
+.user-percentage-page[data-theme="light"] .user-percentage-table tbody tr:hover {
+  background: rgba(99, 102, 241, 0.04);
+}
+
+.user-percentage-page[data-theme="light"] .user-name-cell {
+  color: #1e293b;
+}
+
+.user-percentage-page[data-theme="light"] .uid-chip {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.18);
+  color: #4f46e5;
+}

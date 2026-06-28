@@ -18,6 +18,7 @@ const UserPercentage = () => {
   const { t } = useTranslation();
 
   const [data, setData] = useState([]);
+  const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
   const navigate = useNavigate();
   const checkAdmin = async () => {
 
@@ -167,7 +168,7 @@ const UserPercentage = () => {
   };
 
   return (
-    <div className="user-percentage-page">
+    <div className="user-percentage-page" data-theme={theme}>
 
       <div className="orb orb-1" />
       <div className="orb orb-2" />
