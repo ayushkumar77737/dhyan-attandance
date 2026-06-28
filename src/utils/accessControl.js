@@ -27,6 +27,7 @@ export const CONTROLLABLE_PAGES = [
     { id: "contactSettings", path: "/contact-settings", labelKey: "contactSettings" },
     { id: "blockedAccounts", path: "/blocked-accounts", labelKey: "blockedAccounts.label" },
     { id: "deletedUsers", path: "/deleted-users", labelKey: "deletedUsers" },
+    { id: "contactMessages", path: "/contact-messages", labelKey: "contactMessages" },
 ];
 
 const accessDocRef = () => doc(db, "settings", "accessControl");

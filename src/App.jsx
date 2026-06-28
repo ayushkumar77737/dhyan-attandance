@@ -42,6 +42,7 @@ import AdminLogs from "./pages/AdminLogs";
 import EditAdmin from "./pages/EditAdmin";
 import MyActivity from "./pages/MyActivity";
 import AccessControl from "./pages/AccessControl";
+import ContactMessages from "./pages/ContactMessages";
 import RequireAccess from "./components/RequireAccess";
 import MyAttendance from "./pages/MyAttendance";
 import ApplyLeave from "./pages/ApplyLeave";
@@ -205,6 +206,17 @@ function App() {
           element={
             <ProtectedRoute>
               <AccessControl />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/contact-messages"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="contactMessages">
+                <ContactMessages />
+              </RequireAccess>
             </ProtectedRoute>
           }
         />
