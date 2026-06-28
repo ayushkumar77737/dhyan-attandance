@@ -273,7 +273,7 @@ const Contact = () => {
     const scrollToForm = () => formRef.current?.scrollIntoView({ behavior: "smooth" });
 
     // ── Edit these to your real details ──────────────────────────────
-    const joinHref = "/membership"; // change to your join / membership route
+    const joinHref = "/login";
     const address = t("ctAddressValue") || "Jai Gurubande, Varanasi, Uttar Pradesh, India";
     const phones = [
         { txt: "+91 70802 24214", href: "tel:+917080224214" },
