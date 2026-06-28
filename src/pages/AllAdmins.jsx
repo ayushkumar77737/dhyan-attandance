@@ -18,6 +18,7 @@ function AllAdmins() {
     const [admins, setAdmins] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     const checkAdmin = async () => {
         const currentUser = auth.currentUser;
@@ -120,7 +121,7 @@ function AllAdmins() {
     };
 
     return (
-        <div className="alladm-container">
+        <div className="alladm-container" data-theme={theme}>
             <div className="alladm-header">
                 <div className="alladm-header-left">
                     <img src={logo} alt="Logo" className="alladm-logo" />
