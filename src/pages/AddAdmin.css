@@ -395,3 +395,73 @@
 .aapg-field .aapg-input-wrap input[type="text"] {
     padding-right: 44px;
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.aapg-container[data-theme="light"] {
+    --ad-bg: #f1f5f9;
+    --ad-bg-card: #ffffff;
+    --ad-bg-stat: #ffffff;
+    --ad-text-primary: #1e293b;
+    --ad-text-secondary: #64748b;
+    --ad-border: rgba(15, 23, 42, 0.08);
+    --ad-border-strong: rgba(15, 23, 42, 0.12);
+    --ad-border-blue: rgba(59, 130, 246, 0.35);
+    --ad-blue-subtle: rgba(59, 130, 246, 0.08);
+    --ad-shadow-card: 0 2px 16px rgba(15, 23, 42, 0.08), 0 0 0 1px var(--ad-border);
+    background-image:
+        radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.04) 0%, transparent 60%),
+        linear-gradient(rgba(15, 23, 42, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.02) 1px, transparent 1px);
+}
+
+.aapg-container[data-theme="light"] .aapg-card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.10);
+    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(15, 23, 42, 0.06);
+}
+
+.aapg-container[data-theme="light"] .aapg-input-wrap input {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.14);
+    color: #1e293b;
+}
+
+.aapg-container[data-theme="light"] .aapg-input-wrap input::placeholder {
+    color: #94a3b8;
+    opacity: 1;
+}
+
+.aapg-container[data-theme="light"] .aapg-input-wrap input:focus {
+    background: #ffffff;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.10);
+}
+
+.aapg-container[data-theme="light"] .aapg-back {
+    border-color: rgba(15, 23, 42, 0.14);
+    color: #64748b;
+}
+
+.aapg-container[data-theme="light"] .aapg-back:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+.aapg-container[data-theme="light"] .aapg-auto {
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.14);
+}
+
+.aapg-container[data-theme="light"] .aapg-alert--error {
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.25);
+    color: #b91c1c;
+}
+
+.aapg-container[data-theme="light"] .aapg-alert--success {
+    background: rgba(45, 206, 137, 0.08);
+    border-color: rgba(45, 206, 137, 0.25);
+    color: #065f46;
+}

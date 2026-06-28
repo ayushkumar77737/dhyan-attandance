@@ -82,6 +82,7 @@ function AddAdmin() {
     const [showPwd, setShowPwd] = useState(false);
 
     const [saving, setSaving] = useState(false);
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
@@ -220,7 +221,7 @@ function AddAdmin() {
     };
 
     return (
-        <div className="aapg-container">
+        <div className="aapg-container" data-theme={theme}>
             <div className="aapg-card">
 
                 <div className="aapg-head">
