@@ -546,3 +546,91 @@
   }
 
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.users-container[data-theme="light"] {
+  --bg-base: #f1f5f9;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-row-hover: #f0f7ff;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.14);
+  --shadow-card: 0 4px 24px rgba(15, 23, 42, 0.08), 0 0 0 1px var(--border);
+  background-image:
+    linear-gradient(rgba(79, 140, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 140, 255, 0.02) 1px, transparent 1px);
+}
+
+.users-container[data-theme="light"] .users-title {
+  background: linear-gradient(135deg, #1e293b 30%, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.users-container[data-theme="light"] .back-btn {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.14);
+  color: #475569;
+}
+
+.users-container[data-theme="light"] .back-btn:hover {
+  background: #f8fafc;
+  color: #1e293b;
+  border-color: #3b82f6;
+}
+
+.users-container[data-theme="light"] .users-card {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.10);
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.08);
+}
+
+.users-container[data-theme="light"] .users-card:hover {
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12);
+}
+
+.users-container[data-theme="light"] .users-table th {
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  color: #2563eb;
+  border-bottom-color: rgba(15, 23, 42, 0.10);
+}
+
+.users-container[data-theme="light"] .users-table td {
+  border-bottom-color: rgba(15, 23, 42, 0.06);
+  color: #475569;
+}
+
+.users-container[data-theme="light"] .users-table tbody tr:hover td {
+  color: #1e293b;
+}
+
+.users-container[data-theme="light"] .delete-modal {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.12);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.15);
+}
+
+.users-container[data-theme="light"] .delete-modal h3 {
+  color: #1e293b;
+}
+
+.users-container[data-theme="light"] .delete-modal p {
+  color: #64748b;
+}
+
+.users-container[data-theme="light"] .cancel-btn {
+  border-color: rgba(15, 23, 42, 0.14);
+  color: #64748b;
+}
+
+.users-container[data-theme="light"] .cancel-btn:hover {
+  background: #f8fafc;
+  color: #1e293b;
+}

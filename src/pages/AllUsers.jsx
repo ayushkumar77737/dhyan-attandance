@@ -37,6 +37,7 @@ function AllUsers() {
   }, []);
 
   const [users, setUsers] = useState([]);
+  const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
   const [showModal, setShowModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -146,7 +147,7 @@ function AllUsers() {
   };
 
   return (
-    <div className="users-container">
+    <div className="users-container" data-theme={theme}>
       <div className="users-header">
 
         <button
