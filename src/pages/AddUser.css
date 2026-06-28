@@ -371,3 +371,74 @@
     }
 
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.adduser-container[data-theme="light"] {
+    background: #f1f5f9;
+}
+
+.adduser-container[data-theme="light"]::before {
+    background:
+        radial-gradient(ellipse 70% 60% at 20% 50%, rgba(139, 92, 246, 0.10) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 80% 50%, rgba(139, 92, 246, 0.06) 0%, transparent 60%),
+        #f1f5f9;
+}
+
+.adduser-container[data-theme="light"] .adduser-card {
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(15, 23, 42, 0.10);
+    box-shadow:
+        0 20px 60px rgba(15, 23, 42, 0.10),
+        0 0 0 1px rgba(15, 23, 42, 0.06);
+}
+
+.adduser-container[data-theme="light"] .adduser-image {
+    border-right-color: rgba(15, 23, 42, 0.10);
+}
+
+.adduser-container[data-theme="light"] .adduser-form h2 {
+    background: linear-gradient(135deg, #1e293b 30%, #6d28d9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.adduser-container[data-theme="light"] .adduser-form input {
+    background: rgba(15, 23, 42, 0.04);
+    border-color: rgba(15, 23, 42, 0.12);
+    color: #1e293b;
+}
+
+.adduser-container[data-theme="light"] .adduser-form input::placeholder {
+    color: rgba(15, 23, 42, 0.35);
+}
+
+.adduser-container[data-theme="light"] .adduser-form input:focus {
+    background: rgba(139, 92, 246, 0.05);
+    border-color: rgba(139, 92, 246, 0.5);
+}
+
+.adduser-container[data-theme="light"] .back-btn {
+    border-color: rgba(15, 23, 42, 0.15);
+    color: #475569;
+}
+
+.adduser-container[data-theme="light"] .back-btn:hover {
+    background: rgba(139, 92, 246, 0.06);
+    color: #1e293b;
+    border-color: rgba(139, 92, 246, 0.4);
+}
+
+.adduser-container[data-theme="light"] .success-message {
+    background: rgba(45, 206, 137, 0.10);
+    color: #065f46;
+    border-color: rgba(45, 206, 137, 0.35);
+}
+
+.adduser-container[data-theme="light"] .error-message {
+    background: rgba(239, 68, 68, 0.08);
+    color: #991b1b;
+    border-color: rgba(239, 68, 68, 0.25);
+}

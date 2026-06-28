@@ -47,6 +47,7 @@ function AddUser() {
     const [message, setMessage] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
     const [loading, setLoading] = useState(false);
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -181,7 +182,7 @@ function AddUser() {
     };
 
     return (
-        <div className="adduser-container">
+        <div className="adduser-container" data-theme={theme}>
             <div className="adduser-card">
 
                 <div className="adduser-image">
