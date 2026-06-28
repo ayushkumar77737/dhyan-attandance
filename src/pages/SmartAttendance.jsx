@@ -37,6 +37,7 @@ function SmartAttendance() {
     const [cameraError, setCameraError] = useState(null);
     const [toast, setToast] = useState(null);
     const [pulseActive, setPulseActive] = useState(false);
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -289,7 +290,7 @@ function SmartAttendance() {
     });
 
     return (
-        <div className="satnv2__page">
+        <div className="satnv2__page" data-theme={theme}>
             <div className="satnv2__bg-grid" />
             <div className="satnv2__noise" />
             <div className="satnv2__orb satnv2__orb--1" />
