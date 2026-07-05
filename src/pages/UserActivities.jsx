@@ -105,6 +105,7 @@ function UserActivities() {
     const [confirmState, setConfirmState] = useState(null);
     // Toast state: { text, type: "success" | "error" } or null
     const [toast, setToast] = useState(null);
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     const showToast = (text, type = "success") => {
         setToast({ text, type });
@@ -239,7 +240,7 @@ function UserActivities() {
     };
 
     return (
-        <div className="usract__container">
+        <div className="usract__container" data-theme={theme}>
             <div className="usract__header">
                 <div className="usract__header-left">
                     <button className="usract__back-btn" onClick={() => navigate("/admin-dashboard")}>

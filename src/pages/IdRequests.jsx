@@ -27,6 +27,7 @@ function IdRequests() {
     const [updatingId, setUpdatingId] = useState(null);
     const [toast, setToast] = useState(null);
     const [deleteModal, setDeleteModal] = useState({ show: false, docId: null });
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -224,7 +225,7 @@ function IdRequests() {
     const rejectedCount = requests.filter((r) => r.status === "rejected").length;
 
     return (
-        <div className="idreq__page">
+        <div className="idreq__page" data-theme={theme}>
             <div className="idreq__orb idreq__orb--1" />
             <div className="idreq__orb idreq__orb--2" />
             <div className="idreq__orb idreq__orb--3" />

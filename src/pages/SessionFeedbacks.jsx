@@ -19,6 +19,7 @@ function SessionFeedbacks() {
 
     const [showDeleteAll, setShowDeleteAll] = useState(false);
     const [deletingAll, setDeletingAll] = useState(false);
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     const checkAdmin = async () => {
 
@@ -212,7 +213,7 @@ function SessionFeedbacks() {
     };
 
     return (
-        <div className="ssfb__page">
+        <div className="ssfb__page" data-theme={theme}>
 
             <div className="ssfb__orb ssfb__orb--1" />
             <div className="ssfb__orb ssfb__orb--2" />

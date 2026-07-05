@@ -1071,3 +1071,105 @@
         padding: 24px 18px 20px;
     }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+
+/* Token overrides — cascade to everything using var(--actlog-*).
+   Accent colors darkened so they read on white; tints/borders
+   retuned to the darker hue for a cohesive look. */
+.actlog__page[data-theme="light"] {
+    --actlog-green: #059669;
+    --actlog-green-dim: rgba(5, 150, 105, 0.10);
+    --actlog-green-border: rgba(5, 150, 105, 0.28);
+    --actlog-red: #e11d48;
+    --actlog-red-dim: rgba(225, 29, 72, 0.09);
+    --actlog-red-border: rgba(225, 29, 72, 0.25);
+    --actlog-blue: #2563eb;
+    --actlog-blue-dim: rgba(37, 99, 235, 0.09);
+    --actlog-blue-border: rgba(37, 99, 235, 0.25);
+    --actlog-purple: #7c3aed;
+    --actlog-purple-dim: rgba(124, 58, 237, 0.09);
+    --actlog-purple-border: rgba(124, 58, 237, 0.25);
+    --actlog-bg: #f1f5f9;
+    --actlog-surface: #ffffff;
+    --actlog-surface-hover: #f8fafc;
+    --actlog-border: rgba(15, 23, 42, 0.08);
+    --actlog-text: #1e293b;
+    --actlog-text-muted: #64748b;
+    --actlog-text-dim: #94a3b8;
+}
+
+/* Grid lines — visible on white (literal green 0.02 disappears) */
+.actlog__page[data-theme="light"] .actlog__grid-lines {
+    background-image:
+        linear-gradient(rgba(5, 150, 105, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(5, 150, 105, 0.04) 1px, transparent 1px);
+}
+
+/* Orbs — soften on light background */
+.actlog__page[data-theme="light"] .actlog__orb--1 {
+    background: radial-gradient(circle, rgba(5, 150, 105, 0.06) 0%, transparent 65%);
+}
+
+.actlog__page[data-theme="light"] .actlog__orb--2 {
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.05) 0%, transparent 65%);
+}
+
+.actlog__page[data-theme="light"] .actlog__orb--3 {
+    background: radial-gradient(circle, rgba(225, 29, 72, 0.04) 0%, transparent 65%);
+}
+
+/* Hardcoded light text → dark */
+.actlog__page[data-theme="light"] .actlog__title-main,
+.actlog__page[data-theme="light"] .actlog__entry-name,
+.actlog__page[data-theme="light"] .actlog__modal-title {
+    color: #1e293b;
+}
+
+.actlog__page[data-theme="light"] .actlog__detail-value {
+    color: #334155;
+}
+
+/* IP-address mono value — darken the orange for contrast */
+.actlog__page[data-theme="light"] .actlog__detail-value--mono {
+    color: #c2410c;
+}
+
+/* Expanded-detail divider + inner cards (white-on-white otherwise) */
+.actlog__page[data-theme="light"] .actlog__entry-details {
+    border-top-color: rgba(15, 23, 42, 0.06);
+}
+
+.actlog__page[data-theme="light"] .actlog__detail-item {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.06);
+}
+
+.actlog__page[data-theme="light"] .actlog__detail-item:hover {
+    border-color: rgba(15, 23, 42, 0.12);
+}
+
+/* Restore the green tint on the session-duration accent card */
+.actlog__page[data-theme="light"] .actlog__detail-item--accent {
+    background: var(--actlog-green-dim);
+    border-color: var(--actlog-green-border);
+}
+
+/* Delete modals — hardcoded dark surface */
+.actlog__page[data-theme="light"] .actlog__modal {
+    background: #ffffff;
+    border-color: rgba(225, 29, 72, 0.25);
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+}
+
+.actlog__page[data-theme="light"] .actlog__modal-cancel {
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.1);
+}
+
+.actlog__page[data-theme="light"] .actlog__modal-cancel:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}

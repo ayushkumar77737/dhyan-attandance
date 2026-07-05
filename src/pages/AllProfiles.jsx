@@ -36,6 +36,7 @@ function AllProfiles() {
 
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deleteLoading, setDeleteLoading] = useState(false);
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -265,7 +266,7 @@ function AllProfiles() {
     };
 
     return (
-        <div className="allprf__page">
+        <div className="allprf__page" data-theme={theme}>
 
             <div className="allprf__orb allprf__orb--1" />
             <div className="allprf__orb allprf__orb--2" />

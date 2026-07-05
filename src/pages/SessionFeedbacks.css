@@ -986,3 +986,140 @@
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+
+/* Token overrides — cascade to everything using var(--ssfb-*) */
+.ssfb__page[data-theme="light"] {
+    --ssfb-bg: #f7f4ec;
+    --ssfb-surface: #ffffff;
+    --ssfb-text: #2a2416;
+    --ssfb-text-dim: #6b5f47;
+    --ssfb-text-muted: #9a8d70;
+    --ssfb-gold: #a67c1a;
+    --ssfb-gold-lt: #9c7519;
+    --ssfb-gold-dim: rgba(166, 124, 26, 0.12);
+    --ssfb-border: rgba(166, 124, 26, 0.22);
+    --ssfb-teal: rgba(20, 150, 130, 0.85);
+    --ssfb-teal-dim: rgba(20, 150, 130, 0.12);
+}
+
+/* Grid overlay — visible gold lines on ivory */
+.ssfb__page[data-theme="light"] .ssfb__grid {
+    background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(166, 124, 26, 0.04) 80px, rgba(166, 124, 26, 0.04) 81px),
+        repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(166, 124, 26, 0.04) 80px, rgba(166, 124, 26, 0.04) 81px);
+}
+
+/* Orbs — soften on light background */
+.ssfb__page[data-theme="light"] .ssfb__orb--1 {
+    background: radial-gradient(circle, rgba(201, 168, 76, 0.10), transparent 70%);
+}
+
+.ssfb__page[data-theme="light"] .ssfb__orb--2 {
+    background: radial-gradient(circle, rgba(56, 189, 168, 0.07), transparent 70%);
+}
+
+.ssfb__page[data-theme="light"] .ssfb__orb--3 {
+    background: radial-gradient(circle, rgba(201, 168, 76, 0.06), transparent 70%);
+}
+
+/* Summary cards — white borders/hover are invisible on white */
+.ssfb__page[data-theme="light"] .ssfb__scard {
+    border-color: rgba(166, 124, 26, 0.16);
+    box-shadow: 0 4px 20px rgba(42, 36, 22, 0.06);
+}
+
+.ssfb__page[data-theme="light"] .ssfb__scard:hover {
+    background: #ffffff;
+    box-shadow: 0 10px 28px rgba(42, 36, 22, 0.1);
+}
+
+.ssfb__page[data-theme="light"] .ssfb__scard--avg {
+    border-color: rgba(166, 124, 26, 0.3);
+}
+
+.ssfb__page[data-theme="light"] .ssfb__scard--top {
+    border-color: rgba(166, 124, 26, 0.2);
+}
+
+.ssfb__page[data-theme="light"] .ssfb__scard--mood {
+    border-color: rgba(20, 150, 130, 0.25);
+}
+
+/* Chart bar track */
+.ssfb__page[data-theme="light"] .ssfb__bar-track {
+    background: rgba(42, 36, 22, 0.07);
+}
+
+/* Filters — native select + date input */
+.ssfb__page[data-theme="light"] .ssfb__select,
+.ssfb__page[data-theme="light"] .ssfb__date-input {
+    background: #ffffff;
+    border-color: rgba(166, 124, 26, 0.25);
+    color-scheme: light;
+}
+
+.ssfb__page[data-theme="light"] .ssfb__select:focus,
+.ssfb__page[data-theme="light"] .ssfb__date-input:focus {
+    background: #ffffff;
+    border-color: rgba(166, 124, 26, 0.5);
+    box-shadow: 0 0 0 3px rgba(166, 124, 26, 0.1);
+}
+
+/* Native dropdown list items */
+.ssfb__page[data-theme="light"] .ssfb__select option {
+    background: #ffffff;
+    color: #2a2416;
+}
+
+/* Calendar picker icon — drop the dark-mode invert filter */
+.ssfb__page[data-theme="light"] .ssfb__date-input::-webkit-calendar-picker-indicator {
+    filter: none;
+}
+
+/* Red buttons — darker text for contrast on white */
+.ssfb__page[data-theme="light"] .ssfb__clear-btn,
+.ssfb__page[data-theme="light"] .ssfb__deleteall-btn,
+.ssfb__page[data-theme="light"] .ssfb__modal-confirm {
+    color: #dc2626;
+    background: rgba(220, 80, 80, 0.08);
+    border-color: rgba(220, 80, 80, 0.28);
+}
+
+/* Empty state */
+.ssfb__page[data-theme="light"] .ssfb__empty {
+    border-color: rgba(166, 124, 26, 0.2);
+}
+
+/* Table rows — invisible divider/hover on white */
+.ssfb__page[data-theme="light"] .ssfb__row {
+    border-bottom-color: rgba(42, 36, 22, 0.06);
+}
+
+.ssfb__page[data-theme="light"] .ssfb__row:hover {
+    background: rgba(166, 124, 26, 0.05);
+}
+
+/* Session chip */
+.ssfb__page[data-theme="light"] .ssfb__session-chip {
+    background: #faf7ee;
+    border-color: rgba(166, 124, 26, 0.18);
+}
+
+/* Delete-all modal — hardcoded dark surface */
+.ssfb__page[data-theme="light"] .ssfb__modal {
+    background: #ffffff;
+    box-shadow: 0 20px 60px rgba(42, 36, 22, 0.2);
+}
+
+.ssfb__page[data-theme="light"] .ssfb__modal-cancel {
+    background: #f4f0e6;
+    border-color: rgba(166, 124, 26, 0.2);
+}
+
+.ssfb__page[data-theme="light"] .ssfb__modal-cancel:hover:not(:disabled) {
+    background: #ebe5d6;
+}

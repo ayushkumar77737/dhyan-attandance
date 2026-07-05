@@ -28,6 +28,7 @@ function ActivityLogs() {
     const [showDeleteAllModal, setShowDeleteAllModal] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(null);
     const [deletingAll, setDeletingAll] = useState(false);
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -238,7 +239,7 @@ function ActivityLogs() {
     const uniqueUsers = [...new Set(logs.map((l) => l.userId))].length;
 
     return (
-        <div className="actlog__page">
+        <div className="actlog__page" data-theme={theme}>
             <div className="actlog__orb actlog__orb--1" />
             <div className="actlog__orb actlog__orb--2" />
             <div className="actlog__orb actlog__orb--3" />

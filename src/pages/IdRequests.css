@@ -932,3 +932,151 @@
     transform: translateY(-1px);
     box-shadow: 0 6px 16px rgba(239, 68, 68, 0.2);
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+
+/* Token overrides — cascade to everything using var(--ir-*) */
+.idreq__page[data-theme="light"] {
+    --ir-bg: #f1f5f9;
+    --ir-surface: #ffffff;
+    --ir-surface-hover: #f8fafc;
+    --ir-border: rgba(15, 23, 42, 0.08);
+    --ir-text: #1e293b;
+    --ir-muted: #64748b;
+    --ir-dim: #94a3b8;
+}
+
+/* Grid overlay — visible blue lines on white */
+.idreq__page[data-theme="light"] .idreq__grid-overlay {
+    background-image:
+        linear-gradient(rgba(59, 130, 246, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.045) 1px, transparent 1px);
+}
+
+/* Orbs — soften on light background */
+.idreq__page[data-theme="light"] .idreq__orb--1 {
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 65%);
+}
+
+.idreq__page[data-theme="light"] .idreq__orb--2 {
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.06) 0%, transparent 65%);
+}
+
+.idreq__page[data-theme="light"] .idreq__orb--3 {
+    background: radial-gradient(circle, rgba(34, 197, 94, 0.05) 0%, transparent 65%);
+}
+
+/* Card shadows — dark drop shadows are too heavy on white */
+.idreq__page[data-theme="light"] .idreq__table-wrap {
+    background: #ffffff;
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.07);
+}
+
+.idreq__page[data-theme="light"] .idreq__toast {
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+}
+
+/* Hardcoded light heading/title text → dark */
+.idreq__page[data-theme="light"] .idreq__title {
+    color: #1e293b;
+}
+
+/* Eyebrow + count highlight + txn chip → darker blue */
+.idreq__page[data-theme="light"] .idreq__eyebrow,
+.idreq__page[data-theme="light"] .idreq__count span,
+.idreq__page[data-theme="light"] .idreq__txn,
+.idreq__page[data-theme="light"] .idreq__export-btn,
+.idreq__page[data-theme="light"] .idreq__filter-btn--active {
+    color: #2563eb;
+}
+
+/* Mobile number mono text */
+.idreq__page[data-theme="light"] .idreq__mobile {
+    color: #334155;
+}
+
+/* Stat numbers — darker accents for contrast on white */
+.idreq__page[data-theme="light"] .idreq__stat--total .idreq__stat-num {
+    color: #2563eb;
+}
+
+.idreq__page[data-theme="light"] .idreq__stat--pending .idreq__stat-num {
+    color: #d97706;
+}
+
+.idreq__page[data-theme="light"] .idreq__stat--approved .idreq__stat-num {
+    color: #16a34a;
+}
+
+.idreq__page[data-theme="light"] .idreq__stat--rejected .idreq__stat-num {
+    color: #dc2626;
+}
+
+/* Table header + row dividers/hover (white-on-white otherwise) */
+.idreq__page[data-theme="light"] .idreq__thead-row {
+    background: #f8fafc;
+}
+
+.idreq__page[data-theme="light"] .idreq__row {
+    border-bottom-color: rgba(15, 23, 42, 0.05);
+}
+
+.idreq__page[data-theme="light"] .idreq__row:hover {
+    background: rgba(15, 23, 42, 0.03);
+}
+
+/* Status badges — darker text on light tint */
+.idreq__page[data-theme="light"] .idreq__status-badge--pending,
+.idreq__page[data-theme="light"] .idreq__filter-btn--pending,
+.idreq__page[data-theme="light"] .idreq__act-btn--reset,
+.idreq__page[data-theme="light"] .idreq__toast--pending {
+    color: #b45309;
+}
+
+.idreq__page[data-theme="light"] .idreq__status-badge--approved,
+.idreq__page[data-theme="light"] .idreq__filter-btn--approved,
+.idreq__page[data-theme="light"] .idreq__act-btn--approve,
+.idreq__page[data-theme="light"] .idreq__toast--approved {
+    color: #15803d;
+}
+
+.idreq__page[data-theme="light"] .idreq__status-badge--rejected,
+.idreq__page[data-theme="light"] .idreq__filter-btn--rejected,
+.idreq__page[data-theme="light"] .idreq__act-btn--reject,
+.idreq__page[data-theme="light"] .idreq__act-btn--delete,
+.idreq__page[data-theme="light"] .idreq__toast--rejected,
+.idreq__page[data-theme="light"] .idreq__toast--error {
+    color: #dc2626;
+}
+
+/* ===== Delete modal (inline, covered by container attribute) ===== */
+.idreq__page[data-theme="light"] .idreq__modal {
+    background: #ffffff;
+    border-color: rgba(239, 68, 68, 0.25);
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+}
+
+.idreq__page[data-theme="light"] .idreq__modal-title {
+    color: #1e293b;
+}
+
+.idreq__page[data-theme="light"] .idreq__modal-msg {
+    color: #64748b;
+}
+
+.idreq__page[data-theme="light"] .idreq__modal-btn--cancel {
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #64748b;
+}
+
+.idreq__page[data-theme="light"] .idreq__modal-btn--cancel:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.idreq__page[data-theme="light"] .idreq__modal-btn--confirm {
+    color: #dc2626;
+}

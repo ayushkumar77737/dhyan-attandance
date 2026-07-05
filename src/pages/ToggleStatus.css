@@ -753,3 +753,175 @@
     position: relative;
     flex: 1;
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.tgls__page[data-theme="light"] {
+    background: #f1f5f9;
+}
+
+/* Grid overlay — visible red lines on white */
+.tgls__page[data-theme="light"] .tgls__grid {
+    background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 70px,
+            rgba(239, 68, 68, 0.04) 70px, rgba(239, 68, 68, 0.04) 71px),
+        repeating-linear-gradient(90deg, transparent, transparent 70px,
+            rgba(239, 68, 68, 0.04) 70px, rgba(239, 68, 68, 0.04) 71px);
+}
+
+/* Orbs — soften on light background */
+.tgls__page[data-theme="light"] .tgls__orb--1 {
+    background: radial-gradient(circle, rgba(239, 68, 68, 0.07), transparent 70%);
+}
+
+.tgls__page[data-theme="light"] .tgls__orb--2 {
+    background: radial-gradient(circle, rgba(34, 197, 94, 0.06), transparent 70%);
+}
+
+.tgls__page[data-theme="light"] .tgls__orb--3 {
+    background: radial-gradient(circle, rgba(239, 68, 68, 0.04), transparent 70%);
+}
+
+/* Back button */
+.tgls__page[data-theme="light"] .tgls__back-btn {
+    background: #ffffff;
+    color: #dc2626;
+    border-color: rgba(239, 68, 68, 0.25);
+}
+
+.tgls__page[data-theme="light"] .tgls__back-btn:hover {
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.5);
+    color: #b91c1c;
+}
+
+/* Hero title */
+.tgls__page[data-theme="light"] .tgls__hero-title {
+    color: #1e293b;
+}
+
+/* Message banners — darker text on light tint */
+.tgls__page[data-theme="light"] .tgls__msg--success {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #15803d;
+}
+
+.tgls__page[data-theme="light"] .tgls__msg--error {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #dc2626;
+}
+
+/* Stat cards */
+.tgls__page[data-theme="light"] .tgls__stat-card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 2px 12px rgba(15, 23, 42, 0.05);
+}
+
+.tgls__page[data-theme="light"] .tgls__stat-card--active {
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.tgls__page[data-theme="light"] .tgls__stat-card--disabled {
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.tgls__page[data-theme="light"] .tgls__stat-num {
+    color: #1e293b;
+}
+
+.tgls__page[data-theme="light"] .tgls__num--active {
+    color: #15803d;
+}
+
+.tgls__page[data-theme="light"] .tgls__num--disabled {
+    color: #dc2626;
+}
+
+/* Search input */
+.tgls__page[data-theme="light"] .tgls__search {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.14);
+    color: #1e293b;
+    color-scheme: light;
+}
+
+.tgls__page[data-theme="light"] .tgls__search::placeholder {
+    color: #94a3b8;
+}
+
+.tgls__page[data-theme="light"] .tgls__search:focus {
+    background: #ffffff;
+    border-color: rgba(239, 68, 68, 0.4);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
+}
+
+/* Empty state */
+.tgls__page[data-theme="light"] .tgls__empty {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #64748b;
+}
+
+/* User rows */
+.tgls__page[data-theme="light"] .tgls__row {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 2px 12px rgba(15, 23, 42, 0.05);
+}
+
+.tgls__page[data-theme="light"] .tgls__row:hover {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.14);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+}
+
+.tgls__page[data-theme="light"] .tgls__row--disabled {
+    background: rgba(239, 68, 68, 0.04);
+    border-color: rgba(239, 68, 68, 0.18);
+}
+
+/* Name + ID chip */
+.tgls__page[data-theme="light"] .tgls__name {
+    color: #1e293b;
+}
+
+.tgls__page[data-theme="light"] .tgls__id-chip {
+    color: #64748b;
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+/* Status pills */
+.tgls__page[data-theme="light"] .tgls__status--on {
+    background: rgba(34, 197, 94, 0.12);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #15803d;
+}
+
+.tgls__page[data-theme="light"] .tgls__status--off {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #dc2626;
+}
+
+/* Row action buttons — darker text on white */
+.tgls__page[data-theme="light"] .tgls__btn--disable {
+    color: #dc2626;
+}
+
+.tgls__page[data-theme="light"] .tgls__btn--enable {
+    color: #15803d;
+}
+
+/* Bulk button */
+.tgls__page[data-theme="light"] .tgls__bulk-btn--disable {
+    color: #dc2626;
+}
+
+.tgls__page[data-theme="light"] .tgls__bulk-btn--enable {
+    color: #15803d;
+}

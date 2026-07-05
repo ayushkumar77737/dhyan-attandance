@@ -735,3 +735,211 @@
     max-width: 800px;
   }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.notifications-page[data-theme="light"] {
+  background: #f1f5f9;
+}
+
+/* Orbs — soften on light background */
+.notifications-page[data-theme="light"] .notif-orb-1 {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.10), transparent 70%);
+}
+
+.notifications-page[data-theme="light"] .notif-orb-2 {
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.08), transparent 70%);
+}
+
+.notifications-page[data-theme="light"] .notif-orb-3 {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.06), transparent 70%);
+}
+
+/* Back button */
+.notifications-page[data-theme="light"] .notif-back-btn {
+  background: #ffffff;
+  color: #4f46e5;
+  border-color: rgba(99, 102, 241, 0.25);
+}
+
+.notifications-page[data-theme="light"] .notif-back-btn:hover {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.5);
+  color: #4338ca;
+}
+
+/* Title */
+.notifications-page[data-theme="light"] .notif-main-title {
+  color: #1e293b;
+}
+
+/* Compose card */
+.notifications-page[data-theme="light"] .notif-card {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+}
+
+/* Status messages — darker text on light tint */
+.notifications-page[data-theme="light"] .status-success {
+  background: rgba(34, 197, 94, 0.1);
+  color: #15803d;
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.notifications-page[data-theme="light"] .status-error {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.notifications-page[data-theme="light"] .status-warn {
+  background: rgba(234, 179, 8, 0.1);
+  color: #b45309;
+  border-color: rgba(234, 179, 8, 0.3);
+}
+
+/* Textareas (compose + modal) */
+.notifications-page[data-theme="light"] textarea {
+  background: #f8fafc;
+  border-color: rgba(15, 23, 42, 0.14);
+  color: #1e293b;
+  color-scheme: light;
+}
+
+.notifications-page[data-theme="light"] textarea::placeholder {
+  color: #94a3b8;
+}
+
+.notifications-page[data-theme="light"] textarea:focus {
+  background: #ffffff;
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Submit button — disabled state */
+.notifications-page[data-theme="light"] .notif-card button[type="submit"]:disabled {
+  background: #e2e8f0;
+  color: #94a3b8;
+}
+
+/* List header */
+.notifications-page[data-theme="light"] .notif-list-title {
+  color: #1e293b;
+}
+
+.notifications-page[data-theme="light"] .notif-count-badge {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #4f46e5;
+}
+
+.notifications-page[data-theme="light"] .notif-export-btn {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #4f46e5;
+}
+
+.notifications-page[data-theme="light"] .notif-export-btn:hover:not(:disabled) {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.6);
+  color: #4338ca;
+}
+
+/* Table */
+.notifications-page[data-theme="light"] .notif-table {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.07);
+}
+
+.notifications-page[data-theme="light"] .notif-table th {
+  background: #eff6ff;
+  color: #4f46e5;
+  border-bottom-color: rgba(99, 102, 241, 0.12);
+}
+
+.notifications-page[data-theme="light"] .notif-table td {
+  color: #475569;
+  border-bottom-color: rgba(15, 23, 42, 0.05);
+}
+
+.notifications-page[data-theme="light"] .notif-table tr:hover td {
+  background: rgba(99, 102, 241, 0.04);
+}
+
+/* Date chip */
+.notifications-page[data-theme="light"] .notif-date-chip {
+  color: #64748b;
+  background: #f1f5f9;
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+/* Row action buttons */
+.notifications-page[data-theme="light"] .notif-edit-btn {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #4f46e5;
+}
+
+.notifications-page[data-theme="light"] .notif-edit-btn:hover {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.6);
+  color: #4338ca;
+}
+
+.notifications-page[data-theme="light"] .notif-delete-btn {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #dc2626;
+}
+
+.notifications-page[data-theme="light"] .notif-delete-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.6);
+}
+
+/* Modals (edit + delete) */
+.notifications-page[data-theme="light"] .notif-modal {
+  background: #ffffff;
+  border-color: rgba(99, 102, 241, 0.18);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.15);
+}
+
+.notifications-page[data-theme="light"] .notif-modal-header h3 {
+  color: #1e293b;
+}
+
+.notifications-page[data-theme="light"] .notif-modal-close {
+  background: rgba(15, 23, 42, 0.05);
+  border-color: rgba(15, 23, 42, 0.1);
+  color: #64748b;
+}
+
+.notifications-page[data-theme="light"] .notif-modal-close:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #dc2626;
+}
+
+.notifications-page[data-theme="light"] .notif-modal-confirm-text {
+  color: #475569;
+}
+
+.notifications-page[data-theme="light"] .notif-modal-cancel {
+  background: #f1f5f9;
+  border-color: rgba(15, 23, 42, 0.12);
+  color: #64748b;
+}
+
+.notifications-page[data-theme="light"] .notif-modal-cancel:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+/* Empty state */
+.notifications-page[data-theme="light"] .no-data {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.08);
+}

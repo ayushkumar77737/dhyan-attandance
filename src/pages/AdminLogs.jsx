@@ -104,6 +104,7 @@ function AdminLogs() {
 
     const [confirmModal, setConfirmModal] = useState(null);
     const [deleting, setDeleting] = useState(false);
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     const checkAdmin = async () => {
         const currentUser = auth.currentUser;
@@ -299,7 +300,7 @@ function AdminLogs() {
     };
 
     return (
-        <div className="aamon__page">
+        <div className="aamon__page" data-theme={theme}>
             <div className="aamon__grid-bg" />
             <div className="aamon__orb aamon__orb--1" />
             <div className="aamon__orb aamon__orb--2" />
@@ -509,7 +510,7 @@ function AdminLogs() {
             </div>
 
             {confirmModal && createPortal(
-                <div className="aamon__modal-overlay" onClick={() => !deleting && setConfirmModal(null)}>
+                <div className="aamon__modal-overlay" data-theme={theme} onClick={() => !deleting && setConfirmModal(null)}>
                     <div className="aamon__modal" onClick={(e) => e.stopPropagation()}>
                         <div className="aamon__modal-icon">{icons.trash}</div>
                         <h3 className="aamon__modal-title">

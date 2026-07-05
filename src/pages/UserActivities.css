@@ -663,3 +663,101 @@
         padding: 11px 18px;
     }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.usract__container[data-theme="light"] {
+    background: #f1f5f9;
+    color: #1e293b;
+    background-image:
+        radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.04) 0%, transparent 60%),
+        linear-gradient(rgba(15, 23, 42, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.025) 1px, transparent 1px);
+}
+
+/* Back button */
+.usract__container[data-theme="light"] .usract__back-btn {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.12);
+    color: #1e293b;
+}
+
+/* Title */
+.usract__container[data-theme="light"] .usract__title {
+    color: #1e293b;
+}
+
+/* Delete-all button — darker red for contrast on white */
+.usract__container[data-theme="light"] .usract__delete-all-btn {
+    color: #dc2626;
+}
+
+/* Search */
+.usract__container[data-theme="light"] .usract__search {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.12);
+    color: #1e293b;
+}
+
+.usract__container[data-theme="light"] .usract__search::placeholder {
+    color: #94a3b8;
+}
+
+/* User cards */
+.usract__container[data-theme="light"] .usract__user-card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 2px 12px rgba(15, 23, 42, 0.05);
+}
+
+.usract__container[data-theme="light"] .usract__user-card.open {
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.usract__container[data-theme="light"] .usract__user-head:hover {
+    background: #f8fafc;
+}
+
+.usract__container[data-theme="light"] .usract__user-name {
+    color: #1e293b;
+}
+
+.usract__container[data-theme="light"] .usract__user-delete {
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #dc2626;
+}
+
+/* Activity list + rows */
+.usract__container[data-theme="light"] .usract__activity-list {
+    border-top-color: rgba(15, 23, 42, 0.08);
+}
+
+.usract__container[data-theme="light"] .usract__activity-row {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.usract__container[data-theme="light"] .usract__activity-action {
+    color: #1e293b;
+}
+
+.usract__container[data-theme="light"] .usract__activity-delete {
+    border-color: rgba(15, 23, 42, 0.1);
+}
+
+/* Confirm dialog — portaled, so scope on the overlay, not the container */
+.usract__cf-overlay[data-theme="light"] .usract__cf-modal {
+    background: linear-gradient(160deg, #ffffff 0%, #f8fafc 100%);
+    border-color: rgba(15, 23, 42, 0.1);
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+}
+
+.usract__cf-overlay[data-theme="light"] .usract__cf-text {
+    color: #1e293b;
+}
+
+.usract__cf-overlay[data-theme="light"] .usract__cf-cancel {
+    border-color: rgba(15, 23, 42, 0.15);
+    color: #1e293b;
+}

@@ -755,3 +755,112 @@
         flex: 1;
     }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+
+/* Token overrides — applied to the page container AND the portaled
+   modals (which render on document.body, outside the container). */
+.alvr-container[data-theme="light"],
+.alvr-modal-overlay[data-theme="light"] {
+    --alvr-bg: #f1f5f9;
+    --alvr-card: #ffffff;
+    --alvr-card-2: #ffffff;
+    --alvr-stat: #ffffff;
+    --alvr-text: #1e293b;
+    --alvr-text-muted: #64748b;
+    --alvr-border: rgba(15, 23, 42, 0.08);
+    --alvr-border-strong: rgba(15, 23, 42, 0.12);
+    --alvr-border-blue: rgba(59, 130, 246, 0.35);
+}
+
+/* Page background — swap white grid lines for dark */
+.alvr-container[data-theme="light"] {
+    background-image:
+        radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.04) 0%, transparent 60%),
+        linear-gradient(rgba(15, 23, 42, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.025) 1px, transparent 1px);
+}
+
+/* Back button */
+.alvr-container[data-theme="light"] .alvr-back-btn {
+    color: #2563eb;
+}
+
+/* Filter buttons */
+.alvr-container[data-theme="light"] .alvr-filter-btn {
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+}
+
+.alvr-container[data-theme="light"] .alvr-filter-count {
+    background: rgba(15, 23, 42, 0.08);
+}
+
+/* Export button */
+.alvr-container[data-theme="light"] .alvr-export-btn {
+    color: #2563eb;
+}
+
+/* Cards — dark drop shadow is invisible on white, use a soft one */
+.alvr-container[data-theme="light"] .alvr-card {
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.07);
+}
+
+/* User ID + leave-type chip text */
+.alvr-container[data-theme="light"] .alvr-id,
+.alvr-container[data-theme="light"] .alvr-type-chip {
+    color: #2563eb;
+}
+
+/* Reason text */
+.alvr-container[data-theme="light"] .alvr-reason {
+    color: #64748b;
+}
+
+/* Status badges — darker text for contrast on white */
+.alvr-container[data-theme="light"] .alvr-badge-pending {
+    color: #b45309;
+    background: rgba(245, 158, 11, 0.12);
+    border-color: rgba(245, 158, 11, 0.35);
+}
+
+.alvr-container[data-theme="light"] .alvr-badge-approved {
+    color: #15803d;
+    background: rgba(45, 206, 137, 0.12);
+    border-color: rgba(45, 206, 137, 0.4);
+}
+
+.alvr-container[data-theme="light"] .alvr-badge-rejected {
+    color: #dc2626;
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.35);
+}
+
+/* Approve / reject action text */
+.alvr-container[data-theme="light"] .alvr-act-approve {
+    color: #15803d;
+}
+
+.alvr-container[data-theme="light"] .alvr-act-reject {
+    color: #dc2626;
+}
+
+/* Toast — darker text on light tint */
+.alvr-container[data-theme="light"] .alvr-toast-success {
+    background: rgba(45, 206, 137, 0.15);
+    border-color: rgba(45, 206, 137, 0.4);
+    color: #15803d;
+}
+
+.alvr-container[data-theme="light"] .alvr-toast-error {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #dc2626;
+}
+
+/* Modal surface — portaled, so scope on the overlay, not the container */
+.alvr-modal-overlay[data-theme="light"] .alvr-modal {
+    background: linear-gradient(160deg, #ffffff 0%, #f8fafc 100%);
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+}

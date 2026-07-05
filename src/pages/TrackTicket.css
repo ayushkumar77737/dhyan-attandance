@@ -766,3 +766,223 @@
         max-width: 95%;
     }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.trkt__page[data-theme="light"] {
+    background: #f1f5f9;
+}
+
+/* Grid overlay — dark lines instead of light */
+.trkt__page[data-theme="light"] .trkt__grid {
+    background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 70px,
+            rgba(15, 23, 42, 0.03) 70px, rgba(15, 23, 42, 0.03) 71px),
+        repeating-linear-gradient(90deg, transparent, transparent 70px,
+            rgba(15, 23, 42, 0.03) 70px, rgba(15, 23, 42, 0.03) 71px);
+}
+
+/* Orbs — soften on light background */
+.trkt__page[data-theme="light"] .trkt__orb--1 {
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.10), transparent 70%);
+}
+
+.trkt__page[data-theme="light"] .trkt__orb--2 {
+    background: radial-gradient(circle, rgba(14, 165, 160, 0.08), transparent 70%);
+}
+
+.trkt__page[data-theme="light"] .trkt__orb--3 {
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.06), transparent 70%);
+}
+
+/* Back button */
+.trkt__page[data-theme="light"] .trkt__back-btn {
+    background: #ffffff;
+    color: #4f46e5;
+    border-color: rgba(99, 102, 241, 0.25);
+}
+
+.trkt__page[data-theme="light"] .trkt__back-btn:hover {
+    background: rgba(99, 102, 241, 0.08);
+    border-color: rgba(99, 102, 241, 0.5);
+    color: #4338ca;
+}
+
+/* Hero title */
+.trkt__page[data-theme="light"] .trkt__hero-title {
+    color: #1e293b;
+}
+
+/* Date bar */
+.trkt__page[data-theme="light"] .trkt__date-bar {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+}
+
+.trkt__page[data-theme="light"] .trkt__date-wrapper {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.12);
+}
+
+.trkt__page[data-theme="light"] .trkt__date-input {
+    color: #1e293b;
+    color-scheme: light;
+}
+
+/* Search button — disabled state */
+.trkt__page[data-theme="light"] .trkt__search-btn:disabled {
+    background: #e2e8f0;
+    color: #94a3b8;
+}
+
+/* Export button */
+.trkt__page[data-theme="light"] .trkt__export-btn {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: rgba(99, 102, 241, 0.3);
+    color: #4f46e5;
+}
+
+.trkt__page[data-theme="light"] .trkt__export-btn:hover:not(:disabled) {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: rgba(99, 102, 241, 0.6);
+    color: #4338ca;
+}
+
+/* Toast messages — darker text on light tint */
+.trkt__page[data-theme="light"] .trkt__msg--success {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #15803d;
+}
+
+.trkt__page[data-theme="light"] .trkt__msg--error {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #dc2626;
+}
+
+/* Stat cards (base + colored accent borders preserved) */
+.trkt__page[data-theme="light"] .trkt__stat-card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 2px 12px rgba(15, 23, 42, 0.05);
+}
+
+.trkt__page[data-theme="light"] .trkt__stat-card--pending {
+    border-color: rgba(234, 179, 8, 0.3);
+}
+
+.trkt__page[data-theme="light"] .trkt__stat-card--inprogress {
+    border-color: rgba(96, 165, 250, 0.35);
+}
+
+.trkt__page[data-theme="light"] .trkt__stat-card--resolved {
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.trkt__page[data-theme="light"] .trkt__stat-num {
+    color: #1e293b;
+}
+
+.trkt__page[data-theme="light"] .trkt__num--pending {
+    color: #b45309;
+}
+
+.trkt__page[data-theme="light"] .trkt__num--inprogress {
+    color: #2563eb;
+}
+
+.trkt__page[data-theme="light"] .trkt__num--resolved {
+    color: #15803d;
+}
+
+/* Empty state */
+.trkt__page[data-theme="light"] .trkt__empty {
+    background: #ffffff;
+    border-color: rgba(99, 102, 241, 0.2);
+}
+
+.trkt__page[data-theme="light"] .trkt__empty-title {
+    color: #1e293b;
+}
+
+/* Ticket card */
+.trkt__page[data-theme="light"] .trkt__card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.07);
+}
+
+.trkt__page[data-theme="light"] .trkt__card:hover {
+    background: #ffffff;
+    border-color: rgba(99, 102, 241, 0.25);
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.1);
+}
+
+/* ID chip + name */
+.trkt__page[data-theme="light"] .trkt__id-chip {
+    background: rgba(99, 102, 241, 0.08);
+    border-color: rgba(99, 102, 241, 0.2);
+    color: #4f46e5;
+}
+
+.trkt__page[data-theme="light"] .trkt__name {
+    color: #1e293b;
+}
+
+/* Status badges */
+.trkt__page[data-theme="light"] .trkt__status--pending {
+    background: rgba(234, 179, 8, 0.12);
+    border-color: rgba(234, 179, 8, 0.3);
+    color: #b45309;
+}
+
+.trkt__page[data-theme="light"] .trkt__status--inprogress {
+    background: rgba(96, 165, 250, 0.12);
+    border-color: rgba(96, 165, 250, 0.35);
+    color: #2563eb;
+}
+
+.trkt__page[data-theme="light"] .trkt__status--resolved {
+    background: rgba(34, 197, 94, 0.12);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #15803d;
+}
+
+/* Card date chip — transparent bg is invisible on white */
+.trkt__page[data-theme="light"] .trkt__date-chip {
+    color: #64748b;
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+/* Issue box */
+.trkt__page[data-theme="light"] .trkt__issue-box {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.trkt__page[data-theme="light"] .trkt__issue-text {
+    color: #475569;
+}
+
+/* Action buttons */
+.trkt__page[data-theme="light"] .trkt__action-btn--progress {
+    background: rgba(96, 165, 250, 0.1);
+    border-color: rgba(96, 165, 250, 0.3);
+    color: #2563eb;
+}
+
+.trkt__page[data-theme="light"] .trkt__action-btn--resolve {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #15803d;
+}
+
+.trkt__page[data-theme="light"] .trkt__action-btn--delete {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #dc2626;
+}

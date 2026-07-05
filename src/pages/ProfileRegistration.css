@@ -576,3 +576,115 @@
         max-width: 95%;
     }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.preg__page[data-theme="light"] {
+    background: #f1f5f9;
+}
+
+/* Grid overlay — visible violet lines on white */
+.preg__page[data-theme="light"] .preg__grid {
+    background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 70px,
+            rgba(139, 92, 246, 0.05) 70px, rgba(139, 92, 246, 0.05) 71px),
+        repeating-linear-gradient(90deg, transparent, transparent 70px,
+            rgba(139, 92, 246, 0.05) 70px, rgba(139, 92, 246, 0.05) 71px);
+}
+
+/* Orbs — soften on light background */
+.preg__page[data-theme="light"] .preg__orb--1 {
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.10), transparent 70%);
+}
+
+.preg__page[data-theme="light"] .preg__orb--2 {
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.08), transparent 70%);
+}
+
+.preg__page[data-theme="light"] .preg__orb--3 {
+    background: radial-gradient(circle, rgba(14, 165, 160, 0.06), transparent 70%);
+}
+
+/* Back button */
+.preg__page[data-theme="light"] .preg__back-btn {
+    background: #ffffff;
+    color: #7c3aed;
+    border-color: rgba(139, 92, 246, 0.25);
+}
+
+.preg__page[data-theme="light"] .preg__back-btn:hover {
+    background: rgba(139, 92, 246, 0.08);
+    border-color: rgba(139, 92, 246, 0.5);
+    color: #6d28d9;
+}
+
+/* Hero title */
+.preg__page[data-theme="light"] .preg__hero-title {
+    color: #1e293b;
+}
+
+/* Message banners — darker text on light tint */
+.preg__page[data-theme="light"] .preg__message--success {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #15803d;
+}
+
+.preg__page[data-theme="light"] .preg__message--error {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #dc2626;
+}
+
+/* Card */
+.preg__page[data-theme="light"] .preg__card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+}
+
+/* Upload text */
+.preg__page[data-theme="light"] .preg__upload-text {
+    color: #7c3aed;
+}
+
+/* Inputs / select / textarea */
+.preg__page[data-theme="light"] .preg__input,
+.preg__page[data-theme="light"] .preg__select,
+.preg__page[data-theme="light"] .preg__textarea {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.14);
+    color: #1e293b;
+    color-scheme: light;
+}
+
+.preg__page[data-theme="light"] .preg__input::placeholder,
+.preg__page[data-theme="light"] .preg__textarea::placeholder {
+    color: #94a3b8;
+}
+
+.preg__page[data-theme="light"] .preg__input:focus,
+.preg__page[data-theme="light"] .preg__select:focus,
+.preg__page[data-theme="light"] .preg__textarea:focus {
+    background: #ffffff;
+    border-color: rgba(139, 92, 246, 0.55);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Native dropdown list items */
+.preg__page[data-theme="light"] .preg__select option {
+    background: #ffffff;
+    color: #1e293b;
+}
+
+/* Error message text */
+.preg__page[data-theme="light"] .preg__err-msg {
+    color: #dc2626;
+}
+
+/* Submit button — disabled state */
+.preg__page[data-theme="light"] .preg__submit-btn:disabled {
+    background: #e2e8f0;
+    color: #94a3b8;
+}

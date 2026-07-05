@@ -34,6 +34,7 @@ function Notifications() {
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
   const navigate = useNavigate();
 
@@ -244,7 +245,7 @@ function Notifications() {
   };
 
   return (
-    <div className="notifications-page">
+    <div className="notifications-page" data-theme={theme}>
 
       <div className="notif-orb notif-orb-1" />
       <div className="notif-orb notif-orb-2" />

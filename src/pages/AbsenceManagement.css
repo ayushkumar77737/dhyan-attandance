@@ -786,3 +786,231 @@
     max-width: 1100px;
   }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.absence-management-page[data-theme="light"] {
+  background: #f1f5f9;
+}
+
+/* Orbs — soften on light background */
+.absence-management-page[data-theme="light"] .am-orb-1 {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.10), transparent 70%);
+}
+
+.absence-management-page[data-theme="light"] .am-orb-2 {
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.08), transparent 70%);
+}
+
+.absence-management-page[data-theme="light"] .am-orb-3 {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.06), transparent 70%);
+}
+
+/* Back button */
+.absence-management-page[data-theme="light"] .absence-management-back-btn {
+  background: #ffffff;
+  color: #4f46e5;
+  border-color: rgba(99, 102, 241, 0.25);
+}
+
+.absence-management-page[data-theme="light"] .absence-management-back-btn:hover {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.5);
+  color: #4338ca;
+}
+
+/* Title */
+.absence-management-page[data-theme="light"] .absence-management-title {
+  color: #1e293b;
+}
+
+/* Stat pills */
+.absence-management-page[data-theme="light"] .am-stat-pill {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.05);
+}
+
+.absence-management-page[data-theme="light"] .am-stat-pill:hover {
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.absence-management-page[data-theme="light"] .am-stat-value {
+  color: #1e293b;
+}
+
+.absence-management-page[data-theme="light"] .am-pending-val {
+  color: #d97706;
+}
+
+.absence-management-page[data-theme="light"] .am-approved-val {
+  color: #16a34a;
+}
+
+.absence-management-page[data-theme="light"] .am-rejected-val {
+  color: #dc2626;
+}
+
+/* Main card */
+.absence-management-page[data-theme="light"] .absence-management-card {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+}
+
+/* Table header */
+.absence-management-page[data-theme="light"] .absence-management-table th {
+  background: #eff6ff;
+  color: #4f46e5;
+  border-bottom-color: rgba(99, 102, 241, 0.12);
+}
+
+/* Table cells */
+.absence-management-page[data-theme="light"] .absence-management-table td {
+  color: #475569;
+  border-bottom-color: rgba(15, 23, 42, 0.05);
+}
+
+.absence-management-page[data-theme="light"] .absence-management-table tr:hover td {
+  background: rgba(99, 102, 241, 0.04);
+}
+
+/* ID chip */
+.absence-management-page[data-theme="light"] .am-id-chip {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.18);
+  color: #4f46e5;
+}
+
+/* Name cell */
+.absence-management-page[data-theme="light"] .am-name-cell {
+  color: #1e293b;
+}
+
+/* Date chip */
+.absence-management-page[data-theme="light"] .am-date-chip {
+  color: #64748b;
+  background: #f1f5f9;
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+/* Reason cell */
+.absence-management-page[data-theme="light"] .am-reason-cell {
+  color: #64748b;
+}
+
+/* Status badges */
+.absence-management-page[data-theme="light"] .absence-management-status.pending {
+  background: rgba(234, 179, 8, 0.12);
+  color: #b45309;
+  border-color: rgba(234, 179, 8, 0.3);
+}
+
+.absence-management-page[data-theme="light"] .absence-management-status.approved {
+  background: rgba(34, 197, 94, 0.12);
+  color: #15803d;
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.absence-management-page[data-theme="light"] .absence-management-status.rejected {
+  background: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Action buttons */
+.absence-management-page[data-theme="light"] .am-approve-btn {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.3);
+  color: #15803d;
+}
+
+.absence-management-page[data-theme="light"] .am-approve-btn:hover {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: rgba(34, 197, 94, 0.5);
+}
+
+.absence-management-page[data-theme="light"] .am-reject-btn {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #dc2626;
+}
+
+.absence-management-page[data-theme="light"] .am-reject-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+.absence-management-page[data-theme="light"] .am-edit-btn {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #4f46e5;
+}
+
+.absence-management-page[data-theme="light"] .am-edit-btn:hover {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.5);
+  color: #4338ca;
+}
+
+/* Modal */
+.absence-management-page[data-theme="light"] .am-modal {
+  background: #ffffff;
+  border-color: rgba(99, 102, 241, 0.18);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.15);
+}
+
+.absence-management-page[data-theme="light"] .am-modal-header h3 {
+  color: #1e293b;
+}
+
+.absence-management-page[data-theme="light"] .am-modal-close {
+  background: rgba(15, 23, 42, 0.05);
+  border-color: rgba(15, 23, 42, 0.1);
+  color: #64748b;
+}
+
+.absence-management-page[data-theme="light"] .am-modal-close:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #dc2626;
+}
+
+.absence-management-page[data-theme="light"] .am-modal-info {
+  background: #f8fafc;
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+.absence-management-page[data-theme="light"] .am-modal-info p {
+  color: #475569;
+}
+
+.absence-management-page[data-theme="light"] .am-modal-opt.pending {
+  color: #b45309;
+}
+
+.absence-management-page[data-theme="light"] .am-modal-opt.approved {
+  color: #15803d;
+}
+
+.absence-management-page[data-theme="light"] .am-modal-opt.rejected {
+  color: #b91c1c;
+}
+
+.absence-management-page[data-theme="light"] .am-modal-cancel {
+  background: #f1f5f9;
+  border-color: rgba(15, 23, 42, 0.12);
+  color: #64748b;
+}
+
+.absence-management-page[data-theme="light"] .am-modal-cancel:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.absence-management-page[data-theme="light"] .am-modal-delete {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #dc2626;
+}

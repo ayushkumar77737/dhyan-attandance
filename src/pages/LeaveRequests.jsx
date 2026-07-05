@@ -40,6 +40,7 @@ function LeaveRequests() {
   const [confirmDelete, setConfirmDelete] = useState(null); // request object or null
   const [confirmDeleteAll, setConfirmDeleteAll] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
   const adminId = (localStorage.getItem("userId") || "").toUpperCase();
 
@@ -254,7 +255,7 @@ function LeaveRequests() {
       : requests.filter((r) => statusKey(r.status) === filter.toLowerCase());
 
   return (
-    <div className="alvr-container">
+    <div className="alvr-container" data-theme={theme}>
       {toast && (
         <div className={`alvr-toast alvr-toast-${toast.type}`}>{toast.msg}</div>
       )}
@@ -396,7 +397,7 @@ function LeaveRequests() {
 
       {/* Individual delete confirm */}
       {confirmDelete && createPortal(
-        <div className="alvr-modal-overlay" onClick={() => !deleting && setConfirmDelete(null)}>
+        <div className="alvr-modal-overlay" data-theme={theme} onClick={() => !deleting && setConfirmDelete(null)}>
           <div className="alvr-modal" onClick={(e) => e.stopPropagation()}>
             <div className="alvr-modal-icon alvr-modal-icon-red">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -424,7 +425,7 @@ function LeaveRequests() {
 
       {/* Delete all confirm */}
       {confirmDeleteAll && createPortal(
-        <div className="alvr-modal-overlay" onClick={() => !deleting && setConfirmDeleteAll(false)}>
+        <div className="alvr-modal-overlay" data-theme={theme} onClick={() => !deleting && setConfirmDeleteAll(false)}>
           <div className="alvr-modal" onClick={(e) => e.stopPropagation()}>
             <div className="alvr-modal-icon alvr-modal-icon-red">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

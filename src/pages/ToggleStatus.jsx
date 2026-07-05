@@ -22,6 +22,7 @@ function ToggleStatus() {
     const [togglingId, setTogglingId] = useState(null);
     const [message, setMessage] = useState({ text: "", type: "" });
     const [search, setSearch] = useState("");
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     const checkAdmin = async () => {
 
@@ -194,7 +195,7 @@ function ToggleStatus() {
     const allDisabled = users.length > 0 && users.every((u) => u.disabled);
 
     return (
-        <div className="tgls__page">
+        <div className="tgls__page" data-theme={theme}>
 
             <div className="tgls__orb tgls__orb--1" />
             <div className="tgls__orb tgls__orb--2" />

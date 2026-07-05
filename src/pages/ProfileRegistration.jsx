@@ -29,6 +29,7 @@ function ProfileRegistration() {
     const [errors, setErrors] = useState({});
     const [imageFile, setImageFile] = useState(null);
     const [previewImage, setPreviewImage] = useState("");
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -249,7 +250,7 @@ function ProfileRegistration() {
     };
 
     return (
-        <div className="preg__page">
+        <div className="preg__page" data-theme={theme}>
 
             <div className="preg__orb preg__orb--1" />
             <div className="preg__orb preg__orb--2" />

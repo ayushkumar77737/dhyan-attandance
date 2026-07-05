@@ -23,6 +23,7 @@ function TrackTicket() {
     const [loading, setLoading] = useState(false);
     const [searched, setSearched] = useState(false);
     const [message, setMessage] = useState({ text: "", type: "" });
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -240,7 +241,7 @@ function TrackTicket() {
     };
 
     return (
-        <div className="trkt__page">
+        <div className="trkt__page" data-theme={theme}>
 
             <div className="trkt__orb trkt__orb--1" />
             <div className="trkt__orb trkt__orb--2" />

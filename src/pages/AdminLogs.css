@@ -1076,3 +1076,130 @@
         transform: scale(1) translateY(0);
     }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+
+/* Token overrides — cascade to everything using var(--aamon-*).
+   Accent colors darkened for contrast on white. */
+.aamon__page[data-theme="light"] {
+    --aamon-bg: #f1f5f9;
+    --aamon-surface: #ffffff;
+    --aamon-card: #ffffff;
+    --aamon-card-hover: #f8fafc;
+    --aamon-blue: #2563eb;
+    --aamon-purple: #7c3aed;
+    --aamon-green: #059669;
+    --aamon-red: #dc2626;
+    --aamon-cyan: #0891b2;
+    --aamon-text: #1e293b;
+    --aamon-text-dim: #64748b;
+    --aamon-text-mute: #94a3b8;
+    --aamon-border: rgba(15, 23, 42, 0.08);
+    --aamon-border-strong: rgba(15, 23, 42, 0.12);
+}
+
+/* Grid overlay — dark lines (white 0.015 vanishes on white) */
+.aamon__page[data-theme="light"] .aamon__grid-bg {
+    background-image:
+        linear-gradient(rgba(15, 23, 42, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.025) 1px, transparent 1px);
+}
+
+/* Orbs — soften on light background */
+.aamon__page[data-theme="light"] .aamon__orb--1 {
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.10), transparent 70%);
+}
+
+.aamon__page[data-theme="light"] .aamon__orb--2 {
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.08), transparent 70%);
+}
+
+.aamon__page[data-theme="light"] .aamon__orb--3 {
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.06), transparent 70%);
+}
+
+/* Card + stat shadows — dark drop shadows are too heavy on white */
+.aamon__page[data-theme="light"] .aamon__stat {
+    box-shadow: 0 2px 16px rgba(15, 23, 42, 0.06);
+}
+
+.aamon__page[data-theme="light"] .aamon__table-card,
+.aamon__page[data-theme="light"] .aamon__feed-card {
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.07);
+}
+
+/* Selects + date inputs — light dropdown + calendar rendering */
+.aamon__page[data-theme="light"] .aamon__select,
+.aamon__page[data-theme="light"] .aamon__date {
+    color-scheme: light;
+}
+
+.aamon__page[data-theme="light"] .aamon__select option {
+    background: #ffffff;
+    color: #1e293b;
+}
+
+.aamon__page[data-theme="light"] .aamon__date::-webkit-calendar-picker-indicator {
+    filter: none;
+}
+
+/* Table header + row dividers/hover (white-on-white otherwise) */
+.aamon__page[data-theme="light"] .aamon__table thead tr {
+    background: #f8fafc;
+}
+
+.aamon__page[data-theme="light"] .aamon__row {
+    border-top-color: rgba(15, 23, 42, 0.05);
+}
+
+.aamon__page[data-theme="light"] .aamon__row:hover {
+    background: rgba(15, 23, 42, 0.03);
+}
+
+.aamon__page[data-theme="light"] .aamon__feed-item:hover {
+    background: rgba(15, 23, 42, 0.03);
+}
+
+/* Badges with hardcoded light text → darker for contrast */
+.aamon__page[data-theme="light"] .aamon__badge--delete {
+    color: #dc2626;
+}
+
+.aamon__page[data-theme="light"] .aamon__badge--auth {
+    color: #7c3aed;
+}
+
+/* Red buttons using #fca5a5 → darker red on white */
+.aamon__page[data-theme="light"] .aamon__clear-btn,
+.aamon__page[data-theme="light"] .aamon__delete-all-btn,
+.aamon__page[data-theme="light"] .aamon__row-del {
+    color: #dc2626;
+}
+
+/* ===== Confirm modal — portaled to body, scope on the overlay ===== */
+.aamon__modal-overlay[data-theme="light"] .aamon__modal {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.1);
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+}
+
+.aamon__modal-overlay[data-theme="light"] .aamon__modal-title {
+    color: #1e293b;
+}
+
+.aamon__modal-overlay[data-theme="light"] .aamon__modal-msg {
+    color: #64748b;
+}
+
+.aamon__modal-overlay[data-theme="light"] .aamon__modal-cancel {
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #64748b;
+}
+
+.aamon__modal-overlay[data-theme="light"] .aamon__modal-cancel:hover:not(:disabled) {
+    background: #e2e8f0;
+    color: #1e293b;
+}

@@ -44,6 +44,7 @@ function AbsenceManagement() {
     const [showEditModal, setShowEditModal] = useState(false);
     const [editItem, setEditItem] = useState(null);
     const [selectedStatus, setSelectedStatus] = useState("");
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -214,7 +215,7 @@ function AbsenceManagement() {
     const rejectedCount = requests.filter(r => r.status?.toLowerCase() === "rejected").length;
 
     return (
-        <div className="absence-management-page">
+        <div className="absence-management-page" data-theme={theme}>
 
             <div className="am-orb am-orb-1" />
             <div className="am-orb am-orb-2" />
