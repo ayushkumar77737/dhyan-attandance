@@ -697,3 +697,98 @@
         padding: 20px 16px;
     }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+
+/* Token overrides — cascade to everything using var(--cset-*).
+   Neon accents darkened for contrast on white. */
+.cset__page[data-theme="light"] {
+    --cset-blue: #2563eb;
+    --cset-blue-dim: rgba(37, 99, 235, 0.09);
+    --cset-blue-border: rgba(37, 99, 235, 0.25);
+
+    --cset-green: #059669;
+    --cset-green-dim: rgba(5, 150, 105, 0.10);
+    --cset-green-border: rgba(5, 150, 105, 0.28);
+
+    --cset-purple: #7c3aed;
+    --cset-purple-dim: rgba(124, 58, 237, 0.09);
+    --cset-purple-border: rgba(124, 58, 237, 0.25);
+
+    --cset-orange: #ea580c;
+    --cset-orange-dim: rgba(234, 88, 12, 0.09);
+    --cset-orange-border: rgba(234, 88, 12, 0.25);
+
+    --cset-red: #dc2626;
+    --cset-red-dim: rgba(220, 38, 38, 0.08);
+    --cset-red-border: rgba(220, 38, 38, 0.25);
+
+    --cset-bg: #f1f5f9;
+    --cset-surface: #ffffff;
+    --cset-surface-hover: #f8fafc;
+    --cset-border: rgba(15, 23, 42, 0.08);
+    --cset-text: #1e293b;
+    --cset-text-muted: #64748b;
+    --cset-text-dim: #94a3b8;
+}
+
+/* Grid overlay — visible green lines on white */
+.cset__page[data-theme="light"] .cset__grid {
+    background-image:
+        linear-gradient(rgba(5, 150, 105, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(5, 150, 105, 0.04) 1px, transparent 1px);
+}
+
+/* Orbs — soften on light background */
+.cset__page[data-theme="light"] .cset__orb--1 {
+    background: radial-gradient(circle, rgba(5, 150, 105, 0.06) 0%, transparent 65%);
+}
+
+.cset__page[data-theme="light"] .cset__orb--2 {
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.05) 0%, transparent 65%);
+}
+
+.cset__page[data-theme="light"] .cset__orb--3 {
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.04) 0%, transparent 65%);
+}
+
+/* Hardcoded light text → dark */
+.cset__page[data-theme="light"] .cset__title-main,
+.cset__page[data-theme="light"] .cset__preview-value,
+.cset__page[data-theme="light"] .cset__form-title {
+    color: #1e293b;
+}
+
+/* Cards — add depth (white-on-light-gray needs a soft shadow) */
+.cset__page[data-theme="light"] .cset__preview-card,
+.cset__page[data-theme="light"] .cset__form-card {
+    box-shadow: 0 2px 12px rgba(15, 23, 42, 0.05);
+}
+
+/* Input wrappers */
+.cset__page[data-theme="light"] .cset__input-wrap {
+    background: #f8fafc;
+}
+
+.cset__page[data-theme="light"] .cset__input-wrap:focus-within {
+    background: #ffffff;
+}
+
+/* Save button — its near-black text must flip to white on the darker green */
+.cset__page[data-theme="light"] .cset__save-btn {
+    background: #059669;
+    color: #ffffff;
+    box-shadow: 0 4px 20px rgba(5, 150, 105, 0.25);
+}
+
+.cset__page[data-theme="light"] .cset__save-btn:hover:not(:disabled) {
+    background: #047857;
+    box-shadow: 0 6px 28px rgba(5, 150, 105, 0.35);
+}
+
+.cset__page[data-theme="light"] .cset__save-spinner {
+    border-color: rgba(255, 255, 255, 0.4);
+    border-top-color: #ffffff;
+}

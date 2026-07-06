@@ -703,3 +703,148 @@
     cursor: not-allowed;
     transform: none;
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.mprf__page[data-theme="light"] {
+    background-color: #f1f5f9;
+    background-image:
+        radial-gradient(ellipse 90% 60% at 15% 0%, rgba(14, 165, 160, 0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 90% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 55%),
+        repeating-linear-gradient(0deg, transparent, transparent 80px,
+            rgba(15, 23, 42, 0.025) 80px, rgba(15, 23, 42, 0.025) 81px),
+        repeating-linear-gradient(90deg, transparent, transparent 80px,
+            rgba(15, 23, 42, 0.025) 80px, rgba(15, 23, 42, 0.025) 81px);
+}
+
+/* Back button — white-tint bg is invisible on white */
+.mprf__page[data-theme="light"] .mprf__back-btn {
+    background: #ffffff;
+    border-color: rgba(14, 165, 160, 0.3);
+    color: #0d9488;
+}
+
+.mprf__page[data-theme="light"] .mprf__back-btn:hover {
+    background: rgba(14, 165, 160, 0.08);
+    border-color: rgba(14, 165, 160, 0.45);
+    color: #0f766e;
+}
+
+/* Title */
+.mprf__page[data-theme="light"] .mprf__title {
+    color: #1e293b;
+    text-shadow: none;
+}
+
+/* Card + hover shadow (heavy dark shadow too much on white) */
+.mprf__page[data-theme="light"] .mprf__card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+}
+
+.mprf__page[data-theme="light"] .mprf__card:hover {
+    box-shadow: 0 16px 48px rgba(15, 23, 42, 0.1);
+}
+
+/* Not-found title */
+.mprf__page[data-theme="light"] .mprf__not-found-title {
+    color: #1e293b;
+}
+
+/* Avatar — inner disc + border referenced the old dark bg */
+.mprf__page[data-theme="light"] .mprf__avatar {
+    background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+    border-color: #ffffff;
+}
+
+/* Profile name */
+.mprf__page[data-theme="light"] .mprf__profile-name {
+    color: #1e293b;
+}
+
+/* Info items — near-transparent white bg disappears on white */
+.mprf__page[data-theme="light"] .mprf__item {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.07);
+}
+
+.mprf__page[data-theme="light"] .mprf__item:hover {
+    background: rgba(14, 165, 160, 0.05);
+    border-color: rgba(14, 165, 160, 0.2);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.mprf__page[data-theme="light"] .mprf__item-label {
+    color: #64748b;
+}
+
+.mprf__page[data-theme="light"] .mprf__item-value {
+    color: #1e293b;
+}
+
+/* Edit trigger */
+.mprf__page[data-theme="light"] .mprf__edit-trigger {
+    color: #0d9488;
+}
+
+.mprf__page[data-theme="light"] .mprf__edit-trigger:hover {
+    color: #0f766e;
+}
+
+/* Edit modal (inline, covered by container attribute) */
+.mprf__page[data-theme="light"] .mprf__modal {
+    background: #ffffff;
+    border-color: rgba(14, 165, 160, 0.2);
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+}
+
+.mprf__page[data-theme="light"] .mprf__modal-header h3 {
+    color: #1e293b;
+}
+
+.mprf__page[data-theme="light"] .mprf__modal-close {
+    background: rgba(15, 23, 42, 0.05);
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #64748b;
+}
+
+.mprf__page[data-theme="light"] .mprf__modal-close:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #dc2626;
+}
+
+.mprf__page[data-theme="light"] .mprf__modal-field label {
+    color: #64748b;
+}
+
+.mprf__page[data-theme="light"] .mprf__modal-field input,
+.mprf__page[data-theme="light"] .mprf__modal-field textarea {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.14);
+    color: #1e293b;
+}
+
+.mprf__page[data-theme="light"] .mprf__modal-field input::placeholder,
+.mprf__page[data-theme="light"] .mprf__modal-field textarea::placeholder {
+    color: #94a3b8;
+}
+
+.mprf__page[data-theme="light"] .mprf__modal-field input:focus,
+.mprf__page[data-theme="light"] .mprf__modal-field textarea:focus {
+    background: #ffffff;
+    border-color: rgba(14, 165, 160, 0.5);
+}
+
+.mprf__page[data-theme="light"] .mprf__modal-cancel {
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #64748b;
+}
+
+.mprf__page[data-theme="light"] .mprf__modal-cancel:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}

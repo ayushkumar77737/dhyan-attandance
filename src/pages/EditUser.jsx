@@ -35,6 +35,7 @@ function EditUser() {
     const [name, setName] = useState("");
     const [userId, setUserId] = useState("");
     const [message, setMessage] = useState({ text: "", type: "" });
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -168,7 +169,7 @@ function EditUser() {
     };
 
     return (
-        <div className="edit-container">
+        <div className="edit-container" data-theme={theme}>
 
             <button
                 className="back-btn"

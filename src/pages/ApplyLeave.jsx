@@ -40,6 +40,7 @@ function ApplyLeave() {
 
     const [requests, setRequests] = useState([]);
     const [loadingList, setLoadingList] = useState(true);
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     const today = new Date().toISOString().split("T")[0];
 
@@ -193,7 +194,7 @@ function ApplyLeave() {
     };
 
     return (
-        <div className="aplv-container">
+        <div className="aplv-container" data-theme={theme}>
             {toast && (
                 <div className={`aplv-toast aplv-toast-${toast.type}`}>{toast.msg}</div>
             )}

@@ -335,3 +335,75 @@
     max-width: 550px;
   }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+
+/* Token overrides — the --sr-* vars are at :root, but every element
+   that reads them lives inside .submit-reason-page, so scoping here
+   flips the whole subtree. */
+.submit-reason-page[data-theme="light"] {
+  --sr-bg: #f1f5f9;
+  --sr-card: #ffffff;
+  --sr-border: rgba(15, 23, 42, 0.08);
+  --sr-text: #1e293b;
+  --sr-text-mid: #475569;
+  --sr-text-soft: #64748b;
+  --sr-input-bg: #f8fafc;
+}
+
+/* Background grid — dark lines (white 0.012 vanishes on white) */
+.submit-reason-page[data-theme="light"] {
+  background-image:
+    radial-gradient(ellipse 70% 50% at 10% 0%, rgba(14, 165, 160, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 55%),
+    repeating-linear-gradient(0deg, transparent, transparent 80px,
+      rgba(15, 23, 42, 0.025) 80px, rgba(15, 23, 42, 0.025) 81px),
+    repeating-linear-gradient(90deg, transparent, transparent 80px,
+      rgba(15, 23, 42, 0.025) 80px, rgba(15, 23, 42, 0.025) 81px);
+}
+
+/* Back button — teal-tint bg is invisible on white */
+.submit-reason-page[data-theme="light"] .reason-back-btn {
+  background: #ffffff;
+  border-color: rgba(14, 165, 160, 0.3);
+  color: #0d9488;
+}
+
+.submit-reason-page[data-theme="light"] .reason-back-btn:hover {
+  background: rgba(14, 165, 160, 0.08);
+  border-color: rgba(14, 165, 160, 0.45);
+  color: #0f766e;
+}
+
+/* Card — heavy dark drop shadow is too much on white */
+.submit-reason-page[data-theme="light"] .reason-card {
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+}
+
+/* Message banners — darker text for contrast on white */
+.submit-reason-page[data-theme="light"] .reason-message.success {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #047857;
+}
+
+.submit-reason-page[data-theme="light"] .reason-message.error {
+  background: rgba(244, 63, 94, 0.1);
+  border-color: rgba(244, 63, 94, 0.3);
+  color: #dc2626;
+}
+
+/* Inputs — focus polish on the light surface */
+.submit-reason-page[data-theme="light"] .reason-group input:focus,
+.submit-reason-page[data-theme="light"] .reason-group textarea:focus {
+  background: #ffffff;
+  border-color: rgba(14, 165, 160, 0.4);
+  box-shadow: 0 0 0 3px rgba(14, 165, 160, 0.12);
+}
+
+.submit-reason-page[data-theme="light"] .reason-group input:hover:not(:focus),
+.submit-reason-page[data-theme="light"] .reason-group textarea:hover:not(:focus) {
+  border-color: rgba(14, 165, 160, 0.25);
+}

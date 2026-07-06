@@ -333,3 +333,98 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.acsctrl__page[data-theme="light"] {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+/* Grid overlay — dark lines (white .015 vanishes on white) */
+.acsctrl__page[data-theme="light"] .acsctrl__grid-bg {
+    background-image:
+        linear-gradient(rgba(15, 23, 42, .025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, .025) 1px, transparent 1px);
+}
+
+/* Orbs — drop opacity so they stay subtle on white */
+.acsctrl__page[data-theme="light"] .acsctrl__orb {
+    opacity: 0.12;
+}
+
+/* Back button */
+.acsctrl__page[data-theme="light"] .acsctrl__back {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, .12);
+    color: #1e293b;
+}
+
+.acsctrl__page[data-theme="light"] .acsctrl__back:hover {
+    background: rgba(59, 130, 246, .08);
+    border-color: rgba(59, 130, 246, .4);
+}
+
+/* Messages — darker text on light tint */
+.acsctrl__page[data-theme="light"] .acsctrl__msg--success {
+    background: rgba(45, 206, 137, .1);
+    border-color: rgba(45, 206, 137, .35);
+    color: #15803d;
+}
+
+.acsctrl__page[data-theme="light"] .acsctrl__msg--error {
+    background: rgba(239, 68, 68, .1);
+    border-color: rgba(239, 68, 68, .35);
+    color: #dc2626;
+}
+
+/* Cards */
+.acsctrl__page[data-theme="light"] .acsctrl__card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, .08);
+    box-shadow: 0 2px 12px rgba(15, 23, 42, .05);
+}
+
+.acsctrl__page[data-theme="light"] .acsctrl__card:hover {
+    border-color: rgba(59, 130, 246, .3);
+}
+
+/* Page path (card head) */
+.acsctrl__page[data-theme="light"] .acsctrl__page-path {
+    color: #64748b;
+}
+
+/* Segment toggle buttons */
+.acsctrl__page[data-theme="light"] .acsctrl__seg-btn {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, .12);
+    color: #64748b;
+}
+
+.acsctrl__page[data-theme="light"] .acsctrl__seg-btn--active {
+    background: rgba(59, 130, 246, .12);
+    border-color: rgba(59, 130, 246, .5);
+    color: #2563eb;
+}
+
+/* Admin chips */
+.acsctrl__page[data-theme="light"] .acsctrl__chip {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, .1);
+}
+
+.acsctrl__page[data-theme="light"] .acsctrl__chip--on {
+    background: rgba(45, 206, 137, .1);
+    border-color: rgba(45, 206, 137, .4);
+}
+
+.acsctrl__page[data-theme="light"] .acsctrl__chip-id {
+    color: #64748b;
+}
+
+/* Loader ring — white track is invisible on light */
+.acsctrl__page[data-theme="light"] .acsctrl__ring {
+    border-color: rgba(15, 23, 42, .1);
+    border-top-color: #3b82f6;
+}

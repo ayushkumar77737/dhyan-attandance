@@ -336,3 +336,84 @@
     padding: 11px 13px;
   }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+
+/* Token overrides — the vars are defined at :root, but every element
+   that reads them lives inside .edit-container, so scoping here flips
+   the whole subtree. */
+.edit-container[data-theme="light"] {
+  --bg-deep: #f1f5f9;
+  --bg-mid: #ffffff;
+  --card-bg: #ffffff;
+  --card-border: rgba(15, 23, 42, 0.08);
+  --text-primary: #1e293b;
+  --text-muted: #64748b;
+  --input-bg: #f8fafc;
+  --input-border: rgba(15, 23, 42, 0.14);
+}
+
+/* Background grid — dark lines (white 0.015 vanishes), tints kept soft */
+.edit-container[data-theme="light"] {
+  background-image:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(79, 142, 247, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 90%, rgba(167, 139, 250, 0.07) 0%, transparent 55%),
+    repeating-linear-gradient(0deg, transparent, transparent 60px,
+      rgba(15, 23, 42, 0.025) 60px, rgba(15, 23, 42, 0.025) 61px),
+    repeating-linear-gradient(90deg, transparent, transparent 60px,
+      rgba(15, 23, 42, 0.025) 60px, rgba(15, 23, 42, 0.025) 61px);
+}
+
+/* Orb blobs (::before / ::after) — drop opacity so they stay subtle */
+.edit-container[data-theme="light"]::before,
+.edit-container[data-theme="light"]::after {
+  opacity: 0.1;
+}
+
+/* Back button — white-tint bg is invisible on white */
+.edit-container[data-theme="light"] .back-btn {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.12);
+  color: #1e293b;
+}
+
+.edit-container[data-theme="light"] .back-btn:hover {
+  background: rgba(79, 142, 247, 0.08);
+  border-color: rgba(79, 142, 247, 0.4);
+  color: #1d4ed8;
+}
+
+/* Card — heavy dark drop shadow is too much on white */
+.edit-container[data-theme="light"] .edit-card {
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+}
+
+/* Message banners — darker text on light tint */
+.edit-container[data-theme="light"] .edit-message.error {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #dc2626;
+}
+
+.edit-container[data-theme="light"] .edit-message.success {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.3);
+  color: #15803d;
+}
+
+/* Inputs — focus/hover/placeholder polish on the light surface */
+.edit-container[data-theme="light"] .edit-card input:focus {
+  background: #ffffff;
+  border-color: rgba(79, 142, 247, 0.5);
+  box-shadow: 0 0 0 3px rgba(79, 142, 247, 0.12);
+}
+
+.edit-container[data-theme="light"] .edit-card input:hover:not(:focus) {
+  border-color: rgba(15, 23, 42, 0.2);
+}
+
+.edit-container[data-theme="light"] .edit-card input::placeholder {
+  color: #94a3b8;
+}

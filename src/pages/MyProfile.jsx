@@ -24,6 +24,7 @@ function MyProfile() {
     });
     const [editLoading, setEditLoading] = useState(false);
     const [profileId, setProfileId] = useState("");
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -152,7 +153,7 @@ function MyProfile() {
     };
 
     return (
-        <div className="mprf__page">
+        <div className="mprf__page" data-theme={theme}>
 
             <button className="mprf__back-btn" onClick={() => navigate("/user-dashboard")}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

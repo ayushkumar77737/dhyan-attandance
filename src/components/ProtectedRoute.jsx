@@ -8,6 +8,7 @@ function ProtectedRoute({ children }) {
     const { t } = useTranslation();
 
     const [user, setUser] = useState(undefined);
+    const isLight = (localStorage.getItem("dashTheme") || "dark") === "light";
 
     useEffect(() => {
 
@@ -28,8 +29,8 @@ function ProtectedRoute({ children }) {
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
-                    background: "#050b1a",
-                    color: "#fff",
+                    background: isLight ? "#f1f5f9" : "#050b1a",
+                    color: isLight ? "#1e293b" : "#fff",
                     gap: "15px"
                 }}
             >
@@ -37,7 +38,7 @@ function ProtectedRoute({ children }) {
                     style={{
                         width: "60px",
                         height: "60px",
-                        border: "4px solid rgba(255,255,255,0.15)",
+                        border: isLight ? "4px solid rgba(15,23,42,0.12)" : "4px solid rgba(255,255,255,0.15)",
                         borderTop: "4px solid #ffd700",
                         borderRadius: "50%",
                         animation: "spin 1s linear infinite"

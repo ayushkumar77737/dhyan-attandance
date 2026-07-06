@@ -20,6 +20,7 @@ function ContactSettings() {
     const [saving, setSaving] = useState(false);
     const [toast, setToast] = useState(null);
     const [errors, setErrors] = useState({});
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -169,7 +170,7 @@ function ContactSettings() {
     };
 
     return (
-        <div className="cset__page">
+        <div className="cset__page" data-theme={theme}>
             <div className="cset__orb cset__orb--1" />
             <div className="cset__orb cset__orb--2" />
             <div className="cset__orb cset__orb--3" />

@@ -24,6 +24,7 @@ function EditAdmin() {
     const [notFound, setNotFound] = useState(false);
     const [msg, setMsg] = useState({ type: "", text: "" });
     const [original, setOriginal] = useState({ name: "", email: "" });
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     const checkAdmin = async () => {
         const currentUser = auth.currentUser;
@@ -149,7 +150,7 @@ function EditAdmin() {
     };
 
     return (
-        <div className="editadmin-container">
+        <div className="editadmin-container" data-theme={theme}>
             <div className="editadmin-header">
                 <div className="editadmin-header-left">
                     <img src={logo} alt="Logo" className="editadmin-logo" />

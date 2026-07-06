@@ -21,6 +21,7 @@ function AccessControl() {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState({ text: "", type: "" });
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     const showMsg = (text, type = "success") => {
         setMessage({ text, type });
@@ -122,7 +123,7 @@ function AccessControl() {
     };
 
     return (
-        <div className="acsctrl__page">
+        <div className="acsctrl__page" data-theme={theme}>
             <div className="acsctrl__orb acsctrl__orb--1" />
             <div className="acsctrl__orb acsctrl__orb--2" />
             <div className="acsctrl__grid-bg" />

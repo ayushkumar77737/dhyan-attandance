@@ -773,3 +773,72 @@
         animation-duration: 0.1s !important;
     }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+
+/* Token overrides — cascade to everything using var(--qv-*).
+   Accent blues/cyans kept vivid; surfaces/text flipped. */
+.qrv2__page[data-theme="light"] {
+    --qv-surface: #ffffff;
+    --qv-surface-2: #f8fafc;
+    --qv-border: rgba(15, 23, 42, 0.08);
+    --qv-border-2: rgba(15, 23, 42, 0.12);
+    --qv-blue-light: #2563eb;
+    --qv-text: #1e293b;
+    --qv-muted: #64748b;
+    --qv-dim: #94a3b8;
+    background:
+        radial-gradient(ellipse 100% 50% at 10% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 40% at 90% 100%, rgba(34, 211, 238, 0.05) 0%, transparent 55%),
+        #f1f5f9;
+}
+
+/* Orbs / mesh / grid overlays — soften on white */
+.qrv2__page[data-theme="light"] .qrv2__orb--1,
+.qrv2__page[data-theme="light"] .qrv2__orb--2,
+.qrv2__page[data-theme="light"] .qrv2__orb--3 {
+    opacity: 0.4;
+}
+
+.qrv2__page[data-theme="light"] .qrv2__grid-overlay {
+    opacity: 0.5;
+}
+
+/* Card — hardcoded dark surface + heavy shadow */
+.qrv2__page[data-theme="light"] .qrv2__card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.1);
+}
+
+/* Title — hardcoded #eaf4ff */
+.qrv2__page[data-theme="light"] .qrv2__title {
+    color: #1e293b;
+}
+
+/* Avatar ring inner disc — matches card, was #06101e */
+.qrv2__page[data-theme="light"] .qrv2__avatar-ring::before {
+    background: #ffffff;
+}
+
+/* Fullscreen overlay — sibling of page, scope on its own root.
+   Kept as a dark scrim (like your other modals), only the inner
+   card + text that were near-black need lightening for contrast. */
+.qrv2__fullscreen[data-theme="light"] .qrv2__fullscreen-card {
+    background: #ffffff;
+    border-color: rgba(34, 211, 238, 0.25);
+    box-shadow: 0 40px 80px rgba(15, 23, 42, 0.3);
+}
+
+.qrv2__fullscreen[data-theme="light"] .qrv2__fullscreen-name {
+    color: #1e293b;
+    text-shadow: none;
+}
+
+.qrv2__fullscreen[data-theme="light"] .qrv2__fullscreen-close {
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.12);
+    color: #64748b;
+}

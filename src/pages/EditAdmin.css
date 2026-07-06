@@ -251,3 +251,51 @@
         padding: 22px 18px;
     }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+
+/* Token overrides — every element reads var(--ad-*), so setting these
+   on the container flips the whole page. */
+.editadmin-container[data-theme="light"] {
+    --ad-bg: #f1f5f9;
+    --ad-bg-card: #ffffff;
+    --ad-bg-stat: #f8fafc;
+    --ad-text-primary: #1e293b;
+    --ad-text-secondary: #64748b;
+    --ad-border: rgba(15, 23, 42, 0.08);
+    --ad-border-strong: rgba(15, 23, 42, 0.12);
+    --ad-border-blue: rgba(59, 130, 246, 0.35);
+    --ad-blue-subtle: rgba(59, 130, 246, 0.08);
+    --ad-shadow-card: 0 4px 24px rgba(15, 23, 42, 0.08);
+    --ad-shadow-glow-blue: 0 0 20px rgba(59, 130, 246, 0.15);
+    --ad-red-glow: rgba(239, 68, 68, 0.1);
+}
+
+/* Background grid — dark lines (white 0.015 vanishes on white) */
+.editadmin-container[data-theme="light"] {
+    background-image:
+        radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.04) 0%, transparent 60%),
+        linear-gradient(rgba(15, 23, 42, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.025) 1px, transparent 1px);
+}
+
+/* Message banners — darker text for contrast on white */
+.editadmin-container[data-theme="light"] .editadmin-msg--success {
+    color: #15803d;
+    background: rgba(45, 206, 137, 0.1);
+    border-color: rgba(45, 206, 137, 0.35);
+}
+
+.editadmin-container[data-theme="light"] .editadmin-msg--error {
+    color: #dc2626;
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.35);
+}
+
+.editadmin-container[data-theme="light"] .editadmin-msg--info {
+    color: #b45309;
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.35);
+}

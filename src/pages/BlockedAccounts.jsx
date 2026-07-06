@@ -29,6 +29,7 @@ const BlockedAccounts = () => {
     const [deletingAll, setDeletingAll] = useState(false);
     const [confirmDeleteAll, setConfirmDeleteAll] = useState(false);
     const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -240,7 +241,7 @@ const BlockedAccounts = () => {
     };
 
     return (
-        <div className="ba-wrapper">
+        <div className="ba-wrapper" data-theme={theme}>
             <div className="ba-orb ba-orb--1" />
             <div className="ba-orb ba-orb--2" />
             <div className="ba-orb ba-orb--3" />

@@ -28,6 +28,7 @@ function SubmitReason() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [type, setType] = useState("");
+  const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -159,7 +160,7 @@ function SubmitReason() {
   };
 
   return (
-    <div className="submit-reason-page">
+    <div className="submit-reason-page" data-theme={theme}>
 
       <button
         className="reason-back-btn"

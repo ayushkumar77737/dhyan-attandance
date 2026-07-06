@@ -525,3 +525,70 @@
     font-size: 12px;
   }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+
+/* Token overrides — the --du-* vars are defined at :root, but every
+   element that reads them lives inside .deleted-container, so scoping
+   the overrides here flips the whole subtree. */
+.deleted-container[data-theme="light"] {
+  --du-navy: #f1f5f9;
+  /* page background */
+  --du-mid: #f8fafc;
+  /* row bg — kept off-white vs the white card */
+  --du-card: #ffffff;
+  /* card */
+  --du-row: #eef2f7;
+  /* row hover */
+  --du-accent: #dc2626;
+  /* red — darkened for contrast on white */
+  --du-border: rgba(220, 38, 38, 0.18);
+  --du-white: #1e293b;
+  /* primary text */
+  --du-muted: #64748b;
+}
+
+/* Orbs — soften on light background */
+.deleted-container[data-theme="light"] .du-orb-1 {
+  background: radial-gradient(circle, rgba(248, 113, 113, 0.07), transparent 70%);
+}
+
+.deleted-container[data-theme="light"] .du-orb-2 {
+  background: radial-gradient(circle, rgba(79, 209, 197, 0.06), transparent 70%);
+}
+
+.deleted-container[data-theme="light"] .du-orb-3 {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.05), transparent 70%);
+}
+
+/* Stat pill — white-tint bg is invisible on white */
+.deleted-container[data-theme="light"] .du-stat-pill {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.05);
+}
+
+.deleted-container[data-theme="light"] .du-stat-pill:hover {
+  background: rgba(220, 38, 38, 0.05);
+  border-color: rgba(220, 38, 38, 0.22);
+}
+
+/* Card — heavy dark drop shadow is too much on white */
+.deleted-container[data-theme="light"] .deleted-card {
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+}
+
+.deleted-container[data-theme="light"] .deleted-card:hover {
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.1);
+}
+
+/* Rows — off-white on the white card needs a faint lift + softened hover */
+.deleted-container[data-theme="light"] .deleted-table tbody tr {
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.deleted-container[data-theme="light"] .deleted-table tbody tr:hover {
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.1), -3px 0 0 var(--du-accent);
+}

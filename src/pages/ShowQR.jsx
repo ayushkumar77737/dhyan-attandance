@@ -17,6 +17,7 @@ function ShowQR() {
     const [fullscreen, setFullscreen] = useState(false);
     const [copied, setCopied] = useState(false);
     const [downloading, setDownloading] = useState(false);
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const [particles] = useState(
         Array.from({ length: 20 }, (_, i) => ({
             id: i,
@@ -125,7 +126,7 @@ function ShowQR() {
 
     return (
         <>
-            <div className="qrv2__page">
+            <div className="qrv2__page" data-theme={theme}>
                 <div className="qrv2__bg-mesh" />
                 <div className="qrv2__orb qrv2__orb--1" />
                 <div className="qrv2__orb qrv2__orb--2" />
@@ -269,7 +270,7 @@ function ShowQR() {
             </div>
 
             {fullscreen && (
-                <div className="qrv2__fullscreen" onClick={() => setFullscreen(false)}>
+                <div className="qrv2__fullscreen" data-theme={theme} onClick={() => setFullscreen(false)}>
                     <div className="qrv2__fullscreen-card" onClick={e => e.stopPropagation()}>
                         <button className="qrv2__fullscreen-close" onClick={() => setFullscreen(false)}>✕</button>
                         <div className="qrv2__fullscreen-user">

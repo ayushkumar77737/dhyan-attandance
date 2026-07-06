@@ -548,3 +548,132 @@
         font-size: 10px;
     }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+
+/* Token overrides — every element reads var(--aplv-*), so setting
+   these on the container flips the whole page. */
+.aplv-container[data-theme="light"] {
+    --aplv-bg: #f1f5f9;
+    --aplv-text-primary: #1e293b;
+    --aplv-text-muted: #64748b;
+    --aplv-text-soft: #475569;
+}
+
+/* Background grid — dark lines (white 0.012 vanishes on white) */
+.aplv-container[data-theme="light"] {
+    background-image:
+        radial-gradient(ellipse 90% 60% at 15% 0%, rgba(14, 165, 160, 0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 90% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 55%),
+        repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(15, 23, 42, 0.025) 80px, rgba(15, 23, 42, 0.025) 81px),
+        repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(15, 23, 42, 0.025) 80px, rgba(15, 23, 42, 0.025) 81px);
+}
+
+/* Sticky topbar — hardcoded dark bg + border */
+.aplv-container[data-theme="light"] .aplv-topbar {
+    background: rgba(241, 245, 249, 0.85);
+    border-bottom-color: rgba(15, 23, 42, 0.06);
+}
+
+.aplv-container[data-theme="light"] .aplv-back-btn {
+    background: #ffffff;
+    border-color: rgba(14, 165, 160, 0.25);
+    color: #0d9488;
+}
+
+.aplv-container[data-theme="light"] .aplv-back-btn:hover {
+    background: rgba(14, 165, 160, 0.08);
+    border-color: rgba(14, 165, 160, 0.45);
+}
+
+/* Form card — teal tint is faint but works; lift border for definition */
+.aplv-container[data-theme="light"] .aplv-card {
+    background: #ffffff;
+    border-color: rgba(14, 165, 160, 0.2);
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.06);
+}
+
+/* Leave-type buttons — near-transparent white bg disappears */
+.aplv-container[data-theme="light"] .aplv-type-btn {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.aplv-container[data-theme="light"] .aplv-type-btn:hover {
+    border-color: rgba(14, 165, 160, 0.4);
+}
+
+.aplv-container[data-theme="light"] .aplv-type-active {
+    background: rgba(14, 165, 160, 0.12);
+    border-color: var(--aplv-teal);
+}
+
+.aplv-container[data-theme="light"] .aplv-type-active .aplv-type-name {
+    color: #0f766e;
+}
+
+/* Date + textarea inputs */
+.aplv-container[data-theme="light"] .aplv-date,
+.aplv-container[data-theme="light"] .aplv-textarea {
+    background: #f8fafc;
+    border-color: rgba(14, 165, 160, 0.25);
+    color-scheme: light;
+}
+
+.aplv-container[data-theme="light"] .aplv-date:hover,
+.aplv-container[data-theme="light"] .aplv-date:focus,
+.aplv-container[data-theme="light"] .aplv-textarea:focus {
+    border-color: var(--aplv-teal);
+    box-shadow: 0 0 0 3px rgba(14, 165, 160, 0.12);
+}
+
+/* Date picker icon — drop the dark-mode invert */
+.aplv-container[data-theme="light"] .aplv-date::-webkit-calendar-picker-indicator {
+    filter: opacity(0.5);
+}
+
+/* Request cards */
+.aplv-container[data-theme="light"] .aplv-req-card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 2px 12px rgba(15, 23, 42, 0.05);
+}
+
+.aplv-container[data-theme="light"] .aplv-req-card:hover {
+    border-color: rgba(14, 165, 160, 0.3);
+    background: #ffffff;
+}
+
+/* Status badges — darker text for contrast on white */
+.aplv-container[data-theme="light"] .aplv-badge-pending {
+    color: #b45309;
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.aplv-container[data-theme="light"] .aplv-badge-approved {
+    color: #047857;
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.aplv-container[data-theme="light"] .aplv-badge-rejected {
+    color: #e11d48;
+    background: rgba(244, 63, 94, 0.1);
+    border-color: rgba(244, 63, 94, 0.3);
+}
+
+/* Toasts — darker text on light tint */
+.aplv-container[data-theme="light"] .aplv-toast-success {
+    background: rgba(16, 185, 129, 0.12);
+    border-color: rgba(16, 185, 129, 0.4);
+    color: #047857;
+}
+
+.aplv-container[data-theme="light"] .aplv-toast-error {
+    background: rgba(244, 63, 94, 0.12);
+    border-color: rgba(244, 63, 94, 0.4);
+    color: #e11d48;
+}

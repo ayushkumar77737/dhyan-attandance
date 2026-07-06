@@ -36,6 +36,7 @@ function DeletedUsers() {
   }, []);
 
   const [users, setUsers] = useState([]);
+  const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
   const navigate = useNavigate();
 
   const checkAdmin = async () => {
@@ -122,7 +123,7 @@ function DeletedUsers() {
   };
 
   return (
-    <div className="deleted-container">
+    <div className="deleted-container" data-theme={theme}>
 
       <div className="du-orb du-orb-1" />
       <div className="du-orb du-orb-2" />
