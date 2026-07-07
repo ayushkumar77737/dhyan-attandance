@@ -28,6 +28,7 @@ function TicketingSupport() {
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ text: "", type: "" });
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     const [form, setForm] = useState({
         name: "",
@@ -233,7 +234,7 @@ function TicketingSupport() {
     };
 
     return (
-        <div className="tsp__page">
+        <div className="tsp__page" data-theme={theme}>
 
             <div className="tsp__orb tsp__orb--1" />
             <div className="tsp__orb tsp__orb--2" />
@@ -271,7 +272,7 @@ function TicketingSupport() {
                     </div>
                     <div className="tsp__stat-divider" />
                     <div className="tsp__stat-item">
-                        <span className="tsp__stat-num" style={{ color: "#60a5fa" }}>
+                        <span className="tsp__stat-num tsp__stat--inprogress">
                             {tickets.filter(tk => tk.status === "In Progress").length}
                         </span>
                         <span className="tsp__stat-label">In Progress</span>

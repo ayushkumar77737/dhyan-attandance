@@ -80,6 +80,7 @@ function MyActivity() {
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState("all");
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -182,7 +183,7 @@ function MyActivity() {
     };
 
     return (
-        <div className="myactv__page">
+        <div className="myactv__page" data-theme={theme}>
             <div className="myactv__orb myactv__orb--1" />
             <div className="myactv__orb myactv__orb--2" />
 

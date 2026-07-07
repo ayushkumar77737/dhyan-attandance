@@ -345,3 +345,111 @@
         width: 100%;
     }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.myattn__container[data-theme="light"] {
+    background: #f1f5f9;
+    color: #1e293b;
+    background-image:
+        radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.05) 0%, transparent 60%),
+        linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
+    background-size: 100% 100%, 44px 44px, 44px 44px;
+}
+
+/* Back button — dark navy bg wrong on white */
+.myattn__container[data-theme="light"] .myattn__back-btn {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.12);
+    color: #1e293b;
+}
+
+.myattn__container[data-theme="light"] .myattn__back-btn:hover {
+    border-color: #2563eb;
+    color: #2563eb;
+}
+
+/* Title */
+.myattn__container[data-theme="light"] .myattn__title {
+    color: #1e293b;
+}
+
+/* Stat cards — navy bg + heavy dark shadow wrong on white */
+.myattn__container[data-theme="light"] .myattn__stat {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+}
+
+/* Stat values — pale tones darkened for readability on white */
+.myattn__container[data-theme="light"] .myattn__stat--pct .myattn__stat-val {
+    color: #059669;
+}
+
+.myattn__container[data-theme="light"] .myattn__stat--present .myattn__stat-val {
+    color: #1d4ed8;
+}
+
+.myattn__container[data-theme="light"] .myattn__stat--absent .myattn__stat-val {
+    color: #dc2626;
+}
+
+.myattn__container[data-theme="light"] .myattn__stat--total .myattn__stat-val {
+    color: #b45309;
+}
+
+/* Month select — navy bg wrong on white */
+.myattn__container[data-theme="light"] .myattn__select {
+    background-color: #ffffff;
+    border-color: rgba(15, 23, 42, 0.12);
+    color: #1e293b;
+}
+
+.myattn__container[data-theme="light"] .myattn__select:hover,
+.myattn__container[data-theme="light"] .myattn__select:focus {
+    border-color: #2563eb;
+}
+
+.myattn__container[data-theme="light"] .myattn__select option {
+    background: #ffffff;
+    color: #1e293b;
+}
+
+/* Table */
+.myattn__container[data-theme="light"] .myattn__table-wrap {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+.myattn__container[data-theme="light"] .myattn__table thead th {
+    background: #f8fafc;
+    border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+
+.myattn__container[data-theme="light"] .myattn__table tbody td {
+    color: #1e293b;
+    border-bottom-color: rgba(15, 23, 42, 0.06);
+}
+
+.myattn__container[data-theme="light"] .myattn__table tbody tr:hover {
+    background: rgba(59, 130, 246, 0.05);
+}
+
+/* Badges — darker readable tones on light tints */
+.myattn__container[data-theme="light"] .myattn__badge--present {
+    background: rgba(45, 206, 137, 0.12);
+    color: #059669;
+}
+
+.myattn__container[data-theme="light"] .myattn__badge--absent {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+}
+
+/* Spinner — white-based track invisible on white */
+.myattn__container[data-theme="light"] .myattn__spinner {
+    border-color: rgba(15, 23, 42, 0.1);
+    border-top-color: #2563eb;
+}

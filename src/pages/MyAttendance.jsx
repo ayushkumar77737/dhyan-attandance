@@ -34,7 +34,8 @@ function MyAttendance() {
     const [userId, setUserId] = useState("");
     const [records, setRecords] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [month, setMonth] = useState("all"); // "all" or "YYYY-MM"
+    const [month, setMonth] = useState("all");
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark"); 
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -111,7 +112,7 @@ function MyAttendance() {
     };
 
     return (
-        <div className="myattn__container">
+        <div className="myattn__container" data-theme={theme}>
             <div className="myattn__header">
                 <div className="myattn__header-left">
                     <button className="myattn__back-btn" onClick={() => navigate("/user-dashboard")}>

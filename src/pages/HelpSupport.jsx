@@ -12,6 +12,7 @@ const HelpSupport = () => {
     const [copiedKey, setCopiedKey] = useState(null);
     const [contactData, setContactData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -131,7 +132,7 @@ const HelpSupport = () => {
             ? contactData.ashramAddress
             : "#";
     return (
-        <div className="helpsup__wrapper">
+        <div className="helpsup__wrapper" data-theme={theme}>
             <div className="helpsup__orb helpsup__orb--1" />
             <div className="helpsup__orb helpsup__orb--2" />
             <div className="helpsup__orb helpsup__orb--3" />

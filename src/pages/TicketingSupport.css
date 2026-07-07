@@ -788,3 +788,261 @@
     color: #5eead4;
     transform: translateY(-1px);
 }
+
+/* Keeps In Progress stat blue in dark mode (after removing inline style) */
+.tsp__stat--inprogress {
+    color: #60a5fa;
+}
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.tsp__page[data-theme="light"] {
+    background: #f1f5f9;
+}
+
+/* Grid overlay — white-based lines invisible on white */
+.tsp__page[data-theme="light"] .tsp__grid-overlay {
+    background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 70px,
+            rgba(15, 23, 42, 0.025) 70px, rgba(15, 23, 42, 0.025) 71px),
+        repeating-linear-gradient(90deg, transparent, transparent 70px,
+            rgba(15, 23, 42, 0.025) 70px, rgba(15, 23, 42, 0.025) 71px);
+}
+
+/* Orbs — soften so they don't wash out the light bg */
+.tsp__page[data-theme="light"] .tsp__orb--1 {
+    background: radial-gradient(circle, rgba(14, 165, 160, 0.1), transparent 70%);
+}
+
+.tsp__page[data-theme="light"] .tsp__orb--2 {
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.08), transparent 70%);
+}
+
+.tsp__page[data-theme="light"] .tsp__orb--3 {
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.06), transparent 70%);
+}
+
+/* Back button — white-tint bg is invisible on white */
+.tsp__page[data-theme="light"] .tsp__back-btn {
+    background: #ffffff;
+    border-color: rgba(14, 165, 160, 0.3);
+    color: #0d9488;
+}
+
+.tsp__page[data-theme="light"] .tsp__back-btn:hover {
+    background: rgba(14, 165, 160, 0.08);
+    border-color: rgba(14, 165, 160, 0.45);
+    color: #0f766e;
+}
+
+/* Hero */
+.tsp__page[data-theme="light"] .tsp__hero-title {
+    color: #1e293b;
+}
+
+.tsp__page[data-theme="light"] .tsp__hero-sub {
+    color: #64748b;
+}
+
+/* Action bar — near-transparent white bg disappears on white */
+.tsp__page[data-theme="light"] .tsp__action-bar {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+}
+
+.tsp__page[data-theme="light"] .tsp__stat-num {
+    color: #1e293b;
+}
+
+.tsp__page[data-theme="light"] .tsp__stat--pending {
+    color: #b45309;
+}
+
+.tsp__page[data-theme="light"] .tsp__stat--inprogress {
+    color: #1d4ed8;
+}
+
+.tsp__page[data-theme="light"] .tsp__stat--resolved {
+    color: #047857;
+}
+
+.tsp__page[data-theme="light"] .tsp__stat-label {
+    color: #64748b;
+}
+
+.tsp__page[data-theme="light"] .tsp__stat-divider {
+    background: rgba(15, 23, 42, 0.1);
+}
+
+/* Messages — pale text unreadable on white */
+.tsp__page[data-theme="light"] .tsp__message--success {
+    background: rgba(34, 197, 94, 0.08);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #047857;
+    box-shadow: none;
+}
+
+.tsp__page[data-theme="light"] .tsp__message--error {
+    background: rgba(239, 68, 68, 0.07);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #dc2626;
+    box-shadow: none;
+}
+
+/* Empty state */
+.tsp__page[data-theme="light"] .tsp__empty {
+    background: #ffffff;
+    border-color: rgba(14, 165, 160, 0.25);
+}
+
+.tsp__page[data-theme="light"] .tsp__empty-title {
+    color: #1e293b;
+}
+
+.tsp__page[data-theme="light"] .tsp__empty-sub {
+    color: #64748b;
+}
+
+/* Ticket cards */
+.tsp__page[data-theme="light"] .tsp__ticket-card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+}
+
+.tsp__page[data-theme="light"] .tsp__ticket-card:hover {
+    background: #ffffff;
+    border-color: rgba(14, 165, 160, 0.3);
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.1);
+}
+
+.tsp__page[data-theme="light"] .tsp__ticket-id-chip {
+    background: rgba(14, 165, 160, 0.08);
+    border-color: rgba(14, 165, 160, 0.3);
+    color: #0d9488;
+}
+
+.tsp__page[data-theme="light"] .tsp__ticket-name {
+    color: #1e293b;
+}
+
+.tsp__page[data-theme="light"] .tsp__ticket-issue {
+    color: #334155;
+}
+
+.tsp__page[data-theme="light"] .tsp__ticket-email {
+    color: #64748b;
+}
+
+.tsp__page[data-theme="light"] .tsp__ticket-date {
+    color: #64748b;
+}
+
+/* Status chips — darker readable tones */
+.tsp__page[data-theme="light"] .tsp__ticket-status--pending {
+    background: rgba(234, 179, 8, 0.12);
+    border-color: rgba(234, 179, 8, 0.35);
+    color: #b45309;
+}
+
+.tsp__page[data-theme="light"] .tsp__ticket-status--inprogress {
+    background: rgba(96, 165, 250, 0.1);
+    border-color: rgba(96, 165, 250, 0.35);
+    color: #1d4ed8;
+}
+
+.tsp__page[data-theme="light"] .tsp__ticket-status--resolved {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.35);
+    color: #047857;
+}
+
+/* Edit button */
+.tsp__page[data-theme="light"] .tsp__edit-btn {
+    background: rgba(14, 165, 160, 0.08);
+    border-color: rgba(14, 165, 160, 0.3);
+    color: #0d9488;
+}
+
+.tsp__page[data-theme="light"] .tsp__edit-btn:hover {
+    background: rgba(14, 165, 160, 0.15);
+    border-color: rgba(14, 165, 160, 0.5);
+    color: #0f766e;
+}
+
+/* Modals (inline, covered by container attribute) */
+.tsp__page[data-theme="light"] .tsp__modal-overlay {
+    background: rgba(15, 23, 42, 0.4);
+}
+
+.tsp__page[data-theme="light"] .tsp__modal {
+    background: #ffffff;
+    border-color: rgba(14, 165, 160, 0.2);
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+}
+
+.tsp__page[data-theme="light"] .tsp__modal-title {
+    color: #1e293b;
+}
+
+.tsp__page[data-theme="light"] .tsp__modal-close {
+    background: rgba(15, 23, 42, 0.05);
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #64748b;
+}
+
+.tsp__page[data-theme="light"] .tsp__modal-close:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #dc2626;
+}
+
+.tsp__page[data-theme="light"] .tsp__field-label {
+    color: #64748b;
+}
+
+.tsp__page[data-theme="light"] .tsp__field-input,
+.tsp__page[data-theme="light"] .tsp__field-textarea {
+    background: #f8fafc;
+    border-color: rgba(15, 23, 42, 0.14);
+    color: #1e293b;
+}
+
+.tsp__page[data-theme="light"] .tsp__field-input::placeholder,
+.tsp__page[data-theme="light"] .tsp__field-textarea::placeholder {
+    color: #94a3b8;
+}
+
+.tsp__page[data-theme="light"] .tsp__field-input:focus,
+.tsp__page[data-theme="light"] .tsp__field-textarea:focus {
+    background: #ffffff;
+    border-color: rgba(14, 165, 160, 0.5);
+    box-shadow: 0 0 0 3px rgba(14, 165, 160, 0.1);
+}
+
+.tsp__page[data-theme="light"] .tsp__field-input:disabled {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.tsp__page[data-theme="light"] .tsp__field-error {
+    color: #dc2626;
+}
+
+.tsp__page[data-theme="light"] .tsp__modal-cancel-btn {
+    background: #f1f5f9;
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #64748b;
+}
+
+.tsp__page[data-theme="light"] .tsp__modal-cancel-btn:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.tsp__page[data-theme="light"] .tsp__modal-submit-btn:disabled {
+    background: #e2e8f0;
+    color: #94a3b8;
+}

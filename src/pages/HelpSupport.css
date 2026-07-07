@@ -678,3 +678,183 @@
         grid-template-columns: 1fr 1fr;
     }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.helpsup__wrapper[data-theme="light"] {
+    background: #f1f5f9;
+}
+
+/* Grid lines (on ::before) — teal-tint too faint, darken slightly */
+.helpsup__wrapper[data-theme="light"]::before {
+    background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 70px,
+            rgba(15, 23, 42, 0.025) 70px, rgba(15, 23, 42, 0.025) 71px),
+        repeating-linear-gradient(90deg, transparent, transparent 70px,
+            rgba(15, 23, 42, 0.025) 70px, rgba(15, 23, 42, 0.025) 71px);
+}
+
+/* Orbs — soften so they don't wash out the light bg */
+.helpsup__wrapper[data-theme="light"] .helpsup__orb--1 {
+    background: radial-gradient(circle, rgba(14, 165, 160, 0.1), transparent 70%);
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__orb--2 {
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.08), transparent 70%);
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__orb--3 {
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.06), transparent 70%);
+}
+
+/* Back button — white-tint bg is invisible on white */
+.helpsup__wrapper[data-theme="light"] .helpsup__back-btn {
+    background: #ffffff;
+    border-color: rgba(14, 165, 160, 0.3);
+    color: #0d9488;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__back-btn:hover {
+    background: rgba(14, 165, 160, 0.08);
+    border-color: rgba(14, 165, 160, 0.45);
+    color: #0f766e;
+}
+
+/* Header */
+.helpsup__wrapper[data-theme="light"] .helpsup__title {
+    color: #1e293b;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__subtitle {
+    color: #64748b;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__section-title {
+    color: #64748b;
+}
+
+/* Contact cards — near-transparent white bg disappears on white */
+.helpsup__wrapper[data-theme="light"] .helpsup__card {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__card:hover {
+    background: #ffffff;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.1);
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__card-label {
+    color: #64748b;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__card-value {
+    color: #1e293b;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__card-value:hover {
+    color: #0d9488;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__card-value--link {
+    color: #0d9488;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__card-value--link:hover {
+    color: #0f766e;
+}
+
+/* Card icons — pale tones darkened for white bg */
+.helpsup__wrapper[data-theme="light"] .helpsup__card--phone .helpsup__card-icon-wrap svg {
+    stroke: #0d9488;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__card--email .helpsup__card-icon-wrap svg {
+    stroke: #4f46e5;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__card--telegram .helpsup__card-icon-wrap svg {
+    fill: #0284c7;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__card--location .helpsup__card-icon-wrap svg {
+    stroke: #dc2626;
+}
+
+/* Copy / open buttons */
+.helpsup__wrapper[data-theme="light"] .helpsup__copy-btn,
+.helpsup__wrapper[data-theme="light"] .helpsup__open-btn {
+    background: rgba(15, 23, 42, 0.04);
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #64748b;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__copy-btn:hover {
+    background: rgba(14, 165, 160, 0.1);
+    border-color: rgba(14, 165, 160, 0.35);
+    color: #0d9488;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__open-btn:hover {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: rgba(99, 102, 241, 0.35);
+    color: #4f46e5;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__copy-btn--copied {
+    background: rgba(34, 197, 94, 0.1) !important;
+    border-color: rgba(34, 197, 94, 0.35) !important;
+    color: #047857 !important;
+}
+
+/* FAQ */
+.helpsup__wrapper[data-theme="light"] .helpsup__faq-item {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__faq-item:hover {
+    border-color: rgba(14, 165, 160, 0.3);
+    background: #ffffff;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__faq-item--open {
+    border-color: rgba(14, 165, 160, 0.4);
+    background: #ffffff;
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.08);
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__faq-question {
+    color: #1e293b;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__faq-question:hover {
+    background: rgba(14, 165, 160, 0.05);
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__faq-chevron {
+    color: #0d9488;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__faq-answer p {
+    color: #334155;
+    border-top-color: rgba(15, 23, 42, 0.08);
+}
+
+/* Footer note */
+.helpsup__wrapper[data-theme="light"] .helpsup__footer-note {
+    background: rgba(14, 165, 160, 0.05);
+    border-color: rgba(14, 165, 160, 0.3);
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__footer-note p {
+    color: #0d9488;
+}
+
+/* No data */
+.helpsup__wrapper[data-theme="light"] .helpsup__no-data {
+    color: #64748b;
+}

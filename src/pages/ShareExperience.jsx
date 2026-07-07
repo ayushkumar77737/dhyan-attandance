@@ -32,6 +32,7 @@ function ShareExperience() {
     const [checkingSubmission, setCheckingSubmission] = useState(true);
     const [message, setMessage] = useState({ text: "", type: "" });
     const [particles, setParticles] = useState([]);
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     useEffect(() => {
         const p = Array.from({ length: 22 }, (_, i) => ({
@@ -197,7 +198,7 @@ function ShareExperience() {
 
     if (checkingSubmission) {
         return (
-            <div className="shrexp__page">
+            <div className="shrexp__page" data-theme={theme}>
                 <div className="shrexp__orb shrexp__orb--1" />
                 <div className="shrexp__orb shrexp__orb--2" />
                 <div className="shrexp__loader-screen">
@@ -212,7 +213,7 @@ function ShareExperience() {
 
     if (submitted) {
         return (
-            <div className="shrexp__page">
+            <div className="shrexp__page" data-theme={theme}>
                 <Particles />
                 <div className="shrexp__orb shrexp__orb--1" />
                 <div className="shrexp__orb shrexp__orb--2" />
@@ -237,7 +238,7 @@ function ShareExperience() {
 
     if (alreadySubmitted) {
         return (
-            <div className="shrexp__page">
+            <div className="shrexp__page" data-theme={theme}>
                 <div className="shrexp__orb shrexp__orb--1" />
                 <div className="shrexp__orb shrexp__orb--2" />
                 <div className="shrexp__fullscreen">
@@ -254,7 +255,7 @@ function ShareExperience() {
     }
 
     return (
-        <div className="shrexp__page">
+        <div className="shrexp__page" data-theme={theme}>
 
             <Particles />
             <div className="shrexp__orb shrexp__orb--1" />

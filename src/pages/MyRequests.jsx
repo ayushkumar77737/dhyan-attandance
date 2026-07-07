@@ -42,6 +42,7 @@ function MyRequests() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editItem, setEditItem] = useState(null);
   const [editReason, setEditReason] = useState("");
+  const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -138,7 +139,7 @@ function MyRequests() {
   };
 
   return (
-    <div className="my-requests-page">
+    <div className="my-requests-page" data-theme={theme}>
 
       <button
         className="myreq-back-btn"

@@ -20,6 +20,7 @@ function MyNotifications() {
     const { t } = useTranslation();
     const [notifications, setNotifications] = useState([]);
     const navigate = useNavigate();
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -111,7 +112,7 @@ function MyNotifications() {
     }, []);
 
     return (
-        <div className="my-notifications-page">
+        <div className="my-notifications-page" data-theme={theme}>
 
             <button
                 onClick={() => navigate("/user-dashboard")}

@@ -14,6 +14,7 @@ function Directory() {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [filterRole, setFilterRole] = useState("all");
+    const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -119,7 +120,7 @@ function Directory() {
     };
 
     return (
-        <div className="diry__page">
+        <div className="diry__page" data-theme={theme}>
 
             <div className="diry__orb diry__orb-1" />
             <div className="diry__orb diry__orb-2" />

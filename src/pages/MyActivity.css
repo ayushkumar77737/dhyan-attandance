@@ -519,3 +519,132 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+/* Variables are scoped on .myactv__page, so redefining them flips
+   cards, text, title, stats, and timeline automatically.
+   Accent colors darkened for readability on white */
+.myactv__page[data-theme="light"] {
+    --myactv-bg: #f1f5f9;
+    --myactv-card: #ffffff;
+    --myactv-border: rgba(15, 23, 42, 0.08);
+    --myactv-teal: #0ea5a0;
+    --myactv-teal-light: #0d9488;
+    --myactv-green: #047857;
+    --myactv-red: #be123c;
+    --myactv-amber: #b45309;
+    --myactv-purple: #6d28d9;
+    --myactv-text: #1e293b;
+    --myactv-text-dim: #334155;
+    --myactv-text-mute: #64748b;
+
+    background-color: var(--myactv-bg);
+    background-image:
+        radial-gradient(ellipse 90% 60% at 15% 0%, rgba(14, 165, 160, 0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 90% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 55%),
+        repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(15, 23, 42, 0.025) 80px, rgba(15, 23, 42, 0.025) 81px),
+        repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(15, 23, 42, 0.025) 80px, rgba(15, 23, 42, 0.025) 81px);
+}
+
+/* Orbs — soften on light bg */
+.myactv__page[data-theme="light"] .myactv__orb--1 {
+    background: radial-gradient(circle, rgba(14, 165, 160, 0.08), transparent 70%);
+}
+
+.myactv__page[data-theme="light"] .myactv__orb--2 {
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.06), transparent 70%);
+}
+
+/* Back button — teal-tint bg invisible on white */
+.myactv__page[data-theme="light"] .myactv__back {
+    background: #ffffff;
+    border-color: rgba(14, 165, 160, 0.3);
+    color: #0d9488;
+}
+
+.myactv__page[data-theme="light"] .myactv__back:hover {
+    background: rgba(14, 165, 160, 0.08);
+    border-color: rgba(14, 165, 160, 0.45);
+}
+
+/* Stat icons — light tints behind darkened colors */
+.myactv__page[data-theme="light"] .myactv__stat-icon--teal {
+    background: rgba(14, 165, 160, 0.1);
+}
+
+.myactv__page[data-theme="light"] .myactv__stat-icon--green {
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.myactv__page[data-theme="light"] .myactv__stat-icon--amber {
+    background: rgba(245, 158, 11, 0.12);
+}
+
+.myactv__page[data-theme="light"] .myactv__stat-icon--purple {
+    background: rgba(124, 58, 237, 0.1);
+}
+
+/* Filter buttons — white-tint bg disappears on white */
+.myactv__page[data-theme="light"] .myactv__filter-btn {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.1);
+}
+
+.myactv__page[data-theme="light"] .myactv__filter-btn:hover {
+    border-color: rgba(14, 165, 160, 0.4);
+    color: #0d9488;
+}
+
+.myactv__page[data-theme="light"] .myactv__filter-btn--active {
+    background: rgba(14, 165, 160, 0.1);
+    border-color: rgba(14, 165, 160, 0.5);
+    color: #0d9488;
+}
+
+/* Feed card — heavy dark shadow too much on white */
+.myactv__page[data-theme="light"] .myactv__feed-card {
+    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+}
+
+/* Timeline items — white-based hover/borders invisible on white */
+.myactv__page[data-theme="light"] .myactv__item:hover {
+    background: rgba(14, 165, 160, 0.04);
+}
+
+.myactv__page[data-theme="light"] .myactv__item:not(:last-child) {
+    border-bottom-color: rgba(15, 23, 42, 0.06);
+}
+
+/* Item icons — light tints behind darkened colors */
+.myactv__page[data-theme="light"] .myactv__item-icon--attendance {
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.myactv__page[data-theme="light"] .myactv__item-icon--leave {
+    background: rgba(245, 158, 11, 0.12);
+}
+
+.myactv__page[data-theme="light"] .myactv__item-icon--ticket {
+    background: rgba(124, 58, 237, 0.1);
+}
+
+/* Loader ring — white-based track invisible on white */
+.myactv__page[data-theme="light"] .myactv__ring {
+    border-color: rgba(15, 23, 42, 0.1);
+    border-top-color: var(--myactv-teal);
+}
+
+/* Status dots — light tint backgrounds */
+.myactv__page[data-theme="light"] .myactv__dot-green {
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.myactv__page[data-theme="light"] .myactv__dot-red {
+    background: rgba(244, 63, 94, 0.1);
+}
+
+.myactv__page[data-theme="light"] .myactv__dot-amber {
+    background: rgba(245, 158, 11, 0.12);
+}

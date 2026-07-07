@@ -837,3 +837,97 @@
         font-size: 52px;
     }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+/* Variables are scoped on .shrexp__page, so redefining them flips
+   most of the page. Gold is darkened for readability on light bg */
+.shrexp__page[data-theme="light"] {
+    --shrexp-gold: #9a7a1e;
+    --shrexp-gold-lt: #7c611a;
+    --shrexp-gold-dim: rgba(154, 122, 30, 0.1);
+    --shrexp-gold-glow: rgba(154, 122, 30, 0.08);
+    --shrexp-border: rgba(154, 122, 30, 0.28);
+    --shrexp-bg: #faf7ef;
+    --shrexp-text: #2b2416;
+    --shrexp-text-dim: #6b5f45;
+    --shrexp-text-muted: #9c9077;
+    --shrexp-rose: rgba(200, 100, 120, 0.12);
+}
+
+/* Grid lines — too faint on light, darken slightly */
+.shrexp__page[data-theme="light"] .shrexp__grid-bg {
+    background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(122, 95, 25, 0.04) 80px, rgba(122, 95, 25, 0.04) 81px),
+        repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(122, 95, 25, 0.04) 80px, rgba(122, 95, 25, 0.04) 81px);
+}
+
+/* Back button — gold-tint bg invisible on light */
+.shrexp__page[data-theme="light"] .shrexp__back-btn {
+    background: #ffffff;
+}
+
+.shrexp__page[data-theme="light"] .shrexp__back-btn:hover {
+    background: rgba(154, 122, 30, 0.08);
+}
+
+/* Card — near-transparent white bg + heavy dark shadow too much on white */
+.shrexp__page[data-theme="light"] .shrexp__card {
+    background: #ffffff;
+    box-shadow:
+        0 0 0 1px rgba(154, 122, 30, 0.06),
+        0 20px 60px rgba(80, 65, 25, 0.12),
+        inset 0 1px 0 rgba(154, 122, 30, 0.1);
+}
+
+/* Pills — white-tint bg disappears on white */
+.shrexp__page[data-theme="light"] .shrexp__pill {
+    background: rgba(43, 36, 22, 0.04);
+    border-color: rgba(43, 36, 22, 0.1);
+}
+
+.shrexp__page[data-theme="light"] .shrexp__pill:hover {
+    background: rgba(154, 122, 30, 0.09);
+    border-color: rgba(154, 122, 30, 0.3);
+}
+
+.shrexp__page[data-theme="light"] .shrexp__pill--active {
+    background: linear-gradient(135deg, rgba(154, 122, 30, 0.16), rgba(154, 122, 30, 0.07));
+    border-color: rgba(154, 122, 30, 0.5);
+    box-shadow: 0 0 16px rgba(154, 122, 30, 0.1);
+}
+
+/* Unlit stars — white-based color invisible on white */
+.shrexp__page[data-theme="light"] .shrexp__star-btn {
+    color: rgba(43, 36, 22, 0.14);
+}
+
+.shrexp__page[data-theme="light"] .shrexp__star-btn--lit {
+    color: var(--shrexp-gold);
+    filter: drop-shadow(0 0 8px rgba(154, 122, 30, 0.4));
+}
+
+/* Textarea */
+.shrexp__page[data-theme="light"] .shrexp__textarea {
+    background: #faf8f1;
+    border-color: rgba(43, 36, 22, 0.12);
+}
+
+.shrexp__page[data-theme="light"] .shrexp__textarea:focus {
+    background: #ffffff;
+    border-color: rgba(154, 122, 30, 0.4);
+    box-shadow: 0 0 0 3px rgba(154, 122, 30, 0.08);
+}
+
+/* Toast — pale error text unreadable on light */
+.shrexp__page[data-theme="light"] .shrexp__toast--error {
+    background: rgba(220, 70, 70, 0.06);
+    border-color: rgba(220, 70, 70, 0.3);
+    color: #dc2626;
+}
+
+.shrexp__page[data-theme="light"] .shrexp__toast--success {
+    background: rgba(154, 122, 30, 0.06);
+    border-color: rgba(154, 122, 30, 0.3);
+}

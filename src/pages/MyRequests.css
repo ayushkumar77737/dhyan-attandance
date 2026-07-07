@@ -467,3 +467,182 @@
   background: var(--mr-teal-light);
   transform: translateY(-1px);
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.my-requests-page[data-theme="light"] {
+  background-color: #f1f5f9;
+  background-image:
+    radial-gradient(ellipse 70% 50% at 10% 0%, rgba(14, 165, 160, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 55%),
+    repeating-linear-gradient(0deg, transparent, transparent 80px,
+      rgba(15, 23, 42, 0.025) 80px, rgba(15, 23, 42, 0.025) 81px),
+    repeating-linear-gradient(90deg, transparent, transparent 80px,
+      rgba(15, 23, 42, 0.025) 80px, rgba(15, 23, 42, 0.025) 81px);
+}
+
+/* Back button — white-tint bg is invisible on white */
+.my-requests-page[data-theme="light"] .myreq-back-btn {
+  background: #ffffff;
+  border-color: rgba(14, 165, 160, 0.3);
+  color: #0d9488;
+}
+
+.my-requests-page[data-theme="light"] .myreq-back-btn:hover {
+  background: rgba(14, 165, 160, 0.08);
+  border-color: rgba(14, 165, 160, 0.45);
+  color: #0f766e;
+}
+
+/* Card — near-transparent white bg + heavy dark shadow too much on white */
+.my-requests-page[data-theme="light"] .myreq-card {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+}
+
+/* Badge */
+.my-requests-page[data-theme="light"] .myreq-badge {
+  color: #0d9488;
+  background: rgba(14, 165, 160, 0.08);
+  border-color: rgba(14, 165, 160, 0.25);
+}
+
+/* Title + subtitle */
+.my-requests-page[data-theme="light"] .myreq-card h2 {
+  color: #1e293b;
+}
+
+.my-requests-page[data-theme="light"] .myreq-subtitle {
+  color: #64748b;
+}
+
+/* Table */
+.my-requests-page[data-theme="light"] .myreq-table-wrapper {
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+.my-requests-page[data-theme="light"] .myreq-table th {
+  background: rgba(14, 165, 160, 0.07);
+  color: #0d9488;
+  border-bottom-color: rgba(14, 165, 160, 0.2);
+}
+
+.my-requests-page[data-theme="light"] .myreq-table td {
+  color: #334155;
+  border-bottom-color: rgba(15, 23, 42, 0.07);
+}
+
+.my-requests-page[data-theme="light"] .myreq-table tbody tr:hover td {
+  background: rgba(14, 165, 160, 0.05);
+}
+
+.my-requests-page[data-theme="light"] .date-cell,
+.my-requests-page[data-theme="light"] .reason-cell {
+  color: #334155;
+}
+
+/* Status chips — pale text unreadable on white, use darker tones */
+.my-requests-page[data-theme="light"] .status.pending {
+  background: rgba(245, 158, 11, 0.12);
+  color: #b45309;
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+.my-requests-page[data-theme="light"] .status.approved {
+  background: rgba(16, 185, 129, 0.1);
+  color: #047857;
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+.my-requests-page[data-theme="light"] .status.rejected {
+  background: rgba(244, 63, 94, 0.09);
+  color: #be123c;
+  border-color: rgba(244, 63, 94, 0.3);
+}
+
+/* Empty state */
+.my-requests-page[data-theme="light"] .no-data p {
+  color: #64748b;
+}
+
+/* Edit button */
+.my-requests-page[data-theme="light"] .myreq-edit-btn {
+  background: rgba(14, 165, 160, 0.08);
+  border-color: rgba(14, 165, 160, 0.3);
+  color: #0d9488;
+}
+
+.my-requests-page[data-theme="light"] .myreq-edit-btn:hover {
+  background: rgba(14, 165, 160, 0.15);
+  border-color: rgba(14, 165, 160, 0.5);
+  color: #0f766e;
+}
+
+/* Edit modal (inline, covered by container attribute) */
+.my-requests-page[data-theme="light"] .myreq-modal-overlay {
+  background: rgba(15, 23, 42, 0.4);
+}
+
+.my-requests-page[data-theme="light"] .myreq-modal {
+  background: #ffffff;
+  border-color: rgba(14, 165, 160, 0.2);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+}
+
+.my-requests-page[data-theme="light"] .myreq-modal-header h3 {
+  color: #1e293b;
+}
+
+.my-requests-page[data-theme="light"] .myreq-modal-close {
+  background: rgba(15, 23, 42, 0.05);
+  border-color: rgba(15, 23, 42, 0.1);
+  color: #64748b;
+}
+
+.my-requests-page[data-theme="light"] .myreq-modal-close:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #dc2626;
+}
+
+.my-requests-page[data-theme="light"] .myreq-modal-info {
+  background: rgba(14, 165, 160, 0.06);
+  border-color: rgba(14, 165, 160, 0.2);
+  color: #334155;
+}
+
+.my-requests-page[data-theme="light"] .myreq-modal-field label {
+  color: #64748b;
+}
+
+.my-requests-page[data-theme="light"] .myreq-modal-field textarea {
+  background: #f8fafc;
+  border-color: rgba(15, 23, 42, 0.14);
+  color: #1e293b;
+}
+
+.my-requests-page[data-theme="light"] .myreq-modal-field textarea::placeholder {
+  color: #94a3b8;
+}
+
+.my-requests-page[data-theme="light"] .myreq-modal-field textarea:focus {
+  background: #ffffff;
+  border-color: rgba(14, 165, 160, 0.5);
+}
+
+.my-requests-page[data-theme="light"] .myreq-modal-cancel {
+  background: #f1f5f9;
+  border-color: rgba(15, 23, 42, 0.1);
+  color: #64748b;
+}
+
+.my-requests-page[data-theme="light"] .myreq-modal-cancel:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.my-requests-page[data-theme="light"] .myreq-modal-save {
+  color: #ffffff;
+}

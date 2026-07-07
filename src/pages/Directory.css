@@ -555,3 +555,131 @@
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+/* Variables redefined here flip cards, text, borders, tabs,
+   search, and loader automatically */
+.diry__page[data-theme="light"] {
+    --diry-bg: #f1f5f9;
+    --diry-card: #ffffff;
+    --diry-border: rgba(15, 23, 42, 0.08);
+    --diry-teal: #0ea5a0;
+    --diry-teal-light: #0d9488;
+    --diry-text: #1e293b;
+    --diry-muted: #64748b;
+    --diry-soft: #334155;
+
+    background: var(--diry-bg);
+    background-image:
+        radial-gradient(ellipse 80% 50% at 20% 0%, rgba(14, 165, 160, 0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 40% at 85% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 55%),
+        repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(15, 23, 42, 0.025) 80px, rgba(15, 23, 42, 0.025) 81px),
+        repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(15, 23, 42, 0.025) 80px, rgba(15, 23, 42, 0.025) 81px);
+}
+
+/* Orbs — soften on light bg */
+.diry__page[data-theme="light"] .diry__orb-1 {
+    background: radial-gradient(circle, rgba(14, 165, 160, 0.06), transparent 70%);
+}
+
+.diry__page[data-theme="light"] .diry__orb-2 {
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.05), transparent 70%);
+}
+
+/* Back button — teal-tint bg invisible on white */
+.diry__page[data-theme="light"] .diry__back {
+    background: #ffffff;
+    border-color: rgba(14, 165, 160, 0.3);
+    color: #0d9488;
+}
+
+.diry__page[data-theme="light"] .diry__back:hover {
+    background: rgba(14, 165, 160, 0.08);
+    border-color: rgba(14, 165, 160, 0.45);
+    color: #0f766e;
+}
+
+/* Search — white-tint bg disappears on white */
+.diry__page[data-theme="light"] .diry__search {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.12);
+}
+
+.diry__page[data-theme="light"] .diry__search:focus {
+    border-color: rgba(14, 165, 160, 0.45);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(14, 165, 160, 0.08);
+}
+
+/* Filter tabs */
+.diry__page[data-theme="light"] .diry__tab {
+    background: #ffffff;
+}
+
+.diry__page[data-theme="light"] .diry__tab-active {
+    background: rgba(14, 165, 160, 0.1);
+    border-color: rgba(14, 165, 160, 0.4);
+    color: #0d9488;
+}
+
+/* Member cards — hover shadow too dark for white */
+.diry__page[data-theme="light"] .diry__card {
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+}
+
+.diry__page[data-theme="light"] .diry__card:hover {
+    background: #ffffff;
+    border-color: rgba(14, 165, 160, 0.3);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+}
+
+/* Avatars — pale text unreadable on light tints */
+.diry__page[data-theme="light"] .diry__avatar-1 {
+    background: rgba(14, 165, 160, 0.12);
+    color: #0d9488;
+}
+
+.diry__page[data-theme="light"] .diry__avatar-2 {
+    background: rgba(16, 185, 129, 0.12);
+    color: #047857;
+}
+
+.diry__page[data-theme="light"] .diry__avatar-3 {
+    background: rgba(245, 158, 11, 0.14);
+    color: #b45309;
+}
+
+.diry__page[data-theme="light"] .diry__avatar-4 {
+    background: rgba(124, 58, 237, 0.12);
+    color: #6d28d9;
+}
+
+.diry__page[data-theme="light"] .diry__avatar-5 {
+    background: rgba(37, 99, 235, 0.12);
+    color: #1d4ed8;
+}
+
+.diry__page[data-theme="light"] .diry__avatar-6 {
+    background: rgba(244, 63, 94, 0.12);
+    color: #be123c;
+}
+
+/* Role badges — darker readable tones */
+.diry__page[data-theme="light"] .diry__role-user {
+    background: rgba(14, 165, 160, 0.09);
+    border-color: rgba(14, 165, 160, 0.3);
+    color: #0d9488;
+}
+
+.diry__page[data-theme="light"] .diry__role-admin {
+    background: rgba(245, 158, 11, 0.12);
+    border-color: rgba(245, 158, 11, 0.35);
+    color: #b45309;
+}
+
+/* Card ID text */
+.diry__page[data-theme="light"] .diry__card-id {
+    color: #0d9488;
+}
