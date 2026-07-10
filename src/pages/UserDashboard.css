@@ -1743,13 +1743,22 @@
   flex-shrink: 0;
   position: sticky;
   top: 0;
+  /* 100vh on mobile = viewport WITH the URL bar hidden, i.e. taller than what
+     you can actually see. The drawer then overflows the screen while its own
+     content still fits inside the box, so overflow-y has nothing to scroll and
+     the footer is stranded below the fold. 100dvh tracks the visible area.
+     The 100vh line stays first as a fallback for browsers without dvh. */
   height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   background: rgba(9, 15, 26, 0.72);
   border-right: 1px solid rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(12px);
   overflow-y: auto;
+  /* don't let a scroll that reaches the drawer's end chain to the page behind */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   transition: width 0.26s ease, transform 0.26s ease;
   z-index: 40;
 }
@@ -1779,6 +1788,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   min-width: 264px;
   /* keeps content from squishing while the sidebar collapses */
+  flex-shrink: 0;
 }
 
 .ud-sidebar-logo {
@@ -1815,7 +1825,9 @@
   gap: 4px;
   padding: 14px 12px;
   min-width: 264px;
-  flex: 1;
+  /* grow to push the footer down, but never shrink below content height —
+     `flex: 1` alone lets the browser squash the list instead of scrolling */
+  flex: 1 0 auto;
 }
 
 .ud-nav-item {
@@ -1894,8 +1906,11 @@
 
 .ud-sidebar-footer {
   padding: 14px;
+  /* clear the gesture bar / home indicator on phones */
+  padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
   min-width: 264px;
   margin-top: auto;
+  flex-shrink: 0;
 }
 
 /* Holds the banner image only — no padding, so the art reaches the rounded
@@ -2130,6 +2145,8 @@
     left: 0;
     width: 264px;
     height: 100vh;
+    height: 100dvh;
+    /* see note on the base .ud-sidebar rule */
     transform: translateX(-100%);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
   }
