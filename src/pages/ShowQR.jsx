@@ -19,7 +19,7 @@ function ShowQR() {
     const [downloading, setDownloading] = useState(false);
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const [particles] = useState(
-        Array.from({ length: 20 }, (_, i) => ({
+        Array.from({ length: 12 }, (_, i) => ({
             id: i,
             left: Math.random() * 100,
             delay: Math.random() * 8,
@@ -65,8 +65,8 @@ function ShowQR() {
             }
 
             setUserName(snap.data().name || id);
-
-            generateQR(id);
+            // QR is drawn by the effect below (keyed on userId) once the id is
+            // set — no need to also draw it here, which caused a double render.
         });
 
         return () => {
@@ -162,11 +162,18 @@ function ShowQR() {
                     {/* Header */}
                     <div className="qrv2__card-header">
                         <div className="qrv2__eyebrow">
-                            <span className="qrv2__eyebrow-dot" />
+                            <svg className="qrv2__eyebrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
                             {t("myQRCode")}
                         </div>
                         <h1 className="qrv2__title">{t("attendanceQRTitle")} <span className="qrv2__title-accent">QR</span></h1>
-                        <p className="qrv2__date">{today}</p>
+                        <p className="qrv2__date">
+                            <svg className="qrv2__date-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
+                            </svg>
+                            {today}
+                        </p>
                     </div>
 
                     <div className="qrv2__user-section">
@@ -175,6 +182,7 @@ function ShowQR() {
                             <div className="qrv2__avatar">
                                 {userName ? userName.charAt(0).toUpperCase() : "?"}
                             </div>
+                            <span className="qrv2__avatar-status" />
                         </div>
                         <div className="qrv2__user-info">
                             <span className="qrv2__user-name">{userName || t("loading")}</span>
@@ -212,7 +220,9 @@ function ShowQR() {
                         </div>
 
                         <p className="qrv2__qr-hint">
-                            <span className="qrv2__hint-icon">📡</span>
+                            <svg className="qrv2__hint-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2" /><line x1="3" y1="12" x2="21" y2="12" />
+                            </svg>
                             {t("qrHint")}
                         </p>
                     </div>
@@ -252,19 +262,31 @@ function ShowQR() {
 
                     <div className="qrv2__info-strip">
                         <div className="qrv2__info-item">
-                            <span className="qrv2__info-icon">🔒</span>
-                            <span>{t("qrSecure")}</span>
+                            <span className="qrv2__info-icon qrv2__info-icon--secure">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" />
+                                </svg>
+                            </span>
+                            <span className="qrv2__info-title">{t("qrSecure")}</span>
                         </div>
+
                         <div className="qrv2__info-divider" />
+
                         <div className="qrv2__info-item">
-                            <span className="qrv2__info-icon">⚡</span>
-                            <span>{t("qrInstant")}</span>
+                            <span className="qrv2__info-icon qrv2__info-icon--instant">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                                </svg>
+                            </span>
+                            <span className="qrv2__info-title">{t("qrInstant")}</span>
                         </div>
-                        <div className="qrv2__info-divider" />
-                        <div className="qrv2__info-item">
-                            <span className="qrv2__info-icon">🙏</span>
-                            <span>{t("dhyanPortal")}</span>
-                        </div>
+                    </div>
+
+                    <div className="qrv2__portal-footer">
+                        <svg className="qrv2__portal-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M12 2c-.9 1.6-.9 3.4 0 5 .9-1.6.9-3.4 0-5zM7 6.5c-.3 1.8.3 3.5 1.6 4.6-.1-1.8-.7-3.4-1.6-4.6zm10 0c-.9 1.2-1.5 2.8-1.6 4.6 1.3-1.1 1.9-2.8 1.6-4.6zM12 10a4 4 0 0 0-4 4 4 4 0 0 0 8 0 4 4 0 0 0-4-4zm-8 4.5c1.2.9 2.8 1.3 4.3 1-1.1-1.1-2.6-1.8-4.3-1zm16 0c-1.7-.8-3.2-.1-4.3 1 1.5.3 3.1-.1 4.3-1z" />
+                        </svg>
+                        {t("dhyanPortal")}
                     </div>
                 </div>
             </div>

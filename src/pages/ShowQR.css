@@ -29,7 +29,10 @@
     font-family: 'DM Sans', sans-serif;
     color: var(--qv-text);
     position: relative;
-    overflow-x: hidden;
+    /* `clip` (not `hidden`) clips horizontal overflow WITHOUT turning the page
+       into a scroll container. `overflow-x: hidden` forces overflow-y to `auto`
+       per spec, which is what let the scrollbar flicker and shift the layout. */
+    overflow-x: clip;
     box-sizing: border-box;
 }
 
@@ -129,6 +132,24 @@
     will-change: opacity;
 }
 
+/* inline header icons (shield in eyebrow, calendar before the date) inherit
+   colour from their parent via stroke="currentColor" */
+.qrv2__eyebrow-icon {
+    flex-shrink: 0;
+}
+
+.qrv2__date {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+}
+
+.qrv2__date-icon {
+    flex-shrink: 0;
+    opacity: 0.85;
+}
+
 @keyframes qrv2-pulse {
 
     0%,
@@ -225,6 +246,21 @@
     font-weight: 800;
     color: #fff;
     font-family: 'Syne', sans-serif;
+}
+
+/* green online dot — sits on the avatar's lower-right rim, ring matches the
+   card behind it (see light-theme override for the light card colour) */
+.qrv2__avatar-status {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #22c55e;
+    border: 2.5px solid #06101e;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+    z-index: 1;
 }
 
 .qrv2__user-info {
@@ -350,6 +386,12 @@
     justify-content: center;
     overflow: hidden;
     position: relative;
+    /* pin the QR onto its own compositor layer. Without this, the scan-line
+       and particles sweeping over it can force the browser to re-rasterize the
+       QR (and its glow) every frame — which reads as the code "shaking" on
+       mobile. translateZ(0) isolates it so it stays rock-steady. */
+    transform: translateZ(0);
+    backface-visibility: hidden;
     box-shadow:
         0 0 0 6px rgba(34, 211, 238, 0.06),
         0 0 40px rgba(59, 130, 246, 0.2),
@@ -448,7 +490,8 @@
 }
 
 .qrv2__hint-icon {
-    font-size: 14px;
+    flex-shrink: 0;
+    color: var(--qv-cyan);
 }
 
 .qrv2__actions {
@@ -523,35 +566,73 @@
 
 .qrv2__info-strip {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    padding: 13px 18px;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px 18px;
     background: var(--qv-surface);
     border: 1px solid var(--qv-border);
     border-radius: 16px;
-    flex-wrap: wrap;
+    margin-bottom: 16px;
 }
 
 .qrv2__info-item {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    color: var(--qv-muted);
-    font-weight: 600;
-    white-space: nowrap;
-    letter-spacing: 0.02em;
+    gap: 12px;
+    text-align: left;
 }
 
+/* icon chip — coloured tint per feature, so the two cards read distinctly */
 .qrv2__info-icon {
-    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.qrv2__info-icon--secure {
+    background: rgba(16, 185, 129, 0.12);
+    color: #34d399;
+}
+
+.qrv2__info-icon--instant {
+    background: rgba(34, 211, 238, 0.12);
+    color: var(--qv-cyan);
+}
+
+.qrv2__info-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--qv-text);
+    letter-spacing: 0.01em;
+    line-height: 1.35;
+    /* no nowrap/ellipsis — show the whole label, wrapping if a translation
+       runs long. The vertical layout gives it the full card width. */
 }
 
 .qrv2__info-divider {
-    width: 1px;
-    height: 14px;
+    height: 1px;
     background: var(--qv-border-2);
+    flex-shrink: 0;
+}
+
+/* Dhyan Portal — its own centred footer under the strip */
+.qrv2__portal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--qv-muted);
+    letter-spacing: 0.03em;
+}
+
+.qrv2__portal-icon {
+    color: var(--qv-violet);
     flex-shrink: 0;
 }
 
@@ -731,11 +812,7 @@
     }
 
     .qrv2__info-strip {
-        gap: 8px;
-    }
-
-    .qrv2__info-divider {
-        display: none;
+        gap: 10px;
     }
 }
 
@@ -765,8 +842,13 @@
     .qrv2__eyebrow-dot,
     .qrv2__scan-line,
     .qrv2__qr-spinner,
-    .qrv2__btn-spinner {
+    .qrv2__btn-spinner,
+    .qrv2__particle {
         animation: none !important;
+    }
+
+    .qrv2__particle {
+        display: none;
     }
 
     .qrv2__card {
@@ -841,4 +923,191 @@
     background: #f1f5f9;
     border-color: rgba(15, 23, 42, 0.12);
     color: #64748b;
+}
+
+/* ================================================================== */
+/* DECORATIVE BACKGROUND                                              */
+/* These elements exist in the markup but were previously unstyled,   */
+/* so the page rendered as a flat gradient. Kept subtle and behind    */
+/* the card (z-index 0; card + back-btn are z-index 1).               */
+/* ================================================================== */
+.qrv2__bg-mesh,
+.qrv2__orb,
+.qrv2__grid-overlay,
+.qrv2__particles {
+    /* fixed (not absolute) pins these to the viewport and removes them from the
+       page's flow entirely. As `absolute` children they extended the page — the
+       particles sit at bottom:-10px — which, together with overflow-x on the
+       page, made a vertical scrollbar flicker on/off. Each flicker changed the
+       content width and shifted the centred card sideways: the "shaking".
+       overflow:hidden here clips any particle spill so it can't leak out. */
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* soft colour blobs. blur(70px) on three large elements tanks the framerate
+   on mobile GPUs, which makes everything (including the QR) stutter. 40px
+   looks near-identical and is far cheaper to composite. */
+.qrv2__orb {
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.5;
+    will-change: auto;
+}
+
+.qrv2__orb--1 {
+    top: -80px;
+    left: -60px;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.5), transparent 70%);
+}
+
+.qrv2__orb--2 {
+    bottom: -100px;
+    right: -80px;
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.35), transparent 70%);
+}
+
+.qrv2__orb--3 {
+    top: 40%;
+    left: 55%;
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle, rgba(129, 140, 248, 0.28), transparent 70%);
+}
+
+/* faint dot grid */
+.qrv2__grid-overlay {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 26px 26px;
+    opacity: 0.6;
+}
+
+/* floating particles rise slowly and fade */
+.qrv2__particle {
+    position: absolute;
+    bottom: -10px;
+    border-radius: 50%;
+    background: rgba(147, 197, 253, 0.5);
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.5);
+    animation: qrv2-float linear infinite;
+    will-change: transform, opacity;
+}
+
+@keyframes qrv2-float {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+}
+
+/* ---- LIGHT THEME: decorative + new-element overrides ---- */
+.qrv2__page[data-theme="light"] .qrv2__grid-overlay {
+    background-image: radial-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+}
+
+.qrv2__page[data-theme="light"] .qrv2__particle {
+    background: rgba(37, 99, 235, 0.4);
+    box-shadow: 0 0 5px rgba(37, 99, 235, 0.35);
+}
+
+/* green dot: ring must match the (now white) card, not the dark default */
+.qrv2__page[data-theme="light"] .qrv2__avatar-status {
+    border-color: #ffffff;
+}
+
+/* the pale accent icons wash out on a white chip — drop to 600-level so they
+   clear the 3:1 non-text contrast bar */
+.qrv2__page[data-theme="light"] .qrv2__info-icon--secure {
+    color: #059669;
+}
+
+.qrv2__page[data-theme="light"] .qrv2__info-icon--instant {
+    color: #0891b2;
+}
+
+.qrv2__page[data-theme="light"] .qrv2__hint-icon {
+    color: #0891b2;
+}
+
+.qrv2__page[data-theme="light"] .qrv2__portal-icon {
+    color: #6366f1;
+}
+
+/* ================================================================== */
+/* LIGHT THEME — POLISH                                               */
+/* The base palette is tuned to glow on a near-black card. On white   */
+/* two things break: pale accents wash out, and inner panels (which   */
+/* use --qv-surface = #fff = the card colour) become invisible. These */
+/* rules fix separation and legibility without touching dark mode.    */
+/* ================================================================== */
+
+/* the "QR" accent was pale blue/cyan/violet — invisible on white.
+   darker stops keep the same hue and stay legible (the title is large). */
+.qrv2__page[data-theme="light"] .qrv2__title-accent {
+    background: linear-gradient(135deg, #1d4ed8, #0e7490 55%, #6d28d9);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* inner panels use --qv-surface (#fff in light) = same as the card, so they
+   had no edge. Give them a subtly recessed fill + a touch more border so each
+   panel reads as its own surface on the white card. */
+.qrv2__page[data-theme="light"] .qrv2__user-section,
+.qrv2__page[data-theme="light"] .qrv2__qr-hint,
+.qrv2__page[data-theme="light"] .qrv2__info-strip {
+    background: #eef3f9;
+    border-color: rgba(15, 23, 42, 0.09);
+}
+
+/* the back button sits on the grey page, not the card — keep it white so it
+   still stands out there (it must NOT get the recessed panel fill above). */
+.qrv2__page[data-theme="light"] .qrv2__back-btn {
+    background: #ffffff;
+}
+
+/* define the white QR container's edge against the white card */
+.qrv2__page[data-theme="light"] .qrv2__qr-inner {
+    border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+/* fullscreen ID was glowing cyan (#22d3ee) — unreadable on the white
+   fullscreen card. Darker cyan, glow removed. */
+.qrv2__fullscreen[data-theme="light"] .qrv2__fullscreen-id {
+    color: #155e75;
+    text-shadow: none;
+}
+
+/* fullscreen-button hover paints cyan text on a pale cyan fill — too faint
+   on white; darken the hover text. */
+.qrv2__page[data-theme="light"] .qrv2__btn--fullscreen:hover:not(:disabled) {
+    color: #0e7490;
+}
+
+/* dark-mode Back button was nearly invisible: muted text (#3d5a78 ≈ 2.8:1) on a
+   4%-white fill. Brighten text + firm up the chip so it reads clearly. Scoped
+   to dark only (:not light) so the light version stays as-is. */
+.qrv2__page:not([data-theme="light"]) .qrv2__back-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.16);
+    color: #9fb3c8;
 }
