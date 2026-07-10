@@ -1043,5 +1043,6 @@
   "emailAddress": "Email Address",
   "receivedOn": "Received On",
   "notProvided": "Not provided",
-  "close": "Close"
+  "close": "Close",
+  "dashboard": "Dashboard"
 }
