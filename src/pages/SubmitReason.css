@@ -74,7 +74,7 @@
   width: 100%;
   max-width: 500px;
   background: var(--sr-card);
-  padding: 40px 36px;
+  padding: 0;
   border-radius: 22px;
   border: 1px solid var(--sr-border);
   box-shadow:
@@ -82,7 +82,7 @@
     0 20px 50px rgba(0, 0, 0, 0.4),
     0 4px 16px rgba(14, 165, 160, 0.08);
   position: relative;
-  overflow: visible;
+  overflow: hidden;
   margin-top: 8px;
   backdrop-filter: blur(12px);
   animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -161,13 +161,13 @@
   gap: 18px;
 }
 
-.submit-reason-page .reason-group {
+.submit-reason-page .reason-field-main {
   display: flex;
   flex-direction: column;
   gap: 7px;
 }
 
-.submit-reason-page .reason-group label {
+.submit-reason-page .reason-field-main label {
   font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -175,8 +175,8 @@
   color: var(--sr-text-mid);
 }
 
-.submit-reason-page .reason-group input,
-.submit-reason-page .reason-group textarea {
+.submit-reason-page .reason-field-main input,
+.submit-reason-page .reason-field-main textarea {
   padding: 12px 14px;
   border-radius: var(--sr-radius);
   border: 1px solid var(--sr-border);
@@ -188,25 +188,25 @@
   transition: all 0.25s ease;
 }
 
-.submit-reason-page .reason-group input::placeholder,
-.submit-reason-page .reason-group textarea::placeholder {
+.submit-reason-page .reason-field-main input::placeholder,
+.submit-reason-page .reason-field-main textarea::placeholder {
   color: var(--sr-text-soft);
 }
 
-.submit-reason-page .reason-group input:focus,
-.submit-reason-page .reason-group textarea:focus {
+.submit-reason-page .reason-field-main input:focus,
+.submit-reason-page .reason-field-main textarea:focus {
   border-color: rgba(14, 165, 160, 0.4);
   background: rgba(14, 165, 160, 0.04);
   box-shadow: 0 0 0 3px var(--sr-teal-glow);
   transform: scale(1.01);
 }
 
-.submit-reason-page .reason-group input:hover:not(:focus),
-.submit-reason-page .reason-group textarea:hover:not(:focus) {
+.submit-reason-page .reason-field-main input:hover:not(:focus),
+.submit-reason-page .reason-field-main textarea:hover:not(:focus) {
   border-color: rgba(14, 165, 160, 0.25);
 }
 
-.submit-reason-page .reason-group textarea {
+.submit-reason-page .reason-field-main textarea {
   min-height: 110px;
   resize: none;
   line-height: 1.6;
@@ -396,14 +396,292 @@
 }
 
 /* Inputs — focus polish on the light surface */
-.submit-reason-page[data-theme="light"] .reason-group input:focus,
-.submit-reason-page[data-theme="light"] .reason-group textarea:focus {
+.submit-reason-page[data-theme="light"] .reason-field-main input:focus,
+.submit-reason-page[data-theme="light"] .reason-field-main textarea:focus {
   background: #ffffff;
   border-color: rgba(14, 165, 160, 0.4);
   box-shadow: 0 0 0 3px rgba(14, 165, 160, 0.12);
 }
 
-.submit-reason-page[data-theme="light"] .reason-group input:hover:not(:focus),
-.submit-reason-page[data-theme="light"] .reason-group textarea:hover:not(:focus) {
+.submit-reason-page[data-theme="light"] .reason-field-main input:hover:not(:focus),
+.submit-reason-page[data-theme="light"] .reason-field-main textarea:hover:not(:focus) {
   border-color: rgba(14, 165, 160, 0.25);
+}
+
+/* ================================================================== */
+/* REDESIGN — header region, field chips, note, secure footer         */
+/* (theme was already teal, so no colour swap — only new structure)   */
+/* ================================================================== */
+
+/* kill the old top accent line + glow; the header region owns the top now */
+.submit-reason-page .reason-card::before,
+.submit-reason-page .reason-card::after {
+  display: none;
+}
+
+/* ---- Header region: soft teal gradient behind badge/title + art.
+   The teal tint sits over --sr-card, so it reads on dark AND white. ---- */
+.reason-card-header {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 30px 34px 26px;
+  background: linear-gradient(155deg, rgba(20, 184, 166, 0.16) 0%, rgba(20, 184, 166, 0.03) 70%, transparent 100%);
+}
+
+.reason-header-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.reason-header-art {
+  flex-shrink: 0;
+  width: 150px;
+  margin: -6px -6px 0 0;
+}
+
+.reason-header-art svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* badge becomes an icon + text chip */
+.reason-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.reason-card-badge svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+/* the card body holds the form, separated from the header by a hairline */
+.reason-card-body {
+  padding: 26px 34px 30px;
+  border-top: 1px solid var(--sr-border);
+}
+
+/* the subtitle no longer needs its own bottom margin (body has padding) */
+.reason-card-header .reason-subtitle {
+  margin-bottom: 0;
+}
+
+/* ---- Fields: icon chip + (label + input) column ---- */
+.reason-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.reason-field-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.reason-field-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 22px;
+  /* aligns the chip beside the input rather than the label */
+}
+
+.reason-field-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.reason-field-icon--teal {
+  background: rgba(20, 184, 166, 0.12);
+  border: 1px solid rgba(20, 184, 166, 0.22);
+  color: #2dd4cf;
+}
+
+.reason-field-icon--violet {
+  background: rgba(139, 92, 246, 0.14);
+  border: 1px solid rgba(139, 92, 246, 0.24);
+  color: #a78bfa;
+}
+
+/* required asterisk */
+.reason-req {
+  color: #fb7185;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+/* ---- Character counter inside the textarea ---- */
+.reason-textarea-wrap {
+  position: relative;
+}
+
+.reason-field-main textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding-bottom: 26px;
+}
+
+.reason-counter {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--sr-text-soft);
+  pointer-events: none;
+}
+
+/* date/textarea should fill the column beside the chip */
+.reason-field-main input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ---- "Your request is important" note ---- */
+.reason-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.22);
+}
+
+.reason-note-icon {
+  flex-shrink: 0;
+  color: #34d399;
+  margin-top: 1px;
+}
+
+.reason-note-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.reason-note-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.reason-note-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #6ee7b7;
+}
+
+.reason-note-sub {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--sr-text-soft);
+}
+
+/* ---- Secure footer ---- */
+.reason-secure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 2px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--sr-text-soft);
+}
+
+.reason-secure svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* ---- Mobile: drop the illustration, tighten padding ---- */
+@media (max-width: 560px) {
+  .reason-header-art {
+    display: none;
+  }
+
+  .reason-card-header {
+    padding: 26px 20px 22px;
+  }
+
+  .reason-card-body {
+    padding: 22px 20px 26px;
+  }
+
+  .reason-field-icon {
+    width: 40px;
+    height: 40px;
+    margin-top: 20px;
+  }
+}
+
+/* ================================================================== */
+/* LIGHT THEME — redesign additions                                   */
+/* ================================================================== */
+
+/* field-icon glyphs: darker so they clear contrast on the light chip */
+.submit-reason-page[data-theme="light"] .reason-field-icon--teal {
+  color: #0d9488;
+}
+
+.submit-reason-page[data-theme="light"] .reason-field-icon--violet {
+  color: #7c3aed;
+}
+
+/* note box: darker green title/text on the light tint */
+.submit-reason-page[data-theme="light"] .reason-note {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+.submit-reason-page[data-theme="light"] .reason-note-icon {
+  color: #059669;
+}
+
+.submit-reason-page[data-theme="light"] .reason-note-title {
+  color: #047857;
+}
+
+/* the submit button gradient text is dark (#061015) — fine on the teal
+   button in both themes, so no override needed there */
+
+/* required asterisk: light rose (#fb7185) is only 2.7:1 on white — darken */
+.submit-reason-page[data-theme="light"] .reason-req {
+  color: #e11d48;
+}
+
+/* ---- LIGHT THEME: badge + illustration were tuned for the dark header ---- */
+
+/* badge text is --sr-teal-light (#2dd4cf) which isn't re-tokened in light,
+   so it sat at ~1.5:1 on the light header. Darker teal. */
+.submit-reason-page[data-theme="light"] .reason-card-badge {
+  color: #115e59;
+}
+
+/* the illustration's calendar outline + clock ring were light teal (#2dd4cf),
+   faint on white; the clock FACE was near-black (#0b1a1f), a dark blob on the
+   light header. CSS fill/stroke override the inline SVG attributes. */
+.submit-reason-page[data-theme="light"] .sr-cal-body {
+  stroke: #0d9488;
+}
+
+.submit-reason-page[data-theme="light"] .sr-clock-face {
+  fill: #ffffff;
+  stroke: #0d9488;
+}
+
+.submit-reason-page[data-theme="light"] .sr-clock-hands {
+  stroke: #0d9488;
 }

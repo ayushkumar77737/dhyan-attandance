@@ -1047,5 +1047,8 @@
   "dashboard": "Dashboard",
   "verified": "Verified",
   "profileSecureTitle": "Secure & Private",
-  "profileSecureSub": "Your information is safe with us and will never be shared."
+  "profileSecureSub": "Your information is safe with us and will never be shared.",
+  "reasonImportantTitle": "Your request is important to us",
+"reasonImportantSub": "All requests are confidential and will be reviewed by the appropriate authority.",
+"reasonSecureNote": "Your information is secure and encrypted"
 }
