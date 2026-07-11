@@ -164,7 +164,7 @@ function MyProfile() {
 
             <div className="mprf__header">
                 <div className="mprf__header-badge">
-                    <span className="mprf__badge-dot" />
+                    <svg className="mprf__badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
                     {t("myProfile")}
                 </div>
                 <h1 className="mprf__title">{t("myProfile")}</h1>
@@ -218,6 +218,7 @@ function MyProfile() {
                                     </span>
                                 )}
                             </div>
+                            <span className="mprf__avatar-status" />
                         </div>
                         <h2 className="mprf__profile-name">{profile.name}</h2>
                         <div className="mprf__id-badge">
@@ -231,7 +232,7 @@ function MyProfile() {
                     <div className="mprf__grid">
 
                         <div className="mprf__item">
-                            <div className="mprf__item-icon">🪪</div>
+                            <div className="mprf__item-icon mprf__item-icon--blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="14" x="2" y="5" rx="2" /><line x1="2" x2="22" y1="10" y2="10" /></svg></div>
                             <div className="mprf__item-body">
                                 <span className="mprf__item-label">{t("idNo")}</span>
                                 <span className="mprf__item-value">{profile.idNo}</span>
@@ -239,7 +240,7 @@ function MyProfile() {
                         </div>
 
                         <div className="mprf__item">
-                            <div className="mprf__item-icon">👤</div>
+                            <div className="mprf__item-icon mprf__item-icon--violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg></div>
                             <div className="mprf__item-body">
                                 <span className="mprf__item-label">{t("fullName")}</span>
                                 <span className="mprf__item-value">{profile.name}</span>
@@ -247,7 +248,7 @@ function MyProfile() {
                         </div>
 
                         <div className="mprf__item">
-                            <div className="mprf__item-icon">👨‍👩‍👦</div>
+                            <div className="mprf__item-icon mprf__item-icon--indigo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg></div>
                             <div className="mprf__item-body">
                                 <span className="mprf__item-label">{t("fatherHusbandName")}</span>
                                 <span className="mprf__item-value">{profile.fatherHusbandName}</span>
@@ -255,7 +256,7 @@ function MyProfile() {
                         </div>
 
                         <div className="mprf__item">
-                            <div className="mprf__item-icon">📞</div>
+                            <div className="mprf__item-icon mprf__item-icon--purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg></div>
                             <div className="mprf__item-body">
                                 <span className="mprf__item-label">{t("phoneNumberLabel")}</span>
                                 <span className="mprf__item-value">{profile.phoneNumber}</span>
@@ -263,7 +264,7 @@ function MyProfile() {
                         </div>
 
                         <div className="mprf__item">
-                            <div className="mprf__item-icon">📱</div>
+                            <div className="mprf__item-icon mprf__item-icon--cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg></div>
                             <div className="mprf__item-body">
                                 <span className="mprf__item-label">{t("phoneType")}</span>
                                 <span className={`mprf__phone-tag mprf__phone-tag--${profile.phoneType === "WhatsApp" ? "wa" : "kp"}`}>
@@ -273,16 +274,22 @@ function MyProfile() {
                         </div>
 
                         <div className="mprf__item">
-                            <div className="mprf__item-icon">📧</div>
+                            <div className="mprf__item-icon mprf__item-icon--green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></div>
                             <div className="mprf__item-body">
                                 <span className="mprf__item-label">{t("emailIdLabel")}</span>
                                 <span className="mprf__item-value">{profile.email}</span>
+                                {profile.email && (
+                                    <span className="mprf__verified-tag">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
+                                        {t("verified") || "Verified"}
+                                    </span>
+                                )}
                             </div>
                         </div>
 
                         {profile.dob && (
                             <div className="mprf__item">
-                                <div className="mprf__item-icon">🎂</div>
+                                <div className="mprf__item-icon mprf__item-icon--amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg></div>
                                 <div className="mprf__item-body">
                                     <span className="mprf__item-label">{t("dateOfBirth")}</span>
                                     <span className="mprf__item-value">{profile.dob}</span>
@@ -291,7 +298,7 @@ function MyProfile() {
                         )}
 
                         <div className="mprf__item mprf__item--full">
-                            <div className="mprf__item-icon">🏠</div>
+                            <div className="mprf__item-icon mprf__item-icon--rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg></div>
                             <div className="mprf__item-body">
                                 <span className="mprf__item-label">{t("address")}</span>
                                 <span className="mprf__item-value">{profile.address}</span>
@@ -300,6 +307,18 @@ function MyProfile() {
 
                     </div>
 
+                </div>
+            )}
+
+            {!loading && profile && (
+                <div className="mprf__secure-footer">
+                    <div className="mprf__secure-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+                    </div>
+                    <div className="mprf__secure-text">
+                        <span className="mprf__secure-title">{t("profileSecureTitle") || "Secure & Private"}</span>
+                        <span className="mprf__secure-sub">{t("profileSecureSub") || "Your information is safe with us and will never be shared."}</span>
+                    </div>
                 </div>
             )}
 

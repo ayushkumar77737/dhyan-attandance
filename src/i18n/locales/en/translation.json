@@ -1044,5 +1044,8 @@
   "receivedOn": "Received On",
   "notProvided": "Not provided",
   "close": "Close",
-  "dashboard": "Dashboard"
+  "dashboard": "Dashboard",
+  "verified": "Verified",
+  "profileSecureTitle": "Secure & Private",
+  "profileSecureSub": "Your information is safe with us and will never be shared."
 }
