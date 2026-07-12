@@ -646,3 +646,387 @@
 .my-requests-page[data-theme="light"] .myreq-modal-save {
   color: #ffffff;
 }
+
+/* ================================================================== */
+/* REDESIGN — icon sizing, date chip, gradient title                  */
+/* (page was already teal — polish only, no colour swap)              */
+/* ================================================================== */
+
+/* back button: arrow icon + label */
+.my-requests-page .myreq-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.my-requests-page .myreq-back-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* badge: clipboard icon + label */
+.myreq-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.myreq-badge svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+/* title: two-tone gradient (base colour -> teal). Whole title is gradient-
+   filled so it stays correct in any language; light gets darker stops. */
+.my-requests-page .myreq-card h2 {
+  background: linear-gradient(100deg, #e8f4f4 0%, #e8f4f4 32%, #2dd4cf 68%, #5eead4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* date cell: teal calendar chip + date */
+.date-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.date-icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  background: rgba(14, 165, 160, 0.12);
+  color: var(--mr-teal-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.date-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* status icons */
+.my-requests-page .status svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* edit button: pencil + label */
+.myreq-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.myreq-edit-btn svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* modal header / info / save icons */
+.myreq-modal-header h3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.myreq-modal-header h3 svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.myreq-modal-info p {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--mr-teal-light);
+}
+
+.myreq-modal-info p svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.myreq-modal-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.myreq-modal-save svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ================================================================== */
+/* LIGHT THEME — redesign additions                                   */
+/* ================================================================== */
+
+/* title gradient: darker stops so it reads on white ("My" dark -> teal) */
+.my-requests-page[data-theme="light"] .myreq-card h2 {
+  background: linear-gradient(100deg, #1e293b 0%, #1e293b 34%, #0d9488 70%, #0891b2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* date chip glyph: darker teal on the light chip */
+.my-requests-page[data-theme="light"] .date-icon {
+  color: #0d9488;
+}
+
+/* modal info calendar: darker teal on white */
+.my-requests-page[data-theme="light"] .myreq-modal-info p {
+  color: #0d9488;
+}
+
+/* ================================================================== */
+/* NEW SECTIONS — stats row + "safe with us" footer                   */
+/* ================================================================== */
+
+/* ---- Stats row ---- */
+.myreq-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.myreq-stat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--mr-border);
+}
+
+.myreq-stat-icon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.myreq-stat-icon svg {
+  width: 21px;
+  height: 21px;
+}
+
+.myreq-stat-icon--green {
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+}
+
+.myreq-stat-icon--blue {
+  background: rgba(59, 130, 246, 0.12);
+  color: #60a5fa;
+}
+
+.myreq-stat-icon--red {
+  background: rgba(244, 63, 94, 0.12);
+  color: #fb7185;
+}
+
+.myreq-stat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.myreq-stat-num {
+  font-family: var(--mr-font-display);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.myreq-stat-num--green {
+  color: #34d399;
+}
+
+.myreq-stat-num--blue {
+  color: #60a5fa;
+}
+
+.myreq-stat-num--red {
+  color: #fb7185;
+}
+
+.myreq-stat-title {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--mr-text);
+}
+
+.myreq-stat-sub {
+  font-size: 10.5px;
+  color: var(--mr-text-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- "Safe with us" footer (blue-tinted) ---- */
+.myreq-secure {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: rgba(59, 130, 246, 0.06);
+  border: 1px solid rgba(59, 130, 246, 0.16);
+  overflow: hidden;
+}
+
+.myreq-secure-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: rgba(59, 130, 246, 0.14);
+  color: #60a5fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.myreq-secure-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.myreq-secure-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.myreq-secure-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #93c5fd;
+}
+
+.myreq-secure-sub {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--mr-text-soft);
+}
+
+.myreq-secure-art {
+  flex-shrink: 0;
+  width: 100px;
+}
+
+.myreq-secure-art svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ---- Responsive: stats 2-up on tablet, 1-up on small; hide footer art ---- */
+@media (max-width: 720px) {
+  .myreq-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 460px) {
+  .myreq-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .myreq-secure-art {
+    display: none;
+  }
+}
+
+/* ================================================================== */
+/* LIGHT THEME — new sections                                          */
+/* ================================================================== */
+
+/* stat cards: recessed fill so they read on the white card */
+.my-requests-page[data-theme="light"] .myreq-stat {
+  background: #f1f5f9;
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+/* numbers + glyphs: darker so they clear contrast on white */
+.my-requests-page[data-theme="light"] .myreq-stat-icon--green,
+.my-requests-page[data-theme="light"] .myreq-stat-num--green {
+  color: #059669;
+}
+
+.my-requests-page[data-theme="light"] .myreq-stat-icon--blue,
+.my-requests-page[data-theme="light"] .myreq-stat-num--blue {
+  color: #2563eb;
+}
+
+.my-requests-page[data-theme="light"] .myreq-stat-icon--red,
+.my-requests-page[data-theme="light"] .myreq-stat-num--red {
+  color: #e11d48;
+}
+
+/* secure footer on white */
+.my-requests-page[data-theme="light"] .myreq-secure {
+  background: rgba(59, 130, 246, 0.05);
+  border-color: rgba(59, 130, 246, 0.18);
+}
+
+.my-requests-page[data-theme="light"] .myreq-secure-icon {
+  background: rgba(59, 130, 246, 0.10);
+  color: #2563eb;
+}
+
+.my-requests-page[data-theme="light"] .myreq-secure-title {
+  color: #2563eb;
+}
+
+/* light theme uses per-element overrides (not re-tokened vars), so the stat
+   title/sub + secure sub — which read --mr-text / --mr-text-soft — kept dark
+   values (title was 1.07:1 on white). Give them light values. */
+.my-requests-page[data-theme="light"] .myreq-stat-title {
+  color: #1e293b;
+}
+
+.my-requests-page[data-theme="light"] .myreq-stat-sub,
+.my-requests-page[data-theme="light"] .myreq-secure-sub {
+  color: #556575;
+}
+
+/* the "safe with us" illustration is teal (#2dd4cf) tuned for the dark banner;
+   on the light banner it drops to ~1.7:1 and washes out. Darker teal for the
+   shield outline + lock so it reads (CSS stroke/fill override the SVG attrs). */
+.my-requests-page[data-theme="light"] .mr-sh-outline {
+  stroke: #0d9488;
+}
+
+.my-requests-page[data-theme="light"] .mr-sh-lockbody {
+  fill: #0d9488;
+}
+
+.my-requests-page[data-theme="light"] .mr-sh-lockarc {
+  stroke: #0d9488;
+}
+
+.my-requests-page[data-theme="light"] .mr-sh-spark {
+  fill: #0d9488;
+}

@@ -1052,5 +1052,12 @@
   "reasonImportantSub": "All requests are confidential and will be reviewed by the appropriate authority.",
   "reasonSecureNote": "Your information is secure and encrypted",
   "leaveSecureTitle": "Your request is secure and confidential",
-  "leaveSecureSub": "We'll notify you once it's approved or declined."
+  "leaveSecureSub": "We'll notify you once it's approved or declined.",
+  "totalRequests": "Total Requests",
+  "allTime": "All time",
+  "awaitingApproval": "Awaiting approval",
+  "requestsApproved": "Requests approved",
+  "requestsRejected": "Requests rejected",
+  "requestsSafeTitle": "Your requests are safe with us",
+  "requestsSafeSub": "All your leave requests are encrypted and confidential."
 }
