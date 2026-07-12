@@ -677,3 +677,372 @@
     border-color: rgba(244, 63, 94, 0.4);
     color: #e11d48;
 }
+
+/* ================================================================== */
+/* REDESIGN — header badge, stepped labels, icon chips, secure footer */
+/* (page was already teal — only new structure, no colour swap)       */
+/* ================================================================== */
+
+/* ---- Header: circular icon badge + divider ---- */
+.aplv-head-badge {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    background: rgba(14, 165, 160, 0.12);
+    border: 1px solid rgba(14, 165, 160, 0.22);
+    color: var(--aplv-teal-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aplv-head-badge svg {
+    width: 30px;
+    height: 30px;
+}
+
+.aplv-head-divider {
+    display: block;
+    width: 48px;
+    height: 3px;
+    margin: 12px auto 0;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--aplv-teal), var(--aplv-emerald));
+}
+
+/* ---- Stepped, teal labels ---- */
+.aplv-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--aplv-teal-light);
+}
+
+.aplv-step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(14, 165, 160, 0.16);
+    color: var(--aplv-teal-light);
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* ---- Leave-type cards: horizontal (icon chip + texts) + check ---- */
+.aplv-type-btn {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 11px;
+    padding: 15px 13px;
+    position: relative;
+    text-align: left;
+}
+
+.aplv-type-texts {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    min-width: 0;
+}
+
+.aplv-type-name {
+    text-align: left;
+}
+
+.aplv-type-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aplv-type-icon svg {
+    width: 23px;
+    height: 23px;
+}
+
+.aplv-type-icon--green {
+    background: rgba(16, 185, 129, 0.14);
+    color: #34d399;
+}
+
+.aplv-type-icon--violet {
+    background: rgba(139, 92, 246, 0.14);
+    color: #a78bfa;
+}
+
+.aplv-type-icon--amber {
+    background: rgba(245, 158, 11, 0.14);
+    color: #fbbf24;
+}
+
+.aplv-type-check {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--aplv-emerald);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aplv-type-check svg {
+    width: 12px;
+    height: 12px;
+}
+
+/* ---- Date input: leading icon ---- */
+.aplv-input-wrap {
+    position: relative;
+}
+
+.aplv-input-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--aplv-teal-light);
+    display: flex;
+    pointer-events: none;
+}
+
+.aplv-input-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.aplv-input-wrap .aplv-date {
+    padding-left: 44px;
+}
+
+/* ---- Textarea: violet icon chip + counter ---- */
+.aplv-textarea-wrap {
+    position: relative;
+}
+
+.aplv-textarea-icon {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: rgba(139, 92, 246, 0.14);
+    color: #a78bfa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.aplv-textarea-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.aplv-textarea-wrap .aplv-textarea {
+    padding-left: 52px;
+    padding-top: 15px;
+}
+
+.aplv-textarea-wrap .aplv-char-count {
+    right: 6px;
+    bottom: -18px;
+}
+
+/* ---- Section title: teal + icon ---- */
+.aplv-section-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--aplv-teal-light);
+}
+
+.aplv-section-title svg {
+    width: 13px;
+    height: 13px;
+}
+
+/* ---- Request cards: icon chip + chevron ---- */
+.aplv-req-card {
+    align-items: center;
+}
+
+.aplv-req-icon {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aplv-req-icon svg {
+    width: 23px;
+    height: 23px;
+}
+
+.aplv-req-left {
+    flex: 1;
+}
+
+/* ---- Secure footer (blue-tinted) ---- */
+.aplv-secure {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    border-radius: 16px;
+    background: rgba(59, 130, 246, 0.06);
+    border: 1px solid rgba(59, 130, 246, 0.16);
+    overflow: hidden;
+}
+
+.aplv-secure-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: rgba(59, 130, 246, 0.14);
+    color: #60a5fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aplv-secure-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.aplv-secure-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+}
+
+.aplv-secure-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #93c5fd;
+}
+
+.aplv-secure-sub {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--aplv-text-muted);
+}
+
+.aplv-secure-art {
+    flex-shrink: 0;
+    width: 92px;
+}
+
+.aplv-secure-art svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ---- Mobile: type cards revert to vertical stack; req-card stays a row ---- */
+@media (max-width: 480px) {
+    .aplv-type-btn {
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+        padding: 14px 6px;
+    }
+
+    .aplv-type-texts {
+        align-items: center;
+    }
+
+    .aplv-type-name {
+        text-align: center;
+    }
+
+    .aplv-type-check {
+        top: 6px;
+        right: 6px;
+    }
+}
+
+@media (max-width: 768px) {
+    .aplv-req-card {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+/* ================================================================== */
+/* LIGHT THEME — redesign additions                                   */
+/* ================================================================== */
+
+/* teal labels/steps/section-title/head-badge → darker teal on white */
+.aplv-container[data-theme="light"] .aplv-label,
+.aplv-container[data-theme="light"] .aplv-step,
+.aplv-container[data-theme="light"] .aplv-section-title,
+.aplv-container[data-theme="light"] .aplv-head-badge {
+    color: #0f766e;
+}
+
+.aplv-container[data-theme="light"] .aplv-input-icon {
+    color: #0d9488;
+}
+
+/* icon glyphs on their tinted chips → 600/700-level for contrast on white */
+.aplv-container[data-theme="light"] .aplv-type-icon--green {
+    color: #15803d;
+}
+
+.aplv-container[data-theme="light"] .aplv-type-icon--violet,
+.aplv-container[data-theme="light"] .aplv-textarea-icon {
+    color: #7c3aed;
+}
+
+.aplv-container[data-theme="light"] .aplv-type-icon--amber {
+    color: #b45309;
+}
+
+/* secure footer on white */
+.aplv-container[data-theme="light"] .aplv-secure {
+    background: rgba(59, 130, 246, 0.05);
+    border-color: rgba(59, 130, 246, 0.18);
+}
+
+.aplv-container[data-theme="light"] .aplv-secure-icon {
+    background: rgba(59, 130, 246, 0.10);
+    color: #2563eb;
+}
+
+.aplv-container[data-theme="light"] .aplv-secure-title {
+    color: #2563eb;
+}
+
+/* ---- LIGHT THEME: two teal accents still used --aplv-teal-light (#2dd4cf),
+   which isn't re-tokened for light, so they sat at ~1.7:1 on white. The
+   request-card date and the selected leave-type code. Darker teal. ---- */
+.aplv-container[data-theme="light"] .aplv-req-date {
+    color: #0f766e;
+}
+
+.aplv-container[data-theme="light"] .aplv-type-active .aplv-type-code {
+    color: #0f766e;
+}
