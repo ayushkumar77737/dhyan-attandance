@@ -21,6 +21,7 @@ function MyNotifications() {
     const [notifications, setNotifications] = useState([]);
     const navigate = useNavigate();
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
+    const [markedRead, setMarkedRead] = useState(false);
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -134,11 +135,22 @@ function MyNotifications() {
                                 <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                             </svg>
                         </div>
-                        <h1>{t("notifications")}</h1>
+                        <div className="header-text">
+                            <h1>{t("notifications")}</h1>
+                            <p className="header-subtitle">{t("notificationsSubtitle") || "Stay updated with your latest alerts"}</p>
+                        </div>
                     </div>
-                    <div className="header-count">
+                    <div className="header-actions">
                         {notifications.length > 0 && (
                             <span className="count-badge">{notifications.length}</span>
+                        )}
+                        {notifications.length > 0 && (
+                            <button className="mark-read-btn" onClick={() => setMarkedRead(true)}>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>
+                                {t("markAllAsRead") || "Mark all as read"}
+                            </button>
                         )}
                     </div>
                 </div>
@@ -157,27 +169,54 @@ function MyNotifications() {
                         <span className="no-data-sub">{t("allCaughtUp")}</span>
                     </div>
                 ) : (
-                    <div className="notification-list">
-                        {notifications.map((item, index) => (
-                            <div
-                                key={`${item.createdAt}-${index}`}
-                                className="notification-card"
-                                style={{ animationDelay: `${index * 60}ms` }}
-                            >
-                                <div className="card-dot" />
-                                <div className="card-content">
-                                    <p>{String(item.message).substring(0, 500)}</p>
-                                    <span>
-                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <circle cx="12" cy="12" r="10" />
-                                            <polyline points="12 6 12 12 16 14" />
+                    <>
+                        <div className="notification-list">
+                            {notifications.map((item, index) => (
+                                <div
+                                    key={`${item.createdAt}-${index}`}
+                                    className="notification-card"
+                                    style={{ animationDelay: `${index * 60}ms` }}
+                                >
+                                    <div className="card-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
                                         </svg>
-                                        {item.createdAt}
-                                    </span>
+                                    </div>
+                                    <div className="card-content">
+                                        <p>{String(item.message).substring(0, 500)}</p>
+                                        <span className="card-date">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+                                                <line x1="16" x2="16" y1="2" y2="6" />
+                                                <line x1="8" x2="8" y1="2" y2="6" />
+                                                <line x1="3" x2="21" y1="10" y2="10" />
+                                            </svg>
+                                            {item.createdAt}
+                                        </span>
+                                    </div>
+                                    {!markedRead && (
+                                        <div className="card-new">
+                                            <span className="card-new-label">{t("newLabel") || "New"}</span>
+                                            <span className="card-new-dot" />
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+
+                        <div className="caught-up-footer">
+                            <span className="caught-up-line" />
+                            <span className="caught-up-text">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                                    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                                </svg>
+                                {t("allCaughtUp")}
+                            </span>
+                            <span className="caught-up-line" />
+                        </div>
+                    </>
                 )}
 
             </div>

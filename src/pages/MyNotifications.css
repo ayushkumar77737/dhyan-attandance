@@ -7,18 +7,18 @@
   --bg-card-hover: #1f2333;
   --border: rgba(255, 255, 255, 0.07);
   --border-card: rgba(255, 255, 255, 0.06);
-  --accent: #6c8fff;
-  --accent-glow: rgba(108, 143, 255, 0.15);
-  --accent-soft: rgba(108, 143, 255, 0.08);
-  --dot: #6c8fff;
+  --accent: #2dd4cf;
+  --accent-glow: rgba(14, 165, 160, 0.15);
+  --accent-soft: rgba(14, 165, 160, 0.08);
+  --dot: #2dd4cf;
   --text-primary: #e8eaf0;
   --text-secondary: #7a7f96;
   --text-muted: #4a4f64;
-  --badge-bg: rgba(108, 143, 255, 0.18);
-  --badge-text: #8cabff;
+  --badge-bg: rgba(14, 165, 160, 0.18);
+  --badge-text: #5eead4;
   --shadow-container: 0 24px 64px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04);
   --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.25);
-  --shadow-card-hover: 0 8px 28px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(108, 143, 255, 0.12);
+  --shadow-card-hover: 0 8px 28px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(14, 165, 160, 0.12);
 }
 
 .my-notifications-page {
@@ -31,7 +31,7 @@
   font-family: "DM Sans", sans-serif;
   background: var(--bg-page);
   background-image:
-    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(108, 143, 255, 0.06) 0%, transparent 70%);
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(14, 165, 160, 0.06) 0%, transparent 70%);
   position: relative;
   animation: fadeIn 0.5s ease-in-out;
 }
@@ -71,7 +71,7 @@
   height: 36px;
   border-radius: 10px;
   background: var(--accent-soft);
-  border: 1px solid rgba(108, 143, 255, 0.2);
+  border: 1px solid rgba(14, 165, 160, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -101,7 +101,7 @@
   font-family: "DM Mono", monospace;
   padding: 3px 9px;
   border-radius: 20px;
-  border: 1px solid rgba(108, 143, 255, 0.2);
+  border: 1px solid rgba(14, 165, 160, 0.2);
   letter-spacing: 0.3px;
 }
 
@@ -165,7 +165,7 @@
   background: var(--bg-card-hover);
   box-shadow: var(--shadow-card-hover);
   transform: translateY(-2px);
-  border-color: rgba(108, 143, 255, 0.15);
+  border-color: rgba(14, 165, 160, 0.15);
 }
 
 .card-dot {
@@ -174,7 +174,7 @@
   min-width: 8px;
   border-radius: 50%;
   background: var(--dot);
-  box-shadow: 0 0 8px rgba(108, 143, 255, 0.5);
+  box-shadow: 0 0 8px rgba(14, 165, 160, 0.5);
   margin-top: 5px;
 }
 
@@ -191,7 +191,7 @@
   font-weight: 400;
 }
 
-.notification-card span {
+.notification-card .card-date {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -214,7 +214,7 @@
   height: 72px;
   border-radius: 50%;
   background: var(--accent-soft);
-  border: 1px solid rgba(108, 143, 255, 0.15);
+  border: 1px solid rgba(14, 165, 160, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -310,25 +310,25 @@
   --bg-page: #f1f5f9;
   --bg-container: #ffffff;
   --bg-card: #f8fafc;
-  --bg-card-hover: #eef2ff;
+  --bg-card-hover: #f0fdfa;
   --border: rgba(15, 23, 42, 0.08);
   --border-card: rgba(15, 23, 42, 0.07);
-  --accent: #4f6ef7;
-  --accent-glow: rgba(79, 110, 247, 0.12);
-  --accent-soft: rgba(79, 110, 247, 0.08);
-  --dot: #4f6ef7;
+  --accent: #0d9488;
+  --accent-glow: rgba(14, 165, 160, 0.12);
+  --accent-soft: rgba(14, 165, 160, 0.08);
+  --dot: #0d9488;
   --text-primary: #1e293b;
   --text-secondary: #64748b;
   --text-muted: #94a3b8;
-  --badge-bg: rgba(79, 110, 247, 0.1);
-  --badge-text: #3b5bdb;
+  --badge-bg: rgba(14, 165, 160, 0.1);
+  --badge-text: #0f766e;
   --shadow-container: 0 12px 40px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(15, 23, 42, 0.03);
   --shadow-card: 0 2px 8px rgba(15, 23, 42, 0.05);
-  --shadow-card-hover: 0 8px 24px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(79, 110, 247, 0.15);
+  --shadow-card-hover: 0 8px 24px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(14, 165, 160, 0.15);
 
   background: var(--bg-page);
   background-image:
-    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(79, 110, 247, 0.05) 0%, transparent 70%);
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(14, 165, 160, 0.05) 0%, transparent 70%);
 }
 
 /* Back button — heavy dark shadow too much on white */
@@ -338,5 +338,173 @@
 
 /* Notification dot — soften the glow on light bg */
 .my-notifications-page[data-theme="light"] .card-dot {
-  box-shadow: 0 0 6px rgba(79, 110, 247, 0.35);
+  box-shadow: 0 0 6px rgba(14, 165, 160, 0.35);
+}
+
+/* ================================================================== */
+/* REDESIGN — subtitle, mark-all-read, card icon + New badge, footer  */
+/* (colour swapped blue -> teal via the variables above)              */
+/* ================================================================== */
+
+/* --- header: left-aligned title + subtitle, actions on the right --- */
+.my-notifications-header {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 12px;
+}
+
+.header-title-group {
+  flex: initial;
+  justify-content: flex-start;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-start;
+}
+
+.header-subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.mark-read-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--bg-container);
+  border: 1px solid rgba(14, 165, 160, 0.3);
+  border-radius: 20px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "DM Sans", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.mark-read-btn:hover {
+  background: var(--accent-soft);
+  border-color: rgba(14, 165, 160, 0.5);
+}
+
+/* --- notification card: teal left bar + icon + New badge --- */
+.notification-card {
+  align-items: center;
+  border-left: 3px solid var(--accent);
+}
+
+.notification-card:hover {
+  border-left-color: var(--accent);
+}
+
+.card-icon {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  border: 1px solid rgba(14, 165, 160, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+
+.card-new {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.notification-card .card-new-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 4px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.card-new-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* --- "You're all caught up!" footer (below the list) --- */
+.caught-up-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.caught-up-line {
+  height: 1px;
+  flex: 1;
+  max-width: 90px;
+  background: var(--border);
+}
+
+.caught-up-text {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.caught-up-text svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* --- light-mode: darken muted text + teal button/badge text so they
+       clear 4.5:1 on white (var(--accent) #0d9488 is ~3.7 on white) --- */
+.my-notifications-page[data-theme="light"] {
+  --text-muted: #64748b;
+}
+
+.my-notifications-page[data-theme="light"] .mark-read-btn,
+.my-notifications-page[data-theme="light"] .card-new-label {
+  color: #0f766e;
+}
+
+/* light-mode polish: the reference back button is teal (this page's default
+   is grey), and the #f8fafc cards sit at ~1.05:1 on the white container so
+   they blend — give them a clearer border + lift. (Dark mode unchanged.) */
+.my-notifications-page[data-theme="light"] .back-btn {
+  border-color: rgba(14, 165, 160, 0.3);
+  color: #0f766e;
+}
+
+.my-notifications-page[data-theme="light"] .back-btn:hover {
+  background: var(--accent-soft);
+  border-color: rgba(14, 165, 160, 0.5);
+  color: #0f766e;
+}
+
+.my-notifications-page[data-theme="light"] .notification-card {
+  border-color: rgba(15, 23, 42, 0.10);
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
 }

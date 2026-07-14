@@ -1059,5 +1059,15 @@
   "requestsApproved": "Requests approved",
   "requestsRejected": "Requests rejected",
   "requestsSafeTitle": "Your requests are safe with us",
-  "requestsSafeSub": "All your leave requests are encrypted and confidential."
+  "requestsSafeSub": "All your leave requests are encrypted and confidential.",
+  "allTickets": "All Tickets",
+  "waitingForResponse": "Waiting for response",
+  "beingResolved": "Being resolved",
+  "completed": "Completed",
+  "needHelp": "Need help?",
+  "supportTeamHelp": "Our support team is here to assist you.",
+  "noMatchingTickets": "No tickets match your search",
+  "notificationsSubtitle": "Stay updated with your latest alerts",
+  "markAllAsRead": "Mark all as read",
+  "newLabel": "New"
 }
