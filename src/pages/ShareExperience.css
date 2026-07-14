@@ -931,3 +931,182 @@
     background: rgba(154, 122, 30, 0.06);
     border-color: rgba(154, 122, 30, 0.3);
 }
+
+/* ================================================================== */
+/* REDESIGN — botanical decor, two-tone title, divider lotus          */
+/* (page already gold-themed — additive only, no colour swap)         */
+/* ================================================================== */
+
+/* --- botanical decoration layer (behind content) --- */
+.shrexp__botanical {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.shrexp__leaf {
+    position: absolute;
+    color: #9aa876;
+    opacity: 0.20;
+}
+
+.shrexp__leaf--tr {
+    top: 18px;
+    right: 46px;
+    width: 66px;
+    transform: rotate(32deg);
+}
+
+.shrexp__leaf--bl {
+    bottom: 36px;
+    left: 24px;
+    width: 88px;
+    transform: rotate(-158deg);
+}
+
+.shrexp__leaf--lm {
+    top: 46%;
+    left: -14px;
+    width: 56px;
+    transform: rotate(-72deg);
+}
+
+.shrexp__figure {
+    position: absolute;
+    bottom: 58px;
+    right: 62px;
+    width: 118px;
+    color: var(--shrexp-gold);
+    opacity: 0.12;
+}
+
+.shrexp__sparkle {
+    position: absolute;
+    color: var(--shrexp-gold-lt);
+    opacity: 0.5;
+}
+
+.shrexp__sparkle--1 {
+    top: 17%;
+    right: 12%;
+    width: 18px;
+}
+
+.shrexp__sparkle--2 {
+    top: 56%;
+    right: 7%;
+    width: 12px;
+}
+
+.shrexp__sparkle--3 {
+    bottom: 22%;
+    left: 11%;
+    width: 14px;
+}
+
+/* --- two-tone gradient title (text -> gold; flips via the vars) --- */
+.shrexp__hero-title {
+    background: linear-gradient(100deg, var(--shrexp-text) 0%, var(--shrexp-text) 45%, var(--shrexp-gold) 72%, var(--shrexp-gold-lt) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --- hero divider with a small lotus in the centre --- */
+.shrexp__hero-divider {
+    width: 150px;
+    height: auto;
+    background: none;
+    opacity: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 22px auto 0;
+}
+
+.shrexp__hd-line {
+    height: 1px;
+    flex: 1;
+    background: linear-gradient(90deg, transparent, var(--shrexp-gold));
+    opacity: 0.5;
+}
+
+.shrexp__hd-line:last-child {
+    background: linear-gradient(90deg, var(--shrexp-gold), transparent);
+}
+
+.shrexp__hd-lotus {
+    color: var(--shrexp-gold);
+    width: 22px;
+    flex-shrink: 0;
+    display: flex;
+    opacity: 0.85;
+}
+
+.shrexp__hd-lotus svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* --- hide heavier decor on small screens --- */
+@media (max-width: 600px) {
+
+    .shrexp__figure,
+    .shrexp__leaf--lm {
+        display: none;
+    }
+
+    .shrexp__leaf--tr,
+    .shrexp__leaf--bl {
+        opacity: 0.14;
+    }
+}
+
+/* ================================================================== */
+/* LIGHT THEME — redesign additions                                   */
+/* ================================================================== */
+
+/* leaves read stronger on the cream bg; figure + sparkles stay subtle */
+.shrexp__page[data-theme="light"] .shrexp__leaf {
+    color: #8a9a63;
+    opacity: 0.42;
+}
+
+.shrexp__page[data-theme="light"] .shrexp__figure {
+    opacity: 0.13;
+}
+
+/* gold-lt is a dark bronze in light mode; use a mid-gold so sparkles
+   read as soft highlights rather than dark specks */
+.shrexp__page[data-theme="light"] .shrexp__sparkle {
+    color: #c2a24e;
+    opacity: 0.55;
+}
+
+/* ================================================================== */
+/* LIGHT THEME — small-text contrast fixes                            */
+/* The light gold (#9a7a1e) is only ~3.4-4:1 on the cream/tint, the   */
+/* section headers carry opacity:0.8 (~2.9:1), and the muted brown is */
+/* ~2.9:1. Darken the SMALL gold text + muted text (large/decorative  */
+/* gold — title, stars, mandala — stays as-is). Dark mode unchanged.  */
+/* ================================================================== */
+.shrexp__page[data-theme="light"] {
+    --shrexp-text-muted: #736648;
+}
+
+.shrexp__page[data-theme="light"] .shrexp__back-btn {
+    color: #705617;
+}
+
+.shrexp__page[data-theme="light"] .shrexp__badge {
+    color: #705617;
+}
+
+.shrexp__page[data-theme="light"] .shrexp__sec-header {
+    color: #705617;
+    opacity: 1;
+}

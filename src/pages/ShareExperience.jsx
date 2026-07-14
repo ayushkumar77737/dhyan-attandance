@@ -196,6 +196,31 @@ function ShareExperience() {
         </>
     );
 
+    const Botanical = () => (
+        <div className="shrexp__botanical" aria-hidden="true">
+            {["shrexp__leaf--tr", "shrexp__leaf--bl", "shrexp__leaf--lm"].map(c => (
+                <svg key={c} className={`shrexp__leaf ${c}`} viewBox="0 0 80 120" fill="none">
+                    <path d="M40 120C40 92 40 48 42 16" stroke="currentColor" strokeWidth="1.5" opacity="0.55" />
+                    <path d="M40 102C28 98 22 86 24 76C36 80 42 92 40 102Z" fill="currentColor" />
+                    <path d="M42 84C54 80 60 68 58 58C46 62 40 74 42 84Z" fill="currentColor" />
+                    <path d="M40 66C29 62 24 51 26 42C37 46 42 57 40 66Z" fill="currentColor" />
+                    <path d="M42 50C53 46 58 35 56 26C45 30 40 41 42 50Z" fill="currentColor" />
+                    <path d="M41 34C33 30 29 22 31 14C39 18 43 26 41 34Z" fill="currentColor" />
+                </svg>
+            ))}
+            <svg className="shrexp__figure" viewBox="0 0 120 110" fill="none">
+                <circle cx="60" cy="24" r="12" fill="currentColor" />
+                <path d="M60 40C44 40 33 52 31 70C40 74 50 76 60 76C70 76 80 74 89 70C87 52 76 40 60 40Z" fill="currentColor" />
+                <path d="M24 74C36 84 48 88 60 88C72 88 84 84 96 74C84 70 72 68 60 68C48 68 36 70 24 74Z" fill="currentColor" />
+            </svg>
+            {["shrexp__sparkle--1", "shrexp__sparkle--2", "shrexp__sparkle--3"].map(c => (
+                <svg key={c} className={`shrexp__sparkle ${c}`} viewBox="0 0 24 24" fill="none">
+                    <path d="M12 0C12.6 7.2 13.2 8.4 20 12C13.2 15.6 12.6 16.8 12 24C11.4 16.8 10.8 15.6 4 12C10.8 8.4 11.4 7.2 12 0Z" fill="currentColor" />
+                </svg>
+            ))}
+        </div>
+    );
+
     if (checkingSubmission) {
         return (
             <div className="shrexp__page" data-theme={theme}>
@@ -262,6 +287,7 @@ function ShareExperience() {
             <div className="shrexp__orb shrexp__orb--2" />
             <div className="shrexp__orb shrexp__orb--3" />
             <div className="shrexp__grid-bg" />
+            <Botanical />
 
             <button className="shrexp__back-btn" onClick={() => navigate("/user-dashboard")}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -275,10 +301,21 @@ function ShareExperience() {
                 <div className="shrexp__badge">
                     <span className="shrexp__badge-pulse" />
                     {t("meditationPortal")}
+                    <span className="shrexp__badge-pulse" />
                 </div>
                 <h1 className="shrexp__hero-title">{t("shareYourExperience")}</h1>
                 <p className="shrexp__hero-sub">{t("shareExperienceSub")}</p>
-                <div className="shrexp__hero-divider" />
+                <div className="shrexp__hero-divider">
+                    <span className="shrexp__hd-line" />
+                    <span className="shrexp__hd-lotus">
+                        <svg viewBox="0 0 24 16" fill="currentColor" aria-hidden="true">
+                            <path d="M12 16C12 10 8 6 3 4C5 9 7 13 12 16Z" />
+                            <path d="M12 16C12 10 16 6 21 4C19 9 17 13 12 16Z" />
+                            <path d="M12 16C10 9 10 4 12 0C14 4 14 9 12 16Z" />
+                        </svg>
+                    </span>
+                    <span className="shrexp__hd-line" />
+                </div>
             </div>
 
             {message.text && (
