@@ -1,38 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 .myactv__page {
     --myactv-bg: #080f1a;
-    --myactv-card: rgba(255, 255, 255, 0.04);
-    --myactv-border: rgba(255, 255, 255, 0.07);
+    --myactv-card: rgba(255, 255, 255, 0.05);
+    --myactv-border: rgba(255, 255, 255, 0.08);
+    --myactv-border-strong: rgba(255, 255, 255, 0.16);
     --myactv-teal: #0ea5a0;
     --myactv-teal-light: #2dd4cf;
     --myactv-green: #34d399;
     --myactv-red: #fb7185;
-    --myactv-amber: #fbbf24;
+    --myactv-amber: #fb923c;
     --myactv-purple: #c4b5fd;
-    --myactv-text: #e8f4f4;
-    --myactv-text-dim: #94b8c8;
-    --myactv-text-mute: #6b8fa3;
+    --myactv-blue: #93c5fd;
+    --myactv-text: #eef6f6;
+    --myactv-text-dim: #9cc0cf;
+    --myactv-text-mute: #7b9aad;
     --myactv-font: 'Plus Jakarta Sans', sans-serif;
-    --myactv-display: 'Playfair Display', serif;
+    --myactv-display: 'Plus Jakarta Sans', sans-serif;
+
+    --title-c1: #eef6f6;
+    --title-c2: #2dd4cf;
+    --rail: rgba(255, 255, 255, 0.10);
+    --rail-dot: rgba(255, 255, 255, 0.32);
+    --dots-color: rgba(255, 255, 255, 0.10);
+    --myactv-shadow: 0 20px 44px -20px rgba(0, 0, 0, 0.7);
+    --ease: cubic-bezier(0.4, 0.14, 0.3, 1);
 
     min-height: 100vh;
     background-color: var(--myactv-bg);
     background-image:
-        radial-gradient(ellipse 90% 60% at 15% 0%, rgba(14, 165, 160, 0.1) 0%, transparent 55%),
-        radial-gradient(ellipse 60% 50% at 90% 100%, rgba(16, 185, 129, 0.07) 0%, transparent 55%),
-        repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(255, 255, 255, 0.012) 80px, rgba(255, 255, 255, 0.012) 81px),
-        repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(255, 255, 255, 0.012) 80px, rgba(255, 255, 255, 0.012) 81px);
+        radial-gradient(ellipse 60% 46% at 10% 0%, rgba(14, 165, 160, 0.14) 0%, transparent 56%),
+        radial-gradient(ellipse 55% 44% at 94% 4%, rgba(124, 58, 237, 0.12) 0%, transparent 56%);
     font-family: var(--myactv-font);
     color: var(--myactv-text);
-    padding: 32px 24px 60px;
+    padding: 30px 24px 60px;
     position: relative;
     overflow: hidden;
-    animation: myactv-fade 0.7s ease;
+    animation: myactv-fade 0.7s var(--ease);
 }
 
+/* ---------------------------------------------------------------- */
+/* DECORATIONS                                                      */
+/* ---------------------------------------------------------------- */
 .myactv__orb {
-    position: fixed;
+    position: absolute;
     border-radius: 50%;
     filter: blur(120px);
     pointer-events: none;
@@ -40,44 +51,82 @@
 }
 
 .myactv__orb--1 {
-    width: 520px;
-    height: 520px;
+    width: 480px;
+    height: 480px;
     top: -180px;
-    left: -150px;
-    background: radial-gradient(circle, rgba(14, 165, 160, 0.18), transparent 70%);
+    left: -160px;
+    background: radial-gradient(circle, rgba(20, 184, 166, 0.16), transparent 70%);
 }
 
 .myactv__orb--2 {
-    width: 420px;
-    height: 420px;
-    bottom: -140px;
-    right: -120px;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.12), transparent 70%);
+    width: 480px;
+    height: 480px;
+    top: -190px;
+    right: -160px;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.14), transparent 70%);
 }
 
-.myactv__page>*:not(.myactv__orb) {
+.myactv__deco {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.myactv__dots {
+    top: 150px;
+    left: 70px;
+    width: 92px;
+    height: 110px;
+    background-image: radial-gradient(circle, var(--dots-color) 1.6px, transparent 1.6px);
+    background-size: 18px 18px;
+}
+
+.myactv__leaf {
+    width: 170px;
+    height: auto;
+    opacity: 0.5;
+}
+
+.myactv__leaf--left {
+    bottom: -8px;
+    left: -10px;
+}
+
+.myactv__leaf--right {
+    top: 40px;
+    right: -20px;
+    width: 150px;
+    transform: scaleX(-1) rotate(-8deg);
+    opacity: 0.42;
+}
+
+/* content wrapper (everything except decorations) */
+.myactv__page>*:not(.myactv__orb):not(.myactv__deco) {
     position: relative;
     z-index: 1;
-    max-width: 820px;
+    max-width: 860px;
     margin-left: auto;
     margin-right: auto;
 }
 
+/* ---------------------------------------------------------------- */
+/* BACK                                                             */
+/* ---------------------------------------------------------------- */
 .myactv__back {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    padding: 9px 20px;
+    padding: 10px 20px;
     margin-bottom: 24px;
-    background: rgba(14, 165, 160, 0.06);
+    background: var(--myactv-card);
     color: var(--myactv-teal-light);
-    border: 1px solid rgba(14, 165, 160, 0.2);
+    border: 1px solid rgba(14, 165, 160, 0.26);
     border-radius: 50px;
     font-family: var(--myactv-font);
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.22s ease;
+    transition: all 0.22s var(--ease);
     backdrop-filter: blur(10px);
 }
 
@@ -87,15 +136,18 @@
 }
 
 .myactv__back:hover {
-    background: rgba(14, 165, 160, 0.13);
     border-color: rgba(14, 165, 160, 0.5);
     transform: translateX(-3px);
+    box-shadow: 0 8px 20px -10px rgba(14, 165, 160, 0.55);
 }
 
+/* ---------------------------------------------------------------- */
+/* HEADER                                                           */
+/* ---------------------------------------------------------------- */
 .myactv__header {
     text-align: center;
     margin-bottom: 28px;
-    animation: myactv-slidedown 0.5s ease;
+    animation: myactv-slidedown 0.5s var(--ease);
 }
 
 .myactv__eyebrow {
@@ -103,15 +155,15 @@
     align-items: center;
     gap: 8px;
     font-size: 10px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--myactv-teal-light);
     background: rgba(14, 165, 160, 0.1);
     border: 1px solid rgba(14, 165, 160, 0.25);
-    padding: 5px 16px;
+    padding: 6px 16px;
     border-radius: 50px;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
 }
 
 .myactv__eyebrow-dot {
@@ -125,51 +177,101 @@
 
 .myactv__title {
     font-family: var(--myactv-display);
-    font-size: 42px;
-    font-weight: 700;
-    color: var(--myactv-text);
-    letter-spacing: -1px;
-    margin: 0 0 6px;
-    line-height: 1.1;
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: -1.2px;
+    margin: 0 0 12px;
+    line-height: 1.08;
+    background: linear-gradient(90deg, var(--title-c1) 0%, var(--title-c1) 30%, var(--title-c2) 46%, var(--title-c2) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.myactv__title-line {
+    width: 96px;
+    height: 2px;
+    margin: 0 auto 12px;
+    position: relative;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, var(--myactv-teal), var(--myactv-teal-light));
+}
+
+.myactv__title-line span {
+    position: absolute;
+    right: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--myactv-teal-light);
+    box-shadow: 0 0 10px var(--myactv-teal-light);
 }
 
 .myactv__sub {
     font-size: 13px;
     color: var(--myactv-teal-light);
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    font-weight: 600;
     margin: 0;
-    opacity: 0.85;
+    opacity: 0.9;
 }
 
+/* ---------------------------------------------------------------- */
+/* STATS                                                            */
+/* ---------------------------------------------------------------- */
 .myactv__stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    gap: 14px;
     margin-bottom: 22px;
-    animation: myactv-slideup 0.5s ease 0.1s both;
+    animation: myactv-slideup 0.5s var(--ease) 0.1s both;
 }
 
 .myactv__stat {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 16px 16px;
+    gap: 13px;
+    padding: 18px 18px;
     background: var(--myactv-card);
     border: 1px solid var(--myactv-border);
-    border-radius: 16px;
+    border-radius: 18px;
+    overflow: hidden;
     backdrop-filter: blur(12px);
-    transition: transform 0.22s ease, border-color 0.22s ease;
+    transition: transform 0.24s var(--ease), border-color 0.24s var(--ease), box-shadow 0.24s var(--ease);
 }
 
 .myactv__stat:hover {
     transform: translateY(-3px);
-    border-color: rgba(14, 165, 160, 0.3);
+    border-color: var(--myactv-border-strong);
+    box-shadow: var(--myactv-shadow);
+}
+
+.myactv__stat-blob {
+    position: absolute;
+    right: -28px;
+    bottom: -34px;
+    width: 128px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 64% 64%, var(--blob), transparent 68%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.myactv__stat-icon,
+.myactv__stat-body {
+    position: relative;
+    z-index: 1;
 }
 
 .myactv__stat-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 11px;
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -177,8 +279,24 @@
 }
 
 .myactv__stat-icon svg {
-    width: 19px;
-    height: 19px;
+    width: 20px;
+    height: 20px;
+}
+
+.myactv__stat--teal {
+    --blob: rgba(20, 184, 166, 0.16);
+}
+
+.myactv__stat--green {
+    --blob: rgba(34, 197, 94, 0.16);
+}
+
+.myactv__stat--amber {
+    --blob: rgba(249, 115, 22, 0.16);
+}
+
+.myactv__stat--purple {
+    --blob: rgba(139, 92, 246, 0.16);
 }
 
 .myactv__stat-icon--teal {
@@ -192,33 +310,34 @@
 }
 
 .myactv__stat-icon--amber {
-    background: rgba(245, 158, 11, 0.15);
+    background: rgba(249, 115, 22, 0.16);
     color: var(--myactv-amber);
 }
 
 .myactv__stat-icon--purple {
-    background: rgba(124, 58, 237, 0.15);
+    background: rgba(124, 58, 237, 0.16);
     color: var(--myactv-purple);
 }
 
 .myactv__stat-body {
     display: flex;
     flex-direction: column;
-    gap: 1px;
+    gap: 2px;
     min-width: 0;
 }
 
 .myactv__stat-num {
     font-family: var(--myactv-display);
-    font-size: 26px;
-    font-weight: 700;
+    font-size: 28px;
+    font-weight: 800;
     line-height: 1;
+    letter-spacing: -0.5px;
     color: var(--myactv-text);
 }
 
 .myactv__stat-lbl {
-    font-size: 9px;
-    font-weight: 600;
+    font-size: 9.5px;
+    font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--myactv-text-mute);
@@ -227,25 +346,28 @@
     text-overflow: ellipsis;
 }
 
+/* ---------------------------------------------------------------- */
+/* FILTERS                                                          */
+/* ---------------------------------------------------------------- */
 .myactv__filters {
     display: flex;
-    gap: 8px;
+    gap: 9px;
     flex-wrap: wrap;
     margin-bottom: 18px;
-    animation: myactv-slideup 0.5s ease 0.15s both;
+    animation: myactv-slideup 0.5s var(--ease) 0.15s both;
 }
 
 .myactv__filter-btn {
-    padding: 8px 18px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 10px 20px;
+    background: var(--myactv-card);
+    border: 1px solid var(--myactv-border);
     border-radius: 50px;
     color: var(--myactv-text-dim);
     font-family: var(--myactv-font);
-    font-size: 12px;
+    font-size: 12.5px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s var(--ease);
     white-space: nowrap;
 }
 
@@ -260,30 +382,60 @@
     color: var(--myactv-teal-light);
 }
 
+/* ---------------------------------------------------------------- */
+/* FEED / TIMELINE                                                  */
+/* ---------------------------------------------------------------- */
 .myactv__feed-card {
     background: var(--myactv-card);
     border: 1px solid var(--myactv-border);
-    border-radius: 20px;
+    border-radius: 22px;
     backdrop-filter: blur(16px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 14px 44px -18px rgba(0, 0, 0, 0.4);
     overflow: hidden;
-    animation: myactv-slideup 0.5s ease 0.2s both;
+    animation: myactv-slideup 0.5s var(--ease) 0.2s both;
 }
 
 .myactv__timeline {
+    position: relative;
     display: flex;
     flex-direction: column;
-    padding: 8px;
+    padding: 10px 10px 10px 10px;
+}
+
+.myactv__timeline::before {
+    content: '';
+    position: absolute;
+    left: 34px;
+    top: 34px;
+    bottom: 34px;
+    width: 2px;
+    background: var(--rail);
+    z-index: 0;
 }
 
 .myactv__item {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 14px 14px;
+    padding: 16px 14px 16px 46px;
     border-radius: 14px;
-    transition: background 0.18s ease;
-    animation: myactv-itemin 0.4s ease both;
+    transition: background 0.18s var(--ease);
+    animation: myactv-itemin 0.4s var(--ease) both;
+}
+
+.myactv__item::before {
+    content: '';
+    position: absolute;
+    left: 31px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--rail-dot);
+    box-shadow: 0 0 0 3px var(--myactv-card);
+    z-index: 1;
 }
 
 .myactv__item:hover {
@@ -291,14 +443,14 @@
 }
 
 .myactv__item:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 0;
 }
 
 .myactv__item-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 11px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -311,18 +463,33 @@
 }
 
 .myactv__item-icon--attendance {
-    background: rgba(16, 185, 129, 0.13);
+    background: rgba(16, 185, 129, 0.14);
     color: var(--myactv-green);
 }
 
 .myactv__item-icon--leave {
-    background: rgba(245, 158, 11, 0.13);
+    background: rgba(249, 115, 22, 0.14);
     color: var(--myactv-amber);
 }
 
 .myactv__item-icon--ticket {
-    background: rgba(124, 58, 237, 0.13);
+    background: rgba(124, 58, 237, 0.14);
     color: var(--myactv-purple);
+}
+
+.myactv__item-icon--profile {
+    background: rgba(59, 130, 246, 0.14);
+    color: var(--myactv-blue);
+}
+
+.myactv__item-icon--experience {
+    background: rgba(14, 165, 160, 0.14);
+    color: var(--myactv-teal-light);
+}
+
+.myactv__item-icon--other {
+    background: rgba(14, 165, 160, 0.10);
+    color: var(--myactv-teal-light);
 }
 
 .myactv__item-body {
@@ -333,17 +500,11 @@
     gap: 3px;
 }
 
-.myactv__item-top {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
 .myactv__item-title {
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--myactv-text);
+    letter-spacing: 0.1px;
 }
 
 .myactv__item-sub {
@@ -355,6 +516,34 @@
     max-width: 360px;
 }
 
+.myactv__item-date {
+    font-size: 12px;
+    color: var(--myactv-text-mute);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.myactv__item-chevron {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--myactv-text-mute);
+    opacity: 0.6;
+    transition: transform 0.2s var(--ease), opacity 0.2s var(--ease);
+}
+
+.myactv__item-chevron svg {
+    width: 16px;
+    height: 16px;
+}
+
+.myactv__item:hover .myactv__item-chevron {
+    opacity: 1;
+    transform: translateX(2px);
+}
+
+/* status pills (kept for compatibility) */
 .myactv__status {
     display: inline-flex;
     align-items: center;
@@ -385,16 +574,12 @@
 
 .myactv__dot-amber {
     color: var(--myactv-amber);
-    background: rgba(245, 158, 11, 0.1);
+    background: rgba(249, 115, 22, 0.12);
 }
 
-.myactv__item-date {
-    font-size: 12px;
-    color: var(--myactv-text-mute);
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
+/* ---------------------------------------------------------------- */
+/* LOADING / EMPTY                                                  */
+/* ---------------------------------------------------------------- */
 .myactv__loading,
 .myactv__empty {
     display: flex;
@@ -402,7 +587,7 @@
     align-items: center;
     justify-content: center;
     gap: 14px;
-    padding: 64px 20px;
+    padding: 66px 20px;
     color: var(--myactv-text-dim);
     font-size: 14px;
 }
@@ -417,10 +602,13 @@
 }
 
 .myactv__empty-icon {
-    font-size: 38px;
-    opacity: 0.4;
+    font-size: 40px;
+    opacity: 0.45;
 }
 
+/* ---------------------------------------------------------------- */
+/* KEYFRAMES                                                        */
+/* ---------------------------------------------------------------- */
 @keyframes myactv-fade {
     from {
         opacity: 0;
@@ -487,17 +675,35 @@
     }
 }
 
+@media (prefers-reduced-motion: reduce) {
+
+    .myactv__page,
+    .myactv__page * {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+
+/* ---------------------------------------------------------------- */
+/* RESPONSIVE                                                       */
+/* ---------------------------------------------------------------- */
 @media (max-width: 768px) {
     .myactv__page {
         padding: 22px 14px 50px;
     }
 
     .myactv__title {
-        font-size: 32px;
+        font-size: 34px;
     }
 
     .myactv__stats {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .myactv__leaf--right,
+    .myactv__dots {
+        display: none;
     }
 
     .myactv__item {
@@ -506,7 +712,11 @@
 
     .myactv__item-date {
         width: 100%;
-        padding-left: 54px;
+        padding-left: 56px;
+    }
+
+    .myactv__item-chevron {
+        display: none;
     }
 
     .myactv__item-sub {
@@ -520,76 +730,134 @@
     }
 }
 
-/* ================================================================== */
-/* LIGHT THEME                                                        */
-/* ================================================================== */
-/* Variables are scoped on .myactv__page, so redefining them flips
-   cards, text, title, stats, and timeline automatically.
-   Accent colors darkened for readability on white */
+/* ================================================================ */
+/* LIGHT THEME                                                      */
+/* ================================================================ */
 .myactv__page[data-theme="light"] {
-    --myactv-bg: #f1f5f9;
+    --myactv-bg: #eef1f8;
     --myactv-card: #ffffff;
-    --myactv-border: rgba(15, 23, 42, 0.08);
+    --myactv-border: rgba(20, 30, 55, 0.10);
+    --myactv-border-strong: rgba(14, 165, 160, 0.32);
     --myactv-teal: #0ea5a0;
     --myactv-teal-light: #0d9488;
-    --myactv-green: #047857;
-    --myactv-red: #be123c;
-    --myactv-amber: #b45309;
-    --myactv-purple: #6d28d9;
-    --myactv-text: #1e293b;
-    --myactv-text-dim: #334155;
-    --myactv-text-mute: #64748b;
+    --myactv-green: #17a94a;
+    --myactv-red: #e11d48;
+    --myactv-amber: #f97316;
+    --myactv-purple: #8b5cf6;
+    --myactv-blue: #3b82f6;
+    --myactv-text: #17233a;
+    --myactv-text-dim: #45566b;
+    --myactv-text-mute: #5b6b7f;
+
+    --title-c1: #17233a;
+    --title-c2: #0d9488;
+    --rail: rgba(20, 30, 55, 0.12);
+    --rail-dot: #c3cede;
+    --dots-color: rgba(148, 163, 184, 0.55);
+    --myactv-shadow: 0 26px 50px -22px rgba(23, 35, 64, 0.30);
 
     background-color: var(--myactv-bg);
     background-image:
-        radial-gradient(ellipse 90% 60% at 15% 0%, rgba(14, 165, 160, 0.07) 0%, transparent 55%),
-        radial-gradient(ellipse 60% 50% at 90% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 55%),
-        repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(15, 23, 42, 0.025) 80px, rgba(15, 23, 42, 0.025) 81px),
-        repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(15, 23, 42, 0.025) 80px, rgba(15, 23, 42, 0.025) 81px);
+        radial-gradient(ellipse 60% 46% at 8% 0%, rgba(45, 212, 207, 0.20) 0%, transparent 56%),
+        radial-gradient(ellipse 56% 44% at 95% 3%, rgba(167, 139, 250, 0.20) 0%, transparent 56%);
 }
 
-/* Orbs — soften on light bg */
 .myactv__page[data-theme="light"] .myactv__orb--1 {
-    background: radial-gradient(circle, rgba(14, 165, 160, 0.08), transparent 70%);
+    background: radial-gradient(circle, rgba(45, 212, 207, 0.14), transparent 70%);
 }
 
 .myactv__page[data-theme="light"] .myactv__orb--2 {
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.06), transparent 70%);
+    background: radial-gradient(circle, rgba(167, 139, 250, 0.16), transparent 70%);
 }
 
-/* Back button — teal-tint bg invisible on white */
+/* controls: soft lift */
+.myactv__page[data-theme="light"] .myactv__back,
+.myactv__page[data-theme="light"] .myactv__filter-btn {
+    box-shadow: 0 8px 20px -12px rgba(23, 35, 64, 0.16);
+}
+
+/* stat + feed cards: deeper shadow for real separation */
+.myactv__page[data-theme="light"] .myactv__stat {
+    box-shadow: 0 12px 30px -14px rgba(23, 35, 64, 0.20), 0 2px 6px -2px rgba(23, 35, 64, 0.06);
+}
+
+.myactv__page[data-theme="light"] .myactv__feed-card {
+    box-shadow: 0 16px 40px -18px rgba(23, 35, 64, 0.18), 0 2px 8px -3px rgba(23, 35, 64, 0.06);
+}
+
+.myactv__page[data-theme="light"] .myactv__stat:hover {
+    border-color: rgba(14, 165, 160, 0.3);
+    box-shadow: var(--myactv-shadow);
+}
+
+/* stronger corner blobs so each stat clearly carries its colour */
+.myactv__page[data-theme="light"] .myactv__stat--teal {
+    --blob: rgba(20, 184, 166, 0.24);
+}
+
+.myactv__page[data-theme="light"] .myactv__stat--green {
+    --blob: rgba(34, 197, 94, 0.24);
+}
+
+.myactv__page[data-theme="light"] .myactv__stat--amber {
+    --blob: rgba(249, 115, 22, 0.23);
+}
+
+.myactv__page[data-theme="light"] .myactv__stat--purple {
+    --blob: rgba(139, 92, 246, 0.23);
+}
+
+/* vibrant icon chips (bright glyph on a soft tint — matches the reference) */
+.myactv__page[data-theme="light"] .myactv__stat-icon--teal {
+    background: rgba(14, 165, 160, 0.14);
+    color: #10b3a6;
+}
+
+.myactv__page[data-theme="light"] .myactv__stat-icon--green {
+    background: rgba(34, 197, 94, 0.15);
+}
+
+.myactv__page[data-theme="light"] .myactv__stat-icon--amber {
+    background: rgba(249, 115, 22, 0.15);
+}
+
+.myactv__page[data-theme="light"] .myactv__stat-icon--purple {
+    background: rgba(139, 92, 246, 0.15);
+}
+
+.myactv__page[data-theme="light"] .myactv__item-icon--attendance {
+    background: rgba(34, 197, 94, 0.14);
+}
+
+.myactv__page[data-theme="light"] .myactv__item-icon--leave {
+    background: rgba(249, 115, 22, 0.15);
+}
+
+.myactv__page[data-theme="light"] .myactv__item-icon--ticket {
+    background: rgba(139, 92, 246, 0.14);
+}
+
+.myactv__page[data-theme="light"] .myactv__item-icon--profile {
+    background: rgba(59, 130, 246, 0.14);
+}
+
+.myactv__page[data-theme="light"] .myactv__item-icon--experience {
+    background: rgba(14, 165, 160, 0.13);
+    color: #10b3a6;
+}
+
+.myactv__page[data-theme="light"] .myactv__item-icon--other {
+    background: rgba(14, 165, 160, 0.11);
+    color: #10b3a6;
+}
+
 .myactv__page[data-theme="light"] .myactv__back {
-    background: #ffffff;
     border-color: rgba(14, 165, 160, 0.3);
     color: #0d9488;
 }
 
 .myactv__page[data-theme="light"] .myactv__back:hover {
-    background: rgba(14, 165, 160, 0.08);
-    border-color: rgba(14, 165, 160, 0.45);
-}
-
-/* Stat icons — light tints behind darkened colors */
-.myactv__page[data-theme="light"] .myactv__stat-icon--teal {
-    background: rgba(14, 165, 160, 0.1);
-}
-
-.myactv__page[data-theme="light"] .myactv__stat-icon--green {
-    background: rgba(16, 185, 129, 0.1);
-}
-
-.myactv__page[data-theme="light"] .myactv__stat-icon--amber {
-    background: rgba(245, 158, 11, 0.12);
-}
-
-.myactv__page[data-theme="light"] .myactv__stat-icon--purple {
-    background: rgba(124, 58, 237, 0.1);
-}
-
-/* Filter buttons — white-tint bg disappears on white */
-.myactv__page[data-theme="light"] .myactv__filter-btn {
-    background: #ffffff;
-    border-color: rgba(15, 23, 42, 0.1);
+    border-color: rgba(14, 165, 160, 0.5);
 }
 
 .myactv__page[data-theme="light"] .myactv__filter-btn:hover {
@@ -598,47 +866,26 @@
 }
 
 .myactv__page[data-theme="light"] .myactv__filter-btn--active {
-    background: rgba(14, 165, 160, 0.1);
+    background: rgba(14, 165, 160, 0.12);
     border-color: rgba(14, 165, 160, 0.5);
     color: #0d9488;
 }
 
-/* Feed card — heavy dark shadow too much on white */
-.myactv__page[data-theme="light"] .myactv__feed-card {
-    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
-}
-
-/* Timeline items — white-based hover/borders invisible on white */
 .myactv__page[data-theme="light"] .myactv__item:hover {
-    background: rgba(14, 165, 160, 0.04);
+    background: rgba(14, 165, 160, 0.05);
 }
 
 .myactv__page[data-theme="light"] .myactv__item:not(:last-child) {
-    border-bottom-color: rgba(15, 23, 42, 0.06);
+    border-bottom-color: rgba(20, 30, 55, 0.07);
 }
 
-/* Item icons — light tints behind darkened colors */
-.myactv__page[data-theme="light"] .myactv__item-icon--attendance {
-    background: rgba(16, 185, 129, 0.1);
-}
-
-.myactv__page[data-theme="light"] .myactv__item-icon--leave {
-    background: rgba(245, 158, 11, 0.12);
-}
-
-.myactv__page[data-theme="light"] .myactv__item-icon--ticket {
-    background: rgba(124, 58, 237, 0.1);
-}
-
-/* Loader ring — white-based track invisible on white */
 .myactv__page[data-theme="light"] .myactv__ring {
-    border-color: rgba(15, 23, 42, 0.1);
+    border-color: rgba(20, 30, 55, 0.1);
     border-top-color: var(--myactv-teal);
 }
 
-/* Status dots — light tint backgrounds */
 .myactv__page[data-theme="light"] .myactv__dot-green {
-    background: rgba(16, 185, 129, 0.1);
+    background: rgba(34, 197, 94, 0.1);
 }
 
 .myactv__page[data-theme="light"] .myactv__dot-red {
@@ -646,5 +893,5 @@
 }
 
 .myactv__page[data-theme="light"] .myactv__dot-amber {
-    background: rgba(245, 158, 11, 0.12);
+    background: rgba(249, 115, 22, 0.12);
 }

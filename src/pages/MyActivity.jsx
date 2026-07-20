@@ -51,7 +51,22 @@ const icons = {
             <circle cx="12" cy="12" r="3" />
         </svg>
     ),
+    chevron: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+        </svg>
+    ),
 };
+
+const Leaf = ({ side }) => (
+    <svg className={`myactv__deco myactv__leaf myactv__leaf--${side}`} width="170" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M96 258C70 210 44 172 40 120C36 70 56 34 96 6" stroke="#86c98f" strokeWidth="2.4" strokeLinecap="round" opacity="0.7" />
+        <path d="M96 40C70 44 48 60 42 92C74 96 92 78 96 40Z" fill="#a7dbaf" />
+        <path d="M96 40C122 44 144 60 150 92C118 96 100 78 96 40Z" fill="#8fd09a" />
+        <path d="M84 108C60 114 42 132 40 162C68 162 84 142 84 108Z" fill="#9ad5a4" />
+        <path d="M92 150C72 156 58 174 58 200C82 198 94 180 92 150Z" fill="#b6e2bd" />
+    </svg>
+);
 
 // maps an action key -> { icon, type (for color), titleKey }
 const actionMeta = (action) => {
@@ -186,6 +201,9 @@ function MyActivity() {
         <div className="myactv__page" data-theme={theme}>
             <div className="myactv__orb myactv__orb--1" />
             <div className="myactv__orb myactv__orb--2" />
+            <div className="myactv__deco myactv__dots" aria-hidden="true" />
+            <Leaf side="left" />
+            <Leaf side="right" />
 
             <button className="myactv__back" onClick={() => navigate("/user-dashboard")}>
                 {icons.back} {t("back")}
@@ -196,32 +214,37 @@ function MyActivity() {
                     <span className="myactv__eyebrow-dot" /> {t("activity") || "Activity"}
                 </div>
                 <h1 className="myactv__title">{t("myActivity") || "My Activity"}</h1>
+                <div className="myactv__title-line" aria-hidden="true"><span /></div>
                 <p className="myactv__sub">{userId}</p>
             </div>
 
             <div className="myactv__stats">
-                <div className="myactv__stat">
+                <div className="myactv__stat myactv__stat--teal">
+                    <span className="myactv__stat-blob" aria-hidden="true" />
                     <span className="myactv__stat-icon myactv__stat-icon--teal">{icons.pulse}</span>
                     <div className="myactv__stat-body">
                         <span className="myactv__stat-num">{loading ? "—" : stats.total}</span>
                         <span className="myactv__stat-lbl">{t("total")}</span>
                     </div>
                 </div>
-                <div className="myactv__stat">
+                <div className="myactv__stat myactv__stat--green">
+                    <span className="myactv__stat-blob" aria-hidden="true" />
                     <span className="myactv__stat-icon myactv__stat-icon--green">{icons.qr}</span>
                     <div className="myactv__stat-body">
                         <span className="myactv__stat-num">{loading ? "—" : stats.attendance}</span>
                         <span className="myactv__stat-lbl">{t("attendance")}</span>
                     </div>
                 </div>
-                <div className="myactv__stat">
+                <div className="myactv__stat myactv__stat--amber">
+                    <span className="myactv__stat-blob" aria-hidden="true" />
                     <span className="myactv__stat-icon myactv__stat-icon--amber">{icons.leave}</span>
                     <div className="myactv__stat-body">
                         <span className="myactv__stat-num">{loading ? "—" : stats.leave}</span>
                         <span className="myactv__stat-lbl">{t("absenceRequests")}</span>
                     </div>
                 </div>
-                <div className="myactv__stat">
+                <div className="myactv__stat myactv__stat--purple">
+                    <span className="myactv__stat-blob" aria-hidden="true" />
                     <span className="myactv__stat-icon myactv__stat-icon--purple">{icons.ticket}</span>
                     <div className="myactv__stat-body">
                         <span className="myactv__stat-num">{loading ? "—" : stats.ticket}</span>
@@ -267,6 +290,7 @@ function MyActivity() {
                                     )}
                                 </div>
                                 <span className="myactv__item-date">{formatTime(l.timestamp)}</span>
+                                <span className="myactv__item-chevron" aria-hidden="true">{icons.chevron}</span>
                             </div>
                         ))}
                     </div>

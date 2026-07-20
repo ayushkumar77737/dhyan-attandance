@@ -1069,5 +1069,7 @@
   "noMatchingTickets": "No tickets match your search",
   "notificationsSubtitle": "Stay updated with your latest alerts",
   "markAllAsRead": "Mark all as read",
-  "newLabel": "New"
+  "newLabel": "New",
+  "connectedTeam": "Connected Team, Stronger Together",
+  "connectedTeamSub": "Easily find and connect with team members."
 }

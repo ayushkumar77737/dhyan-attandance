@@ -686,7 +686,6 @@
     background: #f1f5f9;
 }
 
-/* Grid lines (on ::before) — teal-tint too faint, darken slightly */
 .helpsup__wrapper[data-theme="light"]::before {
     background-image:
         repeating-linear-gradient(0deg, transparent, transparent 70px,
@@ -695,7 +694,6 @@
             rgba(15, 23, 42, 0.025) 70px, rgba(15, 23, 42, 0.025) 71px);
 }
 
-/* Orbs — soften so they don't wash out the light bg */
 .helpsup__wrapper[data-theme="light"] .helpsup__orb--1 {
     background: radial-gradient(circle, rgba(14, 165, 160, 0.1), transparent 70%);
 }
@@ -708,7 +706,6 @@
     background: radial-gradient(circle, rgba(16, 185, 129, 0.06), transparent 70%);
 }
 
-/* Back button — white-tint bg is invisible on white */
 .helpsup__wrapper[data-theme="light"] .helpsup__back-btn {
     background: #ffffff;
     border-color: rgba(14, 165, 160, 0.3);
@@ -721,7 +718,6 @@
     color: #0f766e;
 }
 
-/* Header */
 .helpsup__wrapper[data-theme="light"] .helpsup__title {
     color: #1e293b;
 }
@@ -734,7 +730,6 @@
     color: #64748b;
 }
 
-/* Contact cards — near-transparent white bg disappears on white */
 .helpsup__wrapper[data-theme="light"] .helpsup__card {
     background: #ffffff;
     border-color: rgba(15, 23, 42, 0.08);
@@ -766,7 +761,6 @@
     color: #0f766e;
 }
 
-/* Card icons — pale tones darkened for white bg */
 .helpsup__wrapper[data-theme="light"] .helpsup__card--phone .helpsup__card-icon-wrap svg {
     stroke: #0d9488;
 }
@@ -783,7 +777,6 @@
     stroke: #dc2626;
 }
 
-/* Copy / open buttons */
 .helpsup__wrapper[data-theme="light"] .helpsup__copy-btn,
 .helpsup__wrapper[data-theme="light"] .helpsup__open-btn {
     background: rgba(15, 23, 42, 0.04);
@@ -809,7 +802,6 @@
     color: #047857 !important;
 }
 
-/* FAQ */
 .helpsup__wrapper[data-theme="light"] .helpsup__faq-item {
     background: #ffffff;
     border-color: rgba(15, 23, 42, 0.08);
@@ -844,7 +836,6 @@
     border-top-color: rgba(15, 23, 42, 0.08);
 }
 
-/* Footer note */
 .helpsup__wrapper[data-theme="light"] .helpsup__footer-note {
     background: rgba(14, 165, 160, 0.05);
     border-color: rgba(14, 165, 160, 0.3);
@@ -854,7 +845,204 @@
     color: #0d9488;
 }
 
-/* No data */
 .helpsup__wrapper[data-theme="light"] .helpsup__no-data {
     color: #64748b;
+}
+
+/* ================================================================== */
+/* REDESIGN — decorative layer + section header icons                 */
+/* (page already teal-themed — additive only, no colour swap)         */
+/* ================================================================== */
+
+/* --- section header icons (colored glyph + grey uppercase label) --- */
+.helpsup__section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.helpsup__section-ico {
+    display: flex;
+    align-items: center;
+}
+
+.helpsup__section-ico svg {
+    width: 17px;
+    height: 17px;
+}
+
+.helpsup__section-ico--teal {
+    color: #2dd4cf;
+}
+
+.helpsup__section-ico--red {
+    color: #f87171;
+}
+
+/* --- decorative layer (behind content) --- */
+.helpsup__decor {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.helpsup__decor-dots {
+    position: absolute;
+    top: 150px;
+    left: 68px;
+    width: 42px;
+    color: rgba(255, 255, 255, 0.12);
+}
+
+.helpsup__decor-leaf {
+    position: absolute;
+    color: #8aa06a;
+    opacity: 0.16;
+}
+
+.helpsup__decor-leaf--tl {
+    top: -8px;
+    left: 12px;
+    width: 68px;
+    transform: rotate(148deg);
+}
+
+.helpsup__decor-leaf--bl {
+    bottom: 26px;
+    left: 6px;
+    width: 108px;
+    transform: rotate(-18deg);
+}
+
+.helpsup__decor-plane {
+    position: absolute;
+    top: 118px;
+    right: 90px;
+    width: 58px;
+    color: #2dd4cf;
+    opacity: 0.42;
+}
+
+.helpsup__decor-chat {
+    position: absolute;
+    bottom: 88px;
+    right: 58px;
+    width: 130px;
+    opacity: 0.9;
+}
+
+.helpsup__decor-spark {
+    position: absolute;
+    color: #2dd4cf;
+    opacity: 0.6;
+}
+
+.helpsup__decor-spark--1 {
+    bottom: 205px;
+    right: 72px;
+    width: 16px;
+}
+
+.helpsup__decor-spark--2 {
+    bottom: 120px;
+    right: 205px;
+    width: 12px;
+}
+
+.helpsup__decor-spark--3 {
+    bottom: 235px;
+    right: 185px;
+    width: 10px;
+}
+
+/* keep decor clear of the content on narrower screens */
+@media (max-width: 1024px) {
+
+    .helpsup__decor-plane,
+    .helpsup__decor-dots {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .helpsup__decor-chat,
+    .helpsup__decor-leaf--tl,
+    .helpsup__decor-spark {
+        display: none;
+    }
+
+    .helpsup__decor-leaf--bl {
+        opacity: 0.1;
+    }
+}
+
+/* ================================================================== */
+/* LIGHT THEME — redesign additions                                   */
+/* ================================================================== */
+
+.helpsup__wrapper[data-theme="light"] .helpsup__section-ico--teal {
+    color: #0d9488;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__section-ico--red {
+    color: #dc2626;
+}
+
+/* dots + leaves read stronger on the light bg; airplane/sparkles darker */
+.helpsup__wrapper[data-theme="light"] .helpsup__decor-dots {
+    color: rgba(15, 23, 42, 0.12);
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__decor-leaf {
+    color: #8aa063;
+    opacity: 0.4;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__decor-plane {
+    color: #14b8a6;
+    opacity: 0.5;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__decor-spark {
+    color: #14b8a6;
+    opacity: 0.5;
+}
+
+/* ================================================================== */
+/* LIGHT THEME — teal contrast fixes                                  */
+/* "Support" accent used bright dark-mode teals (#2dd4cf/#5eead4 -> as */
+/* low as 1.35:1, washed out); teal text (#0d9488) is only ~3.3-3.7:1 */
+/* on white. Darker teal gradient + darker teal text. Dark unchanged. */
+/* ================================================================== */
+.helpsup__wrapper[data-theme="light"] .helpsup__title-accent {
+    background: linear-gradient(120deg, #0d9488, #0f766e);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__back-btn {
+    color: #0f766e;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__back-btn:hover {
+    color: #0c5d54;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__card-value--link {
+    color: #0f766e;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__card-value--link:hover {
+    color: #0c5d54;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__card-value:hover {
+    color: #0f766e;
+}
+
+.helpsup__wrapper[data-theme="light"] .helpsup__footer-note p {
+    color: #0f766e;
 }

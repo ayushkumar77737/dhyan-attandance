@@ -122,6 +122,56 @@ const HelpSupport = () => {
             <line x1="10" y1="14" x2="21" y2="3" />
         </svg>
     );
+    const Decorations = () => (
+        <div className="helpsup__decor" aria-hidden="true">
+            <svg className="helpsup__decor-dots" viewBox="0 0 44 44" fill="currentColor">
+                {[6, 22, 38].map((y) =>
+                    [6, 22, 38].map((x) => <circle key={`${x}-${y}`} cx={x} cy={y} r="2.6" />)
+                )}
+            </svg>
+
+            {["helpsup__decor-leaf--tl", "helpsup__decor-leaf--bl"].map((c) => (
+                <svg key={c} className={`helpsup__decor-leaf ${c}`} viewBox="0 0 80 120" fill="currentColor">
+                    <path d="M40 120C40 92 40 48 42 16" stroke="currentColor" strokeWidth="1.5" fill="none" opacity="0.55" />
+                    <path d="M40 102C28 98 22 86 24 76C36 80 42 92 40 102Z" />
+                    <path d="M42 84C54 80 60 68 58 58C46 62 40 74 42 84Z" />
+                    <path d="M40 66C29 62 24 51 26 42C37 46 42 57 40 66Z" />
+                    <path d="M42 50C53 46 58 35 56 26C45 30 40 41 42 50Z" />
+                    <path d="M41 34C33 30 29 22 31 14C39 18 43 26 41 34Z" />
+                </svg>
+            ))}
+
+            <svg className="helpsup__decor-plane" viewBox="0 0 72 60" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round">
+                <path d="M68 4 L6 28 L28 34 L36 54 L46 30 Z" />
+                <path d="M68 4 L28 34" />
+                <path d="M6 28 C-2 36 -1 46 8 50" strokeDasharray="1 6" opacity="0.6" />
+            </svg>
+
+            <svg className="helpsup__decor-chat" viewBox="0 0 132 94" fill="none">
+                <defs>
+                    <linearGradient id="helpsupTeal" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0" stopColor="#5eead4" />
+                        <stop offset="1" stopColor="#14b8a6" />
+                    </linearGradient>
+                    <linearGradient id="helpsupPurple" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0" stopColor="#c7d2fe" />
+                        <stop offset="1" stopColor="#818cf8" />
+                    </linearGradient>
+                </defs>
+                <path d="M64 30C64 15 74 12 86 12L110 12C124 12 128 22 128 36L128 50C128 64 118 66 106 66L98 66L92 82L88 66C74 64 64 54 64 44Z" fill="url(#helpsupPurple)" opacity="0.92" />
+                <path d="M6 24C6 6 20 4 34 4L62 4C82 4 84 20 84 30L84 48C84 66 66 64 52 64L34 64L22 82L26 62C8 60 6 44 6 36Z" fill="url(#helpsupTeal)" />
+                <circle cx="30" cy="34" r="5" fill="#ffffff" />
+                <circle cx="45" cy="34" r="5" fill="#ffffff" />
+                <circle cx="60" cy="34" r="5" fill="#ffffff" />
+            </svg>
+
+            {["helpsup__decor-spark--1", "helpsup__decor-spark--2", "helpsup__decor-spark--3"].map((c) => (
+                <svg key={c} className={`helpsup__decor-spark ${c}`} viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C12.6 7.2 13.2 8.4 20 12C13.2 15.6 12.6 16.8 12 24C11.4 16.8 10.8 15.6 4 12C10.8 8.4 11.4 7.2 12 0Z" />
+                </svg>
+            ))}
+        </div>
+    );
     const telegramLink =
         contactData?.telegramChannel?.startsWith("https://")
             ? contactData.telegramChannel
@@ -136,6 +186,7 @@ const HelpSupport = () => {
             <div className="helpsup__orb helpsup__orb--1" />
             <div className="helpsup__orb helpsup__orb--2" />
             <div className="helpsup__orb helpsup__orb--3" />
+            <Decorations />
             <button className="helpsup__back-btn" onClick={() => navigate("/user-dashboard")}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="helpsup__back-icon">
                     <polyline points="15 18 9 12 15 6" />
@@ -153,7 +204,12 @@ const HelpSupport = () => {
                 <p className="helpsup__subtitle">{t("helpSubtitle")}</p>
             </div>
             <section className="helpsup__section">
-                <h2 className="helpsup__section-title">📞 {t("contactUs")}</h2>
+                <h2 className="helpsup__section-title">
+                    <span className="helpsup__section-ico helpsup__section-ico--teal">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 14v-2a9 9 0 0 1 18 0v2" /><path d="M21 16a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z" /><path d="M3 16a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" /></svg>
+                    </span>
+                    {t("contactUs")}
+                </h2>
                 {loading ? (
                     <div className="helpsup__loading">
                         <span className="helpsup__loading-dot" />
@@ -262,7 +318,12 @@ const HelpSupport = () => {
                 )}
             </section>
             <section className="helpsup__section">
-                <h2 className="helpsup__section-title">❓ {t("faqTitle")}</h2>
+                <h2 className="helpsup__section-title">
+                    <span className="helpsup__section-ico helpsup__section-ico--red">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
+                    </span>
+                    {t("faqTitle")}
+                </h2>
                 <div className="helpsup__faq-list">
                     {faqs.map((faq) => (
                         <div key={faq.id} className={`helpsup__faq-item ${openSection === faq.id ? "helpsup__faq-item--open" : ""}`}>
