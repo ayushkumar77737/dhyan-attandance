@@ -1071,5 +1071,12 @@
   "markAllAsRead": "Mark all as read",
   "newLabel": "New",
   "connectedTeam": "Connected Team, Stronger Together",
-  "connectedTeamSub": "Easily find and connect with team members."
+  "connectedTeamSub": "Easily find and connect with team members.",
+  "attendanceSubtitle": "Track your daily attendance and stay consistent.",
+  "attnExcellent": "Excellent!",
+  "attnGood": "Good",
+  "attnKeepGoing": "Keep going",
+  "attnKeepItUp": "Keep it up!",
+  "attnPerfect": "Perfect!",
+  "attnStayFocused": "Stay focused"
 }
