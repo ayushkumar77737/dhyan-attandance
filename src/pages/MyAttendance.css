@@ -124,24 +124,33 @@
     z-index: 1;
     max-width: 1200px;
     margin: 0 auto;
+    padding-top: 52px;
 }
 
 /* ---------------------------------------------------------------- */
 /* HEADER                                                           */
 /* ---------------------------------------------------------------- */
 .myattn__back-btn {
+    position: absolute;
+    top: 24px;
+    left: 28px;
+    z-index: 5;
+
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 20px 10px 16px;
-    margin-bottom: 22px;
+    height: 40px;
+    padding: 0 18px 0 14px;
+    margin: 0;
     border-radius: 50px;
-    border: 1px solid rgba(14, 165, 160, 0.26);
-    background: var(--attn-card);
+    border: 1px solid rgba(52, 211, 153, 0.32);
+    background: rgba(16, 185, 129, 0.10);
     color: var(--attn-teal-strong);
     font-family: inherit;
     font-size: 13px;
     font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
     cursor: pointer;
     transition: all 0.22s var(--ease);
     backdrop-filter: blur(10px);
@@ -590,6 +599,17 @@
 }
 
 @media (max-width: 768px) {
+    .myattn__back-btn {
+        top: 16px;
+        left: 14px;
+        height: 38px;
+        padding: 0 16px 0 12px;
+    }
+
+    .myattn__inner {
+        padding-top: 44px;
+    }
+
     .myattn__container {
         padding: 20px 14px 50px;
     }

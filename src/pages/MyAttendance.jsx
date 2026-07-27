@@ -203,11 +203,11 @@ function MyAttendance() {
             <div className="myattn__deco myattn__dots myattn__dots--2" aria-hidden="true" />
             <Leaf />
 
-            <div className="myattn__inner">
-                <button className="myattn__back-btn" onClick={() => navigate("/user-dashboard")}>
-                    {icons.back}{t("back") || "Back"}
-                </button>
+            <button className="myattn__back-btn" onClick={() => navigate("/user-dashboard")}>
+                {icons.back}{t("back") || "Back"}
+            </button>
 
+            <div className="myattn__inner">
                 <div className="myattn__header">
                     <div className="myattn__header-left">
                         <div className="myattn__logo-tile">
