@@ -124,6 +124,24 @@ function Directory() {
     const fetchUsers = async () => {
         try {
             setLoading(true);
+
+            /* 1) Load all profile images first.
+               UserDashboard saves them at:  profiles/{UPPERCASE_ID}.profileImage
+               Build a lookup map:  { "EMP001": "https://res.cloudinary.com/..." } */
+            const imageMap = {};
+            try {
+                const profileSnap = await getDocs(collection(db, "profiles"));
+                profileSnap.forEach((p) => {
+                    const pd = p.data();
+                    const key = String(p.id || "").toUpperCase();
+                    if (pd.profileImage) imageMap[key] = pd.profileImage;
+                });
+            } catch (e) {
+                // If profiles can't be read, cards still render with initials.
+                console.warn("Directory: could not load profile images —", e);
+            }
+
+            /* 2) Load users and attach the matching image */
             const snap = await getDocs(collection(db, "users"));
             const list = [];
             snap.forEach((docItem) => {
@@ -132,14 +150,17 @@ function Directory() {
                     data.deleted !== true &&
                     data.disabled !== true
                 ) {
+                    const uid = String(data.id || docItem.id);
                     list.push({
-                        id: data.id || docItem.id,
+                        id: uid,
                         name: data.name || "—",
                         role: data.role || "user",
                         email: "",
+                        image: imageMap[uid.toUpperCase()] || "",
                     });
                 }
             });
+
             list.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
             setUsers(list);
         } catch (err) {
@@ -257,6 +278,15 @@ function Directory() {
                                     <div className="diry__card-top">
                                         <div className="diry__avatar">
                                             {getInitials(user.name)}
+                                            {user.image ? (
+                                                <img
+                                                    className="diry__avatar-img"
+                                                    src={user.image}
+                                                    alt={user.name}
+                                                    loading="lazy"
+                                                    onError={(e) => { e.currentTarget.style.display = "none"; }}
+                                                />
+                                            ) : null}
                                         </div>
                                         <div className="diry__card-info">
                                             <span className="diry__card-name">{user.name}</span>
