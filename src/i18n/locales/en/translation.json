@@ -1103,5 +1103,10 @@
   "photoTooLarge": "Image must be under 2MB.",
   "photoUploadFailed": "Could not upload the photo. Please try again.",
   "uploadingPhoto": "Uploading photo…",
-  "adminIdDocId": "Admin ID (Document ID)"
+  "adminIdDocId": "Admin ID (Document ID)",
+  "markAttendanceSubtitle": "Select users and mark their attendance for the selected date.",
+  "usersList": "Users List",
+  "attendanceStatus": "Attendance Status",
+  "columnUser": "User",
+  "columnId": "ID"
 }
