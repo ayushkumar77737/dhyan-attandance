@@ -1,52 +1,193 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap');
 
-:root {
-    --au-purple: #8b5cf6;
-    --au-purple-dark: #6d3fd6;
+/* ==================================================================
+   Every colour, shadow and gradient below the token blocks resolves
+   through a variable. Nothing is hardcoded, so switching data-theme
+   re-skins the whole page without per-rule overrides.
+   ================================================================== */
+
+/* ================================================================== */
+/* TOKENS — DARK (default)                                            */
+/* ================================================================== */
+.adduser-container {
+    --au-purple: #7c3aed;
+    --au-purple-dark: #5b21b6;
     --au-purple-light: #a78bfa;
-    --au-purple-glow: rgba(139, 92, 246, 0.35);
-    --au-purple-subtle: rgba(139, 92, 246, 0.1);
+    --au-purple-glow: rgba(124, 58, 237, 0.42);
+    --au-purple-subtle: rgba(139, 92, 246, 0.12);
 
-    --au-glass: rgba(15, 12, 30, 0.72);
-    --au-glass-light: rgba(255, 255, 255, 0.04);
-    --au-glass-border: rgba(255, 255, 255, 0.1);
-    --au-glass-border-focus: rgba(139, 92, 246, 0.5);
+    --au-page-bg: #06040f;
+    --au-page-wash-1: rgba(124, 58, 237, 0.24);
+    --au-page-wash-2: rgba(167, 139, 250, 0.16);
 
-    --au-input-bg: rgba(255, 255, 255, 0.06);
-    --au-input-bg-focus: rgba(255, 255, 255, 0.1);
+    --au-card-bg: rgba(19, 15, 34, 0.86);
+    --au-card-border: rgba(255, 255, 255, 0.09);
+    --au-card-shadow:
+        0 44px 90px rgba(0, 0, 0, 0.62),
+        inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
-    --au-text-primary: #f0eeff;
-    --au-text-secondary: rgba(240, 238, 255, 0.55);
-    --au-text-placeholder: rgba(240, 238, 255, 0.3);
+    --au-field-bg: rgba(255, 255, 255, 0.05);
+    --au-field-bg-focus: rgba(255, 255, 255, 0.08);
+    --au-field-border: rgba(255, 255, 255, 0.11);
+    --au-field-border-focus: rgba(167, 139, 250, 0.62);
+    --au-field-shadow: none;
+    --au-icon-bg: rgba(139, 92, 246, 0.17);
+    --au-icon-color: #c4b5fd;
 
-    --au-success-bg: rgba(45, 206, 137, 0.12);
+    --au-text-primary: #f2effe;
+    --au-text-secondary: rgba(242, 239, 254, 0.62);
+    --au-text-placeholder: rgba(242, 239, 254, 0.34);
+    --au-title-lead: #f2effe;
+    --au-title-accent: #a78bfa;
+
+    --au-divider-color: rgba(167, 139, 250, 0.75);
+    --au-divider-mark: #a78bfa;
+
+    --au-quote-bg: rgba(22, 18, 40, 0.9);
+    --au-quote-border: rgba(255, 255, 255, 0.12);
+    --au-quote-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.6);
+    --au-quote-text: #f2effe;
+    --au-quote-author: #c4b5fd;
+    --au-quote-mark-color: #a78bfa;
+
+    /* portrait scrim: strong here so the white badge and card separate
+       cleanly from the photo on a dark canvas */
+    --au-scrim-top: rgba(124, 58, 237, 0.26);
+    --au-scrim-bottom: rgba(76, 29, 149, 0.44);
+
+    --au-wave-color: #4c1d95;
+    --au-portrait-bg: linear-gradient(160deg, #4c1d95 0%, #2e1065 100%);
+
+    --au-badge-bg: rgba(255, 255, 255, 0.94);
+    --au-badge-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.7);
+    --au-dots-color: rgba(167, 139, 250, 0.22);
+    --au-dots-portrait-color: rgba(255, 255, 255, 0.34);
+
+    --au-btn-gradient: linear-gradient(135deg, #a78bfa 0%, #7c3aed 42%, #5b21b6 100%);
+    --au-btn-shadow: 0 12px 30px -10px rgba(124, 58, 237, 0.5);
+    --au-btn-shadow-hover: 0 18px 40px -12px rgba(124, 58, 237, 0.62);
+
+    --au-back-bg: rgba(255, 255, 255, 0.03);
+    --au-back-border: rgba(255, 255, 255, 0.12);
+    --au-back-text: rgba(242, 239, 254, 0.82);
+    --au-back-hover-text: #a78bfa;
+    --au-back-shadow-hover: 0 8px 22px -12px rgba(124, 58, 237, 0.55);
+
+    --au-note-icon: #a78bfa;
+    --au-focus-ring: #a78bfa;
+
+    --au-success-bg: rgba(45, 206, 137, 0.13);
     --au-success-color: #5effc4;
-    --au-success-border: rgba(45, 206, 137, 0.3);
+    --au-success-border: rgba(45, 206, 137, 0.32);
 
-    --au-error-bg: rgba(245, 54, 92, 0.12);
+    --au-error-bg: rgba(245, 54, 92, 0.13);
     --au-error-color: #ff7096;
-    --au-error-border: rgba(245, 54, 92, 0.3);
+    --au-error-border: rgba(245, 54, 92, 0.32);
 
-    --au-radius-sm: 10px;
+    --au-radius-sm: 12px;
     --au-radius-md: 16px;
-    --au-radius-lg: 24px;
+    --au-radius-lg: 28px;
 
     --font-display: 'Syne', sans-serif;
     --font-body: 'Outfit', sans-serif;
+    --au-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* ================================================================== */
+/* TOKENS — LIGHT                                                     */
+/* ------------------------------------------------------------------ */
+/* The dark palette leans on pale 300/400-level violets glowing out of */
+/* a near-black page. On white those same values wash out, so each one */
+/* drops to its 600/700 counterpart of the SAME hue — the colour       */
+/* language holds, only the luminance flips. Shadows switch from black */
+/* to a tinted violet, which reads as depth on white instead of dirt.  */
+/* ================================================================== */
+.adduser-container[data-theme="light"] {
+    --au-page-bg: #f5f3fc;
+    --au-page-wash-1: rgba(124, 58, 237, 0.10);
+    --au-page-wash-2: rgba(167, 139, 250, 0.12);
+
+    --au-card-bg: #ffffff;
+    --au-card-border: rgba(76, 29, 149, 0.08);
+    --au-card-shadow:
+        0 40px 90px -30px rgba(76, 29, 149, 0.28),
+        0 2px 10px rgba(30, 27, 58, 0.05);
+
+    --au-field-bg: #ffffff;
+    --au-field-bg-focus: #ffffff;
+    --au-field-border: rgba(76, 29, 149, 0.13);
+    --au-field-border-focus: #7c3aed;
+    --au-field-shadow: 0 1px 2px rgba(30, 27, 58, 0.04);
+    --au-icon-bg: #f2ecfe;
+    --au-icon-color: #7c3aed;
+
+    --au-text-primary: #1e1b3a;
+    --au-text-secondary: #6b6a86;
+    --au-text-placeholder: #a3a1b8;
+    --au-title-lead: #16143a;
+    --au-title-accent: #7c3aed;
+
+    --au-divider-color: rgba(139, 92, 246, 0.55);
+    --au-divider-mark: #a78bfa;
+
+    --au-quote-bg: #ffffff;
+    --au-quote-border: rgba(76, 29, 149, 0.07);
+    --au-quote-shadow: 0 20px 44px -20px rgba(76, 29, 149, 0.38);
+    --au-quote-text: #1e1b3a;
+    --au-quote-author: #6d28d9;
+    --au-quote-mark-color: #7c3aed;
+
+    /* much lighter here — the photo should stay bright, the scrim only
+       needs to keep the white badge from disappearing into the sky */
+    --au-scrim-top: rgba(167, 139, 250, 0.20);
+    --au-scrim-bottom: rgba(124, 58, 237, 0.24);
+
+    --au-wave-color: #8b5cf6;
+    --au-portrait-bg: linear-gradient(160deg, #a78bfa 0%, #7c3aed 100%);
+
+    --au-badge-bg: #ffffff;
+    --au-badge-shadow: 0 12px 26px -12px rgba(76, 29, 149, 0.34);
+    --au-dots-color: rgba(124, 58, 237, 0.16);
+    --au-dots-portrait-color: rgba(255, 255, 255, 0.62);
+
+    --au-btn-gradient: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 45%, #6d28d9 100%);
+    --au-btn-shadow: 0 12px 26px -10px rgba(109, 40, 217, 0.42);
+    --au-btn-shadow-hover: 0 18px 34px -12px rgba(109, 40, 217, 0.52);
+
+    --au-back-bg: #ffffff;
+    --au-back-border: rgba(76, 29, 149, 0.14);
+    --au-back-text: #1e1b3a;
+    --au-back-hover-text: #6d28d9;
+    --au-back-shadow-hover: 0 8px 20px -12px rgba(109, 40, 217, 0.38);
+
+    --au-note-icon: #7c3aed;
+    --au-focus-ring: #7c3aed;
+
+    --au-success-bg: #e7f8f1;
+    --au-success-color: #047857;
+    --au-success-border: rgba(5, 150, 105, 0.28);
+
+    --au-error-bg: #fdeceb;
+    --au-error-color: #b91c1c;
+    --au-error-border: rgba(220, 38, 38, 0.24);
+}
+
+/* ================================================================== */
+/* SHELL                                                              */
+/* ================================================================== */
 .adduser-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 32px 20px;
 
-    background: #04020e;
-
+    background: var(--au-page-bg);
     position: relative;
+    overflow: hidden;
 
     font-family: var(--font-body);
-    animation: adduser-fadeIn 0.8s ease;
+    animation: adduser-fadeIn 0.7s var(--au-ease);
 }
 
 .adduser-container::before {
@@ -54,230 +195,470 @@
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(ellipse 70% 60% at 20% 50%, rgba(109, 63, 214, 0.25) 0%, transparent 65%),
-        radial-gradient(ellipse 50% 40% at 80% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 60%),
-        #04020e;
+        radial-gradient(ellipse 62% 58% at 18% 42%, var(--au-page-wash-1) 0%, transparent 64%),
+        radial-gradient(ellipse 48% 42% at 84% 58%, var(--au-page-wash-2) 0%, transparent 62%);
+    pointer-events: none;
 }
 
 .adduser-container .adduser-card {
     position: relative;
     z-index: 1;
 
-    display: flex;
-    width: 780px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: min(1060px, 100%);
+    min-height: 620px;
 
-    background: var(--au-glass);
+    background: var(--au-card-bg);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
 
     border-radius: var(--au-radius-lg);
     overflow: hidden;
 
-    border: 1px solid var(--au-glass-border);
-    box-shadow:
-        0 40px 80px rgba(0, 0, 0, 0.6),
-        0 0 0 1px rgba(255, 255, 255, 0.05),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--au-card-border);
+    box-shadow: var(--au-card-shadow);
 
-    animation: adduser-cardFade 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: adduser-cardFade 0.75s var(--au-ease);
 }
 
+/* ================================================================== */
+/* LEFT — PORTRAIT PANEL                                              */
+/* ================================================================== */
 .adduser-container .adduser-image {
-    flex: 1;
-
-    border-right: 1px solid var(--au-glass-border);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 0;
     position: relative;
     overflow: hidden;
-}
-
-.adduser-container .adduser-image::before {
-    content: '';
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%);
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    filter: blur(30px);
+    display: flex;
+    min-height: 100%;
 }
 
 .adduser-container .adduser-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    position: relative;
-    z-index: 1;
-
-    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    object-position: center 22%;
+    display: block;
+    transition: transform 0.7s var(--au-ease);
 }
 
 .adduser-container .adduser-image:hover img {
-    transform: scale(1.06);
+    transform: scale(1.04);
 }
 
-.adduser-container .adduser-form {
-    flex: 1;
+/* tint over the photo so the badge and quote card read cleanly */
+.au-img-scrim {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, var(--au-scrim-top) 0%, transparent 34%),
+        linear-gradient(0deg, var(--au-scrim-bottom) 0%, transparent 46%);
+    pointer-events: none;
+}
 
+/* stacked wave anchoring the bottom of the panel */
+.au-img-wave {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 34%;
+    color: var(--au-wave-color);
+    pointer-events: none;
+}
+
+.au-lotus-badge {
+    position: absolute;
+    top: 26px;
+    left: 26px;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--au-badge-bg);
+    color: var(--au-purple);
+    box-shadow: var(--au-badge-shadow);
+}
+
+.au-lotus-badge svg {
+    width: 32px;
+    height: 32px;
+}
+
+/* decorative dotted grids */
+.au-dots {
+    position: absolute;
+    width: 76px;
+    height: 76px;
+    color: var(--au-dots-color);
+    pointer-events: none;
+}
+
+.au-dots--portrait {
+    top: 34px;
+    right: 30px;
+    color: var(--au-dots-portrait-color);
+}
+
+.au-dots--form {
+    right: 22px;
+    bottom: 30px;
+}
+
+/* quote card */
+.au-quote {
+    position: absolute;
+    left: 26px;
+    bottom: 26px;
+    right: 26px;
+    max-width: 300px;
+    margin: 0;
+    padding: 18px 20px 16px;
+    border-radius: var(--au-radius-md);
+    background: var(--au-quote-bg);
+    border: 1px solid var(--au-quote-border);
+    box-shadow: var(--au-quote-shadow);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.au-quote-mark {
+    display: block;
+    color: var(--au-quote-mark-color);
+    margin-bottom: 8px;
+}
+
+.au-quote-mark svg {
+    width: 22px;
+    height: 17px;
+}
+
+.au-quote-text {
+    margin: 0 0 12px;
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--au-quote-text);
+}
+
+.au-quote-author {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--au-quote-author);
+}
+
+.au-quote-dash {
+    opacity: 0.7;
+}
+
+/* ================================================================== */
+/* RIGHT — FORM PANEL                                                 */
+/* ================================================================== */
+.adduser-container .adduser-form {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
-
-    padding: 44px 48px;
-    gap: 0;
+    padding: 48px 52px;
 }
 
-.adduser-container .adduser-form h2 {
+.au-title {
+    margin: 0;
     text-align: center;
-    font-size: 26px;
     font-family: var(--font-display);
+    font-size: 34px;
     font-weight: 800;
-    letter-spacing: 1px;
+    letter-spacing: 0.6px;
+    line-height: 1.15;
     text-transform: uppercase;
-    margin-bottom: 28px;
+    /* long translations wrap instead of overflowing the card */
+    overflow-wrap: anywhere;
+}
 
-    background: linear-gradient(135deg, #f0eeff 30%, var(--au-purple-light));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+.au-title-lead {
+    color: var(--au-title-lead);
+}
+
+.au-title-accent {
+    color: var(--au-title-accent);
+}
+
+/* lotus rule under the heading */
+.au-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 16px 0 14px;
+}
+
+.au-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--au-divider-color), transparent);
+}
+
+.au-divider-mark {
+    display: flex;
+    color: var(--au-divider-mark);
+    flex-shrink: 0;
+}
+
+.au-divider-mark svg {
+    width: 26px;
+    height: 22px;
+}
+
+.au-subtitle {
+    margin: 0 0 26px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--au-text-secondary);
+}
+
+/* ---------------- fields: attached icon + input ---------------- */
+.au-field {
+    display: flex;
+    align-items: stretch;
+    margin-bottom: 14px;
+    border: 1px solid var(--au-field-border);
+    border-radius: var(--au-radius-sm);
+    background: var(--au-field-bg);
+    box-shadow: var(--au-field-shadow);
+    overflow: hidden;
+    transition: border-color 0.22s var(--au-ease), box-shadow 0.22s var(--au-ease), background 0.22s var(--au-ease);
+}
+
+.au-field:focus-within {
+    background: var(--au-field-bg-focus);
+    border-color: var(--au-field-border-focus);
+    box-shadow: 0 0 0 4px var(--au-purple-subtle);
+}
+
+.au-field-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    flex-shrink: 0;
+    background: var(--au-icon-bg);
+    color: var(--au-icon-color);
+    border-right: 1px solid var(--au-field-border);
+}
+
+.au-field-icon svg {
+    width: 21px;
+    height: 21px;
 }
 
 .adduser-container .adduser-form input {
+    flex: 1;
+    min-width: 0;
     width: 100%;
-    padding: 13px 16px;
-    margin-bottom: 14px;
+    padding: 15px 16px;
+    margin: 0;
 
-    font-size: 14px;
+    font-size: 14.5px;
     font-family: var(--font-body);
     font-weight: 400;
     color: var(--au-text-primary);
     letter-spacing: 0.2px;
 
-    border: 1px solid var(--au-glass-border);
-    border-radius: var(--au-radius-sm);
-
+    border: none;
     outline: none;
-    background: var(--au-input-bg);
-
-    transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+    background: transparent;
 }
 
 .adduser-container .adduser-form input::placeholder {
     color: var(--au-text-placeholder);
 }
 
-.adduser-container .adduser-form input:focus {
-    background: var(--au-input-bg-focus);
-    border-color: var(--au-glass-border-focus);
-    box-shadow: 0 0 0 3px var(--au-purple-subtle);
-    transform: scale(1.02);
+/* password reveal */
+.au-eye {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    color: var(--au-text-placeholder);
+    cursor: pointer;
+    transition: color 0.2s var(--au-ease);
 }
 
-.adduser-container .adduser-form button[type="submit"] {
-    width: 100%;
-    padding: 14px;
+.au-eye:hover {
+    color: var(--au-purple);
+}
 
-    background: linear-gradient(135deg, var(--au-purple), var(--au-purple-dark));
+.au-eye svg {
+    width: 19px;
+    height: 19px;
+}
+
+/* ---------------- buttons ---------------- */
+.adduser-container .adduser-form button[type="submit"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    width: 100%;
+    padding: 16px;
+
+    background: var(--au-btn-gradient);
     color: #fff;
 
-    font-size: 14px;
+    font-size: 14.5px;
     font-family: var(--font-body);
     font-weight: 700;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.9px;
     text-transform: uppercase;
 
     border: none;
     border-radius: var(--au-radius-sm);
     cursor: pointer;
-    margin-top: 6px;
-    margin-bottom: 10px;
+    margin-top: 8px;
+    margin-bottom: 12px;
 
-    transition: transform 0.22s ease, box-shadow 0.22s ease;
-    box-shadow: 0 6px 20px rgba(109, 63, 214, 0.4);
+    transition: transform 0.22s var(--au-ease), box-shadow 0.22s var(--au-ease);
+    box-shadow: var(--au-btn-shadow);
 }
 
-.adduser-container .adduser-form button[type="submit"]:hover {
+.adduser-container .adduser-form button[type="submit"]:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px var(--au-purple-glow);
+    box-shadow: var(--au-btn-shadow-hover);
 }
 
-.adduser-container .adduser-form button[type="submit"]:active {
-    transform: scale(0.97);
+.adduser-container .adduser-form button[type="submit"]:active:not(:disabled) {
+    transform: scale(0.985);
 }
 
 .adduser-container .adduser-form button[type="submit"]:disabled {
-    opacity: 0.55;
+    opacity: 0.6;
     cursor: not-allowed;
     transform: none;
 }
 
+.au-btn-icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.au-btn-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+.au-btn-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: adduser-spin 0.7s linear infinite;
+}
+
 .adduser-container .back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     width: 100%;
-    padding: 12px;
+    padding: 15px;
 
-    background: transparent;
-    color: var(--au-text-secondary);
+    background: var(--au-back-bg);
+    color: var(--au-back-text);
 
-    font-size: 13px;
+    font-size: 14px;
     font-family: var(--font-body);
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.3px;
 
-    border: 1px solid var(--au-glass-border);
+    border: 1px solid var(--au-back-border);
     border-radius: var(--au-radius-sm);
     cursor: pointer;
 
-    transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    transition: border-color 0.22s var(--au-ease), box-shadow 0.22s var(--au-ease), color 0.22s var(--au-ease);
 }
 
 .adduser-container .back-btn:hover {
-    background: var(--au-glass-light);
-    color: var(--au-text-primary);
-    border-color: var(--au-glass-border-focus);
-    box-shadow: 0 0 16px var(--au-purple-subtle);
+    color: var(--au-back-hover-text);
+    border-color: var(--au-field-border-focus);
+    box-shadow: var(--au-back-shadow-hover);
+}
+
+.adduser-container .back-btn .au-btn-icon {
+    transition: transform 0.22s var(--au-ease);
+}
+
+.adduser-container .back-btn:hover .au-btn-icon {
+    transform: translateX(-3px);
+}
+
+/* ---------------- footer note ---------------- */
+.au-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    margin: 20px 0 0;
+    font-size: 12.5px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--au-text-secondary);
+    text-align: left;
+}
+
+.au-note-icon {
+    display: flex;
+    flex-shrink: 0;
+    color: var(--au-note-icon);
+}
+
+.au-note-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+/* ---------------- messages ---------------- */
+.adduser-container .success-message,
+.adduser-container .error-message {
+    padding: 11px 14px;
+    border-radius: var(--au-radius-sm);
+    margin-bottom: 14px;
+
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+
+    animation: adduser-fadeIn 0.4s var(--au-ease);
 }
 
 .adduser-container .success-message {
     background: var(--au-success-bg);
     color: var(--au-success-color);
     border: 1px solid var(--au-success-border);
-
-    padding: 10px 14px;
-    border-radius: var(--au-radius-sm);
-    margin-bottom: 14px;
-
-    text-align: center;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.2px;
-
-    animation: adduser-fadeIn 0.4s ease;
 }
 
 .adduser-container .error-message {
     background: var(--au-error-bg);
     color: var(--au-error-color);
     border: 1px solid var(--au-error-border);
-
-    padding: 10px 14px;
-    border-radius: var(--au-radius-sm);
-    margin-bottom: 14px;
-
-    text-align: center;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.2px;
-
-    animation: adduser-fadeIn 0.4s ease;
 }
 
+/* ================================================================== */
+/* KEYFRAMES / A11Y                                                   */
+/* ================================================================== */
 @keyframes adduser-fadeIn {
     from {
         opacity: 0;
@@ -291,7 +672,7 @@
 @keyframes adduser-cardFade {
     from {
         opacity: 0;
-        transform: translateY(40px) scale(0.97);
+        transform: translateY(34px) scale(0.98);
     }
 
     to {
@@ -300,145 +681,188 @@
     }
 }
 
-@media (max-width: 1024px) {
-
-    .adduser-container .adduser-card {
-        width: 90%;
+@keyframes adduser-spin {
+    to {
+        transform: rotate(360deg);
     }
-
-    .adduser-container .adduser-form {
-        padding: 32px 36px;
-    }
-
 }
 
-@media (max-width: 768px) {
+.adduser-container button:focus-visible,
+.adduser-container input:focus-visible {
+    outline: 2px solid var(--au-focus-ring);
+    outline-offset: 2px;
+}
 
-    .adduser-container .adduser-card {
-        flex-direction: column;
-        width: 92%;
+@media (prefers-reduced-motion: reduce) {
+
+    .adduser-container,
+    .adduser-container * {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
     }
+}
 
-    .adduser-container .adduser-image {
-        order: 1;
-        padding: 24px;
-        border-right: none;
-        border-bottom: 1px solid var(--au-glass-border);
+/* ================================================================== */
+/* RESPONSIVE                                                         */
+/* ================================================================== */
+@media (max-width: 1024px) {
+    .adduser-container .adduser-card {
+        min-height: 560px;
     }
 
     .adduser-container .adduser-form {
-        order: 2;
-        padding: 28px 24px;
+        padding: 38px 34px;
+    }
+
+    .au-title {
+        font-size: 29px;
+    }
+
+    .au-quote {
+        left: 18px;
+        right: 18px;
+        bottom: 18px;
+        padding: 15px 16px 14px;
+    }
+
+    .au-quote-text {
+        font-size: 13.5px;
+    }
+}
+
+@media (max-width: 860px) {
+    .adduser-container {
+        padding: 22px 14px;
+    }
+
+    .adduser-container .adduser-card {
+        grid-template-columns: 1fr;
+        min-height: 0;
+    }
+
+    /* Panel becomes a column: photo on top, quote card below it.
+       Absolute positioning here would park the card across the face. */
+    .adduser-container .adduser-image {
+        flex-direction: column;
+        height: auto;
+        min-height: 0;
+        padding-bottom: 18px;
+        background: var(--au-portrait-bg);
+        border-bottom: 1px solid var(--au-card-border);
     }
 
     .adduser-container .adduser-image img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
+        height: 300px;
+        flex-shrink: 0;
+        object-position: center 20%;
     }
 
-    .adduser-container .adduser-form h2 {
-        font-size: 22px;
+    /* scrim covers only the photo, not the panel below it */
+    .au-img-scrim {
+        height: 300px;
+        bottom: auto;
     }
 
+    /* the wave assumed a full-bleed photo — no longer true */
+    .au-img-wave {
+        display: none;
+    }
+
+    .au-lotus-badge {
+        width: 52px;
+        height: 52px;
+        top: 18px;
+        left: 18px;
+    }
+
+    .au-lotus-badge svg {
+        width: 27px;
+        height: 27px;
+    }
+
+    .au-dots--portrait {
+        top: 20px;
+        right: 18px;
+        width: 60px;
+        height: 60px;
+    }
+
+    .au-quote {
+        position: static;
+        max-width: none;
+        margin: 16px 16px 0;
+    }
+
+    .adduser-container .adduser-form {
+        padding: 32px 24px 30px;
+    }
+
+    .au-dots--form {
+        display: none;
+    }
 }
 
 @media (max-width: 480px) {
-
     .adduser-container .adduser-card {
-        width: 95%;
         border-radius: var(--au-radius-md);
     }
 
-    .adduser-container .adduser-form {
-        padding: 22px 18px;
-    }
-
-    .adduser-container .adduser-form h2 {
-        font-size: 20px;
-    }
-
     .adduser-container .adduser-image img {
-        height: 170px;
+        height: 250px;
+    }
+
+    .au-img-scrim {
+        height: 250px;
+    }
+
+    .au-quote {
+        margin: 14px 12px 0;
+        padding: 14px 15px 13px;
+    }
+
+    .au-title {
+        font-size: 24px;
+    }
+
+    .au-subtitle {
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+
+    .adduser-container .adduser-form {
+        padding: 26px 18px 24px;
+    }
+
+    .au-field-icon {
+        width: 46px;
+    }
+
+    .au-field-icon svg {
+        width: 19px;
+        height: 19px;
     }
 
     .adduser-container .adduser-form input {
-        padding: 11px 13px;
+        padding: 13px 13px;
+        font-size: 14px;
     }
 
-    .adduser-container .adduser-form button {
-        padding: 12px;
+    .adduser-container .adduser-form button[type="submit"],
+    .adduser-container .back-btn {
+        padding: 13px;
     }
 
-}
+    .au-quote-text {
+        font-size: 13px;
+    }
 
-/* ================================================================== */
-/* LIGHT THEME                                                        */
-/* ================================================================== */
-.adduser-container[data-theme="light"] {
-    background: #f1f5f9;
-}
+    .au-quote-author {
+        font-size: 11.5px;
+    }
 
-.adduser-container[data-theme="light"]::before {
-    background:
-        radial-gradient(ellipse 70% 60% at 20% 50%, rgba(139, 92, 246, 0.10) 0%, transparent 65%),
-        radial-gradient(ellipse 50% 40% at 80% 50%, rgba(139, 92, 246, 0.06) 0%, transparent 60%),
-        #f1f5f9;
-}
-
-.adduser-container[data-theme="light"] .adduser-card {
-    background: rgba(255, 255, 255, 0.92);
-    border-color: rgba(15, 23, 42, 0.10);
-    box-shadow:
-        0 20px 60px rgba(15, 23, 42, 0.10),
-        0 0 0 1px rgba(15, 23, 42, 0.06);
-}
-
-.adduser-container[data-theme="light"] .adduser-image {
-    border-right-color: rgba(15, 23, 42, 0.10);
-}
-
-.adduser-container[data-theme="light"] .adduser-form h2 {
-    background: linear-gradient(135deg, #1e293b 30%, #6d28d9);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.adduser-container[data-theme="light"] .adduser-form input {
-    background: rgba(15, 23, 42, 0.04);
-    border-color: rgba(15, 23, 42, 0.12);
-    color: #1e293b;
-}
-
-.adduser-container[data-theme="light"] .adduser-form input::placeholder {
-    color: rgba(15, 23, 42, 0.35);
-}
-
-.adduser-container[data-theme="light"] .adduser-form input:focus {
-    background: rgba(139, 92, 246, 0.05);
-    border-color: rgba(139, 92, 246, 0.5);
-}
-
-.adduser-container[data-theme="light"] .back-btn {
-    border-color: rgba(15, 23, 42, 0.15);
-    color: #475569;
-}
-
-.adduser-container[data-theme="light"] .back-btn:hover {
-    background: rgba(139, 92, 246, 0.06);
-    color: #1e293b;
-    border-color: rgba(139, 92, 246, 0.4);
-}
-
-.adduser-container[data-theme="light"] .success-message {
-    background: rgba(45, 206, 137, 0.10);
-    color: #065f46;
-    border-color: rgba(45, 206, 137, 0.35);
-}
-
-.adduser-container[data-theme="light"] .error-message {
-    background: rgba(239, 68, 68, 0.08);
-    color: #991b1b;
-    border-color: rgba(239, 68, 68, 0.25);
+    .au-note {
+        font-size: 11.5px;
+        align-items: flex-start;
+    }
 }

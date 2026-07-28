@@ -1085,5 +1085,11 @@
   "heroSubtitle": "Here's what's happening with your portal today.",
   "superAdmin": "Super Admin",
   "previousMonth": "Previous month",
-  "nextMonth": "Next month"
+  "nextMonth": "Next month",
+  "addUserSubtitle": "Create a new user account",
+  "adminOnlyNote": "Only authorized administrators can add new users.",
+  "guruQuote": "Service to humanity is service to God.",
+  "guruQuoteAuthor": "Param Sant Swami Jai Gurubande Ji Maharaj",
+  "showPassword": "Show password",
+  "hidePassword": "Hide password"
 }
