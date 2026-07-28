@@ -1,22 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./AddAdmin.css";
 import { useNavigate } from "react-router-dom";
 import { logAdminAction } from "../utils/logAdminAction";
 import { auth, db, secondaryAuth } from "../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import {
-    getAuth,
     createUserWithEmailAndPassword,
     signOut as authSignOut,
 } from "firebase/auth";
 
+/* Cloudinary helper — lives at src/utils/cloudinaryUpload.js */
+import { uploadProfileImage } from "../utils/cloudinaryUpload";
+
 import { useTranslation } from "react-i18next";
 import useAutoLogout from "../hooks/useAutoLogout";
+
+/* Photo constraints — mirrored in the hint text below the drop zone */
+const MAX_PHOTO_BYTES = 2 * 1024 * 1024; // 2 MB
+const ALLOWED_PHOTO_TYPES = ["image/png", "image/jpeg", "image/jpg"];
 
 const icons = {
     shield: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+    ),
+    shieldFill: (
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <path d="M12 2 4 5v6.1c0 4.7 3.1 8.6 8 9.9 4.9-1.3 8-5.2 8-9.9V5l-8-3zm-.8 13.3-3.1-3.1 1.4-1.4 1.7 1.7 4-4 1.4 1.4-5.4 5.4z" />
         </svg>
     ),
     back: (
@@ -33,6 +44,12 @@ const icons = {
     user: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
+        </svg>
+    ),
+    userFill: (
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <circle cx="12" cy="8" r="4.4" />
+            <path d="M12 14.2c-4.6 0-8.3 2.4-8.3 5.3V21h16.6v-1.5c0-2.9-3.7-5.3-8.3-5.3z" />
         </svg>
     ),
     mail: (
@@ -67,6 +84,27 @@ const icons = {
             <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
         </svg>
     ),
+    info: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" />
+        </svg>
+    ),
+    plus: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+    ),
+    trash: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14H6L5 6" />
+            <path d="M10 11v6" /><path d="M14 11v6" /><path d="M9 6V4h6v2" />
+        </svg>
+    ),
+    close: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+    ),
 };
 
 function AddAdmin() {
@@ -80,6 +118,14 @@ function AddAdmin() {
     const [password, setPassword] = useState("");
     const [confirm, setConfirm] = useState("");
     const [showPwd, setShowPwd] = useState(false);
+
+    /* photo: `photoFile` is what actually gets uploaded, `photoPreview` is a
+       local object URL purely for the thumbnail. Nothing hits Cloudinary
+       until the form is submitted and validation has passed. */
+    const [photoFile, setPhotoFile] = useState(null);
+    const [photoPreview, setPhotoPreview] = useState("");
+    const [uploadingPhoto, setUploadingPhoto] = useState(false);
+    const fileInputRef = useRef(null);
 
     const [saving, setSaving] = useState(false);
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
@@ -105,19 +151,61 @@ function AddAdmin() {
         };
         checkAdmin();
     }, [navigate]);
+
     useEffect(() => {
         if (!error && !success) return;
         const timer = setTimeout(() => {
             setError("");
-            setSuccess("");
-            setAdminId("");
-            setName("");
-            setEmail("");
-            setPassword("");
-            setConfirm("");
+            /* Only wipe the form after a SUCCESS. Clearing it on an error
+               would make the admin retype everything to fix one field. */
+            if (success) {
+                setSuccess("");
+                setAdminId("");
+                setName("");
+                setEmail("");
+                setPassword("");
+                setConfirm("");
+                clearPhoto();
+            }
         }, 3000);
         return () => clearTimeout(timer);
     }, [error, success]);
+
+    /* revoke the object URL when the preview changes or the page unmounts,
+       otherwise each pick leaks a blob into memory */
+    useEffect(() => {
+        return () => {
+            if (photoPreview) URL.revokeObjectURL(photoPreview);
+        };
+    }, [photoPreview]);
+
+    const clearPhoto = () => {
+        if (photoPreview) URL.revokeObjectURL(photoPreview);
+        setPhotoFile(null);
+        setPhotoPreview("");
+        if (fileInputRef.current) fileInputRef.current.value = "";
+    };
+
+    const handlePhotoPick = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
+            setError(t("photoInvalidType") || "Only PNG and JPG images are allowed.");
+            e.target.value = "";
+            return;
+        }
+        if (file.size > MAX_PHOTO_BYTES) {
+            setError(t("photoTooLarge") || "Image must be under 2MB.");
+            e.target.value = "";
+            return;
+        }
+
+        if (photoPreview) URL.revokeObjectURL(photoPreview);
+        setPhotoFile(file);
+        setPhotoPreview(URL.createObjectURL(file));
+        setError("");
+    };
 
     const isValidEmail = (val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
 
@@ -141,16 +229,15 @@ function AddAdmin() {
         const id = adminId.trim().toUpperCase();
         const trimmedName = name.trim();
         const trimmedEmail = email.trim();
+
         if (!/^[A-Z0-9]+$/.test(id)) {
             setError(t("idLettersNumbers"));
             return;
         }
-
         if (!/^[a-zA-Z ]+$/.test(trimmedName)) {
             setError(t("nameLettersOnly"));
             return;
         }
-
         if (!id || !trimmedName || !trimmedEmail || !password || !confirm) {
             setError(t("allFieldsRequired"));
             return;
@@ -174,17 +261,38 @@ function AddAdmin() {
 
         try {
             setSaving(true);
+
             if (id === "ADMIN1") {
                 setError(t("admin1Reserved"));
                 setSaving(false);
                 return;
             }
+
             const ref = doc(db, "users", id);
             const existing = await getDoc(ref);
             if (existing.exists()) {
                 setError(t("idAlreadyExists"));
                 setSaving(false);
                 return;
+            }
+
+            /* Upload BEFORE creating the auth user. Cloudinary is the most
+               likely step to fail, and failing here leaves nothing behind —
+               no orphaned auth account, no half-written Firestore doc. */
+            let photoURL = "";
+            if (photoFile) {
+                try {
+                    setUploadingPhoto(true);
+                    photoURL = await uploadProfileImage(photoFile, id, trimmedName);
+                } catch (uploadErr) {
+                    console.error("[cloudinary] upload failed:", uploadErr);
+                    setError(t("photoUploadFailed") || "Could not upload the photo. Please try again.");
+                    setSaving(false);
+                    setUploadingPhoto(false);
+                    return;
+                } finally {
+                    setUploadingPhoto(false);
+                }
             }
 
             const cred = await createUserWithEmailAndPassword(
@@ -203,15 +311,32 @@ function AddAdmin() {
                 role: "admin",
                 deleted: false,
                 uid,
+                profileImage: photoURL,
                 createdAt: new Date().toISOString(),
             });
-            await logAdminAction("create_admin", { targetId: id, details: t("logCreatedAdmin", { name: trimmedName }) });
+
+            /* Mirror the image into `profiles/{ID}` so every screen that
+               already reads profile photos from there picks it up too. */
+            if (photoURL) {
+                await setDoc(
+                    doc(db, "profiles", id),
+                    { id, name: trimmedName, profileImage: photoURL },
+                    { merge: true }
+                );
+            }
+
+            await logAdminAction("create_admin", {
+                targetId: id,
+                details: t("logCreatedAdmin", { name: trimmedName }),
+            });
+
             setSuccess(t("adminAddedSuccess"));
             setAdminId("");
             setName("");
             setEmail("");
             setPassword("");
             setConfirm("");
+            clearPhoto();
         } catch (err) {
             console.error(err);
             setError(mapAuthError(err.code));
@@ -220,12 +345,18 @@ function AddAdmin() {
         }
     };
 
+    const busy = saving || uploadingPhoto;
+
     return (
         <div className="aapg-container" data-theme={theme}>
             <div className="aapg-card">
 
                 <div className="aapg-head">
-                    <button className="aapg-back" onClick={() => navigate(-1)}>
+                    <button
+                        className="aapg-back"
+                        onClick={() => navigate(-1)}
+                        aria-label={t("back")}
+                    >
                         {icons.back}
                     </button>
                     <div className="aapg-head-text">
@@ -250,8 +381,77 @@ function AddAdmin() {
                     </div>
                 )}
 
+                {/* -------------------- PROFILE PHOTO -------------------- */}
                 <div className="aapg-field">
-                    <label>{t("adminId")}</label>
+                    <label>{t("profilePhoto") || "Profile Photo"}</label>
+
+                    <div className="aapg-photo-row">
+                        <button
+                            type="button"
+                            className={`aapg-drop ${photoPreview ? "aapg-drop--filled" : ""}`}
+                            onClick={() => fileInputRef.current?.click()}
+                            disabled={busy}
+                        >
+                            <span className="aapg-avatar">
+                                {photoPreview ? (
+                                    <img src={photoPreview} alt={t("profilePhoto") || "Profile Photo"} />
+                                ) : (
+                                    <span className="aapg-avatar-glyph">{icons.userFill}</span>
+                                )}
+                                <span className="aapg-avatar-plus" aria-hidden="true">{icons.plus}</span>
+                            </span>
+
+                            <span className="aapg-drop-title">
+                                {photoPreview
+                                    ? (t("changePhoto") || "Change Photo")
+                                    : (t("uploadPhoto") || "Upload Photo")}
+                            </span>
+                            <span className="aapg-drop-hint">
+                                {t("photoFormatHint") || "PNG, JPG up to 2MB"}
+                            </span>
+                        </button>
+
+                        <div className="aapg-photo-info">
+                            <span className="aapg-photo-info-icon">{icons.info}</span>
+                            <div className="aapg-photo-info-text">
+                                <p className="aapg-photo-info-title">
+                                    {t("profilePhotoInfo") || "Profile photo helps identify the administrator."}
+                                </p>
+                                <p className="aapg-photo-info-sub">
+                                    {t("recommendedSize") || "Recommended size: 512x512px"}
+                                </p>
+                                {photoFile && (
+                                    <button
+                                        type="button"
+                                        className="aapg-photo-remove"
+                                        onClick={clearPhoto}
+                                        disabled={busy}
+                                    >
+                                        {icons.close}
+                                        {t("removePhoto") || "Remove photo"}
+                                    </button>
+                                )}
+                            </div>
+                            <svg className="aapg-photo-info-art" viewBox="0 0 200 120" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M0 74C42 44 78 92 122 66C166 40 182 62 200 50V120H0V74Z" fill="currentColor" opacity="0.5" />
+                                <path d="M0 96C46 68 80 108 126 88C172 68 184 82 200 74V120H0V96Z" fill="currentColor" opacity="0.75" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/png,image/jpeg"
+                        className="aapg-file-input"
+                        onChange={handlePhotoPick}
+                        tabIndex={-1}
+                    />
+                </div>
+
+                {/* -------------------- ADMIN ID -------------------- */}
+                <div className="aapg-field">
+                    <label>{t("adminIdDocId") || t("adminId")}</label>
                     <div className="aapg-input-wrap">
                         <span className="aapg-input-icon">{icons.id}</span>
                         <input
@@ -308,6 +508,9 @@ function AddAdmin() {
                             type="button"
                             className="aapg-pwd-toggle"
                             onClick={() => setShowPwd((s) => !s)}
+                            aria-label={showPwd
+                                ? (t("hidePassword") || "Hide password")
+                                : (t("showPassword") || "Show password")}
                             tabIndex={-1}
                         >
                             {showPwd ? icons.eyeOff : icons.eye}
@@ -330,18 +533,34 @@ function AddAdmin() {
                     </div>
                 </div>
 
+                {/* -------------------- AUTO-SET FIELDS -------------------- */}
                 <div className="aapg-auto">
                     <span className="aapg-auto-label">{t("autoFields")}</span>
                     <div className="aapg-auto-row">
-                        <span className="aapg-chip">role: <b>admin</b></span>
-                        <span className="aapg-chip">deleted: <b>false</b></span>
+                        <span className="aapg-chip">
+                            <span className="aapg-chip-icon">{icons.user}</span>
+                            role: <b>admin</b>
+                        </span>
+                        <span className="aapg-chip">
+                            <span className="aapg-chip-icon">{icons.trash}</span>
+                            deleted: <b>false</b>
+                        </span>
                     </div>
                 </div>
 
-                <button className="aapg-submit" onClick={handleSubmit} disabled={saving}>
-                    {saving ? <span className="aapg-spinner" /> : icons.shield}
-                    {saving ? t("saving") : t("addAdmin")}
+                <button className="aapg-submit" onClick={handleSubmit} disabled={busy}>
+                    {busy ? <span className="aapg-spinner" /> : icons.shield}
+                    {uploadingPhoto
+                        ? (t("uploadingPhoto") || "Uploading photo…")
+                        : saving
+                            ? t("saving")
+                            : t("addAdmin")}
                 </button>
+
+                <p className="aapg-note">
+                    <span className="aapg-note-icon">{icons.shieldFill}</span>
+                    {t("adminOnlyNote") || "Only authorized administrators can add new users."}
+                </p>
 
             </div>
         </div>

@@ -1091,5 +1091,17 @@
   "guruQuote": "Service to humanity is service to God.",
   "guruQuoteAuthor": "Param Sant Swami Jai Gurubande Ji Maharaj",
   "showPassword": "Show password",
-  "hidePassword": "Hide password"
+  "hidePassword": "Hide password",
+  "profilePhoto": "Profile Photo",
+  "uploadPhoto": "Upload Photo",
+  "changePhoto": "Change Photo",
+  "photoFormatHint": "PNG, JPG up to 2MB",
+  "profilePhotoInfo": "Profile photo helps identify the administrator.",
+  "recommendedSize": "Recommended size: 512x512px",
+  "removePhoto": "Remove photo",
+  "photoInvalidType": "Only PNG and JPG images are allowed.",
+  "photoTooLarge": "Image must be under 2MB.",
+  "photoUploadFailed": "Could not upload the photo. Please try again.",
+  "uploadingPhoto": "Uploading photo…",
+  "adminIdDocId": "Admin ID (Document ID)"
 }
