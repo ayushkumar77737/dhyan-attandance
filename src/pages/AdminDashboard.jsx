@@ -283,6 +283,47 @@ function AttendanceEmptyArt() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* Hero banner artwork (meditation silhouette under a moon)           */
+/* Colours come from CSS custom properties so the illustration        */
+/* re-tints itself in light mode without a second SVG.                */
+/* ------------------------------------------------------------------ */
+function MeditationArt() {
+  return (
+    <svg className="hero-art" viewBox="0 0 420 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="heroMoonGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" className="hero-moon-a" />
+          <stop offset="62%" className="hero-moon-b" />
+          <stop offset="100%" className="hero-moon-c" />
+        </radialGradient>
+      </defs>
+
+      {/* moon glow */}
+      <circle cx="212" cy="84" r="76" fill="url(#heroMoonGrad)" />
+
+      {/* stars */}
+      <circle cx="96" cy="38" r="2" className="hero-star-dot" opacity="0.8" />
+      <circle cx="332" cy="50" r="2.4" className="hero-star-dot" opacity="0.7" />
+      <circle cx="370" cy="28" r="1.6" className="hero-star-dot" opacity="0.55" />
+      <circle cx="58" cy="74" r="1.8" className="hero-star-dot" opacity="0.5" />
+      <circle cx="146" cy="30" r="1.4" className="hero-star-dot" opacity="0.45" />
+
+      {/* mountain ridge */}
+      <path d="M0 180 L84 106 L142 150 L198 94 L268 150 L332 114 L420 180 Z" className="hero-hill-shape" opacity="0.9" />
+
+      {/* seated figure */}
+      <g className="hero-figure-shape">
+        <circle cx="212" cy="60" r="15" />
+        <path d="M212 79c-16 0-27 12-30 27-1 5 2 8 7 8h46c5 0 8-3 7-8-3-15-14-27-30-27z" />
+        <path d="M170 127c0-8 19-13 42-13s42 5 42 13c0 7-19 11-42 11s-42-4-42-11z" />
+        <path d="M178 121c-6-3-10-8-9-13 1-4 6-5 11-2l14 8z" />
+        <path d="M246 121c6-3 10-8 9-13-1-4-6-5-11-2l-14 8z" />
+      </g>
+    </svg>
+  );
+}
+
 function AdminDashboard() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -731,10 +772,24 @@ function AdminDashboard() {
   ];
   const accentHex = { blue: "#3b82f6", purple: "#8b5cf6", green: "#2dce89", amber: "#f59e0b", teal: "#14b8a6", red: "#ef4444" };
 
-  const headerDate = new Date().toLocaleDateString(i18n.language || undefined, {
-    weekday: "long", day: "numeric", month: "long", year: "numeric",
+  /* ---------- header date, split into two lines for the hero pill ---------- */
+  const headerDay = new Date().toLocaleDateString(i18n.language || undefined, {
+    weekday: "long",
   });
+  const headerDateShort = new Date().toLocaleDateString(i18n.language || undefined, {
+    day: "numeric", month: "long", year: "numeric",
+  });
+
+  /* ---------- time-aware greeting (falls back to English if a key is missing) ---------- */
+  const nowHour = new Date().getHours();
+  const greetKey = nowHour < 12 ? "goodMorning" : nowHour < 17 ? "goodAfternoon" : "goodEvening";
+  const greetFallback = nowHour < 12 ? "Good Morning" : nowHour < 17 ? "Good Afternoon" : "Good Evening";
+  const greetText = t(greetKey) || greetFallback;
+
   const adminInitial = (adminInfo?.name || "A").charAt(0).toUpperCase();
+  const adminRoleLabel = isSuperAdmin
+    ? (t("superAdmin") || "Super Admin")
+    : (adminInfo?.role || t("adminLabel"));
 
   const openMyAccount = async () => {
     if (!adminInfo) await fetchAdminInfo();
@@ -777,7 +832,7 @@ function AdminDashboard() {
             <div className="sidebar-avatar">{adminInitial}</div>
             <div className="sidebar-profile-text">
               <p className="sidebar-profile-name">{adminInfo?.name || t("adminLabel")}</p>
-              <span className="sidebar-profile-role">{isSuperAdmin ? "Super Admin" : (adminInfo?.role || "Admin")}</span>
+              <span className="sidebar-profile-role">{adminRoleLabel}</span>
             </div>
           </button>
           <button className="sidebar-signout" onClick={handleLogout}>
@@ -824,20 +879,42 @@ function AdminDashboard() {
             >
               {theme === "dark" ? icons.sun : icons.moon}
             </button>
-            <button className="topbar-avatar" onClick={openMyAccount} aria-label={t("myAccount")}>
-              {adminInitial}
-              <span className="topbar-avatar-dot" />
+
+            <button className="topbar-user" onClick={openMyAccount} aria-label={t("myAccount")}>
+              <span className="topbar-avatar">
+                {adminInitial}
+                <span className="topbar-avatar-dot" />
+              </span>
+              <span className="topbar-user-text">
+                <span className="topbar-user-name">{adminInfo?.name || t("adminLabel")}</span>
+                <span className="topbar-user-role">{adminRoleLabel}</span>
+              </span>
+              <span className="topbar-user-chevron">{icons.chevronDown}</span>
             </button>
           </div>
         </header>
 
         {/* --------------------------- CONTENT ---------------------------- */}
         <div className="dash-content">
-          <div className="content-toprow">
+
+          {/* ----- HERO GREETING BANNER ----- */}
+          <div className="hero-banner">
+            <MeditationArt />
+            <div className="hero-text">
+              <h2 className="hero-greeting">
+                {greetText}, {adminInfo?.name || t("adminLabel")}!{" "}
+                <span className="hero-wave" role="img" aria-hidden="true">👋</span>
+              </h2>
+              <p className="hero-sub">
+                {t("heroSubtitle") || "Here's what's happening with your portal today."}
+              </p>
+            </div>
             <div className="date-pill">
               <span className="date-pill-icon">{icons.calendar}</span>
-              <span>{headerDate}</span>
-              <span className="date-pill-chevron">{icons.chevronDown}</span>
+              <span className="date-pill-text">
+                <span className="date-pill-day">{headerDay}</span>
+                <span className="date-pill-date">{headerDateShort}</span>
+              </span>
             </div>
           </div>
 
@@ -847,14 +924,16 @@ function AdminDashboard() {
               <div className={`stat-card stat-${s.accent}`} key={s.key}>
                 <div className="stat-card-top">
                   <div className={`stat-icon icon-${s.accent}`}>{s.icon}</div>
+                  <div className="stat-card-meta">
+                    <h3>{s.label}</h3>
+                    {s.loading ? (
+                      <div className="stat-spinner" />
+                    ) : (
+                      <p className="stat-value">{s.value}</p>
+                    )}
+                  </div>
                   <Sparkline data={s.spark} color={accentHex[s.accent]} />
                 </div>
-                <h3>{s.label}</h3>
-                {s.loading ? (
-                  <div className="stat-spinner" />
-                ) : (
-                  <p className="stat-value">{s.value}</p>
-                )}
                 <div className={`stat-delta ${s.up === true ? "up" : s.up === false ? "down" : "flat"}`}>
                   {s.up === true && icons.arrowUp}
                   <span>{s.delta}{s.up !== null ? ` ${t("fromLastMonth")}` : ""}</span>
@@ -863,8 +942,9 @@ function AdminDashboard() {
             ))}
           </div>
 
-          {/* ----- CHARTS ROW ----- */}
-          <div className="charts-row">
+          {/* ----- CHARTS ----- */}
+          <div className="charts-grid">
+
             {/* Today's attendance */}
             <div className="chart-section">
               <h2 className="chart-title">{t("todayAttendance")}</h2>
@@ -939,10 +1019,8 @@ function AdminDashboard() {
                 </div>
               )}
             </div>
-          </div>
 
-          {/* ----- TREND ROW ----- */}
-          <div className="trend-row">
+            {/* Attendance trend */}
             <div className="chart-section chart-section-trend">
               <div className="trend-header">
                 <h2 className="chart-title">{t("attendanceTrend")}</h2>
@@ -966,7 +1044,8 @@ function AdminDashboard() {
               )}
             </div>
 
-            <div className="chart-section chart-section-trend">
+            {/* Monthly attendance — full width */}
+            <div className="chart-section chart-section-trend chart-section--full">
               <div className="trend-header">
                 <h2 className="chart-title">{t("monthlyAttendance")}</h2>
                 <div className="chart-date-picker">
@@ -990,7 +1069,10 @@ function AdminDashboard() {
           {/* ----- QUICK ACTIONS (core items) ----- */}
           {coreFiltered.length > 0 && (
             <>
-              <p className="section-label">{t("quickActions")}</p>
+              <p className="section-label">
+                <span className="section-label-icon" aria-hidden="true">⚡</span>
+                {t("quickActions")}
+              </p>
               <div className="quick-actions">
                 {coreFiltered.map((c) => (
                   <button className="quick-action" key={c.path} onClick={() => navigate(c.path)}>
@@ -1007,13 +1089,19 @@ function AdminDashboard() {
           )}
 
           {/* ----- TOOLS & SETTINGS (tool items) ----- */}
-          {toolsFiltered.length > 0 && <p className="section-label">{t("toolsAndSettings")}</p>}
+          {toolsFiltered.length > 0 && (
+            <p className="section-label">
+              <span className="section-label-icon" aria-hidden="true">⚙️</span>
+              {t("toolsAndSettings")}
+            </p>
+          )}
           {toolsFiltered.length > 0 && (
             <div className="tools-grid">
               {toolsFiltered.map((c) => (
                 <div className="tool-card" key={c.path} onClick={() => (c.action ? c.action() : navigate(c.path))}>
                   <div className={`tool-card-icon ${c.cls}`}>{c.icon}</div>
                   <p className="tool-card-label">{c.label}</p>
+                  <span className="tool-card-chevron" aria-hidden="true">›</span>
                 </div>
               ))}
             </div>

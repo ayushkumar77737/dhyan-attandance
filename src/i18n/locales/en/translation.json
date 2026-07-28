@@ -1078,5 +1078,12 @@
   "attnKeepGoing": "Keep going",
   "attnKeepItUp": "Keep it up!",
   "attnPerfect": "Perfect!",
-  "attnStayFocused": "Stay focused"
+  "attnStayFocused": "Stay focused",
+  "goodMorning": "Good Morning",
+  "goodAfternoon": "Good Afternoon",
+  "goodEvening": "Good Evening",
+  "heroSubtitle": "Here's what's happening with your portal today.",
+  "superAdmin": "Super Admin",
+  "previousMonth": "Previous month",
+  "nextMonth": "Next month"
 }

@@ -263,20 +263,6 @@
   }
 }
 
-@media (max-width: 768px) {
-  @keyframes ud-greeting-drop {
-    from {
-      opacity: 0;
-      transform: translateX(-50%) translateY(-20px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-  }
-}
-
 /* ================================================================== */
 /* BODY + LAYOUT                                                      */
 /* ================================================================== */
@@ -359,6 +345,24 @@
   background: linear-gradient(90deg, transparent, var(--violet), var(--blue), transparent);
 }
 
+/* ambient line-work behind the hero content */
+.ud-hero-wave {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.85;
+  z-index: 0;
+}
+
+/* keep everything above the wave */
+.ud-hero-head,
+.ud-hero-stats {
+  position: relative;
+  z-index: 1;
+}
+
 .ud-hero-head {
   display: flex;
   align-items: center;
@@ -409,12 +413,33 @@
   box-shadow: 0 0 8px rgba(16, 185, 129, 0.7);
 }
 
+.ud-user-info {
+  min-width: 0;
+}
+
 .ud-user-name {
   font-size: 22px;
   font-weight: 700;
   color: #fff;
   line-height: 1.2;
   letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+/* ID rendered as a bordered chip rather than plain text */
+.ud-user-id-pill {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 9px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  background: rgba(139, 92, 246, 0.18);
+  border: 1px solid rgba(167, 139, 250, 0.38);
+  color: #ddd6fe;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
 }
 
 .ud-user-id {
@@ -1025,7 +1050,7 @@
 
 .ud-mini-table td {
   padding: 11px 0;
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--text-soft);
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
@@ -1043,6 +1068,7 @@
   padding: 4px 11px;
   border-radius: 50px;
   border: 1px solid transparent;
+  white-space: nowrap;
 }
 
 .ud-badge-present {
@@ -1117,10 +1143,11 @@
   gap: 8px;
 }
 
+/* squared-off swatches read more like a data key than a bullet */
 .ud-sl-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
 }
 
 .ud-sl-val {
@@ -1140,7 +1167,15 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 0;
+  padding: 10px 8px;
+  margin: 0 -8px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.18s ease;
+}
+
+.ud-event:hover {
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .ud-event-icon {
@@ -1159,6 +1194,7 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 
 .ud-event-title {
@@ -1415,6 +1451,16 @@
 @keyframes ud-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .ud-container,
+  .ud-container * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
 }
 
@@ -2264,6 +2310,10 @@
 }
 
 /* ---- notification rows ---- */
+.ud-container[data-theme="light"] .ud-event:hover {
+  background: rgba(15, 23, 42, 0.04);
+}
+
 .ud-container[data-theme="light"] .ud-event-icon {
   background: rgba(124, 58, 237, 0.11);
   color: #6d28d9;

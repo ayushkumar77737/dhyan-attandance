@@ -47,6 +47,39 @@ function Sparkline({ data = [], color = "#34d399" }) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Ambient wave decoration for the hero card                          */
+/* Purely presentational — sits behind the content at low opacity.    */
+/* ------------------------------------------------------------------ */
+function HeroWave() {
+  return (
+    <svg
+      className="ud-hero-wave"
+      viewBox="0 0 600 240"
+      preserveAspectRatio="none"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path d="M0 168C96 118 168 196 264 148C360 100 438 168 600 108" stroke="url(#udWaveA)" strokeWidth="1.4" />
+      <path d="M0 196C96 146 168 224 264 176C360 128 438 196 600 136" stroke="url(#udWaveA)" strokeWidth="1.4" />
+      <path d="M0 140C96 90 168 168 264 120C360 72 438 140 600 80" stroke="url(#udWaveB)" strokeWidth="1.4" />
+      <defs>
+        <linearGradient id="udWaveA" x1="0" y1="0" x2="600" y2="0" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#8b5cf6" stopOpacity="0" />
+          <stop offset="0.5" stopColor="#a78bfa" stopOpacity="0.55" />
+          <stop offset="1" stopColor="#3b82f6" stopOpacity="0" />
+        </linearGradient>
+        <linearGradient id="udWaveB" x1="0" y1="0" x2="600" y2="0" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#3b82f6" stopOpacity="0" />
+          <stop offset="0.55" stopColor="#60a5fa" stopOpacity="0.4" />
+          <stop offset="1" stopColor="#8b5cf6" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /* SVG progress ring for the "This Month Summary" donut               */
 /* ------------------------------------------------------------------ */
 function Ring({ pct = 0, size = 132, stroke = 13 }) {
@@ -560,6 +593,8 @@ function UserDashboard() {
 
             {/* ============================ HERO ============================ */}
             <div className="ud-hero-card">
+              <HeroWave />
+
               <div className="ud-hero-head">
                 <div className="ud-avatar-row">
                   <div className="ud-avatar">
@@ -568,7 +603,7 @@ function UserDashboard() {
                   </div>
                   <div className="ud-user-info">
                     <div className="ud-user-name">{userName || "—"}</div>
-                    <div className="ud-user-id">ID: {userId}</div>
+                    <span className="ud-user-id-pill">ID: {userId || "—"}</span>
                   </div>
                 </div>
                 <StatusPill />
@@ -702,11 +737,11 @@ function UserDashboard() {
                 <div className="ud-section">
                   <div className="ud-section-header">
                     <span className="ud-section-title ud-cal-month-title">
-                      {calendarMonth.toLocaleString("default", { month: "long", year: "numeric" })}
+                      {calendarMonth.toLocaleString(i18n.language || undefined, { month: "long", year: "numeric" })}
                     </span>
                     <div className="ud-cal-nav-row">
-                      <button className="ud-cal-nav" onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1))}>‹</button>
-                      <button className="ud-cal-nav" onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1))}>›</button>
+                      <button className="ud-cal-nav" onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1))} aria-label={t("previousMonth") || "Previous month"}>‹</button>
+                      <button className="ud-cal-nav" onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1))} aria-label={t("nextMonth") || "Next month"}>›</button>
                     </div>
                   </div>
 
@@ -752,7 +787,10 @@ function UserDashboard() {
                   ) : (
                     <table className="ud-mini-table">
                       <thead>
-                        <tr><th>{t("date")}</th><th>{t("status")}</th></tr>
+                        <tr>
+                          <th>{t("date")}</th>
+                          <th>{t("status")}</th>
+                        </tr>
                       </thead>
                       <tbody>
                         {recentLog.map((item, idx) => (
@@ -813,7 +851,7 @@ function UserDashboard() {
                     <div className="ud-side-empty">{t("allClear") || "No notifications"}</div>
                   ) : (
                     recentNotifs.map((n) => (
-                      <div className="ud-event" key={n.id} onClick={() => navigate("/my-notifications")} style={{ cursor: "pointer" }}>
+                      <div className="ud-event" key={n.id} onClick={() => navigate("/my-notifications")}>
                         <div className="ud-event-icon">
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
                         </div>
@@ -821,7 +859,7 @@ function UserDashboard() {
                           <span className="ud-event-title">{n.title || n.message || t("notifications")}</span>
                           <span className="ud-event-meta">
                             {n.createdAt?.seconds
-                              ? new Date(n.createdAt.seconds * 1000).toLocaleDateString()
+                              ? new Date(n.createdAt.seconds * 1000).toLocaleDateString(i18n.language || undefined)
                               : (n.date || "")}
                           </span>
                         </div>
