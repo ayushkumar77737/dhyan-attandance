@@ -1115,5 +1115,13 @@
   "overallAttendance": "Overall attendance",
   "scanQRPrompt": "Scan a QR code",
   "scanQRPromptSub": "to see user details",
-  "startScanningHint": "Start scanning to see records here."
+  "startScanningHint": "Start scanning to see records here.",
+  "userManagement": "User Management",
+  "allUsersSubtitle": "Manage and view all registered users in the system.",
+  "searchByNameIdEmail": "Search by name, ID or email…",
+  "perPageCount": "{{count}} per page",
+  "inactive": "Inactive",
+  "showingRange": "Showing {{from}} to {{to}} of {{total}} users",
+  "previousPage": "Previous page",
+  "nextPage": "Next page"
 }
