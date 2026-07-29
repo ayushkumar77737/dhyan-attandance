@@ -207,6 +207,8 @@
 .mkat-back {
   display: inline-flex;
   align-items: center;
+  justify-self: start;
+  width: fit-content;
   gap: 9px;
   padding: 12px 20px 12px 16px;
   border: 1px solid var(--mk-pill-border);
@@ -827,6 +829,13 @@
   .mkat-header {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  /* grid items stretch to fill their column by default — inline-flex
+       doesn't override that, so pin it to the start explicitly */
+  .mkat-back {
+    justify-self: start;
+    width: fit-content;
   }
 
   .mkat-head-text {
