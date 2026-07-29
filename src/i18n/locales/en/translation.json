@@ -1108,5 +1108,12 @@
   "usersList": "Users List",
   "attendanceStatus": "Attendance Status",
   "columnUser": "User",
-  "columnId": "ID"
+  "columnId": "ID",
+  "registeredUsers": "Registered users",
+  "markedPresent": "Marked present",
+  "markedAbsent": "Marked absent",
+  "overallAttendance": "Overall attendance",
+  "scanQRPrompt": "Scan a QR code",
+  "scanQRPromptSub": "to see user details",
+  "startScanningHint": "Start scanning to see records here."
 }
