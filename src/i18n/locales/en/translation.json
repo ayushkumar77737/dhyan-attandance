@@ -1123,5 +1123,6 @@
   "inactive": "Inactive",
   "showingRange": "Showing {{from}} to {{to}} of {{total}} users",
   "previousPage": "Previous page",
-  "nextPage": "Next page"
+  "nextPage": "Next page",
+  "noRecordsFound": "No records found"
 }
