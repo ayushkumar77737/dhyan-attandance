@@ -1124,5 +1124,10 @@
   "showingRange": "Showing {{from}} to {{to}} of {{total}} users",
   "previousPage": "Previous page",
   "nextPage": "Next page",
-  "noRecordsFound": "No records found"
+  "noRecordsFound": "No records found",
+  "deleteLeaveConfirm": "Delete the leave request from {{name}}? This cannot be undone.",
+  "deleteAllLeavesConfirm": "Delete all {{count}} leave requests shown? This cannot be undone.",
+  "logUpdatedLeave": "Set {{name}}'s leave request to {{status}}",
+  "logDeletedLeave": "Deleted {{name}}'s leave request",
+  "logDeletedAllLeaves": "Deleted {{count}} leave requests"
 }

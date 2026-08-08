@@ -1,648 +1,925 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=Fira+Code:wght@500;600&display=swap');
 
-:root {
-    --alvr-bg: #0b0e18;
-    --alvr-card: #0d1b2a;
-    --alvr-card-2: #111827;
-    --alvr-stat: #0f1623;
-    --alvr-blue: #3b82f6;
-    --alvr-blue-dark: #2563eb;
-    --alvr-green: #2dce89;
-    --alvr-amber: #f59e0b;
-    --alvr-red: #ef4444;
-    --alvr-text: #e8edf5;
-    --alvr-text-muted: #64748b;
-    --alvr-border: rgba(255, 255, 255, 0.06);
-    --alvr-border-strong: rgba(255, 255, 255, 0.1);
-    --alvr-border-blue: rgba(59, 130, 246, 0.3);
-    --alvr-font-display: 'Syne', sans-serif;
-    --alvr-font-body: 'Outfit', sans-serif;
+/* ==================================================================
+   Every colour, shadow and gradient below the token blocks resolves
+   through a variable, so switching data-theme re-skins the whole page
+   without per-rule overrides.
+   ================================================================== */
+
+/* ================================================================== */
+/* TOKENS — DARK (default)                                            */
+/* ================================================================== */
+.leaves-container {
+    --lv-indigo: #4f46e5;
+    --lv-indigo-mid: #6366f1;
+    --lv-indigo-light: #a5b4fc;
+    --lv-indigo-subtle: rgba(99, 102, 241, 0.14);
+
+    --lv-green: #22c55e;
+    --lv-green-text: #4ade80;
+    --lv-green-dim: rgba(34, 197, 94, 0.14);
+    --lv-green-border: rgba(34, 197, 94, 0.32);
+
+    --lv-amber: #f59e0b;
+    --lv-amber-text: #fbbf24;
+    --lv-amber-dim: rgba(245, 158, 11, 0.14);
+    --lv-amber-border: rgba(245, 158, 11, 0.32);
+
+    --lv-red: #ef4444;
+    --lv-red-text: #f87171;
+    --lv-red-dim: rgba(239, 68, 68, 0.13);
+    --lv-red-border: rgba(239, 68, 68, 0.32);
+
+    --lv-page-bg: #0b0f1a;
+    --lv-blob: rgba(99, 102, 241, 0.14);
+
+    --lv-card: #131929;
+    --lv-card-border: rgba(255, 255, 255, 0.08);
+    --lv-card-shadow: 0 20px 46px -24px rgba(0, 0, 0, 0.7);
+    --lv-card-shadow-hover: 0 28px 58px -24px rgba(0, 0, 0, 0.78);
+
+    --lv-text: #eef1fa;
+    --lv-muted: #8492ae;
+    --lv-eyebrow: #8492ae;
+
+    --lv-pill-bg: rgba(255, 255, 255, 0.05);
+    --lv-pill-border: rgba(165, 180, 252, 0.22);
+    --lv-pill-shadow: none;
+
+    /* nested surfaces — reason blocks and chips inside a card */
+    --lv-surface: rgba(255, 255, 255, 0.05);
+    --lv-surface-border: rgba(255, 255, 255, 0.10);
+
+    /* controls that sit on the PAGE — tabs, export, delete-all */
+    --lv-control-bg: #131929;
+    --lv-control-border: rgba(255, 255, 255, 0.10);
+    --lv-count-bg: rgba(255, 255, 255, 0.08);
+
+    --lv-chip-bg: rgba(99, 102, 241, 0.16);
+    --lv-chip-text: #a5b4fc;
+
+    --lv-avatar-bg: rgba(99, 102, 241, 0.20);
+    --lv-avatar-text: #a5b4fc;
+    --lv-avatar-ring: rgba(165, 180, 252, 0.26);
+
+    --lv-dots: rgba(165, 180, 252, 0.14);
+
+    --lv-tab-active-bg: linear-gradient(135deg, #4f46e5, #4338ca);
+    --lv-tab-active-text: #ffffff;
+
+    --lv-radius-sm: 10px;
+    --lv-radius-md: 14px;
+    --lv-radius-lg: 20px;
+
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'Fira Code', monospace;
+    --lv-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.alvr-container,
-.alvr-container *,
-.alvr-container *::before,
-.alvr-container *::after {
-    box-sizing: border-box;
+/* ================================================================== */
+/* TOKENS — LIGHT                                                     */
+/* ------------------------------------------------------------------ */
+/* Three rules govern this palette:                                    */
+/*                                                                     */
+/* 1. Pale 300/400-level accents glow on near-black but wash out on    */
+/*    white, so each drops to its 600/700 counterpart of the same hue. */
+/*                                                                     */
+/* 2. Nothing that needs an edge may sit within ~2% of the surface     */
+/*    behind it — hence the separate `surface` tokens for the reason    */
+/*    block and chips nested inside white cards.                       */
+/*                                                                     */
+/* 3. Tabs and the back button sit on the PAGE, so white is correct    */
+/*    for them; the page steps well away from white instead.           */
+/* ================================================================== */
+.leaves-container[data-theme="light"] {
+    --lv-indigo-mid: #4f46e5;
+    --lv-indigo-light: #4338ca;
+    --lv-indigo-subtle: #e4e2fc;
+
+    --lv-green-text: #15803d;
+    --lv-green-dim: #d8f1e2;
+    --lv-green-border: rgba(21, 128, 61, 0.28);
+
+    --lv-amber-text: #b45309;
+    --lv-amber-dim: #fcecd8;
+    --lv-amber-border: rgba(180, 83, 9, 0.28);
+
+    --lv-red-text: #dc2626;
+    --lv-red-dim: #fce2e2;
+    --lv-red-border: rgba(220, 38, 38, 0.28);
+
+    --lv-page-bg: #e7eaf6;
+    --lv-blob: rgba(99, 102, 241, 0.16);
+
+    --lv-card: #ffffff;
+    --lv-card-border: rgba(30, 35, 90, 0.14);
+    --lv-card-shadow:
+        0 18px 40px -24px rgba(30, 35, 90, 0.34),
+        0 2px 8px rgba(30, 35, 90, 0.07);
+    --lv-card-shadow-hover:
+        0 26px 52px -24px rgba(30, 35, 90, 0.42),
+        0 3px 12px rgba(30, 35, 90, 0.09);
+
+    --lv-text: #121731;
+    --lv-muted: #555d78;
+    --lv-eyebrow: #464e6b;
+
+    --lv-pill-bg: #ffffff;
+    --lv-pill-border: rgba(30, 35, 90, 0.16);
+    --lv-pill-shadow: 0 1px 3px rgba(30, 35, 90, 0.10);
+
+    /* nested inside white cards, so tinted — must differ from --lv-card */
+    --lv-surface: #f2f4fb;
+    --lv-surface-border: rgba(30, 35, 90, 0.15);
+
+    /* on the page, so white reads correctly against the lavender bg */
+    --lv-control-bg: #ffffff;
+    --lv-control-border: rgba(30, 35, 90, 0.16);
+    --lv-count-bg: #eceef8;
+
+    --lv-chip-bg: #e0e0fb;
+    --lv-chip-text: #4338ca;
+
+    --lv-avatar-bg: #e0e0fb;
+    --lv-avatar-text: #4338ca;
+    --lv-avatar-ring: rgba(79, 70, 229, 0.24);
+
+    --lv-dots: rgba(99, 102, 241, 0.26);
+
+    --lv-tab-active-bg: linear-gradient(135deg, #4f46e5, #4338ca);
+    --lv-tab-active-text: #ffffff;
 }
 
-.alvr-container {
+/* ================================================================== */
+/* SHELL                                                              */
+/* ================================================================== */
+.leaves-container {
+    position: relative;
     min-height: 100vh;
+    padding: 26px 32px 60px;
+    font-family: var(--font-body);
+    background: var(--lv-page-bg);
+    color: var(--lv-text);
     overflow-x: hidden;
-    padding: 28px 32px;
-    font-family: var(--alvr-font-body);
-    color: var(--alvr-text);
-    background: var(--alvr-bg);
-    background-image:
-        radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.05) 0%, transparent 60%),
-        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-    background-size: 100% 100%, 44px 44px, 44px 44px;
-    animation: alvr-fadein 0.5s ease;
+    animation: lvr-fade 0.55s var(--lv-ease);
 }
 
-/* ===== Header ===== */
-.alvr-header {
+.lvr-blob {
+    position: fixed;
+    right: -180px;
+    bottom: -200px;
+    width: 640px;
+    height: 640px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--lv-blob), transparent 70%);
+    filter: blur(90px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.lvr-dots {
+    position: fixed;
+    left: 22px;
+    bottom: 34px;
+    width: 160px;
+    height: 160px;
+    color: var(--lv-dots);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.lvr-header,
+.lvr-toolbar,
+.lvr-list,
+.lvr-state {
+    position: relative;
+    z-index: 1;
+}
+
+/* ================================================================== */
+/* HEADER                                                             */
+/* ================================================================== */
+.lvr-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 24px;
-}
-
-.alvr-header-left {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.alvr-back-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    background: rgba(59, 130, 246, 0.08);
-    color: #93c5fd;
-    border: 1px solid var(--alvr-border-blue);
-    border-radius: 10px;
-    font-family: var(--alvr-font-body);
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.alvr-back-btn:hover {
-    background: rgba(59, 130, 246, 0.18);
-    border-color: var(--alvr-blue);
-}
-
-.alvr-logo {
-    height: 40px;
-    width: auto;
-    object-fit: contain;
-}
-
-.alvr-header-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.alvr-portal-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--alvr-text-muted);
-    margin: 0;
-}
-
-.alvr-title {
-    font-family: var(--alvr-font-display);
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    margin: 0;
-}
-
-.alvr-favicon {
-    height: 32px;
-    width: 32px;
-    object-fit: contain;
-    border-radius: 8px;
-}
-
-/* ===== Toolbar ===== */
-.alvr-toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 20px;
-}
-
-.alvr-filters {
-    display: flex;
-    gap: 8px;
+    gap: 22px;
+    margin-bottom: 26px;
     flex-wrap: wrap;
 }
 
-.alvr-filter-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background: var(--alvr-stat);
-    border: 1px solid var(--alvr-border-strong);
-    border-radius: 50px;
-    color: var(--alvr-text-muted);
-    font-family: var(--alvr-font-body);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.alvr-filter-btn:hover {
-    border-color: var(--alvr-blue);
-    color: var(--alvr-text);
-}
-
-.alvr-filter-btn.active {
-    background: var(--alvr-blue);
-    border-color: var(--alvr-blue);
-    color: #fff;
-    box-shadow: 0 0 18px rgba(59, 130, 246, 0.22);
-}
-
-.alvr-filter-count {
+.lvr-back {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    min-width: 20px;
-    height: 18px;
-    padding: 0 6px;
-    border-radius: 50px;
-    background: rgba(0, 0, 0, 0.25);
-    font-size: 11px;
+    gap: 9px;
+    padding: 13px 22px 13px 16px;
+    border: 1px solid var(--lv-pill-border);
+    border-radius: var(--lv-radius-md);
+    background: var(--lv-pill-bg);
+    color: var(--lv-text);
+    font-family: var(--font-body);
+    font-size: 14px;
     font-weight: 700;
-}
-
-.alvr-filter-btn.active .alvr-filter-count {
-    background: rgba(255, 255, 255, 0.25);
-}
-
-.alvr-delete-all-btn {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 9px 16px;
-    background: transparent;
-    border: 1px solid rgba(239, 68, 68, 0.4);
-    border-radius: 10px;
-    color: var(--alvr-red);
-    font-family: var(--alvr-font-body);
-    font-size: 13px;
-    font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-shadow: var(--lv-pill-shadow);
+    transition: border-color 0.22s var(--lv-ease), color 0.22s var(--lv-ease), box-shadow 0.22s var(--lv-ease);
 }
 
-.alvr-delete-all-btn:hover:not(:disabled) {
-    background: var(--alvr-red);
-    color: #fff;
-    box-shadow: 0 0 18px rgba(239, 68, 68, 0.25);
+.lvr-back svg {
+    width: 16px;
+    height: 16px;
 }
 
-.alvr-delete-all-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
+.lvr-back-icon {
+    display: flex;
+    transition: transform 0.22s var(--lv-ease);
 }
 
-.alvr-toolbar-actions {
+.lvr-back:hover {
+    border-color: var(--lv-indigo-mid);
+    color: var(--lv-indigo-light);
+    box-shadow: 0 8px 20px -12px rgba(79, 70, 229, 0.5);
+}
+
+.lvr-back:hover .lvr-back-icon {
+    transform: translateX(-3px);
+}
+
+.lvr-head-text {
     display: flex;
     align-items: center;
-    gap: 10px;
-}
-
-.alvr-export-btn {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 9px 16px;
-    background: transparent;
-    border: 1px solid var(--alvr-border-blue);
-    border-radius: 10px;
-    color: #93c5fd;
-    font-family: var(--alvr-font-body);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.alvr-export-btn:hover:not(:disabled) {
-    background: var(--alvr-blue);
-    color: #fff;
-    box-shadow: 0 0 18px rgba(59, 130, 246, 0.25);
-}
-
-.alvr-export-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-/* ===== List & Cards ===== */
-.alvr-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.alvr-card {
-    display: flex;
-    align-items: stretch;
-    justify-content: space-between;
-    gap: 18px;
-    background: var(--alvr-card);
-    border: 1px solid var(--alvr-border);
-    border-radius: 16px;
-    padding: 18px 20px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-    transition: border-color 0.2s ease, transform 0.2s ease;
-    animation: alvr-fade 0.5s ease;
-}
-
-.alvr-card:hover {
-    border-color: var(--alvr-border-blue);
-    transform: translateY(-2px);
-}
-
-.alvr-card-main {
-    display: flex;
-    gap: 18px;
-    flex: 1;
+    gap: 15px;
     min-width: 0;
 }
 
-.alvr-who {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    min-width: 150px;
+.lvr-logo {
+    height: 56px;
+    width: auto;
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
-.alvr-avatar {
-    width: 42px;
-    height: 42px;
+.lvr-head-copy {
+    min-width: 0;
+}
+
+.lvr-eyebrow {
+    margin: 0 0 2px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--lv-eyebrow);
+}
+
+.lvr-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    color: var(--lv-text);
+    overflow-wrap: anywhere;
+}
+
+/* ================================================================== */
+/* TOOLBAR                                                            */
+/* ================================================================== */
+.lvr-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.lvr-tabs {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.lvr-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border: 1px solid var(--lv-control-border);
+    border-radius: var(--lv-radius-md);
+    background: var(--lv-control-bg);
+    color: var(--lv-text);
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: var(--lv-pill-shadow);
+    transition: transform 0.18s var(--lv-ease), border-color 0.2s var(--lv-ease), box-shadow 0.2s var(--lv-ease);
+}
+
+.lvr-tab:hover:not(.lvr-tab--active) {
+    transform: translateY(-2px);
+    border-color: var(--lv-indigo-mid);
+}
+
+.lvr-tab-icon {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.lvr-tab-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.lvr-tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--lv-count-bg);
+    color: var(--lv-muted);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+/* per-tab icon accents */
+.lvr-tab--all .lvr-tab-icon {
+    color: var(--lv-indigo-light);
+}
+
+.lvr-tab--pending .lvr-tab-icon {
+    color: var(--lv-amber-text);
+}
+
+.lvr-tab--approved .lvr-tab-icon {
+    color: var(--lv-green-text);
+}
+
+.lvr-tab--rejected .lvr-tab-icon {
+    color: var(--lv-red-text);
+}
+
+.lvr-tab--active {
+    background: var(--lv-tab-active-bg);
+    border-color: transparent;
+    color: var(--lv-tab-active-text);
+    box-shadow: 0 12px 26px -12px rgba(67, 56, 202, 0.6);
+}
+
+.lvr-tab--active .lvr-tab-icon {
+    color: #fff;
+}
+
+.lvr-tab--active .lvr-tab-count {
+    background: rgba(255, 255, 255, 0.22);
+    color: #fff;
+}
+
+.lvr-toolbar-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.lvr-tool {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 14px 22px;
+    border-radius: var(--lv-radius-md);
+    background: var(--lv-control-bg);
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: var(--lv-pill-shadow);
+    transition: transform 0.18s var(--lv-ease), background 0.2s var(--lv-ease), opacity 0.2s var(--lv-ease);
+}
+
+.lvr-tool:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
+
+.lvr-tool:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.lvr-tool--export {
+    border: 1px solid var(--lv-indigo-mid);
+    color: var(--lv-indigo-light);
+}
+
+.lvr-tool--export:hover:not(:disabled) {
+    background: var(--lv-indigo-subtle);
+}
+
+.lvr-tool--danger {
+    border: 1px solid var(--lv-red-border);
+    color: var(--lv-red-text);
+}
+
+.lvr-tool--danger:hover:not(:disabled) {
+    background: var(--lv-red-dim);
+}
+
+.lvr-btn-icon {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.lvr-btn-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ================================================================== */
+/* CARD LIST                                                          */
+/* ================================================================== */
+.lvr-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.lvr-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: flex-start;
+    gap: 22px;
+    padding: 24px 26px 24px 30px;
+    background: var(--lv-card);
+    border: 1px solid var(--lv-card-border);
+    border-radius: var(--lv-radius-lg);
+    box-shadow: var(--lv-card-shadow);
+    overflow: hidden;
+    animation: lvr-rise 0.4s var(--lv-ease) both;
+    transition: transform 0.2s var(--lv-ease), box-shadow 0.2s var(--lv-ease);
+}
+
+.lvr-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--lv-card-shadow-hover);
+}
+
+/* coloured rule down the card's left edge, keyed to status */
+.lvr-card-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+}
+
+.lvr-card--pending .lvr-card-bar {
+    background: var(--lv-amber);
+}
+
+.lvr-card--approved .lvr-card-bar {
+    background: var(--lv-green);
+}
+
+.lvr-card--rejected .lvr-card-bar {
+    background: var(--lv-red);
+}
+
+/* ---------------- avatar ---------------- */
+.lvr-avatar {
+    position: relative;
+    overflow: hidden;
+    width: 76px;
+    height: 76px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--alvr-blue), var(--alvr-blue-dark));
-    color: #fff;
-    font-family: var(--alvr-font-display);
-    font-size: 15px;
-    font-weight: 800;
     flex-shrink: 0;
-    box-shadow: 0 0 14px rgba(59, 130, 246, 0.25);
+    background: var(--lv-avatar-bg);
+    color: var(--lv-avatar-text);
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 800;
+    box-shadow: inset 0 0 0 2px var(--lv-avatar-ring);
 }
 
-.alvr-who-text {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+/* The photo sits on top of the initials. If the user has no image, or the
+   Cloudinary URL 404s, onError hides the <img> and the initials show
+   through — no extra state, no flicker. */
+.lvr-avatar-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    box-shadow: inset 0 0 0 2px var(--lv-avatar-ring);
+}
+
+/* ---------------- body ---------------- */
+.lvr-card-body {
     min-width: 0;
 }
 
-.alvr-name {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--alvr-text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.alvr-id {
-    font-size: 12px;
-    color: #93c5fd;
-    opacity: 0.85;
-}
-
-.alvr-details {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-width: 0;
-    flex: 1;
-}
-
-.alvr-detail-row {
+.lvr-card-top {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     flex-wrap: wrap;
+    margin-bottom: 4px;
 }
 
-.alvr-type-chip {
-    display: inline-flex;
-    align-items: center;
-    padding: 4px 12px;
-    border-radius: 8px;
-    background: rgba(59, 130, 246, 0.12);
-    border: 1px solid var(--alvr-border-blue);
-    color: #93c5fd;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.alvr-date {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--alvr-text-muted);
-}
-
-.alvr-reason {
-    font-size: 13px;
-    color: #94a3b8;
-    line-height: 1.45;
-    margin: 0;
+.lvr-name {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    color: var(--lv-text);
     word-break: break-word;
 }
 
-/* ===== Card Side (status + actions) ===== */
-.alvr-card-side {
+.lvr-type-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: var(--lv-chip-bg);
+    color: var(--lv-chip-text);
+    font-size: 12.5px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.lvr-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--lv-muted);
+    white-space: nowrap;
+}
+
+.lvr-date-icon {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.lvr-date-icon svg {
+    width: 15px;
+    height: 15px;
+}
+
+.lvr-id {
+    margin: 0 0 16px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: var(--lv-indigo-light);
+}
+
+.lvr-reason-block {
+    padding: 13px 16px;
+    border-radius: var(--lv-radius-md);
+    background: var(--lv-surface);
+    border: 1px solid var(--lv-surface-border);
+}
+
+.lvr-reason-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--lv-muted);
+}
+
+.lvr-reason-icon {
+    display: flex;
+}
+
+.lvr-reason-icon svg {
+    width: 14px;
+    height: 14px;
+}
+
+.lvr-reason {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--lv-text);
+    word-break: break-word;
+}
+
+/* ---------------- side (status + actions) ---------------- */
+.lvr-card-side {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 12px;
+    gap: 18px;
+    align-self: stretch;
     flex-shrink: 0;
 }
 
-.alvr-badge {
+.lvr-status {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    font-size: 12px;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: var(--lv-radius-sm);
+    font-size: 14px;
     font-weight: 700;
-    padding: 5px 12px;
-    border-radius: 50px;
-    border: 1px solid transparent;
     white-space: nowrap;
 }
 
-.alvr-badge-pending {
-    color: #fbbf24;
-    background: rgba(245, 158, 11, 0.1);
-    border-color: rgba(245, 158, 11, 0.3);
+.lvr-status-icon {
+    display: flex;
+    flex-shrink: 0;
 }
 
-.alvr-badge-approved {
-    color: #34d399;
-    background: rgba(45, 206, 137, 0.1);
-    border-color: rgba(45, 206, 137, 0.3);
+.lvr-status-icon svg {
+    width: 15px;
+    height: 15px;
 }
 
-.alvr-badge-rejected {
-    color: #fb7185;
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.3);
+.lvr-status--pending {
+    background: var(--lv-amber-dim);
+    border: 1px solid var(--lv-amber-border);
+    color: var(--lv-amber-text);
 }
 
-.alvr-actions {
+.lvr-status--approved {
+    background: var(--lv-green-dim);
+    border: 1px solid var(--lv-green-border);
+    color: var(--lv-green-text);
+}
+
+.lvr-status--rejected {
+    background: var(--lv-red-dim);
+    border: 1px solid var(--lv-red-border);
+    color: var(--lv-red-text);
+}
+
+.lvr-actions {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
-.alvr-act {
+.lvr-act {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
-    padding: 7px 14px;
-    border-radius: 9px;
-    border: 1px solid transparent;
-    font-family: var(--alvr-font-body);
-    font-size: 12px;
-    font-weight: 600;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: var(--lv-radius-md);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s ease;
-    min-width: 64px;
-    min-height: 32px;
+    white-space: nowrap;
+    transition: transform 0.15s var(--lv-ease), opacity 0.2s var(--lv-ease);
 }
 
-.alvr-act:disabled {
-    opacity: 0.45;
+.lvr-act:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.lvr-act:disabled {
+    opacity: 0.5;
     cursor: not-allowed;
+    transform: none;
 }
 
-.alvr-act-approve {
-    background: rgba(45, 206, 137, 0.12);
-    border-color: rgba(45, 206, 137, 0.35);
-    color: #34d399;
+.lvr-act--approve {
+    background: var(--lv-green-dim);
+    border: 1px solid var(--lv-green-border);
+    color: var(--lv-green-text);
 }
 
-.alvr-act-approve:hover:not(:disabled) {
-    background: var(--alvr-green);
-    color: #04231a;
-    box-shadow: 0 0 16px rgba(45, 206, 137, 0.3);
+.lvr-act--reject {
+    background: var(--lv-red-dim);
+    border: 1px solid var(--lv-red-border);
+    color: var(--lv-red-text);
 }
 
-.alvr-act-reject {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.35);
-    color: #fb7185;
+.lvr-act--delete {
+    padding: 12px 14px;
+    background: var(--lv-surface);
+    border: 1px solid var(--lv-surface-border);
+    color: var(--lv-muted);
 }
 
-.alvr-act-reject:hover:not(:disabled) {
-    background: var(--alvr-red);
-    color: #fff;
-    box-shadow: 0 0 16px rgba(239, 68, 68, 0.3);
+.lvr-act--delete:hover:not(:disabled) {
+    background: var(--lv-red-dim);
+    border-color: var(--lv-red-border);
+    color: var(--lv-red-text);
 }
 
-.alvr-act-delete {
-    min-width: 36px;
-    padding: 7px 9px;
-    background: transparent;
-    border-color: var(--alvr-border-strong);
-    color: var(--alvr-text-muted);
-}
-
-.alvr-act-delete:hover:not(:disabled) {
-    border-color: var(--alvr-red);
-    color: var(--alvr-red);
-}
-
-/* ===== Empty / Loading ===== */
-.alvr-empty {
+/* ================================================================== */
+/* LOADING / EMPTY                                                    */
+/* ================================================================== */
+.lvr-state {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 60px 0;
-    color: var(--alvr-text-muted);
-    font-size: 14px;
+    gap: 14px;
+    min-height: 340px;
 }
 
-.alvr-empty span {
-    font-size: 34px;
-}
-
-.alvr-loading {
+.lvr-state-icon {
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 60px 0;
+    background: var(--lv-indigo-subtle);
+    color: var(--lv-indigo-light);
 }
 
-.alvr-spinner {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-top-color: currentColor;
+.lvr-state-icon svg {
+    width: 33px;
+    height: 33px;
+}
+
+.lvr-state-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--lv-text);
+}
+
+.lvr-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--lv-card-border);
+    border-top-color: var(--lv-indigo-mid);
     border-radius: 50%;
-    animation: alvr-spin 0.7s linear infinite;
+    animation: lvr-spin 0.8s linear infinite;
 }
 
-.alvr-spinner-blue {
-    width: 36px;
-    height: 36px;
-    border-width: 3px;
-    border-color: var(--alvr-border-strong);
-    border-top-color: var(--alvr-blue);
+.lvr-spinner--sm {
+    width: 15px;
+    height: 15px;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
 }
 
-/* ===== Toast ===== */
-.alvr-toast {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2000;
-    padding: 13px 26px;
-    border-radius: 50px;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    backdrop-filter: blur(14px);
-    animation: alvr-toast-drop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-}
-
-.alvr-toast-success {
-    background: rgba(45, 206, 137, 0.18);
-    border: 1px solid rgba(45, 206, 137, 0.5);
-    color: #6ee7b7;
-}
-
-.alvr-toast-error {
-    background: rgba(239, 68, 68, 0.18);
-    border: 1px solid rgba(239, 68, 68, 0.5);
-    color: #fda4af;
-}
-
-/* ===== Modal ===== */
-.alvr-modal-overlay {
+/* ================================================================== */
+/* CONFIRM MODAL                                                      */
+/* ================================================================== */
+.lvr-modal-overlay {
     position: fixed;
     inset: 0;
-    z-index: 3000;
+    background: rgba(8, 10, 28, 0.68);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background: rgba(4, 7, 14, 0.72);
-    backdrop-filter: blur(6px);
-    animation: alvr-fade 0.25s ease;
+    z-index: 100;
+    animation: lvr-fade 0.22s var(--lv-ease);
 }
 
-.alvr-modal {
+.lvr-modal {
     width: 100%;
     max-width: 400px;
-    background: linear-gradient(160deg, #0d1b2a 0%, #0b0e18 100%);
-    border: 1px solid var(--alvr-border-strong);
-    border-radius: 18px;
-    padding: 28px 24px 24px;
+    padding: 32px 28px 26px;
+    background: var(--lv-card);
+    border: 1px solid var(--lv-card-border);
+    border-radius: var(--lv-radius-lg);
+    box-shadow: var(--lv-card-shadow);
     text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-    animation: alvr-modal-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: lvr-pop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.alvr-modal-icon {
-    width: 56px;
-    height: 56px;
+.lvr-modal-icon {
+    width: 62px;
+    height: 62px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 16px;
-}
-
-.alvr-modal-icon-red {
-    background: rgba(239, 68, 68, 0.12);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    color: var(--alvr-red);
-}
-
-.alvr-modal-title {
-    font-family: var(--alvr-font-display);
-    font-size: 19px;
-    font-weight: 800;
-    color: var(--alvr-text);
-    margin: 0 0 8px;
-}
-
-.alvr-modal-text {
-    font-size: 13px;
-    color: var(--alvr-text-muted);
-    line-height: 1.5;
-    margin: 0 0 22px;
-}
-
-.alvr-modal-text strong {
-    color: var(--alvr-text);
-}
-
-.alvr-modal-actions {
-    display: flex;
-    gap: 10px;
-}
-
-.alvr-modal-cancel,
-.alvr-modal-confirm {
-    flex: 1;
-    padding: 11px;
-    border-radius: 10px;
-    font-family: var(--alvr-font-body);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 42px;
+    background: var(--lv-red-dim);
+    color: var(--lv-red-text);
+    margin-bottom: 16px;
 }
 
-.alvr-modal-cancel {
-    background: transparent;
-    border: 1px solid var(--alvr-border-strong);
-    color: var(--alvr-text);
+.lvr-modal-icon svg {
+    width: 28px;
+    height: 28px;
 }
 
-.alvr-modal-cancel:hover:not(:disabled) {
-    border-color: var(--alvr-text-muted);
+.lvr-modal h3 {
+    margin: 0 0 8px;
+    font-family: var(--font-display);
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--lv-text);
 }
 
-.alvr-modal-confirm {
-    background: var(--alvr-red);
-    border: 1px solid var(--alvr-red);
+.lvr-modal p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--lv-muted);
+}
+
+.lvr-modal-footer {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 26px;
+    flex-wrap: wrap;
+}
+
+.lvr-modal-cancel,
+.lvr-modal-confirm {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 26px;
+    border-radius: var(--lv-radius-md);
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s var(--lv-ease), box-shadow 0.2s var(--lv-ease), color 0.2s var(--lv-ease);
+}
+
+.lvr-modal-cancel svg,
+.lvr-modal-confirm svg {
+    width: 15px;
+    height: 15px;
+}
+
+.lvr-modal-cancel {
+    border: 1px solid var(--lv-surface-border);
+    background: var(--lv-surface);
+    color: var(--lv-muted);
+}
+
+.lvr-modal-cancel:hover:not(:disabled) {
+    color: var(--lv-text);
+}
+
+.lvr-modal-confirm {
+    border: none;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
     color: #fff;
+    box-shadow: 0 10px 24px -10px rgba(220, 38, 38, 0.5);
 }
 
-.alvr-modal-confirm:hover:not(:disabled) {
-    background: #dc2626;
-    box-shadow: 0 0 18px rgba(239, 68, 68, 0.3);
+.lvr-modal-confirm:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px -12px rgba(220, 38, 38, 0.6);
 }
 
-.alvr-modal-cancel:disabled,
-.alvr-modal-confirm:disabled {
+.lvr-modal-cancel:disabled,
+.lvr-modal-confirm:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+    transform: none;
 }
 
-/* ===== Animations ===== */
-@keyframes alvr-fade {
+/* ================================================================== */
+/* KEYFRAMES / A11Y                                                   */
+/* ================================================================== */
+@keyframes lvr-fade {
     from {
         opacity: 0;
-        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes lvr-rise {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
     }
 
     to {
@@ -651,216 +928,165 @@
     }
 }
 
-@keyframes alvr-fadein {
+@keyframes lvr-pop {
     from {
         opacity: 0;
+        transform: scale(0.93);
     }
 
     to {
         opacity: 1;
+        transform: scale(1);
     }
 }
 
-@keyframes alvr-spin {
+@keyframes lvr-spin {
     to {
         transform: rotate(360deg);
     }
 }
 
-@keyframes alvr-toast-drop {
-    from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-20px);
-    }
+.leaves-container button:focus-visible {
+    outline: 2px solid var(--lv-indigo-mid);
+    outline-offset: 2px;
+}
 
-    to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
+@media (prefers-reduced-motion: reduce) {
+
+    .leaves-container,
+    .leaves-container * {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
     }
 }
 
-@keyframes alvr-modal-pop {
-    from {
-        opacity: 0;
-        transform: translateY(-16px) scale(0.97);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 900px) {
-    .alvr-card {
-        flex-direction: column;
-        gap: 14px;
-    }
-
-    .alvr-card-side {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-    }
-}
-
-@media (max-width: 768px) {
-    .alvr-container {
-        padding: 18px 14px;
-    }
-
-    .alvr-title {
-        font-size: 18px;
-    }
-
-    .alvr-card-main {
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .alvr-toolbar {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .alvr-toolbar-actions {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .alvr-export-btn,
-    .alvr-delete-all-btn {
-        justify-content: center;
-    }
-}
-
-@media (max-width: 480px) {
-    .alvr-header-text {
+/* ================================================================== */
+/* RESPONSIVE                                                         */
+/* ================================================================== */
+@media (max-width: 1100px) {
+    .lvr-dots {
         display: none;
     }
 
-    .alvr-card-side {
+    .lvr-toolbar {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .alvr-actions {
+    .lvr-toolbar-actions {
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 860px) {
+    .leaves-container {
+        padding: 22px 16px 48px;
+    }
+
+    .lvr-title {
+        font-size: 27px;
+    }
+
+    .lvr-logo {
+        height: 46px;
+    }
+
+    /* side column drops under the body rather than squeezing it */
+    .lvr-card {
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .lvr-card-side {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 600px) {
+    .leaves-container {
+        padding: 18px 14px 40px;
+    }
+
+    .lvr-header {
+        gap: 14px;
+    }
+
+    .lvr-back {
+        order: -1;
+    }
+
+    .lvr-title {
+        font-size: 23px;
+    }
+
+    .lvr-logo {
+        height: 40px;
+    }
+
+    .lvr-tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .lvr-tab {
+        justify-content: center;
+        padding: 12px 14px;
+        font-size: 13.5px;
+    }
+
+    .lvr-toolbar-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .lvr-tool {
+        justify-content: center;
+        padding: 13px 16px;
+        font-size: 13.5px;
+    }
+
+    .lvr-card {
+        grid-template-columns: 1fr;
+        padding: 20px 18px 20px 22px;
+    }
+
+    .lvr-avatar {
+        width: 62px;
+        height: 62px;
+        font-size: 18px;
+    }
+
+    .lvr-name {
+        font-size: 16px;
+    }
+
+    .lvr-card-side {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .lvr-status {
+        justify-content: center;
+    }
+
+    .lvr-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+    }
+
+    .lvr-modal-footer {
+        flex-direction: column-reverse;
+    }
+
+    .lvr-modal-cancel,
+    .lvr-modal-confirm {
         width: 100%;
     }
-
-    .alvr-act-approve,
-    .alvr-act-reject {
-        flex: 1;
-    }
-}
-
-/* ================================================================== */
-/* LIGHT THEME                                                        */
-/* ================================================================== */
-
-/* Token overrides — applied to the page container AND the portaled
-   modals (which render on document.body, outside the container). */
-.alvr-container[data-theme="light"],
-.alvr-modal-overlay[data-theme="light"] {
-    --alvr-bg: #f1f5f9;
-    --alvr-card: #ffffff;
-    --alvr-card-2: #ffffff;
-    --alvr-stat: #ffffff;
-    --alvr-text: #1e293b;
-    --alvr-text-muted: #64748b;
-    --alvr-border: rgba(15, 23, 42, 0.08);
-    --alvr-border-strong: rgba(15, 23, 42, 0.12);
-    --alvr-border-blue: rgba(59, 130, 246, 0.35);
-}
-
-/* Page background — swap white grid lines for dark */
-.alvr-container[data-theme="light"] {
-    background-image:
-        radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.04) 0%, transparent 60%),
-        linear-gradient(rgba(15, 23, 42, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(15, 23, 42, 0.025) 1px, transparent 1px);
-}
-
-/* Back button */
-.alvr-container[data-theme="light"] .alvr-back-btn {
-    color: #2563eb;
-}
-
-/* Filter buttons */
-.alvr-container[data-theme="light"] .alvr-filter-btn {
-    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
-}
-
-.alvr-container[data-theme="light"] .alvr-filter-count {
-    background: rgba(15, 23, 42, 0.08);
-}
-
-/* Export button */
-.alvr-container[data-theme="light"] .alvr-export-btn {
-    color: #2563eb;
-}
-
-/* Cards — dark drop shadow is invisible on white, use a soft one */
-.alvr-container[data-theme="light"] .alvr-card {
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.07);
-}
-
-/* User ID + leave-type chip text */
-.alvr-container[data-theme="light"] .alvr-id,
-.alvr-container[data-theme="light"] .alvr-type-chip {
-    color: #2563eb;
-}
-
-/* Reason text */
-.alvr-container[data-theme="light"] .alvr-reason {
-    color: #64748b;
-}
-
-/* Status badges — darker text for contrast on white */
-.alvr-container[data-theme="light"] .alvr-badge-pending {
-    color: #b45309;
-    background: rgba(245, 158, 11, 0.12);
-    border-color: rgba(245, 158, 11, 0.35);
-}
-
-.alvr-container[data-theme="light"] .alvr-badge-approved {
-    color: #15803d;
-    background: rgba(45, 206, 137, 0.12);
-    border-color: rgba(45, 206, 137, 0.4);
-}
-
-.alvr-container[data-theme="light"] .alvr-badge-rejected {
-    color: #dc2626;
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.35);
-}
-
-/* Approve / reject action text */
-.alvr-container[data-theme="light"] .alvr-act-approve {
-    color: #15803d;
-}
-
-.alvr-container[data-theme="light"] .alvr-act-reject {
-    color: #dc2626;
-}
-
-/* Toast — darker text on light tint */
-.alvr-container[data-theme="light"] .alvr-toast-success {
-    background: rgba(45, 206, 137, 0.15);
-    border-color: rgba(45, 206, 137, 0.4);
-    color: #15803d;
-}
-
-.alvr-container[data-theme="light"] .alvr-toast-error {
-    background: rgba(239, 68, 68, 0.12);
-    border-color: rgba(239, 68, 68, 0.4);
-    color: #dc2626;
-}
-
-/* Modal surface — portaled, so scope on the overlay, not the container */
-.alvr-modal-overlay[data-theme="light"] .alvr-modal {
-    background: linear-gradient(160deg, #ffffff 0%, #f8fafc 100%);
-    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
 }
