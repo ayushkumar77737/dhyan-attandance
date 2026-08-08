@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import "./LeavesRequest.css";
+import "./LeaveRequests.css";
 import { db, auth } from "../firebase/firebase";
 import {
   collection,
