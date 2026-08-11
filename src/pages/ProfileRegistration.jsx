@@ -7,6 +7,41 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 
+/* ---------------------------------------------------------------- */
+/* Inline icons (stroke = currentColor, so they inherit theme color) */
+/* ---------------------------------------------------------------- */
+
+const IcoArrow = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+        strokeLinecap="round" strokeLinejoin="round" className="preg__ico">
+        <path d="M19 12H5M12 19l-7-7 7-7" />
+    </svg>
+);
+
+const IcoImage = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"
+        strokeLinecap="round" strokeLinejoin="round" className="preg__ico">
+        <rect x="3" y="4.5" width="18" height="15" rx="3" />
+        <circle cx="8.6" cy="10" r="1.6" />
+        <path d="M4 16.5l4.4-4a1.6 1.6 0 0 1 2.2 0l3.6 3.4a1.6 1.6 0 0 0 2.2 0l1.8-1.6a1.6 1.6 0 0 1 2.2 0L21 15.4" />
+    </svg>
+);
+
+const IcoSend = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"
+        strokeLinecap="round" strokeLinejoin="round" className="preg__ico">
+        <path d="M21 3L10.5 13.5M21 3l-6.8 18-3.7-7.5L3 9.8 21 3Z" />
+    </svg>
+);
+
+const IcoWarn = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"
+        strokeLinecap="round" strokeLinejoin="round" className="preg__ico">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7.5v5M12 16.2v.1" />
+    </svg>
+);
+
 function ProfileRegistration() {
 
     const { t } = useTranslation();
@@ -30,6 +65,7 @@ function ProfileRegistration() {
     const [imageFile, setImageFile] = useState(null);
     const [previewImage, setPreviewImage] = useState("");
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
+
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -85,9 +121,16 @@ function ProfileRegistration() {
             document.removeEventListener("keydown", disableInspectKeys);
         };
     }, []);
+
     useEffect(() => {
         checkAdmin();
     }, []);
+
+    /* Release the object URL when the preview changes or unmounts. */
+    useEffect(() => {
+        if (!previewImage) return;
+        return () => URL.revokeObjectURL(previewImage);
+    }, [previewImage]);
 
     const showMsg = (text, type = "error") => {
         setMessage({ text, type });
@@ -240,6 +283,8 @@ function ProfileRegistration() {
                 idNo: "", name: "", fatherHusbandName: "",
                 address: "", phoneNumber: "", email: "", phoneType: "", dob: ""
             });
+            setImageFile(null);
+            setPreviewImage("");
 
         } catch (error) {
             console.error(error);
@@ -252,202 +297,253 @@ function ProfileRegistration() {
     return (
         <div className="preg__page" data-theme={theme}>
 
-            <div className="preg__orb preg__orb--1" />
-            <div className="preg__orb preg__orb--2" />
-            <div className="preg__orb preg__orb--3" />
-            <div className="preg__grid" />
+            <div className="preg__blob preg__blob--1" />
+            <div className="preg__blob preg__blob--2" />
+            <div className="preg__dots preg__dots--1" />
+            <div className="preg__dots preg__dots--2" />
+            <div className="preg__arc" />
 
-            <button className="preg__back-btn" onClick={() => navigate("/admin-dashboard")}>
-                <span>←</span> {t("back")}
+            <button
+                className="preg__back-btn"
+                onClick={() => navigate("/admin-dashboard")}
+            >
+                <IcoArrow /> {t("back")}
             </button>
 
-            <div className="preg__hero">
-                <div className="preg__hero-badge">
-                    <span className="preg__badge-dot" />
-                    {t("adminPanel")}
+            <div className="preg__shell">
+
+                <div className="preg__hero">
+                    <div className="preg__hero-badge">
+                        <span className="preg__badge-dot" />
+                        {t("adminPanel")}
+                        <span className="preg__badge-dot" />
+                    </div>
+                    <h1 className="preg__hero-title">{t("profileRegistration")}</h1>
+                    <p className="preg__hero-sub">{t("registerAndStore")}</p>
                 </div>
-                <h1 className="preg__hero-title">
-                    {t("profileRegistration")}
-                </h1>
-                <p className="preg__hero-sub">{t("registerAndStore")}</p>
-            </div>
 
-            {message.text && (
-                <div className={`preg__message preg__message--${message.type}`}>
-                    {message.text}
-                </div>
-            )}
+                {message.text && (
+                    <div className={`preg__message preg__message--${message.type}`}>
+                        {message.text}
+                    </div>
+                )}
 
-            <div className="preg__card">
-                <div className="preg__card-stripe" />
-                <div className="preg__image-section">
-                    <label className="preg__image-wrap">
+                <div className="preg__card">
+                    <div className="preg__card-stripe" />
 
-                        <input
-                            type="file"
-                            accept="image/*"
-                            hidden
-                            onChange={(e) => {
-                                const file = e.target.files[0];
+                    <div className="preg__image-section">
+                        <label className="preg__image-wrap">
 
-                                if (file) {
-                                    setImageFile(file);
-                                    setPreviewImage(
-                                        URL.createObjectURL(file)
-                                    );
-                                }
-                            }}
-                        />
+                            <input
+                                type="file"
+                                accept="image/*"
+                                hidden
+                                onChange={(e) => {
+                                    const file = e.target.files[0];
 
-                        {previewImage ? (
-                            <>
-                                <img
-                                    src={previewImage}
-                                    alt="Profile"
-                                    className="preg__preview-img"
-                                />
-                                <div className="preg__image-overlay">
-                                    Change
+                                    if (file) {
+                                        setImageFile(file);
+                                        setPreviewImage(
+                                            URL.createObjectURL(file)
+                                        );
+                                    }
+                                }}
+                            />
+
+                            {previewImage ? (
+                                <>
+                                    <img
+                                        src={previewImage}
+                                        alt={t("profilePhoto")}
+                                        className="preg__preview-img"
+                                    />
+                                    <div className="preg__image-overlay">
+                                        {t("changePhoto")}
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="preg__image-placeholder">
+                                    <span className="preg__camera-icon"><IcoImage /></span>
+                                    <span className="preg__upload-text">{t("uploadPhoto")}</span>
                                 </div>
-                            </>
+                            )}
+
+                        </label>
+                    </div>
+
+                    <div className="preg__form-grid">
+
+                        <div className="preg__field">
+                            <label className="preg__label">
+                                {t("idNo")} <span className="preg__req">*</span>
+                            </label>
+                            <input
+                                className={`preg__input ${errors.idNo ? "preg__input--err" : ""}`}
+                                type="text"
+                                name="idNo"
+                                value={form.idNo}
+                                onChange={handleChange}
+                                placeholder={t("enterIdNo")}
+                                maxLength={4}
+                            />
+                            {errors.idNo && (
+                                <span className="preg__err-msg">
+                                    <IcoWarn /> {errors.idNo}
+                                </span>
+                            )}
+                        </div>
+
+                        <div className="preg__field">
+                            <label className="preg__label">
+                                {t("fullName")} <span className="preg__req">*</span>
+                            </label>
+                            <input
+                                className={`preg__input ${errors.name ? "preg__input--err" : ""}`}
+                                type="text"
+                                name="name"
+                                value={form.name}
+                                onChange={handleChange}
+                                placeholder={t("enterFullName")}
+                            />
+                            {errors.name && (
+                                <span className="preg__err-msg">
+                                    <IcoWarn /> {errors.name}
+                                </span>
+                            )}
+                        </div>
+
+                        <div className="preg__field">
+                            <label className="preg__label">
+                                {t("fatherHusbandName")} <span className="preg__req">*</span>
+                            </label>
+                            <input
+                                className={`preg__input ${errors.fatherHusbandName ? "preg__input--err" : ""}`}
+                                type="text"
+                                name="fatherHusbandName"
+                                value={form.fatherHusbandName}
+                                onChange={handleChange}
+                                placeholder={t("fatherHusbandName")}
+                            />
+                            {errors.fatherHusbandName && (
+                                <span className="preg__err-msg">
+                                    <IcoWarn /> {errors.fatherHusbandName}
+                                </span>
+                            )}
+                        </div>
+
+                        <div className="preg__field">
+                            <label className="preg__label">
+                                {t("phoneNumberLabel")} <span className="preg__req">*</span>
+                            </label>
+                            <input
+                                className={`preg__input ${errors.phoneNumber ? "preg__input--err" : ""}`}
+                                type="text"
+                                name="phoneNumber"
+                                value={form.phoneNumber}
+                                onChange={handleChange}
+                                placeholder={t("enterPhoneNumber")}
+                                maxLength={15}
+                            />
+                            {errors.phoneNumber && (
+                                <span className="preg__err-msg">
+                                    <IcoWarn /> {errors.phoneNumber}
+                                </span>
+                            )}
+                        </div>
+
+                        <div className="preg__field">
+                            <label className="preg__label">
+                                {t("dateOfBirth")} <span className="preg__req">*</span>
+                            </label>
+                            <input
+                                className={`preg__input ${errors.dob ? "preg__input--err" : ""}`}
+                                type="date"
+                                name="dob"
+                                value={form.dob}
+                                onChange={handleChange}
+                            />
+                            {errors.dob && (
+                                <span className="preg__err-msg">
+                                    <IcoWarn /> {errors.dob}
+                                </span>
+                            )}
+                        </div>
+
+                        <div className="preg__field">
+                            <label className="preg__label">
+                                {t("phoneType")} <span className="preg__req">*</span>
+                            </label>
+                            <select
+                                className={`preg__select ${errors.phoneType ? "preg__input--err" : ""}`}
+                                name="phoneType"
+                                value={form.phoneType}
+                                onChange={handleChange}
+                            >
+                                <option value="">{t("selectPhoneType")}</option>
+                                <option value="WhatsApp">{t("whatsapp")}</option>
+                                <option value="Keypad">{t("keypad")}</option>
+                            </select>
+                            {errors.phoneType && (
+                                <span className="preg__err-msg">
+                                    <IcoWarn /> {errors.phoneType}
+                                </span>
+                            )}
+                        </div>
+
+                        <div className="preg__field">
+                            <label className="preg__label">
+                                {t("emailIdLabel")} <span className="preg__req">*</span>
+                            </label>
+                            <input
+                                className={`preg__input ${errors.email ? "preg__input--err" : ""}`}
+                                type="text"
+                                name="email"
+                                value={form.email}
+                                onChange={handleChange}
+                                placeholder={t("enterEmail")}
+                            />
+                            {errors.email && (
+                                <span className="preg__err-msg">
+                                    <IcoWarn /> {errors.email}
+                                </span>
+                            )}
+                        </div>
+
+                        <div className="preg__field preg__field--full">
+                            <label className="preg__label">
+                                {t("address")} <span className="preg__req">*</span>
+                            </label>
+                            <textarea
+                                className={`preg__textarea ${errors.address ? "preg__input--err" : ""}`}
+                                name="address"
+                                value={form.address}
+                                onChange={handleChange}
+                                placeholder={t("address")}
+                            />
+                            {errors.address && (
+                                <span className="preg__err-msg">
+                                    <IcoWarn /> {errors.address}
+                                </span>
+                            )}
+                        </div>
+
+                    </div>
+
+                    <button
+                        className="preg__submit-btn"
+                        onClick={handleSubmit}
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <><span className="preg__spinner" /> {t("registering")}</>
                         ) : (
-                            <div className="preg__image-placeholder">
-                                <div className="preg__camera-icon">
-                                    📷
-                                </div>
-                                <div className="preg__upload-text">
-                                    Upload Photo
-                                </div>
-                            </div>
+                            <><IcoSend /> {t("registerProfile")}</>
                         )}
-
-                    </label>
-                </div>
-
-                <div className="preg__form-grid">
-
-                    <div className="preg__field">
-                        <label className="preg__label">{t("idNo")} <span className="preg__req">*</span></label>
-                        <input
-                            className={`preg__input ${errors.idNo ? "preg__input--err" : ""}`}
-                            type="text"
-                            name="idNo"
-                            value={form.idNo}
-                            onChange={handleChange}
-                            placeholder={t("enterIdNo")}
-                            maxLength={4}
-                        />
-                        {errors.idNo && <span className="preg__err-msg">{errors.idNo}</span>}
-                    </div>
-
-                    <div className="preg__field">
-                        <label className="preg__label">{t("fullName")} <span className="preg__req">*</span></label>
-                        <input
-                            className={`preg__input ${errors.name ? "preg__input--err" : ""}`}
-                            type="text"
-                            name="name"
-                            value={form.name}
-                            onChange={handleChange}
-                            placeholder={t("enterFullName")}
-                        />
-                        {errors.name && <span className="preg__err-msg">{errors.name}</span>}
-                    </div>
-
-                    <div className="preg__field">
-                        <label className="preg__label">{t("fatherHusbandName")} <span className="preg__req">*</span></label>
-                        <input
-                            className={`preg__input ${errors.fatherHusbandName ? "preg__input--err" : ""}`}
-                            type="text"
-                            name="fatherHusbandName"
-                            value={form.fatherHusbandName}
-                            onChange={handleChange}
-                            placeholder={t("fatherHusbandName")}
-                        />
-                        {errors.fatherHusbandName && <span className="preg__err-msg">{errors.fatherHusbandName}</span>}
-                    </div>
-
-                    <div className="preg__field">
-                        <label className="preg__label">{t("phoneNumberLabel")} <span className="preg__req">*</span></label>
-                        <input
-                            className={`preg__input ${errors.phoneNumber ? "preg__input--err" : ""}`}
-                            type="text"
-                            name="phoneNumber"
-                            value={form.phoneNumber}
-                            onChange={handleChange}
-                            placeholder="Enter phone number"
-                            maxLength={15}
-                        />
-                        {errors.phoneNumber && <span className="preg__err-msg">{errors.phoneNumber}</span>}
-                    </div>
-
-                    <div className="preg__field">
-                        <label className="preg__label">{t("dateOfBirth")} <span className="preg__req">*</span></label>
-                        <input
-                            className={`preg__input ${errors.dob ? "preg__input--err" : ""}`}
-                            type="date"
-                            name="dob"
-                            value={form.dob}
-                            onChange={handleChange}
-                        />
-                        {errors.dob && <span className="preg__err-msg">{errors.dob}</span>}
-                    </div>
-
-                    <div className="preg__field">
-                        <label className="preg__label">{t("phoneType")} <span className="preg__req">*</span></label>
-                        <select
-                            className={`preg__select ${errors.phoneType ? "preg__input--err" : ""}`}
-                            name="phoneType"
-                            value={form.phoneType}
-                            onChange={handleChange}
-                        >
-                            <option value="">{t("selectPhoneType")}</option>
-                            <option value="WhatsApp">{t("whatsapp")}</option>
-                            <option value="Keypad">{t("keypad")}</option>
-                        </select>
-                        {errors.phoneType && <span className="preg__err-msg">{errors.phoneType}</span>}
-                    </div>
-
-                    <div className="preg__field">
-                        <label className="preg__label">{t("emailIdLabel")} <span className="preg__req">*</span></label>
-                        <input
-                            className={`preg__input ${errors.email ? "preg__input--err" : ""}`}
-                            type="text"
-                            name="email"
-                            value={form.email}
-                            onChange={handleChange}
-                            placeholder={t("enterEmail")}
-                        />
-                        {errors.email && <span className="preg__err-msg">{errors.email}</span>}
-                    </div>
-
-                    <div className="preg__field preg__field--full">
-                        <label className="preg__label">{t("address")} <span className="preg__req">*</span></label>
-                        <textarea
-                            className={`preg__textarea ${errors.address ? "preg__input--err" : ""}`}
-                            name="address"
-                            value={form.address}
-                            onChange={handleChange}
-                            placeholder={t("address")}
-                        />
-                        {errors.address && <span className="preg__err-msg">{errors.address}</span>}
-                    </div>
+                    </button>
 
                 </div>
-
-                <button
-                    className="preg__submit-btn"
-                    onClick={handleSubmit}
-                    disabled={loading}
-                >
-                    {loading ? (
-                        <><span className="preg__spinner" /> {t("registering")}</>
-                    ) : (
-                        <><span>✓</span> {t("registerProfile")}</>
-                    )}
-                </button>
 
             </div>
-
         </div>
     );
 }

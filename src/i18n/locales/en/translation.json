@@ -1129,5 +1129,6 @@
   "deleteAllLeavesConfirm": "Delete all {{count}} leave requests shown? This cannot be undone.",
   "logUpdatedLeave": "Set {{name}}'s leave request to {{status}}",
   "logDeletedLeave": "Deleted {{name}}'s leave request",
-  "logDeletedAllLeaves": "Deleted {{count}} leave requests"
+  "logDeletedAllLeaves": "Deleted {{count}} leave requests",
+  "enterPhoneNumber": "Enter phone number"
 }
