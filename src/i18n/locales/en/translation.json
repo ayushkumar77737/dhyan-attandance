@@ -1130,5 +1130,6 @@
   "logUpdatedLeave": "Set {{name}}'s leave request to {{status}}",
   "logDeletedLeave": "Deleted {{name}}'s leave request",
   "logDeletedAllLeaves": "Deleted {{count}} leave requests",
-  "enterPhoneNumber": "Enter phone number"
+  "enterPhoneNumber": "Enter phone number",
+  "clearSearch": "Clear search"
 }
