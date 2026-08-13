@@ -13,6 +13,204 @@ import {
 } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
+/* ----------------------------------------------------------------
+   Cloudinary
+   Mirrors the public_id formula used in utils/cloudinaryUpload.js:
+   `${employeeId}_${name with spaces -> underscores}`
+   If that formula ever changes there, change it here too.
+   ---------------------------------------------------------------- */
+
+const CLOUD_NAME = "dgvjq9bhl";
+
+const getProfileImageUrl = (employeeId, name = "", size = 160) => {
+    if (!employeeId || !name) return "";
+
+    const publicId = `${employeeId}_${name.replace(/\s+/g, "_")}`;
+
+    const transforms = [
+        "c_fill",
+        "g_face",
+        `w_${size}`,
+        `h_${size}`,
+        "r_max",
+        "q_auto",
+        "f_auto"
+    ].join(",");
+
+    return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${transforms}/${publicId}`;
+};
+
+/* ---------------------------------------------------------------- */
+/* Inline icons (stroke = currentColor, so they inherit theme color) */
+/* ---------------------------------------------------------------- */
+
+const IcoChevronLeft = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <polyline points="15 18 9 12 15 6" />
+    </svg>
+);
+
+const IcoChevronRight = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <polyline points="9 18 15 12 9 6" />
+    </svg>
+);
+
+const IcoSearch = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <circle cx="11" cy="11" r="7" />
+        <path d="M20 20l-3.6-3.6" />
+    </svg>
+);
+
+const IcoClose = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+);
+
+const IcoDownload = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <path d="M12 3v12M7.5 10.5L12 15l4.5-4.5M4 20h16" />
+    </svg>
+);
+
+const IcoUsers = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <circle cx="9" cy="8" r="3.4" />
+        <path d="M2.8 19.5a6.4 6.4 0 0 1 12.4 0" />
+        <path d="M16.2 5.2a3.4 3.4 0 0 1 0 6.4M17.6 14.2a6.4 6.4 0 0 1 3.6 5.3" />
+    </svg>
+);
+
+const IcoPencil = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <path d="M16.4 4.6l3 3L8.5 18.5l-4 1 1-4L16.4 4.6Z" />
+        <path d="M14.5 6.5l3 3" />
+    </svg>
+);
+
+const IcoTrash = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <path d="M4 7h16M9.5 7V4.8A.8.8 0 0 1 10.3 4h3.4a.8.8 0 0 1 .8.8V7" />
+        <path d="M6.5 7l.8 12.2a1.8 1.8 0 0 0 1.8 1.8h5.8a1.8 1.8 0 0 0 1.8-1.8L17.5 7" />
+    </svg>
+);
+
+const IcoSave = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <path d="M5 4h11l4 4v12H5V4Z" />
+        <path d="M8 4v5h7M8 15h8" />
+    </svg>
+);
+
+const IcoBadge = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <rect x="3" y="5" width="18" height="14" rx="3" />
+        <circle cx="9" cy="11" r="2.2" />
+        <path d="M5.6 16.4a3.8 3.8 0 0 1 6.8 0M14.5 10h4M14.5 13.5h3" />
+    </svg>
+);
+
+const IcoUser = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <circle cx="12" cy="8.5" r="3.8" />
+        <path d="M4.5 20a7.5 7.5 0 0 1 15 0" />
+    </svg>
+);
+
+const IcoFamily = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <circle cx="7.5" cy="7.5" r="2.8" />
+        <circle cx="16.5" cy="7.5" r="2.8" />
+        <path d="M2.5 19a5 5 0 0 1 10 0M11.5 19a5 5 0 0 1 10 0" />
+    </svg>
+);
+
+const IcoPhone = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <path d="M6.5 3.5h3l1.5 4-2 1.5a12 12 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2Z" />
+    </svg>
+);
+
+const IcoMobile = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <rect x="6.5" y="2.5" width="11" height="19" rx="2.6" />
+        <path d="M10.5 18.5h3" />
+    </svg>
+);
+
+const IcoMail = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <rect x="3" y="5" width="18" height="14" rx="3" />
+        <path d="M4 7.5l7.1 5a1.6 1.6 0 0 0 1.8 0l7.1-5" />
+    </svg>
+);
+
+const IcoCake = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <path d="M4 20.5h16M4.5 20.5v-6a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v6" />
+        <path d="M4.5 16.5c1.5 0 1.5 1.5 3 1.5s1.5-1.5 3-1.5 1.5 1.5 3 1.5 1.5-1.5 3-1.5 1.5 1.5 3 1.5" />
+        <path d="M12 12.5V9M12 6.2v.1" />
+    </svg>
+);
+
+const IcoHome = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <path d="M4 10.5L12 4l8 6.5V20H4v-9.5Z" />
+        <path d="M9.5 20v-5.5h5V20" />
+    </svg>
+);
+
+/* ---------------------------------------------------------------- */
+/* Avatar — photo if we have one, tinted initial otherwise           */
+/* ---------------------------------------------------------------- */
+
+function ProfileAvatar({ src, name, label, className = "" }) {
+
+    const [showImage, setShowImage] = useState(Boolean(src));
+    const [loaded, setLoaded] = useState(false);
+
+    useEffect(() => {
+        setShowImage(Boolean(src));
+        setLoaded(false);
+    }, [src]);
+
+    return (
+        <div className={`allprf__avatar ${className}`}>
+            {showImage ? (
+                <img
+                    src={src}
+                    alt={label}
+                    className={`allprf__avatar-img${loaded ? " is-loaded" : ""}`}
+                    loading="lazy"
+                    onLoad={() => setLoaded(true)}
+                    onError={() => setShowImage(false)}
+                />
+            ) : (
+                <span>{(name || "?").charAt(0).toUpperCase()}</span>
+            )}
+        </div>
+    );
+}
+
 function AllProfiles() {
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -37,6 +235,7 @@ function AllProfiles() {
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deleteLoading, setDeleteLoading] = useState(false);
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
+
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -114,7 +313,18 @@ function AllProfiles() {
             setLoading(true);
             const snap = await getDocs(collection(db, "profiles"));
             const data = [];
-            snap.forEach((doc) => data.push({ docId: doc.id, ...doc.data() }));
+            snap.forEach((docItem) => {
+                const d = docItem.data();
+                data.push({
+                    docId: docItem.id,
+                    ...d,
+                    /* Stored URL wins; otherwise rebuild it from id + name. */
+                    photo:
+                        d.profileImage ||
+                        d.photoURL ||
+                        getProfileImageUrl(d.idNo || docItem.id, d.name || ""),
+                });
+            });
             data.sort((a, b) => (a.idNo || "").localeCompare(b.idNo || ""));
             setProfiles(data);
             setFiltered(data);
@@ -171,7 +381,6 @@ function AllProfiles() {
             return;
         }
 
-        // Change 4
         if (
             editForm.phoneNumber &&
             !/^[0-9]{10}$/.test(editForm.phoneNumber.trim())
@@ -181,9 +390,6 @@ function AllProfiles() {
         try {
             setEditLoading(true);
             const phone = String(editForm.phoneNumber).replace(/\D/g, "");
-            console.log("selectedProfile.docId =", selectedProfile.docId);
-            console.log("phone =", phone);
-            console.log("editForm.phoneNumber =", editForm.phoneNumber);
             await updateDoc(doc(db, "profiles", selectedProfile.docId), {
                 name: editForm.name.trim(),
                 fatherHusbandName: editForm.fatherHusbandName.trim(),
@@ -248,144 +454,148 @@ function AllProfiles() {
         }
     };
 
-    const getInitial = (name) => (name ? name.charAt(0).toUpperCase() : "?");
-
-    const avatarPalette = [
-        ["#1e40af", "#3b82f6"],
-        ["#6d28d9", "#a78bfa"],
-        ["#be185d", "#f472b6"],
-        ["#065f46", "#34d399"],
-        ["#92400e", "#fbbf24"],
-        ["#991b1b", "#f87171"],
-        ["#0e7490", "#22d3ee"],
-        ["#3f6212", "#84cc16"],
-    ];
-    const getGradient = (id) => {
-        const pair = avatarPalette[(id?.charCodeAt(0) || 0) % avatarPalette.length];
-        return `linear-gradient(135deg, ${pair[0]}, ${pair[1]})`;
-    };
-
     return (
         <div className="allprf__page" data-theme={theme}>
 
-            <div className="allprf__orb allprf__orb--1" />
-            <div className="allprf__orb allprf__orb--2" />
+            <div className="allprf__blob allprf__blob--1" />
+            <div className="allprf__blob allprf__blob--2" />
+            <div className="allprf__dots" />
 
-            <button className="allprf__back-btn" onClick={() => navigate("/admin-dashboard")}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="15 18 9 12 15 6" />
-                </svg>
-                {t("back")}
+            <button
+                className="allprf__back-btn"
+                onClick={() => navigate("/admin-dashboard")}
+            >
+                <IcoChevronLeft /> {t("back")}
             </button>
 
-            <div className="allprf__header">
-                <div className="allprf__eyebrow">
-                    <span className="allprf__eyebrow-dot" />
-                    <span>{t("allProfiles")}</span>
-                </div>
-                <h1 className="allprf__title">{t("allProfiles")}</h1>
-                <p className="allprf__subtitle">
-                    <span className="allprf__count-pill">{filtered.length}</span>
-                    &nbsp;{t("profilesFound") || "profiles found"}
-                </p>
-            </div>
+            <div className="allprf__shell">
 
-            <div className="allprf__controls">
-                <div className="allprf__search-wrap">
-                    <svg className="allprf__search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
-                    </svg>
-                    <input
-                        className="allprf__search-input"
-                        type="text"
-                        placeholder={t("searchProfiles") || "Search by name, ID, email..."}
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
-                    {search && (
-                        <button className="allprf__search-clear" onClick={() => setSearch("")}>✕</button>
-                    )}
-                </div>
-                <button className="allprf__export-btn" onClick={exportCSV}>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="7 10 12 15 17 10" />
-                        <line x1="12" y1="15" x2="12" y2="3" />
-                    </svg>
-                    {t("export") || "Export CSV"}
-                </button>
-            </div>
-
-            {loading && (
-                <div className="allprf__loading">
-                    <div className="allprf__loader">
-                        <div className="allprf__loader-ring" />
-                        <div className="allprf__loader-ring allprf__loader-ring--inner" />
-                        <div className="allprf__loader-core" />
-                    </div>
-                    <p className="allprf__loading-text">{t("loading")}</p>
-                </div>
-            )}
-
-            {!loading && filtered.length === 0 && (
-                <div className="allprf__empty">
-                    <div className="allprf__empty-icon">👤</div>
-                    <p>{t("noDataAvailable") || "No profiles found"}</p>
-                </div>
-            )}
-
-            {!loading && filtered.length > 0 && (
-                <div className="allprf__grid">
-                    {filtered.map((profile, index) => (
-                        <div
-                            key={profile.docId}
-                            className="allprf__card"
-                            style={{ animationDelay: `${index * 40}ms` }}
-                            onClick={() => setSelectedProfile(profile)}
-                        >
-                            <div className="allprf__card-shine" />
-                            <div className="allprf__card-avatar" style={{ background: getGradient(profile.idNo) }}>
-                                {getInitial(profile.name)}
-                            </div>
-                            <div className="allprf__card-body">
-                                <h3 className="allprf__card-name">{profile.name}</h3>
-                                <span className="allprf__card-id"># {profile.idNo}</span>
-                                <span className="allprf__card-phone">{profile.phoneNumber}</span>
-                            </div>
-                            <div className="allprf__card-chevron">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                    <polyline points="9 18 15 12 9 6" />
-                                </svg>
-                            </div>
+                <div className="allprf__header">
+                    <div className="allprf__header-text">
+                        <div className="allprf__eyebrow">
+                            <span className="allprf__eyebrow-dot" />
+                            <span>{t("allProfiles")}</span>
                         </div>
-                    ))}
+                        <h1 className="allprf__title">{t("allProfiles")}</h1>
+                        <p className="allprf__subtitle">
+                            <span className="allprf__count-pill">{filtered.length}</span>
+                            {t("profilesFound")}
+                        </p>
+                    </div>
+                    <div className="allprf__header-art" aria-hidden="true">
+                        <span className="allprf__art-card allprf__art-card--back" />
+                        <span className="allprf__art-card allprf__art-card--front">
+                            <IcoUsers />
+                        </span>
+                    </div>
                 </div>
-            )}
+
+                <div className="allprf__controls">
+                    <div className="allprf__search-wrap">
+                        <span className="allprf__search-icon"><IcoSearch /></span>
+                        <input
+                            className="allprf__search-input"
+                            type="text"
+                            placeholder={t("searchProfiles")}
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                        {search && (
+                            <button
+                                className="allprf__search-clear"
+                                onClick={() => setSearch("")}
+                                aria-label={t("clearSearch")}
+                            >
+                                <IcoClose />
+                            </button>
+                        )}
+                    </div>
+                    <button className="allprf__export-btn" onClick={exportCSV}>
+                        <IcoDownload /> {t("exportCsv")}
+                    </button>
+                </div>
+
+                {loading && (
+                    <div className="allprf__loading">
+                        <div className="allprf__loader">
+                            <div className="allprf__loader-ring" />
+                            <div className="allprf__loader-ring allprf__loader-ring--inner" />
+                            <div className="allprf__loader-core" />
+                        </div>
+                        <p className="allprf__loading-text">{t("loading")}</p>
+                    </div>
+                )}
+
+                {!loading && filtered.length === 0 && (
+                    <div className="allprf__empty">
+                        <span className="allprf__empty-icon"><IcoUsers /></span>
+                        <p>{t("noProfilesFound")}</p>
+                    </div>
+                )}
+
+                {!loading && filtered.length > 0 && (
+                    <div className="allprf__grid">
+                        {filtered.map((profile, index) => (
+                            <div
+                                key={profile.docId}
+                                className="allprf__card"
+                                style={{ animationDelay: `${index * 40}ms` }}
+                                onClick={() => setSelectedProfile(profile)}
+                            >
+                                <ProfileAvatar
+                                    src={profile.photo}
+                                    name={profile.name}
+                                    label={profile.name || t("profilePhoto")}
+                                />
+                                <div className="allprf__card-body">
+                                    <h3 className="allprf__card-name">{profile.name}</h3>
+                                    <span className="allprf__card-id"># {profile.idNo}</span>
+                                    <span className="allprf__card-phone">{profile.phoneNumber}</span>
+                                </div>
+                                <span className="allprf__card-chevron">
+                                    <IcoChevronRight />
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+            </div>
 
             {selectedProfile && (
                 <div className="allprf__overlay" onClick={() => setSelectedProfile(null)}>
                     <div className="allprf__modal" onClick={(e) => e.stopPropagation()}>
 
-                        <div className="allprf__modal-topbar" style={{ background: getGradient(selectedProfile.idNo) }} />
+                        <div className="allprf__modal-topbar" />
 
-                        <button className="allprf__modal-close" onClick={() => setSelectedProfile(null)}>
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                            </svg>
-                        </button>
-
-                        <button className="allprf__modal-edit-btn" onClick={openEdit}>
-                            ✎ {t("edit")}
-                        </button>
-
-                        <button className="allprf__modal-delete-btn" onClick={() => setShowDeleteConfirm(true)}>
-                            🗑 {t("delete")}
-                        </button>
+                        <div className="allprf__modal-actions-bar">
+                            <button
+                                className="allprf__modal-delete-btn"
+                                onClick={() => setShowDeleteConfirm(true)}
+                            >
+                                <IcoTrash /> {t("delete")}
+                            </button>
+                            <div className="allprf__modal-actions-right">
+                                <button className="allprf__modal-edit-btn" onClick={openEdit}>
+                                    <IcoPencil /> {t("edit")}
+                                </button>
+                                <button
+                                    className="allprf__modal-close"
+                                    onClick={() => setSelectedProfile(null)}
+                                    aria-label={t("cancel")}
+                                >
+                                    <IcoClose />
+                                </button>
+                            </div>
+                        </div>
 
                         <div className="allprf__modal-hero">
-                            <div className="allprf__modal-avatar" style={{ background: getGradient(selectedProfile.idNo) }}>
-                                {getInitial(selectedProfile.name)}
-                            </div>
+                            <ProfileAvatar
+                                src={selectedProfile.photo}
+                                name={selectedProfile.name}
+                                label={selectedProfile.name || t("profilePhoto")}
+                                className="allprf__avatar--lg"
+                            />
                             <h2 className="allprf__modal-name">{selectedProfile.name}</h2>
                             <div className="allprf__modal-id-pill">{selectedProfile.idNo}</div>
                         </div>
@@ -395,7 +605,7 @@ function AllProfiles() {
                         <div className="allprf__modal-rows">
 
                             <div className="allprf__modal-row">
-                                <span className="allprf__modal-row-icon">🪪</span>
+                                <span className="allprf__modal-row-icon"><IcoBadge /></span>
                                 <div className="allprf__modal-row-content">
                                     <span className="allprf__modal-row-label">{t("idNo")}</span>
                                     <span className="allprf__modal-row-value">{selectedProfile.idNo}</span>
@@ -403,7 +613,7 @@ function AllProfiles() {
                             </div>
 
                             <div className="allprf__modal-row">
-                                <span className="allprf__modal-row-icon">👤</span>
+                                <span className="allprf__modal-row-icon"><IcoUser /></span>
                                 <div className="allprf__modal-row-content">
                                     <span className="allprf__modal-row-label">{t("fullName")}</span>
                                     <span className="allprf__modal-row-value">{selectedProfile.name}</span>
@@ -411,7 +621,7 @@ function AllProfiles() {
                             </div>
 
                             <div className="allprf__modal-row">
-                                <span className="allprf__modal-row-icon">👨‍👩‍👦</span>
+                                <span className="allprf__modal-row-icon"><IcoFamily /></span>
                                 <div className="allprf__modal-row-content">
                                     <span className="allprf__modal-row-label">{t("fatherHusbandName")}</span>
                                     <span className="allprf__modal-row-value">{selectedProfile.fatherHusbandName || "—"}</span>
@@ -419,7 +629,7 @@ function AllProfiles() {
                             </div>
 
                             <div className="allprf__modal-row">
-                                <span className="allprf__modal-row-icon">📞</span>
+                                <span className="allprf__modal-row-icon"><IcoPhone /></span>
                                 <div className="allprf__modal-row-content">
                                     <span className="allprf__modal-row-label">{t("phoneNumberLabel")}</span>
                                     <span className="allprf__modal-row-value">{selectedProfile.phoneNumber}</span>
@@ -427,17 +637,17 @@ function AllProfiles() {
                             </div>
 
                             <div className="allprf__modal-row">
-                                <span className="allprf__modal-row-icon">📱</span>
+                                <span className="allprf__modal-row-icon"><IcoMobile /></span>
                                 <div className="allprf__modal-row-content">
                                     <span className="allprf__modal-row-label">{t("phoneType")}</span>
                                     <span className={`allprf__phone-badge allprf__phone-badge--${selectedProfile.phoneType === "WhatsApp" ? "wa" : "kp"}`}>
-                                        {selectedProfile.phoneType === "WhatsApp" ? `📲 ${t("whatsapp")}` : `📵 ${t("keypad")}`}
+                                        {selectedProfile.phoneType === "WhatsApp" ? t("whatsapp") : t("keypad")}
                                     </span>
                                 </div>
                             </div>
 
                             <div className="allprf__modal-row">
-                                <span className="allprf__modal-row-icon">📧</span>
+                                <span className="allprf__modal-row-icon"><IcoMail /></span>
                                 <div className="allprf__modal-row-content">
                                     <span className="allprf__modal-row-label">{t("emailIdLabel")}</span>
                                     <span className="allprf__modal-row-value">{selectedProfile.email || "—"}</span>
@@ -446,7 +656,7 @@ function AllProfiles() {
 
                             {selectedProfile.dob && (
                                 <div className="allprf__modal-row">
-                                    <span className="allprf__modal-row-icon">🎂</span>
+                                    <span className="allprf__modal-row-icon"><IcoCake /></span>
                                     <div className="allprf__modal-row-content">
                                         <span className="allprf__modal-row-label">{t("dateOfBirth")}</span>
                                         <span className="allprf__modal-row-value">{selectedProfile.dob}</span>
@@ -455,7 +665,7 @@ function AllProfiles() {
                             )}
 
                             <div className="allprf__modal-row allprf__modal-row--full">
-                                <span className="allprf__modal-row-icon">🏠</span>
+                                <span className="allprf__modal-row-icon"><IcoHome /></span>
                                 <div className="allprf__modal-row-content">
                                     <span className="allprf__modal-row-label">{t("address")}</span>
                                     <span className="allprf__modal-row-value">{selectedProfile.address || "—"}</span>
@@ -472,8 +682,14 @@ function AllProfiles() {
                     <div className="allprf__edit-modal" onClick={(e) => e.stopPropagation()}>
 
                         <div className="allprf__edit-header">
-                            <h3>✎ {t("edit")} {t("myProfile")}</h3>
-                            <button className="allprf__edit-close" onClick={() => setShowEditModal(false)}>✕</button>
+                            <h3><IcoPencil /> {t("editProfile")}</h3>
+                            <button
+                                className="allprf__edit-close"
+                                onClick={() => setShowEditModal(false)}
+                                aria-label={t("cancel")}
+                            >
+                                <IcoClose />
+                            </button>
                         </div>
 
                         <div className="allprf__edit-field">
@@ -544,7 +760,11 @@ function AllProfiles() {
                                 {t("cancel")}
                             </button>
                             <button className="allprf__edit-save" onClick={saveEdit} disabled={editLoading}>
-                                {editLoading ? `⏳ ${t("loading")}` : `💾 ${t("save")}`}
+                                {editLoading ? (
+                                    <><span className="allprf__btn-spin" /> {t("saving")}</>
+                                ) : (
+                                    <><IcoSave /> {t("save")}</>
+                                )}
                             </button>
                         </div>
 
@@ -556,7 +776,7 @@ function AllProfiles() {
                 <div className="allprf__edit-overlay" onClick={() => setShowDeleteConfirm(false)}>
                     <div className="allprf__delete-modal" onClick={(e) => e.stopPropagation()}>
 
-                        <div className="allprf__delete-icon">🗑️</div>
+                        <div className="allprf__delete-icon"><IcoTrash /></div>
                         <h3 className="allprf__delete-title">{t("deleteUser")}</h3>
                         <p className="allprf__delete-msg">
                             {t("deleteConfirmMsg")}
@@ -569,7 +789,11 @@ function AllProfiles() {
                                 {t("cancel")}
                             </button>
                             <button className="allprf__delete-confirm-btn" onClick={deleteProfile} disabled={deleteLoading}>
-                                {deleteLoading ? `⏳ ${t("loading")}` : `🗑 ${t("delete")}`}
+                                {deleteLoading ? (
+                                    <><span className="allprf__btn-spin" /> {t("deleting")}</>
+                                ) : (
+                                    <><IcoTrash /> {t("delete")}</>
+                                )}
                             </button>
                         </div>
 

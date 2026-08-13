@@ -1142,5 +1142,7 @@
   "moodNeutral": "Neutral",
   "moodCalm": "Calm",
   "moodJoyful": "Joyful",
-  "unknownUser": "Unknown"
+  "unknownUser": "Unknown",
+  "noProfilesFound": "No profiles found",
+  "editProfile": "Edit Profile"
 }
