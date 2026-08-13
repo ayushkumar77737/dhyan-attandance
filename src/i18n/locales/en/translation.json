@@ -1131,5 +1131,16 @@
   "logDeletedLeave": "Deleted {{name}}'s leave request",
   "logDeletedAllLeaves": "Deleted {{count}} leave requests",
   "enterPhoneNumber": "Enter phone number",
-  "clearSearch": "Clear search"
+  "clearSearch": "Clear search",
+  "sessionBreathing": "🌬️ Breathing",
+  "sessionGuided": "🎙️ Guided",
+  "sessionSilent": "🤫 Silent",
+  "sessionMovement": "🌊 Movement",
+  "sessionSleep": "🌙 Sleep",
+  "moodAnxious": "Anxious",
+  "moodTired": "Tired",
+  "moodNeutral": "Neutral",
+  "moodCalm": "Calm",
+  "moodJoyful": "Joyful",
+  "unknownUser": "Unknown"
 }
