@@ -3,14 +3,23 @@
 /* ==================================================================
    TOKENS
    Dark is the base. Light re-declares the same names.
-   Fills, rings and glows stay separate — a solid pastel works as a
-   fill on white but reads as a band when reused as a focus ring.
+
+   Three distinctions carry the light theme:
+   1. --actlog-inset is the surface that sits *inside* a card (chevron,
+      detail tiles). In dark it's lighter than the card; in light it has
+      to be darker, so it can't just be a second white.
+   2. --actlog-label is separate from --actlog-faint. 9px mono uppercase
+      needs more weight than a chevron glyph does.
+   3. -ring and -glow stay translucent — a solid pastel used as a focus
+      halo reads as a band, not a glow.
    ================================================================== */
 .actlog__page {
     /* surfaces */
     --actlog-bg: #050b14;
     --actlog-surface: rgba(255, 255, 255, 0.032);
     --actlog-surface-2: rgba(255, 255, 255, 0.055);
+    --actlog-inset: rgba(255, 255, 255, 0.055);
+    --actlog-inset-2: rgba(255, 255, 255, 0.032);
     --actlog-border: rgba(255, 255, 255, 0.07);
     --actlog-hairline: rgba(255, 255, 255, 0.05);
     --actlog-shadow: 0 6px 22px rgba(0, 0, 0, 0.3);
@@ -24,6 +33,7 @@
     --actlog-text: #d4e0f5;
     --actlog-muted: #7e93b3;
     --actlog-faint: #55698a;
+    --actlog-label: #6d82a6;
     --actlog-placeholder: rgba(126, 147, 179, 0.45);
     --actlog-heading: #eaf4ff;
 
@@ -60,6 +70,7 @@
 
     /* amber — IP address */
     --actlog-amber: #f0a050;
+    --actlog-amber-bg: rgba(240, 160, 80, 0.1);
 
     min-height: 100vh;
     background: var(--actlog-bg);
@@ -71,11 +82,14 @@
 }
 
 .actlog__page[data-theme="light"] {
-    --actlog-bg: #f5f6fc;
+    --actlog-bg: #f4f5fb;
     --actlog-surface: #ffffff;
-    --actlog-surface-2: #f6f7fc;
-    --actlog-border: rgba(22, 28, 66, 0.08);
-    --actlog-hairline: rgba(22, 28, 66, 0.07);
+    --actlog-surface-2: #eef0f7;
+    /* Darker than the card, not a second white. */
+    --actlog-inset: #f2f4f9;
+    --actlog-inset-2: #ffffff;
+    --actlog-border: rgba(22, 28, 66, 0.1);
+    --actlog-hairline: rgba(22, 28, 66, 0.09);
     --actlog-shadow: 0 4px 14px rgba(32, 38, 88, 0.06);
     --actlog-shadow-hover: 0 10px 26px rgba(32, 38, 88, 0.1);
     --actlog-shadow-sm: 0 3px 10px rgba(32, 38, 88, 0.08);
@@ -84,38 +98,40 @@
     --actlog-blur: none;
 
     --actlog-text: #1b2140;
-    --actlog-muted: #58627f;
-    --actlog-faint: #8b93ac;
-    --actlog-placeholder: #a3aac0;
-    --actlog-heading: #141a38;
+    --actlog-muted: #525c7a;
+    --actlog-faint: #7d86a2;
+    --actlog-label: #66708f;
+    --actlog-placeholder: #9ba3ba;
+    --actlog-heading: #131933;
 
-    --actlog-dot: rgba(129, 140, 248, 0.28);
+    --actlog-dot: rgba(129, 140, 248, 0.26);
     --actlog-wash-opacity: 0.4;
 
-    --actlog-green: #0f9d6e;
-    --actlog-green-bg: #ddf7ec;
-    --actlog-green-hover: #c3f0de;
-    --actlog-green-line: #9de5c9;
-    --actlog-green-ring: rgba(15, 157, 110, 0.15);
+    --actlog-green: #0b8f63;
+    --actlog-green-bg: #dcf6ea;
+    --actlog-green-hover: #c2eeda;
+    --actlog-green-line: #93e0c2;
+    --actlog-green-ring: rgba(11, 143, 99, 0.15);
 
-    --actlog-red: #e11d48;
+    --actlog-red: #d81b45;
     --actlog-red-bg: #fdeaee;
-    --actlog-red-hover: #fbd3dc;
-    --actlog-red-line: #f7b6c3;
-    --actlog-red-glow: rgba(225, 29, 72, 0.24);
+    --actlog-red-hover: #fbd2db;
+    --actlog-red-line: #f5b0bf;
+    --actlog-red-glow: rgba(216, 27, 69, 0.24);
     --actlog-red-solid: #e11d48;
 
-    --actlog-blue: #2f5fe0;
-    --actlog-blue-bg: #e8eefe;
-    --actlog-blue-hover: #d5e1fd;
-    --actlog-blue-line: #bed0fb;
-    --actlog-blue-glow: rgba(47, 95, 224, 0.26);
+    --actlog-blue: #2b58d8;
+    --actlog-blue-bg: #e7edfd;
+    --actlog-blue-hover: #d3defc;
+    --actlog-blue-line: #b8cbfa;
+    --actlog-blue-glow: rgba(43, 88, 216, 0.26);
 
-    --actlog-purple: #6d28d9;
-    --actlog-purple-bg: #f0eafe;
-    --actlog-purple-line: #dccdfb;
+    --actlog-purple: #6425d0;
+    --actlog-purple-bg: #efe8fd;
+    --actlog-purple-line: #d8c8fa;
 
-    --actlog-amber: #c2410c;
+    --actlog-amber: #b8430b;
+    --actlog-amber-bg: #fdf0e6;
 }
 
 .actlog__shell {
@@ -163,11 +179,11 @@
 }
 
 .actlog__page[data-theme="light"] .actlog__blob--1 {
-    background: radial-gradient(circle, rgba(198, 192, 252, 0.36), transparent 62%);
+    background: radial-gradient(circle, rgba(200, 194, 251, 0.34), transparent 62%);
 }
 
 .actlog__page[data-theme="light"] .actlog__blob--2 {
-    background: radial-gradient(circle, rgba(180, 226, 210, 0.3), transparent 62%);
+    background: radial-gradient(circle, rgba(186, 205, 250, 0.3), transparent 62%);
 }
 
 .actlog__dots {
@@ -408,7 +424,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--actlog-faint);
+    color: var(--actlog-label);
     white-space: nowrap;
 }
 
@@ -518,7 +534,7 @@
     left: 18px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--actlog-faint);
+    color: var(--actlog-label);
     font-size: 16px;
     display: flex;
     pointer-events: none;
@@ -601,7 +617,7 @@
     cursor: pointer;
     border: 1px solid var(--actlog-border);
     white-space: nowrap;
-    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .actlog__filter-btn .actlog__ico,
@@ -619,14 +635,10 @@
 
 .actlog__filter-btn:hover {
     color: var(--actlog-text);
+    border-color: var(--actlog-hairline);
 }
 
-.actlog__filter-btn--all.actlog__filter-btn--active {
-    background: var(--actlog-green-bg);
-    border-color: var(--actlog-green-line);
-    color: var(--actlog-green);
-}
-
+.actlog__filter-btn--all.actlog__filter-btn--active,
 .actlog__filter-btn--login.actlog__filter-btn--active {
     background: var(--actlog-green-bg);
     border-color: var(--actlog-green-line);
@@ -879,7 +891,7 @@
     overflow: hidden;
     flex-shrink: 0;
     background: var(--actlog-blue-bg);
-    border: 2px solid var(--actlog-border);
+    border: 2px solid var(--actlog-blue-line);
     color: var(--actlog-blue);
     font-size: 17px;
     font-weight: 800;
@@ -963,7 +975,7 @@
     font-size: 14px;
     cursor: pointer;
     flex-shrink: 0;
-    opacity: 0.75;
+    opacity: 0.8;
     transition: opacity 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
 
@@ -1001,16 +1013,18 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: var(--actlog-surface-2);
+    background: var(--actlog-inset);
+    border: 1px solid var(--actlog-hairline);
     color: var(--actlog-muted);
     font-size: 14px;
     flex-shrink: 0;
-    transition: transform 0.25s ease, color 0.2s ease, background 0.2s ease;
+    transition: transform 0.25s ease, color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
 .actlog__chevron--open {
     transform: rotate(180deg);
     background: var(--actlog-green-bg);
+    border-color: var(--actlog-green-line);
     color: var(--actlog-green);
 }
 
@@ -1043,7 +1057,7 @@
     display: flex;
     align-items: flex-start;
     gap: 11px;
-    background: var(--actlog-surface-2);
+    background: var(--actlog-inset);
     border: 1px solid var(--actlog-hairline);
     border-radius: 12px;
     padding: 11px 13px;
@@ -1066,14 +1080,16 @@
     width: 28px;
     height: 28px;
     border-radius: 8px;
-    background: var(--actlog-surface);
-    color: var(--actlog-muted);
+    background: var(--actlog-inset-2);
+    border: 1px solid var(--actlog-hairline);
+    color: var(--actlog-label);
     font-size: 15px;
     flex-shrink: 0;
 }
 
 .actlog__detail-item--accent .actlog__detail-icon {
     background: transparent;
+    border-color: transparent;
     color: var(--actlog-green);
 }
 
@@ -1087,7 +1103,7 @@
 .actlog__detail-label {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 9px;
-    color: var(--actlog-faint);
+    color: var(--actlog-label);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -1109,10 +1125,15 @@
 }
 
 .actlog__detail-value--mono {
+    display: inline-block;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11.5px;
     color: var(--actlog-amber);
+    background: var(--actlog-amber-bg);
+    padding: 2px 8px;
+    border-radius: 6px;
     letter-spacing: 0.04em;
+    width: fit-content;
 }
 
 /* ==================================================================
@@ -1121,7 +1142,7 @@
 .actlog__modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(8, 12, 30, 0.6);
+    background: rgba(10, 14, 34, 0.55);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     z-index: 999;
@@ -1220,7 +1241,7 @@
     font-family: 'Plus Jakarta Sans', sans-serif;
     cursor: pointer;
     border: 1px solid transparent;
-    transition: background 0.2s ease, transform 0.2s ease;
+    transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease;
 }
 
 .actlog__modal-confirm .actlog__ico {
@@ -1228,14 +1249,16 @@
     height: 1.2em;
 }
 
+/* Hover darkens in both themes — --actlog-surface-2 is the *stronger*
+   neutral, so this doesn't wash out on white the way plain white did. */
 .actlog__modal-cancel {
-    background: var(--actlog-surface-2);
+    background: var(--actlog-inset);
     border-color: var(--actlog-border);
     color: var(--actlog-muted);
 }
 
 .actlog__modal-cancel:hover {
-    background: var(--actlog-surface);
+    background: var(--actlog-surface-2);
     color: var(--actlog-text);
 }
 
