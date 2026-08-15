@@ -1,24 +1,76 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap');
 
+/* ==================================================================
+   TOKENS
+   Dark is the base. Light re-declares the same names.
+
+   Surfaces form a ladder that inverts between themes:
+     dark   bg #070b15 < card #0d1726 < head #131f33
+     light  head #edf0f7 < hover #f5f6fb < card #ffffff
+   A nested band sits above its card in dark and below it in light, so
+   these can't be two near-identical whites.
+
+   --aamon-head (table header) and --aamon-hover (row hover) are kept
+   apart deliberately: sharing one value makes a hovered row look like
+   a second header row.
+   ================================================================== */
 .aamon__page {
+    /* surfaces */
     --aamon-bg: #070b15;
-    --aamon-surface: rgba(255, 255, 255, 0.025);
     --aamon-card: #0d1726;
-    --aamon-card-hover: #111f33;
+    --aamon-head: #131f33;
+    --aamon-hover: #16233a;
+    --aamon-inset: #131f33;
+    --aamon-border: rgba(255, 255, 255, 0.07);
+    --aamon-hairline: rgba(255, 255, 255, 0.05);
+    --aamon-shadow: 0 4px 20px rgba(0, 0, 0, 0.32);
+    --aamon-shadow-hover: 0 12px 30px rgba(0, 0, 0, 0.42);
+    --aamon-shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.35);
+    --aamon-shadow-modal: 0 24px 60px rgba(0, 0, 0, 0.6);
+    --aamon-modal-bg: #0d1726;
+    --aamon-scrim: rgba(4, 8, 18, 0.66);
 
-    --aamon-blue: #3b82f6;
-    --aamon-purple: #8b5cf6;
-    --aamon-green: #2dce89;
-    --aamon-red: #ef4444;
-    --aamon-amber: #f59e0b;
-    --aamon-cyan: #06b6d4;
-
+    /* type */
     --aamon-text: #e8edf5;
     --aamon-text-dim: #8294ad;
-    --aamon-text-mute: #475569;
+    --aamon-label: #64748b;
+    --aamon-placeholder: #56657d;
 
-    --aamon-border: rgba(255, 255, 255, 0.06);
-    --aamon-border-strong: rgba(255, 255, 255, 0.1);
+    /* decoration */
+    --aamon-grid: rgba(255, 255, 255, 0.015);
+    --aamon-dot: rgba(59, 130, 246, 0.18);
+    --aamon-spark-opacity: 0.55;
+
+    /* blue — primary */
+    --aamon-blue: #3b82f6;
+    --aamon-blue-bg: rgba(59, 130, 246, 0.13);
+    --aamon-blue-hover: rgba(59, 130, 246, 0.22);
+    --aamon-blue-line: rgba(59, 130, 246, 0.3);
+    --aamon-blue-ring: rgba(59, 130, 246, 0.2);
+    --aamon-blue-glow: rgba(59, 130, 246, 0.4);
+
+    /* purple */
+    --aamon-purple: #8b5cf6;
+    --aamon-purple-bg: rgba(139, 92, 246, 0.13);
+    --aamon-purple-line: rgba(139, 92, 246, 0.3);
+
+    /* green */
+    --aamon-green: #2dce89;
+    --aamon-green-bg: rgba(45, 206, 137, 0.13);
+    --aamon-green-line: rgba(45, 206, 137, 0.3);
+
+    /* red — destructive */
+    --aamon-red: #f87171;
+    --aamon-red-bg: rgba(239, 68, 68, 0.12);
+    --aamon-red-hover: rgba(239, 68, 68, 0.22);
+    --aamon-red-line: rgba(239, 68, 68, 0.3);
+    --aamon-red-glow: rgba(239, 68, 68, 0.4);
+    --aamon-red-solid: #ef4444;
+
+    /* slate — "other" category */
+    --aamon-slate: #94a3b8;
+    --aamon-slate-bg: rgba(100, 116, 139, 0.14);
+    --aamon-slate-line: rgba(100, 116, 139, 0.3);
 
     --aamon-radius-sm: 10px;
     --aamon-radius-md: 14px;
@@ -31,106 +83,200 @@
     background: var(--aamon-bg);
     color: var(--aamon-text);
     font-family: var(--aamon-font);
-    padding: 32px 28px 80px;
+    padding: 30px 28px 80px;
     position: relative;
     overflow-x: hidden;
     animation: aamon-fade 0.5s ease;
 }
 
+.aamon__page[data-theme="light"],
+.aamon__modal-overlay[data-theme="light"] {
+    --aamon-bg: #f2f4fb;
+    --aamon-card: #ffffff;
+    /* Header band is the darker of the two; hover is barely-there. */
+    --aamon-head: #edf0f7;
+    --aamon-hover: #f5f6fb;
+    --aamon-inset: #eef1f7;
+    --aamon-border: rgba(22, 28, 66, 0.1);
+    --aamon-hairline: rgba(22, 28, 66, 0.095);
+    --aamon-shadow: 0 4px 16px rgba(32, 40, 92, 0.06);
+    --aamon-shadow-hover: 0 10px 26px rgba(32, 40, 92, 0.1);
+    --aamon-shadow-sm: 0 3px 10px rgba(32, 40, 92, 0.08);
+    --aamon-shadow-modal: 0 24px 60px rgba(32, 40, 92, 0.2);
+    --aamon-modal-bg: #ffffff;
+    --aamon-scrim: rgba(26, 32, 74, 0.42);
+
+    --aamon-text: #141935;
+    --aamon-text-dim: #4c5573;
+    --aamon-label: #6b7391;
+    --aamon-placeholder: #969eb4;
+
+    --aamon-grid: rgba(22, 28, 66, 0.03);
+    --aamon-dot: rgba(129, 140, 248, 0.26);
+    --aamon-spark-opacity: 0.9;
+
+    --aamon-blue: #2258d9;
+    --aamon-blue-bg: #e6edfd;
+    --aamon-blue-hover: #d2ddfb;
+    --aamon-blue-line: #b6ccf8;
+    --aamon-blue-ring: rgba(34, 88, 217, 0.15);
+    --aamon-blue-glow: rgba(34, 88, 217, 0.26);
+
+    --aamon-purple: #6425d0;
+    --aamon-purple-bg: #eee8fd;
+    --aamon-purple-line: #d6c6fa;
+
+    --aamon-green: #0b7f47;
+    --aamon-green-bg: #dbf5e6;
+    --aamon-green-line: #93e0b7;
+
+    --aamon-red: #cf1f3d;
+    --aamon-red-bg: #fdeaee;
+    --aamon-red-hover: #fbd3da;
+    --aamon-red-line: #f5b2be;
+    --aamon-red-glow: rgba(207, 31, 61, 0.24);
+    --aamon-red-solid: #dc2626;
+
+    --aamon-slate: #47506a;
+    --aamon-slate-bg: #edeff5;
+    --aamon-slate-line: #c9cfdd;
+}
+
+.aamon__shell {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    /* Clears the pinned back button and top-right actions. */
+    padding-top: 68px;
+}
+
+/* ==================================================================
+   AMBIENT BACKGROUND
+   ================================================================== */
 .aamon__grid-bg {
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
     background-image:
-        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+        linear-gradient(var(--aamon-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--aamon-grid) 1px, transparent 1px);
     background-size: 46px 46px;
 }
 
-.aamon__orb {
+.aamon__blob {
     position: fixed;
     border-radius: 50%;
-    filter: blur(130px);
+    filter: blur(120px);
     pointer-events: none;
     z-index: 0;
-    opacity: 0.5;
 }
 
-.aamon__orb--1 {
+.aamon__blob--1 {
     width: 560px;
     height: 560px;
-    top: -200px;
-    left: -160px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.18), transparent 70%);
+    top: -220px;
+    right: -160px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.16), transparent 68%);
 }
 
-.aamon__orb--2 {
+.aamon__blob--2 {
     width: 460px;
     height: 460px;
-    bottom: -160px;
-    right: -140px;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.14), transparent 70%);
+    bottom: -180px;
+    left: -140px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.13), transparent 68%);
 }
 
-.aamon__orb--3 {
-    width: 320px;
-    height: 320px;
-    top: 45%;
-    left: 55%;
-    background: radial-gradient(circle, rgba(6, 182, 212, 0.1), transparent 70%);
+.aamon__page[data-theme="light"] .aamon__blob--1 {
+    background: radial-gradient(circle, rgba(188, 206, 250, 0.38), transparent 64%);
 }
 
-.aamon__page>*:not(.aamon__grid-bg):not(.aamon__orb) {
-    position: relative;
-    z-index: 2;
+.aamon__page[data-theme="light"] .aamon__blob--2 {
+    background: radial-gradient(circle, rgba(203, 191, 249, 0.3), transparent 64%);
 }
 
+.aamon__dots {
+    position: fixed;
+    top: 40px;
+    right: 30px;
+    width: 150px;
+    height: 150px;
+    pointer-events: none;
+    z-index: 0;
+    background-image: radial-gradient(currentColor 1.6px, transparent 1.6px);
+    background-size: 15px 15px;
+    color: var(--aamon-dot);
+    -webkit-mask-image: linear-gradient(215deg, #000, transparent 76%);
+    mask-image: linear-gradient(215deg, #000, transparent 76%);
+}
+
+/* ==================================================================
+   PINNED CONTROLS
+   ================================================================== */
 .aamon__back {
+    position: fixed;
+    top: 22px;
+    left: 22px;
+    z-index: 30;
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    padding: 9px 18px;
-    margin-bottom: 26px;
-    background: var(--aamon-surface);
-    border: 1px solid var(--aamon-border-strong);
+    gap: 8px;
+    padding: 12px 22px;
+    background: var(--aamon-card);
+    border: 1px solid var(--aamon-border);
     border-radius: 50px;
-    color: var(--aamon-text-dim);
+    color: var(--aamon-blue);
     font-family: var(--aamon-font);
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 15px;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.22s ease;
-    backdrop-filter: blur(10px);
+    box-shadow: var(--aamon-shadow-sm);
+    transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
 }
 
 .aamon__back svg {
-    width: 14px;
-    height: 14px;
+    width: 17px;
+    height: 17px;
 }
 
 .aamon__back:hover {
-    color: var(--aamon-blue);
-    border-color: rgba(59, 130, 246, 0.4);
+    background: var(--aamon-blue-bg);
+    border-color: var(--aamon-blue-line);
     transform: translateX(-3px);
 }
 
+.aamon__top-actions {
+    position: fixed;
+    top: 22px;
+    right: 26px;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ==================================================================
+   HEADER
+   ================================================================== */
 .aamon__header {
-    margin-bottom: 28px;
+    margin-bottom: 26px;
 }
 
 .aamon__eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    font-size: 10px;
+    gap: 9px;
+    font-size: 11px;
     font-weight: 700;
-    letter-spacing: 3px;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--aamon-blue);
-    background: rgba(59, 130, 246, 0.08);
-    border: 1px solid rgba(59, 130, 246, 0.25);
-    padding: 5px 16px;
+    background: var(--aamon-blue-bg);
+    border: 1px solid var(--aamon-blue-line);
+    padding: 6px 16px;
     border-radius: 50px;
     margin-bottom: 14px;
 }
@@ -139,73 +285,63 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--aamon-blue);
-    box-shadow: 0 0 10px var(--aamon-blue);
+    background: currentColor;
     animation: aamon-pulse 2s ease-in-out infinite;
 }
 
 .aamon__title {
     font-family: var(--aamon-display);
-    font-size: 38px;
+    font-size: 48px;
     font-weight: 800;
-    letter-spacing: -0.5px;
-    margin: 0 0 8px;
-    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin: 0 0 10px;
+    line-height: 1.05;
+    color: var(--aamon-text);
 }
 
 .aamon__title-accent {
-    background: linear-gradient(135deg, var(--aamon-blue), var(--aamon-cyan));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--aamon-blue);
 }
 
 .aamon__subtitle {
-    font-size: 14px;
+    font-size: 15px;
     color: var(--aamon-text-dim);
     margin: 0;
 }
 
+/* ==================================================================
+   STAT CARDS
+   ================================================================== */
 .aamon__stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
-    margin-bottom: 26px;
+    margin-bottom: 22px;
 }
 
 .aamon__stat {
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 22px 22px;
+    padding: 22px;
     background: var(--aamon-card);
     border: 1px solid var(--aamon-border);
     border-radius: var(--aamon-radius-lg);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
-    transition: transform 0.25s ease, border-color 0.25s ease;
+    box-shadow: var(--aamon-shadow);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
     position: relative;
     overflow: hidden;
 }
 
-.aamon__stat::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    opacity: 0.7;
-}
-
 .aamon__stat:hover {
     transform: translateY(-4px);
-    border-color: var(--aamon-border-strong);
+    box-shadow: var(--aamon-shadow-hover);
 }
 
 .aamon__stat-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 13px;
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -213,184 +349,213 @@
 }
 
 .aamon__stat-icon svg {
-    width: 22px;
-    height: 22px;
+    width: 23px;
+    height: 23px;
 }
 
 .aamon__stat-body {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
+    min-width: 0;
 }
 
 .aamon__stat-num {
     font-family: var(--aamon-display);
-    font-size: 30px;
+    font-size: 34px;
     font-weight: 800;
     line-height: 1;
 }
 
 .aamon__stat-lbl {
     font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--aamon-text-mute);
+    color: var(--aamon-label);
+    white-space: nowrap;
 }
 
-.aamon__stat--blue::before {
-    background: var(--aamon-blue);
+.aamon__spark {
+    position: absolute;
+    right: 0;
+    bottom: 14px;
+    width: 46%;
+    height: 34px;
+    opacity: var(--aamon-spark-opacity);
+    pointer-events: none;
 }
 
 .aamon__stat--blue .aamon__stat-icon {
-    background: rgba(59, 130, 246, 0.15);
-    color: var(--aamon-blue);
-    box-shadow: 0 0 22px rgba(59, 130, 246, 0.35);
-}
-
-.aamon__stat--blue .aamon__stat-num {
+    background: var(--aamon-blue-bg);
     color: var(--aamon-blue);
 }
 
-.aamon__stat--purple::before {
-    background: var(--aamon-purple);
+.aamon__stat--blue .aamon__stat-num,
+.aamon__stat--blue .aamon__spark {
+    color: var(--aamon-blue);
 }
 
 .aamon__stat--purple .aamon__stat-icon {
-    background: rgba(139, 92, 246, 0.15);
-    color: var(--aamon-purple);
-    box-shadow: 0 0 22px rgba(139, 92, 246, 0.35);
-}
-
-.aamon__stat--purple .aamon__stat-num {
+    background: var(--aamon-purple-bg);
     color: var(--aamon-purple);
 }
 
-.aamon__stat--green::before {
-    background: var(--aamon-green);
+.aamon__stat--purple .aamon__stat-num,
+.aamon__stat--purple .aamon__spark {
+    color: var(--aamon-purple);
 }
 
 .aamon__stat--green .aamon__stat-icon {
-    background: rgba(45, 206, 137, 0.15);
-    color: var(--aamon-green);
-    box-shadow: 0 0 22px rgba(45, 206, 137, 0.35);
-}
-
-.aamon__stat--green .aamon__stat-num {
+    background: var(--aamon-green-bg);
     color: var(--aamon-green);
 }
 
-.aamon__stat--red::before {
-    background: var(--aamon-red);
+.aamon__stat--green .aamon__stat-num,
+.aamon__stat--green .aamon__spark {
+    color: var(--aamon-green);
 }
 
 .aamon__stat--red .aamon__stat-icon {
-    background: rgba(239, 68, 68, 0.15);
-    color: var(--aamon-red);
-    box-shadow: 0 0 22px rgba(239, 68, 68, 0.35);
-}
-
-.aamon__stat--red .aamon__stat-num {
+    background: var(--aamon-red-bg);
     color: var(--aamon-red);
 }
 
+.aamon__stat--red .aamon__stat-num,
+.aamon__stat--red .aamon__spark {
+    color: var(--aamon-red);
+}
+
+/* ==================================================================
+   FILTER BAR
+   ================================================================== */
 .aamon__filters {
     display: flex;
     align-items: center;
     gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 24px;
+    margin-bottom: 22px;
 }
 
 .aamon__search-wrap {
     position: relative;
-    flex: 1 1 240px;
-    min-width: 200px;
+    flex: 1 1 260px;
+    min-width: 220px;
     display: flex;
     align-items: center;
 }
 
 .aamon__search-icon {
     position: absolute;
-    left: 14px;
+    left: 18px;
     display: flex;
-    color: var(--aamon-text-mute);
+    color: var(--aamon-label);
     pointer-events: none;
 }
 
 .aamon__search-icon svg {
-    width: 16px;
-    height: 16px;
+    width: 17px;
+    height: 17px;
+}
+
+.aamon__search,
+.aamon__select,
+.aamon__date {
+    background: var(--aamon-card);
+    border: 1px solid var(--aamon-border);
+    border-radius: var(--aamon-radius-md);
+    color: var(--aamon-text);
+    font-family: var(--aamon-font);
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+    box-shadow: var(--aamon-shadow);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    color-scheme: dark;
+}
+
+.aamon__page[data-theme="light"] .aamon__search,
+.aamon__page[data-theme="light"] .aamon__select,
+.aamon__page[data-theme="light"] .aamon__date {
+    color-scheme: light;
 }
 
 .aamon__search {
     width: 100%;
-    padding: 11px 14px 11px 40px;
-    background: var(--aamon-surface);
-    border: 1px solid var(--aamon-border-strong);
-    border-radius: var(--aamon-radius-sm);
-    color: var(--aamon-text);
-    font-family: var(--aamon-font);
-    font-size: 13px;
-    outline: none;
-    transition: border-color 0.2s ease;
-}
-
-.aamon__search:focus {
-    border-color: var(--aamon-blue);
+    padding: 14px 42px 14px 46px;
 }
 
 .aamon__search::placeholder {
-    color: var(--aamon-text-mute);
+    color: var(--aamon-placeholder);
+}
+
+.aamon__search:hover:not(:focus),
+.aamon__select:hover:not(:focus),
+.aamon__date:hover:not(:focus) {
+    border-color: var(--aamon-blue-line);
+}
+
+.aamon__search:focus,
+.aamon__select:focus,
+.aamon__date:focus {
+    border-color: var(--aamon-blue);
+    box-shadow: 0 0 0 3px var(--aamon-blue-ring);
 }
 
 .aamon__search-clear {
     position: absolute;
-    right: 10px;
-    background: none;
+    right: 14px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--aamon-blue-bg);
     border: none;
-    color: var(--aamon-text-mute);
+    color: var(--aamon-blue);
     cursor: pointer;
-    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.aamon__search-clear svg {
+    width: 11px;
+    height: 11px;
+}
+
+.aamon__search-clear:hover {
+    background: var(--aamon-blue-hover);
 }
 
 .aamon__select,
 .aamon__date {
-    padding: 11px 14px;
-    background: var(--aamon-surface);
-    border: 1px solid var(--aamon-border-strong);
-    border-radius: var(--aamon-radius-sm);
-    color: var(--aamon-text);
-    font-family: var(--aamon-font);
-    font-size: 13px;
-    outline: none;
+    padding: 14px 16px;
     cursor: pointer;
-    color-scheme: dark;
-    transition: border-color 0.2s ease;
 }
 
 .aamon__select {
-    min-width: 150px;
-}
-
-.aamon__select:focus,
-.aamon__date:focus {
-    border-color: var(--aamon-blue);
+    min-width: 165px;
 }
 
 .aamon__select option {
     background: #0d1726;
+    color: var(--aamon-text);
+}
+
+.aamon__page[data-theme="light"] .aamon__select option {
+    background: #ffffff;
+    color: #141935;
 }
 
 .aamon__date-group {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
 .aamon__date-sep {
-    color: var(--aamon-text-mute);
-    font-size: 13px;
+    color: var(--aamon-label);
+    font-size: 14px;
 }
 
 .aamon__date::-webkit-calendar-picker-indicator {
@@ -398,83 +563,114 @@
     cursor: pointer;
 }
 
-.aamon__clear-btn {
-    padding: 11px 16px;
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.25);
-    border-radius: var(--aamon-radius-sm);
-    color: #fca5a5;
+.aamon__page[data-theme="light"] .aamon__date::-webkit-calendar-picker-indicator {
+    filter: none;
+    opacity: 0.55;
+}
+
+.aamon__clear-btn,
+.aamon__export-btn,
+.aamon__delete-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 20px;
+    border-radius: var(--aamon-radius-md);
     font-family: var(--aamon-font);
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
     cursor: pointer;
     white-space: nowrap;
-    transition: all 0.2s ease;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.aamon__clear-btn svg,
+.aamon__export-btn svg,
+.aamon__delete-all-btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.aamon__clear-btn {
+    background: var(--aamon-red-bg);
+    border: 1px solid var(--aamon-red-line);
+    color: var(--aamon-red);
 }
 
 .aamon__clear-btn:hover {
-    background: rgba(239, 68, 68, 0.2);
+    background: var(--aamon-red-hover);
+}
+
+.aamon__clear-btn svg {
+    width: 13px;
+    height: 13px;
 }
 
 .aamon__icon-btn {
-    width: 42px;
-    height: 42px;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--aamon-surface);
-    border: 1px solid var(--aamon-border-strong);
-    border-radius: var(--aamon-radius-sm);
+    background: var(--aamon-card);
+    border: 1px solid var(--aamon-border);
+    border-radius: var(--aamon-radius-md);
     color: var(--aamon-text-dim);
     cursor: pointer;
-    transition: all 0.2s ease;
+    box-shadow: var(--aamon-shadow);
+    transition: color 0.2s ease, border-color 0.2s ease, transform 0.3s ease;
 }
 
 .aamon__icon-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 17px;
+    height: 17px;
 }
 
 .aamon__icon-btn:hover {
     color: var(--aamon-blue);
-    border-color: rgba(59, 130, 246, 0.4);
-    transform: rotate(45deg);
+    border-color: var(--aamon-blue-line);
+    transform: rotate(90deg);
 }
 
 .aamon__export-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 11px 18px;
-    background: rgba(59, 130, 246, 0.12);
-    border: 1px solid rgba(59, 130, 246, 0.3);
-    border-radius: var(--aamon-radius-sm);
+    background: var(--aamon-blue-bg);
+    border: 1px solid var(--aamon-blue-line);
     color: var(--aamon-blue);
-    font-family: var(--aamon-font);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.aamon__export-btn svg {
-    width: 15px;
-    height: 15px;
 }
 
 .aamon__export-btn:hover:not(:disabled) {
-    background: rgba(59, 130, 246, 0.22);
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+    background: var(--aamon-blue-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px -6px var(--aamon-blue-glow);
 }
 
-.aamon__export-btn:disabled {
-    opacity: 0.4;
+.aamon__delete-all-btn {
+    background: var(--aamon-red-bg);
+    border: 1px solid var(--aamon-red-line);
+    color: var(--aamon-red);
+}
+
+.aamon__delete-all-btn:hover:not(:disabled) {
+    background: var(--aamon-red-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px -6px var(--aamon-red-glow);
+}
+
+.aamon__export-btn:disabled,
+.aamon__delete-all-btn:disabled {
+    opacity: 0.45;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
+/* ==================================================================
+   LAYOUT + CARDS
+   ================================================================== */
 .aamon__main {
     display: grid;
-    grid-template-columns: 1fr 340px;
+    grid-template-columns: 1fr 360px;
     gap: 18px;
     align-items: start;
 }
@@ -484,49 +680,51 @@
     background: var(--aamon-card);
     border: 1px solid var(--aamon-border);
     border-radius: var(--aamon-radius-lg);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--aamon-shadow);
     overflow: hidden;
 }
 
 .aamon__card-head {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 18px 22px;
-    border-bottom: 1px solid var(--aamon-border);
+    gap: 12px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--aamon-hairline);
 }
 
 .aamon__card-title {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     font-family: var(--aamon-display);
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--aamon-text);
 }
 
 .aamon__count-pill {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     color: var(--aamon-blue);
-    background: rgba(59, 130, 246, 0.12);
-    border: 1px solid rgba(59, 130, 246, 0.3);
-    padding: 3px 10px;
+    background: var(--aamon-blue-bg);
+    border: 1px solid var(--aamon-blue-line);
+    padding: 4px 12px;
     border-radius: 50px;
 }
 
 .aamon__live-dot {
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: var(--aamon-green);
-    box-shadow: 0 0 10px var(--aamon-green);
     animation: aamon-pulse 1.5s ease-in-out infinite;
 }
 
+/* ==================================================================
+   TABLE
+   ================================================================== */
 .aamon__table-wrap {
     overflow-x: auto;
 }
@@ -534,183 +732,310 @@
 .aamon__table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 680px;
+    min-width: 780px;
 }
 
 .aamon__table thead tr {
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--aamon-head);
 }
 
 .aamon__table th {
-    padding: 13px 18px;
+    padding: 14px 20px;
     text-align: left;
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: 1.5px;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--aamon-text-mute);
+    color: var(--aamon-label);
     white-space: nowrap;
 }
 
 .aamon__row {
-    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    border-top: 1px solid var(--aamon-hairline);
     transition: background 0.18s ease;
 }
 
+/* Deliberately lighter than the header band above. */
 .aamon__row:hover {
-    background: rgba(255, 255, 255, 0.025);
+    background: var(--aamon-hover);
 }
 
 .aamon__row td {
-    padding: 13px 18px;
-    font-size: 13px;
+    padding: 14px 20px;
+    font-size: 13.5px;
     color: var(--aamon-text-dim);
     vertical-align: middle;
 }
 
 .aamon__td-num {
-    color: var(--aamon-text-mute) !important;
+    color: var(--aamon-label) !important;
     font-family: monospace;
-    font-size: 11px !important;
-    width: 38px;
+    font-size: 12px !important;
+    width: 44px;
 }
 
 .aamon__admin-cell {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .aamon__avatar {
-    width: 34px;
-    height: 34px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--aamon-blue), var(--aamon-purple));
-    color: #fff;
+    background: var(--aamon-blue-bg);
+    border: 2px solid var(--aamon-blue-line);
+    color: var(--aamon-blue);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 14px;
+    overflow: hidden;
+    font-weight: 800;
+    font-size: 16px;
     flex-shrink: 0;
-    box-shadow: 0 0 14px rgba(59, 130, 246, 0.25);
+}
+
+.aamon__avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+.aamon__avatar-img.is-loaded {
+    opacity: 1;
 }
 
 .aamon__admin-info {
     display: flex;
     flex-direction: column;
-    gap: 1px;
+    gap: 2px;
+    min-width: 0;
 }
 
 .aamon__admin-name {
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 13.5px;
+    font-weight: 700;
     color: var(--aamon-text);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
 }
 
 .aamon__admin-id {
-    font-size: 10px;
+    font-size: 11px;
     font-family: monospace;
-    color: var(--aamon-text-mute);
+    color: var(--aamon-label);
 }
 
 .aamon__badge {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    padding: 4px 11px;
+    gap: 7px;
+    padding: 6px 14px;
     border-radius: 50px;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 12.5px;
+    font-weight: 700;
     white-space: nowrap;
 }
 
+.aamon__badge-ico {
+    display: flex;
+}
+
+.aamon__badge-ico svg {
+    width: 13px;
+    height: 13px;
+}
+
 .aamon__badge--create {
-    background: rgba(45, 206, 137, 0.12);
+    background: var(--aamon-green-bg);
     color: var(--aamon-green);
-    border: 1px solid rgba(45, 206, 137, 0.3);
+    border: 1px solid var(--aamon-green-line);
 }
 
 .aamon__badge--update {
-    background: rgba(59, 130, 246, 0.12);
+    background: var(--aamon-blue-bg);
     color: var(--aamon-blue);
-    border: 1px solid rgba(59, 130, 246, 0.3);
+    border: 1px solid var(--aamon-blue-line);
 }
 
 .aamon__badge--delete {
-    background: rgba(239, 68, 68, 0.12);
-    color: #fca5a5;
-    border: 1px solid rgba(239, 68, 68, 0.3);
+    background: var(--aamon-red-bg);
+    color: var(--aamon-red);
+    border: 1px solid var(--aamon-red-line);
 }
 
 .aamon__badge--auth {
-    background: rgba(139, 92, 246, 0.12);
-    color: #c4b5fd;
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: var(--aamon-purple-bg);
+    color: var(--aamon-purple);
+    border: 1px solid var(--aamon-purple-line);
 }
 
 .aamon__badge--other {
-    background: rgba(100, 116, 139, 0.12);
-    color: var(--aamon-text-dim);
-    border: 1px solid rgba(100, 116, 139, 0.3);
+    background: var(--aamon-slate-bg);
+    color: var(--aamon-slate);
+    border: 1px solid var(--aamon-slate-line);
 }
 
 .aamon__target {
     font-family: monospace;
-    font-size: 12px;
+    font-size: 12.5px;
     color: var(--aamon-text);
 }
 
 .aamon__details {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--aamon-text-dim);
     display: inline-block;
-    max-width: 220px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    max-width: 230px;
+    line-height: 1.45;
 }
 
 .aamon__time {
-    font-size: 12px;
+    font-size: 12.5px;
     font-family: monospace;
-    color: var(--aamon-text-mute);
+    color: var(--aamon-label);
     white-space: nowrap;
 }
 
+.aamon__row-del {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--aamon-red-bg);
+    border: 1px solid var(--aamon-red-line);
+    border-radius: 10px;
+    color: var(--aamon-red);
+    cursor: pointer;
+    transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.aamon__row-del svg {
+    width: 15px;
+    height: 15px;
+}
+
+.aamon__row-del:hover {
+    background: var(--aamon-red-hover);
+    transform: scale(1.06);
+}
+
+/* ==================================================================
+   PAGINATION
+   ================================================================== */
+.aamon__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 18px 20px 20px;
+    border-top: 1px solid var(--aamon-hairline);
+    flex-wrap: wrap;
+}
+
+.aamon__page-btn {
+    min-width: 38px;
+    height: 38px;
+    padding: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--aamon-border);
+    border-radius: 10px;
+    color: var(--aamon-text-dim);
+    font-family: var(--aamon-font);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.aamon__page-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
+.aamon__page-btn:hover:not(:disabled):not(.aamon__page-btn--active) {
+    background: var(--aamon-head);
+    color: var(--aamon-text);
+}
+
+.aamon__page-btn--active {
+    background: var(--aamon-blue-bg);
+    border-color: var(--aamon-blue-line);
+    color: var(--aamon-blue);
+}
+
+.aamon__page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.aamon__page-gap {
+    color: var(--aamon-label);
+    padding: 0 2px;
+}
+
+/* ==================================================================
+   LOADING + EMPTY
+   ================================================================== */
 .aamon__loading,
 .aamon__empty {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 14px;
-    padding: 60px 20px;
+    gap: 16px;
+    padding: 70px 20px;
     color: var(--aamon-text-dim);
     font-size: 14px;
 }
 
+.aamon__loading p,
+.aamon__empty p {
+    margin: 0;
+}
+
 .aamon__loading--sm {
-    padding: 36px 20px;
+    padding: 40px 20px;
 }
 
 .aamon__ring {
-    width: 38px;
-    height: 38px;
-    border: 3px solid var(--aamon-border-strong);
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--aamon-border);
     border-top-color: var(--aamon-blue);
     border-radius: 50%;
     animation: aamon-spin 0.8s linear infinite;
 }
 
-.aamon__empty-icon {
-    font-size: 38px;
-    opacity: 0.4;
+.aamon__empty-icon,
+.aamon__feed-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--aamon-blue-bg);
+    color: var(--aamon-blue);
 }
 
-/* ---- Feed ---- */
+.aamon__empty-icon svg {
+    width: 32px;
+    height: 32px;
+}
+
+/* ==================================================================
+   LIVE FEED
+   ================================================================== */
 .aamon__feed-list {
-    padding: 10px 12px 16px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -723,57 +1048,62 @@
 }
 
 .aamon__feed-list::-webkit-scrollbar-thumb {
-    background: var(--aamon-blue);
+    background: var(--aamon-blue-line);
     border-radius: 10px;
 }
 
 .aamon__feed-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 11px 12px;
-    border-radius: var(--aamon-radius-sm);
+    gap: 13px;
+    padding: 12px;
+    border-radius: var(--aamon-radius-md);
     transition: background 0.18s ease;
     animation: aamon-slide 0.4s ease both;
 }
 
 .aamon__feed-item:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--aamon-hover);
 }
 
 .aamon__feed-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 11px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
     flex-shrink: 0;
 }
 
+.aamon__feed-icon svg {
+    width: 17px;
+    height: 17px;
+}
+
 .aamon__feed-icon--create {
-    background: rgba(45, 206, 137, 0.14);
-    box-shadow: 0 0 16px rgba(45, 206, 137, 0.2);
+    background: var(--aamon-green-bg);
+    color: var(--aamon-green);
 }
 
 .aamon__feed-icon--update {
-    background: rgba(59, 130, 246, 0.14);
-    box-shadow: 0 0 16px rgba(59, 130, 246, 0.2);
+    background: var(--aamon-blue-bg);
+    color: var(--aamon-blue);
 }
 
 .aamon__feed-icon--delete {
-    background: rgba(239, 68, 68, 0.14);
-    box-shadow: 0 0 16px rgba(239, 68, 68, 0.2);
+    background: var(--aamon-red-bg);
+    color: var(--aamon-red);
 }
 
 .aamon__feed-icon--auth {
-    background: rgba(139, 92, 246, 0.14);
-    box-shadow: 0 0 16px rgba(139, 92, 246, 0.2);
+    background: var(--aamon-purple-bg);
+    color: var(--aamon-purple);
 }
 
 .aamon__feed-icon--other {
-    background: rgba(100, 116, 139, 0.14);
+    background: var(--aamon-slate-bg);
+    color: var(--aamon-slate);
 }
 
 .aamon__feed-body {
@@ -782,35 +1112,171 @@
 }
 
 .aamon__feed-text {
-    font-size: 13px;
+    font-size: 13.5px;
     color: var(--aamon-text-dim);
-    margin: 0;
+    margin: 0 0 2px;
     line-height: 1.4;
 }
 
 .aamon__feed-text strong {
     color: var(--aamon-text);
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .aamon__feed-time {
-    font-size: 11px;
-    color: var(--aamon-text-mute);
+    font-size: 11.5px;
+    color: var(--aamon-label);
 }
 
 .aamon__feed-empty {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    padding: 50px 20px;
-    color: var(--aamon-text-mute);
-    font-size: 13px;
+    gap: 14px;
+    padding: 56px 20px;
+    color: var(--aamon-text-dim);
+    font-size: 13.5px;
 }
 
-.aamon__feed-empty span {
-    font-size: 32px;
-    opacity: 0.4;
+.aamon__feed-empty p {
+    margin: 0;
+}
+
+.aamon__feed-empty-icon svg {
+    width: 30px;
+    height: 30px;
+}
+
+/* ==================================================================
+   CONFIRM MODAL
+   ================================================================== */
+.aamon__modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--aamon-scrim);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: 20px;
+    font-family: 'Outfit', sans-serif;
+    animation: aamon-fade 0.2s ease;
+}
+
+.aamon__modal {
+    width: 100%;
+    max-width: 390px;
+    background: var(--aamon-modal-bg);
+    border: 1px solid var(--aamon-border);
+    border-radius: var(--aamon-radius-lg);
+    padding: 30px 26px 24px;
+    text-align: center;
+    box-shadow: var(--aamon-shadow-modal);
+    animation: aamon-modal-pop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.aamon__modal-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--aamon-red-bg);
+    border: 1px solid var(--aamon-red-line);
+    color: var(--aamon-red);
+}
+
+.aamon__modal-icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+.aamon__modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--aamon-text);
+    margin: 0 0 8px;
+}
+
+.aamon__modal-msg {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--aamon-text-dim);
+    margin: 0 0 24px;
+}
+
+.aamon__modal-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.aamon__modal-cancel,
+.aamon__modal-confirm {
+    flex: 1;
+    padding: 13px;
+    border-radius: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.aamon__modal-cancel {
+    background: var(--aamon-inset);
+    border-color: var(--aamon-border);
+    color: var(--aamon-text-dim);
+}
+
+.aamon__modal-cancel:hover:not(:disabled) {
+    background: var(--aamon-blue-bg);
+    border-color: var(--aamon-blue-line);
+    color: var(--aamon-blue);
+}
+
+.aamon__modal-confirm {
+    background: var(--aamon-red-solid);
+    border-color: var(--aamon-red-solid);
+    color: #fff;
+    box-shadow: 0 6px 18px -5px var(--aamon-red-glow);
+}
+
+.aamon__modal-confirm:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -5px var(--aamon-red-glow);
+}
+
+.aamon__modal-cancel:disabled,
+.aamon__modal-confirm:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ==================================================================
+   A11Y + MOTION
+   ================================================================== */
+.aamon__back:focus-visible,
+.aamon__search:focus-visible,
+.aamon__select:focus-visible,
+.aamon__date:focus-visible,
+.aamon__search-clear:focus-visible,
+.aamon__clear-btn:focus-visible,
+.aamon__icon-btn:focus-visible,
+.aamon__export-btn:focus-visible,
+.aamon__delete-all-btn:focus-visible,
+.aamon__row-del:focus-visible,
+.aamon__page-btn:focus-visible,
+.aamon__modal-cancel:focus-visible,
+.aamon__modal-confirm:focus-visible {
+    outline: 2px solid var(--aamon-blue);
+    outline-offset: 2px;
 }
 
 @keyframes aamon-spin {
@@ -834,12 +1300,10 @@
     0%,
     100% {
         opacity: 1;
-        transform: scale(1);
     }
 
     50% {
         opacity: 0.4;
-        transform: scale(0.7);
     }
 }
 
@@ -855,216 +1319,6 @@
     }
 }
 
-@media (max-width: 1100px) {
-    .aamon__main {
-        grid-template-columns: 1fr;
-    }
-
-    .aamon__stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .aamon__feed-list {
-        max-height: 420px;
-    }
-}
-
-@media (max-width: 600px) {
-    .aamon__page {
-        padding: 20px 14px 60px;
-    }
-
-    .aamon__title {
-        font-size: 28px;
-    }
-
-    .aamon__stats {
-        grid-template-columns: 1fr;
-    }
-
-    .aamon__filters {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .aamon__select,
-    .aamon__date-group {
-        width: 100%;
-    }
-
-    .aamon__date {
-        flex: 1;
-    }
-
-    .aamon__search-wrap {
-        flex: 0 0 auto;
-        width: 100%;
-        min-width: 0;
-    }
-}
-
-.aamon__delete-all-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 11px 18px;
-    background: rgba(239, 68, 68, 0.12);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    border-radius: var(--aamon-radius-sm);
-    color: #fca5a5;
-    font-family: var(--aamon-font);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s ease;
-}
-
-.aamon__delete-all-btn svg {
-    width: 15px;
-    height: 15px;
-    flex-shrink: 0;
-}
-
-.aamon__delete-all-btn:hover:not(:disabled) {
-    background: rgba(239, 68, 68, 0.22);
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
-}
-
-.aamon__delete-all-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-.aamon__row-del {
-    width: 32px;
-    height: 32px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.25);
-    border-radius: 8px;
-    color: #fca5a5;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.18s ease;
-}
-
-.aamon__row-del svg {
-    width: 15px;
-    height: 15px;
-}
-
-.aamon__row-del:hover {
-    background: rgba(239, 68, 68, 0.25);
-    transform: scale(1.05);
-}
-
-.aamon__modal-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(3, 6, 12, 0.7);
-    backdrop-filter: blur(6px);
-    padding: 20px;
-    font-family: 'Outfit', sans-serif;
-    animation: aamon-fade 0.2s ease;
-}
-
-.aamon__modal {
-    width: 100%;
-    max-width: 380px;
-    background: #0d1726;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 28px 26px 24px;
-    text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-    animation: aamon-modal-pop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.aamon__modal-icon {
-    width: 56px;
-    height: 56px;
-    margin: 0 auto 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 16px;
-    background: rgba(239, 68, 68, 0.12);
-    color: #ef4444;
-    box-shadow: 0 0 24px rgba(239, 68, 68, 0.25);
-}
-
-.aamon__modal-icon svg {
-    width: 26px;
-    height: 26px;
-}
-
-.aamon__modal-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
-    color: #e8edf5;
-    margin: 0 0 8px;
-}
-
-.aamon__modal-msg {
-    font-size: 13.5px;
-    line-height: 1.5;
-    color: #8294ad;
-    margin: 0 0 24px;
-}
-
-.aamon__modal-actions {
-    display: flex;
-    gap: 12px;
-}
-
-.aamon__modal-cancel,
-.aamon__modal-confirm {
-    flex: 1;
-    padding: 12px;
-    border-radius: 10px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.aamon__modal-cancel {
-    background: rgba(255, 255, 255, 0.025);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #8294ad;
-}
-
-.aamon__modal-cancel:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.05);
-    color: #e8edf5;
-}
-
-.aamon__modal-confirm {
-    background: #ef4444;
-    border: 1px solid #ef4444;
-    color: #fff;
-}
-
-.aamon__modal-confirm:hover:not(:disabled) {
-    background: #dc2626;
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
-}
-
-.aamon__modal-cancel:disabled,
-.aamon__modal-confirm:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
 @keyframes aamon-modal-pop {
     from {
         opacity: 0;
@@ -1077,129 +1331,129 @@
     }
 }
 
-/* ================================================================== */
-/* LIGHT THEME                                                        */
-/* ================================================================== */
+@media (prefers-reduced-motion: reduce) {
 
-/* Token overrides — cascade to everything using var(--aamon-*).
-   Accent colors darkened for contrast on white. */
-.aamon__page[data-theme="light"] {
-    --aamon-bg: #f1f5f9;
-    --aamon-surface: #ffffff;
-    --aamon-card: #ffffff;
-    --aamon-card-hover: #f8fafc;
-    --aamon-blue: #2563eb;
-    --aamon-purple: #7c3aed;
-    --aamon-green: #059669;
-    --aamon-red: #dc2626;
-    --aamon-cyan: #0891b2;
-    --aamon-text: #1e293b;
-    --aamon-text-dim: #64748b;
-    --aamon-text-mute: #94a3b8;
-    --aamon-border: rgba(15, 23, 42, 0.08);
-    --aamon-border-strong: rgba(15, 23, 42, 0.12);
+    .aamon__page,
+    .aamon__stat,
+    .aamon__feed-item,
+    .aamon__modal,
+    .aamon__eyebrow-dot,
+    .aamon__live-dot {
+        animation: none !important;
+    }
+
+    .aamon__stat:hover,
+    .aamon__back:hover,
+    .aamon__export-btn:hover,
+    .aamon__delete-all-btn:hover,
+    .aamon__icon-btn:hover,
+    .aamon__row-del:hover,
+    .aamon__modal-confirm:hover {
+        transform: none;
+    }
 }
 
-/* Grid overlay — dark lines (white 0.015 vanishes on white) */
-.aamon__page[data-theme="light"] .aamon__grid-bg {
-    background-image:
-        linear-gradient(rgba(15, 23, 42, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(15, 23, 42, 0.025) 1px, transparent 1px);
+/* ==================================================================
+   RESPONSIVE
+   ================================================================== */
+@media (max-width: 1180px) {
+    .aamon__main {
+        grid-template-columns: 1fr;
+    }
+
+    .aamon__stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .aamon__feed-list {
+        max-height: 420px;
+    }
+
+    .aamon__dots {
+        display: none;
+    }
 }
 
-/* Orbs — soften on light background */
-.aamon__page[data-theme="light"] .aamon__orb--1 {
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.10), transparent 70%);
+@media (max-width: 900px) {
+    .aamon__title {
+        font-size: 36px;
+    }
+
+    /* Pinned actions would collide with the heading here. */
+    .aamon__top-actions {
+        position: static;
+        margin-bottom: 18px;
+        justify-content: flex-end;
+    }
+
+    .aamon__shell {
+        padding-top: 62px;
+    }
 }
 
-.aamon__page[data-theme="light"] .aamon__orb--2 {
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.08), transparent 70%);
-}
+@media (max-width: 600px) {
+    .aamon__page {
+        padding: 18px 14px 60px;
+    }
 
-.aamon__page[data-theme="light"] .aamon__orb--3 {
-    background: radial-gradient(circle, rgba(6, 182, 212, 0.06), transparent 70%);
-}
+    .aamon__back {
+        top: 14px;
+        left: 14px;
+        padding: 10px 18px;
+        font-size: 14px;
+    }
 
-/* Card + stat shadows — dark drop shadows are too heavy on white */
-.aamon__page[data-theme="light"] .aamon__stat {
-    box-shadow: 0 2px 16px rgba(15, 23, 42, 0.06);
-}
+    .aamon__shell {
+        padding-top: 56px;
+    }
 
-.aamon__page[data-theme="light"] .aamon__table-card,
-.aamon__page[data-theme="light"] .aamon__feed-card {
-    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.07);
-}
+    .aamon__title {
+        font-size: 30px;
+    }
 
-/* Selects + date inputs — light dropdown + calendar rendering */
-.aamon__page[data-theme="light"] .aamon__select,
-.aamon__page[data-theme="light"] .aamon__date {
-    color-scheme: light;
-}
+    .aamon__stats {
+        grid-template-columns: 1fr;
+    }
 
-.aamon__page[data-theme="light"] .aamon__select option {
-    background: #ffffff;
-    color: #1e293b;
-}
+    .aamon__filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
 
-.aamon__page[data-theme="light"] .aamon__date::-webkit-calendar-picker-indicator {
-    filter: none;
-}
+    .aamon__select,
+    .aamon__date-group,
+    .aamon__icon-btn,
+    .aamon__clear-btn {
+        width: 100%;
+    }
 
-/* Table header + row dividers/hover (white-on-white otherwise) */
-.aamon__page[data-theme="light"] .aamon__table thead tr {
-    background: #f8fafc;
-}
+    .aamon__icon-btn,
+    .aamon__clear-btn {
+        justify-content: center;
+    }
 
-.aamon__page[data-theme="light"] .aamon__row {
-    border-top-color: rgba(15, 23, 42, 0.05);
-}
+    .aamon__date {
+        flex: 1;
+        min-width: 0;
+    }
 
-.aamon__page[data-theme="light"] .aamon__row:hover {
-    background: rgba(15, 23, 42, 0.03);
-}
+    .aamon__search-wrap {
+        flex: 0 0 auto;
+        width: 100%;
+        min-width: 0;
+    }
 
-.aamon__page[data-theme="light"] .aamon__feed-item:hover {
-    background: rgba(15, 23, 42, 0.03);
-}
+    .aamon__top-actions {
+        flex-direction: column;
+    }
 
-/* Badges with hardcoded light text → darker for contrast */
-.aamon__page[data-theme="light"] .aamon__badge--delete {
-    color: #dc2626;
-}
+    .aamon__export-btn,
+    .aamon__delete-all-btn {
+        width: 100%;
+        justify-content: center;
+    }
 
-.aamon__page[data-theme="light"] .aamon__badge--auth {
-    color: #7c3aed;
-}
-
-/* Red buttons using #fca5a5 → darker red on white */
-.aamon__page[data-theme="light"] .aamon__clear-btn,
-.aamon__page[data-theme="light"] .aamon__delete-all-btn,
-.aamon__page[data-theme="light"] .aamon__row-del {
-    color: #dc2626;
-}
-
-/* ===== Confirm modal — portaled to body, scope on the overlay ===== */
-.aamon__modal-overlay[data-theme="light"] .aamon__modal {
-    background: #ffffff;
-    border-color: rgba(15, 23, 42, 0.1);
-    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
-}
-
-.aamon__modal-overlay[data-theme="light"] .aamon__modal-title {
-    color: #1e293b;
-}
-
-.aamon__modal-overlay[data-theme="light"] .aamon__modal-msg {
-    color: #64748b;
-}
-
-.aamon__modal-overlay[data-theme="light"] .aamon__modal-cancel {
-    background: #f1f5f9;
-    border-color: rgba(15, 23, 42, 0.1);
-    color: #64748b;
-}
-
-.aamon__modal-overlay[data-theme="light"] .aamon__modal-cancel:hover:not(:disabled) {
-    background: #e2e8f0;
-    color: #1e293b;
+    .aamon__blob {
+        display: none;
+    }
 }

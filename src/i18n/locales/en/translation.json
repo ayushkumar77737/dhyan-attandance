@@ -1148,5 +1148,7 @@
   "ua_logDeletedOne": "Deleted activity \"{{action}}\" (log {{id}})",
   "ua_logDeletedUser": "Removed {{count}} activity log(s)",
   "ua_logDeletedAll": "Removed {{count}} activity log(s) across all users",
-  "ua_logExported": "Exported {{count}} activity log(s)"
+  "ua_logExported": "Exported {{count}} activity log(s)",
+  "alPrevPage": "Previous page",
+  "alNextPage": "Next page"
 }
