@@ -1150,5 +1150,22 @@
   "ua_logDeletedAll": "Removed {{count}} activity log(s) across all users",
   "ua_logExported": "Exported {{count}} activity log(s)",
   "alPrevPage": "Previous page",
-  "alNextPage": "Next page"
+  "alNextPage": "Next page",
+  "csTitleMain": "Contact",
+  "csTitleAccent": "Settings",
+  "csSubtitle": "Manage all contact details shown to users across the portal",
+  "csEditTitle": "Edit Contact Details",
+  "csEditDesc": "Change and save the information and channels currently for all users",
+  "csSupportPhone1": "Support Phone 1",
+  "csSupportPhone2": "Support Phone 2",
+  "csAssamAddress": "Ashram Address",
+  "csAssamAddressUrl": "Ashram Address (Google Maps URL)",
+  "csOpenTelegram": "Open Telegram...",
+  "csOpenInMaps": "Open in Google...",
+  "csResetToDefault": "Reset to Default",
+  "csSaved": "Contact settings saved",
+  "csSaveFailed": "Could not save contact settings",
+  "csResetNotice": "Reset to defaults — save to apply",
+  "csRequiredFields": "Support email and phone 1 are required",
+  "csLogUpdated": "Updated contact settings"
 }

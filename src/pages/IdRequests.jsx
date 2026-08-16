@@ -15,6 +15,121 @@ import {
 } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
+/* ---------------------------------------------------------------- */
+/* Inline icons (stroke = currentColor, so they inherit theme color) */
+/* ---------------------------------------------------------------- */
+
+const icons = {
+    back: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"
+            strokeLinecap="round" strokeLinejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+    ),
+    clipboard: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
+            strokeLinecap="round" strokeLinejoin="round">
+            <rect x="5" y="4" width="14" height="17" rx="2.6" />
+            <path d="M9 4.2a1.6 1.6 0 0 1 1.6-1.4h2.8A1.6 1.6 0 0 1 15 4.2v1.3H9V4.2Z" />
+            <path d="M9 11h6M9 15h4" />
+        </svg>
+    ),
+    hourglass: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"
+            strokeLinecap="round" strokeLinejoin="round">
+            <path d="M7 3h10M7 21h10M8 3v3.5c0 2 4 3.6 4 5.5s-4 3.5-4 5.5V21M16 3v3.5c0 2-4 3.6-4 5.5s4 3.5 4 5.5V21" />
+        </svg>
+    ),
+    check: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
+            strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+        </svg>
+    ),
+    checkCircle: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+            strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="9" />
+            <polyline points="8.2 12.3 10.8 14.9 15.8 9.7" />
+        </svg>
+    ),
+    cross: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
+            strokeLinecap="round" strokeLinejoin="round">
+            <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+    ),
+    search: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+            strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-3.6-3.6" />
+        </svg>
+    ),
+    download: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+            strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 3v12M7.5 10.5L12 15l4.5-4.5M4 20h16" />
+        </svg>
+    ),
+    trash: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+            strokeLinecap="round" strokeLinejoin="round">
+            <path d="M4 7h16M9.5 7V4.8A.8.8 0 0 1 10.3 4h3.4a.8.8 0 0 1 .8.8V7" />
+            <path d="M6.5 7l.8 12.2a1.8 1.8 0 0 0 1.8 1.8h5.8a1.8 1.8 0 0 0 1.8-1.8L17.5 7" />
+        </svg>
+    ),
+    user: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"
+            strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="8.5" r="3.6" />
+            <path d="M4.8 20a7.2 7.2 0 0 1 14.4 0" />
+        </svg>
+    ),
+    phone: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"
+            strokeLinecap="round" strokeLinejoin="round">
+            <rect x="6.5" y="2.5" width="11" height="19" rx="2.6" />
+            <path d="M10.5 18.5h3" />
+        </svg>
+    ),
+    receipt: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"
+            strokeLinecap="round" strokeLinejoin="round">
+            <path d="M6 2.8h12v18.4l-2.4-1.6-2.4 1.6-2.4-1.6-2.4 1.6L6 21.2V2.8Z" />
+            <path d="M9.4 8h5.2M9.4 12h5.2" />
+        </svg>
+    ),
+    calendar: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"
+            strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="4.5" width="18" height="17" rx="3" />
+            <path d="M3 9.5h18M8 2.5v4M16 2.5v4" />
+        </svg>
+    ),
+    inbox: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"
+            strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3.5 13.5h4l1.5 2.5h6l1.5-2.5h4" />
+            <path d="M5.6 4.5h12.8l2.1 9v4.5a2 2 0 0 1-2 2H5.5a2 2 0 0 1-2-2v-4.5l2.1-9Z" />
+        </svg>
+    ),
+    shield: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"
+            strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 3l8 3.4v5.9c0 4.8-3.3 9.2-8 10.4-4.7-1.2-8-5.6-8-10.4V6.4L12 3Z" />
+            <path d="M9 12.2l2.2 2.2 4-4.2" />
+        </svg>
+    ),
+};
+
+/* Status → icon + toast tone, in one place. */
+const statusMeta = {
+    pending: { icon: icons.hourglass, tone: "pending" },
+    approved: { icon: icons.checkCircle, tone: "approved" },
+    rejected: { icon: icons.cross, tone: "rejected" },
+};
+
 function IdRequests() {
     const navigate = useNavigate();
     const { t } = useTranslation();
@@ -28,6 +143,7 @@ function IdRequests() {
     const [toast, setToast] = useState(null);
     const [deleteModal, setDeleteModal] = useState({ show: false, docId: null });
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
+
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -134,13 +250,13 @@ function IdRequests() {
                 prev.map((r) => r.docId === docId ? { ...r, status: newStatus } : r)
             );
             showToast(
-                newStatus === "approved" ? `✅ ${t("requestApproved")}` :
-                    newStatus === "rejected" ? `❌ ${t("requestRejected")}` : `⏳ ${t("markedAsPending")}`,
+                newStatus === "approved" ? t("requestApproved") :
+                    newStatus === "rejected" ? t("requestRejected") : t("markedAsPending"),
                 newStatus
             );
         } catch (err) {
             console.error(err);
-            showToast(`❌ ${t("errorUpdatingStatus")}`, "error");
+            showToast(t("errorUpdatingStatus"), "error");
         } finally {
             setUpdatingId(null);
         }
@@ -160,10 +276,10 @@ function IdRequests() {
                 details: t("logDeletedIdRequest"),
             });
             setRequests((prev) => prev.filter((r) => r.docId !== docId));
-            showToast(`🗑️ ${t("requestDeleted")}`, "error");
+            showToast(t("requestDeleted"), "rejected");
         } catch (err) {
             console.error(err);
-            showToast(`❌ ${t("errorDeletingRequest")}`, "error");
+            showToast(t("errorDeletingRequest"), "error");
         } finally {
             setUpdatingId(null);
         }
@@ -185,7 +301,7 @@ function IdRequests() {
 
     const exportCSV = () => {
         if (filtered.length === 0) {
-            showToast(`❌ ${t("nothingToExport") || "Nothing to export"}`, "error");
+            showToast(t("nothingToExport"), "error");
             return;
         }
 
@@ -213,22 +329,24 @@ function IdRequests() {
         URL.revokeObjectURL(url);
 
         logAdminAction("export_id_requests", {
-            details:
-                t("logExportedIdRequests", { count: filtered.length, filter: filterStatus }) ||
-                `Exported ${filtered.length} ${filterStatus} ID requests`,
+            details: t("logExportedIdRequests", { count: filtered.length, filter: filterStatus }),
         });
-        showToast(`✅ ${t("requestsExported") || "Exported"}`, "approved");
+        showToast(t("requestsExported"), "approved");
     };
 
     const pendingCount = requests.filter((r) => r.status === "pending").length;
     const approvedCount = requests.filter((r) => r.status === "approved").length;
     const rejectedCount = requests.filter((r) => r.status === "rejected").length;
 
+    const statusLabel = (s) =>
+        s === "pending" ? t("pending") : s === "approved" ? t("approved") : t("rejected");
+
     return (
         <div className="idreq__page" data-theme={theme}>
-            <div className="idreq__orb idreq__orb--1" />
-            <div className="idreq__orb idreq__orb--2" />
-            <div className="idreq__orb idreq__orb--3" />
+
+            <div className="idreq__blob idreq__blob--1" />
+            <div className="idreq__blob idreq__blob--2" />
+            <div className="idreq__dots" />
             <div className="idreq__grid-overlay" />
 
             {toast && (
@@ -239,9 +357,12 @@ function IdRequests() {
             )}
 
             {deleteModal.show && (
-                <div className="idreq__modal-overlay">
-                    <div className="idreq__modal">
-                        <div className="idreq__modal-icon">🗑️</div>
+                <div
+                    className="idreq__modal-overlay"
+                    onClick={() => setDeleteModal({ show: false, docId: null })}
+                >
+                    <div className="idreq__modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="idreq__modal-icon">{icons.trash}</div>
                         <h3 className="idreq__modal-title">{t("deleteRequestTitle")}</h3>
                         <p className="idreq__modal-msg">{t("deleteRequestMsg")}</p>
                         <div className="idreq__modal-actions">
@@ -255,7 +376,7 @@ function IdRequests() {
                                 className="idreq__modal-btn idreq__modal-btn--confirm"
                                 onClick={deleteRequest}
                             >
-                                {t("yesDelete")}
+                                {icons.trash} {t("yesDelete")}
                             </button>
                         </div>
                     </div>
@@ -263,198 +384,230 @@ function IdRequests() {
             )}
 
             <button className="idreq__back-btn" onClick={() => navigate("/admin-dashboard")}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="15 18 9 12 15 6" />
-                </svg>
-                {t("back")}
+                {icons.back} {t("back")}
             </button>
 
-            <div className="idreq__header">
-                <div className="idreq__eyebrow">
-                    <span className="idreq__eyebrow-dot" />
-                    <span>{t("adminPanel")}</span>
-                </div>
-                <h1 className="idreq__title">
-                    {t("idRequests")}
-                </h1>
-                <p className="idreq__subtitle">{t("idRequestsSubtitle")}</p>
-            </div>
+            <div className="idreq__shell">
 
-            <div className="idreq__stats">
-                <div className="idreq__stat idreq__stat--total">
-                    <div className="idreq__stat-icon-wrap">📋</div>
-                    <div className="idreq__stat-body">
-                        <span className="idreq__stat-num">{requests.length}</span>
-                        <span className="idreq__stat-label">{t("total")}</span>
+                <div className="idreq__header">
+                    <div className="idreq__header-text">
+                        <div className="idreq__eyebrow">
+                            <span className="idreq__eyebrow-dot" />
+                            <span>{t("adminPanel")}</span>
+                        </div>
+                        <h1 className="idreq__title">{t("idRequests")}</h1>
+                        <p className="idreq__subtitle">{t("idRequestsSubtitle")}</p>
                     </div>
-                    <div className="idreq__stat-glow idreq__stat-glow--blue" />
-                </div>
-                <div className="idreq__stat idreq__stat--pending">
-                    <div className="idreq__stat-icon-wrap">⏳</div>
-                    <div className="idreq__stat-body">
-                        <span className="idreq__stat-num">{pendingCount}</span>
-                        <span className="idreq__stat-label">{t("pending")}</span>
+
+                    <div className="idreq__header-art" aria-hidden="true">
+                        <span className="idreq__art-halo" />
+                        <span className="idreq__art-board">{icons.clipboard}</span>
+                        <span className="idreq__art-shield">{icons.shield}</span>
                     </div>
-                    <div className="idreq__stat-glow idreq__stat-glow--yellow" />
                 </div>
-                <div className="idreq__stat idreq__stat--approved">
-                    <div className="idreq__stat-icon-wrap">✅</div>
-                    <div className="idreq__stat-body">
-                        <span className="idreq__stat-num">{approvedCount}</span>
-                        <span className="idreq__stat-label">{t("approved")}</span>
+
+                <div className="idreq__stats">
+                    <div className="idreq__stat idreq__stat--total">
+                        <span className="idreq__stat-icon-wrap">{icons.clipboard}</span>
+                        <span className="idreq__stat-body">
+                            <span className="idreq__stat-num">{requests.length}</span>
+                            <span className="idreq__stat-label">{t("total")}</span>
+                        </span>
                     </div>
-                    <div className="idreq__stat-glow idreq__stat-glow--green" />
-                </div>
-                <div className="idreq__stat idreq__stat--rejected">
-                    <div className="idreq__stat-icon-wrap">❌</div>
-                    <div className="idreq__stat-body">
-                        <span className="idreq__stat-num">{rejectedCount}</span>
-                        <span className="idreq__stat-label">{t("rejected")}</span>
+                    <div className="idreq__stat idreq__stat--pending">
+                        <span className="idreq__stat-icon-wrap">{icons.hourglass}</span>
+                        <span className="idreq__stat-body">
+                            <span className="idreq__stat-num">{pendingCount}</span>
+                            <span className="idreq__stat-label">{t("pending")}</span>
+                        </span>
                     </div>
-                    <div className="idreq__stat-glow idreq__stat-glow--red" />
-                </div>
-            </div>
-
-            <div className="idreq__controls">
-                <div className="idreq__search-wrap">
-                    <svg className="idreq__search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
-                    </svg>
-                    <input
-                        className="idreq__search"
-                        type="text"
-                        placeholder={t("searchPlaceholder")}
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value.slice(0, 50))}
-                    />
-                    {search && <button className="idreq__search-clear" onClick={() => setSearch("")}>✕</button>}
-                </div>
-                <div className="idreq__filters">
-                    {["all", "pending", "approved", "rejected"].map((f) => (
-                        <button
-                            key={f}
-                            className={`idreq__filter-btn ${filterStatus === f ? `idreq__filter-btn--${f === "all" ? "active" : f}` : ""}`}
-                            onClick={() => setFilterStatus(f)}
-                        >
-                            {f === "all" ? t("all") : t(f)}
-                        </button>
-                    ))}
-                </div>
-                <button
-                    className="idreq__export-btn"
-                    onClick={exportCSV}
-                    disabled={loading || filtered.length === 0}
-                >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
-                    </svg>
-                    {t("export") || "Export"}
-                </button>
-            </div>
-
-            <p className="idreq__count">
-                {t("showingOf")} <span>{filtered.length}</span> {t("of")} <span>{requests.length}</span> {t("requests")}
-            </p>
-
-            {loading && (
-                <div className="idreq__loading">
-                    <div className="idreq__loader">
-                        <div className="idreq__loader-ring" />
-                        <div className="idreq__loader-ring idreq__loader-ring--2" />
-                        <div className="idreq__loader-core" />
+                    <div className="idreq__stat idreq__stat--approved">
+                        <span className="idreq__stat-icon-wrap">{icons.check}</span>
+                        <span className="idreq__stat-body">
+                            <span className="idreq__stat-num">{approvedCount}</span>
+                            <span className="idreq__stat-label">{t("approved")}</span>
+                        </span>
                     </div>
-                    <p>{t("loadingRequests")}</p>
+                    <div className="idreq__stat idreq__stat--rejected">
+                        <span className="idreq__stat-icon-wrap">{icons.cross}</span>
+                        <span className="idreq__stat-body">
+                            <span className="idreq__stat-num">{rejectedCount}</span>
+                            <span className="idreq__stat-label">{t("rejected")}</span>
+                        </span>
+                    </div>
                 </div>
-            )}
 
-            {!loading && filtered.length === 0 && (
-                <div className="idreq__empty">
-                    <span className="idreq__empty-icon">📭</span>
-                    <p>{t("noRequestsFound")}</p>
+                <div className="idreq__controls">
+                    <div className="idreq__search-wrap">
+                        <span className="idreq__search-icon">{icons.search}</span>
+                        <input
+                            className="idreq__search"
+                            type="text"
+                            placeholder={t("searchPlaceholder")}
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value.slice(0, 50))}
+                        />
+                        {search && (
+                            <button
+                                className="idreq__search-clear"
+                                onClick={() => setSearch("")}
+                                aria-label={t("clearSearch")}
+                            >
+                                {icons.cross}
+                            </button>
+                        )}
+                    </div>
+
+                    <div className="idreq__filters">
+                        {["all", "pending", "approved", "rejected"].map((f) => (
+                            <button
+                                key={f}
+                                className={`idreq__filter-btn idreq__filter-btn--${f} ${filterStatus === f ? "is-active" : ""}`}
+                                onClick={() => setFilterStatus(f)}
+                            >
+                                {f === "all" ? t("all") : t(f)}
+                            </button>
+                        ))}
+                    </div>
+
+                    <button
+                        className="idreq__export-btn"
+                        onClick={exportCSV}
+                        disabled={loading || filtered.length === 0}
+                    >
+                        {icons.download} {t("exportCsv")}
+                    </button>
                 </div>
-            )}
 
-            {!loading && filtered.length > 0 && (
-                <div className="idreq__table-wrap">
-                    <table className="idreq__table">
-                        <thead>
-                            <tr className="idreq__thead-row">
-                                <th>#</th>
-                                <th>📱 {t("mobileNumberCol")}</th>
-                                <th>🧾 {t("transactionIdCol")}</th>
-                                <th>📅 {t("submittedAt")}</th>
-                                <th>{t("status")}</th>
-                                <th>{t("actions")}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filtered.map((req, index) => (
-                                <tr
-                                    key={req.docId}
-                                    className={`idreq__row idreq__row--${req.status}`}
-                                    style={{ animationDelay: `${index * 30}ms` }}
-                                >
-                                    <td className="idreq__td-num">{index + 1}</td>
-                                    <td>
-                                        <span className="idreq__mobile">+91 {req.mobileNumber}</span>
-                                    </td>
-                                    <td>
-                                        <span className="idreq__txn">{req.transactionId}</span>
-                                    </td>
-                                    <td>
-                                        <span className="idreq__date">{formatDate(req.submittedAt)}</span>
-                                    </td>
-                                    <td>
-                                        <span className={`idreq__status-badge idreq__status-badge--${req.status}`}>
-                                            {req.status === "pending" ? `⏳ ${t("pending")}` :
-                                                req.status === "approved" ? `✅ ${t("approved")}` : `❌ ${t("rejected")}`}
+                <p className="idreq__count">
+                    {t("showingOf")} <span>{filtered.length}</span> {t("of")} <span>{requests.length}</span> {t("requests")}
+                </p>
+
+                {loading && (
+                    <div className="idreq__loading">
+                        <div className="idreq__loader">
+                            <div className="idreq__loader-ring" />
+                            <div className="idreq__loader-ring idreq__loader-ring--2" />
+                            <div className="idreq__loader-core" />
+                        </div>
+                        <p>{t("loadingRequests")}</p>
+                    </div>
+                )}
+
+                {!loading && filtered.length === 0 && (
+                    <div className="idreq__empty">
+                        <span className="idreq__empty-icon">{icons.inbox}</span>
+                        <p>{t("noRequestsFound")}</p>
+                    </div>
+                )}
+
+                {!loading && filtered.length > 0 && (
+                    <div className="idreq__table-wrap">
+                        <table className="idreq__table">
+                            <thead>
+                                <tr className="idreq__thead-row">
+                                    <th>{t("alHash")}</th>
+                                    <th>
+                                        <span className="idreq__th-inner">
+                                            {icons.phone} {t("mobileNumberCol")}
                                         </span>
-                                    </td>
-                                    <td>
-                                        <div className="idreq__action-group">
-                                            {req.status !== "approved" && (
-                                                <button
-                                                    className="idreq__act-btn idreq__act-btn--approve"
-                                                    onClick={() => updateStatus(req.docId, "approved")}
-                                                    disabled={updatingId === req.docId}
-                                                >
-                                                    {updatingId === req.docId ? <span className="idreq__act-spinner" /> : t("approve")}
-                                                </button>
-                                            )}
-                                            {req.status !== "rejected" && (
-                                                <button
-                                                    className="idreq__act-btn idreq__act-btn--reject"
-                                                    onClick={() => updateStatus(req.docId, "rejected")}
-                                                    disabled={updatingId === req.docId}
-                                                >
-                                                    {updatingId === req.docId ? <span className="idreq__act-spinner" /> : t("reject")}
-                                                </button>
-                                            )}
-                                            {req.status !== "pending" && (
-                                                <button
-                                                    className="idreq__act-btn idreq__act-btn--reset"
-                                                    onClick={() => updateStatus(req.docId, "pending")}
-                                                    disabled={updatingId === req.docId}
-                                                >
-                                                    {updatingId === req.docId ? <span className="idreq__act-spinner" /> : t("pending")}
-                                                </button>
-                                            )}
-                                            <button
-                                                className="idreq__act-btn idreq__act-btn--delete"
-                                                onClick={() => setDeleteModal({ show: true, docId: req.docId })}
-                                                disabled={updatingId === req.docId}
-                                            >
-                                                {updatingId === req.docId ? <span className="idreq__act-spinner" /> : t("delete")}
-                                            </button>
-                                        </div>
-                                    </td>
+                                    </th>
+                                    <th>
+                                        <span className="idreq__th-inner">
+                                            {icons.receipt} {t("transactionIdCol")}
+                                        </span>
+                                    </th>
+                                    <th>
+                                        <span className="idreq__th-inner">
+                                            {icons.calendar} {t("submittedAt")}
+                                        </span>
+                                    </th>
+                                    <th>{t("status")}</th>
+                                    <th>{t("actions")}</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            )}
+                            </thead>
+                            <tbody>
+                                {filtered.map((req, index) => (
+                                    <tr
+                                        key={req.docId}
+                                        className={`idreq__row idreq__row--${req.status}`}
+                                        style={{ animationDelay: `${index * 30}ms` }}
+                                    >
+                                        <td className="idreq__td-num">{index + 1}</td>
+                                        <td>
+                                            <div className="idreq__mobile-cell">
+                                                <span className="idreq__mobile-avatar">{icons.user}</span>
+                                                <span className="idreq__mobile">+91 {req.mobileNumber}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span className="idreq__txn">{req.transactionId}</span>
+                                        </td>
+                                        <td>
+                                            <span className="idreq__date">{formatDate(req.submittedAt)}</span>
+                                        </td>
+                                        <td>
+                                            <span className={`idreq__status-badge idreq__status-badge--${req.status}`}>
+                                                <span className="idreq__badge-ico">
+                                                    {statusMeta[req.status]?.icon}
+                                                </span>
+                                                {statusLabel(req.status)}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div className="idreq__action-group">
+                                                {req.status !== "approved" && (
+                                                    <button
+                                                        className="idreq__act-btn idreq__act-btn--approve"
+                                                        onClick={() => updateStatus(req.docId, "approved")}
+                                                        disabled={updatingId === req.docId}
+                                                    >
+                                                        {updatingId === req.docId
+                                                            ? <span className="idreq__act-spinner" />
+                                                            : <>{icons.checkCircle} {t("approve")}</>}
+                                                    </button>
+                                                )}
+                                                {req.status !== "rejected" && (
+                                                    <button
+                                                        className="idreq__act-btn idreq__act-btn--reject"
+                                                        onClick={() => updateStatus(req.docId, "rejected")}
+                                                        disabled={updatingId === req.docId}
+                                                    >
+                                                        {updatingId === req.docId
+                                                            ? <span className="idreq__act-spinner" />
+                                                            : <>{icons.cross} {t("reject")}</>}
+                                                    </button>
+                                                )}
+                                                {req.status !== "pending" && (
+                                                    <button
+                                                        className="idreq__act-btn idreq__act-btn--reset"
+                                                        onClick={() => updateStatus(req.docId, "pending")}
+                                                        disabled={updatingId === req.docId}
+                                                    >
+                                                        {updatingId === req.docId
+                                                            ? <span className="idreq__act-spinner" />
+                                                            : <>{icons.hourglass} {t("pending")}</>}
+                                                    </button>
+                                                )}
+                                                <button
+                                                    className="idreq__act-btn idreq__act-btn--delete"
+                                                    onClick={() => setDeleteModal({ show: true, docId: req.docId })}
+                                                    disabled={updatingId === req.docId}
+                                                >
+                                                    {updatingId === req.docId
+                                                        ? <span className="idreq__act-spinner" />
+                                                        : <>{icons.trash} {t("delete")}</>}
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+
+            </div>
         </div>
     );
 }
