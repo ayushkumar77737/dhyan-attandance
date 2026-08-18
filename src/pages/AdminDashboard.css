@@ -1795,9 +1795,22 @@
   }
 }
 
-/* ================================================================== */
-/* MY ACCOUNT MODAL                                                   */
-/* ================================================================== */
+/* ==================================================================
+   PART 3 — REPLACE YOUR ENTIRE
+   "MY ACCOUNT MODAL" SECTION IN THE CSS WITH THIS.
+   (everything from @keyframes myacc-pop down to the closing
+    @media (max-width: 480px) block)
+
+   Your original was light-only with hardcoded hex. This is
+   token-driven, so light and dark both work.
+
+   Two distinctions carry the light theme:
+   1. Each accent has an INK and a SOLID — ink darkens in light for
+      text contrast, solid stays vivid for fills and the top rule.
+   2. --ma-row sits *below* the modal surface in light and *above*
+      it in dark, so a nested row is never a second white.
+   ================================================================== */
+
 @keyframes myacc-pop {
   from {
     opacity: 0;
@@ -1810,101 +1823,243 @@
   }
 }
 
+/* ==================================================================
+   TOKENS — scoped to the overlay so they don't leak into the dashboard
+   ================================================================== */
 .myacc__overlay {
+  /* surfaces */
+  --ma-modal: #0e1a29;
+  --ma-row: #142235;
+  --ma-row-hover: #182941;
+  --ma-border: rgba(255, 255, 255, 0.08);
+  --ma-hairline: rgba(255, 255, 255, 0.06);
+  --ma-shadow: 0 26px 70px rgba(0, 0, 0, 0.6);
+  --ma-scrim: rgba(4, 9, 20, 0.66);
+
+  /* type */
+  --ma-text: #e6eef8;
+  --ma-muted: #8399b3;
+  --ma-label: #6d829c;
+
+  /* blue — primary */
+  --ma-blue: #60a5fa;
+  --ma-blue-solid: #3b82f6;
+  --ma-blue-bg: rgba(59, 130, 246, 0.14);
+  --ma-blue-line: rgba(59, 130, 246, 0.32);
+
+  /* green */
+  --ma-green: #34d399;
+  --ma-green-bg: rgba(16, 185, 129, 0.14);
+  --ma-green-line: rgba(16, 185, 129, 0.34);
+
+  /* violet */
+  --ma-violet: #a78bfa;
+  --ma-violet-bg: rgba(139, 92, 246, 0.14);
+
+  /* amber */
+  --ma-amber: #fbbf24;
+  --ma-amber-bg: rgba(245, 158, 11, 0.14);
+
   position: fixed;
   inset: 0;
-  z-index: 2000;
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: rgba(4, 7, 14, 0.72);
+  background: var(--ma-scrim);
   backdrop-filter: blur(6px);
-  animation: fadeIn 0.25s ease;
+  -webkit-backdrop-filter: blur(6px);
+  animation: myacc-fade 0.2s ease;
 }
 
+.myacc__overlay[data-theme="light"] {
+  --ma-modal: #ffffff;
+  /* Below the modal surface, not a second white. */
+  --ma-row: #f6f8fc;
+  --ma-row-hover: #eef2f9;
+  --ma-border: rgba(20, 30, 60, 0.09);
+  --ma-hairline: rgba(20, 30, 60, 0.08);
+  --ma-shadow: 0 24px 60px rgba(28, 38, 84, 0.2);
+  --ma-scrim: rgba(26, 34, 70, 0.4);
+
+  --ma-text: #10182f;
+  --ma-muted: #4e5872;
+  --ma-label: #737d96;
+
+  --ma-blue: #1d5ae0;
+  --ma-blue-solid: #2563eb;
+  --ma-blue-bg: #e7eefd;
+  --ma-blue-line: #bdd0fa;
+
+  --ma-green: #12855a;
+  --ma-green-bg: #e2f7ed;
+  --ma-green-line: #9ce4c4;
+
+  --ma-violet: #7028d8;
+  --ma-violet-bg: #f1eafd;
+
+  --ma-amber: #c2600b;
+  --ma-amber-bg: #fdf1dd;
+}
+
+@keyframes myacc-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* ==================================================================
+   MODAL
+   ================================================================== */
 .myacc__modal {
   position: relative;
   width: 100%;
-  max-width: 420px;
-  background: var(--ad-bg-chart);
-  border: 1px solid var(--ad-border-strong);
-  border-radius: var(--ad-radius-lg);
-  padding: 28px 24px 24px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-  animation: myacc-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-width: 470px;
+  max-height: 92vh;
+  overflow-y: auto;
+  background: var(--ma-modal);
+  border: 1px solid var(--ma-border);
+  border-radius: 24px;
+  padding: 30px 24px 24px;
+  box-shadow: var(--ma-shadow);
+  animation: myacc-pop 0.3s ease;
 }
 
+/* Top accent rule — uses the vivid solid, not the darkened ink. */
 .myacc__modal::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--ad-blue), transparent);
-  border-radius: var(--ad-radius-lg) var(--ad-radius-lg) 0 0;
+  background: linear-gradient(90deg, transparent, var(--ma-blue-solid), transparent);
+  border-radius: 24px 24px 0 0;
 }
 
+.myacc__modal::-webkit-scrollbar {
+  width: 5px;
+}
+
+.myacc__modal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.myacc__modal::-webkit-scrollbar-thumb {
+  background: var(--ma-blue-line);
+  border-radius: 4px;
+}
+
+/* ==================================================================
+   CLOSE
+   ================================================================== */
 .myacc__close {
   position: absolute;
-  top: 14px;
+  top: 16px;
   right: 16px;
-  background: none;
-  border: none;
-  color: var(--ad-text-secondary);
-  font-size: 16px;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.myacc__close:hover {
-  color: var(--ad-text-primary);
-}
-
-.myacc__head {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 22px;
-}
-
-.myacc__avatar {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--ad-blue), var(--ad-blue-dark));
-  color: #fff;
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 800;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--ma-muted);
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.myacc__close svg {
+  width: 17px;
+  height: 17px;
+}
+
+.myacc__close:hover {
+  background: var(--ma-blue-bg);
+  border-color: var(--ma-blue-line);
+  color: var(--ma-blue);
+}
+
+/* ==================================================================
+   HEAD — avatar, name, role pill
+   ================================================================== */
+.myacc__head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-right: 44px;
+  margin-bottom: 26px;
+}
+
+.myacc__avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--ma-blue-bg);
+  border: 3px solid var(--ma-blue-line);
+  color: var(--ma-blue);
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.myacc__avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.myacc__avatar-img.is-loaded {
+  opacity: 1;
+}
+
+.myacc__head-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
 }
 
 .myacc__name {
-  font-family: var(--font-display);
-  font-size: 18px;
+  margin: 0;
+  color: var(--ma-text);
+  font-size: 28px;
   font-weight: 800;
-  color: var(--ad-text-primary);
-  margin: 0 0 5px 0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  line-height: 1.08;
+  word-break: break-word;
 }
 
 .myacc__role-tag {
   display: inline-block;
-  padding: 3px 10px;
+  padding: 6px 18px;
   border-radius: 20px;
-  background: var(--ad-blue-subtle);
-  border: 1px solid var(--ad-border-blue);
-  color: var(--ad-blue);
-  font-size: 11px;
-  font-weight: 600;
+  background: var(--ma-blue-bg);
+  border: 1px solid var(--ma-blue-line);
+  color: var(--ma-blue);
+  font-size: 13px;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1.2px;
 }
 
+/* ==================================================================
+   FIELD ROWS
+   ================================================================== */
 .myacc__fields {
   display: flex;
   flex-direction: column;
@@ -1912,58 +2067,187 @@
 }
 
 .myacc__field {
-  background: var(--ad-bg-stat);
-  border: 1px solid var(--ad-border);
-  border-radius: var(--ad-radius-md);
-  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 16px;
+  background: var(--ma-row);
+  border: 1px solid var(--ma-hairline);
+  border-radius: 18px;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.myacc__field:hover {
+  background: var(--ma-row-hover);
+  border-color: var(--ma-border);
+}
+
+.myacc__field-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  flex-shrink: 0;
+}
+
+.myacc__field-icon svg {
+  width: 25px;
+  height: 25px;
+}
+
+.myacc__field-icon--blue {
+  background: var(--ma-blue-bg);
+  color: var(--ma-blue);
+}
+
+.myacc__field-icon--green {
+  background: var(--ma-green-bg);
+  color: var(--ma-green);
+}
+
+.myacc__field-icon--violet {
+  background: var(--ma-violet-bg);
+  color: var(--ma-violet);
+}
+
+.myacc__field-icon--amber {
+  background: var(--ma-amber-bg);
+  color: var(--ma-amber);
+}
+
+.myacc__field-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .myacc__label {
   display: block;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1px;
+  color: var(--ma-label);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
   text-transform: uppercase;
-  color: var(--ad-text-secondary);
-  margin-bottom: 5px;
-}
-
-.myacc__valrow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
 }
 
 .myacc__value {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--ad-text-primary);
+  color: var(--ma-text);
+  font-size: 16px;
+  font-weight: 700;
   word-break: break-all;
+  line-height: 1.35;
 }
 
+/* ==================================================================
+   COPY BUTTON
+   ================================================================== */
 .myacc__copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   flex-shrink: 0;
-  padding: 4px 10px;
-  border: 1px solid var(--ad-border-strong);
-  border-radius: 6px;
+  min-width: 100px;
+  padding: 11px 17px;
   background: transparent;
-  color: var(--ad-text-secondary);
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 600;
+  border: 1px solid var(--ma-blue-line);
+  border-radius: 12px;
+  color: var(--ma-blue);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
   cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.myacc__copy svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
 }
 
 .myacc__copy:hover {
-  border-color: var(--ad-blue);
-  color: var(--ad-blue);
+  background: var(--ma-blue-bg);
 }
 
-@media (max-width: 480px) {
+.myacc__copy.is-copied {
+  background: var(--ma-green-bg);
+  border-color: var(--ma-green-line);
+  color: var(--ma-green);
+}
+
+.myacc__close:focus-visible,
+.myacc__copy:focus-visible {
+  outline: 2px solid var(--ma-blue);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .myacc__overlay,
   .myacc__modal {
-    padding: 24px 18px 20px;
+    animation: none !important;
+  }
+}
+
+/* ==================================================================
+   MOBILE
+   ================================================================== */
+@media (max-width: 480px) {
+  .myacc__overlay {
+    padding: 12px;
+  }
+
+  .myacc__modal {
+    padding: 26px 16px 20px;
+    border-radius: 20px;
+  }
+
+  .myacc__head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding-right: 40px;
+    margin-bottom: 20px;
+  }
+
+  .myacc__avatar {
+    width: 72px;
+    height: 72px;
+    font-size: 26px;
+  }
+
+  .myacc__name {
+    font-size: 22px;
+  }
+
+  .myacc__field {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 13px;
+  }
+
+  .myacc__field-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+  }
+
+  .myacc__field-icon svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .myacc__value {
+    font-size: 14.5px;
+  }
+
+  .myacc__copy {
+    width: 100%;
   }
 }
 

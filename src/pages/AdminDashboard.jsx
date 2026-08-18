@@ -324,6 +324,106 @@ function MeditationArt() {
   );
 }
 
+/* Cloudinary — mirrors the public_id formula in utils/cloudinaryUpload.js:
+   `${employeeId}_${name with spaces -> underscores}` */
+const MYACC_CLOUD_NAME = "dgvjq9bhl";
+
+const getAdminAvatarUrl = (employeeId, name = "", size = 200) => {
+  if (!employeeId || !name) return "";
+
+  const publicId = `${employeeId}_${name.replace(/\s+/g, "_")}`;
+
+  const transforms = [
+    "c_fill", "g_face", `w_${size}`, `h_${size}`, "r_max", "q_auto", "f_auto"
+  ].join(",");
+
+  return `https://res.cloudinary.com/${MYACC_CLOUD_NAME}/image/upload/${transforms}/${publicId}`;
+};
+
+const myaccIcons = {
+  close: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
+      strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  ),
+  idCard: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"
+      strokeLinecap="round" strokeLinejoin="round">
+      <rect x="5" y="3.5" width="14" height="17" rx="2.6" />
+      <path d="M9.6 3.6a1.5 1.5 0 0 1 1.5-1.3h1.8a1.5 1.5 0 0 1 1.5 1.3v1.2H9.6V3.6Z" />
+      <circle cx="12" cy="11" r="2.1" />
+      <path d="M8.6 16.6a3.7 3.7 0 0 1 6.8 0" />
+    </svg>
+  ),
+  mail: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"
+      strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="5" width="18" height="14" rx="2.6" />
+      <path d="M4 7.5l7.1 5a1.6 1.6 0 0 0 1.8 0l7.1-5" />
+    </svg>
+  ),
+  user: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"
+      strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="8.4" r="3.7" />
+      <path d="M4.8 20a7.2 7.2 0 0 1 14.4 0" />
+    </svg>
+  ),
+  fingerprint: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
+      strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 10.5v3.2a7 7 0 0 0 1.2 3.9" />
+      <path d="M9 9.6a3.6 3.6 0 0 1 6.1 2.6c0 2 .3 3.4 1 4.6" />
+      <path d="M6.4 12.2a5.9 5.9 0 0 1 2-4.9" />
+      <path d="M9.2 19.4A8.8 8.8 0 0 1 8 15.2v-3a4 4 0 0 1 .3-1.6" />
+      <path d="M4.6 8.4a8.6 8.6 0 0 1 13.6-1.6" />
+      <path d="M19.6 9.6c.3 1 .4 1.9.4 2.8 0 1.9.1 3.4.6 4.6" />
+    </svg>
+  ),
+  copy: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"
+      strokeLinecap="round" strokeLinejoin="round">
+      <rect x="8.5" y="8.5" width="12" height="12" rx="2.4" />
+      <path d="M15.5 5.5v-.6a2.4 2.4 0 0 0-2.4-2.4H5.9a2.4 2.4 0 0 0-2.4 2.4v7.2a2.4 2.4 0 0 0 2.4 2.4h.6" />
+    </svg>
+  ),
+  check: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6"
+      strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  ),
+};
+
+function MyAccountAvatar({ src, name, label }) {
+
+  const [showImage, setShowImage] = useState(Boolean(src));
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setShowImage(Boolean(src));
+    setLoaded(false);
+  }, [src]);
+
+  return (
+    <div className="myacc__avatar">
+      {showImage ? (
+        <img
+          src={src}
+          alt={label}
+          className={`myacc__avatar-img${loaded ? " is-loaded" : ""}`}
+          loading="lazy"
+          onLoad={() => setLoaded(true)}
+          onError={() => setShowImage(false)}
+        />
+      ) : (
+        <span>{(name || "?").charAt(0).toUpperCase()}</span>
+      )}
+    </div>
+  );
+}
+
 function AdminDashboard() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -1113,37 +1213,114 @@ function AdminDashboard() {
 
       {/* ============================ MY ACCOUNT ========================= */}
       {showAccount && createPortal(
-        <div className="myacc__overlay dash-shell" data-theme={theme} onClick={() => setShowAccount(false)}>
-          <div className="myacc__modal" onClick={(e) => e.stopPropagation()}>
-            <button className="myacc__close" onClick={() => setShowAccount(false)}>✕</button>
+        <div
+          className="myacc__overlay"
+          data-theme={theme}
+          onClick={() => setShowAccount(false)}
+        >
+          <div
+            className="myacc__modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="myacc__close"
+              onClick={() => setShowAccount(false)}
+              aria-label={t("accClose")}
+            >
+              {myaccIcons.close}
+            </button>
+
             {!adminInfo ? (
-              <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>
+              <div className="chart-spinner-wrap">
+                <div className="chart-spinner" />
+              </div>
             ) : (
               <>
                 <div className="myacc__head">
-                  <div className="myacc__avatar">{(adminInfo.name || "?").charAt(0).toUpperCase()}</div>
+                  <MyAccountAvatar
+                    src={
+                      adminInfo.profileImage ||
+                      adminInfo.photoURL ||
+                      adminInfo.profileImageUrl ||
+                      adminInfo.imageUrl ||
+                      getAdminAvatarUrl(adminInfo.id, adminInfo.name)
+                    }
+                    name={adminInfo.name}
+                    label={adminInfo.name || t("profilePhoto")}
+                  />
                   <div className="myacc__head-text">
-                    <p className="myacc__name">{adminInfo.name || "—"}</p>
-                    <span className="myacc__role-tag">{adminInfo.role || "—"}</span>
+                    <p className="myacc__name">
+                      {adminInfo.name || "—"}
+                    </p>
+                    <span className="myacc__role-tag">
+                      {adminInfo.role || "—"}
+                    </span>
                   </div>
                 </div>
+
                 <div className="myacc__fields">
                   {[
-                    { key: "id", label: t("accAdminId"), value: adminInfo.id },
-                    { key: "email", label: t("accEmail"), value: adminInfo.email },
-                    { key: "role", label: t("accRole"), value: adminInfo.role },
-                    { key: "uid", label: t("accUid"), value: adminInfo.uid },
-                  ].map((f) => (
-                    <div className="myacc__field" key={f.key}>
-                      <span className="myacc__label">{f.label}</span>
-                      <div className="myacc__valrow">
-                        <span className="myacc__value">{f.value || "—"}</span>
-                        {f.value && (
-                          <button className="myacc__copy" onClick={() => copyValue(f.value, f.key)}>
-                            {copied === f.key ? "✓" : t("copy")}
-                          </button>
-                        )}
+                    {
+                      key: "id",
+                      label: t("accAdminId"),
+                      value: adminInfo.id,
+                      tone: "blue",
+                      icon: myaccIcons.idCard,
+                    },
+                    {
+                      key: "email",
+                      label: t("accEmail"),
+                      value: adminInfo.email,
+                      tone: "green",
+                      icon: myaccIcons.mail,
+                    },
+                    {
+                      key: "role",
+                      label: t("accRole"),
+                      value: adminInfo.role,
+                      tone: "violet",
+                      icon: myaccIcons.user,
+                    },
+                    {
+                      key: "uid",
+                      label: t("accUid"),
+                      value: adminInfo.uid,
+                      tone: "amber",
+                      icon: myaccIcons.fingerprint,
+                    },
+                  ].map((field) => (
+                    <div
+                      className="myacc__field"
+                      key={field.key}
+                    >
+                      <span className={`myacc__field-icon myacc__field-icon--${field.tone}`}>
+                        {field.icon}
+                      </span>
+
+                      <div className="myacc__field-body">
+                        <span className="myacc__label">
+                          {field.label}
+                        </span>
+                        <span className="myacc__value">
+                          {field.value || "—"}
+                        </span>
                       </div>
+
+                      {field.value && (
+                        <button
+                          className={`myacc__copy${copied === field.key ? " is-copied" : ""}`}
+                          onClick={() =>
+                            copyValue(
+                              field.value,
+                              field.key
+                            )
+                          }
+                        >
+                          {copied === field.key
+                            ? <>{myaccIcons.check} {t("accCopied")}</>
+                            : <>{myaccIcons.copy} {t("copy")}</>}
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>

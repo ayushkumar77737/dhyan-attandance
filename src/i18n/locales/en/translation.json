@@ -1167,5 +1167,11 @@
   "csSaveFailed": "Could not save contact settings",
   "csResetNotice": "Reset to defaults — save to apply",
   "csRequiredFields": "Support email and phone 1 are required",
-  "csLogUpdated": "Updated contact settings"
+  "csLogUpdated": "Updated contact settings",
+  "accCopied": "Copied",
+  "accClose": "Close",
+  "aclSearchPlaceholder": "Search pages or paths",
+  "aclRestrictedLabel": "{{count}} restricted",
+  "aclNoResultsTitle": "No pages match your search",
+  "aclNoResultsHint": "Try a different page name or path."
 }
