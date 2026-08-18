@@ -12,7 +12,7 @@ import { logAdminAction } from "../utils/logAdminAction";
 /* ------------------------------------------------------------------ */
 const icons = {
     back: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
         </svg>
     ),
@@ -20,6 +20,18 @@ const icons = {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
             <polyline points="22,6 12,12 2,6" />
+        </svg>
+    ),
+    mailOpen: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" />
+            <polyline points="3,9.5 12,15 21,9.5" />
+        </svg>
+    ),
+    inbox: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M22 12h-6l-2 3h-4l-2-3H2" />
+            <path d="M5.5 5h13l3.5 7v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-7z" />
         </svg>
     ),
     trash: (
@@ -64,6 +76,48 @@ const icons = {
         </svg>
     ),
 };
+
+/* decorative corner illustration — purely visual */
+const InboxMark = () => (
+    <svg className="ctmsg-mark" viewBox="0 0 260 130" aria-hidden="true" focusable="false">
+        <defs>
+            <linearGradient id="ctmsgEnvBack" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#a5b4fc" />
+                <stop offset="100%" stopColor="#7c5cf5" />
+            </linearGradient>
+            <linearGradient id="ctmsgEnvFront" x1="0" y1="0" x2="0.6" y2="1">
+                <stop offset="0%" stopColor="#c7d2fe" />
+                <stop offset="100%" stopColor="#8b7bf7" />
+            </linearGradient>
+        </defs>
+
+        {/* dashed flight path */}
+        <path d="M28 78 C 62 24, 108 16, 150 40" fill="none" stroke="currentColor"
+            strokeWidth="2.4" strokeLinecap="round" strokeDasharray="1 9" opacity=".55" />
+
+        {/* sparkles */}
+        <path d="M18 44 l3.2 7.4 7.4 3.2 -7.4 3.2 -3.2 7.4 -3.2 -7.4 -7.4 -3.2 7.4 -3.2z" fill="currentColor" opacity=".5" />
+        <path d="M74 12 l2.2 5 5 2.2 -5 2.2 -2.2 5 -2.2 -5 -5 -2.2 5 -2.2z" fill="currentColor" opacity=".4" />
+        <path d="M188 8 l1.9 4.4 4.4 1.9 -4.4 1.9 -1.9 4.4 -1.9 -4.4 -4.4 -1.9 4.4 -1.9z" fill="currentColor" opacity=".45" />
+
+        {/* letter */}
+        <rect x="139" y="14" width="72" height="54" rx="7" fill="#fff" stroke="rgba(99,102,241,.28)" strokeWidth="1.6" />
+        <rect x="151" y="29" width="48" height="4.4" rx="2.2" fill="#c7d2fe" />
+        <rect x="151" y="39" width="40" height="4.4" rx="2.2" fill="#dbe2fe" />
+        <rect x="151" y="49" width="30" height="4.4" rx="2.2" fill="#dbe2fe" />
+
+        {/* envelope body + flap */}
+        <path d="M124 66 h100 a6 6 0 0 1 6 6 v46 a6 6 0 0 1-6 6 H124 a6 6 0 0 1-6-6 V72 a6 6 0 0 1 6-6z" fill="url(#ctmsgEnvBack)" />
+        <path d="M118 72 l56 34 56-34 v6 l-53.2 32.4 a5.4 5.4 0 0 1-5.6 0 L118 78z" fill="url(#ctmsgEnvFront)" />
+        <path d="M118 118 v-40 l52 32 z" fill="#fff" opacity=".16" />
+
+        {/* chat bubble */}
+        <circle cx="243" cy="46" r="17" fill="url(#ctmsgEnvBack)" />
+        <circle cx="236" cy="46" r="2.4" fill="#fff" />
+        <circle cx="243" cy="46" r="2.4" fill="#fff" />
+        <circle cx="250" cy="46" r="2.4" fill="#fff" />
+    </svg>
+);
 
 function ContactMessages() {
     const { t } = useTranslation();
@@ -197,6 +251,7 @@ function ContactMessages() {
     });
 
     const newCount = messages.filter((m) => m.status === "new").length;
+    const readCount = messages.filter((m) => m.status === "read").length;
 
     const formatDate = (ts) => {
         if (!ts?.seconds) return "—";
@@ -236,6 +291,7 @@ function ContactMessages() {
                             {newCount} {t("new") || "New"}
                         </span>
                     )}
+                    <InboxMark />
                 </div>
             </div>
 
@@ -245,15 +301,24 @@ function ContactMessages() {
                 {/* --- stats row --- */}
                 <div className="ctmsg-stats-row">
                     <div className="ctmsg-stat ctmsg-stat-total">
-                        <span className="ctmsg-stat-val">{messages.length}</span>
+                        <div className="ctmsg-stat-top">
+                            <span className="ctmsg-stat-val">{messages.length}</span>
+                            <span className="ctmsg-stat-icon">{icons.mail}</span>
+                        </div>
                         <span className="ctmsg-stat-label">{t("totalMessages") || "Total Messages"}</span>
                     </div>
                     <div className="ctmsg-stat ctmsg-stat-new">
-                        <span className="ctmsg-stat-val">{newCount}</span>
+                        <div className="ctmsg-stat-top">
+                            <span className="ctmsg-stat-val">{newCount}</span>
+                            <span className="ctmsg-stat-icon">{icons.inbox}</span>
+                        </div>
                         <span className="ctmsg-stat-label">{t("newMessages") || "New Messages"}</span>
                     </div>
                     <div className="ctmsg-stat ctmsg-stat-read">
-                        <span className="ctmsg-stat-val">{messages.filter((m) => m.status === "read").length}</span>
+                        <div className="ctmsg-stat-top">
+                            <span className="ctmsg-stat-val">{readCount}</span>
+                            <span className="ctmsg-stat-icon">{icons.mailOpen}</span>
+                        </div>
                         <span className="ctmsg-stat-label">{t("readMessages") || "Read Messages"}</span>
                     </div>
                 </div>
@@ -270,7 +335,9 @@ function ContactMessages() {
                             onChange={(e) => setSearch(e.target.value)}
                         />
                         {search && (
-                            <button className="ctmsg-search-clear" onClick={() => setSearch("")}>✕</button>
+                            <button className="ctmsg-search-clear" onClick={() => setSearch("")}>
+                                {icons.close}
+                            </button>
                         )}
                     </div>
 
@@ -321,99 +388,99 @@ function ContactMessages() {
                         <p className="ctmsg-empty-sub">{t("noMessagesFoundSub") || "Contact form submissions will appear here"}</p>
                     </div>
                 ) : (
-                    <div className="ctmsg-table-wrap">
-                        <table className="ctmsg-table">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        <input
-                                            type="checkbox"
-                                            className="ctmsg-checkbox"
-                                            checked={selected.length === filtered.length && filtered.length > 0}
-                                            onChange={toggleSelectAll}
-                                        />
-                                    </th>
-                                    <th>{t("sender") || "Sender"}</th>
-                                    <th>{t("subject") || "Subject"}</th>
-                                    <th>{t("phone") || "Phone"}</th>
-                                    <th>{t("memberId") || "Member ID"}</th>
-                                    <th>{t("date") || "Date"}</th>
-                                    <th>{t("status") || "Status"}</th>
-                                    <th>{t("actions") || "Actions"}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filtered.map((msg) => (
-                                    <tr
-                                        key={msg.id}
-                                        className={`ctmsg-row ${msg.status === "new" ? "ctmsg-row-new" : ""} ${selected.includes(msg.id) ? "ctmsg-row-selected" : ""}`}
-                                    >
-                                        <td>
+                    <div className="ctmsg-table-card">
+                        <div className="ctmsg-table-wrap">
+                            <table className="ctmsg-table">
+                                <thead>
+                                    <tr>
+                                        <th className="ctmsg-th-check">
                                             <input
                                                 type="checkbox"
                                                 className="ctmsg-checkbox"
-                                                checked={selected.includes(msg.id)}
-                                                onChange={() => toggleSelect(msg.id)}
+                                                checked={selected.length === filtered.length && filtered.length > 0}
+                                                onChange={toggleSelectAll}
                                             />
-                                        </td>
-                                        <td>
-                                            <div className="ctmsg-sender">
-                                                <div className="ctmsg-avatar">{getInitial(msg.name)}</div>
-                                                <div className="ctmsg-sender-info">
-                                                    <span className="ctmsg-sender-name">{msg.name || "—"}</span>
-                                                    <span className="ctmsg-sender-email">{msg.email || "—"}</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span className="ctmsg-subject">{msg.subject || "—"}</span>
-                                            <span className="ctmsg-message-preview">
-                                                {(msg.message || "").slice(0, 50)}{msg.message?.length > 50 ? "…" : ""}
-                                            </span>
-                                        </td>
-                                        <td className="ctmsg-phone">{msg.phone || "—"}</td>
-                                        <td>
-                                            {msg.memberId
-                                                ? <span className="ctmsg-member-id">{msg.memberId}</span>
-                                                : "—"}
-                                        </td>
-                                        <td className="ctmsg-date">{formatDate(msg.createdAt)}</td>
-                                        <td>
-                                            <span className={`ctmsg-status-badge ${msg.status === "new" ? "ctmsg-status-new" : "ctmsg-status-read"}`}>
-                                                {msg.status === "new" ? (t("new") || "New") : (t("read") || "Read")}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <div className="ctmsg-row-actions">
-                                                <button
-                                                    className="ctmsg-icon-btn ctmsg-icon-view"
-                                                    title={t("viewMessage") || "View Message"}
-                                                    onClick={() => openView(msg)}
-                                                >
-                                                    {icons.eye}
-                                                </button>
-                                                <button
-                                                    className="ctmsg-icon-btn ctmsg-icon-delete"
-                                                    title={t("delete") || "Delete"}
-                                                    onClick={() => { setDeleteTarget(msg.id); setConfirmOpen(true); }}
-                                                >
-                                                    {icons.trash}
-                                                </button>
-                                            </div>
-                                        </td>
+                                        </th>
+                                        <th>{t("sender") || "Sender"}</th>
+                                        <th>{t("subject") || "Subject"}</th>
+                                        <th>{t("phone") || "Phone"}</th>
+                                        <th>{t("memberId") || "Member ID"}</th>
+                                        <th>{t("date") || "Date"}</th>
+                                        <th>{t("status") || "Status"}</th>
+                                        <th>{t("actions") || "Actions"}</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
+                                </thead>
+                                <tbody>
+                                    {filtered.map((msg) => (
+                                        <tr
+                                            key={msg.id}
+                                            className={`ctmsg-row ${msg.status === "new" ? "ctmsg-row-new" : ""} ${selected.includes(msg.id) ? "ctmsg-row-selected" : ""}`}
+                                        >
+                                            <td className="ctmsg-td-check">
+                                                <input
+                                                    type="checkbox"
+                                                    className="ctmsg-checkbox"
+                                                    checked={selected.includes(msg.id)}
+                                                    onChange={() => toggleSelect(msg.id)}
+                                                />
+                                            </td>
+                                            <td>
+                                                <div className="ctmsg-sender">
+                                                    <div className="ctmsg-avatar">{getInitial(msg.name)}</div>
+                                                    <div className="ctmsg-sender-info">
+                                                        <span className="ctmsg-sender-name">{msg.name || "—"}</span>
+                                                        <span className="ctmsg-sender-email">{msg.email || "—"}</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span className="ctmsg-subject">{msg.subject || "—"}</span>
+                                                <span className="ctmsg-message-preview">
+                                                    {(msg.message || "").slice(0, 50)}{msg.message?.length > 50 ? "…" : ""}
+                                                </span>
+                                            </td>
+                                            <td className="ctmsg-phone">{msg.phone || "—"}</td>
+                                            <td>
+                                                {msg.memberId
+                                                    ? <span className="ctmsg-member-id">{msg.memberId}</span>
+                                                    : "—"}
+                                            </td>
+                                            <td className="ctmsg-date">{formatDate(msg.createdAt)}</td>
+                                            <td>
+                                                <span className={`ctmsg-status-badge ${msg.status === "new" ? "ctmsg-status-new" : "ctmsg-status-read"}`}>
+                                                    {msg.status === "new" ? (t("new") || "New") : (t("read") || "Read")}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div className="ctmsg-row-actions">
+                                                    <button
+                                                        className="ctmsg-icon-btn ctmsg-icon-view"
+                                                        title={t("viewMessage") || "View Message"}
+                                                        onClick={() => openView(msg)}
+                                                    >
+                                                        {icons.eye}
+                                                    </button>
+                                                    <button
+                                                        className="ctmsg-icon-btn ctmsg-icon-delete"
+                                                        title={t("delete") || "Delete"}
+                                                        onClick={() => { setDeleteTarget(msg.id); setConfirmOpen(true); }}
+                                                    >
+                                                        {icons.trash}
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
 
-                {/* --- result count --- */}
-                {!loading && filtered.length > 0 && (
-                    <p className="ctmsg-result-count">
-                        {t("showing") || "Showing"} {filtered.length} {t("of") || "of"} {messages.length} {t("messages") || "messages"}
-                        {selected.length > 0 && ` · ${selected.length} ${t("selected") || "selected"}`}
-                    </p>
+                        {/* --- result count --- */}
+                        <p className="ctmsg-result-count">
+                            {t("showing") || "Showing"} {filtered.length} {t("of") || "of"} {messages.length} {t("messages") || "messages"}
+                            {selected.length > 0 && ` · ${selected.length} ${t("selected") || "selected"}`}
+                        </p>
+                    </div>
                 )}
             </div>
 
