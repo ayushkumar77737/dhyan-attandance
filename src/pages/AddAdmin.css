@@ -855,3 +855,354 @@
         font-size: 11.5px;
     }
 }
+
+/* ==================================================================
+   ANIMATION LAYER
+   ------------------------------------------------------------------
+   Append this to the end of your existing stylesheet. It is additive:
+   no existing rule is rewritten, and the prefers-reduced-motion block
+   already in the file neutralises everything here via !important.
+
+   Three tiers:
+     1. ENTRANCE  — plays once on mount, staggered down the card
+     2. INTERACTION — focus, hover, press
+     3. AMBIENT   — slow loops that must never pull the eye
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes aapg-rise {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes aapg-pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes aapg-slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* the card's top hairline: a slow highlight travelling left to right */
+@keyframes aapg-sheen {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* focus ring blooming outward once, rather than snapping on */
+@keyframes aapg-ring {
+    from {
+        box-shadow: 0 0 0 0 var(--aa-violet-subtle);
+    }
+
+    to {
+        box-shadow: 0 0 0 4px var(--aa-violet-subtle);
+    }
+}
+
+@keyframes aapg-float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+@keyframes aapg-breathe {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.55;
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE — staggered down the card                              */
+/* ------------------------------------------------------------------ */
+/* Both selectors are listed because the fields may or may not be
+   wrapped in a <form>; whichever matches, the stagger still runs. */
+.aapg-card>*,
+.aapg-card>form>* {
+    animation: aapg-rise 0.5s var(--aa-ease) both;
+}
+
+.aapg-card>*:nth-child(1),
+.aapg-card>form>*:nth-child(1) {
+    animation-delay: 0.04s;
+}
+
+.aapg-card>*:nth-child(2),
+.aapg-card>form>*:nth-child(2) {
+    animation-delay: 0.09s;
+}
+
+.aapg-card>*:nth-child(3),
+.aapg-card>form>*:nth-child(3) {
+    animation-delay: 0.14s;
+}
+
+.aapg-card>*:nth-child(4),
+.aapg-card>form>*:nth-child(4) {
+    animation-delay: 0.19s;
+}
+
+.aapg-card>*:nth-child(5),
+.aapg-card>form>*:nth-child(5) {
+    animation-delay: 0.24s;
+}
+
+.aapg-card>*:nth-child(6),
+.aapg-card>form>*:nth-child(6) {
+    animation-delay: 0.29s;
+}
+
+.aapg-card>*:nth-child(7),
+.aapg-card>form>*:nth-child(7) {
+    animation-delay: 0.34s;
+}
+
+.aapg-card>*:nth-child(8),
+.aapg-card>form>*:nth-child(8) {
+    animation-delay: 0.38s;
+}
+
+.aapg-card>*:nth-child(n+9),
+.aapg-card>form>*:nth-child(n+9) {
+    animation-delay: 0.42s;
+}
+
+/* header pieces arrive slightly ahead of the body */
+.aapg-head-icon {
+    animation: aapg-pop 0.5s var(--aa-ease) 0.12s both;
+}
+
+.aapg-back {
+    animation: aapg-slide-in 0.45s var(--aa-ease) 0.06s both;
+}
+
+/* chips stagger across the auto-set row */
+.aapg-chip {
+    animation: aapg-pop 0.4s var(--aa-ease) both;
+}
+
+.aapg-chip:nth-child(1) {
+    animation-delay: 0.34s;
+}
+
+.aapg-chip:nth-child(2) {
+    animation-delay: 0.40s;
+}
+
+.aapg-chip:nth-child(3) {
+    animation-delay: 0.46s;
+}
+
+.aapg-chip:nth-child(n+4) {
+    animation-delay: 0.52s;
+}
+
+/* alerts appear mid-session, not on mount — slide from the left so the
+   motion reads as "this just arrived" rather than "page is loading" */
+.aapg-alert {
+    animation: aapg-slide-in 0.32s var(--aa-ease) both;
+}
+
+.aapg-alert svg {
+    animation: aapg-pop 0.4s var(--aa-ease) 0.1s both;
+}
+
+/* the + badge only exists once a photo can be picked */
+.aapg-avatar-plus {
+    animation: aapg-pop 0.45s var(--aa-ease) 0.35s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+/* back arrow nudges toward where it will take you */
+.aapg-back svg {
+    transition: transform 0.2s var(--aa-ease);
+}
+
+.aapg-back:hover svg {
+    transform: translateX(-3px);
+}
+
+/* input focus: ring blooms, icon lifts a hair */
+.aapg-input-wrap input:focus {
+    animation: aapg-ring 0.25s var(--aa-ease);
+}
+
+.aapg-input-icon svg {
+    transition: transform 0.2s var(--aa-ease);
+}
+
+.aapg-input-wrap:focus-within .aapg-input-icon svg {
+    transform: scale(1.12);
+}
+
+.aapg-pwd-toggle svg {
+    transition: transform 0.2s var(--aa-ease);
+}
+
+.aapg-pwd-toggle:hover svg {
+    transform: scale(1.14);
+}
+
+/* drop zone: the avatar and badge respond together, so the whole tile
+   feels like one target rather than a box with parts */
+.aapg-avatar,
+.aapg-avatar-plus {
+    transition: transform 0.25s var(--aa-ease);
+}
+
+.aapg-drop:hover:not(:disabled) .aapg-avatar {
+    transform: scale(1.05);
+}
+
+.aapg-drop:hover:not(:disabled) .aapg-avatar-plus {
+    transform: scale(1.15) rotate(90deg);
+}
+
+.aapg-drop:active:not(:disabled) {
+    transform: translateY(0) scale(0.99);
+}
+
+.aapg-chip {
+    transition: transform 0.2s var(--aa-ease), border-color 0.2s var(--aa-ease);
+}
+
+.aapg-chip:hover {
+    transform: translateY(-2px);
+    border-color: var(--aa-violet);
+}
+
+.aapg-photo-remove svg {
+    transition: transform 0.2s var(--aa-ease);
+}
+
+.aapg-photo-remove:hover:not(:disabled) svg {
+    transform: rotate(-12deg);
+}
+
+/* submit: gradient drifts on hover, plus a one-pass shine */
+.aapg-submit {
+    position: relative;
+    overflow: hidden;
+    background-size: 200% 200%;
+    transition: box-shadow 0.2s var(--aa-ease), transform 0.15s var(--aa-ease),
+        background-position 0.45s var(--aa-ease);
+}
+
+.aapg-submit:hover:not(:disabled) {
+    background-position: 100% 50%;
+}
+
+.aapg-submit::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.55s var(--aa-ease);
+    pointer-events: none;
+}
+
+.aapg-submit:hover:not(:disabled)::after {
+    left: 120%;
+}
+
+.aapg-submit svg {
+    transition: transform 0.2s var(--aa-ease);
+}
+
+.aapg-submit:hover:not(:disabled) svg {
+    transform: translateX(3px);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. AMBIENT — slow, low-contrast, never the focal point             */
+/* ------------------------------------------------------------------ */
+.aapg-card::before {
+    background-size: 200% 100%;
+    animation: aapg-sheen 7s linear infinite;
+}
+
+.aapg-photo-info-art {
+    animation: aapg-float 7s ease-in-out infinite;
+}
+
+.aapg-note-icon {
+    animation: aapg-breathe 3.4s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* SAFETY NET                                                         */
+/* ------------------------------------------------------------------ */
+/* The entrance rules set `both`, which holds opacity: 0 before the
+   delay elapses. If animations are disabled at the OS level the
+   existing reduced-motion block collapses the duration, and this
+   guarantees nothing is left invisible. */
+@media (prefers-reduced-motion: reduce) {
+
+    .aapg-card>*,
+    .aapg-card>form>*,
+    .aapg-chip,
+    .aapg-alert,
+    .aapg-avatar-plus,
+    .aapg-head-icon,
+    .aapg-back {
+        opacity: 1 !important;
+        transform: none !important;
+        animation-delay: 0s !important;
+    }
+
+    .aapg-submit::after {
+        display: none;
+    }
+}

@@ -14,6 +14,132 @@ import {
 import "./BlockedAccounts.css";
 import { logAdminAction } from "../utils/logAdminAction";
 
+/* ------------------------------------------------------------------ */
+/* Icons — replace the emoji glyphs, which rendered inconsistently     */
+/* across locales and platforms                                        */
+/* ------------------------------------------------------------------ */
+const I = {
+    chevronLeft: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+        </svg>
+    ),
+    lock: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2.5" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
+        </svg>
+    ),
+    alert: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+            <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+    ),
+    activity: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+        </svg>
+    ),
+    users: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+    ),
+    search: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+    ),
+    close: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+    ),
+    check: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+        </svg>
+    ),
+    dotCircle: (
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <circle cx="12" cy="12" r="5" />
+        </svg>
+    ),
+    refresh: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" />
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+        </svg>
+    ),
+    reset: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="23 4 23 10 17 10" />
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+        </svg>
+    ),
+    trash: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+            <path d="M10 11v6M14 11v6" />
+            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+        </svg>
+    ),
+    shield: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 2l8 3v7c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V5z" />
+            <path d="M9 12l2 2 4-4" />
+        </svg>
+    ),
+};
+
+/* decorative corner illustration — purely visual */
+const SecurityMark = () => (
+    <svg className="ba-mark" viewBox="0 0 340 180" aria-hidden="true" focusable="false">
+        <defs>
+            <linearGradient id="baShield" x1="0" y1="0" x2="0.8" y2="1">
+                <stop offset="0%" stopColor="#60a5fa" />
+                <stop offset="55%" stopColor="#2563eb" />
+                <stop offset="100%" stopColor="#1e40af" />
+            </linearGradient>
+            <linearGradient id="baCard" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#ffffff" />
+                <stop offset="100%" stopColor="#e8eefc" />
+            </linearGradient>
+            <pattern id="baDots" width="13" height="13" patternUnits="userSpaceOnUse">
+                <circle cx="2" cy="2" r="1.7" fill="currentColor" />
+            </pattern>
+        </defs>
+
+        {/* dot field */}
+        <rect x="4" y="26" width="92" height="78" fill="url(#baDots)" opacity=".45" />
+
+        {/* floating chips */}
+        <rect x="104" y="52" width="34" height="34" rx="9" fill="url(#baCard)" stroke="rgba(37,99,235,.16)" strokeWidth="1.4" />
+        <circle cx="126" cy="18" r="7" fill="#c7d7fb" />
+
+        {/* info card */}
+        <rect x="146" y="40" width="112" height="66" rx="12" fill="url(#baCard)" stroke="rgba(37,99,235,.16)" strokeWidth="1.5" />
+        <rect x="162" y="58" width="80" height="6" rx="3" fill="#c7d7fb" />
+        <rect x="162" y="72" width="64" height="6" rx="3" fill="#dbe4fa" />
+        <rect x="162" y="86" width="44" height="6" rx="3" fill="#dbe4fa" />
+
+        {/* shield with lock */}
+        <path d="M244 14 L306 36 V86 c0 38-26 62-62 76-36-14-62-38-62-76 V36 Z"
+            fill="url(#baShield)" />
+        <rect x="228" y="72" width="32" height="24" rx="5" fill="#fff" opacity=".95" />
+        <path d="M234 72 v-7 a10 10 0 0 1 20 0 v7" fill="none" stroke="#fff" strokeWidth="4.6"
+            strokeLinecap="round" opacity=".95" />
+        <circle cx="244" cy="84" r="3.4" fill="#2563eb" />
+
+        {/* avatar bubble */}
+        <circle cx="316" cy="122" r="19" fill="#e3ebfb" stroke="rgba(37,99,235,.14)" strokeWidth="1.4" />
+        <circle cx="316" cy="116" r="5.4" fill="#93b4f8" />
+        <path d="M306 132 a10 10 0 0 1 20 0z" fill="#93b4f8" />
+    </svg>
+);
+
 const BlockedAccounts = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
@@ -240,6 +366,13 @@ const BlockedAccounts = () => {
         return "ba-dot--danger";
     };
 
+    const filterIcon = (f) => {
+        if (f === "locked") return <span className="ba-tab-icon ba-tab-icon--red">{I.lock}</span>;
+        if (f === "active") return <span className="ba-tab-icon ba-tab-icon--amber">{I.alert}</span>;
+        if (f === "clean") return <span className="ba-tab-icon ba-tab-icon--green">{I.dotCircle}</span>;
+        return null;
+    };
+
     return (
         <div className="ba-wrapper" data-theme={theme}>
             <div className="ba-orb ba-orb--1" />
@@ -248,14 +381,15 @@ const BlockedAccounts = () => {
 
             {toast && (
                 <div className={`ba-toast ${toast.type === "error" ? "ba-toast--error" : "ba-toast--success"}`}>
-                    {toast.type === "success" ? "✓" : "✕"} {toast.msg}
+                    <span className="ba-toast-icon">{toast.type === "success" ? I.check : I.close}</span>
+                    {toast.msg}
                 </div>
             )}
 
             {confirmDeleteId && (
                 <div className="ba-modal-overlay" onClick={() => setConfirmDeleteId(null)}>
                     <div className="ba-modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="ba-modal-icon">🗑️</div>
+                        <div className="ba-modal-icon ba-modal-icon--red">{I.trash}</div>
                         <h3 className="ba-modal-title">{t("blockedAccounts.modal.deleteSingle.title")}</h3>
                         <p className="ba-modal-desc">
                             {t("blockedAccounts.modal.deleteSingle.description")}<br />
@@ -282,7 +416,7 @@ const BlockedAccounts = () => {
             {confirmDeleteAll && (
                 <div className="ba-modal-overlay" onClick={() => setConfirmDeleteAll(false)}>
                     <div className="ba-modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="ba-modal-icon">⚠️</div>
+                        <div className="ba-modal-icon ba-modal-icon--amber">{I.alert}</div>
                         <h3 className="ba-modal-title">{t("blockedAccounts.modal.deleteAll.title")}</h3>
                         <p className="ba-modal-desc">
                             {t("blockedAccounts.modal.deleteAll.description")}{" "}
@@ -308,66 +442,49 @@ const BlockedAccounts = () => {
             )}
 
             <button className="ba-back-btn ba-back-btn--fixed" onClick={() => navigate("/admin-dashboard")}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="15" height="15">
-                    <polyline points="15 18 9 12 15 6" />
-                </svg>
+                <span className="ba-back-icon">{I.chevronLeft}</span>
                 {t("blockedAccounts.back")}
             </button>
 
             <div className="ba-header">
-                <div className="ba-header-badge">
-                    <span className="ba-badge-dot" />
-                    {t("blockedAccounts.securityMonitor")}
+                <div className="ba-header-text">
+                    <div className="ba-header-badge">
+                        <span className="ba-badge-dot" />
+                        {t("blockedAccounts.securityMonitor")}
+                    </div>
+                    <h1 className="ba-title">
+                        {t("blockedAccounts.title")} <span className="ba-title-accent">{t("blockedAccounts.titleAccent")}</span>
+                    </h1>
+                    <p className="ba-subtitle">{t("blockedAccounts.subtitle")}</p>
                 </div>
-                <h1 className="ba-title">
-                    {t("blockedAccounts.title")} <span className="ba-title-accent">{t("blockedAccounts.titleAccent")}</span>
-                </h1>
-                <p className="ba-subtitle">{t("blockedAccounts.subtitle")}</p>
+                <SecurityMark />
             </div>
 
             <div className="ba-analytics">
                 <div className="ba-stat ba-stat--red">
-                    <div className="ba-stat-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
-                            <rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                        </svg>
-                    </div>
-                    <div>
+                    <div className="ba-stat-icon">{I.lock}</div>
+                    <div className="ba-stat-body">
                         <span className="ba-stat-label">{t("blockedAccounts.stats.lockedAccounts")}</span>
                         <span className="ba-stat-value">{loading ? "—" : totalLocked}</span>
                     </div>
                 </div>
                 <div className="ba-stat ba-stat--amber">
-                    <div className="ba-stat-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
-                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-                            <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
-                        </svg>
-                    </div>
-                    <div>
+                    <div className="ba-stat-icon">{I.alert}</div>
+                    <div className="ba-stat-body">
                         <span className="ba-stat-label">{t("blockedAccounts.stats.highRisk")}</span>
                         <span className="ba-stat-value">{loading ? "—" : highRisk}</span>
                     </div>
                 </div>
                 <div className="ba-stat ba-stat--blue">
-                    <div className="ba-stat-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
-                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-                        </svg>
-                    </div>
-                    <div>
+                    <div className="ba-stat-icon">{I.activity}</div>
+                    <div className="ba-stat-body">
                         <span className="ba-stat-label">{t("blockedAccounts.stats.totalAttempts")}</span>
                         <span className="ba-stat-value">{loading ? "—" : totalAttempts}</span>
                     </div>
                 </div>
                 <div className="ba-stat ba-stat--green">
-                    <div className="ba-stat-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" />
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                        </svg>
-                    </div>
-                    <div>
+                    <div className="ba-stat-icon">{I.users}</div>
+                    <div className="ba-stat-body">
                         <span className="ba-stat-label">{t("blockedAccounts.stats.totalRecords")}</span>
                         <span className="ba-stat-value">{loading ? "—" : records.length}</span>
                     </div>
@@ -376,9 +493,7 @@ const BlockedAccounts = () => {
 
             <div className="ba-controls">
                 <div className="ba-search-wrap">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="15" height="15" className="ba-search-icon">
-                        <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
-                    </svg>
+                    <span className="ba-search-icon">{I.search}</span>
                     <input
                         className="ba-search"
                         type="text"
@@ -386,7 +501,9 @@ const BlockedAccounts = () => {
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
-                    {search && <button className="ba-clear" onClick={() => setSearch("")}>✕</button>}
+                    {search && (
+                        <button className="ba-clear" onClick={() => setSearch("")}>{I.close}</button>
+                    )}
                 </div>
                 <div className="ba-filter-tabs">
                     {["all", "locked", "active", "clean"].map((f) => (
@@ -395,7 +512,7 @@ const BlockedAccounts = () => {
                             className={`ba-filter-tab ${filterStatus === f ? "ba-filter-tab--active" : ""}`}
                             onClick={() => setFilterStatus(f)}
                         >
-                            {f === "locked" ? "🔒 " : f === "active" ? "⚠️ " : f === "clean" ? "✓ " : ""}
+                            {filterIcon(f)}
                             {t(`blockedAccounts.filter.${f}`)}
                         </button>
                     ))}
@@ -407,10 +524,7 @@ const BlockedAccounts = () => {
                         <option value="status">{t("blockedAccounts.sort.status")}</option>
                     </select>
                     <button className="ba-refresh-btn" onClick={fetchData}>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="14" height="14">
-                            <polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" />
-                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
-                        </svg>
+                        <span className="ba-btn-icon">{I.refresh}</span>
                         {t("blockedAccounts.refresh")}
                     </button>
                 </div>
@@ -425,12 +539,7 @@ const BlockedAccounts = () => {
                         onClick={() => setConfirmDeleteAll(true)}
                         disabled={deletingAll}
                     >
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="13" height="13">
-                            <polyline points="3 6 5 6 21 6" />
-                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                            <path d="M10 11v6M14 11v6" />
-                            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
-                        </svg>
+                        <span className="ba-btn-icon">{I.trash}</span>
                         {t("blockedAccounts.section.deleteAll")} ({filtered.length})
                     </button>
                 )}
@@ -443,7 +552,7 @@ const BlockedAccounts = () => {
                 </div>
             ) : filtered.length === 0 ? (
                 <div className="ba-empty">
-                    <div className="ba-empty-icon">🛡️</div>
+                    <div className="ba-empty-icon">{I.shield}</div>
                     <h3>{t("blockedAccounts.empty.icon")}</h3>
                     <p>{search
                         ? t("blockedAccounts.empty.withSearch")
@@ -534,10 +643,7 @@ const BlockedAccounts = () => {
                                                             <span className="ba-spinner" />
                                                         ) : (
                                                             <>
-                                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="12" height="12">
-                                                                    <polyline points="23 4 23 10 17 10" />
-                                                                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-                                                                </svg>
+                                                                <span className="ba-btn-icon">{I.reset}</span>
                                                                 {t("blockedAccounts.actions.reset")}
                                                             </>
                                                         )}
@@ -552,12 +658,7 @@ const BlockedAccounts = () => {
                                                             <span className="ba-spinner ba-spinner--red" />
                                                         ) : (
                                                             <>
-                                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="12" height="12">
-                                                                    <polyline points="3 6 5 6 21 6" />
-                                                                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                                                                    <path d="M10 11v6M14 11v6" />
-                                                                    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
-                                                                </svg>
+                                                                <span className="ba-btn-icon">{I.trash}</span>
                                                                 {t("blockedAccounts.actions.delete")}
                                                             </>
                                                         )}
@@ -628,7 +729,7 @@ const BlockedAccounts = () => {
                                         >
                                             {resetting === record.id
                                                 ? <span className="ba-spinner" />
-                                                : <>↺ {t("blockedAccounts.actions.reset")}</>}
+                                                : <><span className="ba-btn-icon">{I.reset}</span>{t("blockedAccounts.actions.reset")}</>}
                                         </button>
                                         <button
                                             className="ba-delete-btn ba-delete-btn--half"
@@ -637,7 +738,7 @@ const BlockedAccounts = () => {
                                         >
                                             {deleting === record.id
                                                 ? <span className="ba-spinner ba-spinner--red" />
-                                                : <>🗑 {t("blockedAccounts.actions.delete")}</>}
+                                                : <><span className="ba-btn-icon">{I.trash}</span>{t("blockedAccounts.actions.delete")}</>}
                                         </button>
                                     </div>
                                 </div>
