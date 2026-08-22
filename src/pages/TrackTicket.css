@@ -1056,3 +1056,359 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive only — no existing rule is replaced. The page already
+   sequences hero → date bar → stats → cards, but the stats and the
+   ticket cards each animate as one block, so what follows staggers
+   them and adds status-change feedback.
+
+   Note: .trkt__page uses `overflow: hidden` on BOTH axes, so it never
+   scrolls itself and transform overshoot is clipped. The "never start
+   below the final position" rule from the table pages doesn't apply.
+
+   Reuses the existing trkt__fadeIn, trkt__slideUp, trkt__slideDown
+   and trkt__drift keyframes.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes trkt__slideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes trkt__scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes trkt__pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes trkt__dropIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* the status rail draws downward as its card lands */
+@keyframes trkt__bar-draw {
+    from {
+        transform: scaleY(0);
+    }
+
+    to {
+        transform: scaleY(1);
+    }
+}
+
+/* the sparkline wipes in from the left, as if being plotted */
+@keyframes trkt__spark-draw {
+    from {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+
+    to {
+        opacity: var(--trkt-spark-opacity);
+        transform: scaleX(1);
+    }
+}
+
+/* fires when a status class flips — confirms the transition landed
+   without needing any JS hook */
+@keyframes trkt__statusFlip {
+    0% {
+        transform: scale(0.86);
+    }
+
+    55% {
+        transform: scale(1.07);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+/* the pinned back button had no entrance of its own */
+.trkt__back-btn {
+    animation: trkt__slideLeft 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.02s both;
+}
+
+/* the stats grid faded in as one slab — its four cards now arrive in
+   sequence inside it */
+.trkt__stat-card {
+    animation: trkt__scaleIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.trkt__stat-card:nth-child(1) {
+    animation-delay: 0.18s;
+}
+
+.trkt__stat-card:nth-child(2) {
+    animation-delay: 0.24s;
+}
+
+.trkt__stat-card:nth-child(3) {
+    animation-delay: 0.30s;
+}
+
+.trkt__stat-card:nth-child(4) {
+    animation-delay: 0.36s;
+}
+
+.trkt__stat-icon {
+    animation: trkt__pop 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.40s both;
+}
+
+.trkt__stat-num {
+    animation: trkt__pop 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.44s both;
+}
+
+.trkt__spark {
+    transform-origin: left center;
+    animation: trkt__spark-draw 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.48s both;
+}
+
+/* ticket cards already slide up — they just all fired at once */
+.trkt__card:nth-child(1) {
+    animation-delay: 0.40s;
+}
+
+.trkt__card:nth-child(2) {
+    animation-delay: 0.46s;
+}
+
+.trkt__card:nth-child(3) {
+    animation-delay: 0.52s;
+}
+
+.trkt__card:nth-child(4) {
+    animation-delay: 0.58s;
+}
+
+.trkt__card:nth-child(5) {
+    animation-delay: 0.64s;
+}
+
+/* past the fifth they arrive together — a long queue would otherwise
+   leave the tail blank for seconds */
+.trkt__card:nth-child(n+6) {
+    animation-delay: 0.68s;
+}
+
+.trkt__card-bar {
+    transform-origin: top center;
+    animation: trkt__bar-draw 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+}
+
+.trkt__avatar {
+    animation: trkt__pop 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.54s both;
+}
+
+.trkt__empty-icon-wrap {
+    animation: trkt__pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+/* the banner appears after an action, so it drops from above rather
+   than reusing the page-load motion */
+.trkt__msg {
+    animation: trkt__dropIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ------------------------------------------------------------------ */
+/* STATUS FEEDBACK — the point of this page                           */
+/* ------------------------------------------------------------------ */
+/* Swapping a class restarts a CSS animation, so moving a ticket from
+   pending → in progress → resolved pops the badge with no JS hook. */
+.trkt__status--pending,
+.trkt__status--inprogress,
+.trkt__status--resolved {
+    animation: trkt__statusFlip 0.34s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+.trkt__back-btn .trkt__ico {
+    transition: transform 0.2s ease;
+}
+
+.trkt__back-btn:hover .trkt__ico {
+    transform: translateX(-3px);
+}
+
+/* the tinted icon answers a hover anywhere on its stat card */
+.trkt__stat-icon {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.trkt__stat-card:hover .trkt__stat-icon {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+/* the calendar glyph lights when the date field is focused */
+.trkt__date-icon {
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.trkt__date-wrapper:focus-within {
+    border-color: var(--trkt-primary);
+}
+
+.trkt__date-wrapper:focus-within .trkt__date-icon {
+    color: var(--trkt-primary);
+    transform: scale(1.1);
+}
+
+.trkt__search-btn .trkt__ico,
+.trkt__export-btn .trkt__ico {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.trkt__search-btn:hover:not(:disabled) .trkt__ico {
+    transform: scale(1.12);
+}
+
+/* export arrow dips, matching the download it triggers */
+.trkt__export-btn:hover:not(:disabled) .trkt__ico {
+    transform: translateY(2px);
+}
+
+/* avatar and ID chip acknowledge the ticket card together */
+.trkt__avatar {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+}
+
+.trkt__card:hover .trkt__avatar {
+    transform: scale(1.05);
+    border-color: var(--trkt-primary-line);
+}
+
+.trkt__id-chip {
+    transition: transform 0.2s ease;
+}
+
+.trkt__card:hover .trkt__id-chip {
+    transform: translateX(2px);
+}
+
+/* action icons lean the way their action goes */
+.trkt__action-btn .trkt__ico {
+    transition: transform 0.2s ease;
+}
+
+.trkt__action-btn--progress:hover .trkt__ico {
+    transform: translateX(2px);
+}
+
+.trkt__action-btn--resolve:hover .trkt__ico {
+    transform: scale(1.15);
+}
+
+.trkt__action-btn--delete .trkt__ico {
+    transform-origin: 50% 20%;
+}
+
+.trkt__action-btn--delete:hover .trkt__ico {
+    transform: rotate(-14deg);
+}
+
+.trkt__action-btn:active:not(.trkt__action-btn--done) {
+    transform: scale(0.97);
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* Entrances use `both`, which pins opacity: 0 until the delay elapses.
+   Without this the page would stay blank when motion is disabled. */
+@media (prefers-reduced-motion: reduce) {
+
+    .trkt__back-btn,
+    .trkt__stat-card,
+    .trkt__stat-icon,
+    .trkt__stat-num,
+    .trkt__avatar,
+    .trkt__empty-icon-wrap,
+    .trkt__msg,
+    .trkt__status--pending,
+    .trkt__status--inprogress,
+    .trkt__status--resolved {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    /* your existing block already stops .trkt__card; clear the delays
+       too, or a cancelled animation still holds its `both` fill */
+    .trkt__card {
+        animation-delay: 0s !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    /* the rail and sparkline must stay drawn, not collapsed to zero */
+    .trkt__card-bar {
+        animation: none !important;
+        transform: scaleY(1) !important;
+    }
+
+    .trkt__spark {
+        animation: none !important;
+        opacity: var(--trkt-spark-opacity) !important;
+        transform: none !important;
+    }
+
+    .trkt__stat-card:hover .trkt__stat-icon,
+    .trkt__card:hover .trkt__avatar,
+    .trkt__card:hover .trkt__id-chip,
+    .trkt__date-wrapper:focus-within .trkt__date-icon,
+    .trkt__back-btn:hover .trkt__ico,
+    .trkt__search-btn:hover:not(:disabled) .trkt__ico,
+    .trkt__export-btn:hover:not(:disabled) .trkt__ico,
+    .trkt__action-btn:hover .trkt__ico {
+        transform: none;
+    }
+}

@@ -1010,3 +1010,304 @@
         display: none;
     }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive only — no existing rule is replaced. The page already
+   sequences hero → stats → search → rows; what follows fills the gaps
+   inside those blocks and adds state feedback for the toggle itself.
+
+   Note: .tgls__page uses `overflow: hidden` on BOTH axes, so it never
+   scrolls itself and transform overshoot is simply clipped. The
+   "never start below the final position" rule that shapes the other
+   admin pages doesn't bite here.
+
+   Reuses the existing tgls__fadeIn, tgls__slideUp, tgls__slideDown,
+   tgls__spin, tgls__pulse and tgls__drift keyframes.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes tgls__slideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes tgls__scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes tgls__pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.09);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* fired when a status pill's class flips — confirms the toggle landed
+   without needing any JS hook */
+@keyframes tgls__statusFlip {
+    0% {
+        transform: scale(0.86);
+    }
+
+    55% {
+        transform: scale(1.06);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes tgls__dropIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE — filling the gaps in the existing sequence            */
+/* ------------------------------------------------------------------ */
+/* the pinned back button had no entrance of its own */
+.tgls__back-btn {
+    animation: tgls__slideLeft 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.02s both;
+}
+
+/* the stats block already slides in; its three cards now arrive in
+   sequence inside it rather than as one slab */
+.tgls__stat-card {
+    animation: tgls__scaleIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.tgls__stat-card:nth-child(1) {
+    animation-delay: 0.22s;
+}
+
+.tgls__stat-card:nth-child(2) {
+    animation-delay: 0.28s;
+}
+
+.tgls__stat-card:nth-child(3) {
+    animation-delay: 0.34s;
+}
+
+.tgls__stat-icon {
+    animation: tgls__pop 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.38s both;
+}
+
+.tgls__stat-num {
+    animation: tgls__pop 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.42s both;
+}
+
+/* rows already slide up — they just all fired at once */
+.tgls__row:nth-child(1) {
+    animation-delay: 0.30s;
+}
+
+.tgls__row:nth-child(2) {
+    animation-delay: 0.35s;
+}
+
+.tgls__row:nth-child(3) {
+    animation-delay: 0.40s;
+}
+
+.tgls__row:nth-child(4) {
+    animation-delay: 0.45s;
+}
+
+.tgls__row:nth-child(5) {
+    animation-delay: 0.50s;
+}
+
+.tgls__row:nth-child(6) {
+    animation-delay: 0.55s;
+}
+
+.tgls__row:nth-child(7) {
+    animation-delay: 0.60s;
+}
+
+/* past the seventh they arrive together — a long roster would
+   otherwise leave the tail blank for seconds */
+.tgls__row:nth-child(n+8) {
+    animation-delay: 0.64s;
+}
+
+.tgls__empty-icon {
+    animation: tgls__pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+/* the result banner arrives mid-session, so it drops from above
+   rather than reusing the page-load motion */
+.tgls__msg {
+    animation: tgls__dropIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ------------------------------------------------------------------ */
+/* STATE FEEDBACK — the point of this page                            */
+/* ------------------------------------------------------------------ */
+/* Adding or swapping a class restarts a CSS animation, so flipping a
+   user between enabled and disabled pops the pill and its avatar with
+   no JS involvement. */
+.tgls__status--on,
+.tgls__status--off {
+    animation: tgls__statusFlip 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tgls__avatar--on,
+.tgls__avatar--off {
+    animation: tgls__statusFlip 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+.tgls__back-btn .tgls__ico {
+    transition: transform 0.2s ease;
+}
+
+.tgls__back-btn:hover .tgls__ico {
+    transform: translateX(-3px);
+}
+
+/* the round icon answers a hover anywhere on its stat card */
+.tgls__stat-icon {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tgls__stat-card:hover .tgls__stat-icon {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.tgls__search-inner:focus-within .tgls__search-icon {
+    color: var(--tgls-red-ink);
+}
+
+.tgls__search-icon {
+    transition: color 0.2s ease;
+}
+
+/* the clear button is centred by translateY(-50%) — the rotation goes
+   on the glyph, or it would fight that positioning */
+.tgls__search-clear .tgls__ico {
+    transition: transform 0.2s ease;
+}
+
+.tgls__search-clear:hover .tgls__ico {
+    transform: rotate(90deg);
+}
+
+/* the avatar lifts with its row */
+.tgls__avatar {
+    transition: border-color 0.25s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tgls__row:hover .tgls__avatar {
+    transform: scale(1.06);
+}
+
+.tgls__id-chip {
+    transition: transform 0.2s ease;
+}
+
+.tgls__row:hover .tgls__id-chip {
+    transform: translateX(2px);
+}
+
+/* action icons lean the way their action goes */
+.tgls__btn .tgls__ico,
+.tgls__bulk-btn .tgls__ico {
+    transition: transform 0.2s ease;
+}
+
+.tgls__btn--enable:hover:not(:disabled) .tgls__ico,
+.tgls__bulk-btn--enable:hover:not(:disabled) .tgls__ico {
+    transform: scale(1.15);
+}
+
+.tgls__btn--disable:hover:not(:disabled) .tgls__ico,
+.tgls__bulk-btn--disable:hover:not(:disabled) .tgls__ico {
+    transform: rotate(-14deg);
+}
+
+.tgls__btn:active:not(:disabled),
+.tgls__bulk-btn:active:not(:disabled) {
+    transform: scale(0.97);
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* Entrances use `both`, which pins opacity: 0 until the delay elapses.
+   Without this the page would stay blank when motion is disabled. */
+@media (prefers-reduced-motion: reduce) {
+
+    .tgls__back-btn,
+    .tgls__stat-card,
+    .tgls__stat-icon,
+    .tgls__stat-num,
+    .tgls__empty-icon,
+    .tgls__msg,
+    .tgls__status--on,
+    .tgls__status--off,
+    .tgls__avatar--on,
+    .tgls__avatar--off {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    /* your existing block already stops .tgls__row; clear the delays
+       too, or a disabled animation still holds its `both` fill */
+    .tgls__row {
+        animation-delay: 0s !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .tgls__stat-card:hover .tgls__stat-icon,
+    .tgls__row:hover .tgls__avatar,
+    .tgls__row:hover .tgls__id-chip,
+    .tgls__back-btn:hover .tgls__ico,
+    .tgls__search-clear:hover .tgls__ico,
+    .tgls__btn--enable:hover:not(:disabled) .tgls__ico,
+    .tgls__btn--disable:hover:not(:disabled) .tgls__ico,
+    .tgls__bulk-btn--enable:hover:not(:disabled) .tgls__ico,
+    .tgls__bulk-btn--disable:hover:not(:disabled) .tgls__ico {
+        transform: none;
+    }
+}

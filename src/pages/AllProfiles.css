@@ -1274,3 +1274,441 @@
         display: none;
     }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive, with three deliberate overrides (noted inline).
+   Reuses the existing allprf-spin, allprf-blink, allprf-fade and
+   allprf-modal-pop keyframes.
+
+   .allprf__page sets overflow-x: hidden, which makes overflow-y
+   compute to auto — the page is its own scroll container. An entrance
+   starting BELOW its final position overhangs that container while it
+   plays and creates real scroll range.
+
+   allprf-fadeup does that (from translateY(14px)) and is used by
+   .allprf__header, .allprf__controls and .allprf__card. All three are
+   re-pointed below; the cards also gain the stagger they lacked, so
+   the grid no longer appears in one block.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes allprf-drop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes allprf-slide-left {
+    from {
+        opacity: 0;
+        transform: translateX(-14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes allprf-scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes allprf-pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* The two art cards each carry a permanent rotation (-7deg and 3deg).
+   Any transform animation must restate its own rotation in every
+   keyframe, or the tilt is dropped and the stack snaps square. */
+@keyframes allprf-art-back-in {
+    from {
+        opacity: 0;
+        transform: rotate(-7deg) scale(0.8);
+    }
+
+    to {
+        opacity: 0.7;
+        transform: rotate(-7deg) scale(1);
+    }
+}
+
+@keyframes allprf-art-front-in {
+    0% {
+        opacity: 0;
+        transform: rotate(3deg) scale(0.75);
+    }
+
+    60% {
+        transform: rotate(3deg) scale(1.05);
+    }
+
+    100% {
+        opacity: 1;
+        transform: rotate(3deg) scale(1);
+    }
+}
+
+@keyframes allprf-art-front-float {
+
+    0%,
+    100% {
+        transform: rotate(3deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(3deg) translateY(-6px);
+    }
+}
+
+/* modal rows unfold from the left as the detail panel opens */
+@keyframes allprf-row-in {
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* blobs are position: fixed — drifting them cannot affect scroll */
+@keyframes allprf-drift {
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(22px, 16px) scale(1.06);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.allprf__back-btn {
+    animation: allprf-slide-left 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.02s both;
+}
+
+/* OVERRIDE — was allprf-fadeup (rose from below) */
+.allprf__header {
+    animation: allprf-drop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
+}
+
+.allprf__count-pill {
+    animation: allprf-pop 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+/* the stacked cards deal in: back sheet first, then the front one */
+.allprf__art-card--back {
+    animation: allprf-art-back-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+}
+
+.allprf__art-card--front {
+    animation: allprf-art-front-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.26s both,
+        allprf-art-front-float 8s ease-in-out 1s infinite;
+}
+
+/* OVERRIDE — was allprf-fadeup */
+.allprf__controls {
+    animation: allprf-scale-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.14s both;
+}
+
+/* OVERRIDE — was allprf-fadeup with no delay, so the whole grid
+   appeared simultaneously. Scaling up can't overhang the container. */
+.allprf__card {
+    animation: allprf-scale-in 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.allprf__card:nth-child(1) {
+    animation-delay: 0.24s;
+}
+
+.allprf__card:nth-child(2) {
+    animation-delay: 0.28s;
+}
+
+.allprf__card:nth-child(3) {
+    animation-delay: 0.32s;
+}
+
+.allprf__card:nth-child(4) {
+    animation-delay: 0.36s;
+}
+
+.allprf__card:nth-child(5) {
+    animation-delay: 0.40s;
+}
+
+.allprf__card:nth-child(6) {
+    animation-delay: 0.44s;
+}
+
+.allprf__card:nth-child(7) {
+    animation-delay: 0.48s;
+}
+
+.allprf__card:nth-child(8) {
+    animation-delay: 0.52s;
+}
+
+.allprf__card:nth-child(9) {
+    animation-delay: 0.56s;
+}
+
+/* past the ninth they arrive together — a long roster would otherwise
+   leave the tail blank for seconds */
+.allprf__card:nth-child(n+10) {
+    animation-delay: 0.60s;
+}
+
+.allprf__empty-icon,
+.allprf__delete-icon {
+    animation: allprf-pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.14s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* MODALS — play on every open, not just page load                     */
+/* ------------------------------------------------------------------ */
+.allprf__avatar--lg {
+    animation: allprf-pop 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+}
+
+.allprf__modal-id-pill {
+    animation: allprf-pop 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+}
+
+.allprf__modal-row {
+    animation: allprf-row-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.allprf__modal-row:nth-child(1) {
+    animation-delay: 0.16s;
+}
+
+.allprf__modal-row:nth-child(2) {
+    animation-delay: 0.20s;
+}
+
+.allprf__modal-row:nth-child(3) {
+    animation-delay: 0.24s;
+}
+
+.allprf__modal-row:nth-child(4) {
+    animation-delay: 0.28s;
+}
+
+.allprf__modal-row:nth-child(5) {
+    animation-delay: 0.32s;
+}
+
+.allprf__modal-row:nth-child(6) {
+    animation-delay: 0.36s;
+}
+
+.allprf__modal-row:nth-child(n+7) {
+    animation-delay: 0.40s;
+}
+
+.allprf__edit-field {
+    animation: allprf-row-in 0.26s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.allprf__edit-field:nth-child(1) {
+    animation-delay: 0.10s;
+}
+
+.allprf__edit-field:nth-child(2) {
+    animation-delay: 0.14s;
+}
+
+.allprf__edit-field:nth-child(3) {
+    animation-delay: 0.18s;
+}
+
+.allprf__edit-field:nth-child(4) {
+    animation-delay: 0.22s;
+}
+
+.allprf__edit-field:nth-child(n+5) {
+    animation-delay: 0.26s;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+.allprf__back-btn .allprf__ico {
+    transition: transform 0.2s ease;
+}
+
+.allprf__back-btn:hover .allprf__ico {
+    transform: translateX(-3px);
+}
+
+/* export arrow dips, matching the download it triggers */
+.allprf__export-btn .allprf__ico {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.allprf__export-btn:hover .allprf__ico {
+    transform: translateY(2px);
+}
+
+.allprf__search-wrap:focus-within .allprf__search-icon {
+    color: var(--allprf-indigo);
+}
+
+.allprf__search-icon {
+    transition: color 0.2s ease;
+}
+
+/* the clear button is centred by translateY(-50%) — the rotation goes
+   on the glyph, or it would fight that positioning */
+.allprf__search-clear .allprf__ico {
+    transition: transform 0.2s ease;
+}
+
+.allprf__search-clear:hover .allprf__ico {
+    transform: rotate(90deg);
+}
+
+/* the avatar lifts with its card, alongside the existing chevron nudge */
+.allprf__avatar {
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.allprf__card:hover .allprf__avatar {
+    transform: scale(1.06);
+}
+
+.allprf__card:active {
+    transform: translateY(-1px) scale(0.995);
+}
+
+.allprf__modal-row {
+    transition: background 0.15s ease, transform 0.18s ease;
+}
+
+.allprf__modal-row:hover {
+    transform: translateX(3px);
+}
+
+.allprf__modal-close .allprf__ico,
+.allprf__edit-close .allprf__ico {
+    transition: transform 0.25s ease;
+}
+
+.allprf__modal-close:hover .allprf__ico,
+.allprf__edit-close:hover .allprf__ico {
+    transform: rotate(90deg);
+}
+
+.allprf__modal-delete-btn .allprf__ico,
+.allprf__delete-confirm-btn .allprf__ico {
+    transition: transform 0.2s ease;
+    transform-origin: 50% 20%;
+}
+
+.allprf__modal-delete-btn:hover .allprf__ico,
+.allprf__delete-confirm-btn:hover:not(:disabled) .allprf__ico {
+    transform: rotate(-14deg);
+}
+
+.allprf__edit-save:active:not(:disabled),
+.allprf__edit-cancel:active,
+.allprf__delete-confirm-btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. AMBIENT — slow, low contrast, never the focal point             */
+/* ------------------------------------------------------------------ */
+.allprf__blob--1 {
+    animation: allprf-drift 18s ease-in-out infinite alternate;
+}
+
+.allprf__blob--2 {
+    animation: allprf-drift 14s ease-in-out infinite alternate-reverse;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* Entrances use `both`, which pins opacity: 0 until the delay elapses.
+   Without this the page would stay blank when motion is disabled. */
+@media (prefers-reduced-motion: reduce) {
+
+    .allprf__back-btn,
+    .allprf__header,
+    .allprf__count-pill,
+    .allprf__controls,
+    .allprf__card,
+    .allprf__empty-icon,
+    .allprf__delete-icon,
+    .allprf__avatar--lg,
+    .allprf__modal-id-pill,
+    .allprf__modal-row,
+    .allprf__edit-field,
+    .allprf__blob--1,
+    .allprf__blob--2 {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    /* the art cards keep their tilts — `transform: none` squares them */
+    .allprf__art-card--back {
+        animation: none !important;
+        opacity: 0.7 !important;
+        transform: rotate(-7deg) !important;
+    }
+
+    .allprf__art-card--front {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: rotate(3deg) !important;
+    }
+
+    .allprf__card:hover .allprf__avatar,
+    .allprf__modal-row:hover,
+    .allprf__back-btn:hover .allprf__ico,
+    .allprf__export-btn:hover .allprf__ico,
+    .allprf__search-clear:hover .allprf__ico,
+    .allprf__modal-close:hover .allprf__ico,
+    .allprf__edit-close:hover .allprf__ico,
+    .allprf__modal-delete-btn:hover .allprf__ico {
+        transform: none;
+    }
+}

@@ -885,3 +885,292 @@
         font-size: 12px;
     }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive, with two deliberate overrides (noted inline).
+   Reuses the existing upc-fade, upc-slidedown, upc-rowin and upc-spin
+   keyframes.
+
+   .percentage-container sets overflow-x: hidden, which makes
+   overflow-y compute to auto — the page is its own scroll container.
+   upc-fadeup starts at translateY(20px), i.e. BELOW its final
+   position, so while it plays it overhangs that container and creates
+   real scroll range. .upc-stats and .upc-table are re-pointed below.
+
+   Your existing reduced-motion block collapses every animation to
+   0.001ms, which settles `both` fills on their end state — so only
+   hover transforms and the themed-opacity decorations need handling.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes upc-slideleft {
+    from {
+        opacity: 0;
+        transform: translateX(-14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes upc-scalein {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes upc-popin {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* The wave and the dot cluster both rest at a themed opacity, not 1 —
+   each keyframe animates TO its own variable so neither ends up
+   heavier than the palette intends. */
+@keyframes upc-wave-rise {
+    from {
+        opacity: 0;
+        transform: translateY(60%);
+    }
+
+    to {
+        opacity: var(--up-wave-opacity);
+        transform: translateY(0);
+    }
+}
+
+@keyframes upc-dots-in {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: var(--up-stat-dots-opacity);
+        transform: scale(1);
+    }
+}
+
+/* blobs are position: fixed — drifting them cannot affect scroll */
+@keyframes upc-drift {
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(26px, 20px) scale(1.06);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.upc-back {
+    animation: upc-slideleft 0.45s var(--up-ease) 0.02s both;
+}
+
+.upc-eyebrow {
+    animation: upc-popin 0.45s var(--up-ease) 0.14s both;
+}
+
+/* OVERRIDE — both were upc-fadeup, which rises from below */
+.upc-stats {
+    animation: upc-fade 0.5s var(--up-ease) 0.1s both;
+}
+
+.upc-table {
+    animation: upc-scalein 0.5s var(--up-ease) 0.40s both;
+}
+
+/* the three stat cards now arrive in sequence inside the row */
+.upc-stat {
+    animation: upc-scalein 0.42s var(--up-ease) both;
+}
+
+.upc-stat:nth-child(1) {
+    animation-delay: 0.18s;
+}
+
+.upc-stat:nth-child(2) {
+    animation-delay: 0.25s;
+}
+
+.upc-stat:nth-child(3) {
+    animation-delay: 0.32s;
+}
+
+.upc-stat-icon {
+    animation: upc-popin 0.4s var(--up-ease) 0.36s both;
+}
+
+.upc-stat-num {
+    animation: upc-popin 0.42s var(--up-ease) 0.40s both;
+}
+
+.upc-stat-wave {
+    animation: upc-wave-rise 0.75s var(--up-ease) 0.42s both;
+}
+
+.upc-stat-dots {
+    animation: upc-dots-in 0.5s var(--up-ease) 0.46s both;
+}
+
+.upc-export-wrap {
+    animation: upc-scalein 0.45s var(--up-ease) 0.36s both;
+}
+
+/* rows already slide in from the left — they just all fired at once */
+.upc-row:nth-child(1) {
+    animation-delay: 0.48s;
+}
+
+.upc-row:nth-child(2) {
+    animation-delay: 0.52s;
+}
+
+.upc-row:nth-child(3) {
+    animation-delay: 0.56s;
+}
+
+.upc-row:nth-child(4) {
+    animation-delay: 0.60s;
+}
+
+.upc-row:nth-child(5) {
+    animation-delay: 0.64s;
+}
+
+.upc-row:nth-child(6) {
+    animation-delay: 0.68s;
+}
+
+.upc-row:nth-child(7) {
+    animation-delay: 0.72s;
+}
+
+/* past the seventh they arrive together — a full roster would
+   otherwise leave the tail blank for seconds */
+.upc-row:nth-child(n+8) {
+    animation-delay: 0.76s;
+}
+
+.upc-state-icon {
+    animation: upc-popin 0.45s var(--up-ease) 0.1s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+/* the round icon answers a hover anywhere on its stat card */
+.upc-stat-icon {
+    transition: transform 0.25s var(--up-ease);
+}
+
+.upc-stat:hover .upc-stat-icon {
+    transform: scale(1.08) rotate(-5deg);
+}
+
+/* export arrow dips, matching the download it triggers */
+.upc-export .upc-btn-icon {
+    transition: transform 0.22s var(--up-ease);
+}
+
+.upc-export:hover:not(:disabled) .upc-btn-icon {
+    transform: translateY(2px);
+}
+
+.upc-export:active:not(:disabled) {
+    transform: scale(0.99);
+}
+
+/* the avatar lifts with its row */
+.upc-avatar {
+    transition: transform 0.22s var(--up-ease);
+}
+
+.upc-row:hover .upc-avatar {
+    transform: scale(1.06);
+}
+
+.upc-id-chip {
+    transition: transform 0.2s var(--up-ease);
+}
+
+.upc-row:hover .upc-id-chip {
+    transform: translateX(2px);
+}
+
+/* the percentage is what this page exists to show, so it gets the
+   clearest response of anything in the row */
+.upc-pct {
+    transition: transform 0.22s var(--up-ease);
+}
+
+.upc-row:hover .upc-pct {
+    transform: scale(1.05);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. AMBIENT — slow, low contrast, never the focal point             */
+/* ------------------------------------------------------------------ */
+/* both blobs were static; drifting them gives the page some life
+   without touching layout, since they're fixed */
+.upc-blob--1 {
+    animation: upc-drift 18s ease-in-out infinite alternate;
+}
+
+.upc-blob--2 {
+    animation: upc-drift 14s ease-in-out infinite alternate-reverse;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* The blanket rule already in this file collapses animations to
+   0.001ms, which settles every `both` fill on its end state. Only the
+   themed-opacity decorations and hover transforms need handling. */
+@media (prefers-reduced-motion: reduce) {
+
+    /* both rest at a themed opacity, not 1 */
+    .upc-stat-wave {
+        opacity: var(--up-wave-opacity) !important;
+        transform: none !important;
+    }
+
+    .upc-stat-dots {
+        opacity: var(--up-stat-dots-opacity) !important;
+        transform: none !important;
+    }
+
+    .upc-stat:hover .upc-stat-icon,
+    .upc-row:hover .upc-avatar,
+    .upc-row:hover .upc-id-chip,
+    .upc-row:hover .upc-pct,
+    .upc-export:hover:not(:disabled) .upc-btn-icon,
+    .upc-back:hover .upc-back-icon {
+        transform: none;
+    }
+}

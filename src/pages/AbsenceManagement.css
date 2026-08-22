@@ -1261,3 +1261,338 @@
         width: 100%;
     }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive, with two deliberate overrides (noted inline).
+   Reuses the existing abm-fade, abm-slidedown, abm-rowin, abm-pop
+   and abm-spin keyframes.
+
+   .absence-container sets overflow-x: hidden, which makes overflow-y
+   compute to auto — the page is its own scroll container. abm-fadeup
+   starts at translateY(20px), i.e. BELOW its final position, so while
+   it plays it overhangs that container and creates real scroll range.
+   .abm-stats and .abm-panel are re-pointed at a scale-in below.
+
+   Your existing reduced-motion block collapses every animation to
+   0.001ms, which settles `both` fills on their end state — so only
+   hover transforms and the two drawn elements need handling.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes abm-slideleft {
+    from {
+        opacity: 0;
+        transform: translateX(-14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes abm-scalein {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes abm-popin {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* the wave rises from the card's floor. Its end opacity is a variable
+   that differs per theme, so the keyframe animates TO that variable
+   rather than to 1. */
+@keyframes abm-wave-rise {
+    from {
+        opacity: 0;
+        transform: translateY(60%);
+    }
+
+    to {
+        opacity: var(--ab-wave-opacity);
+        transform: translateY(0);
+    }
+}
+
+/* fires when a status class flips — confirms an approve or reject
+   landed, with no JS hook */
+@keyframes abm-statusflip {
+    0% {
+        transform: scale(0.86);
+    }
+
+    55% {
+        transform: scale(1.07);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* blobs are position: fixed — drifting them cannot affect scroll */
+@keyframes abm-drift {
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(26px, 20px) scale(1.06);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.abm-back {
+    animation: abm-slideleft 0.45s var(--ab-ease) 0.02s both;
+}
+
+.abm-eyebrow {
+    animation: abm-popin 0.45s var(--ab-ease) 0.14s both;
+}
+
+/* OVERRIDE — both were abm-fadeup, which rises from below */
+.abm-stats {
+    animation: abm-fade 0.5s var(--ab-ease) 0.1s both;
+}
+
+.abm-panel {
+    animation: abm-scalein 0.5s var(--ab-ease) 0.36s both;
+}
+
+/* the four stat cards now arrive in sequence inside their grid */
+.abm-stat {
+    animation: abm-scalein 0.42s var(--ab-ease) both;
+}
+
+.abm-stat:nth-child(1) {
+    animation-delay: 0.18s;
+}
+
+.abm-stat:nth-child(2) {
+    animation-delay: 0.24s;
+}
+
+.abm-stat:nth-child(3) {
+    animation-delay: 0.30s;
+}
+
+.abm-stat:nth-child(4) {
+    animation-delay: 0.36s;
+}
+
+.abm-stat-icon {
+    animation: abm-popin 0.4s var(--ab-ease) 0.40s both;
+}
+
+.abm-stat-num {
+    animation: abm-popin 0.42s var(--ab-ease) 0.44s both;
+}
+
+.abm-stat-wave {
+    animation: abm-wave-rise 0.75s var(--ab-ease) 0.46s both;
+}
+
+/* rows already slide in from the left — they just all fired at once */
+.abm-row:nth-child(1) {
+    animation-delay: 0.46s;
+}
+
+.abm-row:nth-child(2) {
+    animation-delay: 0.50s;
+}
+
+.abm-row:nth-child(3) {
+    animation-delay: 0.54s;
+}
+
+.abm-row:nth-child(4) {
+    animation-delay: 0.58s;
+}
+
+.abm-row:nth-child(5) {
+    animation-delay: 0.62s;
+}
+
+.abm-row:nth-child(6) {
+    animation-delay: 0.66s;
+}
+
+.abm-row:nth-child(7) {
+    animation-delay: 0.70s;
+}
+
+/* past the seventh they arrive together — a long absence log would
+   otherwise leave the tail blank for seconds */
+.abm-row:nth-child(n+8) {
+    animation-delay: 0.74s;
+}
+
+.abm-state-icon,
+.abm-modal-icon {
+    animation: abm-popin 0.45s var(--ab-ease) 0.1s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* STATUS FEEDBACK                                                    */
+/* ------------------------------------------------------------------ */
+/* Swapping a class restarts a CSS animation, so approving or
+   rejecting an absence pops its badge without any JS involvement. */
+.abm-status--pending,
+.abm-status--approved,
+.abm-status--rejected {
+    animation: abm-statusflip 0.34s var(--ab-ease);
+}
+
+/* the chosen option in the modal confirms the pick */
+.abm-opt--active {
+    animation: abm-statusflip 0.3s var(--ab-ease);
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+/* the tinted icon answers a hover anywhere on its stat card */
+.abm-stat-icon {
+    transition: transform 0.25s var(--ab-ease);
+}
+
+.abm-stat:hover .abm-stat-icon {
+    transform: scale(1.08) rotate(-5deg);
+}
+
+/* export arrow dips, matching the download it triggers */
+.abm-export .abm-btn-icon {
+    transition: transform 0.22s var(--ab-ease);
+}
+
+.abm-export:hover:not(:disabled) .abm-btn-icon {
+    transform: translateY(2px);
+}
+
+/* avatar and ID chip acknowledge the row together */
+.abm-avatar {
+    transition: transform 0.22s var(--ab-ease);
+}
+
+.abm-row:hover .abm-avatar {
+    transform: scale(1.07);
+}
+
+.abm-id-chip,
+.abm-date-chip {
+    transition: transform 0.2s var(--ab-ease);
+}
+
+.abm-row:hover .abm-id-chip,
+.abm-row:hover .abm-date-chip {
+    transform: translateX(2px);
+}
+
+/* action icons lean the way their action goes */
+.abm-act svg {
+    transition: transform 0.2s var(--ab-ease);
+}
+
+.abm-act--approve:hover:not(:disabled) svg {
+    transform: scale(1.15);
+}
+
+.abm-act--reject svg {
+    transform-origin: 50% 20%;
+}
+
+.abm-act--reject:hover:not(:disabled) svg {
+    transform: rotate(-14deg);
+}
+
+.abm-act--edit:hover:not(:disabled) svg {
+    transform: rotate(-12deg) scale(1.08);
+}
+
+.abm-act:active:not(:disabled) {
+    transform: scale(0.97);
+}
+
+.abm-modal-close svg {
+    transition: transform 0.25s var(--ab-ease);
+}
+
+.abm-modal-close:hover svg {
+    transform: rotate(90deg);
+}
+
+.abm-opt svg {
+    transition: transform 0.2s var(--ab-ease);
+}
+
+.abm-opt:hover svg {
+    transform: scale(1.12);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. AMBIENT — slow, low contrast, never the focal point             */
+/* ------------------------------------------------------------------ */
+/* both blobs were static; drifting them gives the page some life
+   without touching layout, since they're fixed */
+.abm-blob--1 {
+    animation: abm-drift 18s ease-in-out infinite alternate;
+}
+
+.abm-blob--2 {
+    animation: abm-drift 14s ease-in-out infinite alternate-reverse;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* The blanket rule already in this file collapses animations to
+   0.001ms, which settles every `both` fill on its end state. Only the
+   hover transforms and the wave's themed opacity need handling. */
+@media (prefers-reduced-motion: reduce) {
+
+    /* the wave's resting opacity is a variable, not 1 */
+    .abm-stat-wave {
+        opacity: var(--ab-wave-opacity) !important;
+        transform: none !important;
+    }
+
+    .abm-stat:hover .abm-stat-icon,
+    .abm-row:hover .abm-avatar,
+    .abm-row:hover .abm-id-chip,
+    .abm-row:hover .abm-date-chip,
+    .abm-export:hover:not(:disabled) .abm-btn-icon,
+    .abm-act--approve:hover:not(:disabled) svg,
+    .abm-act--reject:hover:not(:disabled) svg,
+    .abm-act--edit:hover:not(:disabled) svg,
+    .abm-modal-close:hover svg,
+    .abm-opt:hover svg,
+    .abm-back:hover .abm-back-icon {
+        transform: none;
+    }
+}

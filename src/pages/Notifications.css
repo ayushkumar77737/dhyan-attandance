@@ -1071,3 +1071,279 @@
     width: 100%;
   }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive, with two deliberate overrides (noted inline).
+   Reuses the existing ntf-fade, ntf-slidedown, ntf-rowin, ntf-pop
+   and ntf-spin keyframes.
+
+   .notifications-container sets overflow-x: hidden, which makes
+   overflow-y compute to auto — the page is its own scroll container.
+   ntf-fadeup starts at translateY(20px), i.e. BELOW its final
+   position, so while it plays it overhangs that container and creates
+   real scroll range. .ntf-compose and .ntf-table are re-pointed at a
+   scale-in below, which can't overhang.
+
+   Your existing reduced-motion block collapses every animation to
+   0.001ms, which resolves `both` fills to their end state — so no
+   large motion-reset block is needed here, only hover transforms.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes ntf-slideleft {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes ntf-scalein {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ntf-popin {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  60% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* blobs and ring are position: fixed — animating them cannot affect
+   scroll height */
+@keyframes ntf-drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+
+  to {
+    transform: translate(26px, 18px) scale(1.06);
+  }
+}
+
+@keyframes ntf-breathe {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.12);
+    opacity: 0.6;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.ntf-back {
+  animation: ntf-slideleft 0.45s var(--nt-ease) 0.02s both;
+}
+
+.ntf-eyebrow-icon {
+  animation: ntf-popin 0.45s var(--nt-ease) 0.18s both;
+}
+
+/* OVERRIDE — both were ntf-fadeup, which rises from below */
+.ntf-compose {
+  animation: ntf-scalein 0.5s var(--nt-ease) 0.1s both;
+}
+
+.ntf-table {
+  animation: ntf-scalein 0.5s var(--nt-ease) 0.26s both;
+}
+
+.ntf-list-head {
+  animation: ntf-fade 0.45s var(--nt-ease) 0.2s both;
+}
+
+.ntf-count {
+  animation: ntf-popin 0.4s var(--nt-ease) 0.3s both;
+}
+
+/* rows already slide in from the left — they just all fired at once */
+.ntf-row:nth-child(1) {
+  animation-delay: 0.32s;
+}
+
+.ntf-row:nth-child(2) {
+  animation-delay: 0.36s;
+}
+
+.ntf-row:nth-child(3) {
+  animation-delay: 0.40s;
+}
+
+.ntf-row:nth-child(4) {
+  animation-delay: 0.44s;
+}
+
+.ntf-row:nth-child(5) {
+  animation-delay: 0.48s;
+}
+
+.ntf-row:nth-child(6) {
+  animation-delay: 0.52s;
+}
+
+.ntf-row:nth-child(7) {
+  animation-delay: 0.56s;
+}
+
+/* past the seventh they arrive together — a long notice list would
+   otherwise leave the tail blank for seconds */
+.ntf-row:nth-child(n+8) {
+  animation-delay: 0.60s;
+}
+
+.ntf-state-icon,
+.ntf-modal-icon,
+.ntf-confirm-icon {
+  animation: ntf-popin 0.45s var(--nt-ease) 0.1s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+/* the compose icon lights as the textarea takes focus */
+.ntf-input-icon {
+  transition: opacity 0.22s var(--nt-ease), transform 0.22s var(--nt-ease);
+}
+
+.ntf-input-wrap:focus-within .ntf-input-icon {
+  opacity: 1;
+  transform: scale(1.1) rotate(-8deg);
+}
+
+.ntf-submit .ntf-btn-icon {
+  transition: transform 0.22s var(--nt-ease);
+}
+
+/* the send glyph leans into the direction it sends */
+.ntf-submit:hover:not(:disabled) .ntf-btn-icon {
+  transform: translateX(3px);
+}
+
+.ntf-submit:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+/* export arrow dips, matching the download it triggers */
+.ntf-export svg {
+  transition: transform 0.22s var(--nt-ease);
+}
+
+.ntf-export:hover:not(:disabled) svg {
+  transform: translateY(2px);
+}
+
+/* the unread bullet is the row's marker — it answers the hover */
+.ntf-bullet {
+  transition: transform 0.2s var(--nt-ease);
+}
+
+.ntf-row:hover .ntf-bullet {
+  transform: scale(1.35);
+}
+
+.ntf-act svg {
+  transition: transform 0.2s var(--nt-ease);
+}
+
+.ntf-act--edit:hover:not(:disabled) svg {
+  transform: rotate(-12deg) scale(1.08);
+}
+
+.ntf-act--delete svg {
+  transform-origin: 50% 20%;
+}
+
+.ntf-act--delete:hover:not(:disabled) svg {
+  transform: rotate(-14deg);
+}
+
+.ntf-act:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.ntf-modal-close svg {
+  transition: transform 0.25s var(--nt-ease);
+}
+
+.ntf-modal-close:hover:not(:disabled) svg {
+  transform: rotate(90deg);
+}
+
+.ntf-modal-confirm svg {
+  transition: transform 0.2s var(--nt-ease);
+  transform-origin: 50% 20%;
+}
+
+.ntf-modal-confirm:hover:not(:disabled) svg {
+  transform: rotate(-14deg);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. AMBIENT — slow, low contrast, never the focal point             */
+/* ------------------------------------------------------------------ */
+/* the two blobs were static; drifting them gives the page some life
+   without touching layout, since both are fixed */
+.ntf-blob--1 {
+  animation: ntf-drift 18s ease-in-out infinite alternate;
+}
+
+.ntf-blob--2 {
+  animation: ntf-drift 14s ease-in-out infinite alternate-reverse;
+}
+
+.ntf-ring {
+  animation: ntf-breathe 9s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* The blanket rule already in this file collapses animations to
+   0.001ms, which settles every `both` fill on its end state. Only the
+   hover transforms need clearing. */
+@media (prefers-reduced-motion: reduce) {
+
+  .ntf-input-wrap:focus-within .ntf-input-icon,
+  .ntf-submit:hover:not(:disabled) .ntf-btn-icon,
+  .ntf-export:hover:not(:disabled) svg,
+  .ntf-row:hover .ntf-bullet,
+  .ntf-act--edit:hover:not(:disabled) svg,
+  .ntf-act--delete:hover:not(:disabled) svg,
+  .ntf-modal-close:hover:not(:disabled) svg,
+  .ntf-modal-confirm:hover:not(:disabled) svg,
+  .ntf-back:hover .ntf-back-icon {
+    transform: none;
+  }
+}

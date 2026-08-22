@@ -911,3 +911,319 @@
     width: 100%;
   }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive, with one deliberate override (noted inline).
+   Reuses the existing mkat-fadeIn and mkat-spin keyframes.
+
+   .markattendance-container sets overflow-x: hidden, which makes
+   overflow-y compute to auto — the page is its own scroll container.
+   mkat-fadeUp starts at translateY(16px), i.e. BELOW its final
+   position, so .mkat-panel is re-pointed at a scale-in.
+
+   Your existing reduced-motion block collapses every animation to
+   0.001ms, which settles `both` fills on their end state — so only
+   the gradient title and the hover transforms need handling.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes mkat-slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes mkat-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mkat-scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes mkat-popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  60% {
+    transform: scale(1.09);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* the status dot beats once when its value changes. Absolutely
+   positioned, so every keyframe keeps scale only — no translate. */
+@keyframes mkat-dotSet {
+  0% {
+    transform: scale(0.5);
+  }
+
+  55% {
+    transform: scale(1.35);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* a slow pass of light through the gradient lettering */
+@keyframes mkat-titleSheen {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* the dot grids are position: absolute, so they breathe on opacity
+   only — a transform could extend the page's scroll range */
+@keyframes mkat-dotsBreathe {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.mkat-back {
+  animation: mkat-slideLeft 0.45s var(--mk-ease) 0.02s both;
+}
+
+.mkat-title {
+  animation: mkat-drop 0.5s var(--mk-ease) 0.1s both;
+}
+
+.mkat-subtitle {
+  animation: mkat-drop 0.5s var(--mk-ease) 0.15s both;
+}
+
+.mkat-controls {
+  animation: mkat-scaleIn 0.45s var(--mk-ease) 0.2s both;
+}
+
+/* OVERRIDE — was mkat-fadeUp, which rises from below */
+.mkat-panel {
+  animation: mkat-scaleIn 0.5s var(--mk-ease) 0.26s both;
+}
+
+.mkat-panel-icon {
+  animation: mkat-popIn 0.45s var(--mk-ease) 0.34s both;
+}
+
+/* rows had no entrance of their own — fade only, since a transform on
+   every row of a long roster shifts the scroll height mid-animation */
+.mkat-row {
+  animation: mkat-fadeIn 0.35s var(--mk-ease) both;
+}
+
+.mkat-row:nth-child(1) {
+  animation-delay: 0.36s;
+}
+
+.mkat-row:nth-child(2) {
+  animation-delay: 0.40s;
+}
+
+.mkat-row:nth-child(3) {
+  animation-delay: 0.44s;
+}
+
+.mkat-row:nth-child(4) {
+  animation-delay: 0.48s;
+}
+
+.mkat-row:nth-child(5) {
+  animation-delay: 0.52s;
+}
+
+.mkat-row:nth-child(6) {
+  animation-delay: 0.56s;
+}
+
+.mkat-row:nth-child(7) {
+  animation-delay: 0.60s;
+}
+
+.mkat-row:nth-child(8) {
+  animation-delay: 0.64s;
+}
+
+/* past the eighth they arrive together — a full roster would
+   otherwise leave the tail blank for seconds */
+.mkat-row:nth-child(n+9) {
+  animation-delay: 0.68s;
+}
+
+.mkat-save {
+  animation: mkat-fadeIn 0.4s var(--mk-ease) 0.7s both;
+}
+
+/* the banner appears after an action, so it drops from above rather
+   than reusing the page-load fade */
+.mkat-message {
+  animation: mkat-drop 0.32s var(--mk-ease) both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. STATUS FEEDBACK — the point of this page                        */
+/* ------------------------------------------------------------------ */
+/* Changing data-status swaps which rule matches, which restarts the
+   animation — so picking Present or Absent makes that row's dot beat
+   once, with no JS hook. The neutral state stays still. */
+.mkat-select-wrap[data-status="Present"] .mkat-status-dot,
+.mkat-select-wrap[data-status="Absent"] .mkat-status-dot {
+  animation: mkat-dotSet 0.36s var(--mk-ease);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+.mkat-date-icon {
+  transition: transform 0.22s var(--mk-ease);
+}
+
+.mkat-date-wrap:focus-within .mkat-date-icon {
+  transform: scale(1.12);
+}
+
+/* the chevron flips while the select has focus — the closest CSS can
+   get to an open-state indicator on a native <select> */
+.mkat-select-chevron {
+  transition: transform 0.22s var(--mk-ease), color 0.22s var(--mk-ease);
+}
+
+.mkat-select-wrap:focus-within .mkat-select-chevron {
+  transform: rotate(180deg);
+  color: var(--mk-violet-mid);
+}
+
+.mkat-load .mkat-btn-icon,
+.mkat-save .mkat-btn-icon {
+  transition: transform 0.25s var(--mk-ease);
+}
+
+/* load spins its glyph a full turn; save scales into the commit */
+.mkat-load:hover:not(:disabled) .mkat-btn-icon {
+  transform: rotate(360deg);
+}
+
+.mkat-save:hover:not(:disabled) .mkat-btn-icon {
+  transform: scale(1.15);
+}
+
+.mkat-load:active:not(:disabled),
+.mkat-save:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* avatar and chip acknowledge the row together */
+.mkat-avatar {
+  transition: transform 0.22s var(--mk-ease);
+}
+
+.mkat-row:hover .mkat-avatar {
+  transform: scale(1.06);
+}
+
+.mkat-id-chip {
+  transition: transform 0.2s var(--mk-ease);
+}
+
+.mkat-row:hover .mkat-id-chip {
+  transform: translateX(2px);
+}
+
+.mkat-panel-icon {
+  transition: transform 0.25s var(--mk-ease);
+}
+
+.mkat-panel-head:hover .mkat-panel-icon {
+  transform: scale(1.06) rotate(-5deg);
+}
+
+/* ------------------------------------------------------------------ */
+/* 4. AMBIENT — slow, low contrast, never the focal point             */
+/* ------------------------------------------------------------------ */
+/* the four-stop gradient in the title catches light as it passes.
+   Needs a wider background box than the text, hence background-size. */
+.mkat-title-accent {
+  background-size: 200% auto;
+  animation: mkat-titleSheen 9s linear 1.2s infinite;
+}
+
+.mkat-dots {
+  animation: mkat-dotsBreathe 9s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* The blanket rule already in this file collapses animations to
+   0.001ms, which settles every `both` fill on its end state. The
+   sheen needs an explicit reset, plus the hover transforms. */
+@media (prefers-reduced-motion: reduce) {
+
+  /* would otherwise freeze mid-pass and leave the gradient offset */
+  .mkat-title-accent {
+    background-position: 0% 50% !important;
+  }
+
+  .mkat-date-wrap:focus-within .mkat-date-icon,
+  .mkat-select-wrap:focus-within .mkat-select-chevron,
+  .mkat-load:hover:not(:disabled) .mkat-btn-icon,
+  .mkat-save:hover:not(:disabled) .mkat-btn-icon,
+  .mkat-row:hover .mkat-avatar,
+  .mkat-row:hover .mkat-id-chip,
+  .mkat-panel-head:hover .mkat-panel-icon,
+  .mkat-back:hover .mkat-back-icon {
+    transform: none;
+  }
+
+  /* the dot's resting state is unscaled, not un-animated mid-beat */
+  .mkat-select-wrap[data-status="Present"] .mkat-status-dot,
+  .mkat-select-wrap[data-status="Absent"] .mkat-status-dot {
+    transform: scale(1) !important;
+  }
+}

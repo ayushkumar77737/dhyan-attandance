@@ -761,3 +761,275 @@
         display: none;
     }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive only — no existing rule is replaced. The page already
+   sequences hero → card; what follows animates the card's contents,
+   which currently arrive as one block, and adds validation feedback.
+
+   Note: .preg__page uses `overflow: hidden` on BOTH axes, so it never
+   scrolls itself and transform overshoot is clipped. The "never start
+   below the final position" rule that shapes the table pages doesn't
+   apply here.
+
+   Reuses the existing preg__fadeIn, preg__slideUp, preg__slideDown,
+   preg__spin, preg__pulse and preg__drift keyframes.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes preg__slideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes preg__pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.07);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes preg__dropIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* the card's top stripe draws left to right as the card lands */
+@keyframes preg__stripe-draw {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+/* validation errors arrive with a small lateral shake — enough to
+   catch the eye, far short of a shudder */
+@keyframes preg__nudge {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-3px);
+    }
+
+    75% {
+        transform: translateX(3px);
+    }
+}
+
+/* the concentric rings can't show rotation, so they breathe instead */
+@keyframes preg__breathe {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.03);
+        opacity: 0.7;
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+/* the pinned back button had no entrance of its own */
+.preg__back-btn {
+    animation: preg__slideLeft 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.02s both;
+}
+
+.preg__card-stripe {
+    transform-origin: left center;
+    animation: preg__stripe-draw 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.42s both;
+}
+
+/* the photo target is the first thing to do here, so it lands first */
+.preg__image-wrap {
+    animation: preg__pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.36s both;
+}
+
+/* the card faded in as one slab — its fields now fill in top-down */
+.preg__field {
+    animation: preg__fadeIn 0.35s ease both;
+}
+
+.preg__field:nth-child(1) {
+    animation-delay: 0.44s;
+}
+
+.preg__field:nth-child(2) {
+    animation-delay: 0.48s;
+}
+
+.preg__field:nth-child(3) {
+    animation-delay: 0.52s;
+}
+
+.preg__field:nth-child(4) {
+    animation-delay: 0.56s;
+}
+
+.preg__field:nth-child(5) {
+    animation-delay: 0.60s;
+}
+
+.preg__field:nth-child(6) {
+    animation-delay: 0.64s;
+}
+
+.preg__field:nth-child(7) {
+    animation-delay: 0.68s;
+}
+
+.preg__field:nth-child(8) {
+    animation-delay: 0.72s;
+}
+
+.preg__field:nth-child(n+9) {
+    animation-delay: 0.76s;
+}
+
+.preg__submit-btn {
+    animation: preg__fadeIn 0.4s ease 0.8s both;
+}
+
+/* the banner appears after a submit, so it drops from above rather
+   than reusing the page-load motion */
+.preg__message {
+    animation: preg__dropIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ------------------------------------------------------------------ */
+/* VALIDATION FEEDBACK                                                */
+/* ------------------------------------------------------------------ */
+/* Adding a class restarts a CSS animation, so a field failing
+   validation nudges itself with no JS hook. */
+.preg__input--err {
+    animation: preg__nudge 0.3s ease;
+}
+
+.preg__err-msg {
+    animation: preg__dropIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+.preg__back-btn .preg__ico {
+    transition: transform 0.2s ease;
+}
+
+.preg__back-btn:hover .preg__ico {
+    transform: translateX(-3px);
+}
+
+/* the camera glyph leans in as the photo target is hovered */
+.preg__camera-icon {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.preg__image-wrap:hover .preg__camera-icon {
+    transform: scale(1.12) rotate(-6deg);
+}
+
+/* the field's label lights with its input — focus-within reaches it
+   because the label sits inside .preg__field */
+.preg__label {
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.preg__field:focus-within .preg__label {
+    color: var(--preg-primary);
+    transform: translateX(2px);
+}
+
+.preg__submit-btn .preg__ico {
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.preg__submit-btn:hover:not(:disabled) .preg__ico {
+    transform: translateX(3px) scale(1.08);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. AMBIENT — slow, low contrast, never the focal point             */
+/* ------------------------------------------------------------------ */
+/* the arc keeps its centring translate in every keyframe, or it would
+   jump to the top-left corner for the duration */
+.preg__arc {
+    animation: preg__breathe 12s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* Entrances use `both`, which pins opacity: 0 until the delay elapses.
+   Without this the form would stay blank when motion is disabled. */
+@media (prefers-reduced-motion: reduce) {
+
+    .preg__back-btn,
+    .preg__image-wrap,
+    .preg__field,
+    .preg__submit-btn,
+    .preg__message,
+    .preg__input--err,
+    .preg__err-msg {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    /* the stripe must stay drawn, not collapse to zero width */
+    .preg__card-stripe {
+        animation: none !important;
+        transform: scaleX(1) !important;
+    }
+
+    /* the arc is centred by transform — `none` would move it */
+    .preg__arc {
+        animation: none !important;
+        transform: translate(-50%, -50%) !important;
+    }
+
+    .preg__image-wrap:hover .preg__camera-icon,
+    .preg__field:focus-within .preg__label,
+    .preg__back-btn:hover .preg__ico,
+    .preg__submit-btn:hover:not(:disabled) .preg__ico {
+        transform: none;
+    }
+}

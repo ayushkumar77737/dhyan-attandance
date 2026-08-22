@@ -1680,3 +1680,336 @@
         max-width: none;
     }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive, with two deliberate overrides (noted inline).
+   Reuses the existing satnv2-fadeup, satnv2-dot-beat, satnv2-pulse-dot,
+   satnv2-live-blink, satnv2-scan-move and satnv2-orb-drift keyframes.
+
+   This page already carries more motion than any other in the admin
+   set, so the work here is mostly SCAN FEEDBACK — confirming each
+   result — rather than more ambient movement.
+
+   .satnv2__page sets overflow-x: hidden, which makes overflow-y
+   compute to auto — the page is its own scroll container. satnv2-fadeup
+   starts at translateY(16px), i.e. BELOW its final position, so the
+   stats and the two panels are re-pointed at a scale-in.
+
+   The activity rows keep satnv2-fadeup: they live inside
+   .satnv2__activity-list, which has its own overflow-y, so their
+   overshoot is clipped there rather than reaching the page.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes satnv2-slideleft {
+    from {
+        opacity: 0;
+        transform: translateX(-14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes satnv2-drop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes satnv2-scalein {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes satnv2-popin {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.09);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* the result card lands with a single firm beat — this is the moment
+   the operator is waiting for after every scan */
+@keyframes satnv2-result-land {
+    0% {
+        opacity: 0;
+        transform: scale(0.94);
+    }
+
+    55% {
+        transform: scale(1.02);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* corner brackets breathe while the camera is live */
+@keyframes satnv2-corner-glow {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+}
+
+/* a slow pass of light through the gradient lettering */
+@keyframes satnv2-title-sheen {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 200% 50%;
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.satnv2__back-btn {
+    animation: satnv2-slideleft 0.45s var(--sa-ease) 0.02s both;
+}
+
+.satnv2__eyebrow {
+    animation: satnv2-popin 0.45s var(--sa-ease) 0.08s both;
+}
+
+.satnv2__title {
+    animation: satnv2-drop 0.5s var(--sa-ease) 0.12s both;
+}
+
+.satnv2__date {
+    animation: satnv2-drop 0.5s var(--sa-ease) 0.17s both;
+}
+
+.satnv2__live-badge {
+    animation: satnv2-popin 0.45s var(--sa-ease) 0.2s both;
+}
+
+/* OVERRIDE — was satnv2-fadeup with no delay, so all four fired at
+   once. Scaling up from smaller can't overhang the container. */
+.satnv2__stat {
+    animation: satnv2-scalein 0.42s var(--sa-ease) both;
+}
+
+.satnv2__stat:nth-child(1) {
+    animation-delay: 0.20s;
+}
+
+.satnv2__stat:nth-child(2) {
+    animation-delay: 0.26s;
+}
+
+.satnv2__stat:nth-child(3) {
+    animation-delay: 0.32s;
+}
+
+.satnv2__stat:nth-child(4) {
+    animation-delay: 0.38s;
+}
+
+.satnv2__stat-icon {
+    animation: satnv2-popin 0.4s var(--sa-ease) 0.42s both;
+}
+
+.satnv2__stat-num {
+    animation: satnv2-popin 0.42s var(--sa-ease) 0.46s both;
+}
+
+/* OVERRIDE — same reasoning, delays preserved from the originals */
+.satnv2__scanner-panel {
+    animation: satnv2-scalein 0.5s var(--sa-ease) 0.1s both;
+}
+
+.satnv2__right-panel {
+    animation: satnv2-scalein 0.5s var(--sa-ease) 0.18s both;
+}
+
+.satnv2__card-icon,
+.satnv2__panel-icon,
+.satnv2__manual-icon {
+    animation: satnv2-popin 0.42s var(--sa-ease) 0.3s both;
+}
+
+.satnv2__empty-icon {
+    animation: satnv2-popin 0.45s var(--sa-ease) 0.34s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. SCAN FEEDBACK — the point of this page                          */
+/* ------------------------------------------------------------------ */
+/* Adding or swapping a class restarts a CSS animation, so every scan
+   result announces itself with no JS hook: the card lands, the badge
+   and the status icon pop. */
+.satnv2__user-card--success,
+.satnv2__user-card--error,
+.satnv2__user-card--already {
+    animation: satnv2-result-land 0.4s var(--sa-ease);
+}
+
+.satnv2__result-badge--success,
+.satnv2__result-badge--error,
+.satnv2__result-badge--already {
+    animation: satnv2-popin 0.42s var(--sa-ease) 0.06s both;
+}
+
+.satnv2__user-status-icon--success,
+.satnv2__user-status-icon--error,
+.satnv2__user-status-icon--already {
+    animation: satnv2-popin 0.45s var(--sa-ease) 0.1s both;
+}
+
+/* the scanner's own state change */
+.satnv2__scan-status-badge--active {
+    animation: satnv2-popin 0.35s var(--sa-ease);
+}
+
+/* the framing brackets breathe only while the camera is live, so the
+   corners read as armed rather than decorative */
+.satnv2__camera-wrap--pulse .satnv2__corner {
+    animation: satnv2-corner-glow 1.8s ease-in-out infinite;
+}
+
+.satnv2__camera-wrap--pulse .satnv2__corner--tr {
+    animation-delay: 0.15s;
+}
+
+.satnv2__camera-wrap--pulse .satnv2__corner--br {
+    animation-delay: 0.3s;
+}
+
+.satnv2__camera-wrap--pulse .satnv2__corner--bl {
+    animation-delay: 0.45s;
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+/* the tinted icon answers a hover anywhere on its stat card */
+.satnv2__stat-icon {
+    transition: transform 0.25s var(--sa-ease);
+}
+
+.satnv2__stat:hover .satnv2__stat-icon {
+    transform: scale(1.08) rotate(-5deg);
+}
+
+/* each control's glyph leans the way its action goes */
+.satnv2__btn .satnv2__btn-icon {
+    transition: transform 0.25s var(--sa-ease);
+}
+
+.satnv2__btn--start:hover .satnv2__btn-icon {
+    transform: translateX(2px) scale(1.1);
+}
+
+.satnv2__btn--stop:hover .satnv2__btn-icon {
+    transform: scale(1.12);
+}
+
+.satnv2__btn--refresh:hover .satnv2__btn-icon {
+    transform: rotate(360deg);
+}
+
+.satnv2__btn--mark:hover .satnv2__btn-icon {
+    transform: scale(1.15);
+}
+
+.satnv2__btn:active {
+    transform: scale(0.98);
+}
+
+/* the manual-entry tile lights when its field takes focus */
+.satnv2__manual-icon {
+    transition: background 0.22s var(--sa-ease), color 0.22s var(--sa-ease), transform 0.22s var(--sa-ease);
+}
+
+.satnv2__manual:focus-within .satnv2__manual-icon {
+    transform: scale(1.06);
+}
+
+.satnv2__activity-avatar {
+    transition: transform 0.2s var(--sa-ease);
+}
+
+.satnv2__activity-row:hover .satnv2__activity-avatar {
+    transform: scale(1.08);
+}
+
+.satnv2__legend-dot {
+    transition: transform 0.2s var(--sa-ease);
+}
+
+.satnv2__progress-legend li:hover .satnv2__legend-dot {
+    transform: scale(1.35);
+}
+
+/* ------------------------------------------------------------------ */
+/* 4. AMBIENT — one loop only; this page already has plenty           */
+/* ------------------------------------------------------------------ */
+.satnv2__title-accent {
+    background-size: 200% auto;
+    animation: satnv2-title-sheen 9s linear 1.4s infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* The blanket rule already in this file collapses animations to
+   0.001ms, which settles every `both` fill on its end state. The
+   sheen needs an explicit reset, plus the hover transforms. */
+@media (prefers-reduced-motion: reduce) {
+
+    /* would otherwise freeze mid-pass and leave the gradient offset */
+    .satnv2__title-accent {
+        background-position: 0% 50% !important;
+    }
+
+    .satnv2__stat:hover .satnv2__stat-icon,
+    .satnv2__btn--start:hover .satnv2__btn-icon,
+    .satnv2__btn--stop:hover .satnv2__btn-icon,
+    .satnv2__btn--refresh:hover .satnv2__btn-icon,
+    .satnv2__btn--mark:hover .satnv2__btn-icon,
+    .satnv2__manual:focus-within .satnv2__manual-icon,
+    .satnv2__activity-row:hover .satnv2__activity-avatar,
+    .satnv2__progress-legend li:hover .satnv2__legend-dot,
+    .satnv2__back-btn:hover .satnv2__back-icon {
+        transform: none;
+    }
+}

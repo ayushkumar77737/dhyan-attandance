@@ -866,3 +866,288 @@
         align-items: flex-start;
     }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive only — no existing rule is replaced. Reuses the existing
+   adduser-fadeIn, adduser-cardFade and adduser-spin keyframes.
+
+   .adduser-container uses `overflow: hidden` on BOTH axes, so it never
+   scrolls itself and any transform overshoot is clipped. The "never
+   start below the final position" constraint that shapes the table
+   pages doesn't apply here.
+
+   Your existing reduced-motion block collapses every animation to
+   0.001ms, which settles `both` fills on their end state — so only
+   the drawn divider and the hover transforms need handling.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes adduser-rise {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes adduser-drop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes adduser-pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.6);
+    }
+
+    60% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* the rule opens outward from the lotus mark at its centre */
+@keyframes adduser-lineOpen {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+/* the wave slides up into place under the portrait */
+@keyframes adduser-waveUp {
+    from {
+        opacity: 0;
+        transform: translateY(40%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* the page wash breathes very slowly — it is the only ambient motion
+   on a form, so it stays near-imperceptible */
+@keyframes adduser-washDrift {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.06);
+    }
+}
+
+@keyframes adduser-markBreathe {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.55;
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE — LEFT PANEL                                           */
+/* ------------------------------------------------------------------ */
+.au-lotus-badge {
+    animation: adduser-pop 0.6s var(--au-ease) 0.35s both;
+}
+
+.au-img-wave {
+    animation: adduser-waveUp 0.7s var(--au-ease) 0.3s both;
+}
+
+.au-quote {
+    animation: adduser-rise 0.6s var(--au-ease) 0.5s both;
+}
+
+.au-quote-mark {
+    animation: adduser-pop 0.5s var(--au-ease) 0.62s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. ENTRANCE — FORM PANEL                                           */
+/* ------------------------------------------------------------------ */
+.au-title {
+    animation: adduser-drop 0.55s var(--au-ease) 0.3s both;
+}
+
+.au-divider-line {
+    animation: adduser-lineOpen 0.7s var(--au-ease) 0.42s both;
+}
+
+.au-divider-mark {
+    animation: adduser-pop 0.5s var(--au-ease) 0.4s both;
+}
+
+.au-subtitle {
+    animation: adduser-drop 0.5s var(--au-ease) 0.46s both;
+}
+
+/* Fields cascade top-down. The chain of sibling combinators is
+   deliberate: the form's children are a mix of headings, paragraphs
+   and divs, so nth-child and nth-of-type would both miscount. Each
+   extra `~ .au-field` matches one field further down the stack. */
+.au-field {
+    animation: adduser-rise 0.45s var(--au-ease) 0.52s both;
+}
+
+.au-field~.au-field {
+    animation-delay: 0.58s;
+}
+
+.au-field~.au-field~.au-field {
+    animation-delay: 0.64s;
+}
+
+.au-field~.au-field~.au-field~.au-field {
+    animation-delay: 0.70s;
+}
+
+.au-field~.au-field~.au-field~.au-field~.au-field {
+    animation-delay: 0.76s;
+}
+
+.au-field~.au-field~.au-field~.au-field~.au-field~.au-field {
+    animation-delay: 0.82s;
+}
+
+.adduser-container .adduser-form button[type="submit"] {
+    animation: adduser-rise 0.45s var(--au-ease) 0.88s both;
+}
+
+.adduser-container .back-btn {
+    animation: adduser-rise 0.45s var(--au-ease) 0.94s both;
+}
+
+.au-note {
+    animation: adduser-fadeIn 0.5s var(--au-ease) 1s both;
+}
+
+/* the result banners appear after a submit, so they drop from above
+   rather than reusing the page-load fade */
+.adduser-container .success-message,
+.adduser-container .error-message {
+    animation: adduser-drop 0.35s var(--au-ease) both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+/* the attached icon tile lights with its input — focus-within reaches
+   it because the icon sits inside .au-field */
+.au-field-icon {
+    transition: background 0.22s var(--au-ease), color 0.22s var(--au-ease);
+}
+
+.au-field-icon svg {
+    transition: transform 0.22s var(--au-ease);
+}
+
+.au-field:focus-within .au-field-icon svg {
+    transform: scale(1.12);
+}
+
+.au-eye svg {
+    transition: transform 0.2s var(--au-ease);
+}
+
+.au-eye:hover svg {
+    transform: scale(1.14);
+}
+
+/* the submit glyph leans into the commit */
+.adduser-container .adduser-form button[type="submit"] .au-btn-icon {
+    transition: transform 0.22s var(--au-ease);
+}
+
+.adduser-container .adduser-form button[type="submit"]:hover:not(:disabled) .au-btn-icon {
+    transform: scale(1.14);
+}
+
+/* the badge turns slightly as the portrait scales under it */
+.au-lotus-badge {
+    transition: transform 0.5s var(--au-ease), box-shadow 0.5s var(--au-ease);
+}
+
+.adduser-container .adduser-image:hover .au-lotus-badge {
+    transform: scale(1.06) rotate(-6deg);
+}
+
+.au-quote {
+    transition: transform 0.4s var(--au-ease);
+}
+
+.adduser-container .adduser-image:hover .au-quote {
+    transform: translateY(-3px);
+}
+
+/* ------------------------------------------------------------------ */
+/* 4. AMBIENT — two near-imperceptible loops; this is a form           */
+/* ------------------------------------------------------------------ */
+.adduser-container::before {
+    animation: adduser-washDrift 22s ease-in-out infinite;
+}
+
+.au-dots {
+    animation: adduser-markBreathe 10s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* The blanket rule already in this file collapses animations to
+   0.001ms, which settles every `both` fill on its end state. These
+   need explicit handling because their resting state isn't the
+   keyframe's end value. */
+@media (prefers-reduced-motion: reduce) {
+
+    /* the rule must stay open, not collapsed to zero width */
+    .au-divider-line {
+        transform: scaleX(1) !important;
+    }
+
+    /* the wash is a full-bleed backdrop; leave it unscaled */
+    .adduser-container::before {
+        transform: none !important;
+    }
+
+    .au-field:focus-within .au-field-icon svg,
+    .au-eye:hover svg,
+    .adduser-container .adduser-form button[type="submit"]:hover:not(:disabled) .au-btn-icon,
+    .adduser-container .adduser-image:hover .au-lotus-badge,
+    .adduser-container .adduser-image:hover .au-quote,
+    .adduser-container .back-btn:hover .au-btn-icon {
+        transform: none;
+    }
+}

@@ -1092,3 +1092,347 @@
         display: none;
     }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive only. Reuses the existing usract-fade, usract-spin,
+   usract-pop, usract-overlay-fade and usract-toast-fade keyframes.
+
+   .usract__container sets overflow-x: hidden, which makes overflow-y
+   compute to auto — the page is its own scroll container. An entrance
+   starting BELOW its final position overhangs that container while it
+   plays and creates real scroll range, so nothing here does: entrances
+   fade, scale up from smaller, or settle down from above.
+
+   (The existing card hover travels on X, which overflow-x clips. Safe.)
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes usract-drop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes usract-slide-left {
+    from {
+        opacity: 0;
+        transform: translateX(-14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes usract-scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes usract-pop-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* activity rows slide in from the left edge of their card as the
+   accordion opens — reads as "unfolding" rather than "appearing" */
+@keyframes usract-row-in {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* blobs are position: fixed — drifting them cannot affect scroll */
+@keyframes usract-drift {
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(24px, 18px) scale(1.06);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.usract__back-btn {
+    animation: usract-slide-left 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.02s both;
+}
+
+.usract__logo {
+    animation: usract-pop-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
+}
+
+.usract__portal-label {
+    animation: usract-drop 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+.usract__title {
+    animation: usract-drop 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.16s both;
+}
+
+.usract__header-actions {
+    animation: usract-drop 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.usract__search-wrap {
+    animation: usract-fade 0.45s ease 0.26s both;
+}
+
+/* OVERRIDE — the card fade had no stagger, so every card appeared at
+   once. Scaling up from smaller can't overhang the container. */
+.usract__user-card {
+    animation: usract-scale-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.usract__user-card:nth-child(1) {
+    animation-delay: 0.32s;
+}
+
+.usract__user-card:nth-child(2) {
+    animation-delay: 0.37s;
+}
+
+.usract__user-card:nth-child(3) {
+    animation-delay: 0.42s;
+}
+
+.usract__user-card:nth-child(4) {
+    animation-delay: 0.47s;
+}
+
+.usract__user-card:nth-child(5) {
+    animation-delay: 0.52s;
+}
+
+.usract__user-card:nth-child(6) {
+    animation-delay: 0.57s;
+}
+
+.usract__user-card:nth-child(7) {
+    animation-delay: 0.62s;
+}
+
+/* past the seventh they arrive together — a long user list would
+   otherwise leave the tail blank for seconds */
+.usract__user-card:nth-child(n+8) {
+    animation-delay: 0.66s;
+}
+
+.usract__empty-icon {
+    animation: usract-pop-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.36s both;
+}
+
+.usract__cf-icon {
+    animation: usract-pop-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* ACCORDION — plays on every expand, not just page load               */
+/* ------------------------------------------------------------------ */
+.usract__activity-row {
+    animation: usract-row-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.usract__activity-row:nth-child(1) {
+    animation-delay: 0.04s;
+}
+
+.usract__activity-row:nth-child(2) {
+    animation-delay: 0.08s;
+}
+
+.usract__activity-row:nth-child(3) {
+    animation-delay: 0.12s;
+}
+
+.usract__activity-row:nth-child(4) {
+    animation-delay: 0.16s;
+}
+
+.usract__activity-row:nth-child(5) {
+    animation-delay: 0.20s;
+}
+
+.usract__activity-row:nth-child(6) {
+    animation-delay: 0.24s;
+}
+
+.usract__activity-row:nth-child(n+7) {
+    animation-delay: 0.28s;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+.usract__back-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.usract__back-btn:hover svg {
+    transform: translateX(-3px);
+}
+
+/* export arrow dips, matching the download it triggers */
+.usract__export-btn svg {
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.usract__export-btn:hover:not(:disabled) svg {
+    transform: translateY(2px);
+}
+
+.usract__delete-all-btn svg,
+.usract__user-delete svg,
+.usract__activity-delete svg {
+    transition: transform 0.2s ease;
+    transform-origin: 50% 20%;
+}
+
+.usract__delete-all-btn:hover:not(:disabled) svg,
+.usract__user-delete:hover:not(:disabled) svg,
+.usract__activity-delete:hover:not(:disabled) svg {
+    transform: rotate(-14deg);
+}
+
+.usract__search-wrap:focus-within .usract__search-icon {
+    color: var(--usract-blue);
+}
+
+.usract__search-icon {
+    transition: color 0.2s ease;
+}
+
+.usract__search-clear svg {
+    transition: transform 0.2s ease;
+}
+
+.usract__search-clear:hover svg {
+    transform: rotate(90deg);
+}
+
+/* the accent stripe runs the full card edge on hover — the card's own
+   colour identity responding, rather than a generic highlight */
+.usract__user-card::before {
+    transition: top 0.25s ease, bottom 0.25s ease;
+}
+
+.usract__user-card:hover::before,
+.usract__user-card.open::before {
+    top: 0;
+    bottom: 0;
+}
+
+.usract__user-avatar {
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.usract__user-head:hover .usract__user-avatar {
+    transform: scale(1.06);
+}
+
+.usract__chevron:hover {
+    color: var(--usract-blue);
+    border-color: var(--usract-blue-line);
+}
+
+.usract__user-count {
+    transition: transform 0.2s ease;
+}
+
+.usract__user-head:hover .usract__user-count {
+    transform: scale(1.05);
+}
+
+.usract__cf-cancel:active,
+.usract__cf-confirm:active {
+    transform: scale(0.98);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. AMBIENT — slow, low contrast, never the focal point             */
+/* ------------------------------------------------------------------ */
+.usract__blob--1 {
+    animation: usract-drift 18s ease-in-out infinite alternate;
+}
+
+.usract__blob--2 {
+    animation: usract-drift 14s ease-in-out infinite alternate-reverse;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* Entrances use `both`, which pins opacity: 0 until the delay elapses.
+   Without this the page would stay blank when motion is disabled. */
+@media (prefers-reduced-motion: reduce) {
+
+    .usract__back-btn,
+    .usract__logo,
+    .usract__portal-label,
+    .usract__title,
+    .usract__header-actions,
+    .usract__search-wrap,
+    .usract__user-card,
+    .usract__activity-row,
+    .usract__empty-icon,
+    .usract__cf-icon,
+    .usract__blob--1,
+    .usract__blob--2 {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .usract__user-head:hover .usract__user-avatar,
+    .usract__user-head:hover .usract__user-count,
+    .usract__back-btn:hover svg,
+    .usract__search-clear:hover svg,
+    .usract__export-btn:hover:not(:disabled) svg,
+    .usract__delete-all-btn:hover:not(:disabled) svg,
+    .usract__user-delete:hover:not(:disabled) svg,
+    .usract__activity-delete:hover:not(:disabled) svg {
+        transform: none;
+    }
+
+    /* the chevron's open-state rotation is meaning, not decoration */
+    .usract__chevron.open {
+        transform: rotate(90deg) !important;
+    }
+}

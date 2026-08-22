@@ -791,3 +791,317 @@
         font-size: 12.5px;
     }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive, with one deliberate override (noted inline).
+   Reuses the existing alad-fade and alad-spin keyframes.
+
+   .alladm-container sets overflow-x: hidden, which makes overflow-y
+   compute to auto — the page is its own scroll container. alad-rise
+   starts at translateY(14px), i.e. BELOW its final position, so while
+   it plays it overhangs that container and creates real scroll range.
+   .alad-card is re-pointed at a scale-in, which can't overhang, and
+   gains the stagger it was missing.
+
+   Your existing reduced-motion block collapses every animation to
+   0.001ms, which settles `both` fills on their end state — so only
+   hover transforms and the gradient title need handling.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes alad-slideleft {
+    from {
+        opacity: 0;
+        transform: translateX(-14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes alad-drop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes alad-scalein {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes alad-popin {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* the accent rule draws downward as its card lands */
+@keyframes alad-bar-draw {
+    from {
+        transform: scaleY(0);
+    }
+
+    to {
+        transform: scaleY(1);
+    }
+}
+
+/* a slow pass of light along the gradient in the title */
+@keyframes alad-title-sheen {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 200% 50%;
+    }
+}
+
+/* the dot cluster breathes on opacity only — it is position: absolute,
+   so a transform could extend the page's scroll range */
+@keyframes alad-dots-breathe {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.alad-back {
+    animation: alad-slideleft 0.45s var(--ad2-ease) 0.02s both;
+}
+
+.alad-logo {
+    animation: alad-popin 0.5s var(--ad2-ease) 0.06s both;
+}
+
+.alad-eyebrow {
+    animation: alad-drop 0.45s var(--ad2-ease) 0.1s both;
+}
+
+.alad-title {
+    animation: alad-drop 0.5s var(--ad2-ease) 0.14s both;
+}
+
+.alad-toolbar {
+    animation: alad-fade 0.45s var(--ad2-ease) 0.2s both;
+}
+
+.alad-count-chip {
+    animation: alad-popin 0.42s var(--ad2-ease) 0.26s both;
+}
+
+/* OVERRIDE — was alad-rise (rose from below), with every card firing
+   at once. Scaling up from smaller can't overhang the container. */
+.alad-card {
+    animation: alad-scalein 0.42s var(--ad2-ease) both;
+}
+
+.alad-card:nth-child(1) {
+    animation-delay: 0.28s;
+}
+
+.alad-card:nth-child(2) {
+    animation-delay: 0.33s;
+}
+
+.alad-card:nth-child(3) {
+    animation-delay: 0.38s;
+}
+
+.alad-card:nth-child(4) {
+    animation-delay: 0.43s;
+}
+
+.alad-card:nth-child(5) {
+    animation-delay: 0.48s;
+}
+
+.alad-card:nth-child(6) {
+    animation-delay: 0.53s;
+}
+
+.alad-card:nth-child(7) {
+    animation-delay: 0.58s;
+}
+
+.alad-card:nth-child(8) {
+    animation-delay: 0.63s;
+}
+
+/* past the eighth they arrive together — a large admin roster would
+   otherwise leave the tail blank for seconds */
+.alad-card:nth-child(n+9) {
+    animation-delay: 0.66s;
+}
+
+.alad-card-bar {
+    transform-origin: top center;
+    animation: alad-bar-draw 0.5s var(--ad2-ease) 0.36s both;
+}
+
+.alad-badge {
+    animation: alad-popin 0.4s var(--ad2-ease) 0.44s both;
+}
+
+.alad-state-icon {
+    animation: alad-popin 0.5s var(--ad2-ease) 0.16s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+.alad-search:focus-within .alad-search-icon {
+    color: var(--ad2-blue-mid);
+}
+
+.alad-search-icon {
+    transition: color 0.22s var(--ad2-ease);
+}
+
+.alad-search-icon svg {
+    transition: transform 0.22s var(--ad2-ease);
+}
+
+.alad-search:focus-within .alad-search-icon svg {
+    transform: scale(1.1);
+}
+
+.alad-search-clear {
+    transition: color 0.2s var(--ad2-ease), transform 0.2s var(--ad2-ease);
+}
+
+.alad-search-clear:hover {
+    transform: rotate(90deg);
+}
+
+/* export arrow dips, matching the download it triggers */
+.alad-export .alad-btn-icon {
+    transition: transform 0.22s var(--ad2-ease);
+}
+
+.alad-export:hover:not(:disabled) .alad-btn-icon {
+    transform: translateY(2px);
+}
+
+.alad-export:active:not(:disabled) {
+    transform: scale(0.99);
+}
+
+/* the accent rule widens with its card, so the per-admin colour is
+   what acknowledges the hover */
+.alad-card-bar {
+    transition: width 0.22s var(--ad2-ease);
+}
+
+.alad-card:hover .alad-card-bar {
+    width: 8px;
+}
+
+.alad-avatar {
+    transition: transform 0.22s var(--ad2-ease);
+}
+
+.alad-card:hover .alad-avatar {
+    transform: scale(1.05);
+}
+
+.alad-meta-icon {
+    transition: color 0.22s var(--ad2-ease);
+}
+
+.alad-card:hover .alad-meta-icon {
+    color: var(--ad2-accent, var(--ad2-blue-mid));
+}
+
+.alad-status-dot {
+    transition: transform 0.22s var(--ad2-ease);
+}
+
+.alad-card:hover .alad-status-dot {
+    transform: scale(1.3);
+}
+
+.alad-card:active {
+    transform: translateY(-2px) scale(0.995);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. AMBIENT — slow, low contrast, never the focal point             */
+/* ------------------------------------------------------------------ */
+/* the gradient in the title catches light as it passes. Needs a wider
+   background box than the text, hence background-size. */
+.alad-title-accent {
+    background-size: 200% auto;
+    animation: alad-title-sheen 8s linear 1s infinite;
+}
+
+.alad-dots {
+    animation: alad-dots-breathe 9s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* The blanket rule already in this file collapses animations to
+   0.001ms, which settles every `both` fill on its end state. These
+   need explicit handling because their resting state isn't the
+   keyframe's end value. */
+@media (prefers-reduced-motion: reduce) {
+
+    /* the rule must stay drawn, not collapsed to zero height */
+    .alad-card-bar {
+        transform: scaleY(1) !important;
+    }
+
+    /* the sheen would otherwise freeze mid-pass and shift the gradient */
+    .alad-title-accent {
+        background-position: 0% 50% !important;
+    }
+
+    .alad-search:focus-within .alad-search-icon svg,
+    .alad-search-clear:hover,
+    .alad-export:hover:not(:disabled) .alad-btn-icon,
+    .alad-card:hover .alad-avatar,
+    .alad-card:hover .alad-status-dot,
+    .alad-back:hover .alad-back-icon {
+        transform: none;
+    }
+}

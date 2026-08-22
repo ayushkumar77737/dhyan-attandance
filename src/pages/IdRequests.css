@@ -1387,3 +1387,451 @@
         display: none;
     }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive, with two deliberate overrides (noted inline).
+
+   .idreq__page sets overflow-x: hidden, which makes overflow-y compute
+   to auto — the page is its own scroll container. An entrance that
+   starts BELOW its final position overhangs that container while it
+   plays and creates real scroll range, which is why a scrollbar can
+   flash in and out on load.
+
+   The existing idreq-fadeup does exactly that (from translateY(12px)),
+   so .idreq__stat and .idreq__row are re-pointed at safe equivalents
+   below. Everything else here fades, scales up from smaller, or
+   settles down from above.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes idreq-fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes idreq-drop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes idreq-slide-left {
+    from {
+        opacity: 0;
+        transform: translateX(-14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes idreq-scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes idreq-pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes idreq-float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+}
+
+@keyframes idreq-breathe {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+}
+
+/* The board carries a permanent rotate(-5deg). Any transform animation
+   on it must re-state that rotation in every keyframe, or the tilt is
+   dropped for the duration and the card snaps straight. */
+@keyframes idreq-board-in {
+    0% {
+        opacity: 0;
+        transform: rotate(-5deg) scale(0.72);
+    }
+
+    60% {
+        transform: rotate(-5deg) scale(1.06);
+    }
+
+    100% {
+        opacity: 1;
+        transform: rotate(-5deg) scale(1);
+    }
+}
+
+@keyframes idreq-board-float {
+
+    0%,
+    100% {
+        transform: rotate(-5deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(-5deg) translateY(-7px);
+    }
+}
+
+/* blobs are position: fixed — drifting them cannot affect scroll */
+@keyframes idreq-drift {
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(24px, 18px) scale(1.06);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.idreq__back-btn {
+    animation: idreq-slide-left 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.02s both;
+}
+
+.idreq__eyebrow {
+    animation: idreq-drop 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
+}
+
+.idreq__title {
+    animation: idreq-drop 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.13s both;
+}
+
+.idreq__subtitle {
+    animation: idreq-drop 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
+}
+
+/* header art assembles: halo, board, shield */
+.idreq__art-halo {
+    animation: idreq-scale-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.idreq__art-board {
+    animation: idreq-board-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.26s both;
+}
+
+.idreq__art-shield {
+    animation: idreq-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.34s both;
+}
+
+/* OVERRIDE — replaces idreq-fadeup, which started below the card's
+   final position. Scaling up from smaller can't overhang. */
+.idreq__stat {
+    animation: idreq-scale-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.idreq__stat:nth-child(1) {
+    animation-delay: 0.24s;
+}
+
+.idreq__stat:nth-child(2) {
+    animation-delay: 0.30s;
+}
+
+.idreq__stat:nth-child(3) {
+    animation-delay: 0.36s;
+}
+
+.idreq__stat:nth-child(4) {
+    animation-delay: 0.42s;
+}
+
+.idreq__stat:nth-child(n+5) {
+    animation-delay: 0.46s;
+}
+
+.idreq__stat-num {
+    animation: idreq-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+}
+
+.idreq__controls {
+    animation: idreq-fade 0.45s ease 0.46s both;
+}
+
+.idreq__count {
+    animation: idreq-fade 0.4s ease 0.52s both;
+}
+
+.idreq__table-wrap,
+.idreq__loading,
+.idreq__empty {
+    animation: idreq-fade 0.45s ease 0.56s both;
+}
+
+/* OVERRIDE — rows fade only. A transform on every row of a long table
+   is what pushes the scroll height around mid-animation. */
+.idreq__row {
+    animation: idreq-fade 0.35s ease both;
+}
+
+.idreq__row:nth-child(1) {
+    animation-delay: 0.62s;
+}
+
+.idreq__row:nth-child(2) {
+    animation-delay: 0.66s;
+}
+
+.idreq__row:nth-child(3) {
+    animation-delay: 0.70s;
+}
+
+.idreq__row:nth-child(4) {
+    animation-delay: 0.74s;
+}
+
+.idreq__row:nth-child(5) {
+    animation-delay: 0.78s;
+}
+
+.idreq__row:nth-child(6) {
+    animation-delay: 0.82s;
+}
+
+.idreq__row:nth-child(7) {
+    animation-delay: 0.86s;
+}
+
+.idreq__row:nth-child(8) {
+    animation-delay: 0.90s;
+}
+
+/* past the eighth they arrive together — staggering hundreds of rows
+   would leave the tail invisible for seconds */
+.idreq__row:nth-child(n+9) {
+    animation-delay: 0.94s;
+}
+
+.idreq__empty-icon {
+    animation: idreq-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.64s both;
+}
+
+.idreq__modal-icon {
+    animation: idreq-pop 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+.idreq__back-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.idreq__back-btn:hover svg {
+    transform: translateX(-3px);
+}
+
+/* the tinted icon answers a hover anywhere on its stat card */
+.idreq__stat-icon-wrap {
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.idreq__stat:hover .idreq__stat-icon-wrap {
+    transform: scale(1.08) rotate(-5deg);
+}
+
+.idreq__search-clear svg {
+    transition: transform 0.2s ease;
+}
+
+.idreq__search-clear:hover svg {
+    transform: rotate(90deg);
+}
+
+.idreq__search-wrap:focus-within .idreq__search-icon {
+    color: var(--ir-blue);
+}
+
+.idreq__search-icon {
+    transition: color 0.2s ease;
+}
+
+.idreq__filter-btn {
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.18s ease;
+}
+
+.idreq__filter-btn:hover {
+    transform: translateY(-2px);
+}
+
+.idreq__filter-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* export arrow dips, like the download it triggers */
+.idreq__export-btn svg {
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.idreq__export-btn:hover:not(:disabled) svg {
+    transform: translateY(2px);
+}
+
+.idreq__act-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.idreq__act-btn--approve:hover:not(:disabled) svg {
+    transform: scale(1.15);
+}
+
+.idreq__act-btn--reject:hover:not(:disabled) svg,
+.idreq__act-btn--delete:hover:not(:disabled) svg {
+    transform: rotate(-12deg) scale(1.1);
+}
+
+.idreq__act-btn--reset:hover:not(:disabled) svg {
+    transform: rotate(-180deg);
+}
+
+.idreq__act-btn:active:not(:disabled) {
+    transform: scale(0.97);
+}
+
+/* the transaction chip is the row's identifier — worth a nudge */
+.idreq__txn {
+    transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.idreq__row:hover .idreq__txn {
+    transform: translateX(2px);
+}
+
+.idreq__modal-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.idreq__modal-btn--confirm:hover svg {
+    transform: rotate(-12deg);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. AMBIENT — slow, low contrast, never the focal point             */
+/* ------------------------------------------------------------------ */
+.idreq__art-board {
+    animation: idreq-board-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.26s both,
+        idreq-board-float 9s ease-in-out 1s infinite;
+}
+
+.idreq__art-shield {
+    animation: idreq-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.34s both,
+        idreq-float 7s ease-in-out 1.2s infinite;
+}
+
+.idreq__art-halo {
+    animation: idreq-scale-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both,
+        idreq-breathe 7s ease-in-out 1s infinite;
+}
+
+.idreq__blob--1 {
+    animation: idreq-drift 18s ease-in-out infinite alternate;
+}
+
+.idreq__blob--2 {
+    animation: idreq-drift 14s ease-in-out infinite alternate-reverse;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* Entrances use `both`, which pins opacity: 0 until the delay elapses.
+   Without this the page would stay blank when motion is disabled. */
+@media (prefers-reduced-motion: reduce) {
+
+    .idreq__back-btn,
+    .idreq__eyebrow,
+    .idreq__title,
+    .idreq__subtitle,
+    .idreq__art-halo,
+    .idreq__art-shield,
+    .idreq__stat,
+    .idreq__stat-num,
+    .idreq__controls,
+    .idreq__count,
+    .idreq__table-wrap,
+    .idreq__loading,
+    .idreq__empty,
+    .idreq__empty-icon,
+    .idreq__row,
+    .idreq__modal-icon,
+    .idreq__blob--1,
+    .idreq__blob--2 {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    /* the board keeps its tilt — `transform: none` would straighten it */
+    .idreq__art-board {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: rotate(-5deg) !important;
+    }
+
+    .idreq__filter-btn:hover,
+    .idreq__stat:hover .idreq__stat-icon-wrap,
+    .idreq__row:hover .idreq__txn,
+    .idreq__back-btn:hover svg,
+    .idreq__search-clear:hover svg,
+    .idreq__export-btn:hover:not(:disabled) svg,
+    .idreq__act-btn:hover:not(:disabled) svg,
+    .idreq__modal-btn--confirm:hover svg {
+        transform: none;
+    }
+}

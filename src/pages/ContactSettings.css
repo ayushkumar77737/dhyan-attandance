@@ -960,3 +960,404 @@
         display: none;
     }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive only: no existing rule is rewritten. Reuses the existing
+   cset-spin and cset-pulse keyframes rather than redefining them.
+
+   .cset__page sets overflow-x: hidden, which makes overflow-y compute
+   to auto — the page is its own scroll container. So no entrance here
+   starts BELOW its final position; they fade, scale up from smaller,
+   or settle down from above. All stay inside the box while playing.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes cset-fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes cset-drop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cset-slide-left {
+    from {
+        opacity: 0;
+        transform: translateX(-14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes cset-scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes cset-pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes cset-float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+}
+
+@keyframes cset-rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes cset-breathe {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.04);
+        opacity: 0.82;
+    }
+}
+
+/* blurred blobs are position: fixed, so drifting them can never
+   affect scroll height */
+@keyframes cset-drift {
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(22px, 16px) scale(1.06);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.cset__back-btn {
+    animation: cset-slide-left 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.02s both;
+}
+
+.cset__eyebrow {
+    animation: cset-drop 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
+}
+
+.cset__title {
+    animation: cset-drop 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.13s both;
+}
+
+.cset__subtitle {
+    animation: cset-drop 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
+}
+
+/* header art assembles: ring, then card, then gear */
+.cset__art-ring {
+    animation: cset-scale-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.cset__art-card {
+    animation: cset-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both;
+}
+
+.cset__art-gear {
+    animation: cset-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.36s both;
+}
+
+/* preview cards deal out left to right */
+.cset__preview {
+    animation: cset-scale-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.cset__preview:nth-child(1) {
+    animation-delay: 0.26s;
+}
+
+.cset__preview:nth-child(2) {
+    animation-delay: 0.32s;
+}
+
+.cset__preview:nth-child(3) {
+    animation-delay: 0.38s;
+}
+
+.cset__preview:nth-child(4) {
+    animation-delay: 0.44s;
+}
+
+.cset__preview:nth-child(n+5) {
+    animation-delay: 0.48s;
+}
+
+.cset__form-card {
+    animation: cset-scale-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.46s both;
+}
+
+.cset__form-head-icon {
+    animation: cset-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.56s both;
+}
+
+/* fields fade in only — a transform on a tall grid is what shifts the
+   scroll height mid-animation */
+.cset__field {
+    animation: cset-fade 0.35s ease both;
+}
+
+.cset__field:nth-child(1) {
+    animation-delay: 0.58s;
+}
+
+.cset__field:nth-child(2) {
+    animation-delay: 0.62s;
+}
+
+.cset__field:nth-child(3) {
+    animation-delay: 0.66s;
+}
+
+.cset__field:nth-child(4) {
+    animation-delay: 0.70s;
+}
+
+.cset__field:nth-child(5) {
+    animation-delay: 0.74s;
+}
+
+.cset__field:nth-child(6) {
+    animation-delay: 0.78s;
+}
+
+.cset__field:nth-child(7) {
+    animation-delay: 0.82s;
+}
+
+.cset__field:nth-child(n+8) {
+    animation-delay: 0.86s;
+}
+
+.cset__actions {
+    animation: cset-fade 0.4s ease 0.88s both;
+}
+
+.cset__note {
+    animation: cset-fade 0.4s ease 0.94s both;
+}
+
+.cset__loading {
+    animation: cset-fade 0.4s ease 0.2s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+.cset__back-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.cset__back-btn:hover svg {
+    transform: translateX(-3px);
+}
+
+/* the tinted icon answers a hover anywhere on its preview card */
+.cset__preview-icon {
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cset__preview:hover .cset__preview-icon {
+    transform: scale(1.08) rotate(-5deg);
+}
+
+.cset__preview-edit svg {
+    transition: transform 0.2s ease;
+}
+
+.cset__preview-edit:hover svg {
+    transform: rotate(-12deg) scale(1.1);
+}
+
+/* the field's label lights up with its input — focus-within reaches
+   the label because it sits inside .cset__field */
+.cset__label {
+    transition: color 0.2s ease;
+}
+
+.cset__field:focus-within .cset__label {
+    color: var(--cs-green);
+}
+
+.cset__label-ico svg {
+    transition: transform 0.2s ease;
+}
+
+.cset__field:focus-within .cset__label-ico svg {
+    transform: scale(1.15);
+}
+
+/* reset rewinds its icon; save gets a shine pass */
+.cset__reset-btn svg {
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cset__reset-btn:hover:not(:disabled) svg {
+    transform: rotate(-180deg);
+}
+
+.cset__save-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.cset__save-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+}
+
+.cset__save-btn:hover:not(:disabled)::after {
+    left: 130%;
+}
+
+.cset__save-btn:active:not(:disabled),
+.cset__reset-btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.cset__save-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.cset__save-btn:hover:not(:disabled) svg {
+    transform: scale(1.12);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. AMBIENT — slow, low contrast, never the focal point             */
+/* ------------------------------------------------------------------ */
+/* the gear turns, because it is a gear. Very slow, so it reads as
+   texture rather than a spinner that implies loading. */
+.cset__art-gear svg {
+    animation: cset-rotate 18s linear infinite;
+}
+
+.cset__art-card {
+    animation: cset-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both,
+        cset-float 9s ease-in-out 1s infinite;
+}
+
+.cset__art-ring {
+    animation: cset-scale-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both,
+        cset-breathe 7s ease-in-out 1s infinite;
+}
+
+.cset__blob--1 {
+    animation: cset-drift 17s ease-in-out infinite alternate;
+}
+
+.cset__blob--2 {
+    animation: cset-drift 13s ease-in-out infinite alternate-reverse;
+}
+
+.cset__note-icon {
+    animation: cset-pulse 3.2s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* Entrances use `both`, which pins opacity: 0 until the delay elapses.
+   Without this the page would stay blank when motion is disabled. */
+@media (prefers-reduced-motion: reduce) {
+
+    .cset__back-btn,
+    .cset__eyebrow,
+    .cset__title,
+    .cset__subtitle,
+    .cset__art-ring,
+    .cset__art-card,
+    .cset__art-gear,
+    .cset__art-gear svg,
+    .cset__preview,
+    .cset__form-card,
+    .cset__form-head-icon,
+    .cset__field,
+    .cset__actions,
+    .cset__note,
+    .cset__note-icon,
+    .cset__loading,
+    .cset__blob--1,
+    .cset__blob--2 {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .cset__back-btn:hover svg,
+    .cset__preview:hover .cset__preview-icon,
+    .cset__preview-edit:hover svg,
+    .cset__field:focus-within .cset__label-ico svg,
+    .cset__reset-btn:hover:not(:disabled) svg,
+    .cset__save-btn:hover:not(:disabled) svg {
+        transform: none;
+    }
+
+    .cset__save-btn::after {
+        display: none;
+    }
+}

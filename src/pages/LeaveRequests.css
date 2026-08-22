@@ -1090,3 +1090,332 @@
         width: 100%;
     }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive, with one deliberate override (noted inline).
+   Reuses the existing lvr-fade, lvr-pop and lvr-spin keyframes.
+
+   .leaves-container sets overflow-x: hidden, which makes overflow-y
+   compute to auto — the page is its own scroll container. lvr-rise
+   starts at translateY(14px), i.e. BELOW its final position, so while
+   it plays it overhangs that container and creates real scroll range.
+   .lvr-card is re-pointed at a scale-in, which can't overhang, and
+   gains the stagger it was missing.
+
+   Your existing reduced-motion block collapses every animation to
+   0.001ms, which settles `both` fills on their end state — so only
+   hover transforms need clearing at the bottom.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes lvr-slideleft {
+    from {
+        opacity: 0;
+        transform: translateX(-14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes lvr-drop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes lvr-scalein {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes lvr-popin {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* the status rule draws downward as its card lands */
+@keyframes lvr-bar-draw {
+    from {
+        transform: scaleY(0);
+    }
+
+    to {
+        transform: scaleY(1);
+    }
+}
+
+/* fires when a status class flips — confirms an approve or reject
+   landed, with no JS hook */
+@keyframes lvr-statusflip {
+    0% {
+        transform: scale(0.86);
+    }
+
+    55% {
+        transform: scale(1.07);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* the blob is position: fixed — drifting it cannot affect scroll */
+@keyframes lvr-drift {
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(-26px, -20px) scale(1.07);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.lvr-back {
+    animation: lvr-slideleft 0.45s var(--lv-ease) 0.02s both;
+}
+
+.lvr-logo {
+    animation: lvr-popin 0.5s var(--lv-ease) 0.08s both;
+}
+
+.lvr-eyebrow {
+    animation: lvr-drop 0.45s var(--lv-ease) 0.12s both;
+}
+
+.lvr-title {
+    animation: lvr-drop 0.5s var(--lv-ease) 0.16s both;
+}
+
+/* the four filter tabs deal out left to right */
+.lvr-tab {
+    animation: lvr-scalein 0.4s var(--lv-ease) both;
+}
+
+.lvr-tab:nth-child(1) {
+    animation-delay: 0.20s;
+}
+
+.lvr-tab:nth-child(2) {
+    animation-delay: 0.25s;
+}
+
+.lvr-tab:nth-child(3) {
+    animation-delay: 0.30s;
+}
+
+.lvr-tab:nth-child(4) {
+    animation-delay: 0.35s;
+}
+
+.lvr-toolbar-actions {
+    animation: lvr-fade 0.45s var(--lv-ease) 0.34s both;
+}
+
+/* OVERRIDE — was lvr-rise (rose from below), with every card firing
+   at once. Scaling up from smaller can't overhang the container. */
+.lvr-card {
+    animation: lvr-scalein 0.42s var(--lv-ease) both;
+}
+
+.lvr-card:nth-child(1) {
+    animation-delay: 0.40s;
+}
+
+.lvr-card:nth-child(2) {
+    animation-delay: 0.46s;
+}
+
+.lvr-card:nth-child(3) {
+    animation-delay: 0.52s;
+}
+
+.lvr-card:nth-child(4) {
+    animation-delay: 0.58s;
+}
+
+.lvr-card:nth-child(5) {
+    animation-delay: 0.64s;
+}
+
+/* past the fifth they arrive together — a long request queue would
+   otherwise leave the tail blank for seconds */
+.lvr-card:nth-child(n+6) {
+    animation-delay: 0.68s;
+}
+
+.lvr-card-bar {
+    transform-origin: top center;
+    animation: lvr-bar-draw 0.5s var(--lv-ease) 0.5s both;
+}
+
+.lvr-avatar {
+    animation: lvr-popin 0.45s var(--lv-ease) 0.54s both;
+}
+
+.lvr-state-icon,
+.lvr-modal-icon {
+    animation: lvr-popin 0.45s var(--lv-ease) 0.1s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* STATUS FEEDBACK — the point of this page                           */
+/* ------------------------------------------------------------------ */
+/* Swapping a class restarts a CSS animation, so approving or
+   rejecting a request pops its badge without any JS involvement. */
+.lvr-status--pending,
+.lvr-status--approved,
+.lvr-status--rejected {
+    animation: lvr-statusflip 0.34s var(--lv-ease);
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+.lvr-tab-icon {
+    transition: transform 0.2s var(--lv-ease);
+}
+
+.lvr-tab:hover:not(.lvr-tab--active) .lvr-tab-icon {
+    transform: scale(1.14);
+}
+
+.lvr-tab--active .lvr-tab-icon {
+    animation: lvr-popin 0.34s var(--lv-ease);
+}
+
+.lvr-tool .lvr-btn-icon {
+    transition: transform 0.22s var(--lv-ease);
+}
+
+/* export arrow dips, matching the download it triggers */
+.lvr-tool--export:hover:not(:disabled) .lvr-btn-icon {
+    transform: translateY(2px);
+}
+
+.lvr-tool--danger .lvr-btn-icon {
+    transform-origin: 50% 20%;
+}
+
+.lvr-tool--danger:hover:not(:disabled) .lvr-btn-icon {
+    transform: rotate(-14deg);
+}
+
+/* the avatar lifts with its card */
+.lvr-avatar {
+    transition: transform 0.22s var(--lv-ease);
+}
+
+.lvr-card:hover .lvr-avatar {
+    transform: scale(1.05);
+}
+
+.lvr-type-chip {
+    transition: transform 0.2s var(--lv-ease);
+}
+
+.lvr-card:hover .lvr-type-chip {
+    transform: translateX(2px);
+}
+
+/* action icons lean the way their action goes */
+.lvr-act svg {
+    transition: transform 0.2s var(--lv-ease);
+}
+
+.lvr-act--approve:hover:not(:disabled) svg {
+    transform: scale(1.15);
+}
+
+.lvr-act--reject:hover:not(:disabled) svg,
+.lvr-act--delete:hover:not(:disabled) svg {
+    transform: rotate(-14deg);
+}
+
+.lvr-act--reject svg,
+.lvr-act--delete svg {
+    transform-origin: 50% 20%;
+}
+
+.lvr-act:active:not(:disabled) {
+    transform: scale(0.97);
+}
+
+.lvr-modal-confirm svg {
+    transition: transform 0.2s var(--lv-ease);
+    transform-origin: 50% 20%;
+}
+
+.lvr-modal-confirm:hover:not(:disabled) svg {
+    transform: rotate(-14deg);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. AMBIENT — slow, low contrast, never the focal point             */
+/* ------------------------------------------------------------------ */
+/* the blob was static; drifting it gives the page some life without
+   touching layout, since it's fixed */
+.lvr-blob {
+    animation: lvr-drift 19s ease-in-out infinite alternate;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* The blanket rule already in this file collapses animations to
+   0.001ms, which settles every `both` fill on its end state. Only the
+   hover transforms and the drawn rail need explicit handling. */
+@media (prefers-reduced-motion: reduce) {
+
+    /* the rail must stay drawn, not collapsed to zero height */
+    .lvr-card-bar {
+        transform: scaleY(1) !important;
+    }
+
+    .lvr-tab:hover:not(.lvr-tab--active) .lvr-tab-icon,
+    .lvr-card:hover .lvr-avatar,
+    .lvr-card:hover .lvr-type-chip,
+    .lvr-tool--export:hover:not(:disabled) .lvr-btn-icon,
+    .lvr-tool--danger:hover:not(:disabled) .lvr-btn-icon,
+    .lvr-act--approve:hover:not(:disabled) svg,
+    .lvr-act--reject:hover:not(:disabled) svg,
+    .lvr-act--delete:hover:not(:disabled) svg,
+    .lvr-modal-confirm:hover:not(:disabled) svg,
+    .lvr-back:hover .lvr-back-icon {
+        transform: none;
+    }
+}

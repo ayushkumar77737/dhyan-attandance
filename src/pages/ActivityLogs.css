@@ -1416,3 +1416,455 @@
         display: none;
     }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive, with three deliberate overrides (noted inline).
+   Reuses the existing actlog-spin, actlog-pulse, actlog-expand,
+   actlog-fadein and actlog-popup keyframes.
+
+   .actlog__page sets overflow-x: hidden, which makes overflow-y
+   compute to auto — the page is its own scroll container. An entrance
+   starting BELOW its final position overhangs that container while it
+   plays and creates real scroll range.
+
+   actlog-fadeup does exactly that (from translateY(12px)) and is used
+   by .actlog__header, .actlog__stat and .actlog__entry — all three are
+   re-pointed at safe equivalents below. None of them had stagger
+   delays either, so every stat and every entry animated at once.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes actlog-fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes actlog-drop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes actlog-slide-left {
+    from {
+        opacity: 0;
+        transform: translateX(-14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes actlog-scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes actlog-pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes actlog-float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+/* The board carries a permanent rotate(-6deg). Any transform animation
+   must restate that in every keyframe, or the tilt is dropped for the
+   duration and the card visibly snaps straight. */
+@keyframes actlog-board-in {
+    0% {
+        opacity: 0;
+        transform: rotate(-6deg) scale(0.72);
+    }
+
+    60% {
+        transform: rotate(-6deg) scale(1.06);
+    }
+
+    100% {
+        opacity: 1;
+        transform: rotate(-6deg) scale(1);
+    }
+}
+
+@keyframes actlog-board-float {
+
+    0%,
+    100% {
+        transform: rotate(-6deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(-6deg) translateY(-6px);
+    }
+}
+
+/* detail tiles unfold from the left as an entry expands */
+@keyframes actlog-detail-in {
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* blobs are position: fixed — drifting them cannot affect scroll */
+@keyframes actlog-drift {
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(24px, 18px) scale(1.06);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.actlog__back-btn {
+    animation: actlog-slide-left 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.02s both;
+}
+
+/* OVERRIDE — was actlog-fadeup (rose from below) */
+.actlog__header {
+    animation: actlog-drop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
+}
+
+/* header art assembles: halo, board, clock */
+.actlog__art-halo {
+    animation: actlog-scale-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+}
+
+.actlog__art-board {
+    animation: actlog-board-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both,
+        actlog-board-float 9s ease-in-out 1s infinite;
+}
+
+.actlog__art-clock {
+    animation: actlog-pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.32s both,
+        actlog-float 7s ease-in-out 1.2s infinite;
+}
+
+/* OVERRIDE — was actlog-fadeup with no delay, so all four fired at once */
+.actlog__stat {
+    animation: actlog-scale-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.actlog__stat:nth-child(1) {
+    animation-delay: 0.22s;
+}
+
+.actlog__stat:nth-child(2) {
+    animation-delay: 0.28s;
+}
+
+.actlog__stat:nth-child(3) {
+    animation-delay: 0.34s;
+}
+
+.actlog__stat:nth-child(4) {
+    animation-delay: 0.40s;
+}
+
+.actlog__stat:nth-child(n+5) {
+    animation-delay: 0.44s;
+}
+
+.actlog__stat-num {
+    animation: actlog-pop 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.46s both;
+}
+
+.actlog__controls {
+    animation: actlog-fade 0.45s ease 0.44s both;
+}
+
+.actlog__result-count {
+    animation: actlog-fade 0.4s ease 0.5s both;
+}
+
+/* OVERRIDE — entries fade only. A transform on every entry of a long
+   timeline is what shifts the scroll height mid-animation. */
+.actlog__entry {
+    animation: actlog-fade 0.35s ease both;
+}
+
+.actlog__entry:nth-child(1) {
+    animation-delay: 0.54s;
+}
+
+.actlog__entry:nth-child(2) {
+    animation-delay: 0.58s;
+}
+
+.actlog__entry:nth-child(3) {
+    animation-delay: 0.62s;
+}
+
+.actlog__entry:nth-child(4) {
+    animation-delay: 0.66s;
+}
+
+.actlog__entry:nth-child(5) {
+    animation-delay: 0.70s;
+}
+
+.actlog__entry:nth-child(6) {
+    animation-delay: 0.74s;
+}
+
+.actlog__entry:nth-child(7) {
+    animation-delay: 0.78s;
+}
+
+/* past the seventh they arrive together — a long log would otherwise
+   leave the tail blank for several seconds */
+.actlog__entry:nth-child(n+8) {
+    animation-delay: 0.82s;
+}
+
+.actlog__empty-icon,
+.actlog__modal-icon {
+    animation: actlog-pop 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* EXPAND — plays on every open, not just page load                    */
+/* ------------------------------------------------------------------ */
+.actlog__detail-item {
+    animation: actlog-detail-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.actlog__detail-item:nth-child(1) {
+    animation-delay: 0.04s;
+}
+
+.actlog__detail-item:nth-child(2) {
+    animation-delay: 0.08s;
+}
+
+.actlog__detail-item:nth-child(3) {
+    animation-delay: 0.12s;
+}
+
+.actlog__detail-item:nth-child(4) {
+    animation-delay: 0.16s;
+}
+
+.actlog__detail-item:nth-child(n+5) {
+    animation-delay: 0.20s;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+.actlog__back-btn .actlog__ico {
+    transition: transform 0.2s ease;
+}
+
+.actlog__back-btn:hover .actlog__ico {
+    transform: translateX(-3px);
+}
+
+/* the tinted icon answers a hover anywhere on its stat card */
+.actlog__stat-icon-wrap {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.actlog__stat:hover .actlog__stat-icon-wrap {
+    transform: scale(1.08) rotate(-5deg);
+}
+
+.actlog__search-wrap:focus-within .actlog__search-icon {
+    color: var(--actlog-green);
+}
+
+.actlog__search-icon {
+    transition: color 0.2s ease;
+}
+
+/* the clear button is centred by translateY(-50%) — the rotation has
+   to go on the glyph, or it would fight that positioning */
+.actlog__search-clear .actlog__ico {
+    transition: transform 0.2s ease;
+}
+
+.actlog__search-clear:hover .actlog__ico {
+    transform: rotate(90deg);
+}
+
+.actlog__filter-btn:hover {
+    transform: translateY(-2px);
+}
+
+.actlog__filter-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* export arrow dips, matching the download it triggers */
+.actlog__export-btn .actlog__ico {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.actlog__export-btn:hover .actlog__ico {
+    transform: translateY(2px);
+}
+
+.actlog__delete-all-btn .actlog__ico,
+.actlog__entry-delete-btn .actlog__ico {
+    transition: transform 0.2s ease;
+    transform-origin: 50% 20%;
+}
+
+.actlog__delete-all-btn:hover .actlog__ico,
+.actlog__entry-delete-btn:hover:not(:disabled) .actlog__ico {
+    transform: rotate(-14deg);
+}
+
+/* the avatar lifts with its entry */
+.actlog__avatar {
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.actlog__entry:hover .actlog__avatar {
+    transform: scale(1.06);
+}
+
+/* the type stripe runs the full entry edge on hover and while open */
+.actlog__entry::before {
+    transition: top 0.25s ease, bottom 0.25s ease;
+}
+
+.actlog__entry:hover::before,
+.actlog__entry--expanded::before {
+    top: 0;
+    bottom: 0;
+}
+
+.actlog__detail-item {
+    transition: border-color 0.15s ease, transform 0.18s ease;
+}
+
+.actlog__detail-item:hover {
+    transform: translateX(2px);
+}
+
+.actlog__modal-cancel:active,
+.actlog__modal-confirm:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. AMBIENT — slow, low contrast, never the focal point             */
+/* ------------------------------------------------------------------ */
+.actlog__art-halo {
+    animation: actlog-scale-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both,
+        actlog-float 8s ease-in-out 1s infinite;
+}
+
+.actlog__blob--1 {
+    animation: actlog-drift 19s ease-in-out infinite alternate;
+}
+
+.actlog__blob--2 {
+    animation: actlog-drift 15s ease-in-out infinite alternate-reverse;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* Entrances use `both`, which pins opacity: 0 until the delay elapses.
+   Without this the page would stay blank when motion is disabled. */
+@media (prefers-reduced-motion: reduce) {
+
+    .actlog__back-btn,
+    .actlog__header,
+    .actlog__art-halo,
+    .actlog__art-clock,
+    .actlog__stat,
+    .actlog__stat-num,
+    .actlog__controls,
+    .actlog__result-count,
+    .actlog__entry,
+    .actlog__detail-item,
+    .actlog__empty-icon,
+    .actlog__modal-icon,
+    .actlog__blob--1,
+    .actlog__blob--2 {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    /* the board keeps its tilt — `transform: none` would straighten it */
+    .actlog__art-board {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: rotate(-6deg) !important;
+    }
+
+    /* the open chevron's rotation is meaning, not decoration */
+    .actlog__chevron--open {
+        transform: rotate(180deg) !important;
+    }
+
+    .actlog__filter-btn:hover,
+    .actlog__stat:hover .actlog__stat-icon-wrap,
+    .actlog__entry:hover .actlog__avatar,
+    .actlog__detail-item:hover,
+    .actlog__back-btn:hover .actlog__ico,
+    .actlog__search-clear:hover .actlog__ico,
+    .actlog__export-btn:hover .actlog__ico,
+    .actlog__delete-all-btn:hover .actlog__ico,
+    .actlog__entry-delete-btn:hover:not(:disabled) .actlog__ico {
+        transform: none;
+    }
+}

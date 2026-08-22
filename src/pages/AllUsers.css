@@ -1197,3 +1197,383 @@
     width: 100%;
   }
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive, with two deliberate overrides (noted inline).
+   Reuses the existing alu-fade, alu-pop and alu-spin keyframes.
+
+   .users-container sets overflow-x: hidden, which makes overflow-y
+   compute to auto — the page is its own scroll container. alu-fadeup
+   starts at translateY(14px), i.e. BELOW its final position, so while
+   it plays it overhangs that container and creates real scroll range.
+   .alu-panel and .alu-row are re-pointed below; the rows also gain
+   the stagger they were missing.
+
+   Your existing reduced-motion block collapses every animation to
+   0.001ms, which settles `both` fills on their end state — so only
+   the two elements whose resting state differs from their keyframe
+   end, plus hover transforms, need handling.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes alu-slideleft {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes alu-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes alu-scalein {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes alu-popin {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  60% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* the header rule draws outward from nothing */
+@keyframes alu-rule-draw {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+
+  to {
+    width: 110px;
+    opacity: 1;
+  }
+}
+
+/* a slow pass of light through the gradient lettering */
+@keyframes alu-title-sheen {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* the dot clusters are position: absolute, so they breathe on opacity
+   only — a transform could extend the page's scroll range */
+@keyframes alu-dots-breathe {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.alu-back {
+  animation: alu-slideleft 0.45s var(--al-ease) 0.02s both;
+}
+
+.alu-eyebrow {
+  animation: alu-popin 0.45s var(--al-ease) 0.08s both;
+}
+
+.alu-title {
+  animation: alu-drop 0.5s var(--al-ease) 0.12s both;
+}
+
+.alu-subtitle {
+  animation: alu-drop 0.5s var(--al-ease) 0.17s both;
+}
+
+.alu-rule {
+  animation: alu-rule-draw 0.6s var(--al-ease) 0.24s both;
+}
+
+.alu-export {
+  animation: alu-scalein 0.45s var(--al-ease) 0.16s both;
+}
+
+/* OVERRIDE — was alu-fadeup, which rises from below */
+.alu-panel {
+  animation: alu-scalein 0.5s var(--al-ease) 0.22s both;
+}
+
+.alu-toolbar {
+  animation: alu-fade 0.45s var(--al-ease) 0.3s both;
+}
+
+/* OVERRIDE — rows fade only. A transform on every row of a long table
+   is what shifts the scroll height mid-animation, and they previously
+   had no delays, so the whole page fired at once. */
+.alu-row {
+  animation: alu-fade 0.35s var(--al-ease) both;
+}
+
+.alu-row:nth-child(1) {
+  animation-delay: 0.36s;
+}
+
+.alu-row:nth-child(2) {
+  animation-delay: 0.40s;
+}
+
+.alu-row:nth-child(3) {
+  animation-delay: 0.44s;
+}
+
+.alu-row:nth-child(4) {
+  animation-delay: 0.48s;
+}
+
+.alu-row:nth-child(5) {
+  animation-delay: 0.52s;
+}
+
+.alu-row:nth-child(6) {
+  animation-delay: 0.56s;
+}
+
+.alu-row:nth-child(7) {
+  animation-delay: 0.60s;
+}
+
+.alu-row:nth-child(8) {
+  animation-delay: 0.64s;
+}
+
+/* past the eighth they arrive together — a paged roster would
+   otherwise leave the tail blank for seconds */
+.alu-row:nth-child(n+9) {
+  animation-delay: 0.68s;
+}
+
+.alu-total-icon {
+  animation: alu-popin 0.45s var(--al-ease) 0.6s both;
+}
+
+.alu-total-num {
+  animation: alu-popin 0.42s var(--al-ease) 0.64s both;
+}
+
+.alu-empty-icon,
+.alu-modal-icon {
+  animation: alu-popin 0.45s var(--al-ease) 0.12s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+.alu-search-icon,
+.alu-filter-icon {
+  transition: color 0.22s var(--al-ease);
+}
+
+.alu-search:focus-within .alu-search-icon,
+.alu-filter:focus-within .alu-filter-icon {
+  color: var(--al-blue-mid);
+}
+
+.alu-search-icon svg {
+  transition: transform 0.22s var(--al-ease);
+}
+
+.alu-search:focus-within .alu-search-icon svg {
+  transform: scale(1.1);
+}
+
+.alu-search-clear {
+  transition: color 0.2s var(--al-ease), transform 0.2s var(--al-ease);
+}
+
+.alu-search-clear:hover {
+  transform: rotate(90deg);
+}
+
+/* the chevron flips while the select has focus, which is the closest
+   CSS can get to an open-state indicator */
+.alu-filter-chevron {
+  transition: transform 0.22s var(--al-ease), color 0.22s var(--al-ease);
+}
+
+.alu-filter:focus-within .alu-filter-chevron {
+  transform: rotate(180deg);
+  color: var(--al-blue-mid);
+}
+
+/* export arrow dips, matching the download it triggers */
+.alu-export .alu-btn-icon {
+  transition: transform 0.22s var(--al-ease);
+}
+
+.alu-export:hover .alu-btn-icon {
+  transform: translateY(2px);
+}
+
+.alu-export:active {
+  transform: scale(0.99);
+}
+
+/* avatar, chip and status dot acknowledge the row together */
+.alu-avatar {
+  transition: transform 0.22s var(--al-ease);
+}
+
+.alu-row:hover .alu-avatar {
+  transform: scale(1.06);
+}
+
+.alu-id-chip {
+  transition: transform 0.2s var(--al-ease);
+}
+
+.alu-row:hover .alu-id-chip {
+  transform: translateX(2px);
+}
+
+.alu-status-dot {
+  transition: transform 0.22s var(--al-ease);
+}
+
+.alu-row:hover .alu-status-dot {
+  transform: scale(1.3);
+}
+
+.alu-email-icon {
+  transition: color 0.22s var(--al-ease);
+}
+
+.alu-row:hover .alu-email-icon {
+  color: var(--al-blue-mid);
+}
+
+/* action icons lean the way their action goes */
+.alu-act svg {
+  transition: transform 0.2s var(--al-ease);
+}
+
+.alu-act--edit:hover svg {
+  transform: rotate(-12deg) scale(1.08);
+}
+
+.alu-act--delete svg {
+  transform-origin: 50% 20%;
+}
+
+.alu-act--delete:hover svg {
+  transform: rotate(-14deg);
+}
+
+.alu-act:active {
+  transform: scale(0.97);
+}
+
+.alu-page-btn:hover:not(:disabled):not(.alu-page-btn--active) {
+  transform: translateY(-2px);
+}
+
+.alu-page-btn {
+  transition: border-color 0.2s var(--al-ease), background 0.2s var(--al-ease),
+    color 0.2s var(--al-ease), transform 0.18s var(--al-ease);
+}
+
+.alu-page-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.alu-cancel:active:not(:disabled),
+.alu-confirm:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. AMBIENT — slow, low contrast, never the focal point             */
+/* ------------------------------------------------------------------ */
+/* the gradient in the title catches light as it passes. Needs a wider
+   background box than the text, hence background-size. */
+.alu-title-accent {
+  background-size: 200% auto;
+  animation: alu-title-sheen 8s linear 1.2s infinite;
+}
+
+.alu-dots {
+  animation: alu-dots-breathe 9s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* The blanket rule already in this file collapses animations to
+   0.001ms, which settles every `both` fill on its end state. These
+   two need explicit handling because a frozen frame is wrong for
+   them, plus the hover transforms. */
+@media (prefers-reduced-motion: reduce) {
+
+  /* the rule has a fixed resting width */
+  .alu-rule {
+    width: 110px !important;
+    opacity: 1 !important;
+  }
+
+  /* the sheen would freeze mid-pass and leave the gradient offset */
+  .alu-title-accent {
+    background-position: 0% 50% !important;
+  }
+
+  .alu-search:focus-within .alu-search-icon svg,
+  .alu-search-clear:hover,
+  .alu-filter:focus-within .alu-filter-chevron,
+  .alu-export:hover .alu-btn-icon,
+  .alu-row:hover .alu-avatar,
+  .alu-row:hover .alu-id-chip,
+  .alu-row:hover .alu-status-dot,
+  .alu-act--edit:hover svg,
+  .alu-act--delete:hover svg,
+  .alu-page-btn:hover:not(:disabled):not(.alu-page-btn--active),
+  .alu-back:hover .alu-back-icon {
+    transform: none;
+  }
+}
