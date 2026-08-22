@@ -857,3 +857,306 @@
     --a-blob: rgba(244, 63, 94, 0.21);
     --a-ring: rgba(244, 63, 94, 0.32);
 }
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes lg-card-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes lg-rise {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes lg-drop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes lg-slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes lg-pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.09);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* the rule beneath the heading opens outward from its centre */
+@keyframes lg-rule-open {
+    from {
+        transform: scaleX(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE — CARD                                                 */
+/* ------------------------------------------------------------------ */
+/* OVERRIDE — was cardRise (28px from below) inside a 100vh container,
+   where the overshoot can briefly exceed the viewport */
+.login-card {
+    animation: lg-card-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. ENTRANCE — BRAND PANEL                                          */
+/* ------------------------------------------------------------------ */
+.lg-brand,
+.lg-logo {
+    animation: lg-pop 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
+}
+
+.lg-headline,
+.login-left h1 {
+    animation: lg-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.34s both;
+}
+
+.lg-subline,
+.login-left p {
+    animation: lg-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
+/* feature rows cascade down the panel */
+.lg-feature {
+    animation: lg-slide-in 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.lg-feature:nth-child(1) {
+    animation-delay: 0.46s;
+}
+
+.lg-feature:nth-child(2) {
+    animation-delay: 0.52s;
+}
+
+.lg-feature:nth-child(3) {
+    animation-delay: 0.58s;
+}
+
+.lg-feature:nth-child(n+4) {
+    animation-delay: 0.62s;
+}
+
+.lg-feature-icon {
+    animation: lg-pop 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. ENTRANCE — FORM PANEL                                           */
+/* ------------------------------------------------------------------ */
+.lg-form-title,
+.login-right h2 {
+    animation: lg-drop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.34s both;
+}
+
+.lg-form-sub,
+.login-right>p {
+    animation: lg-drop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.39s both;
+}
+
+.lg-rule,
+.lg-divider {
+    transform-origin: center;
+    animation: lg-rule-open 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.42s both;
+}
+
+/* Fields cascade top-down. The chain of sibling combinators is
+   deliberate: the form holds a mix of headings, fields, a remember
+   row and the button, so nth-child would miscount. */
+.lg-field,
+.login-field,
+.form-group {
+    animation: lg-rise 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.48s both;
+}
+
+.lg-field~.lg-field,
+.login-field~.login-field,
+.form-group~.form-group {
+    animation-delay: 0.55s;
+}
+
+.lg-field~.lg-field~.lg-field,
+.login-field~.login-field~.login-field,
+.form-group~.form-group~.form-group {
+    animation-delay: 0.62s;
+}
+
+.lg-options,
+.lg-remember {
+    animation: lg-rise 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.66s both;
+}
+
+.login-btn,
+.lg-submit {
+    animation: lg-rise 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.72s both;
+}
+
+.lg-footer,
+.login-footer {
+    animation: containerFade 0.5s ease 0.8s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 4. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+/* the leading icon lights with its input — focus-within reaches it
+   because the icon and the input share the field wrapper */
+.lg-field-icon,
+.login-field-icon {
+    transition: color 0.22s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lg-field:focus-within .lg-field-icon,
+.login-field:focus-within .login-field-icon,
+.form-group:focus-within .lg-field-icon {
+    transform: scale(1.12);
+}
+
+.lg-eye svg,
+.lg-toggle-pwd svg,
+.password-toggle svg {
+    transition: transform 0.2s ease;
+}
+
+.lg-eye:hover svg,
+.lg-toggle-pwd:hover svg,
+.password-toggle:hover svg {
+    transform: scale(1.14);
+}
+
+/* the submit glyph leans into the commit */
+.login-btn svg,
+.lg-submit svg {
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.login-btn:hover:not(:disabled) svg,
+.lg-submit:hover:not(:disabled) svg {
+    transform: translateX(3px);
+}
+
+.login-btn:active:not(:disabled),
+.lg-submit:active:not(:disabled) {
+    transform: scale(0.985);
+}
+
+.lg-feature-icon {
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lg-feature:hover .lg-feature-icon {
+    transform: scale(1.08);
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* This file had no reduced-motion block, so the list below covers the
+   ORIGINAL animations as well as the ones added above. The error
+   shake is included deliberately: a shaking form is exactly the kind
+   of motion this setting exists to suppress, and the message's colour
+   and icon still carry the meaning without it. */
+@media (prefers-reduced-motion: reduce) {
+
+    .login-container,
+    .login-card,
+    .lg-brand,
+    .lg-logo,
+    .lg-headline,
+    .login-left h1,
+    .lg-subline,
+    .login-left p,
+    .lg-feature,
+    .lg-feature-icon,
+    .lg-form-title,
+    .login-right h2,
+    .lg-form-sub,
+    .lg-field,
+    .login-field,
+    .form-group,
+    .lg-options,
+    .lg-remember,
+    .login-btn,
+    .lg-submit,
+    .lg-footer,
+    .login-footer,
+    .lg-float-badge,
+    .error-message,
+    .lg-error {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    /* the rules must stay drawn, not collapsed to zero width */
+    .lg-rule,
+    .lg-divider {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: scaleX(1) !important;
+    }
+
+    .spinner,
+    .lg-spinner {
+        animation-duration: 2.4s !important;
+    }
+
+    .lg-field:focus-within .lg-field-icon,
+    .login-field:focus-within .login-field-icon,
+    .lg-eye:hover svg,
+    .password-toggle:hover svg,
+    .login-btn:hover:not(:disabled) svg,
+    .lg-submit:hover:not(:disabled) svg,
+    .lg-feature:hover .lg-feature-icon {
+        transform: none;
+    }
+}

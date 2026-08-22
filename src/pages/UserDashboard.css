@@ -2362,3 +2362,898 @@
 .ud-container[data-theme="light"] .ud-search {
   border-color: rgba(99, 102, 241, 0.25);
 }
+
+/* ================================================================ */
+/* ADDITIONAL ANIMATIONS - ADD AT END OF CSS (BEFORE LIGHT THEME)  */
+/* ================================================================ */
+
+/* Topbar Animations */
+.ud-topbar {
+  animation: ud-slidedown 0.6s ease;
+}
+
+.ud-topbar-search input {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.ud-topbar-search input:focus {
+  transform: translateY(-2px);
+}
+
+.ud-theme-btn {
+  transition: all 0.2s ease;
+  animation: ud-scale-in 0.4s ease 0.1s both;
+}
+
+.ud-theme-btn:hover {
+  transform: scale(1.05) rotate(5deg);
+}
+
+.ud-topbar-avatar {
+  animation: ud-scale-in 0.4s ease 0.08s both;
+  transition: transform 0.3s ease;
+}
+
+.ud-topbar-avatar:hover {
+  transform: scale(1.08);
+}
+
+.ud-topbar-avatar-dot {
+  animation: ud-glow-pulse 2s ease-in-out infinite;
+}
+
+.ud-portal-label {
+  animation: ud-fade-in 0.5s ease 0.05s both;
+}
+
+.ud-logout-btn {
+  animation: ud-slideright 0.5s ease 0.12s both;
+  transition: all 0.2s ease;
+}
+
+.ud-logout-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Greeting Notification - Already has animation, enhance it */
+.ud-greeting {
+  animation: ud-greeting-drop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ud-greeting-icon {
+  animation: ud-bounce 1.2s ease-in-out infinite;
+}
+
+/* Hero Card Animations */
+.ud-hero-card {
+  animation: ud-card-in 0.6s ease 0.05s both;
+  transition: transform 0.3s ease;
+}
+
+.ud-hero-card:hover {
+  transform: translateY(-4px);
+}
+
+.ud-hero-card::before {
+  animation: ud-line-glow 2s ease-in-out infinite;
+}
+
+.ud-avatar {
+  animation: ud-scale-in 0.5s ease 0.15s both;
+  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ud-avatar:hover {
+  transform: scale(1.08) rotate(3deg);
+  box-shadow: 0 16px 40px rgba(99, 102, 241, 0.6);
+}
+
+.ud-avatar-dot {
+  animation: ud-dot-scale 0.4s ease 0.3s both;
+}
+
+.ud-user-name {
+  animation: ud-text-glow 0.7s ease 0.2s both;
+}
+
+.ud-user-id-pill {
+  animation: ud-fade-in 0.6s ease 0.25s both;
+  transition: all 0.2s ease;
+}
+
+.ud-user-id-pill:hover {
+  background: rgba(139, 92, 246, 0.25);
+  border-color: rgba(167, 139, 250, 0.55);
+  transform: translateY(-2px);
+}
+
+.ud-status-pill {
+  animation: ud-scale-in 0.5s ease 0.28s both;
+}
+
+.ud-hero-stat {
+  animation: ud-stat-in 0.5s ease both;
+}
+
+.ud-hero-stat:nth-child(1) {
+  animation-delay: 0.35s;
+}
+
+.ud-hero-stat:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.ud-hero-stat:nth-child(3) {
+  animation-delay: 0.45s;
+}
+
+.ud-hero-stat:hover {
+  transform: translateY(-3px);
+}
+
+.ud-hero-stat-icon {
+  transition: transform 0.3s ease;
+  animation: ud-icon-float 3s ease-in-out infinite;
+}
+
+.ud-hero-stat:hover .ud-hero-stat-icon {
+  transform: scale(1.12) rotate(8deg);
+}
+
+.ud-hero-stat-val {
+  animation: ud-number-popup 0.6s ease both;
+}
+
+.ud-hero-stat:nth-child(1) .ud-hero-stat-val {
+  animation-delay: 0.5s;
+}
+
+.ud-hero-stat:nth-child(2) .ud-hero-stat-val {
+  animation-delay: 0.55s;
+}
+
+.ud-hero-stat:nth-child(3) .ud-hero-stat-val {
+  animation-delay: 0.6s;
+}
+
+/* Search Section Animations */
+.ud-search-wrap {
+  animation: ud-slideup 0.5s ease 0.08s both;
+}
+
+.ud-search {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.ud-search:focus {
+  transform: translateY(-2px);
+}
+
+.ud-search-clear {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.ud-search-clear:hover {
+  transform: scale(1.15);
+}
+
+/* Activity Overview Animations */
+.ud-activity-grid {
+  animation: ud-slideup 0.5s ease 0.1s both;
+}
+
+.ud-act-card {
+  animation: ud-card-in 0.5s ease both;
+  transition: all 0.22s ease;
+}
+
+.ud-act-card:nth-child(1) {
+  animation-delay: 0.12s;
+}
+
+.ud-act-card:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.ud-act-card:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.ud-act-card:hover {
+  transform: translateY(-3px);
+}
+
+.ud-act-icon {
+  animation: ud-icon-pulse 2s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.ud-act-card:hover .ud-act-icon {
+  transform: scale(1.1) rotate(-8deg);
+}
+
+.ud-act-val {
+  animation: ud-number-popup 0.6s ease both;
+}
+
+.ud-act-card:nth-child(1) .ud-act-val {
+  animation-delay: 0.25s;
+}
+
+.ud-act-card:nth-child(2) .ud-act-val {
+  animation-delay: 0.3s;
+}
+
+.ud-act-card:nth-child(3) .ud-act-val {
+  animation-delay: 0.35s;
+}
+
+/* Quick Actions Animations */
+.ud-action-grid {
+  animation: ud-slideup 0.5s ease 0.12s both;
+}
+
+.ud-action-btn {
+  animation: ud-action-in 0.4s ease both;
+  transition: all 0.22s ease;
+}
+
+.ud-action-btn:nth-child(1) {
+  animation-delay: 0.14s;
+}
+
+.ud-action-btn:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.ud-action-btn:nth-child(3) {
+  animation-delay: 0.22s;
+}
+
+.ud-action-btn:nth-child(4) {
+  animation-delay: 0.26s;
+}
+
+.ud-action-btn:nth-child(5) {
+  animation-delay: 0.3s;
+}
+
+.ud-action-btn:nth-child(n+6) {
+  animation-delay: 0.34s;
+}
+
+.ud-action-btn:hover {
+  transform: translateY(-2px);
+}
+
+.ud-action-icon {
+  transition: transform 0.3s ease;
+  animation: ud-icon-float 3.5s ease-in-out infinite;
+}
+
+.ud-action-btn:hover .ud-action-icon {
+  transform: scale(1.15) rotate(12deg);
+}
+
+/* Sidebar Animations */
+.ud-sidebar-header {
+  animation: ud-slideright 0.6s ease;
+}
+
+.ud-sidebar-logo {
+  animation: ud-scale-in 0.5s ease 0.1s both;
+}
+
+.ud-sidebar-title {
+  animation: ud-fade-in 0.5s ease 0.12s both;
+}
+
+.ud-nav-item {
+  animation: ud-slideright 0.4s ease both;
+  transition: all 0.18s ease;
+}
+
+.ud-nav-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.ud-nav-item:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.ud-nav-item:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.ud-nav-item:nth-child(4) {
+  animation-delay: 0.25s;
+}
+
+.ud-nav-item:nth-child(5) {
+  animation-delay: 0.3s;
+}
+
+.ud-nav-item:nth-child(n+6) {
+  animation-delay: 0.35s;
+}
+
+.ud-nav-item:hover {
+  transform: translateX(4px);
+}
+
+.ud-nav-item--active {
+  animation: ud-nav-active 0.4s ease;
+}
+
+.ud-nav-icon {
+  transition: transform 0.3s ease;
+}
+
+.ud-nav-item:hover .ud-nav-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.ud-nav-badge {
+  animation: ud-badge-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ud-sidebar-footer {
+  animation: ud-fadeup 0.6s ease 0.2s both;
+}
+
+.ud-sidebar-cta {
+  transition: all 0.3s ease;
+}
+
+.ud-sidebar-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
+}
+
+/* Calendar Animations */
+.ud-cal-grid {
+  animation: ud-card-in 0.6s ease 0.15s both;
+}
+
+.ud-cal-cell {
+  animation: ud-cal-cell-in 0.3s ease both;
+  transition: all 0.12s ease;
+}
+
+.ud-cal-cell:nth-child(n+8):nth-child(-n+14) {
+  animation-delay: 0.05s;
+}
+
+.ud-cal-cell:nth-child(n+15):nth-child(-n+21) {
+  animation-delay: 0.1s;
+}
+
+.ud-cal-cell:nth-child(n+22):nth-child(-n+28) {
+  animation-delay: 0.15s;
+}
+
+.ud-cal-cell:nth-child(n+29) {
+  animation-delay: 0.2s;
+}
+
+.ud-cal-cell:hover {
+  background: rgba(99, 102, 241, 0.15);
+}
+
+.ud-cal-today {
+  animation: ud-today-glow 1.5s ease-in-out infinite;
+}
+
+/* Mini Table Animations */
+.ud-mini-table {
+  animation: ud-slideup 0.5s ease 0.12s both;
+}
+
+.ud-mini-table tbody tr {
+  animation: ud-table-row-in 0.4s ease both;
+  transition: all 0.16s ease;
+}
+
+.ud-mini-table tbody tr:nth-child(1) {
+  animation-delay: 0.15s;
+}
+
+.ud-mini-table tbody tr:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.ud-mini-table tbody tr:nth-child(3) {
+  animation-delay: 0.25s;
+}
+
+.ud-mini-table tbody tr:nth-child(n+4) {
+  animation-delay: 0.3s;
+}
+
+.ud-mini-table tbody tr:hover {
+  background: rgba(99, 102, 241, 0.08);
+  transform: translateX(2px);
+}
+
+.ud-badge {
+  transition: all 0.2s ease;
+}
+
+.ud-badge:hover {
+  transform: scale(1.08);
+}
+
+/* Summary Donut Animations */
+.ud-summary {
+  animation: ud-slideup 0.5s ease 0.1s both;
+}
+
+.ud-ring {
+  animation: ud-scale-in 0.6s ease 0.2s both;
+  transition: transform 0.3s ease;
+}
+
+.ud-ring:hover {
+  transform: scale(1.05);
+}
+
+.ud-ring-pct {
+  animation: ud-number-popup 0.7s ease 0.4s both;
+}
+
+.ud-summary-legend {
+  animation: ud-slideup 0.5s ease 0.15s both;
+}
+
+.ud-summary-legend li {
+  animation: ud-fadeup 0.4s ease both;
+}
+
+.ud-summary-legend li:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.ud-summary-legend li:nth-child(2) {
+  animation-delay: 0.25s;
+}
+
+.ud-summary-legend li:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Events & Achievements Animations */
+.ud-event {
+  animation: ud-slideup 0.4s ease both;
+  transition: all 0.18s ease;
+}
+
+.ud-event:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.ud-event:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.ud-event:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.ud-event:hover {
+  transform: translateX(4px);
+}
+
+.ud-event-icon {
+  animation: ud-icon-float 3s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.ud-event:hover .ud-event-icon {
+  transform: scale(1.1) rotate(-8deg);
+}
+
+.ud-achievement {
+  animation: ud-slideup 0.5s ease both;
+  transition: all 0.2s ease;
+}
+
+.ud-achievement:hover {
+  transform: translateY(-2px);
+}
+
+.ud-medal {
+  animation: ud-medal-bounce 2s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.ud-achievement:hover .ud-medal {
+  transform: scale(1.12) rotate(8deg);
+}
+
+/* Quote Card Animations */
+.ud-quote-card {
+  animation: ud-card-in 0.6s ease 0.1s both;
+  transition: all 0.3s ease;
+}
+
+.ud-quote-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(139, 92, 246, 0.3);
+}
+
+.ud-quote-mark {
+  animation: ud-quote-appear 0.5s ease 0.2s both;
+}
+
+.ud-quote-text {
+  animation: ud-text-glow 0.7s ease 0.25s both;
+}
+
+/* Side Card Animations */
+.ud-side-card {
+  animation: ud-card-in 0.5s ease both;
+  transition: all 0.3s ease;
+}
+
+.ud-side-card:hover {
+  transform: translateY(-2px);
+}
+
+.ud-view-all {
+  transition: all 0.2s ease;
+}
+
+.ud-view-all:hover {
+  transform: translateX(2px);
+}
+
+/* User Menu Animations */
+.ud-user-btn {
+  transition: all 0.2s ease;
+  animation: ud-scale-in 0.4s ease 0.1s both;
+}
+
+.ud-user-btn:hover {
+  transform: scale(1.05);
+}
+
+.ud-menu-dropdown {
+  animation: ud-dropdown-in 0.25s ease;
+}
+
+.ud-menu-dropdown button {
+  animation: ud-slideright 0.3s ease both;
+  transition: all 0.16s ease;
+}
+
+.ud-menu-dropdown button:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.ud-menu-dropdown button:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.ud-menu-dropdown button:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.ud-menu-dropdown button:nth-child(n+4) {
+  animation-delay: 0.2s;
+}
+
+.ud-menu-dropdown button:hover {
+  transform: translateX(3px);
+}
+
+/* Notification Bell Animations */
+.ud-bell-badge {
+  animation: ud-badge-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ================================================================ */
+/* NEW KEYFRAME ANIMATIONS                                          */
+/* ================================================================ */
+
+@keyframes ud-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ud-slidedown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ud-slideup {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ud-fadeup {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ud-slideright {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes ud-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ud-text-glow {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes ud-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes ud-stat-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes ud-action-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes ud-number-popup {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes ud-icon-float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes ud-icon-pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes ud-glow-pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.55);
+  }
+
+  50% {
+    opacity: 0.6;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.8);
+  }
+}
+
+@keyframes ud-badge-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.5) translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes ud-dot-scale {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ud-line-glow {
+
+  0%,
+  100% {
+    opacity: 0.5;
+    filter: blur(1px);
+  }
+
+  50% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+@keyframes ud-bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes ud-cal-cell-in {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ud-today-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px var(--indigo);
+  }
+
+  50% {
+    box-shadow: 0 0 8px 2px rgba(99, 102, 241, 0.5);
+  }
+}
+
+@keyframes ud-table-row-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes ud-nav-active {
+  from {
+    transform: scale(0.95);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes ud-medal-bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes ud-quote-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ud-dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

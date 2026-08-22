@@ -776,3 +776,466 @@
     border-color: rgba(20, 30, 55, 0.1);
     border-top-color: #10b981;
 }
+
+/* ================================================================ */
+/* ADDITIONAL ANIMATIONS - ADD AT END OF CSS (BEFORE LIGHT THEME)  */
+/* ================================================================ */
+
+/* Back Button Animations */
+.myattn__back-btn {
+    animation: myattn-slideright 0.5s var(--ease) 0.05s both;
+}
+
+.myattn__back-btn svg {
+    transition: transform 0.24s var(--ease);
+}
+
+.myattn__back-btn:hover svg {
+    transform: translateX(-2px);
+}
+
+/* Header Animations */
+.myattn__header {
+    animation: myattn-slidedown 0.6s var(--ease);
+}
+
+.myattn__logo-tile {
+    animation: myattn-scale-in 0.5s var(--ease) 0.1s both;
+}
+
+.myattn__header-text {
+    animation: myattn-slideup 0.5s var(--ease) 0.12s both;
+}
+
+.myattn__title {
+    animation: myattn-text-glow 0.8s var(--ease) 0.15s both;
+}
+
+.myattn__subtitle {
+    animation: myattn-fade-in 0.6s var(--ease) 0.2s both;
+}
+
+.myattn__cal-art {
+    animation: myattn-scale-in 0.6s var(--ease) 0.08s both;
+}
+
+/* Orb Animations */
+.myattn__orb--1 {
+    animation: myattn-float-left 8s ease-in-out infinite;
+}
+
+.myattn__orb--2 {
+    animation: myattn-float-right 8s ease-in-out infinite;
+}
+
+/* Dots Decoration Animations */
+.myattn__dots--1 {
+    animation: myattn-dots-fade 1.2s var(--ease) 0.25s both;
+}
+
+.myattn__dots--2 {
+    animation: myattn-dots-fade 1.2s var(--ease) 0.3s both;
+}
+
+.myattn__leaf {
+    animation: myattn-leaf-rotate 12s ease-in-out infinite;
+}
+
+/* Stats Card Animations */
+.myattn__stat {
+    animation: myattn-stat-in 0.5s var(--ease) both;
+}
+
+.myattn__stat:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.myattn__stat:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.myattn__stat:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.myattn__stat:nth-child(4) {
+    animation-delay: 0.25s;
+}
+
+.myattn__stat:hover {
+    transform: translateY(-3px);
+    border-color: var(--attn-border-strong);
+    box-shadow: var(--attn-shadow);
+}
+
+.myattn__stat-icon {
+    transition: transform 0.3s var(--ease);
+    animation: myattn-icon-float 3s ease-in-out infinite;
+}
+
+.myattn__stat:hover .myattn__stat-icon {
+    transform: scale(1.12) rotate(-8deg);
+}
+
+.myattn__stat-val {
+    animation: myattn-number-popup 0.6s var(--ease) both;
+}
+
+.myattn__stat:nth-child(1) .myattn__stat-val {
+    animation-delay: 0.25s;
+}
+
+.myattn__stat:nth-child(2) .myattn__stat-val {
+    animation-delay: 0.3s;
+}
+
+.myattn__stat:nth-child(3) .myattn__stat-val {
+    animation-delay: 0.35s;
+}
+
+.myattn__stat:nth-child(4) .myattn__stat-val {
+    animation-delay: 0.4s;
+}
+
+.myattn__stat-blob {
+    animation: myattn-blob-float 4s ease-in-out infinite;
+}
+
+.myattn__stat:nth-child(1) .myattn__stat-blob {
+    animation-delay: 0s;
+}
+
+.myattn__stat:nth-child(2) .myattn__stat-blob {
+    animation-delay: 0.5s;
+}
+
+.myattn__stat:nth-child(3) .myattn__stat-blob {
+    animation-delay: 1s;
+}
+
+.myattn__stat:nth-child(4) .myattn__stat-blob {
+    animation-delay: 1.5s;
+}
+
+.myattn__stat-badge {
+    animation: myattn-badge-pop 0.5s var(--ease) both;
+}
+
+.myattn__stat:nth-child(1) .myattn__stat-badge {
+    animation-delay: 0.4s;
+}
+
+.myattn__stat:nth-child(2) .myattn__stat-badge {
+    animation-delay: 0.45s;
+}
+
+.myattn__stat:nth-child(3) .myattn__stat-badge {
+    animation-delay: 0.5s;
+}
+
+.myattn__stat:nth-child(4) .myattn__stat-badge {
+    animation-delay: 0.55s;
+}
+
+/* Filter Animations */
+.myattn__filter {
+    animation: myattn-slideup 0.5s var(--ease) 0.08s both;
+}
+
+.myattn__select {
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.myattn__select:hover {
+    transform: translateY(-2px);
+}
+
+.myattn__select:focus {
+    transform: translateY(-2px);
+}
+
+/* Table Animations */
+.myattn__table-wrap {
+    animation: myattn-card-in 0.6s var(--ease) 0.12s both;
+}
+
+.myattn__table tbody tr {
+    transition: background 0.16s var(--ease), transform 0.16s var(--ease);
+}
+
+.myattn__table tbody tr:hover {
+    background: rgba(16, 185, 129, 0.06);
+    transform: translateX(4px);
+}
+
+.myattn__table tbody td {
+    animation: myattn-table-cell-in 0.4s var(--ease) both;
+}
+
+.myattn__table tbody tr:nth-child(1) td {
+    animation-delay: 0.2s;
+}
+
+.myattn__table tbody tr:nth-child(2) td {
+    animation-delay: 0.25s;
+}
+
+.myattn__table tbody tr:nth-child(3) td {
+    animation-delay: 0.3s;
+}
+
+.myattn__table tbody tr:nth-child(n+4) td {
+    animation-delay: 0.35s;
+}
+
+.myattn__td-date {
+    align-items: center;
+}
+
+.myattn__date-icon {
+    transition: transform 0.3s var(--ease);
+    animation: myattn-icon-pulse 2s ease-in-out infinite;
+}
+
+.myattn__table tbody tr:hover .myattn__date-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.myattn__badge {
+    transition: all 0.2s var(--ease);
+}
+
+.myattn__badge:hover {
+    transform: scale(1.05);
+}
+
+/* Spinner & Empty State Animations */
+.myattn__spinner {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+.myattn__empty {
+    animation: myattn-fade-in 0.6s var(--ease);
+}
+
+.myattn__empty span {
+    animation: myattn-bounce 1.2s ease-in-out infinite;
+}
+
+/* ================================================================ */
+/* NEW KEYFRAME ANIMATIONS                                          */
+/* ================================================================ */
+
+@keyframes myattn-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes myattn-slideright {
+    from {
+        opacity: 0;
+        transform: translateX(-16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes myattn-slidedown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes myattn-scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.88);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes myattn-text-glow {
+    from {
+        opacity: 0;
+        filter: blur(4px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+@keyframes myattn-stat-in {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes myattn-card-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+        filter: blur(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes myattn-number-popup {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes myattn-badge-pop {
+    from {
+        opacity: 0;
+        transform: scale(0.6) translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes myattn-float-left {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(20px, -20px);
+    }
+}
+
+@keyframes myattn-float-right {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(-20px, 20px);
+    }
+}
+
+@keyframes myattn-blob-float {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(8px, -8px);
+    }
+}
+
+@keyframes myattn-icon-float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes myattn-icon-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+@keyframes myattn-leaf-rotate {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(3deg);
+    }
+}
+
+@keyframes myattn-dots-fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes myattn-table-cell-in {
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes myattn-bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
