@@ -1148,3 +1148,319 @@
 .mprf__page[data-theme="light"] .mprf__loader-ring--2 {
     border-top-color: #6366f1;
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive, with one deliberate override (noted inline).
+   Reuses the existing mprf__fadeIn, mprf__slideUp, mprf__slideDown,
+   mprf__pulse and mprf__spin keyframes.
+
+   TWO THINGS THIS FILE WAS MISSING
+   1. No prefers-reduced-motion block existed anywhere in the file, so
+      every entrance, the pulsing dot and the loader ran regardless of
+      the OS setting. A full one is added at the bottom, covering the
+      original animations as well as these.
+
+   2. .mprf__page is NOT a scroll container — the document scrolls. So
+      an entrance that starts below its final position genuinely
+      extends the page while it plays. .mprf__secure-footer is the
+      bottom-most element and used slideUp (30px), so it is re-pointed
+      at a fade; the items above it are far enough from the bottom
+      edge that their overshoot is absorbed by the page padding.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes mprf__pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.09);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* the hairline above the card opens outward from its centre */
+@keyframes mprf__stripeOpen {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@keyframes mprf__dividerOpen {
+    from {
+        transform: scaleX(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+}
+
+/* the avatar's outer glow breathes — box-shadow only, so the avatar
+   itself never moves and the monogram stays crisp */
+@keyframes mprf__avatarGlow {
+
+    0%,
+    100% {
+        box-shadow:
+            0 10px 30px rgba(99, 102, 241, 0.35),
+            0 0 0 6px rgba(99, 102, 241, 0.08);
+    }
+
+    50% {
+        box-shadow:
+            0 10px 38px rgba(99, 102, 241, 0.5),
+            0 0 0 11px rgba(99, 102, 241, 0.05);
+    }
+}
+
+/* the green presence dot sends out a soft ring */
+@keyframes mprf__statusPing {
+    0% {
+        box-shadow: 0 0 10px rgba(34, 197, 94, 0.55), 0 0 0 0 rgba(34, 197, 94, 0.45);
+    }
+
+    70% {
+        box-shadow: 0 0 10px rgba(34, 197, 94, 0.55), 0 0 0 10px rgba(34, 197, 94, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 10px rgba(34, 197, 94, 0.55), 0 0 0 0 rgba(34, 197, 94, 0);
+    }
+}
+
+/* a slow pass of light through the gradient lettering */
+@keyframes mprf__titleSheen {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 200% 50%;
+    }
+}
+
+@keyframes mprf__glowBreathe {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.45;
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE — filling the gaps in the existing sequence            */
+/* ------------------------------------------------------------------ */
+.mprf__card-stripe {
+    transform-origin: center;
+    animation: mprf__stripeOpen 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+}
+
+.mprf__avatar-status {
+    animation: mprf__pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
+}
+
+.mprf__id-badge {
+    animation: mprf__pop 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+}
+
+.mprf__divider {
+    transform-origin: center;
+    animation: mprf__dividerOpen 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
+.mprf__verified-tag,
+.mprf__phone-tag {
+    animation: mprf__pop 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both;
+}
+
+/* OVERRIDE — was slideUp (30px from below). This is the bottom-most
+   element on a page that the document scrolls, so its overshoot
+   extends the page while it plays. */
+.mprf__secure-footer {
+    animation: mprf__fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
+.mprf__secure-icon {
+    animation: mprf__pop 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+}
+
+.mprf__not-found-circle {
+    animation: mprf__pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+/* modal fields cascade on every open */
+.mprf__modal-field {
+    animation: mprf__fadeIn 0.3s ease both;
+}
+
+.mprf__modal-field:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.mprf__modal-field:nth-child(2) {
+    animation-delay: 0.14s;
+}
+
+.mprf__modal-field:nth-child(3) {
+    animation-delay: 0.18s;
+}
+
+.mprf__modal-field:nth-child(4) {
+    animation-delay: 0.22s;
+}
+
+.mprf__modal-field:nth-child(n+5) {
+    animation-delay: 0.26s;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. AMBIENT — box-shadow and opacity only                           */
+/* ------------------------------------------------------------------ */
+.mprf__avatar-ring {
+    animation: mprf__avatarGlow 5s ease-in-out 1s infinite;
+}
+
+.mprf__avatar-status {
+    animation: mprf__pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both,
+        mprf__statusPing 2.8s ease-out 1.2s infinite;
+}
+
+.mprf__id-dot {
+    animation: mprf__pulse 2.4s ease-in-out infinite;
+}
+
+.mprf__card-glow {
+    animation: mprf__glowBreathe 9s ease-in-out infinite;
+}
+
+/* the whole title is gradient-filled, so it takes the sheen cleanly */
+.mprf__title {
+    background-size: 200% auto;
+    animation: mprf__titleSheen 10s linear 1.5s infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+.mprf__back-btn svg {
+    transition: transform 0.22s ease;
+}
+
+.mprf__back-btn:hover svg {
+    transform: translateX(-3px);
+}
+
+/* each field's coloured chip answers the hover on its row */
+.mprf__item-icon {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mprf__item:hover .mprf__item-icon {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.mprf__edit-trigger:active {
+    transform: scale(0.96);
+}
+
+.mprf__modal-close {
+    transition: all 0.2s ease, transform 0.25s ease;
+}
+
+.mprf__modal-close:hover {
+    transform: rotate(90deg);
+}
+
+.mprf__modal-save:active:not(:disabled),
+.mprf__modal-cancel:active {
+    transform: scale(0.97);
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* This file had no reduced-motion block, so the list below covers the
+   ORIGINAL animations as well as the ones added above. */
+@media (prefers-reduced-motion: reduce) {
+
+    .mprf__page,
+    .mprf__back-btn,
+    .mprf__header,
+    .mprf__badge-dot,
+    .mprf__card,
+    .mprf__avatar-section,
+    .mprf__item,
+    .mprf__modal,
+    .mprf__modal-overlay,
+    .mprf__modal-field,
+    .mprf__card-stripe,
+    .mprf__divider,
+    .mprf__id-badge,
+    .mprf__id-dot,
+    .mprf__verified-tag,
+    .mprf__phone-tag,
+    .mprf__secure-footer,
+    .mprf__secure-icon,
+    .mprf__not-found-circle,
+    .mprf__card-glow {
+        animation: none !important;
+        opacity: 1 !important;
+    }
+
+    /* these carry a resting transform that must survive the reset */
+    .mprf__card-stripe,
+    .mprf__divider {
+        transform: scaleX(1) !important;
+    }
+
+    .mprf__card-glow {
+        transform: translateX(-50%) !important;
+    }
+
+    /* the sheen would freeze mid-pass and leave the gradient offset */
+    .mprf__title {
+        animation: none !important;
+        background-position: 0% 50% !important;
+    }
+
+    /* glow loops are box-shadow only — just stop them */
+    .mprf__avatar-ring,
+    .mprf__avatar-status {
+        animation: none !important;
+    }
+
+    .mprf__loader-ring {
+        animation-duration: 2.4s !important;
+    }
+
+    .mprf__item:hover,
+    .mprf__item:hover .mprf__item-icon,
+    .mprf__back-btn:hover,
+    .mprf__back-btn:hover svg,
+    .mprf__edit-trigger:hover,
+    .mprf__modal-close:hover,
+    .mprf__modal-save:hover {
+        transform: none;
+    }
+}

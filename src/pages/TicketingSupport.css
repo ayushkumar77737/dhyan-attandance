@@ -1547,3 +1547,402 @@
 .tsp__page[data-theme="light"] .tsp__ha-spark {
     fill: #059669;
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive only — no existing rule is replaced. Reuses the existing
+   tsp__fadeIn, tsp__slideUp, tsp__slideDown, tsp__pulse, tsp__modalPop
+   and tsp__orbDrift keyframes.
+
+   .tsp__page uses `overflow: hidden` on BOTH axes, so it never scrolls
+   itself and transform overshoot is clipped — the "never start below
+   the final position" constraint from the table pages doesn't apply.
+
+   TWO GAPS THIS FILLS
+   1. The ticket cards, stat items, filter bar and help footer had no
+      stagger (or no entrance at all), so each group appeared as one
+      block.
+   2. There was no prefers-reduced-motion block anywhere, so the page
+      fade, the orbs, the pulsing dot and every entrance ran regardless
+      of the OS setting. A full one is added at the bottom.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes tsp__slideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes tsp__scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes tsp__popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.09);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* The hero art is POSITIONED by translateY(-50%). Every keyframe has
+   to restate that, or it jumps to the top of its container. */
+@keyframes tsp__artIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) scale(0.85);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+    }
+}
+
+@keyframes tsp__artFloat {
+
+    0%,
+    100% {
+        transform: translateY(-50%);
+    }
+
+    50% {
+        transform: translateY(calc(-50% - 6px));
+    }
+}
+
+/* each card's teal rail draws downward as the card lands */
+@keyframes tsp__barDraw {
+    from {
+        transform: scaleY(0);
+    }
+
+    to {
+        transform: scaleY(1);
+    }
+}
+
+/* a pending ticket is genuinely waiting on someone — resolved and
+   in-progress are settled enough to stay still */
+@keyframes tsp__pendingBreathe {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.62;
+    }
+}
+
+@keyframes tsp__titleSheen {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 200% 50%;
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.tsp__back-btn {
+    animation: tsp__slideLeft 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.02s both;
+}
+
+.tsp__hero-art {
+    animation: tsp__artIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both,
+        tsp__artFloat 8s ease-in-out 1s infinite;
+}
+
+/* the stat items deal out across the action bar */
+.tsp__stat-item {
+    animation: tsp__scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.tsp__stat-item:nth-child(1) {
+    animation-delay: 0.24s;
+}
+
+.tsp__stat-item:nth-child(3) {
+    animation-delay: 0.30s;
+}
+
+.tsp__stat-item:nth-child(5) {
+    animation-delay: 0.36s;
+}
+
+.tsp__stat-item:nth-child(7) {
+    animation-delay: 0.42s;
+}
+
+.tsp__stat-icon {
+    animation: tsp__popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.44s both;
+}
+
+.tsp__stat-num {
+    animation: tsp__popIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.48s both;
+}
+
+.tsp__raise-btn {
+    animation: tsp__scaleIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
+.tsp__filter-bar {
+    animation: tsp__fadeIn 0.45s ease 0.44s both;
+}
+
+/* ticket cards already slide up — they just all fired at once */
+.tsp__ticket-card:nth-child(1) {
+    animation-delay: 0.5s;
+}
+
+.tsp__ticket-card:nth-child(2) {
+    animation-delay: 0.56s;
+}
+
+.tsp__ticket-card:nth-child(3) {
+    animation-delay: 0.62s;
+}
+
+.tsp__ticket-card:nth-child(4) {
+    animation-delay: 0.68s;
+}
+
+.tsp__ticket-card:nth-child(5) {
+    animation-delay: 0.74s;
+}
+
+/* past the fifth they arrive together — a long queue would otherwise
+   leave the tail blank for seconds */
+.tsp__ticket-card:nth-child(n+6) {
+    animation-delay: 0.78s;
+}
+
+.tsp__ticket-left-bar {
+    transform-origin: top center;
+    animation: tsp__barDraw 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+}
+
+.tsp__empty-icon-wrap,
+.tsp__no-results-icon {
+    animation: tsp__popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.tsp__help-footer {
+    animation: tsp__fadeIn 0.5s ease 0.82s both;
+}
+
+.tsp__help-icon {
+    animation: tsp__popIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.88s both;
+}
+
+/* modal internals cascade on every open */
+.tsp__modal-emoji {
+    animation: tsp__popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+}
+
+.tsp__field {
+    animation: tsp__fadeIn 0.3s ease both;
+}
+
+.tsp__field:nth-of-type(1) {
+    animation-delay: 0.16s;
+}
+
+.tsp__field:nth-of-type(2) {
+    animation-delay: 0.20s;
+}
+
+.tsp__field:nth-of-type(3) {
+    animation-delay: 0.24s;
+}
+
+.tsp__field:nth-of-type(n+4) {
+    animation-delay: 0.28s;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. STATE FEEDBACK                                                  */
+/* ------------------------------------------------------------------ */
+/* adding .tsp__filter-tab--active restarts this, so switching filters
+   acknowledges itself with no JS hook */
+.tsp__filter-tab--active {
+    animation: tsp__popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+.tsp__back-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.tsp__back-btn:hover svg {
+    transform: translateX(-3px);
+}
+
+/* the plus turns into the action it triggers */
+.tsp__raise-icon {
+    display: inline-flex;
+    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tsp__raise-btn:hover .tsp__raise-icon {
+    transform: rotate(90deg);
+}
+
+.tsp__stat-icon {
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tsp__stat-item:hover .tsp__stat-icon {
+    transform: scale(1.08);
+}
+
+.tsp__search-icon {
+    transition: color 0.22s ease;
+}
+
+.tsp__search-wrap:focus-within .tsp__search-icon {
+    color: #2dd4cf;
+}
+
+.tsp__edit-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.tsp__edit-btn:hover svg {
+    transform: rotate(-12deg) scale(1.08);
+}
+
+/* the ID chip nudges with its card */
+.tsp__ticket-id-chip {
+    transition: transform 0.2s ease;
+}
+
+.tsp__ticket-card:hover .tsp__ticket-id-chip {
+    transform: translateX(2px);
+}
+
+.tsp__modal-submit-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.tsp__modal-submit-btn:hover:not(:disabled) svg {
+    transform: scale(1.12);
+}
+
+/* ------------------------------------------------------------------ */
+/* 4. AMBIENT — the orbs already loop; two more, both meaningful      */
+/* ------------------------------------------------------------------ */
+.tsp__ticket-status--pending {
+    animation: tsp__pendingBreathe 3.4s ease-in-out 1.2s infinite;
+}
+
+.tsp__hero-title {
+    background-size: 200% auto;
+    animation: tsp__titleSheen 10s linear 1.6s infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* This file had no reduced-motion block, so the list below covers the
+   ORIGINAL animations as well as the ones added above. */
+@media (prefers-reduced-motion: reduce) {
+
+    .tsp__page,
+    .tsp__back-btn,
+    .tsp__hero,
+    .tsp__badge-dot,
+    .tsp__action-bar,
+    .tsp__stat-item,
+    .tsp__stat-icon,
+    .tsp__stat-num,
+    .tsp__raise-btn,
+    .tsp__filter-bar,
+    .tsp__filter-tab--active,
+    .tsp__ticket-card,
+    .tsp__ticket-status--pending,
+    .tsp__empty,
+    .tsp__empty-icon-wrap,
+    .tsp__no-results-icon,
+    .tsp__help-footer,
+    .tsp__help-icon,
+    .tsp__message,
+    .tsp__modal,
+    .tsp__modal-overlay,
+    .tsp__modal-emoji,
+    .tsp__field,
+    .tsp__orb--1,
+    .tsp__orb--2,
+    .tsp__orb--3 {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    /* the art is POSITIONED by transform — `none` would move it */
+    .tsp__hero-art {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: translateY(-50%) !important;
+    }
+
+    /* the rail must stay drawn, not collapsed to zero height */
+    .tsp__ticket-left-bar {
+        animation: none !important;
+        transform: scaleY(1) !important;
+    }
+
+    /* the sheen would freeze mid-pass and leave the gradient offset */
+    .tsp__hero-title {
+        animation: none !important;
+        background-position: 0% 50% !important;
+    }
+
+    .tsp__raise-btn:hover,
+    .tsp__raise-btn:hover .tsp__raise-icon,
+    .tsp__stat-item:hover .tsp__stat-icon,
+    .tsp__ticket-card:hover,
+    .tsp__ticket-card:hover .tsp__ticket-id-chip,
+    .tsp__edit-btn:hover,
+    .tsp__edit-btn:hover svg,
+    .tsp__modal-close:hover,
+    .tsp__modal-submit-btn:hover:not(:disabled),
+    .tsp__modal-submit-btn:hover:not(:disabled) svg,
+    .tsp__back-btn:hover,
+    .tsp__back-btn:hover svg {
+        transform: none;
+    }
+}

@@ -1111,3 +1111,276 @@
     border-color: rgba(255, 255, 255, 0.16);
     color: #9fb3c8;
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive only. Reuses the existing qrv2-card-enter, qrv2-pulse,
+   qrv2-spin, qrv2-scan-move, qrv2-float and qrv2-fs-fade keyframes.
+
+   WHAT THIS LAYER DELIBERATELY DOES NOT TOUCH
+   This stylesheet already carries hard-won performance fixes, and
+   three of them rule out the animations that would otherwise be
+   obvious here:
+
+   1. .qrv2__qr-inner is pinned to its own compositor layer with
+      translateZ(0) precisely so overlapping effects can't force the
+      QR to re-rasterize. Nothing here animates the frame, the inner
+      container or the canvas. The scan line remains the only thing
+      sweeping that area.
+
+   2. .qrv2__orb uses filter: blur(40px), reduced from 70px because
+      three large blurred elements were tanking the mobile framerate.
+      Animating a blurred element's transform re-runs that blur every
+      frame — exactly the cost that was just removed. The orbs stay
+      static.
+
+   3. The page uses overflow-x: clip specifically so it does NOT
+      become a scroll container. Every entrance below is opacity or a
+      small transform on an element already inside the card, so none
+      can reintroduce the scrollbar flicker described in that comment.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes qrv2-rise {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes qrv2-pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* the four framing brackets breathe on OPACITY only — a transform
+   there would sit over the QR's compositor layer */
+@keyframes qrv2-corner-glow {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.35;
+    }
+}
+
+/* the online dot gets a soft outward ring, box-shadow only */
+@keyframes qrv2-status-ping {
+    0% {
+        box-shadow: 0 0 8px rgba(34, 197, 94, 0.6), 0 0 0 0 rgba(34, 197, 94, 0.5);
+    }
+
+    70% {
+        box-shadow: 0 0 8px rgba(34, 197, 94, 0.6), 0 0 0 7px rgba(34, 197, 94, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 8px rgba(34, 197, 94, 0.6), 0 0 0 0 rgba(34, 197, 94, 0);
+    }
+}
+
+/* ONE pass, not a loop: an infinite gradient sweep repaints the text
+   every frame for the life of the page, which is the sort of cost this
+   file has been carefully stripped of */
+@keyframes qrv2-title-sweep {
+    from {
+        background-position: 180% 50%;
+    }
+
+    to {
+        background-position: 0% 50%;
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE — inside the card only                                 */
+/* ------------------------------------------------------------------ */
+.qrv2__back-btn {
+    animation: qrv2-rise 0.4s cubic-bezier(0.22, 1, 0.36, 1) 0.02s both;
+}
+
+.qrv2__eyebrow {
+    animation: qrv2-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
+}
+
+.qrv2__title {
+    animation: qrv2-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
+}
+
+.qrv2__date {
+    animation: qrv2-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+.qrv2__user-section {
+    animation: qrv2-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.36s both;
+}
+
+.qrv2__avatar-wrap {
+    animation: qrv2-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.44s both;
+}
+
+/* the QR itself is left alone — .qrv2__qr-frame already fades in via
+   its own --ready class, driven by the canvas being drawn */
+.qrv2__qr-hint {
+    animation: qrv2-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.56s both;
+}
+
+.qrv2__actions {
+    animation: qrv2-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.62s both;
+}
+
+.qrv2__info-strip {
+    animation: qrv2-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.68s both;
+}
+
+.qrv2__portal-footer {
+    animation: qrv2-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.74s both;
+}
+
+/* fullscreen internals, on every open */
+.qrv2__fullscreen-avatar {
+    animation: qrv2-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. AMBIENT — opacity and box-shadow only                           */
+/* ------------------------------------------------------------------ */
+/* brackets pulse around the frame, staggered, matching the scan line's
+   rhythm without adding anything over the QR layer */
+.qrv2__fc {
+    animation: qrv2-corner-glow 3s ease-in-out infinite;
+}
+
+.qrv2__fc--tr {
+    animation-delay: 0.2s;
+}
+
+.qrv2__fc--br {
+    animation-delay: 0.4s;
+}
+
+.qrv2__fc--bl {
+    animation-delay: 0.6s;
+}
+
+.qrv2__avatar-status {
+    animation: qrv2-status-ping 2.6s ease-out infinite;
+}
+
+/* a single sweep on load — see the keyframe note above */
+.qrv2__title-accent {
+    background-size: 200% auto;
+    animation: qrv2-title-sweep 1.1s ease-out 0.3s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+.qrv2__back-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.qrv2__back-btn:hover svg {
+    transform: translateX(-3px);
+}
+
+/* the ID chip is a copy target, so it should feel pressable */
+.qrv2__user-id-wrap {
+    transition: background 0.2s, border-color 0.2s, transform 0.15s ease;
+}
+
+.qrv2__user-id-wrap:active {
+    transform: scale(0.96);
+}
+
+.qrv2__copy-icon {
+    transition: transform 0.2s ease;
+}
+
+.qrv2__user-id-wrap:hover .qrv2__copy-icon {
+    transform: scale(1.15);
+}
+
+/* the download glyph dips; the fullscreen glyph opens outward */
+.qrv2__btn svg {
+    transition: transform 0.2s ease;
+}
+
+.qrv2__btn--download:hover:not(:disabled) svg {
+    transform: translateY(2px);
+}
+
+.qrv2__btn--fullscreen:hover:not(:disabled) svg {
+    transform: scale(1.14);
+}
+
+.qrv2__info-icon {
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.qrv2__info-item:hover .qrv2__info-icon {
+    transform: scale(1.09) rotate(-5deg);
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* Your existing block names specific elements rather than using a
+   blanket rule, so everything added here has to be listed. */
+@media (prefers-reduced-motion: reduce) {
+
+    .qrv2__back-btn,
+    .qrv2__eyebrow,
+    .qrv2__title,
+    .qrv2__date,
+    .qrv2__user-section,
+    .qrv2__avatar-wrap,
+    .qrv2__qr-hint,
+    .qrv2__actions,
+    .qrv2__info-strip,
+    .qrv2__portal-footer,
+    .qrv2__fullscreen-avatar,
+    .qrv2__fc,
+    .qrv2__avatar-status {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    /* the sweep would freeze mid-pass and leave the gradient offset */
+    .qrv2__title-accent {
+        animation: none !important;
+        background-position: 0% 50% !important;
+    }
+
+    .qrv2__back-btn:hover svg,
+    .qrv2__user-id-wrap:hover .qrv2__copy-icon,
+    .qrv2__user-id-wrap:active,
+    .qrv2__btn--download:hover:not(:disabled) svg,
+    .qrv2__btn--fullscreen:hover:not(:disabled) svg,
+    .qrv2__info-item:hover .qrv2__info-icon {
+        transform: none;
+    }
+}

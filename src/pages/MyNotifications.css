@@ -508,3 +508,295 @@
   border-color: rgba(15, 23, 42, 0.10);
   box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive, with one deliberate override (noted inline).
+   Reuses the existing fadeIn, slideUp and fadeSlideUp keyframes.
+
+   THREE THINGS WORTH KNOWING
+   1. .notification-card sets `opacity: 0` in its base rule and relies
+      on the animation's `forwards` fill to reveal itself. So a
+      reduced-motion block that merely stops animations would leave
+      every card permanently invisible. The block at the bottom sets
+      opacity explicitly for exactly that reason — and there was no
+      reduced-motion block in this file at all.
+
+   2. .my-notifications-page is NOT a scroll container — the document
+      scrolls. The container's slideUp starts 36px BELOW its final
+      position, and since it's effectively the whole page, that
+      overshoot briefly extends the document. It's re-pointed below.
+
+   3. If your JSX sets an inline animationDelay on the cards, that
+      wins over the nth-child delays here (inline beats stylesheet),
+      and the stagger stays exactly as you have it. These rules only
+      take effect if no inline delay is present.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes mn-container-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.995);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes mn-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mn-slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes mn-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  60% {
+    transform: scale(1.09);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* the rule under the header opens outward */
+@keyframes mn-divider-open {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* an unread item is genuinely new, so its dot pulses — nothing else
+   on the page loops */
+@keyframes mn-new-pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.45;
+    transform: scale(0.75);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.my-notifications-page .back-btn {
+  animation: mn-slide-left 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.02s both;
+}
+
+/* OVERRIDE — was slideUp (36px from below) on a page the document
+   scrolls, so the overshoot briefly extended the page */
+.my-notifications-container {
+  animation: mn-container-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
+}
+
+.header-icon {
+  animation: mn-pop 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.my-notifications-header h1 {
+  animation: mn-drop 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+}
+
+.header-subtitle {
+  animation: mn-drop 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.29s both;
+}
+
+.count-badge {
+  animation: mn-pop 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.32s both;
+}
+
+.mark-read-btn {
+  animation: mn-pop 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.36s both;
+}
+
+.divider {
+  transform-origin: center;
+  animation: mn-divider-open 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.34s both;
+}
+
+/* cards already use fadeSlideUp — they just had no stagger */
+.notification-card:nth-child(1) {
+  animation-delay: 0.42s;
+}
+
+.notification-card:nth-child(2) {
+  animation-delay: 0.48s;
+}
+
+.notification-card:nth-child(3) {
+  animation-delay: 0.54s;
+}
+
+.notification-card:nth-child(4) {
+  animation-delay: 0.60s;
+}
+
+.notification-card:nth-child(5) {
+  animation-delay: 0.66s;
+}
+
+.notification-card:nth-child(6) {
+  animation-delay: 0.72s;
+}
+
+/* past the sixth they arrive together — a long history would
+   otherwise leave the tail invisible for seconds */
+.notification-card:nth-child(n+7) {
+  animation-delay: 0.76s;
+}
+
+.card-icon {
+  animation: mn-pop 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+}
+
+.no-data-icon {
+  animation: mn-pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+.caught-up-footer {
+  animation: fadeIn 0.5s ease 0.82s both;
+}
+
+.caught-up-line {
+  transform-origin: center;
+  animation: mn-divider-open 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.86s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. AMBIENT — one loop, and only where it means something           */
+/* ------------------------------------------------------------------ */
+.card-new-dot {
+  animation: mn-new-pulse 2.2s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+.my-notifications-page .back-btn svg {
+  transition: transform 0.2s ease;
+}
+
+.my-notifications-page .back-btn:hover svg {
+  transform: translateX(-3px);
+}
+
+/* the round icon answers a hover anywhere on its card */
+.card-icon {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.notification-card:hover .card-icon {
+  transform: scale(1.07);
+}
+
+.mark-read-btn svg {
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mark-read-btn:hover svg {
+  transform: scale(1.15);
+}
+
+.mark-read-btn:active {
+  transform: scale(0.97);
+}
+
+/* the New label fades as its card is read/hovered, so the eye moves
+   from "unread" to the message itself */
+.notification-card .card-new-label {
+  transition: opacity 0.22s ease;
+}
+
+.notification-card:hover .card-new-label {
+  opacity: 0.75;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* This file had no reduced-motion block. Note the explicit opacity on
+   .notification-card: its base rule is `opacity: 0`, so stopping the
+   animation without this would hide every card permanently. */
+@media (prefers-reduced-motion: reduce) {
+
+  .notification-card {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .my-notifications-page,
+  .my-notifications-container,
+  .my-notifications-page .back-btn,
+  .header-icon,
+  .my-notifications-header h1,
+  .header-subtitle,
+  .count-badge,
+  .mark-read-btn,
+  .card-icon,
+  .card-new-dot,
+  .no-data-icon,
+  .caught-up-footer {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* both rules must stay drawn, not collapsed to zero width */
+  .divider,
+  .caught-up-line {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: scaleX(1) !important;
+  }
+
+  .my-notifications-page .back-btn:hover svg,
+  .notification-card:hover,
+  .notification-card:hover .card-icon,
+  .mark-read-btn:hover svg,
+  .mark-read-btn:active {
+    transform: none;
+  }
+}

@@ -1046,3 +1046,349 @@
 .helpsup__wrapper[data-theme="light"] .helpsup__footer-note p {
     color: #0f766e;
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive only — no existing rule is replaced. Reuses the existing
+   udash-fadeIn, udash-fadeUp, udash-slideUp, udash-pulse and
+   udash-spin keyframes.
+
+   THREE THINGS WORTH KNOWING
+   1. .udash-tile sets `opacity: 0` in its base rule and relies on
+      udash-fadeUp's `forwards` fill to reveal itself. A reduced-motion
+      block that merely stops animations would leave the entire tile
+      grid invisible. The block at the bottom restores opacity
+      explicitly — and this file had no reduced-motion block at all.
+
+   2. Your tiles already stagger 1–8. That is left untouched; this
+      only adds a shared delay for anything past the eighth, so a
+      longer grid can't leave its tail invisible.
+
+   3. .udash-page is NOT a scroll container — the document scrolls. So
+      the entrances below fade, scale up from smaller, or settle down
+      from above; none start below their final position. Hero pattern
+      drift is safe because .udash-hero clips its own overflow.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes udash-drop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes udash-scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes udash-popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.09);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes udash-slideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* the avatar's ring glows rather than moves, so the photo inside
+   stays perfectly still and sharp */
+@keyframes udash-ringGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.18);
+    }
+
+    50% {
+        box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.05);
+    }
+}
+
+/* the hero's dot pattern drifts very slowly. Safe because .udash-hero
+   has overflow: hidden, so this can never extend the page. */
+@keyframes udash-patternDrift {
+    from {
+        transform: translate(0, 0);
+    }
+
+    to {
+        transform: translate(28px, 18px);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE — HEADER                                               */
+/* ------------------------------------------------------------------ */
+.udash-logo {
+    animation: udash-popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.04s both;
+}
+
+.udash-brand-text {
+    animation: udash-slideLeft 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.udash-header-actions {
+    animation: udash-drop 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.14s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. ENTRANCE — HERO                                                 */
+/* ------------------------------------------------------------------ */
+.udash-hero-badge {
+    animation: udash-popIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+}
+
+.udash-hero-greeting {
+    animation: udash-drop 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
+}
+
+.udash-hero-sub {
+    animation: udash-drop 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.33s both;
+}
+
+.udash-avatar-ring {
+    animation: udash-popIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both,
+        udash-ringGlow 4.5s ease-in-out 1.2s infinite;
+}
+
+/* the hero stats deal out along the strip */
+.udash-hero-stat {
+    animation: udash-scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.udash-hero-stat:nth-child(1) {
+    animation-delay: 0.38s;
+}
+
+.udash-hero-stat:nth-child(3) {
+    animation-delay: 0.44s;
+}
+
+.udash-hero-stat:nth-child(5) {
+    animation-delay: 0.50s;
+}
+
+.udash-hero-stat-num {
+    animation: udash-popIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.52s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. ENTRANCE — BODY                                                 */
+/* ------------------------------------------------------------------ */
+.udash-section-head {
+    animation: udash-fadeIn 0.45s ease 0.46s both;
+}
+
+/* tiles 1–8 keep the delays you already set; this only catches a
+   longer grid so its tail can't stay invisible */
+.udash-tile:nth-child(n+9) {
+    animation-delay: 0.74s;
+}
+
+.udash-tile-icon {
+    animation: udash-popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+}
+
+/* the side cards all shared one 0.3s delay — now they cascade */
+.udash-side-card:nth-child(1) {
+    animation-delay: 0.5s;
+}
+
+.udash-side-card:nth-child(2) {
+    animation-delay: 0.58s;
+}
+
+.udash-side-card:nth-child(3) {
+    animation-delay: 0.66s;
+}
+
+.udash-side-card:nth-child(n+4) {
+    animation-delay: 0.72s;
+}
+
+.udash-quick-chip {
+    animation: udash-slideLeft 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.udash-quick-chip:nth-child(1) {
+    animation-delay: 0.62s;
+}
+
+.udash-quick-chip:nth-child(2) {
+    animation-delay: 0.67s;
+}
+
+.udash-quick-chip:nth-child(3) {
+    animation-delay: 0.72s;
+}
+
+.udash-quick-chip:nth-child(n+4) {
+    animation-delay: 0.76s;
+}
+
+.udash-tip-icon,
+.udash-notice-icon {
+    animation: udash-popIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+}
+
+.udash-footer {
+    animation: udash-fadeIn 0.5s ease 0.86s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 4. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+/* the coloured tile icon answers a hover anywhere on its card,
+   alongside the arrow you already move */
+.udash-tile-icon {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.udash-tile:hover .udash-tile-icon {
+    transform: scale(1.08) rotate(-5deg);
+}
+
+.udash-tile:active {
+    transform: translateY(-2px) scale(0.995);
+}
+
+.udash-quick-chip svg {
+    transition: transform 0.2s ease;
+}
+
+.udash-quick-chip:hover svg {
+    transform: scale(1.14);
+}
+
+.udash-logout-btn svg,
+.udash-icon-btn svg {
+    transition: transform 0.2s ease;
+}
+
+/* the logout glyph leans toward the exit */
+.udash-logout-btn:hover svg {
+    transform: translateX(2px);
+}
+
+.udash-icon-btn:hover svg {
+    transform: scale(1.12);
+}
+
+.udash-hero-stat {
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.udash-hero-stat:hover {
+    transform: translateY(-2px);
+}
+
+.udash-tip-icon,
+.udash-notice-icon {
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.udash-side-card:hover .udash-tip-icon,
+.udash-notice-card:hover .udash-notice-icon {
+    transform: scale(1.07);
+}
+
+/* ------------------------------------------------------------------ */
+/* 5. AMBIENT — two loops, both confined to the hero                  */
+/* ------------------------------------------------------------------ */
+.udash-hero::before {
+    animation: udash-patternDrift 24s ease-in-out infinite alternate;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* This file had no reduced-motion block. Note the explicit opacity on
+   .udash-tile: its base rule is `opacity: 0`, so stopping the
+   animation without this would hide the entire tile grid. */
+@media (prefers-reduced-motion: reduce) {
+
+    .udash-tile {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .udash-page,
+    .udash-logo,
+    .udash-brand-text,
+    .udash-header-actions,
+    .udash-hero,
+    .udash-hero-badge,
+    .udash-hero-badge-dot,
+    .udash-hero-greeting,
+    .udash-hero-sub,
+    .udash-avatar-ring,
+    .udash-hero-stat,
+    .udash-hero-stat-num,
+    .udash-section-head,
+    .udash-tile-icon,
+    .udash-side-card,
+    .udash-quick-chip,
+    .udash-tip-icon,
+    .udash-notice-icon,
+    .udash-notice-card,
+    .udash-footer,
+    .udash-hero::before {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .udash-spinner {
+        animation-duration: 2.4s !important;
+    }
+
+    .udash-tile:hover,
+    .udash-tile:hover .udash-tile-icon,
+    .udash-tile:hover .udash-tile-arrow,
+    .udash-side-card:hover .udash-tip-icon,
+    .udash-notice-card:hover .udash-notice-icon,
+    .udash-hero-stat:hover,
+    .udash-quick-chip:hover,
+    .udash-quick-chip:hover svg,
+    .udash-logout-btn:hover svg,
+    .udash-icon-btn:hover svg {
+        transform: none;
+    }
+}

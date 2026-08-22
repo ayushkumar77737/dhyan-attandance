@@ -685,3 +685,292 @@
 .submit-reason-page[data-theme="light"] .sr-clock-hands {
   stroke: #0d9488;
 }
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive, with one deliberate override (noted inline).
+   Reuses the existing fadeIn, slideUp and spin keyframes.
+
+   TWO THINGS THIS FILE WAS MISSING
+   1. No prefers-reduced-motion block existed anywhere, so the page
+      fade and the card's slide ran regardless of the OS setting. A
+      full one is added at the bottom, covering the originals as well.
+
+   2. .submit-reason-page is NOT a scroll container — the document
+      scrolls. The card's slideUp starts 36px BELOW its final position,
+      and since the card is effectively the whole page, that overshoot
+      briefly extends the document and can flash a scrollbar. It is
+      re-pointed at a shorter, scale-based entrance below.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes sr-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes sr-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sr-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sr-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  60% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* fields slide in from the icon-chip side, so the chip reads as the
+   thing bringing its row with it */
+@keyframes sr-field-in {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* the illustration settles, then drifts very slowly */
+@keyframes sr-art-float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* the note's leaf icon breathes — this is a reassurance panel, so the
+   motion is slow enough to be felt rather than watched */
+@keyframes sr-note-breathe {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.submit-reason-page .reason-back-btn {
+  animation: sr-drop 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.02s both;
+}
+
+/* OVERRIDE — was slideUp (36px from below) on a page the document
+   scrolls, so the overshoot briefly extended the page */
+.submit-reason-page .reason-card {
+  animation: sr-card-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+}
+
+.reason-card-badge {
+  animation: sr-pop 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+}
+
+.submit-reason-page .reason-card h2 {
+  animation: sr-rise 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+.reason-card-header .reason-subtitle {
+  animation: sr-rise 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.36s both;
+}
+
+.reason-header-art {
+  animation: sr-pop 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+/* form rows cascade. The chain of sibling combinators is deliberate:
+   the form holds a mix of .reason-field rows, a note panel and the
+   submit button, so nth-child would miscount. */
+.reason-field {
+  animation: sr-field-in 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.44s both;
+}
+
+.reason-field~.reason-field {
+  animation-delay: 0.5s;
+}
+
+.reason-field~.reason-field~.reason-field {
+  animation-delay: 0.56s;
+}
+
+.reason-field~.reason-field~.reason-field~.reason-field {
+  animation-delay: 0.62s;
+}
+
+.reason-field-icon {
+  animation: sr-pop 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.54s both;
+}
+
+.reason-note {
+  animation: sr-rise 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.66s both;
+}
+
+.submit-reason-page .reason-submit-btn {
+  animation: sr-rise 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.72s both;
+}
+
+.reason-secure {
+  animation: fadeIn 0.5s ease 0.8s both;
+}
+
+/* the banner appears after a submit, so it drops from above rather
+   than reusing the page-load fade */
+.reason-message {
+  animation: sr-drop 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+/* the icon chip lights with its field — focus-within reaches it
+   because the chip and the input share .reason-field */
+.reason-field-icon {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+}
+
+.reason-field:focus-within .reason-field-icon {
+  transform: scale(1.08);
+}
+
+.reason-field:focus-within .reason-field-icon--teal {
+  border-color: rgba(20, 184, 166, 0.5);
+}
+
+.reason-field:focus-within .reason-field-icon--violet {
+  border-color: rgba(139, 92, 246, 0.5);
+}
+
+/* the counter fades up as the textarea is being used, so it isn't
+   competing for attention while the field is empty */
+.reason-counter {
+  opacity: 0.55;
+  transition: opacity 0.25s ease, color 0.25s ease;
+}
+
+.reason-textarea-wrap:focus-within .reason-counter {
+  opacity: 1;
+}
+
+.submit-reason-page .reason-submit-btn svg {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.submit-reason-page .reason-submit-btn:hover:not(:disabled) svg {
+  transform: scale(1.14);
+}
+
+.reason-note {
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.reason-note:hover {
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. AMBIENT — two slow loops; this is a short form                  */
+/* ------------------------------------------------------------------ */
+.reason-header-art {
+  animation: sr-pop 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both,
+    sr-art-float 8s ease-in-out 1s infinite;
+}
+
+.reason-note-icon {
+  animation: sr-note-breathe 4.5s ease-in-out 1s infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* This file had no reduced-motion block, so the list below covers the
+   ORIGINAL animations as well as the ones added above. */
+@media (prefers-reduced-motion: reduce) {
+
+  .submit-reason-page,
+  .submit-reason-page .reason-card,
+  .submit-reason-page .reason-back-btn,
+  .reason-card-badge,
+  .submit-reason-page .reason-card h2,
+  .reason-card-header .reason-subtitle,
+  .reason-header-art,
+  .reason-field,
+  .reason-field-icon,
+  .reason-note,
+  .reason-note-icon,
+  .submit-reason-page .reason-submit-btn,
+  .reason-secure,
+  .reason-message {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .spinner {
+    animation-duration: 2.4s !important;
+  }
+
+  /* the input's focus scale is a nice touch but it is motion */
+  .submit-reason-page .reason-field-main input:focus,
+  .submit-reason-page .reason-field-main textarea:focus,
+  .reason-field:focus-within .reason-field-icon,
+  .submit-reason-page .reason-submit-btn:hover:not(:disabled),
+  .submit-reason-page .reason-submit-btn:hover:not(:disabled) svg,
+  .submit-reason-page .reason-back-btn:hover {
+    transform: none;
+  }
+
+  .reason-counter {
+    opacity: 1 !important;
+  }
+}
