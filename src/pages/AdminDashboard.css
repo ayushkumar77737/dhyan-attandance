@@ -2282,3 +2282,160 @@
 .dash-shell[data-theme="light"] .quick-action-chevron {
   color: #94a3b8;
 }
+
+/* ================================================================== */
+/* COPY-PASTE THIS ENTIRE SECTION AT END OF DASHBOARD CSS              */
+/* ================================================================== */
+
+/* Sidebar link animations */
+.side-link {
+  animation: sideLinkSlideIn 0.35s ease-out;
+  animation-fill-mode: both;
+}
+
+/* Stat card animations */
+.stat-card {
+  animation: statCardFadeUp 0.5s ease-out;
+}
+
+/* Chart section animations */
+.chart-section {
+  animation: chartSlideUp 0.6s ease-out;
+}
+
+/* Topbar animations */
+.topbar {
+  animation: topbarSlideDown 0.4s ease-out;
+}
+
+/* Badge bounce */
+.topbar-badge {
+  animation: badgeBounce 0.6s ease-in-out;
+}
+
+/* Stat value animations */
+.stat-value {
+  animation: valueSlideIn 0.4s ease-out 0.1s both;
+}
+
+/* Quick action pulse on hover */
+.quick-action:hover {
+  animation: quickActionPulse 0.3s ease-in-out;
+}
+
+/* Tool card glow on hover */
+.tool-card:hover {
+  animation: toolCardGlow 0.3s ease-out forwards;
+}
+
+/* ================================================================== */
+/* KEYFRAME ANIMATIONS                                                */
+/* ================================================================== */
+
+@keyframes sideLinkSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes statCardFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes statCardScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes chartSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes quickActionPulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.02);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes toolCardGlow {
+  from {
+    box-shadow: 0 0 0 rgba(59, 130, 246, 0);
+  }
+
+  to {
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
+  }
+}
+
+@keyframes topbarSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes badgeBounce {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes valueSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

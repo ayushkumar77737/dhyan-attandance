@@ -14,6 +14,72 @@ import * as XLSX from "xlsx";
 
 import { useTranslation } from "react-i18next";
 
+/* ----------------------------------------------------------------
+   Cloudinary
+   Mirrors the public_id formula used in utils/cloudinaryUpload.js:
+   `${employeeId}_${name with spaces -> underscores}`
+   If that formula ever changes there, change it here too.
+   Also mirrors the multi-field / derive-if-missing lookup used in
+   UserActivities.jsx, so both screens resolve the same photo.
+   ---------------------------------------------------------------- */
+
+const CLOUD_NAME = "dgvjq9bhl";
+
+const getProfileImageUrl = (employeeId, name = "", size = 60) => {
+  if (!employeeId || !name) return "";
+
+  const publicId = `${employeeId}_${name.replace(/\s+/g, "_")}`;
+
+  const transforms = [
+    "c_fill",
+    "g_face",
+    `w_${size}`,
+    `h_${size}`,
+    "r_max",
+    "q_auto",
+    "f_auto",
+  ].join(",");
+
+  return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${transforms}/${publicId}`;
+};
+
+const resolveProfileImage = (user) =>
+  user.profileImage ||
+  user.photoURL ||
+  user.profileImageUrl ||
+  user.imageUrl ||
+  getProfileImageUrl(user.docId, user.name);
+
+/* Avatar — photo if we have (or can derive) one, initial otherwise */
+function DeletedUserAvatar({ src, name }) {
+  const [showImage, setShowImage] = useState(Boolean(src));
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setShowImage(Boolean(src));
+    setLoaded(false);
+  }, [src]);
+
+  if (showImage) {
+    return (
+      <img
+        src={src}
+        alt={name || "-"}
+        loading="lazy"
+        className={`du-avatar du-avatar-img${loaded ? " is-loaded" : ""}`}
+        onLoad={() => setLoaded(true)}
+        onError={() => setShowImage(false)}
+      />
+    );
+  }
+
+  return (
+    <span className="du-avatar du-avatar-fallback">
+      {(name || "?").charAt(0).toUpperCase()}
+    </span>
+  );
+}
+
 function DeletedUsers() {
 
   const { t } = useTranslation();
@@ -196,9 +262,10 @@ function DeletedUsers() {
 
                     <td>
                       <span className="du-name-cell">
-                        <span className="du-avatar">
-                          {(user.name || "?").charAt(0).toUpperCase()}
-                        </span>
+                        <DeletedUserAvatar
+                          src={resolveProfileImage(user)}
+                          name={user.name}
+                        />
                         {user.name || "-"}
                       </span>
                     </td>

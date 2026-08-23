@@ -12,6 +12,13 @@
   --du-green-g: rgba(79, 209, 197, 0.3);
   --du-white: #e8f0f8;
   --du-muted: #7a9bbf;
+  /* Soft accent tints — used for badge/back-btn fills and the avatar
+     photo ring. Kept as separate tokens (rather than computed from
+     --du-accent) so each theme can tune opacity independently. */
+  --du-accent-tint: rgba(248, 113, 113, 0.08);
+  --du-accent-tint-border: rgba(248, 113, 113, 0.2);
+  --du-accent-tint-hover: rgba(248, 113, 113, 0.16);
+  --du-avatar-ring: rgba(248, 113, 113, 0.35);
 }
 
 .deleted-container {
@@ -88,7 +95,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(248, 113, 113, 0.08);
+  background: var(--du-accent-tint);
   color: var(--du-accent);
   border: 1px solid var(--du-border);
   padding: 9px 18px;
@@ -102,7 +109,7 @@
 }
 
 .deleted-container .back-btn:hover {
-  background: rgba(248, 113, 113, 0.16);
+  background: var(--du-accent-tint-hover);
   border-color: var(--du-accent);
   box-shadow: 0 0 16px var(--du-accent-g);
   transform: translateX(-2px);
@@ -348,8 +355,8 @@
 
 .du-id-badge {
   display: inline-block;
-  background: rgba(248, 113, 113, 0.08);
-  border: 1px solid rgba(248, 113, 113, 0.2);
+  background: var(--du-accent-tint);
+  border: 1px solid var(--du-accent-tint-border);
   color: var(--du-accent);
   font-family: 'Syne', sans-serif;
   font-size: 12px;
@@ -365,19 +372,41 @@
   gap: 10px;
 }
 
+/* Shared avatar footprint — both the photo (<img>) and the initials
+   fallback (<span>) use this so they swap in/out without any layout shift. */
 .du-avatar {
   width: 30px;
   height: 30px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Photo avatar — real user picture, as in the reference screenshot.
+   Starts transparent and fades in once loaded (loading="lazy" + onLoad
+   in DeletedUsers.jsx), so a slow Cloudinary fetch doesn't pop in. */
+.du-avatar-img {
+  object-fit: cover;
+  border: 2px solid var(--du-avatar-ring);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.du-avatar-img.is-loaded {
+  opacity: 1;
+}
+
+/* Initials fallback — shown only when a user has no photoURL, or if the
+   photo fails to load (see onError handler in DeletedUsers.jsx) */
+.du-avatar-fallback {
   background: linear-gradient(135deg, #e53e3e, #f87171);
   color: white;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Syne', sans-serif;
   font-weight: 800;
   font-size: 13px;
-  flex-shrink: 0;
 }
 
 .deleted-container .restore-btn {
@@ -421,7 +450,7 @@
 .deleted-container .no-data p {
   margin: 0;
   font-size: 14px;
-  color: #475569;
+  color: var(--du-muted);
 }
 
 @keyframes deletedFadeIn {
@@ -534,20 +563,25 @@
    element that reads them lives inside .deleted-container, so scoping
    the overrides here flips the whole subtree. */
 .deleted-container[data-theme="light"] {
-  --du-navy: #f1f5f9;
-  /* page background */
-  --du-mid: #f8fafc;
-  /* row bg — kept off-white vs the white card */
+  --du-navy: #f4f6fa;
+  /* page background — slightly cooler than pure gray for a touch of depth */
+  --du-mid: #ffffff;
+  /* row bg — matches the card; rows are now defined by a border, not a tone shift */
   --du-card: #ffffff;
   /* card */
-  --du-row: #eef2f7;
-  /* row hover */
+  --du-row: #fef2f2;
+  /* row hover — soft red tint instead of gray, so hover reads as "on-brand" */
   --du-accent: #dc2626;
   /* red — darkened for contrast on white */
   --du-border: rgba(220, 38, 38, 0.18);
   --du-white: #1e293b;
   /* primary text */
-  --du-muted: #64748b;
+  --du-muted: #475569;
+  /* darkened slightly from dark-theme's --du-muted for better contrast on white */
+  --du-accent-tint: rgba(220, 38, 38, 0.06);
+  --du-accent-tint-border: rgba(220, 38, 38, 0.18);
+  --du-accent-tint-hover: rgba(220, 38, 38, 0.1);
+  --du-avatar-ring: rgba(220, 38, 38, 0.25);
 }
 
 /* Orbs — soften on light background */
@@ -575,8 +609,11 @@
   border-color: rgba(220, 38, 38, 0.22);
 }
 
-/* Card — heavy dark drop shadow is too much on white */
+/* Card — heavy dark drop shadow is too much on white, and a red-tinted
+   border around the whole card fights with the accent used elsewhere;
+   a neutral border reads as structure, not color. */
 .deleted-container[data-theme="light"] .deleted-card {
+  border-color: rgba(15, 23, 42, 0.08);
   box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
 }
 
@@ -584,11 +621,237 @@
   box-shadow: 0 12px 40px rgba(15, 23, 42, 0.1);
 }
 
-/* Rows — off-white on the white card needs a faint lift + softened hover */
+/* Rows — --du-mid now equals --du-card (both white), so a shadow alone
+   is too subtle; a simulated hairline ring gives each row a real edge.
+   (Using box-shadow, not border, since <tr> borders don't render with
+   border-collapse: separate, which this table uses.) */
 .deleted-container[data-theme="light"] .deleted-table tbody tr {
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.07), 0 1px 3px rgba(15, 23, 42, 0.04);
 }
 
 .deleted-container[data-theme="light"] .deleted-table tbody tr:hover {
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.1), -3px 0 0 var(--du-accent);
+  box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.2), 0 4px 16px rgba(15, 23, 42, 0.1), -3px 0 0 var(--du-accent);
+}
+
+/* ================================================================== */
+/* COPY-PASTE THIS SECTION AT END OF DeletedUsers.css                 */
+/* BEFORE THE "LIGHT THEME" SECTION                                   */
+/* ================================================================== */
+
+/* Add animation to back button */
+.deleted-container .back-btn {
+  animation: headerSlideLeft 0.6s ease-out 0.1s both;
+}
+
+.deleted-container .back-btn:active {
+  transform: translateX(0) scale(0.98);
+}
+
+/* Add animation to export button */
+.export-btn {
+  animation: headerSlideRight 0.6s ease-out 0.1s both;
+}
+
+.export-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Add animations to title section */
+.du-eyebrow {
+  animation: fadeInUp 0.6s ease 0.15s both;
+}
+
+.deleted-container .deleted-title {
+  animation: fadeInUp 0.6s ease 0.25s both;
+}
+
+.du-title-underline {
+  animation: scaleIn 0.5s ease 0.4s both;
+}
+
+/* Add animation to stats */
+.du-stat-pill {
+  animation: fadeInScale 0.5s ease 0.35s both;
+}
+
+.du-stat-icon {
+  animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.4s both;
+}
+
+/* Add animation to table header */
+.deleted-container .deleted-table th {
+  animation: fadeIn 0.5s ease 0.5s both;
+}
+
+/* Enhance ID badge */
+.du-id-badge {
+  transition: all 0.2s ease;
+}
+
+.du-id-badge:hover {
+  background: var(--du-accent-tint-hover);
+  transform: scale(1.05);
+}
+
+/* Avatar animations */
+.du-avatar-img.is-loaded {
+  animation: avatarPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.du-avatar-fallback {
+  animation: fadeIn 0.3s ease;
+}
+
+/* Restore button with shine effect */
+.deleted-container .restore-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.deleted-container .restore-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: left 0.5s ease;
+  z-index: 0;
+}
+
+.deleted-container .restore-btn:hover::before {
+  left: 100%;
+}
+
+.deleted-container .restore-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.deleted-container .restore-btn span,
+.deleted-container .restore-btn {
+  position: relative;
+  z-index: 1;
+}
+
+/* Empty state animations */
+.deleted-container .no-data {
+  animation: fadeInUp 0.5s ease 0.3s both;
+}
+
+.du-no-data-icon {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ================================================================== */
+/* KEYFRAME ANIMATIONS                                                */
+/* ================================================================== */
+
+@keyframes headerSlideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes headerSlideRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes avatarPop {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
