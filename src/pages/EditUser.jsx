@@ -181,6 +181,13 @@ function EditUser() {
             <div className="edit-card">
                 <div className="edit-card-accent" />
 
+                <div className="edit-avatar" aria-hidden="true">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 21c0-3.87 3.58-7 8-7s8 3.13 8 7" />
+                    </svg>
+                </div>
+
                 <h2 className="edit-title">{t("editUser")}</h2>
 
                 {message.text && (
@@ -192,22 +199,36 @@ function EditUser() {
 
                 <div className="input-group">
                     <label className="input-label">{t("fullName")}</label>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder={t("enterFullName")}
-                    />
+                    <div className="input-with-icon">
+                        <svg className="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="8" r="4" />
+                            <path d="M4 21c0-3.87 3.58-7 8-7s8 3.13 8 7" />
+                        </svg>
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder={t("enterFullName")}
+                            aria-label={t("fullName")}
+                        />
+                    </div>
                 </div>
 
                 <div className="input-group">
                     <label className="input-label">{t("userId")}</label>
-                    <input
-                        type="text"
-                        value={userId}
-                        onChange={(e) => setUserId(e.target.value)}
-                        placeholder={t("enterUserId")}
-                    />
+                    <div className="input-with-icon">
+                        <svg className="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <path d="M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5l-8-3Z" />
+                            <path d="m9 12 2 2 4-4" />
+                        </svg>
+                        <input
+                            type="text"
+                            value={userId}
+                            onChange={(e) => setUserId(e.target.value)}
+                            placeholder={t("enterUserId")}
+                            aria-label={t("userId")}
+                        />
+                    </div>
                 </div>
 
                 <button className="update-btn" onClick={handleUpdate}>

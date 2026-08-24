@@ -137,6 +137,42 @@
   border-radius: 24px 24px 0 0;
 }
 
+.edit-avatar {
+  width: 68px;
+  height: 68px;
+  margin: 6px auto 2px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(79, 142, 247, 0.14), rgba(167, 139, 250, 0.14));
+  color: var(--accent);
+}
+
+.edit-container[data-theme="light"] .edit-avatar {
+  background: linear-gradient(135deg, rgba(79, 142, 247, 0.1), rgba(167, 139, 250, 0.1));
+  color: #6d5ef7;
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon .input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--accent);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.edit-container .edit-card .input-with-icon input {
+  padding-left: 42px;
+  width: 100%;
+}
+
 .edit-container .edit-card::before {
   content: '';
   position: absolute;
@@ -385,9 +421,31 @@
   color: #1d4ed8;
 }
 
-/* Card — heavy dark drop shadow is too much on white */
+/* Card — heavy dark drop shadow is too much on white, and give it a
+   touch more border definition against the pale page background */
 .edit-container[data-theme="light"] .edit-card {
   box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+}
+
+/* Card accent bar — soften slightly so it doesn't look too neon on white */
+.edit-container[data-theme="light"] .edit-card-accent {
+  opacity: 0.85;
+}
+
+/* Title gradient — the dark-mode version fades from white into the
+   accent color, which disappears/washes out on a white card.
+   Use a dark base color instead so the title actually reads. */
+.edit-container[data-theme="light"] .edit-title span {
+  background: linear-gradient(120deg, #1e293b 30%, var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Input icons — a touch more saturated/darker so they read clearly on white */
+.edit-container[data-theme="light"] .input-with-icon .input-icon {
+  color: #3b6fd4;
+  opacity: 0.9;
 }
 
 /* Message banners — darker text on light tint */
@@ -416,4 +474,102 @@
 
 .edit-container[data-theme="light"] .edit-card input::placeholder {
   color: #94a3b8;
+}
+
+/* Update button — the dark-mode glow shadow reads a bit murky on white;
+   tighten it so the button stays crisp */
+.edit-container[data-theme="light"] .update-btn {
+  box-shadow:
+    0 6px 16px rgba(79, 142, 247, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.edit-container[data-theme="light"] .update-btn:hover {
+  box-shadow:
+    0 10px 22px rgba(79, 142, 247, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* ================================================================== */
+/* COPY-PASTE THIS AT END OF edit-container.css                       */
+/* ================================================================== */
+
+@keyframes inputFocus {
+  from {
+    transform: scale(0.98);
+    box-shadow: 0 0 0 0px rgba(79, 142, 247, 0.1);
+  }
+
+  to {
+    transform: scale(1);
+    box-shadow: 0 0 0 3px rgba(79, 142, 247, 0.12);
+  }
+}
+
+@keyframes labelSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes buttonGlow {
+  from {
+    box-shadow: 0 6px 20px rgba(79, 142, 247, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  to {
+    box-shadow: 0 12px 28px rgba(79, 142, 247, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
+}
+
+@keyframes iconSlideRotate {
+  from {
+    transform: translateX(0) rotate(0deg);
+  }
+
+  to {
+    transform: translateX(4px) rotate(10deg);
+  }
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes backBtnSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes avatarPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0px rgba(79, 142, 247, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 0 8px rgba(79, 142, 247, 0);
+  }
 }
