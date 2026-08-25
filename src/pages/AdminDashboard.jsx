@@ -238,6 +238,58 @@ const icons = {
   ),
 };
 
+/* ================================================================== */
+/* UNIFIED AVATAR COMPONENT — works in topbar, sidebar, modal        */
+/* ================================================================== */
+function AvatarImage({ src, name, size = "medium", className = "" }) {
+  const [showImage, setShowImage] = useState(Boolean(src));
+  const [loaded, setLoaded] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
+  const maxRetries = 2;
+
+  useEffect(() => {
+    setShowImage(Boolean(src));
+    setLoaded(false);
+    setRetryCount(0);
+  }, [src]);
+
+  const handleImageError = () => {
+    if (retryCount < maxRetries) {
+      setRetryCount(prev => prev + 1);
+      setLoaded(false);
+    } else {
+      setShowImage(false);
+    }
+  };
+
+  return (
+    <div className={`avatar-wrapper avatar-${size} ${className}`}>
+      {showImage && src ? (
+        <img
+          key={`${src}-${retryCount}`}
+          src={src}
+          alt={name || "Avatar"}
+          className={`avatar-img${loaded ? " loaded" : ""}`}
+          loading="lazy"
+          decoding="async"
+          onLoad={() => setLoaded(true)}
+          onError={handleImageError}
+          crossOrigin="anonymous"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover"
+          }}
+        />
+      ) : (
+        <span className="avatar-initials">
+          {(name || "?").charAt(0).toUpperCase()}
+        </span>
+      )}
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /* Tiny SVG sparkline used in the stat cards                          */
 /* ------------------------------------------------------------------ */
@@ -337,6 +389,8 @@ const getAdminAvatarUrl = (employeeId, name = "", size = 200) => {
     "c_fill", "g_face", `w_${size}`, `h_${size}`, "r_max", "q_auto", "f_auto"
   ].join(",");
 
+  const timestamp = Math.floor(Date.now() / (60 * 1000));
+
   return `https://res.cloudinary.com/${MYACC_CLOUD_NAME}/image/upload/${transforms}/${publicId}`;
 };
 
@@ -397,30 +451,13 @@ const myaccIcons = {
 };
 
 function MyAccountAvatar({ src, name, label }) {
-
-  const [showImage, setShowImage] = useState(Boolean(src));
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    setShowImage(Boolean(src));
-    setLoaded(false);
-  }, [src]);
-
   return (
-    <div className="myacc__avatar">
-      {showImage ? (
-        <img
-          src={src}
-          alt={label}
-          className={`myacc__avatar-img${loaded ? " is-loaded" : ""}`}
-          loading="lazy"
-          onLoad={() => setLoaded(true)}
-          onError={() => setShowImage(false)}
-        />
-      ) : (
-        <span>{(name || "?").charAt(0).toUpperCase()}</span>
-      )}
-    </div>
+    <AvatarImage
+      src={src}
+      name={name}
+      size="large"
+      className="myacc__avatar"
+    />
   );
 }
 
@@ -929,7 +966,18 @@ function AdminDashboard() {
 
         <div className="sidebar-profile">
           <button className="sidebar-profile-card" onClick={openMyAccount}>
-            <div className="sidebar-avatar">{adminInitial}</div>
+            <AvatarImage
+              src={
+                adminInfo?.profileImage ||
+                adminInfo?.photoURL ||
+                adminInfo?.profileImageUrl ||
+                adminInfo?.imageUrl ||
+                (adminInfo?.id && adminInfo?.name ? getAdminAvatarUrl(adminInfo.id, adminInfo.name) : "")
+              }
+              name={adminInfo?.name}
+              size="medium"
+              className="sidebar-avatar"
+            />
             <div className="sidebar-profile-text">
               <p className="sidebar-profile-name">{adminInfo?.name || t("adminLabel")}</p>
               <span className="sidebar-profile-role">{adminRoleLabel}</span>
@@ -981,10 +1029,18 @@ function AdminDashboard() {
             </button>
 
             <button className="topbar-user" onClick={openMyAccount} aria-label={t("myAccount")}>
-              <span className="topbar-avatar">
-                {adminInitial}
-                <span className="topbar-avatar-dot" />
-              </span>
+              <AvatarImage
+                src={
+                  adminInfo?.profileImage ||
+                  adminInfo?.photoURL ||
+                  adminInfo?.profileImageUrl ||
+                  adminInfo?.imageUrl ||
+                  (adminInfo?.id && adminInfo?.name ? getAdminAvatarUrl(adminInfo.id, adminInfo.name) : "")
+                }
+                name={adminInfo?.name}
+                size="small"
+                className="topbar-avatar"
+              />
               <span className="topbar-user-text">
                 <span className="topbar-user-name">{adminInfo?.name || t("adminLabel")}</span>
                 <span className="topbar-user-role">{adminRoleLabel}</span>

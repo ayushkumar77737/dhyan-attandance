@@ -2439,3 +2439,216 @@
     transform: translateX(0);
   }
 }
+
+/* ================================================================
+   UNIFIED AVATAR WRAPPER & IMAGE STYLING — FIXED FOR CIRCLES
+   ================================================================ */
+
+.avatar-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* ← CRITICAL: Clips image to circle */
+  border-radius: 50%;
+  /* ← Makes it circular */
+  background: linear-gradient(135deg, var(--ad-blue), var(--ad-blue-dark));
+  flex-shrink: 0;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  /* ← Ensures perfect square (for circle) */
+}
+
+.avatar-small {
+  width: 36px;
+  height: 36px;
+  font-size: 15px;
+}
+
+.avatar-medium {
+  width: 40px;
+  height: 40px;
+  font-size: 17px;
+}
+
+.avatar-large {
+  width: 88px;
+  height: 88px;
+  font-size: 32px;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* ← Fills circle without distortion */
+  object-position: center;
+  /* ← Centers face in circle */
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  display: block;
+}
+
+.avatar-img.loaded {
+  opacity: 1;
+}
+
+.avatar-initials {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--ad-blue), var(--ad-blue-dark));
+  border-radius: 50%;
+}
+
+/* ================================================================
+   TOPBAR AVATAR OVERRIDES
+   ================================================================ */
+
+.topbar-avatar {
+  width: 36px !important;
+  height: 36px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 2px solid var(--ad-bg-stat) !important;
+  background: transparent !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.topbar-avatar .avatar-wrapper {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.topbar-avatar .avatar-img {
+  border-radius: 50%;
+}
+
+.topbar-avatar .avatar-initials {
+  border-radius: 50%;
+}
+
+/* Status dot on topbar avatar */
+.topbar-avatar-dot {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ad-green);
+  border: 2px solid var(--ad-bg-stat);
+  z-index: 10;
+}
+
+/* ================================================================
+   SIDEBAR AVATAR OVERRIDES
+   ================================================================ */
+
+.sidebar-avatar {
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  margin: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-avatar .avatar-wrapper {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.sidebar-avatar .avatar-img {
+  border-radius: 50%;
+}
+
+.sidebar-avatar .avatar-initials {
+  border-radius: 50%;
+}
+
+/* ================================================================
+   MODAL AVATAR OVERRIDES (myacc__avatar)
+   ================================================================ */
+
+.myacc__avatar {
+  width: 88px !important;
+  height: 88px !important;
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.myacc__avatar .avatar-wrapper {
+  width: 100%;
+  height: 100%;
+  border: 3px solid var(--ma-blue-line) !important;
+  border-radius: 50% !important;
+}
+
+.myacc__avatar .avatar-img {
+  border: 3px solid var(--ma-blue-line) !important;
+  border-radius: 50% !important;
+  box-sizing: border-box;
+}
+
+.myacc__avatar .avatar-initials {
+  border: 3px solid var(--ma-blue-line) !important;
+  border-radius: 50% !important;
+  box-sizing: border-box;
+  background: var(--ma-blue-bg) !important;
+  color: var(--ma-blue) !important;
+}
+
+/* ================================================================
+   LIGHT THEME ADJUSTMENTS
+   ================================================================ */
+
+.dash-shell[data-theme="light"] .avatar-wrapper {
+  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+}
+
+.dash-shell[data-theme="light"] .avatar-initials {
+  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+}
+
+.myacc__overlay[data-theme="light"] .myacc__avatar .avatar-wrapper {
+  background: var(--ma-blue-bg) !important;
+}
+
+.myacc__overlay[data-theme="light"] .myacc__avatar .avatar-initials {
+  background: var(--ma-blue-bg) !important;
+  color: var(--ma-blue) !important;
+}
+
+/* ================================================================
+   ENSURE PERFECT CIRCLE IN ALL BROWSERS
+   ================================================================ */
+
+.avatar-wrapper,
+.avatar-wrapper .avatar-img,
+.avatar-wrapper .avatar-initials {
+  border-radius: 50% !important;
+  overflow: hidden !important;
+}
+
+/* Remove any default image styling that might break circles */
+.avatar-img {
+  border-radius: 50% !important;
+  -webkit-border-radius: 50% !important;
+}
