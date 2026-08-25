@@ -443,9 +443,33 @@ function IdRequests() {
                         <input
                             className="idreq__search"
                             type="text"
+                            inputMode="numeric"
                             placeholder={t("searchPlaceholder")}
                             value={search}
-                            onChange={(e) => setSearch(e.target.value.slice(0, 50))}
+                            onChange={(e) =>
+                                setSearch(e.target.value.replace(/\D/g, "").slice(0, 50))
+                            }
+                            onKeyDown={(e) => {
+                                const allowedKeys = [
+                                    "Backspace", "Delete", "ArrowLeft", "ArrowRight",
+                                    "ArrowUp", "ArrowDown", "Tab", "Home", "End"
+                                ];
+                                if (
+                                    !allowedKeys.includes(e.key) &&
+                                    !/^[0-9]$/.test(e.key) &&
+                                    !(e.ctrlKey || e.metaKey)
+                                ) {
+                                    e.preventDefault();
+                                }
+                            }}
+                            onPaste={(e) => {
+                                const pasted = e.clipboardData.getData("text");
+                                if (/\D/.test(pasted)) {
+                                    e.preventDefault();
+                                    const digitsOnly = pasted.replace(/\D/g, "").slice(0, 50);
+                                    setSearch((prev) => (prev + digitsOnly).slice(0, 50));
+                                }
+                            }}
                         />
                         {search && (
                             <button
