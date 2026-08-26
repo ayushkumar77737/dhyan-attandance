@@ -354,11 +354,10 @@ function SmartAttendance() {
     const handleManualScan = async (e) => {
         e.preventDefault();
         const val = e.target.manualId.value.trim().toUpperCase();
-        if (!/^[A-Z0-9]+$/.test(val)) {
+        if (!/^[A-Z0-9]{4}$/.test(val)) {
             showToast(t("invalidUserId"), "error");
             return;
         }
-        if (!val) return;
         setScanResult(val);
         await handleScan(val);
         e.target.reset();
@@ -560,7 +559,12 @@ function SmartAttendance() {
                                 name="manualId"
                                 type="text"
                                 placeholder={t("enterUserIdPlaceholder")}
-                                maxLength={10}
+                                maxLength={4}
+                                autoComplete="off"
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    e.target.value = value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+                                }}
                             />
                             <button className="satnv2__btn satnv2__btn--mark" type="submit">
                                 {t("mark")}

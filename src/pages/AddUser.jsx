@@ -183,21 +183,21 @@ function AddUser() {
         setErrorMsg("");
         setLoading(true);
 
-        if (!/^[a-zA-Z ]+$/.test(name)) {
+        if (!/^[A-Z ]+$/.test(name)) {
             setErrorMsg(t("nameLettersOnly"));
             setLoading(false);
             clearMessages();
             return;
         }
 
-        if (!/^[a-zA-Z0-9]+$/.test(idNo)) {
+        if (!/^[A-Z0-9]{4}$/.test(idNo)) {
             setErrorMsg(t("idLettersNumbers"));
             setLoading(false);
             clearMessages();
             return;
         }
 
-        if (!/^[a-zA-Z0-9]+$/.test(password)) {
+        if (!/^[0-9]{8}$/.test(password)) {
             setErrorMsg(t("noSpecialChars"));
             setLoading(false);
             clearMessages();
@@ -337,7 +337,7 @@ function AddUser() {
                             autoComplete="off"
                             onChange={(e) => {
                                 const value = e.target.value;
-                                if (/^[a-zA-Z ]*$/.test(value)) setName(value);
+                                if (/^[a-zA-Z ]*$/.test(value)) setName(value.toUpperCase());
                             }}
                             required
                         />
@@ -349,7 +349,7 @@ function AddUser() {
                             type="text"
                             placeholder={t("enterIdNumber")}
                             value={idNo}
-                            maxLength={10}
+                            maxLength={4}
                             autoComplete="off"
                             onChange={(e) => {
                                 const value = e.target.value;
@@ -365,11 +365,11 @@ function AddUser() {
                             type={showPassword ? "text" : "password"}
                             placeholder={t("enterPassword")}
                             value={password}
-                            maxLength={10}
+                            maxLength={8}
                             autoComplete="new-password"
                             onChange={(e) => {
                                 const value = e.target.value;
-                                if (/^[a-zA-Z0-9]*$/.test(value)) setPassword(value);
+                                if (/^[0-9]*$/.test(value)) setPassword(value);
                             }}
                             required
                         />
