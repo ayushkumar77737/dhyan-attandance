@@ -84,6 +84,9 @@
     --au-error-color: #ff7096;
     --au-error-border: rgba(245, 54, 92, 0.32);
 
+    --au-required-color: #f87171;
+    --au-required-glow: rgba(248, 113, 113, 0.35);
+
     --au-radius-sm: 12px;
     --au-radius-md: 16px;
     --au-radius-lg: 28px;
@@ -170,6 +173,9 @@
     --au-error-bg: #fdeceb;
     --au-error-color: #b91c1c;
     --au-error-border: rgba(220, 38, 38, 0.24);
+
+    --au-required-color: #dc2626;
+    --au-required-glow: rgba(220, 38, 38, 0.22);
 }
 
 /* ================================================================== */
@@ -416,11 +422,32 @@
 }
 
 .au-subtitle {
-    margin: 0 0 26px;
+    margin: 0 0 10px;
     text-align: center;
     font-size: 14px;
     font-weight: 400;
     color: var(--au-text-secondary);
+}
+
+/* required-fields legend under the subtitle */
+.au-required-legend {
+    margin: 0 0 20px;
+    text-align: center;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--au-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.au-required-mark {
+    color: var(--au-required-color);
+    font-weight: 800;
+    font-size: 14px;
+    line-height: 1;
 }
 
 /* ---------------- fields: attached icon + input ---------------- */
@@ -442,6 +469,22 @@
     box-shadow: 0 0 0 4px var(--au-purple-subtle);
 }
 
+/* red mandatory-field star, sitting inline right before the input text —
+   part of normal flex flow, so it can never be clipped or drift out of
+   position the way an absolutely-positioned badge could */
+.au-required-mark-inline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    flex-shrink: 0;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--au-required-color);
+    background: transparent;
+}
+
 .au-field-icon {
     display: flex;
     align-items: center;
@@ -451,6 +494,8 @@
     background: var(--au-icon-bg);
     color: var(--au-icon-color);
     border-right: 1px solid var(--au-field-border);
+    border-top-left-radius: var(--au-radius-sm);
+    border-bottom-left-radius: var(--au-radius-sm);
 }
 
 .au-field-icon svg {
@@ -1012,6 +1057,10 @@
 
 .au-subtitle {
     animation: adduser-drop 0.5s var(--au-ease) 0.46s both;
+}
+
+.au-required-legend {
+    animation: adduser-fadeIn 0.5s var(--au-ease) 0.5s both;
 }
 
 /* Fields cascade top-down. The chain of sibling combinators is

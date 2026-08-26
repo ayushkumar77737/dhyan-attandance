@@ -2013,3 +2013,28 @@
         transform: none;
     }
 }
+
+/* ==================================================================
+   PROFILE IMAGE OVERLAY — append to the end of SmartAttendance.css
+   ------------------------------------------------------------------
+   Mirrors AllUsers.css's .alu-avatar-img: the <img> sits absolutely
+   over the initials, so a broken/missing photo (onError hides it)
+   just falls back to the existing gradient + letter treatment with
+   no layout shift.
+   ================================================================== */
+
+.satnv2__user-avatar,
+.satnv2__activity-avatar {
+    position: relative;
+    overflow: hidden;
+}
+
+.satnv2__user-avatar-img,
+.satnv2__activity-avatar-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}

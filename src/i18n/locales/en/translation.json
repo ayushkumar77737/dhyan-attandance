@@ -1173,5 +1173,8 @@
   "aclSearchPlaceholder": "Search pages or paths",
   "aclRestrictedLabel": "{{count}} restricted",
   "aclNoResultsTitle": "No pages match your search",
-  "aclNoResultsHint": "Try a different page name or path."
+  "aclNoResultsHint": "Try a different page name or path.",
+  "passwordRequired": "Password is required.",
+  "areRequired": "are mandatory",
+  "mandatoryFieldsNote": "All fields marked with an asterisk are mandatory"
 }

@@ -214,15 +214,39 @@ function SmartAttendance() {
         finally { setLoadingStats(false); }
     };
 
+    /* Profile photos live in `profiles/{ID}.profileImage` — same
+       Cloudinary secure_url written by uploadProfileImage() and the
+       same lookup pattern AllUsers.jsx uses. Build the map once per
+       fetch, then attach the matching URL to each recent scan. */
     const fetchRecentScans = async () => {
         try {
+            const imageMap = {};
+            try {
+                const profileSnap = await getDocs(collection(db, "profiles"));
+                profileSnap.forEach((p) => {
+                    const pd = p.data();
+                    const key = String(p.id || "").toUpperCase();
+                    if (pd.profileImage) imageMap[key] = pd.profileImage;
+                });
+            } catch (e) {
+                // Photos are optional — fall back to initials rather than failing.
+                console.warn("SmartAttendance: could not load profile images —", e);
+            }
+
             const snap = await getDocs(query(
                 collection(db, "smartAttendance"),
                 orderBy("scannedAt", "desc"),
                 limit(10)
             ));
             const data = [];
-            snap.forEach(d => data.push({ id: d.id, ...d.data() }));
+            snap.forEach(d => {
+                const scan = d.data();
+                data.push({
+                    id: d.id,
+                    ...scan,
+                    image: imageMap[String(scan.userId || "").toUpperCase()] || ""
+                });
+            });
             setRecentScans(data);
         } catch (err) { console.error(err); }
     };
@@ -312,6 +336,25 @@ function SmartAttendance() {
 
             const userData = userSnap.data();
 
+            /* Same profiles/{ID}.profileImage lookup as AllUsers.jsx,
+               done for a single ID here since we already know who
+               was scanned. Falls back to any profileImage field that
+               might already live on the user doc itself. */
+            let profileImage = "";
+            try {
+                const profileRef = doc(db, "profiles", userId.toUpperCase());
+                const profileSnap = await getDoc(profileRef);
+                if (profileSnap.exists()) {
+                    profileImage = profileSnap.data().profileImage || "";
+                }
+            } catch (e) {
+                console.warn("SmartAttendance: could not load profile image —", e);
+            }
+            const userWithImage = {
+                ...userData,
+                image: profileImage || userData.profileImage || ""
+            };
+
             const today = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
             const existingSnap = await getDocs(query(
                 collection(db, "smartAttendance"),
@@ -321,7 +364,7 @@ function SmartAttendance() {
 
             if (!existingSnap.empty) {
                 setScanStatus("already");
-                setScannedUser(userData);
+                setScannedUser(userWithImage);
                 showToast(t("alreadyMarkedToday"), "already");
                 return;
             }
@@ -339,7 +382,7 @@ function SmartAttendance() {
                 details: t("logScannedPresent", { name: userData.name || userId }),
             });
             setScanStatus("success");
-            setScannedUser(userData);
+            setScannedUser(userWithImage);
             showToast(`${userData.name || userId} — ${t("markedPresentSuccess")}`, "success");
             fetchStats();
             fetchRecentScans();
@@ -595,6 +638,14 @@ function SmartAttendance() {
                         {scannedUser ? (
                             <div className="satnv2__user-info">
                                 <div className="satnv2__user-avatar">
+                                    {scannedUser.image ? (
+                                        <img
+                                            className="satnv2__user-avatar-img"
+                                            src={scannedUser.image}
+                                            alt={scannedUser.name || t("unknown")}
+                                            onError={(e) => { e.currentTarget.style.display = "none"; }}
+                                        />
+                                    ) : null}
                                     {(scannedUser.name || "U").charAt(0).toUpperCase()}
                                 </div>
                                 <div className="satnv2__user-details">
@@ -703,6 +754,15 @@ function SmartAttendance() {
                                 recentScans.map((scan, i) => (
                                     <div key={scan.id} className="satnv2__activity-row" style={{ animationDelay: `${i * 40}ms` }}>
                                         <div className="satnv2__activity-avatar">
+                                            {scan.image ? (
+                                                <img
+                                                    className="satnv2__activity-avatar-img"
+                                                    src={scan.image}
+                                                    alt={scan.userName}
+                                                    loading="lazy"
+                                                    onError={(e) => { e.currentTarget.style.display = "none"; }}
+                                                />
+                                            ) : null}
                                             {(scan.userName || "U").charAt(0).toUpperCase()}
                                         </div>
                                         <div className="satnv2__activity-info">

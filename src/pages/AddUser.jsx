@@ -183,6 +183,13 @@ function AddUser() {
         setErrorMsg("");
         setLoading(true);
 
+        if (!name.trim()) {
+            setErrorMsg(t("nameRequired") || "Full name is required.");
+            setLoading(false);
+            clearMessages();
+            return;
+        }
+
         if (!/^[A-Z ]+$/.test(name)) {
             setErrorMsg(t("nameLettersOnly"));
             setLoading(false);
@@ -190,8 +197,22 @@ function AddUser() {
             return;
         }
 
+        if (!idNo.trim()) {
+            setErrorMsg(t("idRequired") || "ID number is required.");
+            setLoading(false);
+            clearMessages();
+            return;
+        }
+
         if (!/^[A-Z0-9]{4}$/.test(idNo)) {
             setErrorMsg(t("idLettersNumbers"));
+            setLoading(false);
+            clearMessages();
+            return;
+        }
+
+        if (!password.trim()) {
+            setErrorMsg(t("passwordRequired") || "Password is required.");
             setLoading(false);
             clearMessages();
             return;
@@ -324,10 +345,16 @@ function AddUser() {
                         {t("addUserSubtitle") || "Create a new user account"}
                     </p>
 
+                    <p className="au-required-legend">
+                        <span className="au-required-mark" aria-hidden="true">*</span>
+                        {t("mandatoryFieldsNote") || "All fields marked with an asterisk are mandatory"}
+                    </p>
+
                     {message && <div className="success-message">{message}</div>}
                     {errorMsg && <div className="error-message">{errorMsg}</div>}
 
                     <div className="au-field">
+                        <span className="au-required-mark-inline" aria-hidden="true">*</span>
                         <span className="au-field-icon">{icons.person}</span>
                         <input
                             type="text"
@@ -335,15 +362,17 @@ function AddUser() {
                             value={name}
                             maxLength={30}
                             autoComplete="off"
+                            required
+                            aria-required="true"
                             onChange={(e) => {
                                 const value = e.target.value;
                                 if (/^[a-zA-Z ]*$/.test(value)) setName(value.toUpperCase());
                             }}
-                            required
                         />
                     </div>
 
                     <div className="au-field">
+                        <span className="au-required-mark-inline" aria-hidden="true">*</span>
                         <span className="au-field-icon">{icons.idCard}</span>
                         <input
                             type="text"
@@ -351,15 +380,17 @@ function AddUser() {
                             value={idNo}
                             maxLength={4}
                             autoComplete="off"
+                            required
+                            aria-required="true"
                             onChange={(e) => {
                                 const value = e.target.value;
                                 if (/^[a-zA-Z0-9]*$/.test(value)) setIdNo(value.toUpperCase());
                             }}
-                            required
                         />
                     </div>
 
                     <div className="au-field">
+                        <span className="au-required-mark-inline" aria-hidden="true">*</span>
                         <span className="au-field-icon">{icons.lock}</span>
                         <input
                             type={showPassword ? "text" : "password"}
@@ -367,11 +398,12 @@ function AddUser() {
                             value={password}
                             maxLength={8}
                             autoComplete="new-password"
+                            required
+                            aria-required="true"
                             onChange={(e) => {
                                 const value = e.target.value;
                                 if (/^[0-9]*$/.test(value)) setPassword(value);
                             }}
-                            required
                         />
                         <button
                             type="button"
