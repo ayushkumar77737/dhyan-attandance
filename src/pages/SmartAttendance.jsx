@@ -7,6 +7,8 @@ import {
     collection,
     getDocs,
     addDoc,
+    deleteDoc,
+    writeBatch,
     serverTimestamp,
     query,
     where,
@@ -104,6 +106,14 @@ const icons = {
             <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
         </svg>
     ),
+    trash: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+            <path d="M10 11v6" /><path d="M14 11v6" />
+            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+        </svg>
+    ),
 };
 
 function SmartAttendance() {
@@ -126,6 +136,9 @@ function SmartAttendance() {
     const [cameraError, setCameraError] = useState(null);
     const [toast, setToast] = useState(null);
     const [pulseActive, setPulseActive] = useState(false);
+    const [deletingId, setDeletingId] = useState(null);
+    const [deletingAll, setDeletingAll] = useState(false);
+    const [confirmModal, setConfirmModal] = useState(null);
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     const checkAdmin = async () => {
@@ -406,9 +419,68 @@ function SmartAttendance() {
         e.target.reset();
     };
 
+    const handleDeleteScan = (scan) => {
+        askConfirm(t("confirmDeleteScan", { name: scan.userName }), () => doDeleteScan(scan));
+    };
+
+    const doDeleteScan = async (scan) => {
+        try {
+            setDeletingId(scan.id);
+            await deleteDoc(doc(db, "smartAttendance", scan.id));
+            await logAdminAction("delete_attendance", {
+                targetId: scan.userId,
+                details: t("logDeletedAttendance", { name: scan.userName }) || `Deleted attendance record for ${scan.userName}`,
+            });
+            showToast(`${scan.userName} — ${t("recordDeleted") || "record deleted"}`, "success");
+            fetchStats();
+            fetchRecentScans();
+        } catch (err) {
+            console.error(err);
+            showToast(t("errorDeletingAttendance") || "Failed to delete record", "error");
+        } finally {
+            setDeletingId(null);
+        }
+    };
+
+    const handleDeleteAllScans = () => {
+        askConfirm(t("confirmDeleteAllScans") || "Delete ALL attendance records? This cannot be undone.", doDeleteAllScans);
+    };
+
+    const doDeleteAllScans = async () => {
+        try {
+            setDeletingAll(true);
+            const snap = await getDocs(collection(db, "smartAttendance"));
+            if (snap.empty) {
+                showToast(t("noRecordsToDelete") || "No records to delete", "already");
+                return;
+            }
+            const docs = snap.docs;
+            for (let i = 0; i < docs.length; i += 450) {
+                const batch = writeBatch(db);
+                docs.slice(i, i + 450).forEach(d => batch.delete(d.ref));
+                await batch.commit();
+            }
+            await logAdminAction("delete_all_attendance", {
+                details: t("logDeletedAllAttendance", { count: docs.length }),
+            });
+            showToast(t("allRecordsDeleted") || "All records deleted", "success");
+            fetchStats();
+            fetchRecentScans();
+        } catch (err) {
+            console.error(err);
+            showToast(t("errorDeletingAllAttendance") || "Failed to delete all records", "error");
+        } finally {
+            setDeletingAll(false);
+        }
+    };
+
     const showToast = (msg, type) => {
         setToast({ msg, type });
         setTimeout(() => setToast(null), 4000);
+    };
+
+    const askConfirm = (message, onConfirm) => {
+        setConfirmModal({ message, onConfirm });
     };
 
     const formatTime = (ts) => {
@@ -439,6 +511,32 @@ function SmartAttendance() {
                 <div className={`satnv2__toast satnv2__toast--${toast.type}`}>
                     <span className="satnv2__toast-dot" />
                     {toast.msg}
+                </div>
+            )}
+            {confirmModal && (
+                <div className="satnv2__modal-overlay" onClick={() => setConfirmModal(null)}>
+                    <div className="satnv2__modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="satnv2__modal-icon">{icons.alertTriangle}</div>
+                        <p className="satnv2__modal-message">{confirmModal.message}</p>
+                        <div className="satnv2__modal-actions">
+                            <button
+                                className="satnv2__modal-btn satnv2__modal-btn--cancel"
+                                onClick={() => setConfirmModal(null)}
+                            >
+                                {t("cancel") || "Cancel"}
+                            </button>
+                            <button
+                                className="satnv2__modal-btn satnv2__modal-btn--confirm"
+                                onClick={() => {
+                                    const action = confirmModal.onConfirm;
+                                    setConfirmModal(null);
+                                    action();
+                                }}
+                            >
+                                {t("delete") || "Delete"}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
 
@@ -739,6 +837,17 @@ function SmartAttendance() {
                             <span className="satnv2__activity-count">
                                 {recentScans.length} {t("records")}
                             </span>
+                            {recentScans.length > 0 && (
+                                <button
+                                    className="satnv2__btn-delete-all"
+                                    onClick={handleDeleteAllScans}
+                                    disabled={deletingAll}
+                                    title={t("deleteAll") || "Delete all"}
+                                >
+                                    <span className="satnv2__btn-delete-all-icon">{icons.trash}</span>
+                                    {deletingAll ? (t("deleting") || "Deleting…") : (t("deleteAll") || "Delete All")}
+                                </button>
+                            )}
                         </div>
 
                         <div className="satnv2__activity-list">
@@ -775,6 +884,15 @@ function SmartAttendance() {
                                             </span>
                                             <span className="satnv2__activity-time">{formatTime(scan.scannedAt)}</span>
                                         </div>
+                                        <button
+                                            className="satnv2__activity-delete-btn"
+                                            onClick={() => handleDeleteScan(scan)}
+                                            disabled={deletingId === scan.id}
+                                            title={t("delete") || "Delete"}
+                                            aria-label={t("delete") || "Delete"}
+                                        >
+                                            {icons.trash}
+                                        </button>
                                     </div>
                                 ))
                             )}

@@ -1176,5 +1176,14 @@
   "aclNoResultsHint": "Try a different page name or path.",
   "passwordRequired": "Password is required.",
   "areRequired": "are mandatory",
-  "mandatoryFieldsNote": "All fields marked with an asterisk are mandatory"
+  "mandatoryFieldsNote": "All fields marked with an asterisk are mandatory",
+  "confirmDeleteScan": "Delete attendance record for {{name}}?",
+  "confirmDeleteAllScans": "Delete ALL attendance records? This cannot be undone.",
+  "recordDeleted": "record deleted",
+  "errorDeletingAttendance": "Failed to delete record",
+  "noRecordsToDelete": "No records to delete",
+  "allRecordsDeleted": "All records deleted",
+  "errorDeletingAllAttendance": "Failed to delete all records",
+  "logDeletedAttendance": "Deleted attendance record for {{name}}",
+  "logDeletedAllAttendance": "Deleted all attendance records ({{count}})"
 }

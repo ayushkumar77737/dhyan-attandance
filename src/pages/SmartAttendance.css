@@ -2038,3 +2038,175 @@
     object-fit: cover;
     border-radius: inherit;
 }
+
+/* ---------------- delete controls ---------------- */
+.satnv2__btn-delete-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--sa-red-dim);
+    border: 1px solid var(--sa-red-border);
+    color: var(--sa-red-light);
+    cursor: pointer;
+    flex-shrink: 0;
+    white-space: nowrap;
+    transition: transform 0.2s var(--sa-ease), box-shadow 0.2s var(--sa-ease), opacity 0.2s;
+}
+
+.satnv2__btn-delete-all:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px -10px rgba(239, 68, 68, 0.5);
+}
+
+.satnv2__btn-delete-all:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.satnv2__btn-delete-all-icon {
+    display: flex;
+}
+
+.satnv2__btn-delete-all-icon svg {
+    width: 13px;
+    height: 13px;
+}
+
+.satnv2__activity-row {
+    position: relative;
+    padding-right: 42px;
+}
+
+.satnv2__activity-delete-btn {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--sa-dim);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.18s, background 0.18s, color 0.18s, border-color 0.18s;
+}
+
+@media (hover: none) {
+    .satnv2__activity-delete-btn {
+        opacity: 0.7;
+    }
+}
+
+.satnv2__activity-row:hover .satnv2__activity-delete-btn {
+    opacity: 1;
+}
+
+.satnv2__activity-delete-btn:hover {
+    background: var(--sa-red-dim);
+    border-color: var(--sa-red-border);
+    color: var(--sa-red-light);
+}
+
+.satnv2__activity-delete-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.satnv2__activity-delete-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* ---------------- custom confirm modal ---------------- */
+.satnv2__modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(2, 8, 16, 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: satnv2-toast-in 0.2s var(--sa-ease) both;
+}
+
+.satnv2__modal {
+    background: var(--sa-card-solid);
+    border: 1px solid var(--sa-border-2);
+    border-radius: 20px;
+    padding: 28px 26px 22px;
+    max-width: 380px;
+    width: 100%;
+    box-shadow: var(--sa-card-shadow);
+    text-align: center;
+    animation: satnv2-result-land 0.3s var(--sa-ease);
+}
+
+.satnv2__modal-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--sa-red-dim);
+    color: var(--sa-red-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+.satnv2__modal-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.satnv2__modal-message {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--sa-text);
+    margin: 0 0 24px;
+    line-height: 1.5;
+}
+
+.satnv2__modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.satnv2__modal-btn {
+    flex: 1;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: var(--font-body);
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: transform 0.18s var(--sa-ease), box-shadow 0.18s var(--sa-ease);
+}
+
+.satnv2__modal-btn:hover {
+    transform: translateY(-1px);
+}
+
+.satnv2__modal-btn--cancel {
+    background: var(--sa-surface-2);
+    border-color: var(--sa-border-2);
+    color: var(--sa-text);
+}
+
+.satnv2__modal-btn--confirm {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #fff;
+    box-shadow: 0 10px 22px -10px rgba(239, 68, 68, 0.55);
+}
