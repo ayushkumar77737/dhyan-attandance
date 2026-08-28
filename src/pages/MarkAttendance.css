@@ -776,6 +776,20 @@
   outline-offset: 2px;
 }
 
+/* The date field and the status select already draw their own focus
+   ring on their rounded pill container (.mkat-date-wrap /
+   .mkat-select-wrap) via :focus-within — border colour change plus a
+   soft box-shadow glow. The generic rule above also fires on the raw
+   <input>/<select> inside them, which has no border-radius of its
+   own, so it stacks a second, square outline on top of the rounded
+   pill — that's the stray box around the dropdown. Suppress the
+   generic outline for just these two controls; the pill's own focus
+   style still shows. */
+.mkat-date-wrap input:focus-visible,
+.mkat-select-wrap select:focus-visible {
+  outline: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
 
   .markattendance-container,

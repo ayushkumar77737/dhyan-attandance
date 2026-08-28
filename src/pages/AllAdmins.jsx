@@ -238,7 +238,10 @@ function AllAdmins() {
                             type="text"
                             placeholder={t("searchAdmins")}
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)}
+                            onChange={(e) => {
+                                const value = e.target.value.toUpperCase();
+                                if (/^[A-Z0-9@]*$/.test(value)) setSearch(value);
+                            }}
                         />
                         {search && (
                             <button
@@ -312,10 +315,6 @@ function AllAdmins() {
                                 <p className="alad-meta">
                                     <span className="alad-meta-icon">{icons.mail}</span>
                                     <span className="alad-meta-text">{a.email}</span>
-                                </p>
-                                <p className="alad-meta">
-                                    <span className="alad-meta-icon">{icons.phone}</span>
-                                    <span className="alad-meta-text">{a.phone}</span>
                                 </p>
 
                                 <span className={`alad-status ${a.disabled ? "alad-status--off" : ""}`}>

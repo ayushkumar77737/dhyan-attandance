@@ -1,32 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap');
+
+/* ==================================================================
+   TOKENS — DARK (default)
+   Matches the violet identity used on the sibling Add Admin page, so
+   the two screens in this admin-management flow read as one family.
+   ================================================================== */
 .editadmin-container {
-    padding: 28px 32px;
-    font-family: var(--font-body, 'Outfit', sans-serif);
-    min-height: 100vh;
-    background: var(--ad-bg, #0b0e18);
-    color: var(--ad-text-primary, #e8edf5);
-    background-image:
-        radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.05) 0%, transparent 60%),
-        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-    background-size: 100% 100%, 44px 44px, 44px 44px;
-    animation: editadmin-fade 0.5s ease;
+    --ea-violet: #7c3aed;
+    --ea-violet-dark: #5b21b6;
+    --ea-violet-light: #a78bfa;
+    --ea-violet-subtle: rgba(139, 92, 246, 0.14);
+
+    --ea-bg: #08060f;
+    --ea-bg-wash: rgba(124, 58, 237, 0.10);
+    --ea-grid-line: rgba(255, 255, 255, 0.015);
+
+    --ea-card: #120e21;
+    --ea-card-border: rgba(255, 255, 255, 0.08);
+    --ea-card-shadow: 0 30px 70px -26px rgba(0, 0, 0, 0.7);
+
+    --ea-text: #f2effe;
+    --ea-muted: #8b87a8;
+    --ea-placeholder: rgba(242, 239, 254, 0.32);
+
+    --ea-input-bg: #0d0a18;
+    --ea-input-border: rgba(255, 255, 255, 0.11);
+    --ea-input-border-focus: var(--ea-violet-light);
+
+    --ea-icon-color: #8b87a8;
+    --ea-icon-color-focus: var(--ea-violet-light);
+
+    --ea-pill-bg: rgba(139, 92, 246, 0.15);
+    --ea-pill-text: #c4b5fd;
+    --ea-pill-border: rgba(139, 92, 246, 0.3);
+
+    --ea-avatar-bg: rgba(139, 92, 246, 0.20);
+    --ea-avatar-text: #c4b5fd;
+    --ea-avatar-ring: rgba(167, 139, 250, 0.30);
+
+    --ea-required: #f87171;
+
+    --ea-success-bg: rgba(45, 206, 137, 0.12);
+    --ea-success-border: rgba(45, 206, 137, 0.32);
+    --ea-success-text: #6ee7b7;
+
+    --ea-error-bg: rgba(239, 68, 68, 0.12);
+    --ea-error-border: rgba(239, 68, 68, 0.3);
+    --ea-error-text: #fca5a5;
+
+    --ea-info-bg: rgba(245, 158, 11, 0.12);
+    --ea-info-border: rgba(245, 158, 11, 0.3);
+    --ea-info-text: #fcd34d;
+
+    --ea-btn-gradient: linear-gradient(135deg, #a78bfa 0%, #7c3aed 45%, #5b21b6 100%);
+    --ea-btn-shadow: 0 12px 28px -10px rgba(124, 58, 237, 0.5);
+    --ea-btn-shadow-hover: 0 18px 36px -12px rgba(124, 58, 237, 0.65);
+
+    --ea-dots: rgba(167, 139, 250, 0.16);
+
+    --ea-radius-sm: 12px;
+    --ea-radius-md: 16px;
+    --ea-radius-lg: 24px;
+
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+    --ea-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* ================================================================== */
+/* TOKENS — LIGHT                                                     */
+/* ------------------------------------------------------------------ */
+/* Same two rules as the other pages in this app: pale violets on dark */
+/* drop to their 600/700 counterpart on white, and the input surface   */
+/* steps away from the white card rather than repeating it.            */
+/* ================================================================== */
+.editadmin-container[data-theme="light"] {
+    --ea-bg: #eae7f6;
+    --ea-bg-wash: rgba(124, 58, 237, 0.09);
+    --ea-grid-line: rgba(76, 29, 149, 0.03);
+
+    --ea-card: #ffffff;
+    --ea-card-border: rgba(76, 29, 149, 0.10);
+    --ea-card-shadow:
+        0 24px 56px -26px rgba(76, 29, 149, 0.30),
+        0 3px 10px rgba(30, 27, 58, 0.05);
+
+    --ea-text: #1c1938;
+    --ea-muted: #63607d;
+    --ea-placeholder: #a09db6;
+
+    --ea-input-bg: #f8f7fd;
+    --ea-input-border: rgba(76, 29, 149, 0.16);
+    --ea-input-border-focus: #7c3aed;
+
+    --ea-icon-color: #837fa0;
+    --ea-icon-color-focus: #7c3aed;
+
+    --ea-pill-bg: #ebe4fd;
+    --ea-pill-text: #5b21b6;
+    --ea-pill-border: rgba(124, 58, 237, 0.22);
+
+    --ea-avatar-bg: #ebe4fd;
+    --ea-avatar-text: #5b21b6;
+    --ea-avatar-ring: rgba(124, 58, 237, 0.26);
+
+    --ea-required: #dc2626;
+
+    --ea-success-bg: #e4f7ef;
+    --ea-success-border: rgba(5, 150, 105, 0.30);
+    --ea-success-text: #047857;
+
+    --ea-error-bg: #fdeaea;
+    --ea-error-border: rgba(220, 38, 38, 0.28);
+    --ea-error-text: #b91c1c;
+
+    --ea-info-bg: #fdf3e0;
+    --ea-info-border: rgba(217, 119, 6, 0.30);
+    --ea-info-text: #b45309;
+
+    --ea-btn-gradient: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 45%, #6d28d9 100%);
+    --ea-btn-shadow: 0 12px 26px -10px rgba(109, 40, 217, 0.45);
+    --ea-btn-shadow-hover: 0 18px 34px -12px rgba(109, 40, 217, 0.55);
+
+    --ea-dots: rgba(124, 58, 237, 0.20);
+}
+
+/* ================================================================== */
+/* SHELL                                                              */
+/* ================================================================== */
+.editadmin-container {
+    position: relative;
+    min-height: 100vh;
+    padding: 30px 32px 56px;
+    font-family: var(--font-body);
+    background: var(--ea-bg);
+    color: var(--ea-text);
+    background-image:
+        radial-gradient(ellipse 70% 42% at 50% 0%, var(--ea-bg-wash) 0%, transparent 62%),
+        linear-gradient(var(--ea-grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--ea-grid-line) 1px, transparent 1px);
+    background-size: 100% 100%, 44px 44px, 44px 44px;
+    overflow-x: hidden;
+    animation: ea-fadeIn 0.55s var(--ea-ease);
+}
+
+.ea-dots {
+    position: absolute;
+    width: 76px;
+    height: 76px;
+    color: var(--ea-dots);
+    pointer-events: none;
+    z-index: 0;
+    animation: ea-dotsBreathe 9s ease-in-out infinite;
+}
+
+.ea-dots--tr {
+    top: 30px;
+    right: 34px;
+}
+
+.ea-dots--bl {
+    bottom: 34px;
+    left: 30px;
+}
+
+/* ================================================================== */
+/* HEADER                                                             */
+/* ================================================================== */
 .editadmin-header {
+    position: relative;
+    z-index: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    gap: 16px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    animation: ea-drop 0.5s var(--ea-ease) 0.05s both;
 }
 
 .editadmin-header-left {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
 }
 
 .editadmin-logo {
-    height: 44px;
+    height: 46px;
     width: auto;
     object-fit: contain;
 }
@@ -39,134 +199,333 @@
 
 .editadmin-portal-label {
     font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--ad-text-secondary, #64748b);
+    color: var(--ea-violet-light);
     margin: 0;
 }
 
 .editadmin-title {
-    font-family: var(--font-display, 'Syne', sans-serif);
-    font-size: 22px;
+    font-family: var(--font-display);
+    font-size: 25px;
     font-weight: 800;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
     margin: 0;
-    color: var(--ad-text-primary, #e8edf5);
+    color: var(--ea-text);
 }
 
 .editadmin-back-btn {
-    padding: 8px 16px;
-    border: 1px solid var(--ad-border-strong, rgba(255, 255, 255, 0.1));
-    border-radius: var(--ad-radius-sm, 10px);
-    background: transparent;
-    color: var(--ad-text-primary, #e8edf5);
-    font-family: var(--font-body, 'Outfit', sans-serif);
-    font-weight: 600;
-    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 20px 11px 15px;
+    border: 1px solid var(--ea-input-border);
+    border-radius: 999px;
+    background: var(--ea-input-bg);
+    color: var(--ea-text);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 13.5px;
     cursor: pointer;
-    transition: border-color 0.2s ease, color 0.2s ease;
+    transition: border-color 0.22s var(--ea-ease), color 0.22s var(--ea-ease), box-shadow 0.22s var(--ea-ease);
+}
+
+.ea-btn-icon {
+    display: flex;
+    flex-shrink: 0;
+    transition: transform 0.22s var(--ea-ease);
+}
+
+.ea-btn-icon svg {
+    width: 15px;
+    height: 15px;
 }
 
 .editadmin-back-btn:hover {
-    border-color: var(--ad-blue, #3b82f6);
-    color: var(--ad-blue, #3b82f6);
+    border-color: var(--ea-violet-light);
+    color: var(--ea-violet-light);
+    box-shadow: 0 8px 20px -12px rgba(124, 58, 237, 0.45);
 }
 
+.editadmin-back-btn:hover .ea-btn-icon {
+    transform: translateX(-3px);
+}
+
+/* ================================================================== */
+/* CARD                                                               */
+/* ================================================================== */
 .editadmin-card {
+    position: relative;
+    z-index: 1;
     max-width: 480px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    background: var(--ad-bg-card, #111827);
-    border: 1px solid var(--ad-border, rgba(255, 255, 255, 0.06));
-    border-radius: var(--ad-radius-lg, 18px);
-    padding: 28px 26px;
-    box-shadow: var(--ad-shadow-card, 0 4px 24px rgba(0, 0, 0, 0.4));
-    animation: editadmin-rise 0.5s ease;
+    background: var(--ea-card);
+    border: 1px solid var(--ea-card-border);
+    border-radius: var(--ea-radius-lg);
+    padding: 30px 28px 26px;
+    box-shadow: var(--ea-card-shadow);
+    overflow: hidden;
+    animation: ea-rise 0.5s var(--ea-ease) 0.1s both;
+}
+
+/* animated hairline across the top, echoing the sibling Add Admin card */
+.ea-card-sheen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--ea-violet), transparent);
+    background-size: 200% 100%;
+    opacity: 0.75;
+    animation: ea-sheen 7s linear infinite;
+}
+
+.ea-card-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.ea-avatar {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ea-avatar-bg);
+    color: var(--ea-avatar-text);
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    box-shadow: inset 0 0 0 2px var(--ea-avatar-ring);
+    animation: ea-pop 0.5s var(--ea-ease) 0.3s both;
+}
+
+/* The photo sits on top of the initials. If the admin has no image, or the
+   Cloudinary URL 404s, onError hides the <img> and the initials show
+   through — no extra state, no flicker. */
+.ea-avatar-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    box-shadow: inset 0 0 0 2px var(--ea-avatar-ring);
+}
+
+.ea-avatar-badge {
+    position: absolute;
+    right: -5px;
+    bottom: -5px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ea-violet);
+    color: #fff;
+    border: 2.5px solid var(--ea-card);
+}
+
+.ea-avatar-badge svg {
+    width: 13px;
+    height: 13px;
+}
+
+.ea-card-head-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.ea-card-eyebrow {
+    margin: 0;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ea-muted);
 }
 
 .editadmin-id-pill {
     align-self: flex-start;
-    padding: 4px 12px;
-    margin-bottom: 22px;
+    display: inline-flex;
+    padding: 5px 13px;
     font-size: 12px;
     font-weight: 700;
-    letter-spacing: 0.5px;
-    border-radius: 50px;
-    color: var(--ad-blue, #3b82f6);
-    background: var(--ad-blue-subtle, rgba(59, 130, 246, 0.08));
-    border: 1px solid var(--ad-border-blue, rgba(59, 130, 246, 0.3));
+    letter-spacing: 0.4px;
+    border-radius: 999px;
+    color: var(--ea-pill-text);
+    background: var(--ea-pill-bg);
+    border: 1px solid var(--ea-pill-border);
+}
+
+/* required-fields legend */
+.editadmin-required-note {
+    margin: 0 0 18px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ea-muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.editadmin-required {
+    color: var(--ea-required);
+    font-weight: 800;
+    font-size: 13px;
+    line-height: 1;
+}
+
+.editadmin-label .editadmin-required {
+    margin-left: 4px;
 }
 
 .editadmin-label {
+    display: flex;
+    align-items: center;
     font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1px;
+    font-weight: 700;
+    letter-spacing: 0.9px;
     text-transform: uppercase;
-    color: var(--ad-text-secondary, #64748b);
-    margin-bottom: 7px;
+    color: var(--ea-muted);
+    margin-bottom: 8px;
+}
+
+/* ---------------- icon-prefixed fields ---------------- */
+.ea-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.ea-input-icon {
+    position: absolute;
+    left: 15px;
+    display: flex;
+    align-items: center;
+    color: var(--ea-icon-color);
+    pointer-events: none;
+    transition: color 0.2s var(--ea-ease);
+}
+
+.ea-input-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.ea-input-wrap:focus-within .ea-input-icon {
+    color: var(--ea-icon-color-focus);
 }
 
 .editadmin-input {
-    background: var(--ad-bg-stat, #0f1623);
-    border: 1px solid var(--ad-border-strong, rgba(255, 255, 255, 0.1));
-    border-radius: var(--ad-radius-sm, 10px);
-    color: var(--ad-text-primary, #e8edf5);
-    font-family: var(--font-body, 'Outfit', sans-serif);
-    font-size: 14px;
-    padding: 11px 14px;
-    margin-bottom: 18px;
+    width: 100%;
+    background: var(--ea-input-bg);
+    border: 1px solid var(--ea-input-border);
+    border-radius: var(--ea-radius-sm);
+    color: var(--ea-text);
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    font-weight: 500;
+    padding: 13px 14px 13px 44px;
+    margin: 0;
     outline: none;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s var(--ea-ease), box-shadow 0.2s var(--ea-ease), background 0.2s var(--ea-ease);
+}
+
+.editadmin-input::placeholder {
+    color: var(--ea-placeholder);
 }
 
 .editadmin-input:focus {
-    border-color: var(--ad-blue, #3b82f6);
+    border-color: var(--ea-input-border-focus);
+    box-shadow: 0 0 0 4px var(--ea-violet-subtle);
 }
 
+/* ---------------- message banner ---------------- */
 .editadmin-msg {
-    padding: 10px 14px;
-    border-radius: var(--ad-radius-sm, 10px);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 14px;
+    border-radius: var(--ea-radius-sm);
     font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 16px;
+    font-weight: 500;
+    margin-bottom: 18px;
+    animation: ea-slideIn 0.3s var(--ea-ease);
+}
+
+.ea-msg-icon {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.ea-msg-icon svg {
+    width: 17px;
+    height: 17px;
 }
 
 .editadmin-msg--success {
-    color: var(--ad-green, #2dce89);
-    background: rgba(45, 206, 137, 0.12);
-    border: 1px solid rgba(45, 206, 137, 0.4);
+    color: var(--ea-success-text);
+    background: var(--ea-success-bg);
+    border: 1px solid var(--ea-success-border);
 }
 
 .editadmin-msg--error {
-    color: var(--ad-red, #ef4444);
-    background: var(--ad-red-glow, rgba(239, 68, 68, 0.2));
-    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: var(--ea-error-text);
+    background: var(--ea-error-bg);
+    border: 1px solid var(--ea-error-border);
 }
 
 .editadmin-msg--info {
-    color: var(--ad-amber, #f59e0b);
-    background: rgba(245, 158, 11, 0.12);
-    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: var(--ea-info-text);
+    background: var(--ea-info-bg);
+    border: 1px solid var(--ea-info-border);
 }
 
+/* ---------------- save button ---------------- */
 .editadmin-save-btn {
-    padding: 12px 18px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    margin-top: 4px;
+    padding: 14px 18px;
     border: none;
-    border-radius: var(--ad-radius-sm, 10px);
-    background: var(--ad-blue, #3b82f6);
+    border-radius: var(--ea-radius-sm);
+    background: var(--ea-btn-gradient);
     color: #fff;
-    font-family: var(--font-body, 'Outfit', sans-serif);
+    font-family: var(--font-body);
     font-weight: 700;
-    font-size: 14px;
+    font-size: 14.5px;
+    letter-spacing: 0.2px;
     cursor: pointer;
-    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+    box-shadow: var(--ea-btn-shadow);
+    transition: box-shadow 0.2s var(--ea-ease), transform 0.15s var(--ea-ease);
+}
+
+.editadmin-save-btn .ea-btn-icon svg {
+    width: 16px;
+    height: 16px;
 }
 
 .editadmin-save-btn:hover:not(:disabled) {
-    background: var(--ad-blue-dark, #2563eb);
-    box-shadow: var(--ad-shadow-glow-blue, 0 0 20px rgba(59, 130, 246, 0.22));
+    transform: translateY(-2px);
+    box-shadow: var(--ea-btn-shadow-hover);
 }
 
 .editadmin-save-btn:active:not(:disabled) {
@@ -174,48 +533,75 @@
 }
 
 .editadmin-save-btn:disabled {
-    opacity: 0.6;
+    opacity: 0.65;
     cursor: not-allowed;
+    transform: none;
 }
 
+.ea-spinner-sm {
+    width: 15px;
+    height: 15px;
+    border: 2.5px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: ea-spin 0.8s linear infinite;
+}
+
+/* ================================================================== */
+/* LOADING / EMPTY                                                    */
+/* ================================================================== */
 .editadmin-spinner-wrap {
+    position: relative;
+    z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 300px;
+    height: 320px;
 }
 
 .editadmin-spinner {
     width: 40px;
     height: 40px;
-    border: 3px solid var(--ad-border-strong, rgba(255, 255, 255, 0.1));
-    border-top-color: var(--ad-blue, #3b82f6);
+    border: 3px solid var(--ea-input-border);
+    border-top-color: var(--ea-violet-light);
     border-radius: 50%;
-    animation: editadmin-spin 0.8s linear infinite;
-}
-
-@keyframes editadmin-spin {
-    to {
-        transform: rotate(360deg);
-    }
+    animation: ea-spin 0.8s linear infinite;
 }
 
 .editadmin-empty {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 300px;
-    gap: 8px;
-    color: var(--ad-text-secondary, #64748b);
+    height: 320px;
+    gap: 14px;
+    color: var(--ea-muted);
     font-size: 14px;
 }
 
-.editadmin-empty span {
-    font-size: 32px;
+.ea-empty-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ea-violet-subtle);
+    color: var(--ea-violet-light);
 }
 
-@keyframes editadmin-fade {
+.ea-empty-icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+/* ================================================================== */
+/* KEYFRAMES / A11Y                                                   */
+/* ================================================================== */
+@keyframes ea-fadeIn {
     from {
         opacity: 0;
     }
@@ -225,10 +611,10 @@
     }
 }
 
-@keyframes editadmin-rise {
+@keyframes ea-drop {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(-10px);
     }
 
     to {
@@ -237,65 +623,122 @@
     }
 }
 
+@keyframes ea-rise {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes ea-pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes ea-slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes ea-sheen {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+@keyframes ea-dotsBreathe {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes ea-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.editadmin-container button:focus-visible,
+.editadmin-container input:focus-visible {
+    outline: 2px solid var(--ea-violet-light);
+    outline-offset: 2px;
+}
+
+.editadmin-input:focus-visible {
+    outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .editadmin-container,
+    .editadmin-container * {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+
+/* ================================================================== */
+/* RESPONSIVE                                                         */
+/* ================================================================== */
 @media (max-width: 768px) {
     .editadmin-container {
-        padding: 18px 14px;
+        padding: 20px 16px 40px;
+    }
+
+    .ea-dots {
+        display: none;
     }
 
     .editadmin-title {
-        font-size: 18px;
+        font-size: 20px;
+    }
+
+    .editadmin-logo {
+        height: 38px;
     }
 
     .editadmin-card {
         max-width: 100%;
-        padding: 22px 18px;
+        padding: 24px 20px 22px;
     }
-}
 
-/* ================================================================== */
-/* LIGHT THEME                                                        */
-/* ================================================================== */
-
-/* Token overrides — every element reads var(--ad-*), so setting these
-   on the container flips the whole page. */
-.editadmin-container[data-theme="light"] {
-    --ad-bg: #f1f5f9;
-    --ad-bg-card: #ffffff;
-    --ad-bg-stat: #f8fafc;
-    --ad-text-primary: #1e293b;
-    --ad-text-secondary: #64748b;
-    --ad-border: rgba(15, 23, 42, 0.08);
-    --ad-border-strong: rgba(15, 23, 42, 0.12);
-    --ad-border-blue: rgba(59, 130, 246, 0.35);
-    --ad-blue-subtle: rgba(59, 130, 246, 0.08);
-    --ad-shadow-card: 0 4px 24px rgba(15, 23, 42, 0.08);
-    --ad-shadow-glow-blue: 0 0 20px rgba(59, 130, 246, 0.15);
-    --ad-red-glow: rgba(239, 68, 68, 0.1);
-}
-
-/* Background grid — dark lines (white 0.015 vanishes on white) */
-.editadmin-container[data-theme="light"] {
-    background-image:
-        radial-gradient(ellipse 80% 40% at 50% 0%, rgba(59, 130, 246, 0.04) 0%, transparent 60%),
-        linear-gradient(rgba(15, 23, 42, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(15, 23, 42, 0.025) 1px, transparent 1px);
-}
-
-/* Message banners — darker text for contrast on white */
-.editadmin-container[data-theme="light"] .editadmin-msg--success {
-    color: #15803d;
-    background: rgba(45, 206, 137, 0.1);
-    border-color: rgba(45, 206, 137, 0.35);
-}
-
-.editadmin-container[data-theme="light"] .editadmin-msg--error {
-    color: #dc2626;
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.35);
-}
-
-.editadmin-container[data-theme="light"] .editadmin-msg--info {
-    color: #b45309;
-    background: rgba(245, 158, 11, 0.1);
-    border-color: rgba(245, 158, 11, 0.35);
+    .ea-avatar {
+        width: 48px;
+        height: 48px;
+        font-size: 15px;
+    }
 }

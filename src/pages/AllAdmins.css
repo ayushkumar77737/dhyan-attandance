@@ -694,6 +694,18 @@
     outline-offset: 2px;
 }
 
+/* The search box already draws its own focus ring on its rounded pill
+   container (.alad-search) via :focus-within — border colour change
+   plus a soft box-shadow glow. The generic rule above also fires on
+   the raw <input> inside it, which has no border-radius of its own,
+   so it stacks a second, square outline on top of the rounded pill —
+   that's the stray box that appears around the search field when it's
+   focused. Suppress the generic outline for just this control; the
+   pill's own focus style still shows. */
+.alad-search input:focus-visible {
+    outline: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
 
     .alladm-container,

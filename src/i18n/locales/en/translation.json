@@ -1186,5 +1186,6 @@
   "errorDeletingAllAttendance": "Failed to delete all records",
   "logDeletedAttendance": "Deleted attendance record for {{name}}",
   "logDeletedAllAttendance": "Deleted all attendance records ({{count}})",
-  "requiredFieldsNote": "Fields marked with an asterisk are required"
+  "requiredFieldsNote": "Fields marked with an asterisk are required",
+  "editingRecord": "Editing admin record"
 }
