@@ -1185,5 +1185,6 @@
   "allRecordsDeleted": "All records deleted",
   "errorDeletingAllAttendance": "Failed to delete all records",
   "logDeletedAttendance": "Deleted attendance record for {{name}}",
-  "logDeletedAllAttendance": "Deleted all attendance records ({{count}})"
+  "logDeletedAllAttendance": "Deleted all attendance records ({{count}})",
+  "requiredFieldsNote": "Fields marked with an asterisk are required"
 }

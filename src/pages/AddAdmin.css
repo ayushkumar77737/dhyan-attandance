@@ -67,6 +67,8 @@
     --aa-success-border: rgba(45, 206, 137, 0.3);
     --aa-success-text: #6ee7b7;
 
+    --aa-required-color: #f87171;
+
     --aa-radius-sm: 12px;
     --aa-radius-md: 16px;
     --aa-radius-lg: 26px;
@@ -147,6 +149,8 @@
     --aa-success-bg: #e4f7ef;
     --aa-success-border: rgba(5, 150, 105, 0.30);
     --aa-success-text: #047857;
+
+    --aa-required-color: #dc2626;
 }
 
 /* ================================================================== */
@@ -273,7 +277,26 @@
     font-size: 13.5px;
     line-height: 1.55;
     color: var(--aa-text-secondary);
-    margin: 0 0 24px;
+    margin: 0 0 10px;
+}
+
+/* required-fields legend under the description */
+.aapg-required-note {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--aa-text-secondary);
+    margin: 0 0 22px;
+}
+
+.aapg-required {
+    color: var(--aa-required-color);
+    font-weight: 800;
+    font-size: 13px;
+    line-height: 1;
+    margin-left: 3px;
 }
 
 /* ================================================================== */

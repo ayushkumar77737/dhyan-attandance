@@ -207,7 +207,7 @@ function AddAdmin() {
         setError("");
     };
 
-    const isValidEmail = (val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    const isValidEmail = (val) => /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test(val);
 
     const mapAuthError = (code) => {
         switch (code) {
@@ -230,7 +230,7 @@ function AddAdmin() {
         const trimmedName = name.trim();
         const trimmedEmail = email.trim();
 
-        if (!/^[A-Z0-9]+$/.test(id)) {
+        if (!/^[A-Z0-9]{6}$/.test(id)) {
             setError(t("idLettersNumbers"));
             return;
         }
@@ -250,8 +250,8 @@ function AddAdmin() {
             setError(t("invalidEmail"));
             return;
         }
-        if (password.length < 6) {
-            setError(t("weakPassword"));
+        if (!/^[0-9]{8}$/.test(password)) {
+            setError(t("noSpecialChars") || "Password must be exactly 8 digits.");
             return;
         }
         if (password !== confirm) {
@@ -370,6 +370,11 @@ function AddAdmin() {
 
                 <p className="aapg-desc">{t("addAdminDesc")}</p>
 
+                <p className="aapg-required-note">
+                    <span className="aapg-required" aria-hidden="true">*</span>
+                    {t("requiredFieldsNote") || "Fields marked with an asterisk are required"}
+                </p>
+
                 {error && (
                     <div className="aapg-alert aapg-alert--error">
                         {icons.alert}<span>{error}</span>
@@ -381,7 +386,7 @@ function AddAdmin() {
                     </div>
                 )}
 
-                {/* -------------------- PROFILE PHOTO -------------------- */}
+                {/* -------------------- PROFILE PHOTO (optional) -------------------- */}
                 <div className="aapg-field">
                     <label>{t("profilePhoto") || "Profile Photo"}</label>
 
@@ -451,58 +456,92 @@ function AddAdmin() {
 
                 {/* -------------------- ADMIN ID -------------------- */}
                 <div className="aapg-field">
-                    <label>{t("adminIdDocId") || t("adminId")}</label>
+                    <label>
+                        {t("adminIdDocId") || t("adminId")}
+                        <span className="aapg-required" aria-hidden="true">*</span>
+                    </label>
                     <div className="aapg-input-wrap">
                         <span className="aapg-input-icon">{icons.id}</span>
                         <input
                             type="text"
                             placeholder="ADMIN3"
                             value={adminId}
-                            onChange={(e) => setAdminId(e.target.value.toUpperCase())}
+                            maxLength={6}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^[a-zA-Z0-9]*$/.test(value)) setAdminId(value.toUpperCase());
+                            }}
                             autoComplete="off"
+                            required
+                            aria-required="true"
                         />
                     </div>
                     <p className="aapg-hint">{t("adminIdHint")}</p>
                 </div>
 
                 <div className="aapg-field">
-                    <label>{t("name")}</label>
+                    <label>
+                        {t("name")}
+                        <span className="aapg-required" aria-hidden="true">*</span>
+                    </label>
                     <div className="aapg-input-wrap">
                         <span className="aapg-input-icon">{icons.user}</span>
                         <input
                             type="text"
                             placeholder="ADMIN"
                             value={name}
-                            onChange={(e) => setName(e.target.value.toUpperCase())}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^[a-zA-Z ]*$/.test(value)) setName(value.toUpperCase());
+                            }}
                             autoComplete="off"
+                            required
+                            aria-required="true"
                         />
                     </div>
                 </div>
 
                 <div className="aapg-field">
-                    <label>{t("email")}</label>
+                    <label>
+                        {t("email")}
+                        <span className="aapg-required" aria-hidden="true">*</span>
+                    </label>
                     <div className="aapg-input-wrap">
                         <span className="aapg-input-icon">{icons.mail}</span>
                         <input
                             type="email"
                             placeholder="admin3@gmail.com"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^[a-zA-Z0-9@.]*$/.test(value)) setEmail(value);
+                            }}
                             autoComplete="off"
+                            required
+                            aria-required="true"
                         />
                     </div>
                 </div>
 
                 <div className="aapg-field">
-                    <label>{t("password")}</label>
+                    <label>
+                        {t("password")}
+                        <span className="aapg-required" aria-hidden="true">*</span>
+                    </label>
                     <div className="aapg-input-wrap">
                         <span className="aapg-input-icon">{icons.lock}</span>
                         <input
                             type={showPwd ? "text" : "password"}
                             placeholder="••••••••"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            maxLength={8}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^[0-9]*$/.test(value)) setPassword(value);
+                            }}
                             autoComplete="new-password"
+                            required
+                            aria-required="true"
                         />
                         <button
                             type="button"
@@ -520,15 +559,24 @@ function AddAdmin() {
                 </div>
 
                 <div className="aapg-field">
-                    <label>{t("confirmPassword")}</label>
+                    <label>
+                        {t("confirmPassword")}
+                        <span className="aapg-required" aria-hidden="true">*</span>
+                    </label>
                     <div className="aapg-input-wrap">
                         <span className="aapg-input-icon">{icons.lock}</span>
                         <input
                             type={showPwd ? "text" : "password"}
                             placeholder="••••••••"
                             value={confirm}
-                            onChange={(e) => setConfirm(e.target.value)}
+                            maxLength={8}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^[0-9]*$/.test(value)) setConfirm(value);
+                            }}
                             autoComplete="new-password"
+                            required
+                            aria-required="true"
                         />
                     </div>
                 </div>
