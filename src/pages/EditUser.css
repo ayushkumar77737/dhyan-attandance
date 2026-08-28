@@ -12,6 +12,7 @@
   --text-muted: #7a8db3;
   --input-bg: rgba(255, 255, 255, 0.05);
   --input-border: rgba(255, 255, 255, 0.1);
+  --required-color: #f87171;
   --radius: 14px;
   --font-display: 'Syne', sans-serif;
   --font-body: 'DM Sans', sans-serif;
@@ -195,6 +196,30 @@
   background: linear-gradient(120deg, #fff 30%, var(--accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* required-fields legend, sits between the title and the alert banners */
+.required-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin: -8px 0 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+}
+
+.required-mark {
+  color: var(--required-color);
+  font-weight: 800;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.input-label .required-mark {
+  margin-left: 3px;
 }
 
 .edit-message {
@@ -389,6 +414,7 @@
   --text-muted: #64748b;
   --input-bg: #f8fafc;
   --input-border: rgba(15, 23, 42, 0.14);
+  --required-color: #dc2626;
 }
 
 /* Background grid — dark lines (white 0.015 vanishes), tints kept soft */

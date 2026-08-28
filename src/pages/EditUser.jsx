@@ -109,7 +109,7 @@ function EditUser() {
             return;
         }
 
-        if (!/^[a-zA-Z0-9]+$/.test(userId)) {
+        if (!/^[a-zA-Z0-9]{4}$/.test(userId)) {
             showMessage(t("idLettersNumbers"));
             return;
         }
@@ -190,6 +190,11 @@ function EditUser() {
 
                 <h2 className="edit-title">{t("editUser")}</h2>
 
+                <p className="required-note">
+                    <span className="required-mark" aria-hidden="true">*</span>
+                    {t("mandatoryFieldsNote") || "All fields marked with an asterisk are mandatory"}
+                </p>
+
                 {message.text && (
                     <div className={`edit-message ${message.type}`}>
                         {message.type === "error" ? "⚠ " : "✓ "}
@@ -198,7 +203,10 @@ function EditUser() {
                 )}
 
                 <div className="input-group">
-                    <label className="input-label">{t("fullName")}</label>
+                    <label className="input-label">
+                        {t("fullName")}
+                        <span className="required-mark" aria-hidden="true">*</span>
+                    </label>
                     <div className="input-with-icon">
                         <svg className="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                             <circle cx="12" cy="8" r="4" />
@@ -207,15 +215,23 @@ function EditUser() {
                         <input
                             type="text"
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^[a-zA-Z ]*$/.test(value)) setName(value.toUpperCase());
+                            }}
                             placeholder={t("enterFullName")}
                             aria-label={t("fullName")}
+                            required
+                            aria-required="true"
                         />
                     </div>
                 </div>
 
                 <div className="input-group">
-                    <label className="input-label">{t("userId")}</label>
+                    <label className="input-label">
+                        {t("userId")}
+                        <span className="required-mark" aria-hidden="true">*</span>
+                    </label>
                     <div className="input-with-icon">
                         <svg className="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                             <path d="M12 2 4 5v6c0 5 3.4 8.7 8 11 4.6-2.3 8-6 8-11V5l-8-3Z" />
@@ -224,9 +240,15 @@ function EditUser() {
                         <input
                             type="text"
                             value={userId}
-                            onChange={(e) => setUserId(e.target.value)}
+                            maxLength={4}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^[a-zA-Z0-9]*$/.test(value)) setUserId(value);
+                            }}
                             placeholder={t("enterUserId")}
                             aria-label={t("userId")}
+                            required
+                            aria-required="true"
                         />
                     </div>
                 </div>

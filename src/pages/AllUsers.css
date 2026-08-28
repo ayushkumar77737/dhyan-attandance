@@ -1067,6 +1067,19 @@
   outline-offset: 2px;
 }
 
+/* The search box and the per-page filter already draw their own focus
+   ring via :focus-within on the rounded pill container (border colour
+   change + soft box-shadow glow). The generic rule above also fires on
+   the raw <input>/<select> inside them, which has no border-radius of
+   its own — that stacks a second, square outline on top of the rounded
+   pill and reads as a stray box sitting over the corner. Suppress the
+   generic outline for just these two controls; the pill's own focus
+   style still shows. */
+.alu-search input:focus-visible,
+.alu-filter select:focus-visible {
+  outline: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
 
   .users-container,
