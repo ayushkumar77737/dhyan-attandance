@@ -563,7 +563,10 @@ function AdminLogs() {
                             type="text"
                             placeholder={t("alSearchPlaceholder")}
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)}
+                            onChange={(e) => {
+                                const value = e.target.value.toUpperCase();
+                                if (/^[A-Z0-9 ]*$/.test(value)) setSearch(value);
+                            }}
                         />
                         {search && (
                             <button

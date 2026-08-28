@@ -311,10 +311,33 @@ function AllProfiles() {
     const fetchProfiles = async () => {
         try {
             setLoading(true);
+
+            /* `profiles` also holds mirrored admin photo records — written
+               by AddAdmin.js with `{id, name, profileImage}` (no `idNo`,
+               which is why they showed up here with a blank "#"). Cross-
+               check against `users` and drop anyone whose role is admin,
+               so this page shows registered users only. */
+            const adminIds = new Set();
+            try {
+                const usersSnap = await getDocs(collection(db, "users"));
+                usersSnap.forEach((u) => {
+                    const ud = u.data();
+                    if (ud.role === "admin") {
+                        adminIds.add(String(ud.id || u.id).toUpperCase());
+                    }
+                });
+            } catch (e) {
+                console.warn("AllProfiles: could not load admin id list —", e);
+            }
+
             const snap = await getDocs(collection(db, "profiles"));
             const data = [];
             snap.forEach((docItem) => {
                 const d = docItem.data();
+                const key = String(d.idNo || docItem.id).toUpperCase();
+
+                if (adminIds.has(key)) return;
+
                 data.push({
                     docId: docItem.id,
                     ...d,
@@ -498,7 +521,10 @@ function AllProfiles() {
                             type="text"
                             placeholder={t("searchProfiles")}
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)}
+                            onChange={(e) => {
+                                const value = e.target.value.toUpperCase();
+                                if (/^[A-Z0-9@. ]*$/.test(value)) setSearch(value);
+                            }}
                         />
                         {search && (
                             <button
