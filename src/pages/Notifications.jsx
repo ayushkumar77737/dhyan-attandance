@@ -94,6 +94,13 @@ const Dots = ({ className }) => (
   </svg>
 );
 
+/* Notification text: capital letters, digits and spaces only — no
+   punctuation or symbols. Forces uppercase as the admin types. */
+const sanitizeNotificationText = (value) => {
+  const upper = value.toUpperCase();
+  return /^[A-Z0-9 ]*$/.test(upper) ? upper : upper.replace(/[^A-Z0-9 ]/g, "");
+};
+
 function Notifications() {
 
   const { t } = useTranslation();
@@ -223,7 +230,7 @@ function Notifications() {
 
   const openEdit = (row) => {
     setEditRow(row);
-    setEditText(row.message);
+    setEditText(sanitizeNotificationText(row.message));
   };
 
   const saveEdit = async () => {
@@ -322,7 +329,7 @@ function Notifications() {
           <textarea
             className="ntf-input"
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={(e) => setMessage(sanitizeNotificationText(e.target.value))}
             placeholder={t("notificationPlaceholder") || "Enter your notification here…"}
             rows={4}
             maxLength={500}
@@ -436,7 +443,7 @@ function Notifications() {
             <textarea
               className="ntf-modal-input"
               value={editText}
-              onChange={(e) => setEditText(e.target.value)}
+              onChange={(e) => setEditText(sanitizeNotificationText(e.target.value))}
               rows={4}
               maxLength={500}
             />

@@ -129,6 +129,13 @@ const IcoTrash = () => (
     </svg>
 );
 
+const IcoAlert = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"
+        strokeLinecap="round" strokeLinejoin="round" className="trkt__ico">
+        <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+    </svg>
+);
+
 /* Sparkline used in the stat cards */
 const Spark = () => (
     <svg className="trkt__spark" viewBox="0 0 120 28" preserveAspectRatio="none"
@@ -198,6 +205,9 @@ function TrackTicket() {
     const [searched, setSearched] = useState(false);
     const [message, setMessage] = useState({ text: "", type: "" });
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
+    const [confirmDeleteTicket, setConfirmDeleteTicket] = useState(null);
+    const [deleting, setDeleting] = useState(false);
+    const today = new Date().toISOString().split("T")[0];
 
     const checkAdmin = async () => {
 
@@ -317,6 +327,10 @@ function TrackTicket() {
 
     const fetchTickets = async () => {
         if (!selectedDate) return;
+        if (selectedDate > today) {
+            showMsg(t("futureDateNotAllowed") || "Future dates are not available to search.");
+            return;
+        }
         setLoading(true);
         setSearched(true);
         try {
@@ -336,7 +350,7 @@ function TrackTicket() {
                             : "";
                     return ticketDate === selectedDate;
                 });
-            list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            list.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
             setTickets(list);
             loadAvatars(list);
         } catch (error) {
@@ -384,6 +398,7 @@ function TrackTicket() {
             if (!id) {
                 return;
             }
+            setDeleting(true);
             await deleteDoc(doc(db, "tickets", id));
             await logAdminAction("delete_ticket", {
                 targetId: id,
@@ -391,9 +406,12 @@ function TrackTicket() {
             });
             setTickets(tickets.filter(tk => tk.id !== id));
             showMsg(t("ticketDeleted"), "success");
+            setConfirmDeleteTicket(null);
         } catch (error) {
             console.error(error);
             showMsg(t("errorDeletingTicket"));
+        } finally {
+            setDeleting(false);
         }
     };
 
@@ -494,6 +512,7 @@ function TrackTicket() {
                             type="date"
                             className="trkt__date-input"
                             value={selectedDate}
+                            max={today}
                             onChange={(e) => {
                                 setSelectedDate(e.target.value);
                                 setSearched(false);
@@ -647,7 +666,7 @@ function TrackTicket() {
                                                 </span>
                                                 <button
                                                     className="trkt__action-btn trkt__action-btn--delete"
-                                                    onClick={() => deleteTicket(ticket.id)}
+                                                    onClick={() => setConfirmDeleteTicket(ticket)}
                                                 >
                                                     <IcoTrash /> {t("deleteTicket")}
                                                 </button>
@@ -662,6 +681,44 @@ function TrackTicket() {
                 </div>
 
             </div>
+
+            {/* ========================= DELETE CONFIRM ======================= */}
+            {confirmDeleteTicket && (
+                <div
+                    className="trkt__modal-overlay"
+                    onClick={() => !deleting && setConfirmDeleteTicket(null)}
+                >
+                    <div className="trkt__modal" onClick={(e) => e.stopPropagation()}>
+                        <span className="trkt__modal-icon"><IcoAlert /></span>
+
+                        <h3>{t("deleteTicket")}</h3>
+                        <p>
+                            {t("deleteTicketConfirm") ||
+                                "Are you sure you want to delete this ticket? This action cannot be undone."}
+                        </p>
+
+                        <div className="trkt__modal-footer">
+                            <button
+                                className="trkt__modal-cancel"
+                                onClick={() => setConfirmDeleteTicket(null)}
+                                disabled={deleting}
+                            >
+                                {t("cancel")}
+                            </button>
+                            <button
+                                className="trkt__modal-confirm"
+                                onClick={() => deleteTicket(confirmDeleteTicket.id)}
+                                disabled={deleting}
+                            >
+                                {deleting
+                                    ? <span className="trkt__modal-spinner" />
+                                    : <IcoTrash />}
+                                {t("delete") || "Delete"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

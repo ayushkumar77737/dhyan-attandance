@@ -1058,10 +1058,21 @@
     }
 }
 
-.report-container button:focus-visible,
-.report-container input:focus-visible {
+.report-container button:focus-visible {
     outline: 2px solid var(--rp-indigo);
     outline-offset: 2px;
+}
+
+/* The date field already draws its own focus ring on its rounded pill
+   container (.arp-date) via :focus-within — border colour change plus
+   a soft box-shadow glow. A generic input:focus-visible rule would
+   also fire on the raw <input> inside it, which has no border-radius
+   of its own, stacking a second square outline on top of the rounded
+   pill — that's the stray box that appears when the date field is
+   clicked. Suppress it explicitly so only the pill's own focus style
+   shows. */
+.arp-date input:focus-visible {
+    outline: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -141,6 +141,7 @@ function AttendanceReport() {
     const [editUser, setEditUser] = useState(null);
     const [editStatus, setEditStatus] = useState("");
     const [savingEdit, setSavingEdit] = useState(false);
+    const today = new Date().toISOString().split("T")[0];
 
     const checkAdmin = async () => {
 
@@ -233,6 +234,11 @@ function AttendanceReport() {
 
     const fetchReport = async () => {
         if (!selectedDate) return;
+        if (selectedDate > today) {
+            setNoAttendance(false);
+            setReportGenerated(false);
+            return;
+        }
 
         setGenerating(true);
         setReportGenerated(true);
@@ -355,6 +361,7 @@ function AttendanceReport() {
                     <input
                         type="date"
                         value={selectedDate}
+                        max={today}
                         onChange={(e) => {
                             setSelectedDate(e.target.value);
                             setReportGenerated(false);
@@ -372,6 +379,13 @@ function AttendanceReport() {
                     {t("generateReport")}
                 </button>
             </div>
+
+            {selectedDate > today && (
+                <div className="arp-empty-note">
+                    <span className="arp-empty-note-icon">{icons.inbox}</span>
+                    {t("futureDateNotAllowed") || "Future dates are not available to search."}
+                </div>
+            )}
 
             {reportGenerated && noAttendance && (
                 <div className="arp-empty-note">
