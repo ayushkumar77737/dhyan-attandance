@@ -42,6 +42,13 @@ const IcoWarn = () => (
     </svg>
 );
 
+const IcoChevron = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"
+        strokeLinecap="round" strokeLinejoin="round" className="preg__ico">
+        <polyline points="6 9 12 15 18 9" />
+    </svg>
+);
+
 function ProfileRegistration() {
 
     const { t } = useTranslation();
@@ -139,18 +146,35 @@ function ProfileRegistration() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (name === "idNo") {
-            setForm({
-                ...form,
-                [name]: value.toUpperCase()
-            });
-        } else {
-            setForm({
-                ...form,
-                [name]: value
-            });
-        }
+        setForm({
+            ...form,
+            [name]: value
+        });
         if (errors[name]) setErrors({ ...errors, [name]: "" });
+    };
+
+    /* idNo: letters + digits only (format is one letter + 3 digits),
+       forced uppercase as the admin types. */
+    const handleIdNoChange = (e) => {
+        const cleaned = e.target.value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+        setForm({ ...form, idNo: cleaned });
+        if (errors.idNo) setErrors({ ...errors, idNo: "" });
+    };
+
+    /* Name / Father-Husband Name: letters and spaces only, no digits
+       or special characters. */
+    const handleNameFieldChange = (e) => {
+        const { name, value } = e.target;
+        const cleaned = value.replace(/[^a-zA-Z\s]/g, "").toUpperCase();
+        setForm({ ...form, [name]: cleaned });
+        if (errors[name]) setErrors({ ...errors, [name]: "" });
+    };
+
+    /* Phone number: digits only, capped at 10. */
+    const handlePhoneChange = (e) => {
+        const cleaned = e.target.value.replace(/[^0-9]/g, "").slice(0, 10);
+        setForm({ ...form, phoneNumber: cleaned });
+        if (errors.phoneNumber) setErrors({ ...errors, phoneNumber: "" });
     };
 
     const validateForm = () => {
@@ -382,7 +406,7 @@ function ProfileRegistration() {
                                 type="text"
                                 name="idNo"
                                 value={form.idNo}
-                                onChange={handleChange}
+                                onChange={handleIdNoChange}
                                 placeholder={t("enterIdNo")}
                                 maxLength={4}
                             />
@@ -402,7 +426,7 @@ function ProfileRegistration() {
                                 type="text"
                                 name="name"
                                 value={form.name}
-                                onChange={handleChange}
+                                onChange={handleNameFieldChange}
                                 placeholder={t("enterFullName")}
                             />
                             {errors.name && (
@@ -421,7 +445,7 @@ function ProfileRegistration() {
                                 type="text"
                                 name="fatherHusbandName"
                                 value={form.fatherHusbandName}
-                                onChange={handleChange}
+                                onChange={handleNameFieldChange}
                                 placeholder={t("fatherHusbandName")}
                             />
                             {errors.fatherHusbandName && (
@@ -438,11 +462,12 @@ function ProfileRegistration() {
                             <input
                                 className={`preg__input ${errors.phoneNumber ? "preg__input--err" : ""}`}
                                 type="text"
+                                inputMode="numeric"
                                 name="phoneNumber"
                                 value={form.phoneNumber}
-                                onChange={handleChange}
+                                onChange={handlePhoneChange}
                                 placeholder={t("enterPhoneNumber")}
-                                maxLength={15}
+                                maxLength={10}
                             />
                             {errors.phoneNumber && (
                                 <span className="preg__err-msg">
@@ -473,16 +498,21 @@ function ProfileRegistration() {
                             <label className="preg__label">
                                 {t("phoneType")} <span className="preg__req">*</span>
                             </label>
-                            <select
-                                className={`preg__select ${errors.phoneType ? "preg__input--err" : ""}`}
-                                name="phoneType"
-                                value={form.phoneType}
-                                onChange={handleChange}
-                            >
-                                <option value="">{t("selectPhoneType")}</option>
-                                <option value="WhatsApp">{t("whatsapp")}</option>
-                                <option value="Keypad">{t("keypad")}</option>
-                            </select>
+                            <div className={`preg__select-wrap ${errors.phoneType ? "preg__input--err" : ""}`}>
+                                <select
+                                    className="preg__select"
+                                    name="phoneType"
+                                    value={form.phoneType}
+                                    onChange={handleChange}
+                                >
+                                    <option value="">{t("selectPhoneType")}</option>
+                                    <option value="WhatsApp">{t("whatsapp")}</option>
+                                    <option value="Keypad">{t("keypad")}</option>
+                                </select>
+                                <span className="preg__select-chevron" aria-hidden="true">
+                                    <IcoChevron />
+                                </span>
+                            </div>
                             {errors.phoneType && (
                                 <span className="preg__err-msg">
                                     <IcoWarn /> {errors.phoneType}

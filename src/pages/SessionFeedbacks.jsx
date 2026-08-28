@@ -270,7 +270,9 @@ function SessionFeedbacks() {
                     date: data.date || data.createdAt?.split("T")[0] || "-",
                 });
             }
-            list.sort((a, b) => new Date(b.date) - new Date(a.date));
+            list.sort((a, b) =>
+                String(a.userId || "").localeCompare(String(b.userId || ""), undefined, { numeric: true })
+            );
             setFeedbacks(list);
         } catch (err) {
             console.error(err);

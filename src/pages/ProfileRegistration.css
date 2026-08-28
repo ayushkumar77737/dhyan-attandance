@@ -509,17 +509,71 @@
     line-height: 1.6;
 }
 
-.preg__select {
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a78bfa' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    padding-right: 38px;
+/* ---- select: wrapper + separate chevron icon --------------------
+   A background-image chevron directly on a raw <select> is fragile
+   across browsers/zoom levels (it can tile instead of showing once).
+   Wrapping the select and layering the icon as its own element next
+   to it — the same pattern already used for the date/status selects
+   elsewhere in this app — renders reliably everywhere. */
+.preg__select-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    border: 1px solid var(--preg-field-border);
+    background: var(--preg-field);
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
-.preg__page[data-theme="light"] .preg__select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236d28d9' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+.preg__select-wrap:hover {
+    border-color: var(--preg-primary-line);
+}
+
+.preg__select-wrap:focus-within {
+    border-color: var(--preg-primary);
+    background: var(--preg-field-focus);
+    box-shadow: 0 0 0 3px var(--preg-focus-ring);
+}
+
+.preg__select {
+    flex: 1;
+    min-width: 0;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+    background: transparent;
+    padding: 13px 40px 13px 16px;
+    box-shadow: none;
+}
+
+.preg__select:hover:not(:focus) {
+    border-color: transparent;
+}
+
+.preg__select:focus {
+    box-shadow: none;
+    background: transparent;
+}
+
+.preg__select-chevron {
+    position: absolute;
+    right: 14px;
+    display: flex;
+    align-items: center;
+    color: var(--preg-primary);
+    pointer-events: none;
+    transition: transform 0.22s ease, color 0.22s ease;
+}
+
+.preg__select-chevron .preg__ico {
+    width: 16px;
+    height: 16px;
+}
+
+.preg__select-wrap:focus-within .preg__select-chevron {
+    transform: rotate(180deg);
 }
 
 .preg__select option {
@@ -538,7 +592,6 @@
 }
 
 .preg__input:focus,
-.preg__select:focus,
 .preg__textarea:focus {
     border-color: var(--preg-primary);
     background: var(--preg-field-focus);
@@ -546,6 +599,13 @@
 }
 
 .preg__input--err {
+    border-color: var(--preg-red-line) !important;
+    background: var(--preg-red-bg) !important;
+}
+
+/* the error state on the select applies to its wrapper, not the
+   bare (now transparent-background) <select> itself */
+.preg__select-wrap.preg__input--err {
     border-color: var(--preg-red-line) !important;
     background: var(--preg-red-bg) !important;
 }
@@ -628,10 +688,16 @@
 .preg__back-btn:focus-visible,
 .preg__submit-btn:focus-visible,
 .preg__input:focus-visible,
-.preg__select:focus-visible,
 .preg__textarea:focus-visible {
     outline: 2px solid var(--preg-primary);
     outline-offset: 2px;
+}
+
+/* the select already gets its own focus ring on the wrapper via
+   :focus-within — suppress the raw <select>'s own outline so it
+   doesn't stack a second box on top of the wrapper's rounded one */
+.preg__select:focus-visible {
+    outline: none;
 }
 
 @keyframes preg__spin {
