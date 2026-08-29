@@ -1,0 +1,243 @@
+.mfa-verify-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(255, 215, 0, 0.12),
+      transparent 35%
+    ),
+    #050b1a;
+}
+
+.mfa-verify-card {
+  width: 100%;
+  max-width: 440px;
+  padding: 40px 35px;
+
+  box-sizing: border-box;
+
+  background: rgba(16, 26, 48, 0.96);
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
+  border-radius: 22px;
+
+  text-align: center;
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.45),
+    0 0 40px rgba(255, 215, 0, 0.05);
+
+  backdrop-filter: blur(15px);
+}
+
+.mfa-icon {
+  width: 72px;
+  height: 72px;
+
+  margin: 0 auto 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 50%;
+
+  background: rgba(255, 215, 0, 0.10);
+
+  border: 1px solid rgba(255, 215, 0, 0.25);
+
+  font-size: 34px;
+}
+
+.mfa-verify-card h1 {
+  margin: 0 0 12px;
+
+  color: #ffffff;
+
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.mfa-description {
+  margin: 0 auto 28px;
+
+  max-width: 350px;
+
+  color: #aab4c8;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+}
+
+.mfa-label {
+  display: block;
+
+  margin-bottom: 10px;
+
+  text-align: left;
+
+  color: #dce3ef;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.mfa-code-input {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 15px;
+
+  border-radius: 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  outline: none;
+
+  background: #07101f;
+
+  color: #ffffff;
+
+  font-size: 25px;
+
+  font-weight: 600;
+
+  letter-spacing: 9px;
+
+  text-align: center;
+
+  transition: 0.2s ease;
+}
+
+.mfa-code-input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 8px;
+}
+
+.mfa-code-input:focus {
+  border-color: rgba(255, 215, 0, 0.65);
+
+  box-shadow:
+    0 0 0 3px rgba(255, 215, 0, 0.08);
+}
+
+.mfa-error {
+  margin-top: 14px;
+
+  padding: 10px 12px;
+
+  border-radius: 9px;
+
+  background: rgba(255, 75, 75, 0.10);
+
+  border: 1px solid rgba(255, 75, 75, 0.20);
+
+  color: #ff8585;
+
+  font-size: 13px;
+}
+
+.mfa-verify-button {
+  width: 100%;
+
+  margin-top: 20px;
+
+  padding: 14px 18px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: #ffd700;
+
+  color: #111827;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.mfa-verify-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 25px rgba(255, 215, 0, 0.20);
+}
+
+.mfa-verify-button:disabled {
+  background: #555b66;
+
+  color: #aeb4bf;
+
+  cursor: not-allowed;
+
+  opacity: 0.75;
+}
+
+.mfa-back-button {
+  margin-top: 20px;
+
+  padding: 8px 12px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #aab4c8;
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+.mfa-back-button:hover {
+  color: #ffd700;
+}
+
+
+/* ==============================
+   MOBILE
+   ============================== */
+
+@media (max-width: 500px) {
+
+  .mfa-verify-page {
+    padding: 15px;
+  }
+
+  .mfa-verify-card {
+    padding: 30px 22px;
+
+    border-radius: 18px;
+  }
+
+  .mfa-verify-card h1 {
+    font-size: 22px;
+  }
+
+  .mfa-code-input {
+    font-size: 22px;
+    letter-spacing: 7px;
+  }
+
+}

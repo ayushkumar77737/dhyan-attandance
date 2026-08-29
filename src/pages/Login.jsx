@@ -21,6 +21,7 @@ import bg2 from "../assets/bg2.webp";
 import bg3 from "../assets/bg3.webp";
 import bg4 from "../assets/pic.webp";
 import { logLogin } from "../utils/logActivity";
+import { getMfaStatus } from "../utils/mfa";
 
 /* ------------------------------------------------------------------ */
 /* Inline icons                                                       */
@@ -177,32 +178,62 @@ const Login = () => {
       const email = safeId + "@gmail.com";
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
-      await setDoc(userRef, { attempts: 0, lockUntil: null });
+      await setDoc(userRef, {
+        attempts: 0,
+        lockUntil: null,
+      });
 
-      const userDoc = await getDoc(doc(db, "users", id.toUpperCase()));
+      const userDoc = await getDoc(
+        doc(db, "users", id.toUpperCase())
+      );
+
       if (userDoc.exists() && userDoc.data().disabled === true) {
         await signOut(auth);
+
         showError(t("accountDisabled"));
+
         setLoading(false);
         return;
       }
 
-      const userName = userDoc.exists() ? userDoc.data().name || id.toUpperCase() : id.toUpperCase();
-      await logLogin(id.toUpperCase(), userName);
+      // -------------------------------------------------------
+      // CHECK MFA STATUS BEFORE ALLOWING DASHBOARD ACCESS
+      // -------------------------------------------------------
 
-      const role = userDoc.exists() ? userDoc.data().role : "user";
+      const mfaStatus = await getMfaStatus();
 
-      if (role === "admin") {
-        localStorage.setItem("adminAuth", "true");
-        localStorage.removeItem("userAuth");
-        localStorage.setItem("userId", id.toUpperCase());
-        navigate("/admin-dashboard");
-      } else {
-        localStorage.setItem("userAuth", "true");
-        localStorage.removeItem("adminAuth");
-        localStorage.setItem("userId", id.toUpperCase());
-        navigate("/user-dashboard");
-      }
+      if (!mfaStatus.success) {
+    await signOut(auth);
+
+    showError("Unable to verify MFA status.");
+
+    setLoading(false);
+    return;
+}
+
+if (mfaStatus.enabled !== true) {
+    // MFA is mandatory.
+    // Do NOT allow dashboard access.
+    navigate("/mfa-setup");
+
+    setLoading(false);
+    return;
+}
+
+      
+      // -------------------------------------------------------
+// MFA IS ENABLED
+// Go to dedicated MFA verification page.
+// Dashboard is NOT accessible yet.
+// -------------------------------------------------------
+
+setLoading(false);
+
+navigate("/mfa-verify", {
+  replace: true,
+});
+
+return;
     } catch (error) {
       console.log(error);
       setId("");
@@ -279,67 +310,109 @@ const Login = () => {
             <p className="guru-subtext">
               {t("loginSubtitle") || "Your sacred space for inner peace, self-awareness and divine connection."}
             </p>
+              <form onSubmit={handleLogin}>
 
-            <form onSubmit={handleLogin}>
+                {/* USER ID */}
+                <div className="input-wrap">
+                  <span className="input-icon">{I.user}</span>
 
-              <div className="input-wrap">
-                <span className="input-icon">{I.user}</span>
-                <input
-                  type="text"
-                  placeholder={t("enterIdNo")}
-                  className="login-input"
-                  maxLength={6}
-                  autoComplete="username"
-                  value={id}
-                  onChange={(e) => {
-                    const filtered = e.target.value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
-                    setId(filtered);
-                  }}
-                />
-              </div>
-
-              <div className="input-wrap">
-                <span className="input-icon">{I.lock}</span>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder={t("enterPassword")}
-                  className="login-input"
-                  maxLength={8}
-                  autoComplete="current-password"
-                  value={password}
-                  onChange={(e) => {
-                    const filtered = e.target.value.replace(/[^0-9]/g, "");
-                    setPassword(filtered);
-                  }}
-                />
-                <span className="toggle-password" onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? I.eyeOff : I.eye}
-                </span>
-              </div>
-
-              <div className="login-options">
-                <label className="remember-me">
                   <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
+                    type="text"
+                    placeholder={t("enterIdNo")}
+                    className="login-input"
+                    maxLength={6}
+                    autoComplete="username"
+                    value={id}
+                    onChange={(e) => {
+                      const filtered = e.target.value
+                        .replace(/[^a-zA-Z0-9]/g, "")
+                        .toUpperCase();
+
+                      setId(filtered);
+                    }}
                   />
-                  <span className="remember-box">{rememberMe && I.check}</span>
-                  <span>{t("rememberMe") || "Remember Me"}</span>
-                </label>
-                <span className="forgot-password" onClick={() => navigate("/forgot-password")}>
-                  {t("forgotPassword")}
-                </span>
-              </div>
+                </div>
 
-              {errorMessage && <p className="login-error">{errorMessage}</p>}
+                {/* PASSWORD */}
+                <div className="input-wrap">
+                  <span className="input-icon">{I.lock}</span>
 
-              <button type="submit" className="login-button" disabled={loading}>
-                <span>{loading ? t("pleaseWait") : t("login")}</span>
-                {!loading && <span className="login-button-arrow">{I.arrow}</span>}
-              </button>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder={t("enterPassword")}
+                    className="login-input"
+                    maxLength={8}
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={(e) => {
+                      const filtered = e.target.value.replace(/[^0-9]/g, "");
+                      setPassword(filtered);
+                    }}
+                  />
 
-            </form>
+                  <span
+                    className="toggle-password"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? I.eyeOff : I.eye}
+                  </span>
+                </div>
+
+                {/* REMEMBER ME + FORGOT PASSWORD */}
+                <div className="login-options">
+
+                  <label className="remember-me">
+
+                    <input
+                      type="checkbox"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                    />
+
+                    <span className="remember-box">
+                      {rememberMe && I.check}
+                    </span>
+
+                    <span>
+                      {t("rememberMe") || "Remember Me"}
+                    </span>
+
+                  </label>
+
+                  <span
+                    className="forgot-password"
+                    onClick={() => navigate("/forgot-password")}
+                  >
+                    {t("forgotPassword")}
+                  </span>
+
+                </div>
+
+                {/* ERROR */}
+                {errorMessage && (
+                  <p className="login-error">
+                    {errorMessage}
+                  </p>
+                )}
+
+                {/* LOGIN BUTTON */}
+                <button
+                  type="submit"
+                  className="login-button"
+                  disabled={loading}
+                >
+                  <span>
+                    {loading ? t("pleaseWait") : t("login")}
+                  </span>
+
+                  {!loading && (
+                    <span className="login-button-arrow">
+                      {I.arrow}
+                    </span>
+                  )}
+                </button>
+
+              </form>
 
             <div className="login-or"><span>{t("orContinueWith") || "Or continue with"}</span></div>
 
