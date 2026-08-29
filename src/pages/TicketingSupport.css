@@ -1946,3 +1946,20 @@
         transform: none;
     }
 }
+
+/* ==================================================================
+   REQUIRED MARKER
+   Paste this block after the `.tsp__field-label { ... }` rule.
+   ================================================================== */
+.tsp__required {
+    color: #f87171;
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: 3px;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.tsp__page[data-theme="light"] .tsp__required {
+    color: #dc2626;
+}

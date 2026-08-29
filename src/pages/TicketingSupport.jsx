@@ -24,6 +24,45 @@ const FILTERS = [
     { key: "Resolved", label: "resolved", fallback: "Resolved" },
 ];
 
+/* Search box: capital letters, digits and "@" only. Lowercase is
+   upper-cased as you type; spaces and other special characters are
+   dropped. */
+const SEARCH_MAX = 40;
+const sanitizeSearch = (v) =>
+    (v || "").toUpperCase().replace(/[^A-Z0-9@]/g, "").slice(0, SEARCH_MAX);
+
+/* Raise-ticket form sanitizers — applied on every keystroke and paste. */
+
+/* Name: capital letters and single spaces. Lowercase is upper-cased. */
+const sanitizeName = (v) =>
+    (v || "").toUpperCase().replace(/[^A-Z ]/g, "").replace(/\s{2,}/g, " ").slice(0, 60);
+
+/* ID: capital letters and digits only (e.g. A123). */
+const sanitizeId = (v) =>
+    (v || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 4);
+
+/* Email: letters, digits, "@" and "." — the dot is kept because a domain
+   can't be valid without one. Everything else is dropped. */
+const sanitizeEmail = (v) =>
+    (v || "").replace(/[^a-zA-Z0-9@.]/g, "").slice(0, 100);
+
+/* Key guards: block disallowed characters before they land so the caret
+   never jumps. Single-character keys only; Backspace, arrows, Tab etc.
+   pass through untouched. */
+const blockUnless = (re) => (e) => {
+    if (e.key.length === 1 && !re.test(e.key) && !(e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+    }
+};
+const nameKeyDown = blockUnless(/^[a-zA-Z ]$/);
+const idKeyDown = blockUnless(/^[a-zA-Z0-9]$/);
+const emailKeyDown = blockUnless(/^[a-zA-Z0-9@.]$/);
+
+/* Red asterisk shown after every mandatory field label. */
+const Required = () => (
+    <span className="tsp__required" aria-hidden="true">*</span>
+);
+
 function TicketingSupport() {
 
     const { t } = useTranslation();
@@ -143,13 +182,13 @@ function TicketingSupport() {
 
         if (!form.name.trim()) {
             newErrors.name = t("nameRequired");
-        } else if (!/^[a-zA-Z\s]+$/.test(form.name)) {
+        } else if (!/^[A-Z]+( [A-Z]+)*$/.test(form.name.trim())) {
             newErrors.name = t("nameLettersOnly");
         }
 
         if (!form.idNo.trim()) {
             newErrors.idNo = t("idRequired");
-        } else if (!/^[a-zA-Z]\d{3}$/.test(form.idNo)) {
+        } else if (!/^[A-Z]\d{3}$/.test(form.idNo)) {
             newErrors.idNo = t("idFormat");
         } else if (form.idNo.trim().toUpperCase() !== loggedInId) {
             newErrors.idNo = t("idMismatch");
@@ -158,7 +197,7 @@ function TicketingSupport() {
         if (!form.email.trim()) {
             newErrors.email = t("emailRequired");
         } else if (
-            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)
+            !/^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+\.[a-zA-Z]{2,}$/.test(form.email)
         ) {
             newErrors.email = t("emailInvalid");
         }
@@ -176,7 +215,11 @@ function TicketingSupport() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm({ ...form, [name]: value });
+        let clean = value;
+        if (name === "name") clean = sanitizeName(value);
+        if (name === "idNo") clean = sanitizeId(value);
+        if (name === "email") clean = sanitizeEmail(value);
+        setForm({ ...form, [name]: clean });
         if (errors[name]) setErrors({ ...errors, [name]: "" });
     };
 
@@ -243,13 +286,13 @@ function TicketingSupport() {
         }
     };
 
-    const searchQuery = search.trim().toLowerCase();
+    const searchQuery = search.trim().toUpperCase();
     const filteredTickets = tickets.filter((tk) => {
         const matchStatus = activeFilter === "all" || tk.status === activeFilter;
         const matchSearch =
             !searchQuery ||
             [tk.name, tk.idNo, tk.email, tk.issue].some(
-                (v) => (v || "").toLowerCase().includes(searchQuery)
+                (v) => String(v || "").toUpperCase().includes(searchQuery)
             );
         return matchStatus && matchSearch;
     });
@@ -374,7 +417,28 @@ function TicketingSupport() {
                             className="tsp__search-input"
                             type="text"
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)}
+                            maxLength={SEARCH_MAX}
+                            autoComplete="off"
+                            spellCheck={false}
+                            onChange={(e) => setSearch(sanitizeSearch(e.target.value))}
+                            onKeyDown={(e) => {
+                                const allowedKeys = [
+                                    "Backspace", "Delete", "ArrowLeft", "ArrowRight",
+                                    "ArrowUp", "ArrowDown", "Tab", "Home", "End"
+                                ];
+                                if (
+                                    !allowedKeys.includes(e.key) &&
+                                    !/^[a-zA-Z0-9@]$/.test(e.key) &&
+                                    !(e.ctrlKey || e.metaKey)
+                                ) {
+                                    e.preventDefault();
+                                }
+                            }}
+                            onPaste={(e) => {
+                                e.preventDefault();
+                                const clean = sanitizeSearch(e.clipboardData.getData("text"));
+                                setSearch((prev) => (prev + clean).slice(0, SEARCH_MAX));
+                            }}
                             placeholder={t("searchTickets") || "Search tickets..."}
                         />
                     </div>
@@ -492,7 +556,7 @@ function TicketingSupport() {
                         </div>
 
                         <div className="tsp__field">
-                            <label className="tsp__field-label">{t("issue")}</label>
+                            <label className="tsp__field-label">{t("issue")}<Required /></label>
                             <textarea
                                 className="tsp__field-textarea"
                                 value={editIssue}
@@ -532,26 +596,33 @@ function TicketingSupport() {
                         </div>
 
                         <div className="tsp__field">
-                            <label className="tsp__field-label">{t("fullName")}</label>
+                            <label className="tsp__field-label">{t("fullName")}<Required /></label>
                             <input
                                 className={`tsp__field-input ${errors.name ? "tsp__field-input--error" : ""}`}
                                 type="text"
                                 name="name"
                                 value={form.name}
                                 onChange={handleChange}
+                                onKeyDown={nameKeyDown}
+                                autoComplete="off"
+                                spellCheck={false}
+                                maxLength={60}
                                 placeholder={t("enterFullName")}
                             />
                             {errors.name && <span className="tsp__field-error">{errors.name}</span>}
                         </div>
 
                         <div className="tsp__field">
-                            <label className="tsp__field-label">{t("idNo")}</label>
+                            <label className="tsp__field-label">{t("idNo")}<Required /></label>
                             <input
                                 className={`tsp__field-input ${errors.idNo ? "tsp__field-input--error" : ""}`}
                                 type="text"
                                 name="idNo"
                                 value={form.idNo}
                                 onChange={handleChange}
+                                onKeyDown={idKeyDown}
+                                autoComplete="off"
+                                spellCheck={false}
                                 placeholder={t("enterIdNo")}
                                 maxLength={4}
                             />
@@ -559,20 +630,25 @@ function TicketingSupport() {
                         </div>
 
                         <div className="tsp__field">
-                            <label className="tsp__field-label">{t("email")}</label>
+                            <label className="tsp__field-label">{t("email")}<Required /></label>
                             <input
                                 className={`tsp__field-input ${errors.email ? "tsp__field-input--error" : ""}`}
                                 type="text"
                                 name="email"
                                 value={form.email}
                                 onChange={handleChange}
+                                onKeyDown={emailKeyDown}
+                                inputMode="email"
+                                autoComplete="off"
+                                spellCheck={false}
+                                maxLength={100}
                                 placeholder={t("enterEmail")}
                             />
                             {errors.email && <span className="tsp__field-error">{errors.email}</span>}
                         </div>
 
                         <div className="tsp__field">
-                            <label className="tsp__field-label">{t("issue")}</label>
+                            <label className="tsp__field-label">{t("issue")}<Required /></label>
                             <textarea
                                 className={`tsp__field-textarea ${errors.issue ? "tsp__field-input--error" : ""}`}
                                 name="issue"

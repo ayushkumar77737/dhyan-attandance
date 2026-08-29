@@ -12,6 +12,12 @@ import {
     saveAccessConfig,
 } from "../utils/accessControl";
 
+/* Search box: capital letters and spaces only. Lowercase is upper-cased
+   as you type; digits and special characters are dropped. */
+const SEARCH_MAX = 40;
+const sanitizeSearch = (v) =>
+    (v || "").toUpperCase().replace(/[^A-Z ]/g, "").slice(0, SEARCH_MAX);
+
 /* ---------------- icons (inline, no extra deps) ---------------- */
 const IconArrow = () => (
     <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -193,12 +199,12 @@ function AccessControl() {
     );
 
     const visiblePages = useMemo(() => {
-        const q = query.trim().toLowerCase();
+        const q = query.trim().toUpperCase();
         if (!q) return CONTROLLABLE_PAGES;
         return CONTROLLABLE_PAGES.filter(
             (p) =>
-                String(t(p.labelKey)).toLowerCase().includes(q) ||
-                String(p.path).toLowerCase().includes(q)
+                String(t(p.labelKey)).toUpperCase().includes(q) ||
+                String(p.path).toUpperCase().includes(q)
         );
     }, [query, t]);
 
@@ -261,7 +267,28 @@ function AccessControl() {
                                 <input
                                     type="text"
                                     value={query}
-                                    onChange={(e) => setQuery(e.target.value)}
+                                    maxLength={SEARCH_MAX}
+                                    autoComplete="off"
+                                    spellCheck={false}
+                                    onChange={(e) => setQuery(sanitizeSearch(e.target.value))}
+                                    onKeyDown={(e) => {
+                                        const allowedKeys = [
+                                            "Backspace", "Delete", "ArrowLeft", "ArrowRight",
+                                            "ArrowUp", "ArrowDown", "Tab", "Home", "End", " "
+                                        ];
+                                        if (
+                                            !allowedKeys.includes(e.key) &&
+                                            !/^[a-zA-Z]$/.test(e.key) &&
+                                            !(e.ctrlKey || e.metaKey)
+                                        ) {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                    onPaste={(e) => {
+                                        e.preventDefault();
+                                        const clean = sanitizeSearch(e.clipboardData.getData("text"));
+                                        setQuery((prev) => (prev + clean).slice(0, SEARCH_MAX));
+                                    }}
                                     placeholder={t("aclSearchPlaceholder")}
                                 />
                             </label>

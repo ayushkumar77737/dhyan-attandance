@@ -7,6 +7,28 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 import { logUserAction } from "../utils/logUserAction";
 
+/* ------------------------------------------------------------------ */
+/* Input sanitizers — applied on every keystroke and paste             */
+/* ------------------------------------------------------------------ */
+
+/* Names: capital letters and single spaces only. Lowercase is upper-cased
+   as you type; digits and special characters are dropped. */
+const sanitizeName = (v) =>
+    (v || "").toUpperCase().replace(/[^A-Z ]/g, "").replace(/\s{2,}/g, " ").slice(0, 60);
+
+/* Email: letters, digits, "@" and "." only. The dot is kept because a
+   domain can't be valid without one. Everything else is stripped. */
+const sanitizeEmail = (v) =>
+    (v || "").replace(/[^a-zA-Z0-9@.]/g, "").slice(0, 100);
+
+const NAME_RE = /^[A-Z]+( [A-Z]+)*$/;
+const EMAIL_RE = /^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+\.[a-zA-Z]{2,}$/;
+
+/* Red asterisk shown after every mandatory field label. */
+const Required = () => (
+    <span className="mprf__required" aria-hidden="true">*</span>
+);
+
 function MyProfile() {
 
     const { t } = useTranslation();
@@ -23,6 +45,7 @@ function MyProfile() {
         email: ""
     });
     const [editLoading, setEditLoading] = useState(false);
+    const [editError, setEditError] = useState("");
     const [profileId, setProfileId] = useState("");
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
@@ -79,13 +102,16 @@ function MyProfile() {
             try {
                 const profileSnap = await getDoc(doc(db, "profiles", id));
                 if (profileSnap.exists()) {
-                    setProfile(profileSnap.data());
+                    const data = profileSnap.data();
+                    setProfile(data);
                     setProfileId(id);
+                    /* Normalise existing values so an old lowercase name
+                       doesn't fail validation on the first save. */
                     setEditForm({
-                        name: profileSnap.data().name || "",
-                        fatherHusbandName: profileSnap.data().fatherHusbandName || "",
-                        address: profileSnap.data().address || "",
-                        email: profileSnap.data().email || ""
+                        name: sanitizeName(data.name),
+                        fatherHusbandName: sanitizeName(data.fatherHusbandName),
+                        address: data.address || "",
+                        email: sanitizeEmail(data.email)
                     });
                 } else {
                     setNotFound(true);
@@ -100,38 +126,83 @@ function MyProfile() {
         return () => unsubscribe();
     }, []);
 
-    const saveProfile = async () => {
+    const openEditModal = () => {
+        setEditError("");
+        setShowEditModal(true);
+    };
+
+    const closeEditModal = () => {
+        if (editLoading) return;
+        setEditError("");
+        setShowEditModal(false);
+    };
+
+    const handleField = (key, value) => {
+        let clean = value;
+        if (key === "name" || key === "fatherHusbandName") clean = sanitizeName(value);
+        if (key === "email") clean = sanitizeEmail(value);
+        setEditForm((prev) => ({ ...prev, [key]: clean }));
+        if (editError) setEditError("");
+    };
+
+    /* Block disallowed keys before they land, so the caret never jumps. */
+    const nameKeyDown = (e) => {
+        const allowedKeys = [
+            "Backspace", "Delete", "ArrowLeft", "ArrowRight",
+            "ArrowUp", "ArrowDown", "Tab", "Home", "End", " "
+        ];
         if (
-            !profileId ||
-            !editForm.name.trim() ||
-            !editForm.address.trim()
-        ) return;
-        if (
-            editForm.email &&
-            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editForm.email)
+            !allowedKeys.includes(e.key) &&
+            !/^[a-zA-Z]$/.test(e.key) &&
+            !(e.ctrlKey || e.metaKey)
         ) {
+            e.preventDefault();
+        }
+    };
+
+    const emailKeyDown = (e) => {
+        const allowedKeys = [
+            "Backspace", "Delete", "ArrowLeft", "ArrowRight",
+            "ArrowUp", "ArrowDown", "Tab", "Home", "End"
+        ];
+        if (
+            !allowedKeys.includes(e.key) &&
+            !/^[a-zA-Z0-9@.]$/.test(e.key) &&
+            !(e.ctrlKey || e.metaKey)
+        ) {
+            e.preventDefault();
+        }
+    };
+
+    const saveProfile = async () => {
+        if (!profileId) return;
+
+        const safeName = sanitizeName(editForm.name).trim();
+        const safeFather = sanitizeName(editForm.fatherHusbandName).trim();
+        const safeEmail = sanitizeEmail(editForm.email).trim();
+        const safeAddress = (editForm.address || "").trim().slice(0, 300);
+
+        if (!safeName || !safeFather || !safeEmail || !safeAddress) {
+            setEditError(t("allFieldsRequired"));
             return;
         }
+        if (!NAME_RE.test(safeName) || !NAME_RE.test(safeFather)) {
+            setEditError(t("nameLettersOnly"));
+            return;
+        }
+        if (!EMAIL_RE.test(safeEmail)) {
+            setEditError(t("emailInvalid"));
+            return;
+        }
+        if (safeAddress.length < 5) {
+            setEditError(t("addressTooShort"));
+            return;
+        }
+
         try {
             setEditLoading(true);
-            if (!/^[a-zA-Z ]+$/.test(editForm.name.trim())) {
-                return;
-            }
-            const safeName = editForm.name.trim().slice(0, 60);
+            setEditError("");
 
-            const safeFather = editForm.fatherHusbandName
-                .trim()
-                .slice(0, 60);
-            if (editForm.address.trim().length < 5) {
-                return;
-            }
-            const safeAddress = editForm.address
-                .trim()
-                .slice(0, 300);
-
-            const safeEmail = editForm.email
-                .trim()
-                .slice(0, 100);
             await updateDoc(doc(db, "profiles", profileId), {
                 name: safeName,
                 fatherHusbandName: safeFather,
@@ -143,10 +214,17 @@ function MyProfile() {
                 name: safeName
             });
             await logUserAction("update_profile", { details: t("uaUpdateProfileDetail") });
-            setProfile((prev) => ({ ...prev, ...editForm }));
+            setProfile((prev) => ({
+                ...prev,
+                name: safeName,
+                fatherHusbandName: safeFather,
+                address: safeAddress,
+                email: safeEmail
+            }));
             setShowEditModal(false);
         } catch (error) {
             console.error(error);
+            setEditError(t("profileSaveFailed"));
         } finally {
             setEditLoading(false);
         }
@@ -199,7 +277,7 @@ function MyProfile() {
                     <div className="mprf__card-glow" />
                     <div className="mprf__card-stripe" />
 
-                    <button className="mprf__edit-trigger" onClick={() => setShowEditModal(true)}>
+                    <button className="mprf__edit-trigger" onClick={openEditModal}>
                         ✎ {t("edit")}
                     </button>
 
@@ -323,55 +401,81 @@ function MyProfile() {
             )}
 
             {showEditModal && (
-                <div className="mprf__modal-overlay" onClick={() => setShowEditModal(false)}>
+                <div className="mprf__modal-overlay" onClick={closeEditModal}>
                     <div className="mprf__modal" onClick={(e) => e.stopPropagation()}>
 
                         <div className="mprf__modal-header">
                             <h3>✎ {t("edit")} {t("myProfile")}</h3>
-                            <button className="mprf__modal-close" onClick={() => setShowEditModal(false)}>✕</button>
+                            <button className="mprf__modal-close" onClick={closeEditModal}>✕</button>
                         </div>
 
                         <div className="mprf__modal-field">
-                            <label>{t("fullName")}</label>
+                            <label htmlFor="mprf-name">{t("fullName")}<Required /></label>
                             <input
+                                id="mprf-name"
                                 type="text"
+                                autoComplete="off"
+                                spellCheck={false}
+                                maxLength={60}
                                 value={editForm.name}
-                                onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                                onChange={(e) => handleField("name", e.target.value)}
+                                onKeyDown={nameKeyDown}
                                 placeholder={t("fullName")}
+                                required
                             />
                         </div>
 
                         <div className="mprf__modal-field">
-                            <label>{t("fatherHusbandName")}</label>
+                            <label htmlFor="mprf-father">{t("fatherHusbandName")}<Required /></label>
                             <input
+                                id="mprf-father"
                                 type="text"
+                                autoComplete="off"
+                                spellCheck={false}
+                                maxLength={60}
                                 value={editForm.fatherHusbandName}
-                                onChange={(e) => setEditForm({ ...editForm, fatherHusbandName: e.target.value })}
+                                onChange={(e) => handleField("fatherHusbandName", e.target.value)}
+                                onKeyDown={nameKeyDown}
                                 placeholder={t("fatherHusbandName")}
+                                required
                             />
                         </div>
 
                         <div className="mprf__modal-field">
-                            <label>{t("emailIdLabel")}</label>
+                            <label htmlFor="mprf-email">{t("emailIdLabel")}<Required /></label>
                             <input
+                                id="mprf-email"
                                 type="text"
+                                inputMode="email"
+                                autoComplete="off"
+                                spellCheck={false}
+                                maxLength={100}
                                 value={editForm.email}
-                                onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
+                                onChange={(e) => handleField("email", e.target.value)}
+                                onKeyDown={emailKeyDown}
                                 placeholder={t("emailIdLabel")}
+                                required
                             />
                         </div>
 
                         <div className="mprf__modal-field">
-                            <label>{t("address")}</label>
+                            <label htmlFor="mprf-address">{t("address")}<Required /></label>
                             <textarea
+                                id="mprf-address"
+                                maxLength={300}
                                 value={editForm.address}
-                                onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
+                                onChange={(e) => handleField("address", e.target.value)}
                                 placeholder={t("address")}
+                                required
                             />
                         </div>
+
+                        {editError && (
+                            <p className="mprf__modal-error" role="alert">{editError}</p>
+                        )}
 
                         <div className="mprf__modal-footer">
-                            <button className="mprf__modal-cancel" onClick={() => setShowEditModal(false)}>
+                            <button className="mprf__modal-cancel" onClick={closeEditModal} disabled={editLoading}>
                                 {t("cancel")}
                             </button>
                             <button className="mprf__modal-save" onClick={saveProfile} disabled={editLoading}>

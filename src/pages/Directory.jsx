@@ -6,6 +6,12 @@ import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useTranslation } from "react-i18next";
 
+/* Search box: capital letters and digits only. Lowercase is upper-cased
+   as you type; spaces and special characters are dropped. */
+const SEARCH_MAX = 40;
+const sanitizeSearch = (v) =>
+    (v || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, SEARCH_MAX);
+
 /* ---------------- inline icons (presentational only) ---------------- */
 const IdIcon = () => (
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -171,11 +177,11 @@ function Directory() {
     };
 
     const filtered = users.filter((u) => {
-        const q = search.toLowerCase();
+        const q = search.toUpperCase();
         const matchSearch =
-            u.name.toLowerCase().includes(q) ||
-            u.id.toLowerCase().includes(q) ||
-            false;
+            !q ||
+            String(u.name || "").toUpperCase().includes(q) ||
+            String(u.id || "").toUpperCase().includes(q);
         const matchRole = filterRole === "all" || u.role === filterRole;
         return matchSearch && matchRole;
     });
@@ -233,7 +239,24 @@ function Directory() {
                             type="text"
                             placeholder={t("searchByNameOrId")}
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)}
+                            maxLength={SEARCH_MAX}
+                            autoComplete="off"
+                            spellCheck={false}
+                            onChange={(e) => setSearch(sanitizeSearch(e.target.value))}
+                            onKeyDown={(e) => {
+                                if (
+                                    e.key.length === 1 &&
+                                    !/^[a-zA-Z0-9]$/.test(e.key) &&
+                                    !(e.ctrlKey || e.metaKey)
+                                ) {
+                                    e.preventDefault();
+                                }
+                            }}
+                            onPaste={(e) => {
+                                e.preventDefault();
+                                const clean = sanitizeSearch(e.clipboardData.getData("text"));
+                                setSearch((prev) => (prev + clean).slice(0, SEARCH_MAX));
+                            }}
                         />
                         {search && (
                             <button className="diry__search-clear" onClick={() => setSearch("")}>✕</button>

@@ -1361,3 +1361,22 @@
         display: none;
     }
 }
+/* ==================================================================
+   REQUIRED MARKER
+   Insert this block directly after the `.cset__optional { ... }` rule
+   (or remove `.cset__optional` entirely — it's no longer used).
+   ================================================================== */
+.cset__required {
+    color: var(--cs-red);
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1;
+    margin-left: -3px;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+/* Keeps the star red even when the label turns green on focus. */
+.cset__field:focus-within .cset__required {
+    color: var(--cs-red);
+}

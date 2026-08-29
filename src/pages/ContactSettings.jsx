@@ -6,13 +6,24 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 import { logAdminAction } from "../utils/logAdminAction";
 
+/* Phones are stored as bare 10-digit strings; "+91" is added on display. */
 const DEFAULTS = {
     supportEmail: "support@jagurubands.in",
-    supportPhone1: "+91 831 858 3110",
-    supportPhone2: "+91 8329367959",
+    supportPhone1: "8318583110",
+    supportPhone2: "8329367959",
     telegramUrl: "https://t.me/+fAP6C5BGY6C8YdRl",
     assamAddressUrl: "https://maps.app.goo.gl/2Ynp1hq5f6XhNC7wu7",
 };
+
+/* Email: letters, digits, "@" and "." only. The dot is kept because a
+   domain can't be valid without one. Everything else is stripped. */
+const sanitizeEmail = (v) => (v || "").replace(/[^a-zA-Z0-9@.]/g, "").slice(0, 254);
+
+/* Phones: digits only, hard-capped at 10. */
+const sanitizePhone = (v) => (v || "").replace(/\D/g, "").slice(0, 10);
+
+const EMAIL_RE = /^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+\.[a-zA-Z]{2,}$/;
+const PHONE_RE = /^\d{10}$/;
 
 /* ---------------------------------------------------------------- */
 /* Inline icons (stroke = currentColor, so they inherit theme color) */
@@ -116,6 +127,11 @@ const icons = {
     ),
 };
 
+/* Red asterisk shown after every mandatory field label. */
+const Required = () => (
+    <span className="cset__required" aria-hidden="true">*</span>
+);
+
 function ContactSettings() {
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -180,7 +196,16 @@ function ContactSettings() {
             setLoading(true);
             const snap = await getDoc(doc(db, "settings", "contact"));
             if (snap.exists()) {
-                setForm({ ...DEFAULTS, ...snap.data() });
+                const data = snap.data();
+                /* Older records stored "+91 831 858 3110"; normalise on load
+                   so the first save after this change doesn't fail. */
+                setForm({
+                    ...DEFAULTS,
+                    ...data,
+                    supportEmail: sanitizeEmail(data.supportEmail ?? DEFAULTS.supportEmail),
+                    supportPhone1: sanitizePhone(data.supportPhone1 ?? DEFAULTS.supportPhone1),
+                    supportPhone2: sanitizePhone(data.supportPhone2 ?? DEFAULTS.supportPhone2),
+                });
             }
         } catch (err) {
             console.error(err);
@@ -195,7 +220,10 @@ function ContactSettings() {
     };
 
     const handleChange = (key, value) => {
-        setForm((prev) => ({ ...prev, [key]: value }));
+        let clean = value;
+        if (key === "supportEmail") clean = sanitizeEmail(value);
+        if (key === "supportPhone1" || key === "supportPhone2") clean = sanitizePhone(value);
+        setForm((prev) => ({ ...prev, [key]: clean }));
     };
 
     const focusField = (key) => {
@@ -206,22 +234,31 @@ function ContactSettings() {
     };
 
     const handleSave = async () => {
-        if (!form.supportEmail.trim() || !form.supportPhone1.trim()) {
-            showToast(t("csRequiredFields"), "error");
+        const trimmed = {
+            supportEmail: (form.supportEmail || "").trim(),
+            supportPhone1: (form.supportPhone1 || "").trim(),
+            supportPhone2: (form.supportPhone2 || "").trim(),
+            telegramUrl: (form.telegramUrl || "").trim(),
+            assamAddressUrl: (form.assamAddressUrl || "").trim(),
+        };
+
+        if (Object.values(trimmed).some((v) => !v)) {
+            showToast(t("csAllRequired"), "error");
             return;
         }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.supportEmail.trim())) {
+        if (!EMAIL_RE.test(trimmed.supportEmail)) {
             showToast(t("emailInvalid"), "error");
             return;
         }
+        if (!PHONE_RE.test(trimmed.supportPhone1) || !PHONE_RE.test(trimmed.supportPhone2)) {
+            showToast(t("csPhoneInvalid"), "error");
+            return;
+        }
+
         try {
             setSaving(true);
             await setDoc(doc(db, "settings", "contact"), {
-                supportEmail: form.supportEmail.trim(),
-                supportPhone1: form.supportPhone1.trim(),
-                supportPhone2: form.supportPhone2.trim(),
-                telegramUrl: form.telegramUrl.trim(),
-                assamAddressUrl: form.assamAddressUrl.trim(),
+                ...trimmed,
                 updatedAt: new Date().toISOString(),
                 updatedBy: localStorage.getItem("userId"),
             });
@@ -256,8 +293,8 @@ function ContactSettings() {
             tone: "green",
             icon: icons.phone,
             label: t("csSupportPhone"),
-            value: form.supportPhone1,
-            sub: form.supportPhone2,
+            value: form.supportPhone1 ? `+91 ${form.supportPhone1}` : "—",
+            sub: form.supportPhone2 ? `+91 ${form.supportPhone2}` : "",
         },
         {
             key: "telegramUrl",
@@ -360,80 +397,95 @@ function ContactSettings() {
                             <div className="cset__field">
                                 <label className="cset__label" htmlFor="cset-email">
                                     <span className="cset__label-ico cset__label-ico--blue">{icons.mail}</span>
-                                    {t("csSupportEmail")}
+                                    {t("csSupportEmail")}<Required />
                                 </label>
                                 <input
                                     id="cset-email"
                                     ref={fieldRefs.supportEmail}
                                     className="cset__input"
                                     type="text"
+                                    inputMode="email"
+                                    autoComplete="off"
+                                    maxLength={254}
                                     value={form.supportEmail}
                                     onChange={(e) => handleChange("supportEmail", e.target.value)}
                                     placeholder={t("csSupportEmail")}
+                                    required
                                 />
                             </div>
 
                             <div className="cset__field">
                                 <label className="cset__label" htmlFor="cset-phone1">
                                     <span className="cset__label-ico cset__label-ico--pink">{icons.phone}</span>
-                                    {t("csSupportPhone1")}
+                                    {t("csSupportPhone1")}<Required />
                                 </label>
                                 <input
                                     id="cset-phone1"
                                     ref={fieldRefs.supportPhone1}
                                     className="cset__input"
                                     type="text"
+                                    inputMode="numeric"
+                                    autoComplete="off"
+                                    maxLength={10}
                                     value={form.supportPhone1}
                                     onChange={(e) => handleChange("supportPhone1", e.target.value)}
-                                    placeholder={t("csSupportPhone1")}
+                                    placeholder={t("csPhonePlaceholder")}
+                                    required
                                 />
                             </div>
 
                             <div className="cset__field">
                                 <label className="cset__label" htmlFor="cset-phone2">
                                     <span className="cset__label-ico cset__label-ico--pink">{icons.phone}</span>
-                                    {t("csSupportPhone2")}
-                                    <span className="cset__optional">{t("csOptional")}</span>
+                                    {t("csSupportPhone2")}<Required />
                                 </label>
                                 <input
                                     id="cset-phone2"
                                     className="cset__input"
                                     type="text"
+                                    inputMode="numeric"
+                                    autoComplete="off"
+                                    maxLength={10}
                                     value={form.supportPhone2}
                                     onChange={(e) => handleChange("supportPhone2", e.target.value)}
-                                    placeholder={t("csSupportPhone2")}
+                                    placeholder={t("csPhonePlaceholder")}
+                                    required
                                 />
                             </div>
 
                             <div className="cset__field">
                                 <label className="cset__label" htmlFor="cset-telegram">
                                     <span className="cset__label-ico cset__label-ico--violet">{icons.telegram}</span>
-                                    {t("csTelegramChannel")}
+                                    {t("csTelegramChannel")}<Required />
                                 </label>
                                 <input
                                     id="cset-telegram"
                                     ref={fieldRefs.telegramUrl}
                                     className="cset__input"
                                     type="text"
+                                    autoComplete="off"
                                     value={form.telegramUrl}
                                     onChange={(e) => handleChange("telegramUrl", e.target.value)}
                                     placeholder={t("csTelegramChannel")}
+                                    required
                                 />
                             </div>
 
                             <div className="cset__field cset__field--full">
                                 <label className="cset__label" htmlFor="cset-address">
                                     <span className="cset__label-ico cset__label-ico--amber">{icons.pin}</span>
-                                    {t("csAssamAddressUrl")}
+                                    {t("csAssamAddressUrl")}<Required />
                                 </label>
                                 <input
                                     id="cset-address"
                                     ref={fieldRefs.assamAddressUrl}
                                     className="cset__input"
                                     type="text"
+                                    autoComplete="off"
                                     value={form.assamAddressUrl}
                                     onChange={(e) => handleChange("assamAddressUrl", e.target.value)}
                                     placeholder={t("csAssamAddressUrl")}
+                                    required
                                 />
                             </div>
 

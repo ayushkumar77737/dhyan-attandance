@@ -444,10 +444,11 @@ function IdRequests() {
                             className="idreq__search"
                             type="text"
                             inputMode="numeric"
+                            maxLength={12}
                             placeholder={t("searchPlaceholder")}
                             value={search}
                             onChange={(e) =>
-                                setSearch(e.target.value.replace(/\D/g, "").slice(0, 50))
+                                setSearch(e.target.value.replace(/\D/g, "").slice(0, 12))
                             }
                             onKeyDown={(e) => {
                                 const allowedKeys = [
@@ -463,12 +464,9 @@ function IdRequests() {
                                 }
                             }}
                             onPaste={(e) => {
-                                const pasted = e.clipboardData.getData("text");
-                                if (/\D/.test(pasted)) {
-                                    e.preventDefault();
-                                    const digitsOnly = pasted.replace(/\D/g, "").slice(0, 50);
-                                    setSearch((prev) => (prev + digitsOnly).slice(0, 50));
-                                }
+                                e.preventDefault();
+                                const digitsOnly = e.clipboardData.getData("text").replace(/\D/g, "");
+                                setSearch((prev) => (prev + digitsOnly).slice(0, 12));
                             }}
                         />
                         {search && (

@@ -1190,5 +1190,9 @@
   "editingRecord": "Editing admin record",
   "deleteNotificationConfirm": "Are you sure you want to delete this notification? This action cannot be undone.",
   "broadcastSubtitle": "Send a message to all users on the platform",
-  "deleteTicketConfirm": "Are you sure you want to delete this ticket? This action cannot be undone."
+  "deleteTicketConfirm": "Are you sure you want to delete this ticket? This action cannot be undone.",
+  "csAllRequired": "All fields are required",
+  "csPhonePlaceholder": "10-digit mobile number",
+  "addressTooShort": "Address must be at least 5 characters",
+  "profileSaveFailed": "Could not save changes. Please try again."
 }

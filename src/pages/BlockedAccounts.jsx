@@ -14,6 +14,12 @@ import {
 import "./BlockedAccounts.css";
 import { logAdminAction } from "../utils/logAdminAction";
 
+/* Search box: capital letters and digits only. Lowercase is upper-cased
+   as you type; spaces and special characters are dropped. */
+const SEARCH_MAX = 30;
+const sanitizeSearch = (v) =>
+    (v || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, SEARCH_MAX);
+
 /* ------------------------------------------------------------------ */
 /* Icons — replace the emoji glyphs, which rendered inconsistently     */
 /* across locales and platforms                                        */
@@ -221,8 +227,8 @@ const BlockedAccounts = () => {
     useEffect(() => {
         let result = [...records];
         if (search.trim()) {
-            const q = search.toLowerCase();
-            result = result.filter((r) => r.id.toLowerCase().includes(q));
+            const q = search.toUpperCase();
+            result = result.filter((r) => String(r.id).toUpperCase().includes(q));
         }
         if (filterStatus === "locked") result = result.filter((r) => isLocked(r.lockUntil));
         else if (filterStatus === "active") result = result.filter((r) => !isLocked(r.lockUntil) && r.attempts > 0);
@@ -499,7 +505,28 @@ const BlockedAccounts = () => {
                         type="text"
                         placeholder={t("blockedAccounts.search.placeholder")}
                         value={search}
-                        onChange={(e) => setSearch(e.target.value)}
+                        maxLength={SEARCH_MAX}
+                        autoComplete="off"
+                        spellCheck={false}
+                        onChange={(e) => setSearch(sanitizeSearch(e.target.value))}
+                        onKeyDown={(e) => {
+                            const allowedKeys = [
+                                "Backspace", "Delete", "ArrowLeft", "ArrowRight",
+                                "ArrowUp", "ArrowDown", "Tab", "Home", "End"
+                            ];
+                            if (
+                                !allowedKeys.includes(e.key) &&
+                                !/^[a-zA-Z0-9]$/.test(e.key) &&
+                                !(e.ctrlKey || e.metaKey)
+                            ) {
+                                e.preventDefault();
+                            }
+                        }}
+                        onPaste={(e) => {
+                            e.preventDefault();
+                            const clean = sanitizeSearch(e.clipboardData.getData("text"));
+                            setSearch((prev) => (prev + clean).slice(0, SEARCH_MAX));
+                        }}
                     />
                     {search && (
                         <button className="ba-clear" onClick={() => setSearch("")}>{I.close}</button>
