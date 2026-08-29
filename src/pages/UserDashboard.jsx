@@ -21,6 +21,16 @@ const PUBLIC_BASE =
 const BANNER_DIR = `${PUBLIC_BASE}/banners`; // no trailing slash
 const bannerFor = (lang) => `${BANNER_DIR}/sidebar-${lang}.png`;
 
+/* createdAt has been stored as a Firestore Timestamp, an ISO string, or a
+   Date over time — normalise all of them to milliseconds. */
+const toMs = (v) => {
+  if (!v) return 0;
+  if (typeof v === "object" && typeof v.toDate === "function") return v.toDate().getTime();
+  if (typeof v === "object" && v.seconds) return v.seconds * 1000;
+  const parsed = new Date(v).getTime();
+  return Number.isNaN(parsed) ? 0 : parsed;
+};
+
 /* ------------------------------------------------------------------ */
 /* Tiny SVG sparkline                                                 */
 /* ------------------------------------------------------------------ */
@@ -213,24 +223,29 @@ function UserDashboard() {
         setTodayStatus(sorted[0] ? sorted[0].status : "none");
       }
 
+      /* Only count notifications newer than the user's last-read marker.
+         MyNotifications.jsx stamps users/{id}.notificationsReadAt (and a
+         localStorage mirror) whenever the page is opened or "Mark all as
+         read" is clicked, so the badge clears once they've looked. */
+      const readAt = Math.max(
+        toMs(userData.notificationsReadAt),
+        Number(localStorage.getItem(`notifReadAt_${id}`) || 0)
+      );
+
       const notifSnap = await getDocs(collection(db, "notifications"));
-      let notifTotal = 0;
+      let unread = 0;
       const notifList = [];
       notifSnap.forEach((docItem) => {
         const data = docItem.data();
-        const docUserId = data.userId?.toUpperCase();
-        if (!docUserId || docUserId === "ALL" || docUserId === id) {
-          notifTotal++;
-          notifList.push({ id: docItem.id, ...data });
+        const docUserId = data.userId ? String(data.userId).toUpperCase() : "ALL";
+        if (docUserId === "ALL" || docUserId === id) {
+          const createdMs = toMs(data.createdAt || data.date || data.timestamp);
+          if (createdMs > readAt) unread++;
+          notifList.push({ id: docItem.id, ...data, createdMs });
         }
       });
-      // newest first — assumes a createdAt timestamp; falls back gracefully
-      notifList.sort((a, b) => {
-        const ta = a.createdAt?.seconds || a.timestamp?.seconds || 0;
-        const tb = b.createdAt?.seconds || b.timestamp?.seconds || 0;
-        return tb - ta;
-      });
-      setNotifCount(notifTotal);
+      notifList.sort((a, b) => b.createdMs - a.createdMs);
+      setNotifCount(unread);
       setRecentNotifs(notifList.slice(0, 4));
 
       const absenceSnap = await getDocs(collection(db, "absenceRequests"));
@@ -858,9 +873,9 @@ function UserDashboard() {
                         <div className="ud-event-text">
                           <span className="ud-event-title">{n.title || n.message || t("notifications")}</span>
                           <span className="ud-event-meta">
-                            {n.createdAt?.seconds
-                              ? new Date(n.createdAt.seconds * 1000).toLocaleDateString(i18n.language || undefined)
-                              : (n.date || "")}
+                            {n.createdMs
+                              ? new Date(n.createdMs).toLocaleDateString(i18n.language || undefined)
+                              : ""}
                           </span>
                         </div>
                       </div>

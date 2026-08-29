@@ -5,23 +5,59 @@ import { db, auth } from "../firebase/firebase";
 import {
     collection,
     getDocs,
-    query,
-    where,
     doc,
-    getDoc
+    getDoc,
+    updateDoc
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
 
+/* createdAt has been stored as a Firestore Timestamp, an ISO string, or a
+   Date over time. Normalise all of them to milliseconds so sorting and
+   display work regardless of which page wrote the record. */
+const toMs = (v) => {
+    if (!v) return 0;
+    if (typeof v === "object" && typeof v.toDate === "function") return v.toDate().getTime();
+    if (typeof v === "object" && v.seconds) return v.seconds * 1000;
+    const parsed = new Date(v).getTime();
+    return Number.isNaN(parsed) ? 0 : parsed;
+};
+
+/* "Last read" marker, per user. Stored on users/{id}.notificationsReadAt
+   (so it follows the user across devices) with a localStorage mirror in
+   case that write is blocked by rules. */
+const readKey = (id) => `notifReadAt_${id}`;
+
+const getReadAt = (id, userData) =>
+    Math.max(
+        toMs(userData?.notificationsReadAt),
+        Number(localStorage.getItem(readKey(id)) || 0)
+    );
+
+const persistReadAt = async (id, ms) => {
+    localStorage.setItem(readKey(id), String(ms));
+    try {
+        await updateDoc(doc(db, "users", id), {
+            notificationsReadAt: new Date(ms).toISOString(),
+        });
+    } catch (err) {
+        console.warn("Could not persist notificationsReadAt to Firestore:", err);
+    }
+};
+
 function MyNotifications() {
 
     const { t } = useTranslation();
     const [notifications, setNotifications] = useState([]);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
-    const [markedRead, setMarkedRead] = useState(false);
+    const [userId, setUserId] = useState("");
+    /* Timestamp of the last time this user cleared their notifications —
+       anything newer is shown with the "New" tag until they mark it read. */
+    const [readAt, setReadAt] = useState(0);
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -42,71 +78,78 @@ function MyNotifications() {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (!user) return;
+            if (!user) {
+                navigate("/");
+                return;
+            }
 
             const id = String(
                 user.email?.split("@")[0] || ""
             ).toUpperCase();
 
-            const userRef = doc(db, "users", id);
+            try {
+                const userRef = doc(db, "users", id);
+                const userSnap = await getDoc(userRef);
 
-            const userSnap = await getDoc(userRef);
+                if (!userSnap.exists()) {
+                    navigate("/");
+                    return;
+                }
 
-            if (!userSnap.exists()) {
-                navigate("/");
-                return;
-            }
+                const userData = userSnap.data();
 
-            const userData = userSnap.data();
+                if (userData.uid !== user.uid) {
+                    navigate("/");
+                    return;
+                }
 
-            if (
-                userData.role === "admin" &&
-                userData.uid === auth.currentUser.uid
-            ) {
-                navigate("/admin-dashboard");
-                return;
-            }
+                if (userData.role === "admin") {
+                    navigate("/admin-dashboard");
+                    return;
+                }
 
-            let list = [];
+                setUserId(id);
+                const prevReadAt = getReadAt(id, userData);
+                setReadAt(prevReadAt);
 
-            const personalQuery = query(
-                collection(db, "notifications"),
-                where("userId", "==", id)
-            );
+                /* Opening this page counts as seeing everything: stamp "now"
+                   so the dashboard badge is clear on the next visit. The
+                   "New" tags on this render still use prevReadAt so the user
+                   can see which ones were unread when they arrived. */
+                persistReadAt(id, Date.now());
 
-            const personalSnapshot = await getDocs(personalQuery);
+                /* Load the whole collection once and filter here instead of two
+                   Firestore queries. This picks up:
+                     - personal notifications  (userId === this user's id)
+                     - broadcasts               (userId === "ALL")
+                     - legacy admin posts       (no userId field at all) */
+                const snap = await getDocs(collection(db, "notifications"));
+                const list = [];
 
-            personalSnapshot.forEach((doc) => {
-                const data = doc.data();
+                snap.forEach((d) => {
+                    const data = d.data();
+                    const target = data.userId ? String(data.userId).toUpperCase() : "ALL";
+                    if (target !== "ALL" && target !== id) return;
 
-                list.push({
-                    message: data.message || t("noMessage"),
-                    createdAt: data.createdAt
-                        ? data.createdAt.toDate().toLocaleString()
-                        : t("noDate")
+                    const raw = data.createdAt || data.date || data.timestamp || null;
+                    const ms = toMs(raw);
+
+                    list.push({
+                        id: d.id,
+                        message: data.message || t("noMessage"),
+                        createdMs: ms,
+                        createdAt: ms ? new Date(ms).toLocaleString() : t("noDate")
+                    });
                 });
-            });
 
-            const globalQuery = query(
-                collection(db, "notifications"),
-                where("userId", "==", "ALL")
-            );
-
-            const globalSnapshot = await getDocs(globalQuery);
-
-            globalSnapshot.forEach((doc) => {
-                const data = doc.data();
-
-                list.push({
-                    message: data.message || t("noMessage"),
-                    createdAt: data.createdAt
-                        ? data.createdAt.toDate().toLocaleString()
-                        : t("noDate")
-                });
-            });
-
-            list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-            setNotifications(list);
+                list.sort((a, b) => b.createdMs - a.createdMs);
+                setNotifications(list);
+            } catch (err) {
+                console.error(err);
+                setNotifications([]);
+            } finally {
+                setLoading(false);
+            }
         });
 
         return () => unsubscribe();
@@ -145,7 +188,14 @@ function MyNotifications() {
                             <span className="count-badge">{notifications.length}</span>
                         )}
                         {notifications.length > 0 && (
-                            <button className="mark-read-btn" onClick={() => setMarkedRead(true)}>
+                            <button
+                                className="mark-read-btn"
+                                onClick={() => {
+                                    const now = Date.now();
+                                    setReadAt(now);
+                                    if (userId) persistReadAt(userId, now);
+                                }}
+                            >
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                     <polyline points="20 6 9 17 4 12" />
                                 </svg>
@@ -157,7 +207,11 @@ function MyNotifications() {
 
                 <div className="divider" />
 
-                {notifications.length === 0 ? (
+                {loading ? (
+                    <div className="no-data-wrapper">
+                        <p className="no-data">{t("loading")}</p>
+                    </div>
+                ) : notifications.length === 0 ? (
                     <div className="no-data-wrapper">
                         <div className="no-data-icon">
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -173,7 +227,7 @@ function MyNotifications() {
                         <div className="notification-list">
                             {notifications.map((item, index) => (
                                 <div
-                                    key={`${item.createdAt}-${index}`}
+                                    key={item.id}
                                     className="notification-card"
                                     style={{ animationDelay: `${index * 60}ms` }}
                                 >
@@ -195,7 +249,7 @@ function MyNotifications() {
                                             {item.createdAt}
                                         </span>
                                     </div>
-                                    {!markedRead && (
+                                    {item.createdMs > readAt && (
                                         <div className="card-new">
                                             <span className="card-new-label">{t("newLabel") || "New"}</span>
                                             <span className="card-new-dot" />

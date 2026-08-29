@@ -212,6 +212,7 @@ function Notifications() {
       setPosting(true);
       const ref = await addDoc(collection(db, "notifications"), {
         message: text,
+        userId: "ALL",
         createdAt: new Date().toISOString(),
         postedBy: localStorage.getItem("userId"),
       });
