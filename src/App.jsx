@@ -66,35 +66,35 @@ function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/contact" element={<Contact />} />
         {/* MFA Routes */}
-<Route
-  path="/mfa-setup"
-  element={
-    <ProtectedRoute>
-      <MFASetup />
-    </ProtectedRoute>
-  }
-/>
+        <Route
+          path="/mfa-setup"
+          element={
+            <ProtectedRoute>
+              <MFASetup />
+            </ProtectedRoute>
+          }
+        />
 
-<Route
-  path="/mfa-verify"
-  element={
-    <ProtectedRoute>
-      <MFAVerify />
-    </ProtectedRoute>
-  }
-/>
+        <Route
+          path="/mfa-verify"
+          element={
+            <ProtectedRoute>
+              <MFAVerify />
+            </ProtectedRoute>
+          }
+        />
 
         {/* User Routes */}
         <Route
-  path="/user-dashboard"
-  element={
-    <ProtectedRoute>
-      <MFAProtectedRoute>
-        <UserDashboard />
-      </MFAProtectedRoute>
-    </ProtectedRoute>
-  }
-/>
+          path="/user-dashboard"
+          element={
+            <ProtectedRoute>
+              <MFAProtectedRoute>
+                <UserDashboard />
+              </MFAProtectedRoute>
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/attendance"
@@ -215,15 +215,15 @@ function App() {
 
         {/* Admin Dashboard — never gated, everyone lands here */}
         <Route
-  path="/admin-dashboard"
-  element={
-    <ProtectedRoute>
-      <MFAProtectedRoute>
-        <AdminDashboard />
-      </MFAProtectedRoute>
-    </ProtectedRoute>
-  }
-/>
+          path="/admin-dashboard"
+          element={
+            <ProtectedRoute>
+              <MFAProtectedRoute>
+                <AdminDashboard />
+              </MFAProtectedRoute>
+            </ProtectedRoute>
+          }
+        />
 
         {/* Access Control — super-admin gate is inside the component */}
         <Route

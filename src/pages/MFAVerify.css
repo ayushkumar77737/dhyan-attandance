@@ -1,243 +1,720 @@
-.mfa-verify-page {
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap');
+
+/* ==================================================================
+   MFA VERIFY
+   Palette: deep navy ground, saffron-gold accent (the portal's brand
+   colour), one cool mint for success. Nothing else.
+
+   Signature: the 30-second ring around the shield. Authenticator codes
+   rotate on a 30 s clock; the ring sweeps on the same clock so the
+   user can see how long their code is still valid before it changes.
+   ================================================================== */
+.mfav {
+  --nav-900: #050b1a;
+  --nav-800: #0b1428;
+  --nav-700: #111c36;
+  --nav-600: #1a2745;
+  --ink: #f3f5fb;
+  --ink-2: #aab4c8;
+  --ink-3: #6c7890;
+  --gold: #f5c518;
+  --gold-soft: rgba(245, 197, 24, 0.14);
+  --gold-line: rgba(245, 197, 24, 0.34);
+  --mint: #34d399;
+  --mint-soft: rgba(52, 211, 153, 0.14);
+  --red: #ff7b7b;
+  --red-soft: rgba(255, 92, 92, 0.12);
+  --red-line: rgba(255, 92, 92, 0.3);
+  --line: rgba(255, 255, 255, 0.08);
+
   min-height: 100vh;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 24px;
   box-sizing: border-box;
-
-  background:
-    radial-gradient(
-      circle at top,
-      rgba(255, 215, 0, 0.12),
-      transparent 35%
-    ),
-    #050b1a;
+  position: relative;
+  overflow: hidden;
+  background: var(--nav-900);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--ink);
 }
 
-.mfa-verify-card {
+/* ---- ambient ---- */
+.mfav__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.mfav__glow--a {
+  width: 520px;
+  height: 520px;
+  top: -200px;
+  right: -140px;
+  background: radial-gradient(circle, rgba(245, 197, 24, 0.16), transparent 68%);
+  animation: mfav-drift 18s ease-in-out infinite alternate;
+}
+
+.mfav__glow--b {
+  width: 440px;
+  height: 440px;
+  bottom: -180px;
+  left: -140px;
+  background: radial-gradient(circle, rgba(79, 110, 255, 0.16), transparent 68%);
+  animation: mfav-drift 14s ease-in-out infinite alternate-reverse;
+}
+
+.mfav__grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 20%, transparent 72%);
+  mask-image: radial-gradient(ellipse at center, #000 20%, transparent 72%);
+}
+
+/* ---- card ---- */
+.mfav__card {
+  position: relative;
   width: 100%;
-  max-width: 440px;
-  padding: 40px 35px;
-
+  max-width: 460px;
+  padding: 44px 40px 36px;
   box-sizing: border-box;
-
-  background: rgba(16, 26, 48, 0.96);
-
-  border: 1px solid rgba(255, 255, 255, 0.10);
-
-  border-radius: 22px;
-
   text-align: center;
-
+  background: linear-gradient(180deg, rgba(17, 28, 54, 0.92), rgba(11, 20, 40, 0.96));
+  border: 1px solid var(--line);
+  border-radius: 26px;
   box-shadow:
-    0 25px 70px rgba(0, 0, 0, 0.45),
-    0 0 40px rgba(255, 215, 0, 0.05);
-
-  backdrop-filter: blur(15px);
+    0 30px 80px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+  backdrop-filter: blur(18px);
+  animation: mfav-card-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.mfa-icon {
+/* a hairline of gold across the top edge, opening from the centre */
+.mfav__card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 12%;
+  right: 12%;
+  height: 1.5px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  transform-origin: center;
+  animation: mfav-stripe 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+}
+
+.mfav__card.is-shaking {
+  animation: mfav-shake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+.mfav__card.is-success {
+  border-color: rgba(52, 211, 153, 0.35);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(52, 211, 153, 0.12);
+}
+
+.mfav__card--checking .mfav__title {
+  margin-top: 18px;
+}
+
+/* ---- hero: shield + ring ---- */
+.mfav__hero {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 22px;
+  animation: mfav-pop 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+.mfav__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.mfav__ring-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.07);
+  stroke-width: 3;
+}
+
+.mfav__ring-fill {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear, stroke 0.3s ease;
+  filter: drop-shadow(0 0 4px rgba(245, 197, 24, 0.5));
+}
+
+.mfav__ring-fill.is-urgent {
+  stroke: var(--red);
+  filter: drop-shadow(0 0 4px rgba(255, 92, 92, 0.5));
+}
+
+.mfav__badge {
+  position: absolute;
+  inset: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-line);
+  color: var(--gold);
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.mfav__badge svg {
+  width: 32px;
+  height: 32px;
+}
+
+.mfav__badge.is-success {
+  background: var(--mint-soft);
+  border-color: rgba(52, 211, 153, 0.4);
+  color: var(--mint);
+  animation: mfav-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* checking-auth state: static badge with a spinning ring border */
+.mfav__badge--spin {
+  position: relative;
+  inset: auto;
   width: 72px;
   height: 72px;
+  margin: 0 auto;
+}
 
-  margin: 0 auto 20px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
+.mfav__badge--spin::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
   border-radius: 50%;
-
-  background: rgba(255, 215, 0, 0.10);
-
-  border: 1px solid rgba(255, 215, 0, 0.25);
-
-  font-size: 34px;
+  border: 2px solid transparent;
+  border-top-color: var(--gold);
+  animation: mfav-spin 1s linear infinite;
 }
 
-.mfa-verify-card h1 {
-  margin: 0 0 12px;
-
-  color: #ffffff;
-
-  font-size: 25px;
+.mfav__timer {
+  position: absolute;
+  right: -6px;
+  bottom: -4px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: var(--nav-700);
+  border: 1px solid var(--gold-line);
+  color: var(--gold);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
   font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
 
-.mfa-description {
-  margin: 0 auto 28px;
-
-  max-width: 350px;
-
-  color: #aab4c8;
-
-  font-size: 14px;
-
-  line-height: 1.7;
+.mfav__timer.is-urgent {
+  color: var(--red);
+  border-color: var(--red-line);
+  animation: mfav-pulse 1s ease-in-out infinite;
 }
 
-.mfa-label {
-  display: block;
-
+/* ---- copy ---- */
+.mfav__eyebrow {
+  display: inline-block;
   margin-bottom: 10px;
-
-  text-align: left;
-
-  color: #dce3ef;
-
-  font-size: 14px;
-
-  font-weight: 600;
-}
-
-.mfa-code-input {
-  width: 100%;
-
-  box-sizing: border-box;
-
-  padding: 15px;
-
-  border-radius: 12px;
-
-  border: 1px solid rgba(255, 255, 255, 0.14);
-
-  outline: none;
-
-  background: #07101f;
-
-  color: #ffffff;
-
-  font-size: 25px;
-
-  font-weight: 600;
-
-  letter-spacing: 9px;
-
-  text-align: center;
-
-  transition: 0.2s ease;
-}
-
-.mfa-code-input::placeholder {
-  color: rgba(255, 255, 255, 0.25);
-  letter-spacing: 8px;
-}
-
-.mfa-code-input:focus {
-  border-color: rgba(255, 215, 0, 0.65);
-
-  box-shadow:
-    0 0 0 3px rgba(255, 215, 0, 0.08);
-}
-
-.mfa-error {
-  margin-top: 14px;
-
-  padding: 10px 12px;
-
-  border-radius: 9px;
-
-  background: rgba(255, 75, 75, 0.10);
-
-  border: 1px solid rgba(255, 75, 75, 0.20);
-
-  color: #ff8585;
-
-  font-size: 13px;
-}
-
-.mfa-verify-button {
-  width: 100%;
-
-  margin-top: 20px;
-
-  padding: 14px 18px;
-
-  border: none;
-
-  border-radius: 12px;
-
-  background: #ffd700;
-
-  color: #111827;
-
-  font-size: 15px;
-
+  font-size: 11px;
   font-weight: 700;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    opacity 0.2s ease;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  animation: mfav-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
 }
 
-.mfa-verify-button:hover:not(:disabled) {
-  transform: translateY(-1px);
-
-  box-shadow:
-    0 8px 25px rgba(255, 215, 0, 0.20);
+.mfav__title {
+  margin: 0 0 12px;
+  font-family: 'Fraunces', serif;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--ink);
+  animation: mfav-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.26s both;
 }
 
-.mfa-verify-button:disabled {
-  background: #555b66;
-
-  color: #aeb4bf;
-
-  cursor: not-allowed;
-
-  opacity: 0.75;
-}
-
-.mfa-back-button {
-  margin-top: 20px;
-
-  padding: 8px 12px;
-
-  border: none;
-
-  background: transparent;
-
-  color: #aab4c8;
-
+.mfav__desc {
+  margin: 0 auto 30px;
+  max-width: 340px;
   font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink-2);
+  animation: mfav-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
 
+/* ---- form ---- */
+.mfav__form {
+  text-align: left;
+}
+
+.mfav__label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  animation: mfav-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+.mfav__cells {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  cursor: text;
+}
+
+.mfav__cell {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: var(--nav-900);
+  border: 1px solid var(--line);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink);
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  animation: mfav-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.mfav__cell.is-filled {
+  border-color: var(--gold-line);
+  background: var(--nav-800);
+  animation: mfav-cell-fill 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mfav__cell.is-active {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-soft);
+}
+
+/* blinking caret in the active empty cell */
+.mfav__cell.is-active:not(.is-filled)::after {
+  content: "";
+  width: 2px;
+  height: 26px;
+  background: var(--gold);
+  border-radius: 1px;
+  animation: mfav-caret 1s steps(2, start) infinite;
+}
+
+.mfav__cells.is-error .mfav__cell {
+  border-color: var(--red-line);
+}
+
+.mfav__card.is-success .mfav__cell {
+  border-color: rgba(52, 211, 153, 0.4);
+  color: var(--mint);
+}
+
+/* the real input sits over the cells, fully transparent, so taps,
+   focus, keyboard and autofill all still land on a native field */
+.mfav__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+  /* stops iOS zooming on focus */
+  color: transparent;
+  background: transparent;
+  caret-color: transparent;
+  cursor: text;
+}
+
+.mfav__input:disabled {
+  cursor: not-allowed;
+}
+
+.mfav__hint {
+  margin: 12px 0 0;
+  font-size: 12.5px;
+  color: var(--ink-3);
+  text-align: center;
+  animation: mfav-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
+}
+
+.mfav__error {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 16px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: var(--red-soft);
+  border: 1px solid var(--red-line);
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  animation: mfav-rise 0.3s ease;
+}
+
+.mfav__error svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ---- buttons ---- */
+.mfav__submit {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin-top: 22px;
+  padding: 15px 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: none;
+  border-radius: 14px;
+  background: var(--gold);
+  color: #0e1424;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
-
-  transition: color 0.2s ease;
+  box-shadow: 0 10px 26px -8px rgba(245, 197, 24, 0.55);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.25s ease, color 0.25s ease, opacity 0.2s ease;
+  animation: mfav-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.66s both;
 }
 
-.mfa-back-button:hover {
-  color: #ffd700;
+.mfav__submit svg {
+  width: 17px;
+  height: 17px;
 }
 
+/* light sweep on hover */
+.mfav__submit::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
 
-/* ==============================
+.mfav__submit:hover:not(:disabled)::after {
+  left: 130%;
+}
+
+.mfav__submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px -8px rgba(245, 197, 24, 0.6);
+}
+
+.mfav__submit:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.mfav__submit:disabled {
+  background: var(--nav-600);
+  color: var(--ink-3);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.mfav__card.is-success .mfav__submit:disabled {
+  background: var(--mint-soft);
+  color: var(--mint);
+  border: 1px solid rgba(52, 211, 153, 0.4);
+}
+
+.mfav__spinner {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  animation: mfav-spin 0.7s linear infinite;
+}
+
+.mfav__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 22px;
+  padding: 9px 14px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink-2);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  animation: mfav-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.72s both;
+}
+
+.mfav__back svg {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.2s ease;
+}
+
+.mfav__back:hover:not(:disabled) {
+  color: var(--gold);
+  background: var(--gold-soft);
+  border-color: var(--gold-line);
+}
+
+.mfav__back:hover:not(:disabled) svg {
+  transform: translateX(-3px);
+}
+
+.mfav__back:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- focus rings ---- */
+.mfav__submit:focus-visible,
+.mfav__back:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ==================================================================
+   KEYFRAMES
+   ================================================================== */
+@keyframes mfav-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes mfav-stripe {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes mfav-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mfav-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  60% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes mfav-cell-fill {
+  0% {
+    transform: scale(0.92);
+  }
+
+  60% {
+    transform: scale(1.06);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes mfav-caret {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes mfav-shake {
+
+  10%,
+  90% {
+    transform: translateX(-2px);
+  }
+
+  20%,
+  80% {
+    transform: translateX(4px);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translateX(-7px);
+  }
+
+  40%,
+  60% {
+    transform: translateX(7px);
+  }
+}
+
+@keyframes mfav-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes mfav-pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes mfav-drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+
+  to {
+    transform: translate(26px, 18px) scale(1.06);
+  }
+}
+
+/* ==================================================================
    MOBILE
-   ============================== */
-
+   ================================================================== */
 @media (max-width: 500px) {
-
-  .mfa-verify-page {
-    padding: 15px;
+  .mfav {
+    padding: 16px;
   }
 
-  .mfa-verify-card {
-    padding: 30px 22px;
-
-    border-radius: 18px;
+  .mfav__card {
+    padding: 36px 22px 28px;
+    border-radius: 20px;
   }
 
-  .mfa-verify-card h1 {
+  .mfav__title {
+    font-size: 25px;
+  }
+
+  .mfav__cells {
+    gap: 7px;
+  }
+
+  .mfav__cell {
+    height: 52px;
     font-size: 22px;
+    border-radius: 11px;
+  }
+}
+
+/* ==================================================================
+   REDUCED MOTION
+   Entrances use `both`, which holds opacity at 0 until the delay
+   elapses — without this block the page would stay blank.
+   ================================================================== */
+@media (prefers-reduced-motion: reduce) {
+
+  .mfav__card,
+  .mfav__card::before,
+  .mfav__hero,
+  .mfav__eyebrow,
+  .mfav__title,
+  .mfav__desc,
+  .mfav__label,
+  .mfav__cell,
+  .mfav__hint,
+  .mfav__submit,
+  .mfav__back,
+  .mfav__error,
+  .mfav__glow--a,
+  .mfav__glow--b,
+  .mfav__badge.is-success,
+  .mfav__timer.is-urgent {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 
-  .mfa-code-input {
-    font-size: 22px;
-    letter-spacing: 7px;
+  .mfav__card::before {
+    transform: scaleX(1) !important;
   }
 
+  .mfav__cell.is-active:not(.is-filled)::after {
+    animation: none;
+  }
+
+  .mfav__ring-fill {
+    transition: none;
+  }
+
+  .mfav__submit::after {
+    display: none;
+  }
+
+  .mfav__submit:hover:not(:disabled),
+  .mfav__back:hover:not(:disabled) svg {
+    transform: none;
+  }
+
+  /* keep the spinners — they signal in-progress work */
+  .mfav__spinner,
+  .mfav__badge--spin::after {
+    animation-duration: 1.8s;
+  }
 }

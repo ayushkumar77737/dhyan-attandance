@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { useTranslation } from "react-i18next";
 import { auth } from "../firebase/firebase";
 import "./MFAVerify.css";
 
@@ -10,7 +11,44 @@ import {
   clearMfaSession,
 } from "../utils/mfa";
 
+const CODE_LENGTH = 6;
+/* TOTP codes rotate every 30 s — the ring around the shield sweeps on
+   the same clock so the user can see how long the code in their app
+   is still good for. */
+const TOTP_PERIOD = 30;
+
+/* ------------------------------------------------------------------ */
+/* Icons (stroke = currentColor)                                       */
+/* ------------------------------------------------------------------ */
+const ShieldIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2.5 4.5 5.4v5.8c0 4.6 3.1 8.6 7.5 9.8 4.4-1.2 7.5-5.2 7.5-9.8V5.4L12 2.5z" />
+    <rect x="9" y="11" width="6" height="5" rx="1.2" />
+    <path d="M10.2 11V9.6a1.8 1.8 0 0 1 3.6 0V11" />
+  </svg>
+);
+
+const ArrowLeftIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M19 12H5M12 19l-7-7 7-7" />
+  </svg>
+);
+
+const CheckIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+);
+
+const AlertIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7.5v5M12 16.2v.1" />
+  </svg>
+);
+
 const MFAVerify = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -18,6 +56,16 @@ const MFAVerify = () => {
   const [loading, setLoading] = useState(false);
   const [authChecking, setAuthChecking] = useState(true);
   const [error, setError] = useState("");
+  const [shake, setShake] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [focused, setFocused] = useState(false);
+
+  /* Seconds left in the current 30 s TOTP window (drives the ring). */
+  const [secondsLeft, setSecondsLeft] = useState(
+    () => TOTP_PERIOD - (Math.floor(Date.now() / 1000) % TOTP_PERIOD)
+  );
+
+  const inputRef = useRef(null);
 
   // --------------------------------------------------
   // Check Firebase authentication
@@ -39,6 +87,25 @@ const MFAVerify = () => {
   }, [navigate]);
 
   // --------------------------------------------------
+  // TOTP window countdown
+  // --------------------------------------------------
+  useEffect(() => {
+    const tick = () =>
+      setSecondsLeft(TOTP_PERIOD - (Math.floor(Date.now() / 1000) % TOTP_PERIOD));
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  // --------------------------------------------------
+  // Error shake
+  // --------------------------------------------------
+  const flashError = (message) => {
+    setError(message);
+    setShake(true);
+    setTimeout(() => setShake(false), 500);
+  };
+
+  // --------------------------------------------------
   // Verify MFA
   // --------------------------------------------------
   const handleVerify = async (e) => {
@@ -54,7 +121,7 @@ const MFAVerify = () => {
     // Validate code
     // --------------------------------------------------
     if (!/^\d{6}$/.test(cleanCode)) {
-      setError("Please enter the 6-digit authenticator code.");
+      flashError(t("mfaInvalidLength"));
       return;
     }
 
@@ -64,9 +131,7 @@ const MFAVerify = () => {
     const currentUser = auth.currentUser;
 
     if (!currentUser) {
-      setError(
-        "Your login session has expired. Please login again."
-      );
+      setError(t("mfaSessionExpired"));
 
       clearMfaSession();
 
@@ -112,7 +177,7 @@ const MFAVerify = () => {
       ) {
         throw new Error(
           result?.message ||
-            "MFA verification failed."
+          t("mfaFailed")
         );
       }
 
@@ -120,6 +185,7 @@ const MFAVerify = () => {
       // MFA verification successful
       // --------------------------------------------------
       markMfaVerified();
+      setSuccess(true);
 
       // --------------------------------------------------
       // Remove temporary MFA login state
@@ -147,6 +213,11 @@ const MFAVerify = () => {
         );
       }
 
+      /* Short pause so the success state is visible before the route
+         changes — long enough to register, short enough not to drag. */
+      const go = (path) =>
+        setTimeout(() => navigate(path, { replace: true }), 550);
+
       // --------------------------------------------------
       // Admin
       // --------------------------------------------------
@@ -158,10 +229,7 @@ const MFAVerify = () => {
 
         localStorage.removeItem("userAuth");
 
-        navigate("/admin-dashboard", {
-          replace: true,
-        });
-
+        go("/admin-dashboard");
         return;
       }
 
@@ -190,13 +258,9 @@ const MFAVerify = () => {
         requestedPath !== "/mfa-setup" &&
         requestedPath !== "/mfa-verify"
       ) {
-        navigate(requestedPath, {
-          replace: true,
-        });
+        go(requestedPath);
       } else {
-        navigate("/user-dashboard", {
-          replace: true,
-        });
+        go("/user-dashboard");
       }
 
     } catch (error) {
@@ -211,15 +275,15 @@ const MFAVerify = () => {
       // --------------------------------------------------
       clearMfaSession();
 
-      let message =
-        "Invalid authenticator code.";
+      let message = t("mfaInvalidCode");
 
       if (error?.message) {
         message = error.message;
       }
 
-      setError(message);
+      flashError(message);
       setCode("");
+      inputRef.current?.focus();
 
     } finally {
       setLoading(false);
@@ -280,25 +344,27 @@ const MFAVerify = () => {
   };
 
   // --------------------------------------------------
+  // Ring geometry (r=34 → circumference ≈ 213.6)
+  // --------------------------------------------------
+  const RING_R = 34;
+  const RING_C = 2 * Math.PI * RING_R;
+  const ringOffset = RING_C * (1 - secondsLeft / TOTP_PERIOD);
+  const ringUrgent = secondsLeft <= 5;
+
+  // --------------------------------------------------
   // Authentication loading
   // --------------------------------------------------
   if (authChecking) {
     return (
-      <div className="mfa-verify-page">
-        <div className="mfa-verify-card">
-
-          <div className="mfa-icon">
-            🔐
+      <div className="mfav">
+        <div className="mfav__glow mfav__glow--a" />
+        <div className="mfav__glow mfav__glow--b" />
+        <div className="mfav__card mfav__card--checking">
+          <div className="mfav__badge mfav__badge--spin">
+            <ShieldIcon />
           </div>
-
-          <h1>
-            Checking Authentication
-          </h1>
-
-          <p className="mfa-description">
-            Please wait...
-          </p>
-
+          <h1 className="mfav__title">{t("mfaCheckingAuth")}</h1>
+          <p className="mfav__desc">{t("mfaPleaseWait")}</p>
         </div>
       </div>
     );
@@ -307,90 +373,120 @@ const MFAVerify = () => {
   // --------------------------------------------------
   // MFA Verification Page
   // --------------------------------------------------
+  const cells = Array.from({ length: CODE_LENGTH }, (_, i) => code[i] || "");
+  const activeIndex = Math.min(code.length, CODE_LENGTH - 1);
+
   return (
-    <div className="mfa-verify-page">
+    <div className="mfav">
+      <div className="mfav__glow mfav__glow--a" />
+      <div className="mfav__glow mfav__glow--b" />
+      <div className="mfav__grid" aria-hidden="true" />
 
-      <div className="mfa-verify-card">
+      <div className={`mfav__card ${shake ? "is-shaking" : ""} ${success ? "is-success" : ""}`}>
 
-        <div className="mfa-icon">
-          🔐
+        {/* ---------- shield + 30 s ring ---------- */}
+        <div className="mfav__hero">
+          <svg className="mfav__ring" viewBox="0 0 80 80" aria-hidden="true">
+            <circle className="mfav__ring-track" cx="40" cy="40" r={RING_R} />
+            <circle
+              className={`mfav__ring-fill ${ringUrgent ? "is-urgent" : ""}`}
+              cx="40" cy="40" r={RING_R}
+              strokeDasharray={RING_C}
+              strokeDashoffset={ringOffset}
+            />
+          </svg>
+          <div className={`mfav__badge ${success ? "is-success" : ""}`}>
+            {success ? <CheckIcon /> : <ShieldIcon />}
+          </div>
+          <span className={`mfav__timer ${ringUrgent ? "is-urgent" : ""}`} aria-live="polite">
+            {secondsLeft}s
+          </span>
         </div>
 
-        <h1>
-          Authenticator Verification
-        </h1>
+        <span className="mfav__eyebrow">{t("mfaEyebrow")}</span>
+        <h1 className="mfav__title">{t("mfaTitle")}</h1>
+        <p className="mfav__desc">{t("mfaDescription")}</p>
 
-        <p className="mfa-description">
-          Open your authenticator app and enter
-          the 6-digit verification code to
-          continue.
-        </p>
-
-        <form onSubmit={handleVerify}>
-
-          <label className="mfa-label">
-            Authenticator Code
+        <form onSubmit={handleVerify} className="mfav__form">
+          <label className="mfav__label" htmlFor="mfav-code">
+            {t("mfaCodeLabel")}
           </label>
 
-          <input
-            type="text"
-            inputMode="numeric"
-            autoComplete="one-time-code"
-            maxLength={6}
-            value={code}
-            disabled={loading}
-            autoFocus
-            placeholder="000000"
-            className="mfa-code-input"
-            onChange={(e) => {
-              const value =
-                e.target.value
-                  .replace(/\D/g, "")
-                  .slice(0, 6);
+          {/* One real input (keeps SMS/authenticator autofill working);
+              the six cells beneath are a pure visual of its value. */}
+          <div
+            className={`mfav__cells ${focused ? "is-focused" : ""} ${error ? "is-error" : ""}`}
+            onClick={() => inputRef.current?.focus()}
+          >
+            {cells.map((ch, i) => (
+              <span
+                key={i}
+                className={`mfav__cell ${ch ? "is-filled" : ""} ${focused && i === activeIndex && !success ? "is-active" : ""}`}
+                style={{ animationDelay: `${0.32 + i * 0.05}s` }}
+              >
+                {ch}
+              </span>
+            ))}
+            <input
+              id="mfav-code"
+              ref={inputRef}
+              className="mfav__input"
+              type="text"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              maxLength={CODE_LENGTH}
+              value={code}
+              disabled={loading || success}
+              autoFocus
+              aria-label={t("mfaCodeLabel")}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              onChange={(e) => {
+                const value = e.target.value.replace(/\D/g, "").slice(0, CODE_LENGTH);
+                setCode(value);
+                if (error) setError("");
+              }}
+              onPaste={(e) => {
+                e.preventDefault();
+                const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, CODE_LENGTH);
+                setCode(pasted);
+                if (error) setError("");
+              }}
+            />
+          </div>
 
-              setCode(value);
-
-              if (error) {
-                setError("");
-              }
-            }}
-          />
+          <p className="mfav__hint">{t("mfaCodeHint")}</p>
 
           {error && (
-            <div
-              className="mfa-error"
-              role="alert"
-            >
-              {error}
+            <div className="mfav__error" role="alert">
+              <AlertIcon />
+              <span>{error}</span>
             </div>
           )}
 
           <button
             type="submit"
-            className="mfa-verify-button"
-            disabled={
-              loading ||
-              code.length !== 6
-            }
+            className="mfav__submit"
+            disabled={loading || success || code.length !== CODE_LENGTH}
           >
-            {loading
-              ? "Verifying..."
-              : "Verify & Continue"}
+            {success
+              ? <><CheckIcon /> {t("mfaVerified")}</>
+              : loading
+                ? <><span className="mfav__spinner" /> {t("mfaVerifying")}</>
+                : t("mfaVerifyBtn")}
           </button>
-
         </form>
 
         <button
           type="button"
-          className="mfa-back-button"
+          className="mfav__back"
           onClick={handleBackToLogin}
-          disabled={loading}
+          disabled={loading || success}
         >
-          ← Back to Login
+          <ArrowLeftIcon />
+          {t("mfaBackToLogin")}
         </button>
-
       </div>
-
     </div>
   );
 };
