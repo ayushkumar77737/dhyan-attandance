@@ -45,6 +45,7 @@ import AdminLogs from "./pages/AdminLogs";
 import EditAdmin from "./pages/EditAdmin";
 import MyActivity from "./pages/MyActivity";
 import AccessControl from "./pages/AccessControl";
+import AccountLock from "./pages/AccountLock";
 import ContactMessages from "./pages/ContactMessages";
 import RequireAccess from "./components/RequireAccess";
 import MyAttendance from "./pages/MyAttendance";
@@ -231,6 +232,16 @@ function App() {
           element={
             <ProtectedRoute>
               <AccessControl />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Account Lock — super-admin gate is inside the component */}
+        <Route
+          path="/account-lock"
+          element={
+            <ProtectedRoute>
+              <AccountLock />
             </ProtectedRoute>
           }
         />

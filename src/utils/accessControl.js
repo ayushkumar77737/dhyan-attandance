@@ -26,6 +26,7 @@ export const CONTROLLABLE_PAGES = [
     { id: "idRequests", path: "/id-requests", labelKey: "idRequests" },
     { id: "contactSettings", path: "/contact-settings", labelKey: "contactSettings" },
     { id: "blockedAccounts", path: "/blocked-accounts", labelKey: "blockedAccounts.label" },
+    { id: "accountLock",     path: "/account-lock",     labelKey: "accountLock" },
     { id: "deletedUsers", path: "/deleted-users", labelKey: "deletedUsers" },
     { id: "contactMessages", path: "/contact-messages", labelKey: "contactMessages" },
 ];

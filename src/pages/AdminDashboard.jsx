@@ -202,6 +202,13 @@ const icons = {
       <path d="M7 11V7a5 5 0 0 1 10 0v4" />
     </svg>
   ),
+  lock: (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="11" width="18" height="11" rx="2.5" />
+    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    <circle cx="12" cy="16.5" r="1.3" fill="currentColor" stroke="none" />
+  </svg>
+),
   shield: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -872,6 +879,7 @@ function AdminDashboard() {
       : []),
     { path: "/contact-messages", icon: icons.mail, cls: "icon-indigo", label: t("contactMessages") || "Contact Messages" },
     { path: "/blocked-accounts", icon: icons.shield, cls: "icon-red", label: t("blockedAccounts.label") },
+    { path: "/account-lock", icon: icons.lock, cls: "icon-amber", label: t("accountLock") || "Account Lock" },
     { path: "/deleted-users", icon: icons.trash, cls: "icon-red", label: t("deletedUsers") },
   ];
 
