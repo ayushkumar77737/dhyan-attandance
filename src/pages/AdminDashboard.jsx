@@ -203,12 +203,25 @@ const icons = {
     </svg>
   ),
   lock: (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="11" width="18" height="11" rx="2.5" />
-    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-    <circle cx="12" cy="16.5" r="1.3" fill="currentColor" stroke="none" />
-  </svg>
-),
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2.5" />
+      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      <circle cx="12" cy="16.5" r="1.3" fill="currentColor" stroke="none" />
+    </svg>
+  ),
+  bug: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M8 2l1.9 2M16 2l-1.9 2" />
+      <rect x="7" y="7" width="10" height="13" rx="5" />
+      <path d="M12 7v13M3 13h4M17 13h4M4 19l3.5-2M20 19l-3.5-2M4 8l3.5 2M20 8l-3.5 2" />
+    </svg>
+  ),
+  flag: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 22V4a1 1 0 0 1 1-1h11.5l-1.5 4 1.5 4H5" />
+      <path d="M4 15h12" />
+    </svg>
+  ),
   shield: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -864,6 +877,9 @@ function AdminDashboard() {
     { path: "/leaves-request", icon: icons.leaveRequest, cls: "icon-coral", label: t("leavesRequest") },
     { path: "/notifications", icon: icons.bell, cls: "icon-amber", label: t("notifications") },
     { path: "/track-ticket", icon: icons.ticket, cls: "icon-coral", label: t("trackTicket") },
+    { path: "/user-issues", icon: icons.bug, cls: "icon-rose", label: t("userIssuesBugs") || "User Issues and Bugs" },
+    { path: "/admin-issues", icon: icons.bug, cls: "icon-purple", label: t("adminIssuesBugs") || "Admin Issues and Bugs" },
+    { path: "/report-issue", icon: icons.flag, cls: "icon-coral", label: t("reportIssue") || "Report an Issue" },
     { path: "/profile-registration", icon: icons.userCog, cls: "icon-blue", label: t("profileRegistration") },
     { path: "/toggle-status", icon: icons.toggleLeft, cls: "icon-green", label: t("toggleStatus") },
     { path: "/session-feedbacks", icon: icons.star, cls: "icon-pink", label: t("sessionFeedbacks") },

@@ -20,6 +20,7 @@ import DeletedUsers from "./pages/DeletedUsers";
 import SubmitReason from "./pages/SubmitReason";
 import MyRequests from "./pages/MyRequests";
 import AbsenceManagement from "./pages/AbsenceManagement";
+import ReportIssue from "./pages/ReportIssue";
 import Notifications from "./pages/Notifications";
 import MyNotifications from "./pages/MyNotifications";
 import TicketingSupport from "./pages/TicketingSupport";
@@ -242,6 +243,16 @@ function App() {
           element={
             <ProtectedRoute>
               <AccountLock />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Report an Issue — open to all admins, so no RequireAccess wrapper */}
+        <Route
+          path="/report-issue"
+          element={
+            <ProtectedRoute>
+              <ReportIssue />
             </ProtectedRoute>
           }
         />
