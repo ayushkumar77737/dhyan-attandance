@@ -47,6 +47,7 @@ import EditAdmin from "./pages/EditAdmin";
 import MyActivity from "./pages/MyActivity";
 import AccessControl from "./pages/AccessControl";
 import AccountLock from "./pages/AccountLock";
+import AdminIssues from "./pages/AdminIssues";
 import ContactMessages from "./pages/ContactMessages";
 import RequireAccess from "./components/RequireAccess";
 import MyAttendance from "./pages/MyAttendance";
@@ -407,6 +408,17 @@ function App() {
             <ProtectedRoute>
               <RequireAccess pageId="trackTicket">
                 <TrackTicket />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin-issues"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="adminIssues">
+                <AdminIssues />
               </RequireAccess>
             </ProtectedRoute>
           }
