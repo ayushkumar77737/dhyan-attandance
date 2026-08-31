@@ -224,8 +224,17 @@ function ReportIssue() {
     };
 
     /* ---------------- form handlers ---------------- */
+    /* Title and Area are words, not codes — digits are stripped on
+       every change (typed or pasted). Letters, spaces and punctuation
+       such as "Login / Attendance" still pass. */
+    const NO_DIGITS = new Set(["title", "area"]);
+    const blockDigitKey = (e) => {
+        if (/^[0-9]$/.test(e.key)) e.preventDefault();
+    };
+
     const setField = (k, v) => {
-        setForm((p) => ({ ...p, [k]: v }));
+        const clean = NO_DIGITS.has(k) ? v.replace(/[0-9]/g, "") : v;
+        setForm((p) => ({ ...p, [k]: clean }));
         if (errors[k]) setErrors((p) => ({ ...p, [k]: "" }));
     };
 
@@ -380,6 +389,7 @@ function ReportIssue() {
                             placeholder={t("riTitlePh")}
                             value={form.title}
                             onChange={(e) => setField("title", e.target.value)}
+                            onKeyDown={blockDigitKey}
                             autoFocus
                         />
                         {errors.title && <span className="ri__error">{errors.title}</span>}
@@ -417,6 +427,7 @@ function ReportIssue() {
                         placeholder={t("riAreaPh")}
                         value={form.area}
                         onChange={(e) => setField("area", e.target.value)}
+                        onKeyDown={blockDigitKey}
                     />
                 </div>
 

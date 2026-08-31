@@ -269,13 +269,30 @@
     animation: ri-rise 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.ri__card > .ri__row .ri__field:nth-child(1),
-.ri__card > .ri__field:nth-of-type(1) { animation-delay: 0.10s; }
-.ri__card > .ri__row .ri__field:nth-child(2) { animation-delay: 0.14s; }
-.ri__card > .ri__field:nth-of-type(2) { animation-delay: 0.18s; }
-.ri__card > .ri__field:nth-of-type(3) { animation-delay: 0.22s; }
-.ri__card > .ri__field:nth-of-type(4) { animation-delay: 0.26s; }
-.ri__card > .ri__field:nth-of-type(5) { animation-delay: 0.30s; }
+.ri__card>.ri__row .ri__field:nth-child(1),
+.ri__card>.ri__field:nth-of-type(1) {
+    animation-delay: 0.10s;
+}
+
+.ri__card>.ri__row .ri__field:nth-child(2) {
+    animation-delay: 0.14s;
+}
+
+.ri__card>.ri__field:nth-of-type(2) {
+    animation-delay: 0.18s;
+}
+
+.ri__card>.ri__field:nth-of-type(3) {
+    animation-delay: 0.22s;
+}
+
+.ri__card>.ri__field:nth-of-type(4) {
+    animation-delay: 0.26s;
+}
+
+.ri__card>.ri__field:nth-of-type(5) {
+    animation-delay: 0.30s;
+}
 
 .ri__label {
     display: flex;
@@ -397,10 +414,21 @@
     background: currentColor;
 }
 
-.ri__sev--low { color: var(--ri-sev-low); }
-.ri__sev--medium { color: var(--ri-sev-medium); }
-.ri__sev--high { color: var(--ri-sev-high); }
-.ri__sev--critical { color: var(--ri-sev-critical); }
+.ri__sev--low {
+    color: var(--ri-sev-low);
+}
+
+.ri__sev--medium {
+    color: var(--ri-sev-medium);
+}
+
+.ri__sev--high {
+    color: var(--ri-sev-high);
+}
+
+.ri__sev--critical {
+    color: var(--ri-sev-critical);
+}
 
 .ri__sev--low .ri__select,
 .ri__sev--medium .ri__select,
@@ -606,12 +634,29 @@
     display: block;
 }
 
-.ri__avatar--rose { background: #e11d48; }
-.ri__avatar--blue { background: #2563eb; }
-.ri__avatar--violet { background: #7c3aed; }
-.ri__avatar--teal { background: #0d9488; }
-.ri__avatar--amber { background: #d97706; }
-.ri__avatar--green { background: #16a34a; }
+.ri__avatar--rose {
+    background: #e11d48;
+}
+
+.ri__avatar--blue {
+    background: #2563eb;
+}
+
+.ri__avatar--violet {
+    background: #7c3aed;
+}
+
+.ri__avatar--teal {
+    background: #0d9488;
+}
+
+.ri__avatar--amber {
+    background: #d97706;
+}
+
+.ri__avatar--green {
+    background: #16a34a;
+}
 
 .ri__person-text {
     display: flex;
@@ -763,33 +808,73 @@
    KEYFRAMES
    ================================================================== */
 @keyframes ri-card-in {
-    from { opacity: 0; transform: translateY(14px) scale(0.985); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
+    from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 @keyframes ri-rise {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes ri-slide-left {
-    from { opacity: 0; transform: translateX(-12px); }
-    to   { opacity: 1; transform: translateX(0); }
+    from {
+        opacity: 0;
+        transform: translateX(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 @keyframes ri-drop {
-    from { opacity: 0; transform: translateY(-10px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes ri-pop {
-    0%   { opacity: 0; transform: scale(0.7); }
-    60%  { transform: scale(1.08); }
-    100% { opacity: 1; transform: scale(1); }
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 @keyframes ri-spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* ==================================================================
@@ -834,6 +919,7 @@
    REDUCED MOTION
    ================================================================== */
 @media (prefers-reduced-motion: reduce) {
+
     .ri__card,
     .ri__field,
     .ri__back,
@@ -871,7 +957,8 @@
 .ri__page[data-theme="light"] {
     --ri-bg: #eef1f7;
     --ri-card: #ffffff;
-    --ri-field: #f7f8fc;                 /* inputs sit *below* the card */
+    --ri-field: #f7f8fc;
+    /* inputs sit *below* the card */
     --ri-border: #e6e9f2;
     --ri-border-strong: #d6dbe8;
     --ri-text: #131b33;
@@ -1023,12 +1110,29 @@
 }
 
 /* avatars: slightly deeper so white initials clear contrast */
-.ri__page[data-theme="light"] .ri__avatar--rose { background: #db2777; }
-.ri__page[data-theme="light"] .ri__avatar--blue { background: #2563eb; }
-.ri__page[data-theme="light"] .ri__avatar--violet { background: #7c3aed; }
-.ri__page[data-theme="light"] .ri__avatar--teal { background: #0f766e; }
-.ri__page[data-theme="light"] .ri__avatar--amber { background: #c2410c; }
-.ri__page[data-theme="light"] .ri__avatar--green { background: #15803d; }
+.ri__page[data-theme="light"] .ri__avatar--rose {
+    background: #db2777;
+}
+
+.ri__page[data-theme="light"] .ri__avatar--blue {
+    background: #2563eb;
+}
+
+.ri__page[data-theme="light"] .ri__avatar--violet {
+    background: #7c3aed;
+}
+
+.ri__page[data-theme="light"] .ri__avatar--teal {
+    background: #0f766e;
+}
+
+.ri__page[data-theme="light"] .ri__avatar--amber {
+    background: #c2410c;
+}
+
+.ri__page[data-theme="light"] .ri__avatar--green {
+    background: #15803d;
+}
 
 .ri__page[data-theme="light"] .ri__person-check {
     border-color: #c9cfdd;
@@ -1075,4 +1179,107 @@
 /* ---- toast ---- */
 .ri__page[data-theme="light"] .ri__toast {
     box-shadow: 0 8px 24px rgba(20, 28, 64, 0.14);
+}
+
+/* ==================================================================
+   FULL-WIDTH LAYOUT
+   Two columns on desktop: text fields left, screenshots + assignees
+   right. Header and footer span both. Collapses back to one column
+   below 960px. Append to the END of ReportIssue.css.
+   ================================================================== */
+.ri__page {
+    padding: 88px 32px 60px;
+}
+
+.ri__card {
+    max-width: 1400px;
+    padding: 30px 36px 26px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    grid-template-areas:
+        "head   head"
+        "split  shots"
+        "area   assign"
+        "desc   assign"
+        "footer footer";
+    column-gap: 36px;
+    row-gap: 0;
+    align-items: start;
+}
+
+/* children in DOM order: head, row(split), area, desc, shots, assign, footer */
+.ri__card>.ri__head {
+    grid-area: head;
+}
+
+.ri__card>.ri__row--split {
+    grid-area: split;
+}
+
+.ri__card>.ri__field:nth-child(3) {
+    grid-area: area;
+}
+
+.ri__card>.ri__field:nth-child(4) {
+    grid-area: desc;
+}
+
+.ri__card>.ri__field:nth-child(5) {
+    grid-area: shots;
+}
+
+.ri__card>.ri__field:nth-child(6) {
+    grid-area: assign;
+}
+
+.ri__card>.ri__footer {
+    grid-area: footer;
+}
+
+/* the description gets the vertical room the right column has */
+.ri__card>.ri__field:nth-child(4) .ri__textarea {
+    min-height: 200px;
+}
+
+/* the assignee list can grow taller now that it has its own column */
+.ri__people {
+    max-height: 320px;
+}
+
+/* a faint divider between the two columns */
+.ri__card>.ri__field:nth-child(5),
+.ri__card>.ri__field:nth-child(6) {
+    padding-left: 36px;
+    border-left: 1px solid var(--ri-border);
+}
+
+.ri__card>.ri__field:nth-child(5) {
+    padding-top: 0;
+}
+
+/* ---- collapse to one column on narrower screens ---- */
+@media (max-width: 960px) {
+    .ri__page {
+        padding: 88px 20px 60px;
+    }
+
+    .ri__card {
+        max-width: 720px;
+        padding: 26px 28px 24px;
+        display: block;
+    }
+
+    .ri__card>.ri__field:nth-child(5),
+    .ri__card>.ri__field:nth-child(6) {
+        padding-left: 0;
+        border-left: none;
+    }
+
+    .ri__card>.ri__field:nth-child(4) .ri__textarea {
+        min-height: 92px;
+    }
+
+    .ri__people {
+        max-height: 212px;
+    }
 }
