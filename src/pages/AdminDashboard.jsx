@@ -16,6 +16,7 @@ import useAutoLogout from "../hooks/useAutoLogout";
 import { logLogout } from "../utils/logActivity";
 
 import logo from "../assets/logo2.png";
+import logo3 from "../assets/logo3.png";
 import favicon from "../assets/favicon.png";
 
 import { Pie, Line, Bar } from "react-chartjs-2";
@@ -971,8 +972,23 @@ function AdminDashboard() {
 
       {/* ============================= SIDEBAR ============================ */}
       <aside className="sidebar">
-        <div className="sidebar-brand">
-          <img src={logo} alt="Logo" className="sidebar-logo" />
+        <div className="sidebar-brand sidebar-brand--stacked">
+          <img src={logo} alt="Logo" className="brand-logo-top" />
+
+          <div className="brand-wordmark">
+            <span className="brand-top-line">
+              {t("sidebarTitleTop") || "Param Sant"}
+            </span>
+            <h2 className="brand-name">
+              {t("sidebarTitleName") || "Swami Jai Gurubande Ji Maharaj"}
+            </h2>
+            <span className="brand-rule" aria-hidden="true" />
+            <p className="brand-tagline">
+              {t("sidebarTagline") || "Jai Gurubande • Meditation & Spirituality"}
+            </p>
+          </div>
+
+          <img src={logo3} alt="Badge" className="brand-logo-badge" />
         </div>
 
         <nav className="sidebar-nav">

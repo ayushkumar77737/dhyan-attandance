@@ -1314,5 +1314,8 @@
   "aiLoadError": "Couldn't load issues",
   "aiExported": "CSV exported",
   "logIssueStatus": "Issue \"{{title}}\" marked {{status}}",
-  "logIssueDeleted": "Deleted issue \"{{title}}\""
+  "logIssueDeleted": "Deleted issue \"{{title}}\"",
+  "sidebarTitleTop": "Param Sant",
+  "sidebarTitleName": "Swami Jai Gurubande Ji Maharaj",
+  "sidebarTagline": "Jai Gurubande • Meditation & Spirituality"
 }

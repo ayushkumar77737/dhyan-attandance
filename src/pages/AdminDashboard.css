@@ -65,6 +65,7 @@
   --hero-hill: #14163a;
   --hero-figure: #05061a;
   --hero-star: #c7d2fe;
+  --brand-maroon: #e6aeb6;
 }
 
 /* ---- LIGHT ---- */
@@ -102,6 +103,7 @@
   --hero-hill: #6366f1;
   --hero-figure: #3730a3;
   --hero-star: #818cf8;
+  --brand-maroon: #8f2431;
 }
 
 /* ================================================================== */
@@ -143,14 +145,22 @@
   display: flex;
   flex-direction: column;
 
-  padding: 20px 14px;
+  padding: 14px 14px 16px;
 
   overflow-y: auto;
   overflow-x: hidden;
 
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
   -webkit-overflow-scrolling: touch;
 
   z-index: 100;
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none;
+  width: 0;
 }
 
 .sidebar-brand {
@@ -171,6 +181,93 @@
   flex-direction: column;
   gap: 4px;
   flex: 1;
+}
+
+/* ================================================================
+   STACKED SIDEBAR BRAND
+   ================================================================ */
+.sidebar-brand--stacked {
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 8px 18px;
+  text-align: center;
+}
+
+.brand-logo-top {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.brand-wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  min-width: 0;
+}
+
+.brand-top-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: var(--brand-maroon);
+  opacity: 0.85;
+}
+
+.brand-top-line::before,
+.brand-top-line::after {
+  content: '';
+  flex: 1;
+  max-width: 34px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.brand-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--brand-maroon);
+}
+
+.brand-rule {
+  width: 78%;
+  height: 4px;
+  border-top: 1px solid var(--brand-maroon);
+  border-bottom: 1px solid var(--brand-maroon);
+  opacity: 0.45;
+  margin: 2px 0 1px;
+}
+
+.brand-tagline {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: var(--ad-text-primary);
+  opacity: 0.85;
+}
+
+.brand-logo-badge {
+  width: 74px;
+  height: 74px;
+  object-fit: contain;
+  border-radius: 50%;
+  margin-top: 4px;
 }
 
 .side-link {
