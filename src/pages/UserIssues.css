@@ -675,13 +675,46 @@
     color: #fff;
 }
 
-.ui__avatar--rose { background: #e11d48; }
-.ui__avatar--blue { background: #2563eb; }
-.ui__avatar--violet { background: #7c3aed; }
-.ui__avatar--teal { background: #0d9488; }
-.ui__avatar--amber { background: #d97706; }
-.ui__avatar--green { background: #16a34a; }
-.ui__avatar--more { background: var(--ui-hover); color: var(--ui-muted); font-size: 11px; }
+.ui__avatar {
+    overflow: hidden;
+}
+
+.ui__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.ui__avatar--rose {
+    background: #e11d48;
+}
+
+.ui__avatar--blue {
+    background: #2563eb;
+}
+
+.ui__avatar--violet {
+    background: #7c3aed;
+}
+
+.ui__avatar--teal {
+    background: #0d9488;
+}
+
+.ui__avatar--amber {
+    background: #d97706;
+}
+
+.ui__avatar--green {
+    background: #16a34a;
+}
+
+.ui__avatar--more {
+    background: var(--ui-hover);
+    color: var(--ui-muted);
+    font-size: 11px;
+}
 
 /* ---- detail panel ---- */
 .ui__detail-backdrop {
@@ -1426,12 +1459,29 @@
 }
 
 /* ---- avatars: deeper so white initials clear contrast ---- */
-.ui__page[data-theme="light"] .ui__avatar--rose { background: #db2777; }
-.ui__page[data-theme="light"] .ui__avatar--blue { background: #2563eb; }
-.ui__page[data-theme="light"] .ui__avatar--violet { background: #7c3aed; }
-.ui__page[data-theme="light"] .ui__avatar--teal { background: #0f766e; }
-.ui__page[data-theme="light"] .ui__avatar--amber { background: #c2410c; }
-.ui__page[data-theme="light"] .ui__avatar--green { background: #15803d; }
+.ui__page[data-theme="light"] .ui__avatar--rose {
+    background: #db2777;
+}
+
+.ui__page[data-theme="light"] .ui__avatar--blue {
+    background: #2563eb;
+}
+
+.ui__page[data-theme="light"] .ui__avatar--violet {
+    background: #7c3aed;
+}
+
+.ui__page[data-theme="light"] .ui__avatar--teal {
+    background: #0f766e;
+}
+
+.ui__page[data-theme="light"] .ui__avatar--amber {
+    background: #c2410c;
+}
+
+.ui__page[data-theme="light"] .ui__avatar--green {
+    background: #15803d;
+}
 
 .ui__page[data-theme="light"] .ui__avatar--more {
     background: #e9ecf4;

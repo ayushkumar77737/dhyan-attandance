@@ -207,7 +207,12 @@ function RaiseConcern() {
                 if (!snap.exists()) { navigate("/"); return; }
                 const data = snap.data();
                 if (data.deleted === true || data.disabled === true) { navigate("/"); return; }
-                setMe({ id, name: data.name || id, role: data.role || "user" });
+                let photo = data.profileImage || data.photoURL || data.profileImageUrl || data.imageUrl || "";
+                try {
+                    const prof = await getDoc(doc(db, "profiles", id));
+                    if (prof.exists() && prof.data().profileImage) photo = prof.data().profileImage;
+                } catch (e) { /* profile is optional */ }
+                setMe({ id, name: data.name || id, role: data.role || "user", photo });
                 await Promise.all([loadMine(id), loadAdmins()]);
             } catch (e) {
                 console.error(e);
@@ -306,8 +311,11 @@ function RaiseConcern() {
             if (!f.type.startsWith("image/")) continue;
             if (f.size > MAX_FILE_MB * 1024 * 1024) {
                 showToast(
-                    t("rcFileTooLarge", { name: f.name, mb: MAX_FILE_MB }) ||
-                    `${f.name} is larger than ${MAX_FILE_MB} MB`,
+                    t("rcFileTooLarge", {
+                        defaultValue: `${f.name} is larger than ${MAX_FILE_MB} MB`,
+                        name: f.name,
+                        mb: MAX_FILE_MB,
+                    }),
                     "error"
                 );
                 continue;
@@ -322,10 +330,10 @@ function RaiseConcern() {
 
     const validate = () => {
         const e = {};
-        if (!form.title.trim()) e.title = t("rcTitleRequired") || "Please give your concern a short title.";
-        else if (form.title.trim().length < 5) e.title = t("rcTitleShort") || "Title should be at least 5 characters.";
-        if (!form.description.trim()) e.description = t("rcDescRequired") || "Please describe what happened.";
-        else if (form.description.trim().length < 20) e.description = t("rcDescShort") || "Add a little more detail (at least 20 characters).";
+        if (!form.title.trim()) e.title = t("rcTitleRequired", "Please give your concern a short title.");
+        else if (form.title.trim().length < 5) e.title = t("rcTitleShort", "Title should be at least 5 characters.");
+        if (!form.description.trim()) e.description = t("rcDescRequired", "Please describe what happened.");
+        else if (form.description.trim().length < 20) e.description = t("rcDescShort", "Add a little more detail (at least 20 characters).");
         setErrors(e);
         return Object.keys(e).length === 0;
     };
@@ -341,8 +349,11 @@ function RaiseConcern() {
             const urls = [];
             for (let i = 0; i < files.length; i++) {
                 setUploadNote(
-                    t("rcUploading", { n: i + 1, total: files.length }) ||
-                    `Uploading screenshot ${i + 1} of ${files.length}…`
+                    t("rcUploading", {
+                        defaultValue: `Uploading screenshot ${i + 1} of ${files.length}…`,
+                        n: i + 1,
+                        total: files.length,
+                    })
                 );
                 try {
                     urls.push(await uploadScreenshot(files[i]));
@@ -368,16 +379,17 @@ function RaiseConcern() {
                 reporterType: "user",
                 reporterId: me.id,
                 reporterName: me.name,
+                reporterPhoto: me.photo || "",
                 createdAt: serverTimestamp(),
                 updatedAt: serverTimestamp(),
             });
 
             setDone(true);
-            showToast(t("rcSubmitted") || "Concern sent. We'll get back to you.", "success");
+            showToast(t("rcSubmitted", "Concern sent. We'll get back to you."), "success");
             setTimeout(() => navigate("/user-dashboard"), 1200);
         } catch (err) {
             console.error(err);
-            showToast(t("rcSubmitFailed") || "Couldn't send your concern. Please try again.", "error");
+            showToast(t("rcSubmitFailed", "Couldn't send your concern. Please try again."), "error");
         } finally {
             setSubmitting(false);
             setUploadNote("");
@@ -393,7 +405,7 @@ function RaiseConcern() {
             <div className="rc__glow rc__glow--b" />
 
             <button className="rc__back" onClick={() => navigate("/user-dashboard")}>
-                {I.back} {t("back") || "Back"}
+                {I.back} {t("back", "Back")}
             </button>
 
             {toast.text && (
@@ -410,9 +422,9 @@ function RaiseConcern() {
                     <div className="rc__head-left">
                         <span className="rc__head-icon">{I.concern}</span>
                         <div>
-                            <h1 className="rc__title">{t("rcTitle") || "Raise a Concern"}</h1>
+                            <h1 className="rc__title">{t("rcTitle", "Raise a Concern")}</h1>
                             <p className="rc__sub">
-                                {t("rcSub") || "Tell us what's troubling you. The admin team reads every concern."}
+                                {t("rcSub", "Tell us what's troubling you. The admin team reads every concern.")}
                             </p>
                         </div>
                     </div>
@@ -420,7 +432,7 @@ function RaiseConcern() {
                         type="button"
                         className="rc__close"
                         onClick={() => navigate("/user-dashboard")}
-                        aria-label={t("cancel") || "Cancel"}
+                        aria-label={t("cancel", "Cancel")}
                     >
                         {I.close}
                     </button>
@@ -430,7 +442,7 @@ function RaiseConcern() {
                 <div className="rc__row rc__row--split">
                     <div className="rc__field">
                         <label className="rc__label" htmlFor="rc-title">
-                            {t("rcFieldTitle") || "What is it about?"}<span className="rc__req">*</span>
+                            {t("rcFieldTitle", "What is it about?")}<span className="rc__req">*</span>
                             <span className="rc__count">{titleLen}/120</span>
                         </label>
                         <input
@@ -439,7 +451,7 @@ function RaiseConcern() {
                             type="text"
                             maxLength={120}
                             autoComplete="off"
-                            placeholder={t("rcTitlePh") || "e.g. My attendance for last Sunday is missing"}
+                            placeholder={t("rcTitlePh", "e.g. My attendance for last Sunday is missing")}
                             value={form.title}
                             onChange={(e) => setField("title", e.target.value)}
                             autoFocus
@@ -448,7 +460,7 @@ function RaiseConcern() {
                     </div>
 
                     <div className="rc__field rc__field--pri">
-                        <label className="rc__label" htmlFor="rc-pri">{t("rcPriority") || "How urgent?"}</label>
+                        <label className="rc__label" htmlFor="rc-pri">{t("rcPriority", "How urgent?")}</label>
                         <div className={`rc__select-wrap rc__pri--${form.priority}`}>
                             <span className="rc__pri-dot" />
                             <select
@@ -458,7 +470,7 @@ function RaiseConcern() {
                                 onChange={(e) => setField("priority", e.target.value)}
                             >
                                 {PRIORITIES.map((p) => (
-                                    <option key={p} value={p}>{t(`rcPri_${p}`) || p.charAt(0).toUpperCase() + p.slice(1)}</option>
+                                    <option key={p} value={p}>{t(`rcPri_${p}`, p.charAt(0).toUpperCase() + p.slice(1))}</option>
                                 ))}
                             </select>
                         </div>
@@ -467,7 +479,7 @@ function RaiseConcern() {
 
                 {/* ---------- category ---------- */}
                 <div className="rc__field rc__field--category">
-                    <label className="rc__label">{t("rcCategory") || "Category"}</label>
+                    <label className="rc__label">{t("rcCategory", "Category")}</label>
                     <div className="rc__chips" role="radiogroup">
                         {CATEGORIES.map((c) => {
                             const on = form.category === c;
@@ -480,7 +492,7 @@ function RaiseConcern() {
                                     className={`rc__chip ${on ? "is-on" : ""}`}
                                     onClick={() => setField("category", c)}
                                 >
-                                    {t(`rcCat_${c}`) || c.charAt(0).toUpperCase() + c.slice(1)}
+                                    {t(`rcCat_${c}`, c.charAt(0).toUpperCase() + c.slice(1))}
                                 </button>
                             );
                         })}
@@ -490,7 +502,7 @@ function RaiseConcern() {
                 {/* ---------- description ---------- */}
                 <div className="rc__field rc__field--desc">
                     <label className="rc__label" htmlFor="rc-desc">
-                        {t("rcDesc") || "Tell us more"}<span className="rc__req">*</span>
+                        {t("rcDesc", "Tell us more")}<span className="rc__req">*</span>
                         <span className="rc__count">{descLen}/4000</span>
                     </label>
                     <textarea
@@ -498,7 +510,7 @@ function RaiseConcern() {
                         className={`rc__textarea ${errors.description ? "is-error" : ""}`}
                         maxLength={4000}
                         rows={5}
-                        placeholder={t("rcDescPh") || "What happened, when, and what would help resolve it?"}
+                        placeholder={t("rcDescPh", "What happened, when, and what would help resolve it?")}
                         value={form.description}
                         onChange={(e) => setField("description", e.target.value)}
                     />
@@ -508,7 +520,7 @@ function RaiseConcern() {
                 {/* ---------- screenshots ---------- */}
                 <div className="rc__field rc__field--shots">
                     <label className="rc__label rc__label--icon">
-                        {I.clip} {t("rcScreenshots") || "Screenshots"} <span className="rc__opt">({t("rcOptional") || "optional"})</span>
+                        {I.clip} {t("rcScreenshots", "Screenshots")} <span className="rc__opt">({t("rcOptional", "optional")})</span>
                     </label>
                     <div className="rc__files">
                         <button
@@ -517,12 +529,12 @@ function RaiseConcern() {
                             onClick={() => fileRef.current?.click()}
                             disabled={files.length >= MAX_FILES}
                         >
-                            {t("rcChooseFiles") || "Choose images"}
+                            {t("rcChooseFiles", "Choose images")}
                         </button>
                         <span className="rc__file-hint">
                             {files.length === 0
-                                ? (t("rcNoFile") || `Up to ${MAX_FILES} images, ${MAX_FILE_MB} MB each`)
-                                : (t("rcFilesChosen", { count: files.length, max: MAX_FILES }) || `${files.length} of ${MAX_FILES} selected`)}
+                                ? t("rcNoFile", `Up to ${MAX_FILES} images, ${MAX_FILE_MB} MB each`)
+                                : t("rcFilesChosen", { defaultValue: `${files.length} of ${MAX_FILES} selected`, count: files.length, max: MAX_FILES })}
                         </span>
                         <input
                             ref={fileRef}
@@ -543,7 +555,7 @@ function RaiseConcern() {
                                         type="button"
                                         className="rc__thumb-x"
                                         onClick={() => removeFile(i)}
-                                        aria-label={t("rcRemove") || "Remove"}
+                                        aria-label={t("rcRemove", "Remove")}
                                     >
                                         {I.close}
                                     </button>
@@ -556,7 +568,7 @@ function RaiseConcern() {
                 {/* ---------- assign to ---------- */}
                 <div className="rc__field rc__field--assign">
                     <label className="rc__label rc__label--icon">
-                        {I.users} {t("rcAssignTo") || "Send to"} <span className="rc__opt">({t("rcOptional") || "optional"})</span>
+                        {I.users} {t("rcAssignTo", "Send to")} <span className="rc__opt">({t("rcOptional", "optional")})</span>
                         {assignees.length > 0 && (
                             <span className="rc__count rc__count--chip">{assignees.length}</span>
                         )}
@@ -566,7 +578,7 @@ function RaiseConcern() {
                         <span className="rc__assign-search-ico">{I.search}</span>
                         <input
                             type="text"
-                            placeholder={t("rcSearchPeople") || "Search admins by name or ID"}
+                            placeholder={t("rcSearchPeople", "Search admins by name or ID")}
                             value={assignSearch}
                             autoComplete="off"
                             onChange={(e) => setAssignSearch(e.target.value)}
@@ -575,9 +587,9 @@ function RaiseConcern() {
 
                     <div className="rc__people" role="listbox" aria-multiselectable="true">
                         {loadingAdmins ? (
-                            <div className="rc__people-empty">{t("loading") || "Loading…"}</div>
+                            <div className="rc__people-empty">{t("loading", "Loading…")}</div>
                         ) : visibleAdmins.length === 0 ? (
-                            <div className="rc__people-empty">{t("rcNoPeople") || "No admins match that search."}</div>
+                            <div className="rc__people-empty">{t("rcNoPeople", "No admins match that search.")}</div>
                         ) : (
                             visibleAdmins.map((a) => {
                                 const on = assignees.includes(a.id);
@@ -602,23 +614,23 @@ function RaiseConcern() {
                         )}
                     </div>
                     <span className="rc__assign-hint">
-                        {t("rcAssignHint") || "Leave empty and the whole admin team will see it."}
+                        {t("rcAssignHint", "Leave empty and the whole admin team will see it.")}
                     </span>
                 </div>
 
                 {/* ---------- my recent concerns ---------- */}
                 <div className="rc__field rc__field--mine">
                     <label className="rc__label rc__label--icon">
-                        {I.history} {t("rcMyConcerns") || "Your recent concerns"}
+                        {I.history} {t("rcMyConcerns", "Your recent concerns")}
                         {mine.length > 0 && <span className="rc__count rc__count--chip">{mine.length}</span>}
                     </label>
 
                     <div className="rc__mine">
                         {loadingMine ? (
-                            <div className="rc__mine-empty">{t("loading") || "Loading…"}</div>
+                            <div className="rc__mine-empty">{t("loading", "Loading…")}</div>
                         ) : mine.length === 0 ? (
                             <div className="rc__mine-empty">
-                                {t("rcNoneYet") || "Nothing raised yet. Whatever you send here shows up in this list."}
+                                {t("rcNoneYet", "Nothing raised yet. Whatever you send here shows up in this list.")}
                             </div>
                         ) : (
                             mine.map((c) => (
@@ -629,7 +641,7 @@ function RaiseConcern() {
                                     <span className="rc__mine-text">
                                         <span className="rc__mine-title">{c.title}</span>
                                         <span className="rc__mine-meta">
-                                            {t(`rcCat_${c.category}`) || c.category}
+                                            {t(`rcCat_${c.category}`, c.category)}
                                             {c.createdMs
                                                 ? ` · ${new Date(c.createdMs).toLocaleDateString(i18n.language || undefined)}`
                                                 : ""}
@@ -643,7 +655,7 @@ function RaiseConcern() {
                     <div className="rc__note">
                         {I.shield}
                         <span>
-                            {t("rcPrivacyNote") || "Only the admin team can see your concern. Your name and ID are attached so they can follow up with you."}
+                            {t("rcPrivacyNote", "Only the admin team can see your concern. Your name and ID are attached so they can follow up with you.")}
                         </span>
                     </div>
                 </div>
@@ -657,7 +669,7 @@ function RaiseConcern() {
                         onClick={() => navigate("/user-dashboard")}
                         disabled={submitting}
                     >
-                        {t("cancel") || "Cancel"}
+                        {t("cancel", "Cancel")}
                     </button>
                     <button
                         type="submit"
@@ -665,10 +677,10 @@ function RaiseConcern() {
                         disabled={submitting || done || !me}
                     >
                         {done
-                            ? <>{I.check} {t("rcSent") || "Sent"}</>
+                            ? <>{I.check} {t("rcSent", "Sent")}</>
                             : submitting
-                                ? <><span className="rc__spin" /> {t("rcSending") || "Sending…"}</>
-                                : <>{I.send} {t("rcSend") || "Send concern"}</>}
+                                ? <><span className="rc__spin" /> {t("rcSending", "Sending…")}</>
+                                : <>{I.send} {t("rcSend", "Send concern")}</>}
                     </button>
                 </div>
             </form>

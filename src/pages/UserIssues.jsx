@@ -48,6 +48,41 @@ const toneFor = (s = "") => {
     return AVATAR_TONES[h % AVATAR_TONES.length];
 };
 
+/* Same public_id formula as utils/cloudinaryUpload.js — used as the
+   last-resort guess when neither `profiles` nor `users` has a URL. */
+const CLOUD_NAME = "dgvjq9bhl";
+const getProfileImageUrl = (employeeId, name = "", size = 96) => {
+    if (!employeeId || !name) return "";
+    const publicId = `${employeeId}_${name.replace(/\s+/g, "_")}`;
+    const transforms = ["c_fill", "g_face", `w_${size}`, `h_${size}`, "r_max", "q_auto", "f_auto"].join(",");
+    return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${transforms}/${publicId}`;
+};
+
+/* Look up profile photos for a set of user IDs:
+   profiles/{id}.profileImage → users/{id}.(profileImage|photoURL|…) → Cloudinary guess */
+const fetchPhotos = async (ids, names = {}) => {
+    const out = {};
+    await Promise.all(
+        [...new Set(ids.filter(Boolean))].map(async (id) => {
+            try {
+                const p = await getDoc(doc(db, "profiles", id));
+                if (p.exists() && p.data().profileImage) { out[id] = p.data().profileImage; return; }
+            } catch (e) { /* fall through */ }
+            try {
+                const u = await getDoc(doc(db, "users", id));
+                if (u.exists()) {
+                    const d = u.data();
+                    const stored = d.profileImage || d.photoURL || d.profileImageUrl || d.imageUrl;
+                    out[id] = stored || getProfileImageUrl(id, d.name || names[id] || "");
+                    return;
+                }
+            } catch (e) { /* fall through */ }
+            out[id] = getProfileImageUrl(id, names[id] || "");
+        })
+    );
+    return out;
+};
+
 const relTime = (ms, lang) => {
     if (!ms) return "";
     const diff = Date.now() - ms;
@@ -82,10 +117,15 @@ const I = {
     refresh: (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></svg>),
 };
 
-function Avatar({ name }) {
+/* Photo if we have one, coloured initial otherwise. */
+function Avatar({ name, src }) {
+    const [ok, setOk] = useState(Boolean(src));
+    useEffect(() => setOk(Boolean(src)), [src]);
     return (
         <span className={`ui__avatar ui__avatar--${toneFor(name)}`} title={name}>
-            {(name || "?").charAt(0).toUpperCase()}
+            {ok ? (
+                <img src={src} alt={name} loading="lazy" onError={() => setOk(false)} />
+            ) : (name || "?").charAt(0).toUpperCase()}
         </span>
     );
 }
@@ -99,6 +139,7 @@ function UserIssues() {
 
     const [me, setMe] = useState(null);
     const [items, setItems] = useState([]);
+    const [photos, setPhotos] = useState({});
     const [loading, setLoading] = useState(true);
 
     const [search, setSearch] = useState("");
@@ -166,6 +207,7 @@ function UserIssues() {
                     assignedIds: Array.isArray(c.assignedIds) ? c.assignedIds : [],
                     reporterId: c.reporterId || "",
                     reporterName: c.reporterName || c.reporterId || "",
+                    reporterPhoto: c.reporterPhoto || "",
                     adminNote: c.adminNote || "",
                     resolvedBy: c.resolvedBy || "",
                     createdMs: toMs(c.createdAt),
@@ -174,6 +216,15 @@ function UserIssues() {
             });
             list.sort((a, b) => b.createdMs - a.createdMs);
             setItems(list);
+
+            /* photos: reporters without a stored photo + every assignee */
+            const names = {};
+            const ids = [];
+            list.forEach((c) => {
+                if (!c.reporterPhoto) { ids.push(c.reporterId); names[c.reporterId] = c.reporterName; }
+                c.assignedTo.forEach((a) => { ids.push(a.id); names[a.id] = a.name; });
+            });
+            if (ids.length) setPhotos(await fetchPhotos(ids, names));
         } catch (e) {
             console.error(e);
             showToast(t("uiLoadFailed"), "error");
@@ -325,6 +376,7 @@ function UserIssues() {
         }
     };
 
+    const photoFor = (id, stored = "") => stored || photos[id] || "";
     const catLabel = (c) => t(`rcCat_${c}`);
     const priLabel = (p) => t(`rcPri_${p}`);
 
@@ -455,7 +507,7 @@ function UserIssues() {
                                         </span>
                                     </span>
                                     <span className="ui__row-people">
-                                        {it.assignedTo.slice(0, 3).map((a) => <Avatar key={a.id} name={a.name} />)}
+                                        {it.assignedTo.slice(0, 3).map((a) => <Avatar key={a.id} name={a.name} src={photoFor(a.id)} />)}
                                         {it.assignedTo.length > 3 && <span className="ui__avatar ui__avatar--more">+{it.assignedTo.length - 3}</span>}
                                     </span>
                                 </button>
@@ -483,7 +535,7 @@ function UserIssues() {
                                 </div>
 
                                 <div className="ui__reporter">
-                                    <Avatar name={selected.reporterName} />
+                                    <Avatar name={selected.reporterName} src={photoFor(selected.reporterId, selected.reporterPhoto)} />
                                     <span className="ui__reporter-text">
                                         <span className="ui__reporter-name">{selected.reporterName}</span>
                                         <span className="ui__reporter-meta">
@@ -514,7 +566,7 @@ function UserIssues() {
                                             ? <span className="ui__muted">{t("uiUnassignedYet")}</span>
                                             : selected.assignedTo.map((a) => (
                                                 <span className="ui__chip" key={a.id}>
-                                                    <Avatar name={a.name} /> {a.name}
+                                                    <Avatar name={a.name} src={photoFor(a.id)} /> {a.name}
                                                     {a.id === currentUserId && <em>{t("you")}</em>}
                                                 </span>
                                             ))}
