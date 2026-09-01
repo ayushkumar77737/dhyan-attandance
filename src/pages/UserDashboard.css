@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&family=Syne:wght@700;800&display=swap');
 
 :root {
   --bg: #080f1a;
@@ -23,6 +23,7 @@
   --font-body: 'Plus Jakarta Sans', sans-serif;
   --radius: 16px;
   --ud-ring-track: rgba(255, 255, 255, 0.07);
+  --ud-brand-maroon: #e6aeb6;
 }
 
 .ud-container {
@@ -1601,6 +1602,7 @@
   --card-bg: rgba(15, 23, 42, 0.03);
   --card-border: rgba(15, 23, 42, 0.10);
   --ud-ring-track: rgba(15, 23, 42, 0.08);
+  --ud-brand-maroon: #8f2431;
 }
 
 /* surfaces that use hardcoded dark values need explicit light overrides */
@@ -1863,6 +1865,104 @@
   font-size: 20px;
   cursor: pointer;
   line-height: 1;
+}
+
+/* ================================================================
+   STACKED SIDEBAR BRAND — identical to AdminDashboard
+   ================================================================ */
+.ud-sidebar-header--brand {
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 8px 18px;
+  text-align: center;
+  font-family: 'Outfit', sans-serif;
+}
+
+.ud-sidebar-header--brand .ud-sidebar-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  margin-left: 0;
+}
+
+.ud-brand-logo-top {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.ud-brand-wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  min-width: 0;
+}
+
+.ud-brand-top-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  justify-content: center;
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: var(--ud-brand-maroon);
+  opacity: 0.85;
+}
+
+.ud-brand-top-line::before,
+.ud-brand-top-line::after {
+  content: '';
+  flex: 1;
+  max-width: 34px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.ud-brand-name {
+  margin: 0;
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--ud-brand-maroon);
+}
+
+.ud-brand-rule {
+  width: 78%;
+  height: 4px;
+  border-top: 1px solid var(--ud-brand-maroon);
+  border-bottom: 1px solid var(--ud-brand-maroon);
+  opacity: 0.45;
+  margin: 2px 0 1px;
+}
+
+.ud-brand-tagline {
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: var(--text-primary);
+  opacity: 0.85;
+}
+
+.ud-brand-logo-badge {
+  width: 74px;
+  height: 74px;
+  object-fit: contain;
+  border-radius: 50%;
+  margin-top: 4px;
 }
 
 .ud-nav {

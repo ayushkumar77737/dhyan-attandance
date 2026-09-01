@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import useAutoLogout from "../hooks/useAutoLogout";
 import { useTranslation } from "react-i18next";
 import logo from "../assets/logo2.png";
+import logo3 from "../assets/logo3.png";
 
 /* Per-language sidebar banners: public/banners/sidebar-<langCode>.png
    e.g. public/banners/sidebar-en.png, public/banners/sidebar-hi.png
@@ -483,10 +484,25 @@ function UserDashboard() {
 
         {/* ============================ SIDEBAR ============================ */}
         <aside className="ud-sidebar">
-          <div className="ud-sidebar-header">
-            <img src={logo} alt="Logo" className="ud-sidebar-logo" />
-            <span className="ud-sidebar-title">{t("attendancePortal") || "Attendance Portal"}</span>
+          <div className="ud-sidebar-header ud-sidebar-header--brand">
             <button className="ud-sidebar-close" onClick={() => setSidebarOpen(false)} aria-label="Close menu">✕</button>
+
+            <img src={logo} alt="Logo" className="ud-brand-logo-top" />
+
+            <div className="ud-brand-wordmark">
+              <span className="ud-brand-top-line">
+                {t("sidebarTitleTop") || "Param Sant"}
+              </span>
+              <h2 className="ud-brand-name">
+                {t("sidebarTitleName") || "Swami Jai Gurubande Ji Maharaj"}
+              </h2>
+              <span className="ud-brand-rule" aria-hidden="true" />
+              <p className="ud-brand-tagline">
+                {t("sidebarTagline") || "Jai Gurubande • Meditation & Spirituality"}
+              </p>
+            </div>
+
+            <img src={logo3} alt="Badge" className="ud-brand-logo-badge" />
           </div>
 
           <nav className="ud-nav">
