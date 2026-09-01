@@ -48,9 +48,11 @@ import MyActivity from "./pages/MyActivity";
 import AccessControl from "./pages/AccessControl";
 import AccountLock from "./pages/AccountLock";
 import AdminIssues from "./pages/AdminIssues";
+import UserIssues from "./pages/UserIssues";
 import ContactMessages from "./pages/ContactMessages";
 import RequireAccess from "./components/RequireAccess";
 import MyAttendance from "./pages/MyAttendance";
+import RaiseConcern from "./pages/RaiseConcern";
 import ApplyLeave from "./pages/ApplyLeave";
 import LeaveRequests from "./pages/LeaveRequests";
 import About from "./pages/About";
@@ -212,6 +214,15 @@ function App() {
           element={
             <ProtectedRoute>
               <Directory />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/raise-concern"
+          element={
+            <ProtectedRoute>
+              <RaiseConcern />
             </ProtectedRoute>
           }
         />
@@ -419,6 +430,17 @@ function App() {
             <ProtectedRoute>
               <RequireAccess pageId="adminIssues">
                 <AdminIssues />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/user-issues"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="userIssues">
+                <UserIssues />
               </RequireAccess>
             </ProtectedRoute>
           }
