@@ -445,7 +445,7 @@ function UserIssues() {
                             placeholder={t("uiSearchPh")}
                             value={search}
                             autoComplete="off"
-                            onChange={(e) => setSearch(e.target.value.replace(/[<>]/g, ""))}
+                            onChange={(e) => setSearch(e.target.value.replace(/[^a-zA-Z0-9\s]/g, ""))}
                         />
                         {search && <button className="ui__search-x" onClick={() => setSearch("")}>{I.close}</button>}
                     </div>
