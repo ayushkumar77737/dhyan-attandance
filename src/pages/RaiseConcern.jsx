@@ -453,7 +453,7 @@ function RaiseConcern() {
                             autoComplete="off"
                             placeholder={t("rcTitlePh", "e.g. My attendance for last Sunday is missing")}
                             value={form.title}
-                            onChange={(e) => setField("title", e.target.value)}
+                            onChange={(e) => setField("title", e.target.value.replace(/[^a-zA-Z0-9\s]/g, ""))}
                             autoFocus
                         />
                         {errors.title && <span className="rc__error">{errors.title}</span>}
@@ -576,13 +576,16 @@ function RaiseConcern() {
 
                     <div className="rc__assign-search">
                         <span className="rc__assign-search-ico">{I.search}</span>
-                        <input
-                            type="text"
-                            placeholder={t("rcSearchPeople", "Search admins by name or ID")}
-                            value={assignSearch}
-                            autoComplete="off"
-                            onChange={(e) => setAssignSearch(e.target.value)}
-                        />
+                        <div className="rc__assign-search">
+                            <span className="rc__assign-search-ico">{I.search}</span>
+                            <input
+                                type="text"
+                                placeholder={t("rcSearchPeople", "Search admins by name or ID")}
+                                value={assignSearch}
+                                autoComplete="off"
+                                onChange={(e) => setAssignSearch(e.target.value.replace(/[^a-zA-Z0-9\s]/g, ""))}
+                            />
+                        </div>
                     </div>
 
                     <div className="rc__people" role="listbox" aria-multiselectable="true">
