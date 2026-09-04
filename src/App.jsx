@@ -34,7 +34,6 @@ import AllProfiles from "./pages/AllProfiles";
 import ActivityLogs from "./pages/ActivityLogs";
 import UserActivities from "./pages/UserActivities";
 import GetId from "./pages/GetId";
-import IdRequests from "./pages/IdRequests";
 import SmartAttendance from "./pages/SmartAttendance";
 import ShowQR from "./pages/ShowQR";
 import ContactSettings from "./pages/ContactSettings";
@@ -507,17 +506,6 @@ function App() {
             <ProtectedRoute>
               <RequireAccess pageId="userActivities">
                 <UserActivities />
-              </RequireAccess>
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/id-requests"
-          element={
-            <ProtectedRoute>
-              <RequireAccess pageId="idRequests">
-                <IdRequests />
               </RequireAccess>
             </ProtectedRoute>
           }

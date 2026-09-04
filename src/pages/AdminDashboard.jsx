@@ -888,7 +888,7 @@ function AdminDashboard() {
     { path: "/activity-logs", icon: icons.activity, cls: "icon-cyan", label: t("activityLogs") },
     { path: "/user-activities", icon: icons.activity, cls: "icon-cyan", label: t("userActivities") },
     { path: "/admin-logs", icon: icons.adminLog, cls: "icon-purple", label: t("adminLogs") },
-    { path: "/id-requests", icon: icons.idCard, cls: "icon-lime", label: t("idRequests") },
+    { path: "/id-registration", icon: icons.idCard, cls: "icon-teal", label: t("idRegistration") || "Id Registration" },
     { path: "/contact-settings", icon: icons.settings, cls: "icon-gray", label: t("contactSettings") },
     { path: "myaccount", icon: icons.userCog, cls: "icon-blue", label: t("myAccount"), action: async () => { if (!adminInfo) await fetchAdminInfo(); setShowAccount(true); }, skipAccess: true },
     ...(isSuperAdmin
