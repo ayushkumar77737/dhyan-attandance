@@ -33,7 +33,6 @@ import SessionFeedbacks from "./pages/SessionFeedbacks";
 import AllProfiles from "./pages/AllProfiles";
 import ActivityLogs from "./pages/ActivityLogs";
 import UserActivities from "./pages/UserActivities";
-import GetId from "./pages/GetId";
 import SmartAttendance from "./pages/SmartAttendance";
 import ShowQR from "./pages/ShowQR";
 import ContactSettings from "./pages/ContactSettings";
@@ -42,6 +41,7 @@ import BlockedAccounts from "./pages/BlockedAccounts";
 import Directory from "./pages/Directory";
 import AddAdmin from "./pages/AddAdmin";
 import AdminLogs from "./pages/AdminLogs";
+import IdRegistration from "./pages/IdRegistration";
 import EditAdmin from "./pages/EditAdmin";
 import MyActivity from "./pages/MyActivity";
 import AccessControl from "./pages/AccessControl";
@@ -544,6 +544,17 @@ function App() {
           }
         />
 
+        <Route
+          path="/id-registration"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="idRegistration">
+                <IdRegistration />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
         {/* Edit pages — reached only from within gated pages, left ungated */}
         <Route
           path="/edit-user/:id"
@@ -565,7 +576,6 @@ function App() {
 
         {/* Public auth helpers */}
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/get-id" element={<GetId />} />
       </Routes>
     </BrowserRouter>
   );

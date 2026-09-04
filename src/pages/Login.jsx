@@ -440,10 +440,6 @@ return;
               </div>
             </div>
 
-            <p className="new-user-link" onClick={() => navigate("/get-id")}>
-              {t("getId")} →
-            </p>
-
           </div>
 
           {/* ----------------------- RIGHT ----------------------- */}
