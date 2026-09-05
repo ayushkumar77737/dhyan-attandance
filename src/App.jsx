@@ -42,6 +42,7 @@ import Directory from "./pages/Directory";
 import AddAdmin from "./pages/AddAdmin";
 import AdminLogs from "./pages/AdminLogs";
 import IdRegistration from "./pages/IdRegistration";
+import IdVerification from "./pages/IdVerification";
 import EditAdmin from "./pages/EditAdmin";
 import MyActivity from "./pages/MyActivity";
 import AccessControl from "./pages/AccessControl";
@@ -259,11 +260,14 @@ function App() {
         />
 
         {/* Report an Issue — open to all admins, so no RequireAccess wrapper */}
+                {/* Report an Issue */}
         <Route
           path="/report-issue"
           element={
             <ProtectedRoute>
-              <ReportIssue />
+              <RequireAccess pageId="reportIssue">
+                <ReportIssue />
+              </RequireAccess>
             </ProtectedRoute>
           }
         />
@@ -550,6 +554,17 @@ function App() {
             <ProtectedRoute>
               <RequireAccess pageId="idRegistration">
                 <IdRegistration />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/id-verification"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="idVerification">
+                <IdVerification />
               </RequireAccess>
             </ProtectedRoute>
           }

@@ -147,9 +147,27 @@ function IdRegistration() {
         if (errors.mobile) setErrors((p) => ({ ...p, mobile: "" }));
     };
 
-    const onUtr = (e) => {
-        setUtr(e.target.value.replace(/\D/g, "").slice(0, 12));
+    /* UTR input — digits only + live duplicate check at 12 digits */
+    const onUtr = async (e) => {
+        const v = e.target.value.replace(/\D/g, "").slice(0, 12);
+        setUtr(v);
         if (errors.utr) setErrors((p) => ({ ...p, utr: "" }));
+
+        if (v.length === 12) {
+            try {
+                const dupSnap = await getDocs(
+                    query(collection(db, "idRegistrations"), where("utrNumber", "==", v))
+                );
+                if (!dupSnap.empty) {
+                    setErrors((p) => ({
+                        ...p,
+                        utr: t("irUtrExists", "This UTR reference number already exists."),
+                    }));
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
     };
 
     const pickMode = (m) => {
@@ -185,6 +203,22 @@ function IdRegistration() {
 
         setSubmitting(true);
         try {
+            /* ---- duplicate UTR check (online mode only) ---- */
+            if (mode === "online") {
+                const dupSnap = await getDocs(
+                    query(collection(db, "idRegistrations"), where("utrNumber", "==", utr))
+                );
+                if (!dupSnap.empty) {
+                    setErrors((p) => ({
+                        ...p,
+                        utr: t("irUtrExists", "This UTR reference number already exists."),
+                    }));
+                    showToast(t("irUtrExists", "This UTR reference number already exists."), "error");
+                    setSubmitting(false);
+                    return;
+                }
+            }
+
             const newToken = await generateUniqueToken();
 
             const data = {
@@ -247,7 +281,7 @@ function IdRegistration() {
 
             <div className="idrg__shell">
 
-                {/* ---------- hero header (like mockup) ---------- */}
+                {/* ---------- hero header ---------- */}
                 <div className="idrg__hero">
                     <span className="idrg__badge">
                         <span className="idrg__badge-dot" />
@@ -395,7 +429,7 @@ function IdRegistration() {
                                                 {t("irUtr", "UTR Reference Number")}<span className="idrg__req">*</span>
                                                 <span className="idrg__count">{utr.length}/12</span>
                                             </label>
-                                            <div className={`idrg__input-wrap ${utr.length === 12 ? "is-ok" : ""}`}>
+                                            <div className={`idrg__input-wrap ${utr.length === 12 && !errors.utr ? "is-ok" : ""}`}>
                                                 <input
                                                     id="irg-utr"
                                                     className={`idrg__input idrg__input--mono ${errors.utr ? "is-error" : ""}`}
@@ -407,7 +441,7 @@ function IdRegistration() {
                                                     value={utr}
                                                     onChange={onUtr}
                                                 />
-                                                {utr.length === 12 && <span className="idrg__tick">{I.check}</span>}
+                                                {utr.length === 12 && !errors.utr && <span className="idrg__tick">{I.check}</span>}
                                             </div>
                                             {errors.utr && <span className="idrg__error">{errors.utr}</span>}
                                         </div>

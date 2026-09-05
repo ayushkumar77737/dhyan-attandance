@@ -24,10 +24,14 @@ export const CONTROLLABLE_PAGES = [
     { id: "userActivities", path: "/user-activities", labelKey: "userActivities" },
     { id: "adminLogs", path: "/admin-logs", labelKey: "adminLogs" },
     { id: "idRegistration", path: "/id-registration", labelKey: "idRegistration" },
+    { id: "idVerification", path: "/id-verification", labelKey: "idVerification" },
     { id: "contactSettings", path: "/contact-settings", labelKey: "contactSettings" },
     { id: "blockedAccounts", path: "/blocked-accounts", labelKey: "blockedAccounts.label" },
     { id: "accountLock", path: "/account-lock", labelKey: "accountLock" },
     { id: "deletedUsers", path: "/deleted-users", labelKey: "deletedUsers" },
+    { id: "userIssues", path: "/user-issues", labelKey: "userIssuesBugs" },
+    { id: "adminIssues", path: "/admin-issues", labelKey: "adminIssuesBugs" },
+    { id: "reportIssue", path: "/report-issue", labelKey: "reportIssue" },
     { id: "contactMessages", path: "/contact-messages", labelKey: "contactMessages" },
 ];
 
