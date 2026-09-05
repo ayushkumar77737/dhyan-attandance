@@ -35,6 +35,7 @@ const I = {
     send: (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" /></svg>),
     plus: (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>),
     home: (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>),
+    download: (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>),
     lotus: (<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4c1.3 1.5 2 3.1 2 4.7 0 .8-.2 1.6-.6 2.4.7-.4 1.3-1 1.9-1.9.3 1.4.1 2.7-.6 3.9 1-.3 1.9-.8 2.8-1.6-.1 2.2-1.5 4-3.6 5.1-.6.4-1.2.6-1.9.8-.7-.2-1.3-.4-1.9-.8C8 15.4 6.6 13.6 6.5 11.4c.9.8 1.8 1.3 2.8 1.6-.7-1.2-.9-2.5-.6-3.9.6.9 1.2 1.5 1.9 1.9-.4-.8-.6-1.6-.6-2.4C10 7.1 10.7 5.5 12 4z" /></svg>),
 };
 
@@ -55,6 +56,7 @@ function IdVerification() {
 
     const [createIdStatus, setCreateIdStatus] = useState("no");
     const [submitting, setSubmitting] = useState(false);
+    const [exporting, setExporting] = useState(false);
     const [doneToken, setDoneToken] = useState(""); // set after successful submit
     const [toast, setToast] = useState(null);
 
@@ -195,6 +197,66 @@ function IdVerification() {
         return d.toLocaleString("en-IN", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
     };
 
+    /* ---------- export all registrations as CSV ---------- */
+    const handleExport = async () => {
+        if (exporting) return;
+        setExporting(true);
+        try {
+            const snap = await getDocs(collection(db, "idRegistrations"));
+            if (snap.empty) {
+                showToast(t("icNothingToExport", "No data to export."), "error");
+                return;
+            }
+
+            const esc = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+            const yn = (v) => (v === true ? "Yes" : v === false ? "No" : "");
+
+            const header = [
+                "Token", "Mode", "Mobile Number", "UTR Number", "UTR Verified",
+                "Cash Collected", "No. of People", "Registered On", "Registered By",
+                "Verified", "Create ID Status", "Verified By", "Verified On",
+                "ID Created", "Created By", "ID Created On",
+            ];
+
+            const rows = snap.docs.map((d) => {
+                const r = d.data();
+                return [
+                    r.token, r.mode, r.mobileNumber, r.utrNumber || "",
+                    r.mode === "online" ? yn(r.utrVerified) : "",
+                    r.mode === "offline" ? yn(r.cashCollected) : "",
+                    r.numberOfPeople,
+                    fmtDate(r.createdAt), r.createdBy || "",
+                    r.verifiedAt ? "Yes" : "No",
+                    r.verifiedAt ? yn(r.createIdStatus) : "",
+                    r.verifiedBy || "", r.verifiedAt ? fmtDate(r.verifiedAt) : "",
+                    yn(r.idCreated) || "No",
+                    r.idCreatedBy || "", r.idCreatedAt ? fmtDate(r.idCreatedAt) : "",
+                ].map(esc).join(",");
+            });
+
+            const csv = [header.map(esc).join(","), ...rows].join("\n");
+            const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `id-registrations-${new Date().toISOString().slice(0, 10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            await logAdminAction("id_registrations_exported", {
+                details: `Exported ${snap.size} ID registration(s) to CSV`,
+            });
+            showToast(t("icExported", "Data exported successfully!"));
+        } catch (err) {
+            console.error(err);
+            showToast(t("icExportFailed", "Couldn't export. Try again."), "error");
+        } finally {
+            setExporting(false);
+        }
+    };
+
     /* ================================================================ */
     return (
         <div className="idvf__page" data-theme={theme}>
@@ -206,6 +268,11 @@ function IdVerification() {
 
             <button className="idvf__back" onClick={() => navigate("/admin-dashboard")}>
                 {I.back} {t("back", "Back")}
+            </button>
+
+            <button className="idvf__export" onClick={handleExport} disabled={exporting}>
+                {exporting ? <span className="idvf__spin idvf__spin--vi" /> : I.download}
+                {t("icExportData", "Export Data")}
             </button>
 
             {toast && (
