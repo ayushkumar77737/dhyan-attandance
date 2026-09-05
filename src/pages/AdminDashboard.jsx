@@ -891,6 +891,7 @@ function AdminDashboard() {
     { path: "/id-registration", icon: icons.idCard, cls: "icon-teal", label: t("idRegistration") || "Id Registration" },
     { path: "/id-verification", icon: icons.shield, cls: "icon-purple", label: t("idVerification") || "ID Verification" },
     { path: "/contact-settings", icon: icons.settings, cls: "icon-gray", label: t("contactSettings") },
+    { path: "/id-creation-status", icon: icons.idCard, cls: "icon-green", label: t("idCreationStatus") || "ID Creation Status" },
     { path: "myaccount", icon: icons.userCog, cls: "icon-blue", label: t("myAccount"), action: async () => { if (!adminInfo) await fetchAdminInfo(); setShowAccount(true); }, skipAccess: true },
     ...(isSuperAdmin
       ? [{ path: "/access-control", icon: icons.accessControl, cls: "icon-gray", label: t("accessControl") }]

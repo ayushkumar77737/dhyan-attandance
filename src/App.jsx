@@ -43,6 +43,7 @@ import AddAdmin from "./pages/AddAdmin";
 import AdminLogs from "./pages/AdminLogs";
 import IdRegistration from "./pages/IdRegistration";
 import IdVerification from "./pages/IdVerification";
+import IdCreationStatus from "./pages/IdCreationStatus";
 import EditAdmin from "./pages/EditAdmin";
 import MyActivity from "./pages/MyActivity";
 import AccessControl from "./pages/AccessControl";
@@ -260,7 +261,7 @@ function App() {
         />
 
         {/* Report an Issue — open to all admins, so no RequireAccess wrapper */}
-                {/* Report an Issue */}
+        {/* Report an Issue */}
         <Route
           path="/report-issue"
           element={
@@ -565,6 +566,17 @@ function App() {
             <ProtectedRoute>
               <RequireAccess pageId="idVerification">
                 <IdVerification />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/id-creation-status"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="idCreationStatus">
+                <IdCreationStatus />
               </RequireAccess>
             </ProtectedRoute>
           }
