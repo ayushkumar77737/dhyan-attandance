@@ -1,18 +1,66 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./Notifications.css";
 import { logAdminAction } from "../utils/logAdminAction";
 import { db, auth } from "../firebase/firebase";
 import {
   collection,
-  addDoc,
   getDocs,
   deleteDoc,
-  updateDoc,
   doc,
   getDoc,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+
+/* ------------------------------------------------------------------
+ * WHERE THIS DATA COMES FROM
+ * ------------------------------------------------------------------
+ * Every admin page in this app already calls:
+ *   logAdminAction(actionType, { targetId, details })
+ * whenever something happens (a leave gets approved, a ticket gets
+ * resolved, an account gets locked, an ID gets created, etc). This
+ * page reads that same trail back out and renders it as the
+ * notification/activity list — nothing new needs to be added to
+ * those nine pages, they already log everything.
+ *
+ * Per utils/logAdminAction.js, each call writes one document to the
+ * "adminLogs" collection with exactly these fields:
+ *   { adminId, adminName, action, targetId, details, timestamp }
+ * (timestamp is a Firestore serverTimestamp()).
+ * ------------------------------------------------------------------ */
+const COLLECTION_NAME = "adminLogs";
+
+/* Which admin page produced a given action, driven off the exact
+   action strings each page already passes into logAdminAction(). */
+const ACTION_SOURCE = {
+  update_absence_request: "absence",
+
+  update_leave_request: "leave",
+  delete_leave_request: "leave",
+
+  update_ticket: "ticket",
+  delete_ticket: "ticket",
+  export_tickets: "ticket",
+
+  concern_status: "userIssues",
+  concern_delete: "userIssues",
+
+  update_issue_status: "adminIssues",
+  delete_issue: "adminIssues",
+
+  toggle_status: "toggleStatus",
+
+  id_created: "idCreation",
+  id_registrations_exported: "idCreation",
+
+  update_blocked_account: "blocked",
+  delete_blocked_account: "blocked",
+  delete_all_blocked_accounts: "blocked",
+
+  toggle_admin_lock: "accountLock",
+};
+
+const sourceOf = (action) => ACTION_SOURCE[action] || "other";
 
 /* ------------------------------------------------------------------ */
 /* Inline icons (presentational only)                                 */
@@ -28,29 +76,25 @@ const icons = {
       <path d="M3 8l4.2 3.1L12 4l4.8 7.1L21 8l-1.6 10H4.6L3 8z" />
     </svg>
   ),
-  megaphone: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z" />
-      <path d="M15.5 9.5a3.5 3.5 0 0 1 0 5" />
-      <path d="M18.5 7a7 7 0 0 1 0 10" />
+  search: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="7" /><path d="M20 20l-3.6-3.6" />
     </svg>
   ),
-  send: (
+  close: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  ),
+  refresh: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="22" y1="2" x2="11" y2="13" />
-      <polygon points="22 2 15 22 11 13 2 9 22 2" />
+      <polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
     </svg>
   ),
   download: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
       <polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
-    </svg>
-  ),
-  pencil: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-      <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
     </svg>
   ),
   trash: (
@@ -64,11 +108,6 @@ const icons = {
       <polyline points="20 6 9 17 4 12" />
     </svg>
   ),
-  close: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
-  ),
   inbox: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
@@ -79,6 +118,56 @@ const icons = {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
       <line x1="12" y1="9" x2="12" y2="13.5" /><line x1="12" y1="17" x2="12.01" y2="17" />
+    </svg>
+  ),
+  hourglass: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 2h12" /><path d="M6 22h12" />
+      <path d="M7 2v4.5c0 1.5 1.2 2.6 2.6 3.6L12 12l2.4-1.9C15.8 9.1 17 8 17 6.5V2" />
+      <path d="M7 22v-4.5c0-1.5 1.2-2.6 2.6-3.6L12 12l2.4 1.9c1.4 1 2.6 2.1 2.6 3.6V22" />
+    </svg>
+  ),
+  calendar: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2.5" /><line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
+    </svg>
+  ),
+  ticket: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2.5 2.5 0 0 0 0 5v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2.5 2.5 0 0 0 0-5Z" />
+    </svg>
+  ),
+  bug: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M8 2l1.9 2M16 2l-1.9 2" /><rect x="7" y="7" width="10" height="13" rx="5" />
+      <path d="M12 7v13M3 13h4M17 13h4M4 19l3.5-2M20 19l-3.5-2M4 8l3.5 2M20 8l-3.5 2" />
+    </svg>
+  ),
+  power: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2v8" /><path d="M6.3 6.3a9 9 0 1 0 11.4 0" />
+    </svg>
+  ),
+  idcard: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="5" width="20" height="14" rx="2" /><circle cx="8" cy="12" r="2" />
+      <path d="M13 12h5" /><path d="M13 16h3" />
+    </svg>
+  ),
+  shield: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2.5 4.5 5.4v5.8c0 4.6 3.1 8.6 7.5 9.8 4.4-1.2 7.5-5.2 7.5-9.8V5.4L12 2.5z" />
+    </svg>
+  ),
+  lock: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4.5" y="10.5" width="15" height="10" rx="2.6" /><path d="M8 10.5V7.8a4 4 0 0 1 8 0v2.7" />
+    </svg>
+  ),
+  activity: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
     </svg>
   ),
 };
@@ -94,31 +183,93 @@ const Dots = ({ className }) => (
   </svg>
 );
 
-/* Notification text: capital letters, digits and spaces only — no
-   punctuation or symbols. Forces uppercase as the admin types. */
-const sanitizeNotificationText = (value) => {
-  const upper = value.toUpperCase();
-  return /^[A-Z0-9 ]*$/.test(upper) ? upper : upper.replace(/[^A-Z0-9 ]/g, "");
+/* Icon for each source page. Add a new entry here (and to
+   ACTION_SOURCE above) any time a new page starts calling
+   logAdminAction with a new action string. */
+const SOURCE_ICON = {
+  absence: icons.hourglass,
+  leave: icons.calendar,
+  ticket: icons.ticket,
+  userIssues: icons.bug,
+  adminIssues: icons.bug,
+  toggleStatus: icons.power,
+  idCreation: icons.idcard,
+  blocked: icons.shield,
+  accountLock: icons.lock,
+  other: icons.activity,
 };
+
+/* i18n key for each source's display label — resolved with t()
+   inside the component so it follows the active language. */
+const SOURCE_LABEL_KEY = {
+  absence: "sourceAbsence",
+  leave: "sourceLeave",
+  ticket: "sourceTicket",
+  userIssues: "sourceUserIssues",
+  adminIssues: "sourceAdminIssues",
+  toggleStatus: "sourceToggleStatus",
+  idCreation: "sourceIdCreation",
+  blocked: "sourceBlocked",
+  accountLock: "sourceAccountLock",
+  other: "sourceOther",
+};
+
+const SOURCE_ORDER = [
+  "absence", "leave", "ticket", "userIssues", "adminIssues",
+  "toggleStatus", "idCreation", "blocked", "accountLock", "other",
+];
+
+/* createdAt may be a Firestore Timestamp, ISO string or Date. */
+const toMs = (v) => {
+  if (!v) return 0;
+  if (typeof v === "object" && typeof v.toDate === "function") return v.toDate().getTime();
+  if (typeof v === "object" && v.seconds) return v.seconds * 1000;
+  const p = new Date(v).getTime();
+  return Number.isNaN(p) ? 0 : p;
+};
+
+const relTime = (ms, t) => {
+  if (!ms) return "—";
+  const diff = Date.now() - ms;
+  const m = Math.floor(diff / 60000);
+  if (m < 1) return t("alJustNow");
+  if (m < 60) return t("alMinutesAgo", { n: m });
+  const h = Math.floor(m / 60);
+  if (h < 24) return t("alHoursAgo", { n: h });
+  const d = Math.floor(h / 24);
+  if (d < 7) return t("alDaysAgo", { n: d });
+  return new Date(ms).toLocaleDateString(undefined, { day: "numeric", month: "short" });
+};
+
+const fmtFull = (ms) => (ms ? new Date(ms).toLocaleString() : "—");
 
 function Notifications() {
 
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const [message, setMessage] = useState("");
-  const [notifications, setNotifications] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [posting, setPosting] = useState(false);
-  const [busyId, setBusyId] = useState(null);
   const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
-  const [editRow, setEditRow] = useState(null);
-  const [editText, setEditText] = useState("");
-  const [savingEdit, setSavingEdit] = useState(false);
+  const [logs, setLogs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  const [search, setSearch] = useState("");
+  const [sourceFilter, setSourceFilter] = useState("all");
+
+  const [busyId, setBusyId] = useState(null);
   const [confirmRow, setConfirmRow] = useState(null);
+  const [confirmAll, setConfirmAll] = useState(false);
   const [deleting, setDeleting] = useState(false);
+
+  /* Translated label + icon per source, rebuilt whenever the active
+     language changes. */
+  const SOURCE_META = useMemo(() => {
+    const meta = {};
+    SOURCE_ORDER.forEach((key) => {
+      meta[key] = { label: t(SOURCE_LABEL_KEY[key]), icon: SOURCE_ICON[key] };
+    });
+    return meta;
+  }, [t]);
 
   useEffect(() => {
     const disableRightClick = (e) => e.preventDefault();
@@ -150,7 +301,7 @@ function Notifications() {
         navigate("/");
         return;
       }
-      fetchNotifications();
+      fetchLogs();
     } catch (err) {
       console.error(err);
       navigate("/");
@@ -161,115 +312,71 @@ function Notifications() {
     checkAdmin();
   }, []);
 
-  const fetchNotifications = async () => {
+  const fetchLogs = async () => {
     try {
       setLoading(true);
-      const snap = await getDocs(collection(db, "notifications"));
+      /* Mark everything up to right now as "seen" — the AdminDashboard
+         bell badge counts adminLogs entries created after this stamp. */
+      localStorage.setItem("activityFeedLastSeen", String(Date.now()));
+      const snap = await getDocs(collection(db, COLLECTION_NAME));
       const list = [];
       snap.forEach((docItem) => {
         const data = docItem.data();
+        const action = data.action || "";
         list.push({
           docId: docItem.id,
-          message: data.message || "—",
-          /* Field name has varied over time — accept any of them so
-             older records still show a date rather than a dash. */
-          createdAt: data.createdAt || data.date || data.timestamp || null,
+          action,
+          source: sourceOf(action),
+          targetId: data.targetId || "",
+          details: data.details || "",
+          performedBy: data.adminName || data.adminId || "",
+          createdAt: data.timestamp || null,
         });
       });
-
-      /* Newest first. Firestore Timestamps expose .seconds; ISO strings
-         and Date objects fall through to Date parsing. */
-      const toMs = (v) => {
-        if (!v) return 0;
-        if (typeof v === "object" && v.seconds) return v.seconds * 1000;
-        const parsed = new Date(v).getTime();
-        return Number.isNaN(parsed) ? 0 : parsed;
-      };
       list.sort((a, b) => toMs(b.createdAt) - toMs(a.createdAt));
-
-      setNotifications(list);
+      setLogs(list);
     } catch (err) {
       console.error(err);
-      setNotifications([]);
+      setLogs([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const formatDate = (v) => {
-    if (!v) return "—";
-    const ms = typeof v === "object" && v.seconds
-      ? v.seconds * 1000
-      : new Date(v).getTime();
-    if (Number.isNaN(ms)) return "—";
-    return new Date(ms).toLocaleString();
-  };
-
-  const postNotification = async () => {
-    const text = message.trim();
-    if (!text) return;
-    try {
-      setPosting(true);
-      const ref = await addDoc(collection(db, "notifications"), {
-        message: text,
-        userId: "ALL",
-        createdAt: new Date().toISOString(),
-        postedBy: localStorage.getItem("userId"),
-      });
-      await logAdminAction("post_notification", {
-        targetId: ref.id,
-        details: t("logPostedNotification", { message: text }),
-      });
-      setMessage("");
-      fetchNotifications();
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setPosting(false);
-    }
-  };
-
-  const openEdit = (row) => {
-    setEditRow(row);
-    setEditText(sanitizeNotificationText(row.message));
-  };
-
-  const saveEdit = async () => {
-    const text = editText.trim();
-    if (!editRow || !text) return;
-    try {
-      setSavingEdit(true);
-      await updateDoc(doc(db, "notifications", editRow.docId), {
-        message: text,
-        editedBy: localStorage.getItem("userId"),
-        editedAt: new Date().toISOString(),
-      });
-      await logAdminAction("update_notification", {
-        targetId: editRow.docId,
-        details: t("logEditedNotification", { message: text }),
-      });
-      setNotifications((prev) =>
-        prev.map((n) => (n.docId === editRow.docId ? { ...n, message: text } : n))
+  const visible = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return logs.filter((l) => {
+      if (sourceFilter !== "all" && l.source !== sourceFilter) return false;
+      if (!q) return true;
+      return (
+        l.details.toLowerCase().includes(q) ||
+        l.targetId.toLowerCase().includes(q) ||
+        l.performedBy.toLowerCase().includes(q) ||
+        l.action.toLowerCase().includes(q)
       );
-      setEditRow(null);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setSavingEdit(false);
-    }
-  };
+    });
+  }, [logs, search, sourceFilter]);
 
-  const doDelete = async () => {
+  const todayCount = useMemo(() => {
+    const cutoff = Date.now() - 24 * 60 * 60 * 1000;
+    return logs.filter((l) => toMs(l.createdAt) > cutoff).length;
+  }, [logs]);
+
+  const messageFor = (l) =>
+    l.details ||
+    `${l.targetId ? l.targetId + " — " : ""}${(l.action || "activity").replace(/_/g, " ")}`;
+
+  const doDeleteOne = async () => {
     if (!confirmRow) return;
     try {
       setDeleting(true);
       setBusyId(confirmRow.docId);
-      await deleteDoc(doc(db, "notifications", confirmRow.docId));
-      await logAdminAction("delete_notification", {
+      await deleteDoc(doc(db, COLLECTION_NAME, confirmRow.docId));
+      await logAdminAction("delete_activity_log", {
         targetId: confirmRow.docId,
-        details: t("logDeletedNotification", { message: confirmRow.message }),
+        details: t("logDeletedActivityLog"),
       });
-      setNotifications((prev) => prev.filter((n) => n.docId !== confirmRow.docId));
+      setLogs((prev) => prev.filter((l) => l.docId !== confirmRow.docId));
       setConfirmRow(null);
     } catch (err) {
       console.error(err);
@@ -279,13 +386,41 @@ function Notifications() {
     }
   };
 
-  const exportCSV = () => {
-    if (notifications.length === 0) return;
+  const doDeleteAll = async () => {
+    try {
+      setDeleting(true);
+      /* Only what's currently visible — a filtered view means "these",
+         not "the whole collection". */
+      await Promise.all(
+        visible.map((l) => deleteDoc(doc(db, COLLECTION_NAME, l.docId)))
+      );
+      await logAdminAction("delete_all_activity_logs", {
+        targetId: "ALL",
+        details: t("logDeletedAllActivityLogs", { count: visible.length }),
+      });
+      const removed = new Set(visible.map((l) => l.docId));
+      setLogs((prev) => prev.filter((l) => !removed.has(l.docId)));
+      setConfirmAll(false);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setDeleting(false);
+    }
+  };
 
-    const headers = ["Message", "Date"];
+  const exportCSV = () => {
+    if (visible.length === 0) return;
+
+    const headers = ["Source", "Message", "Performed By", "Target", "Date"];
     const escape = (val) => `"${String(val ?? "").replace(/"/g, '""')}"`;
-    const rows = notifications.map((n) =>
-      [n.message, formatDate(n.createdAt)].map(escape).join(",")
+    const rows = visible.map((l) =>
+      [
+        SOURCE_META[l.source]?.label || l.source,
+        messageFor(l),
+        l.performedBy,
+        l.targetId,
+        fmtFull(toMs(l.createdAt)),
+      ].map(escape).join(",")
     );
 
     const csv = "\uFEFF" + [headers.map(escape).join(","), ...rows].join("\r\n");
@@ -293,7 +428,7 @@ function Notifications() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `notifications_${new Date().toISOString().split("T")[0]}.csv`;
+    link.download = `activity_${new Date().toISOString().split("T")[0]}.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -320,58 +455,85 @@ function Notifications() {
           <span className="ntf-eyebrow-icon">{icons.crown}</span>
           {t("adminPanel")}
         </span>
-        <h1 className="ntf-title">{t("postNotification")}</h1>
-        <p className="ntf-subtitle">{t("broadcastSubtitle")}</p>
+        <h1 className="ntf-title">{t("activityFeed")}</h1>
+        <p className="ntf-subtitle">{t("activityFeedSubtitle")}</p>
       </div>
 
-      {/* ========================= COMPOSE CARD ========================= */}
-      <div className="ntf-compose">
-        <div className="ntf-input-wrap">
-          <textarea
-            className="ntf-input"
-            value={message}
-            onChange={(e) => setMessage(sanitizeNotificationText(e.target.value))}
-            placeholder={t("notificationPlaceholder") || "Enter your notification here…"}
-            rows={4}
-            maxLength={500}
+      {/* ============================ STATS ============================= */}
+      <div className="ntf-stats">
+        <div className="ntf-stat-card">
+          <span className="ntf-stat-num">{loading ? "—" : logs.length}</span>
+          <span className="ntf-stat-lbl">{t("total")}</span>
+        </div>
+        <div className="ntf-stat-card">
+          <span className="ntf-stat-num">{loading ? "—" : todayCount}</span>
+          <span className="ntf-stat-lbl">{t("alTodayActions")}</span>
+        </div>
+      </div>
+
+      {/* =========================== TOOLBAR ============================= */}
+      <div className="ntf-toolbar">
+        <div className="ntf-search-wrap">
+          <span className="ntf-search-icon">{icons.search}</span>
+          <input
+            className="ntf-search-input"
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder={t("alSearchPlaceholder")}
           />
-          <span className="ntf-input-icon" aria-hidden="true">{icons.megaphone}</span>
+          {search && (
+            <button className="ntf-search-clear" onClick={() => setSearch("")} aria-label={t("clearSearch")}>
+              {icons.close}
+            </button>
+          )}
         </div>
 
-        <button
-          className="ntf-submit"
-          onClick={postNotification}
-          disabled={posting || !message.trim()}
+        <select
+          className="ntf-select"
+          value={sourceFilter}
+          onChange={(e) => setSourceFilter(e.target.value)}
         >
-          {posting
-            ? <span className="ntf-spinner" />
-            : <span className="ntf-btn-icon">{icons.send}</span>}
-          {t("submit")}
+          <option value="all">{t("allSources")}</option>
+          {SOURCE_ORDER.map((key) => (
+            <option key={key} value={key}>{SOURCE_META[key].label}</option>
+          ))}
+        </select>
+
+        <button className="ntf-tool" onClick={fetchLogs} disabled={loading}>
+          <span className="ntf-btn-icon">{icons.refresh}</span>
+          {t("refresh")}
+        </button>
+
+        <button className="ntf-tool" onClick={exportCSV} disabled={visible.length === 0}>
+          <span className="ntf-btn-icon">{icons.download}</span>
+          {t("exportCSV")}
+        </button>
+
+        <button
+          className="ntf-tool ntf-tool--danger"
+          onClick={() => setConfirmAll(true)}
+          disabled={visible.length === 0}
+        >
+          <span className="ntf-btn-icon">{icons.trash}</span>
+          {t("deleteAll")}
         </button>
       </div>
 
       {/* =========================== LIST HEAD ========================== */}
       <div className="ntf-list-head">
         <h2 className="ntf-list-title">
-          {t("recentNotifications") || "Recent Notifications"}
-          <span className="ntf-count">{notifications.length}</span>
+          {t("recentActivity")}
+          <span className="ntf-count">{visible.length}</span>
         </h2>
-
-        <button
-          className="ntf-export"
-          onClick={exportCSV}
-          disabled={notifications.length === 0}
-        >
-          <span className="ntf-btn-icon">{icons.download}</span>
-          {t("exportCSV")}
-        </button>
       </div>
 
       {/* ============================ TABLE ============================= */}
       <div className="ntf-table">
         <div className="ntf-thead">
           <span>{t("message")}</span>
-          <span>{t("date")}</span>
+          <span>{t("source")}</span>
+          <span>{t("alTime")}</span>
           <span>{t("actions")}</span>
         </div>
 
@@ -379,124 +541,91 @@ function Notifications() {
           <div className="ntf-state">
             <span className="ntf-spinner ntf-spinner--lg" />
           </div>
-        ) : notifications.length === 0 ? (
+        ) : visible.length === 0 ? (
           <div className="ntf-state">
             <span className="ntf-state-icon">{icons.inbox}</span>
-            <p className="ntf-state-title">{t("noNotifications")}</p>
+            <p className="ntf-state-title">
+              {logs.length === 0
+                ? t("noNotificationsYet")
+                : t("aiNoMatches")}
+            </p>
           </div>
         ) : (
-          notifications.map((n, index) => (
-            <div
-              className="ntf-row"
-              key={n.docId}
-              style={{ animationDelay: `${index * 0.04}s` }}
-            >
-              <div className="ntf-cell ntf-cell--message">
-                <span className="ntf-bullet" aria-hidden="true" />
-                <span className="ntf-message">{n.message}</span>
-              </div>
+          visible.map((l, index) => {
+            const meta = SOURCE_META[l.source];
+            return (
+              <div
+                className="ntf-row"
+                key={l.docId}
+                style={{ animationDelay: `${Math.min(index, 12) * 0.04}s` }}
+              >
+                <div className="ntf-cell ntf-cell--message">
+                  <span className="ntf-bullet" aria-hidden="true" />
+                  <span className="ntf-message">{messageFor(l)}</span>
+                </div>
 
-              <div className="ntf-cell ntf-cell--date">
-                <span className="ntf-date-chip">{formatDate(n.createdAt)}</span>
-              </div>
+                <div className="ntf-cell ntf-cell--source">
+                  <span className="ntf-cat-chip">
+                    <span className="ntf-cat-chip-icon">{meta.icon}</span>
+                    {meta.label}
+                  </span>
+                </div>
 
-              <div className="ntf-cell ntf-cell--actions">
-                <button
-                  className="ntf-act ntf-act--edit"
-                  onClick={() => openEdit(n)}
-                  disabled={busyId === n.docId}
-                >
-                  <span className="ntf-btn-icon">{icons.pencil}</span>
-                  {t("edit")}
-                </button>
-                <button
-                  className="ntf-act ntf-act--delete"
-                  onClick={() => setConfirmRow(n)}
-                  disabled={busyId === n.docId}
-                >
-                  <span className="ntf-btn-icon">{icons.trash}</span>
-                  {t("delete")}
-                </button>
+                <div className="ntf-cell ntf-cell--date">
+                  <span className="ntf-date-chip" title={fmtFull(toMs(l.createdAt))}>
+                    {relTime(toMs(l.createdAt), t)}
+                  </span>
+                </div>
+
+                <div className="ntf-cell ntf-cell--actions">
+                  <button
+                    className="ntf-act ntf-act--delete"
+                    onClick={() => setConfirmRow(l)}
+                    disabled={busyId === l.docId}
+                  >
+                    <span className="ntf-btn-icon">{icons.trash}</span>
+                    {t("delete")}
+                  </button>
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
 
-      {/* =========================== EDIT MODAL ========================= */}
-      {editRow && (
-        <div className="ntf-modal-overlay" onClick={() => !savingEdit && setEditRow(null)}>
-          <div className="ntf-modal" onClick={(e) => e.stopPropagation()}>
-
-            <div className="ntf-modal-head">
-              <span className="ntf-modal-icon">{icons.pencil}</span>
-              <h3>{t("edit")}</h3>
-              <button
-                className="ntf-modal-close"
-                onClick={() => setEditRow(null)}
-                disabled={savingEdit}
-                aria-label={t("close")}
-              >
-                {icons.close}
-              </button>
-            </div>
-
-            <textarea
-              className="ntf-modal-input"
-              value={editText}
-              onChange={(e) => setEditText(sanitizeNotificationText(e.target.value))}
-              rows={4}
-              maxLength={500}
-            />
-
+      {/* ========================= DELETE CONFIRM (single) ================ */}
+      {confirmRow && (
+        <div className="ntf-modal-overlay" onClick={() => !deleting && setConfirmRow(null)}>
+          <div className="ntf-modal ntf-modal--confirm" onClick={(e) => e.stopPropagation()}>
+            <span className="ntf-confirm-icon">{icons.alert}</span>
+            <h3>{t("delete")}</h3>
+            <p>{t("alConfirmDeleteOne")}</p>
             <div className="ntf-modal-footer">
-              <button
-                className="ntf-modal-cancel"
-                onClick={() => setEditRow(null)}
-                disabled={savingEdit}
-              >
+              <button className="ntf-modal-cancel" onClick={() => setConfirmRow(null)} disabled={deleting}>
                 {t("cancel")}
               </button>
-              <button
-                className="ntf-modal-save"
-                onClick={saveEdit}
-                disabled={savingEdit || !editText.trim()}
-              >
-                {savingEdit
-                  ? <span className="ntf-spinner" />
-                  : <span className="ntf-btn-icon">{icons.check}</span>}
-                {t("save")}
+              <button className="ntf-modal-confirm" onClick={doDeleteOne} disabled={deleting}>
+                {deleting ? <span className="ntf-spinner" /> : <span className="ntf-btn-icon">{icons.trash}</span>}
+                {t("delete")}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* ========================= DELETE CONFIRM ======================= */}
-      {confirmRow && (
-        <div className="ntf-modal-overlay" onClick={() => !deleting && setConfirmRow(null)}>
+      {/* ========================= DELETE CONFIRM (all) ==================== */}
+      {confirmAll && (
+        <div className="ntf-modal-overlay" onClick={() => !deleting && setConfirmAll(false)}>
           <div className="ntf-modal ntf-modal--confirm" onClick={(e) => e.stopPropagation()}>
             <span className="ntf-confirm-icon">{icons.alert}</span>
-
-            <h3>{t("delete")}</h3>
-            <p>{t("deleteNotificationConfirm")}</p>
-
+            <h3>{t("deleteAll")}</h3>
+            <p>{t("alConfirmDeleteAll", { count: visible.length })}</p>
             <div className="ntf-modal-footer">
-              <button
-                className="ntf-modal-cancel"
-                onClick={() => setConfirmRow(null)}
-                disabled={deleting}
-              >
+              <button className="ntf-modal-cancel" onClick={() => setConfirmAll(false)} disabled={deleting}>
                 {t("cancel")}
               </button>
-              <button
-                className="ntf-modal-confirm"
-                onClick={doDelete}
-                disabled={deleting}
-              >
-                {deleting
-                  ? <span className="ntf-spinner" />
-                  : <span className="ntf-btn-icon">{icons.trash}</span>}
+              <button className="ntf-modal-confirm" onClick={doDeleteAll} disabled={deleting}>
+                {deleting ? <span className="ntf-spinner" /> : <span className="ntf-btn-icon">{icons.trash}</span>}
                 {t("delete")}
               </button>
             </div>

@@ -622,8 +622,15 @@ function AdminDashboard() {
 
   const fetchNotifCount = async () => {
     try {
-      const snap = await getDocs(collection(db, "notifications"));
-      setNotifCount(snap.size);
+      const lastSeen = Number(localStorage.getItem("activityFeedLastSeen") || 0);
+      const snap = await getDocs(collection(db, "adminLogs"));
+      let count = 0;
+      snap.forEach((d) => {
+        const ts = d.data().timestamp;
+        const ms = ts?.toDate ? ts.toDate().getTime() : (ts?.seconds ? ts.seconds * 1000 : 0);
+        if (ms > lastSeen) count++;
+      });
+      setNotifCount(count);
     } catch (err) { console.log(err); setNotifCount(0); }
   };
 

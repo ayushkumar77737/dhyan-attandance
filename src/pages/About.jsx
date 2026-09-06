@@ -217,7 +217,7 @@ const About = () => {
                     <p className="mdpa-kicker mdpa-kicker-center">🙏 {t("guruText") || "Jai Gurubande"} 🙏</p>
                     <h1 className="mdpa-hero-title">
                         {t("aboutHeroTitlePre") || "About"}{" "}
-                        <span className="mdpa-gold-text">{t("appTitle") || "Meditation Dhyan Portal"}</span>
+                        <span className="mdpa-gold-text">{t("appTitle") || "Dhyan Attendance Portal"}</span>
                     </h1>
                     <p className="mdpa-hero-sub">
                         {t("aboutHeroSubtitle") ||

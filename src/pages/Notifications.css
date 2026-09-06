@@ -1347,3 +1347,258 @@
     transform: none;
   }
 }
+
+/* ==================================================================
+   ACTIVITY FEED ADDITIONS — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   The compose card is gone from the markup, so its CSS above is just
+   unused now (safe to delete later, left in place to keep this diff
+   additive-only). Everything below supports the new toolbar/stats/
+   category-chip UI, and re-points the table to 4 columns by
+   repeating the .ntf-thead/.ntf-row selector — later in the cascade,
+   same specificity, so it wins over the 3-column rule earlier in
+   this file without needing to touch that rule directly.
+   ================================================================== */
+
+.ntf-stats {
+  width: 100%;
+  max-width: 980px;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.ntf-stat-card {
+  flex: 1;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 22px;
+  background: var(--nt-card);
+  border: 1px solid var(--nt-card-border);
+  border-radius: var(--nt-radius-lg);
+  box-shadow: var(--nt-card-shadow);
+  animation: ntf-scalein 0.5s var(--nt-ease) both;
+}
+
+.ntf-stat-num {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--nt-text);
+}
+
+.ntf-stat-lbl {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--nt-muted);
+}
+
+.ntf-toolbar {
+  width: 100%;
+  max-width: 980px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+  animation: ntf-fade 0.45s var(--nt-ease) 0.1s both;
+}
+
+.ntf-search-wrap {
+  position: relative;
+  flex: 1 1 220px;
+  min-width: 200px;
+}
+
+.ntf-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  display: flex;
+  color: var(--nt-violet-light);
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.ntf-search-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.ntf-search-input {
+  width: 100%;
+  padding: 12px 40px 12px 42px;
+  border: 1px solid var(--nt-input-border);
+  border-radius: var(--nt-radius-md);
+  background: var(--nt-input-bg);
+  box-shadow: var(--nt-input-shadow);
+  color: var(--nt-text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.22s var(--nt-ease), box-shadow 0.22s var(--nt-ease);
+}
+
+.ntf-search-input::placeholder {
+  color: var(--nt-placeholder);
+}
+
+.ntf-search-input:focus {
+  border-color: var(--nt-violet);
+  box-shadow: 0 0 0 4px var(--nt-violet-subtle);
+}
+
+.ntf-search-clear {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: var(--nt-surface);
+  color: var(--nt-muted);
+  cursor: pointer;
+}
+
+.ntf-search-clear svg {
+  width: 11px;
+  height: 11px;
+}
+
+.ntf-select {
+  padding: 12px 16px;
+  border: 1px solid var(--nt-surface-border);
+  border-radius: var(--nt-radius-md);
+  background: var(--nt-surface);
+  color: var(--nt-text);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+}
+
+.ntf-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 20px;
+  border: 1px solid var(--nt-pill-border);
+  border-radius: var(--nt-radius-md);
+  background: var(--nt-pill-bg);
+  color: var(--nt-violet-light);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: var(--nt-pill-shadow);
+  transition: transform 0.18s var(--nt-ease), border-color 0.2s var(--nt-ease), opacity 0.2s var(--nt-ease);
+}
+
+.ntf-tool:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--nt-violet);
+}
+
+.ntf-tool:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.ntf-tool--danger {
+  background: var(--nt-red-dim);
+  border-color: var(--nt-red-border);
+  color: var(--nt-red-text);
+}
+
+.ntf-tool--danger:hover:not(:disabled) {
+  border-color: var(--nt-red-text);
+}
+
+/* four columns now: message / source / when / actions — repeats the
+   selector deliberately, see note at the top of this block */
+.ntf-thead,
+.ntf-row {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.1fr) minmax(0, 0.9fr) minmax(0, 0.9fr);
+}
+
+.ntf-cat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  border-radius: var(--nt-radius-sm);
+  background: var(--nt-violet-subtle);
+  color: var(--nt-violet-light);
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ntf-cat-chip-icon {
+  display: flex;
+}
+
+.ntf-cat-chip-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+@media (max-width: 820px) {
+
+  .ntf-thead,
+  .ntf-row {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+
+  .ntf-thead span:nth-child(2),
+  .ntf-thead span:nth-child(3),
+  .ntf-cell--source,
+  .ntf-cell--date {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .ntf-thead {
+    display: none;
+  }
+
+  .ntf-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  /* stacked cards at this width have room to show everything again */
+  .ntf-cell--source,
+  .ntf-cell--date {
+    display: flex;
+  }
+
+  .ntf-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ntf-select,
+  .ntf-tool {
+    justify-content: center;
+  }
+}
