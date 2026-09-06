@@ -77,7 +77,7 @@ const LandingPage = () => {
                 <div className="ldpg__nav-brand">
                     <img src={logo2} alt="Logo" className="ldpg__nav-logo" loading="lazy" />
                     <div className="ldpg__nav-brand-text">
-                        <span className="ldpg__nav-title">{t("appTitle") || "Meditation Dhyan Portal"}</span>
+                        <span className="ldpg__nav-title">{t("appTitle") || "Dhyan Attendance Portal"}</span>
                         <span className="ldpg__nav-sub">🙏 {t("guruText") || "Jai Gurubande"} 🙏</span>
                     </div>
                 </div>
@@ -139,10 +139,10 @@ const LandingPage = () => {
                 <div className="ldpg__hero-left">
                     <h1 className="ldpg__hero-title">
                         <span className="ldpg__title-plain">
-                            {t("landingHeroTitle") || "Discover Inner Peace Through"}
+                            {t("landingHeroTitle") || "Stay Connected to Your Dhyan &"}
                         </span>{" "}
                         <span className="ldpg__title-gold">
-                            {t("landingHeroAccent") || "Meditation"}
+                            {t("landingHeroAccent") || "Sadhana"}
                         </span>
                     </h1>
 

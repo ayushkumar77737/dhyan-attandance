@@ -203,37 +203,37 @@ const Login = () => {
       const mfaStatus = await getMfaStatus();
 
       if (!mfaStatus.success) {
-    await signOut(auth);
+        await signOut(auth);
 
-    showError("Unable to verify MFA status.");
+        showError("Unable to verify MFA status.");
 
-    setLoading(false);
-    return;
-}
+        setLoading(false);
+        return;
+      }
 
-if (mfaStatus.enabled !== true) {
-    // MFA is mandatory.
-    // Do NOT allow dashboard access.
-    navigate("/mfa-setup");
+      if (mfaStatus.enabled !== true) {
+        // MFA is mandatory.
+        // Do NOT allow dashboard access.
+        navigate("/mfa-setup");
 
-    setLoading(false);
-    return;
-}
+        setLoading(false);
+        return;
+      }
 
-      
+
       // -------------------------------------------------------
-// MFA IS ENABLED
-// Go to dedicated MFA verification page.
-// Dashboard is NOT accessible yet.
-// -------------------------------------------------------
+      // MFA IS ENABLED
+      // Go to dedicated MFA verification page.
+      // Dashboard is NOT accessible yet.
+      // -------------------------------------------------------
 
-setLoading(false);
+      setLoading(false);
 
-navigate("/mfa-verify", {
-  replace: true,
-});
+      navigate("/mfa-verify", {
+        replace: true,
+      });
 
-return;
+      return;
     } catch (error) {
       console.log(error);
       setId("");
@@ -300,7 +300,7 @@ return;
 
             <h2 className="card-title">
               <span className="card-title-welcome">{t("welcomeTo") || "Welcome to"}</span>
-              <span className="card-title-name">{t("appTitle") || "Meditation Dhyan Portal"}</span>
+              <span className="card-title-name">{t("appTitle") || "Dhyan Attendance Portal"}</span>
             </h2>
 
             <div className="login-divider">
@@ -310,109 +310,109 @@ return;
             <p className="guru-subtext">
               {t("loginSubtitle") || "Your sacred space for inner peace, self-awareness and divine connection."}
             </p>
-              <form onSubmit={handleLogin}>
+            <form onSubmit={handleLogin}>
 
-                {/* USER ID */}
-                <div className="input-wrap">
-                  <span className="input-icon">{I.user}</span>
+              {/* USER ID */}
+              <div className="input-wrap">
+                <span className="input-icon">{I.user}</span>
 
-                  <input
-                    type="text"
-                    placeholder={t("enterIdNo")}
-                    className="login-input"
-                    maxLength={6}
-                    autoComplete="username"
-                    value={id}
-                    onChange={(e) => {
-                      const filtered = e.target.value
-                        .replace(/[^a-zA-Z0-9]/g, "")
-                        .toUpperCase();
+                <input
+                  type="text"
+                  placeholder={t("enterIdNo")}
+                  className="login-input"
+                  maxLength={6}
+                  autoComplete="username"
+                  value={id}
+                  onChange={(e) => {
+                    const filtered = e.target.value
+                      .replace(/[^a-zA-Z0-9]/g, "")
+                      .toUpperCase();
 
-                      setId(filtered);
-                    }}
-                  />
-                </div>
+                    setId(filtered);
+                  }}
+                />
+              </div>
 
-                {/* PASSWORD */}
-                <div className="input-wrap">
-                  <span className="input-icon">{I.lock}</span>
+              {/* PASSWORD */}
+              <div className="input-wrap">
+                <span className="input-icon">{I.lock}</span>
 
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder={t("enterPassword")}
-                    className="login-input"
-                    maxLength={8}
-                    autoComplete="current-password"
-                    value={password}
-                    onChange={(e) => {
-                      const filtered = e.target.value.replace(/[^0-9]/g, "");
-                      setPassword(filtered);
-                    }}
-                  />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder={t("enterPassword")}
+                  className="login-input"
+                  maxLength={8}
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => {
+                    const filtered = e.target.value.replace(/[^0-9]/g, "");
+                    setPassword(filtered);
+                  }}
+                />
 
-                  <span
-                    className="toggle-password"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? I.eyeOff : I.eye}
-                  </span>
-                </div>
-
-                {/* REMEMBER ME + FORGOT PASSWORD */}
-                <div className="login-options">
-
-                  <label className="remember-me">
-
-                    <input
-                      type="checkbox"
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
-                    />
-
-                    <span className="remember-box">
-                      {rememberMe && I.check}
-                    </span>
-
-                    <span>
-                      {t("rememberMe") || "Remember Me"}
-                    </span>
-
-                  </label>
-
-                  <span
-                    className="forgot-password"
-                    onClick={() => navigate("/forgot-password")}
-                  >
-                    {t("forgotPassword")}
-                  </span>
-
-                </div>
-
-                {/* ERROR */}
-                {errorMessage && (
-                  <p className="login-error">
-                    {errorMessage}
-                  </p>
-                )}
-
-                {/* LOGIN BUTTON */}
-                <button
-                  type="submit"
-                  className="login-button"
-                  disabled={loading}
+                <span
+                  className="toggle-password"
+                  onClick={() => setShowPassword(!showPassword)}
                 >
-                  <span>
-                    {loading ? t("pleaseWait") : t("login")}
+                  {showPassword ? I.eyeOff : I.eye}
+                </span>
+              </div>
+
+              {/* REMEMBER ME + FORGOT PASSWORD */}
+              <div className="login-options">
+
+                <label className="remember-me">
+
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                  />
+
+                  <span className="remember-box">
+                    {rememberMe && I.check}
                   </span>
 
-                  {!loading && (
-                    <span className="login-button-arrow">
-                      {I.arrow}
-                    </span>
-                  )}
-                </button>
+                  <span>
+                    {t("rememberMe") || "Remember Me"}
+                  </span>
 
-              </form>
+                </label>
+
+                <span
+                  className="forgot-password"
+                  onClick={() => navigate("/forgot-password")}
+                >
+                  {t("forgotPassword")}
+                </span>
+
+              </div>
+
+              {/* ERROR */}
+              {errorMessage && (
+                <p className="login-error">
+                  {errorMessage}
+                </p>
+              )}
+
+              {/* LOGIN BUTTON */}
+              <button
+                type="submit"
+                className="login-button"
+                disabled={loading}
+              >
+                <span>
+                  {loading ? t("pleaseWait") : t("login")}
+                </span>
+
+                {!loading && (
+                  <span className="login-button-arrow">
+                    {I.arrow}
+                  </span>
+                )}
+              </button>
+
+            </form>
 
             <div className="login-or"><span>{t("orContinueWith") || "Or continue with"}</span></div>
 

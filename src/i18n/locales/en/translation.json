@@ -1,5 +1,5 @@
 {
-  "appTitle": "Meditation Dhyan Portal",
+  "appTitle": "Dhyan Attendance Portal",
   "guruText": "\uD83D\uDE4F Jai Gurubande \uD83D\uDE4F",
   "guruSubtext": "Saheb Sabaka",
   "enterIdNo": "Enter Id No",
@@ -789,8 +789,8 @@
   "navTeachings": "Teachings",
   "navEvents": "Events",
   "navContact": "Contact",
-  "landingHeroTitle": "Discover Inner Peace Through",
-  "landingHeroAccent": "Meditation",
+  "landingHeroTitle": "Stay Connected to Your Dhyan &",
+  "landingHeroAccent": "Sadhana",
   "guruName": "Param Sant Swami Jai Gurubande Ji Maharaj",
   "landingAboutPre": "The Dhyan Portal is a sacred spiritual journey guided by ",
   "landingAboutPost": ". Through daily meditation, members experience inner peace, self-awareness, and divine connection.",
