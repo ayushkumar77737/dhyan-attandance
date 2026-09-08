@@ -9,7 +9,9 @@ import {
   getDocs,
   doc,
   updateDoc,
-  getDoc
+  getDoc,
+  addDoc,
+  serverTimestamp
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -127,6 +129,12 @@ function MyRequests() {
 
       await updateDoc(doc(db, "absenceRequests", editItem.id), {
         reason: editReason.trim()
+      });
+
+      await addDoc(collection(db, "notifications"), {
+        userId,
+        message: t("notifAbsenceReasonUpdated", { date: editItem.date }),
+        createdAt: serverTimestamp(),
       });
 
       setShowEditModal(false);

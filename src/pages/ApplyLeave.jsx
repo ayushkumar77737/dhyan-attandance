@@ -10,6 +10,7 @@ import {
     getDoc,
     query,
     where,
+    serverTimestamp,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -177,6 +178,12 @@ function ApplyLeave() {
                 reason: reason.trim(),
                 status: "Pending",
                 createdAt: new Date().toISOString(),
+            });
+
+            await addDoc(collection(db, "notifications"), {
+                userId,
+                message: t("notifLeaveSubmitted", { type: typeLabel(leaveType), date: leaveDate }),
+                createdAt: serverTimestamp(),
             });
 
             showToast("success", t("leaveSubmitted") || "Leave request submitted");

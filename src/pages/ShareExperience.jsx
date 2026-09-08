@@ -148,6 +148,11 @@ function ShareExperience() {
                 createdAt: new Date().toISOString(),
             });
             await logUserAction("share_experience", { details: t("uaShareExperienceDetail", { rating }) });
+            await addDoc(collection(db, "notifications"), {
+                userId,
+                message: t("notifExperienceShared", { rating }),
+                createdAt: new Date().toISOString(),
+            });
             setSubmitted(true);
         } catch (err) {
             console.error(err);

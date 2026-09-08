@@ -241,6 +241,11 @@ function TicketingSupport() {
             await addDoc(collection(db, "tickets"), ticketData);
             await logUserAction("raise_ticket", { details: t("uaRaiseTicketDetail", { issue: form.issue.trim() }) });
             const id = form.idNo.trim().toUpperCase();
+            await addDoc(collection(db, "notifications"), {
+                userId: id,
+                message: t("notifTicketRaised", { issue: form.issue.trim().slice(0, 80) }),
+                createdAt: serverTimestamp(),
+            });
             setForm({ name: "", idNo: "", email: "", issue: "" });
             setShowModal(false);
             showMsg(t("ticketSubmitted"), "success");
@@ -275,6 +280,11 @@ function TicketingSupport() {
             }
             await updateDoc(doc(db, "tickets", editTicket.id), {
                 issue: editIssue.trim()
+            });
+            await addDoc(collection(db, "notifications"), {
+                userId: loggedInId,
+                message: t("notifTicketUpdated"),
+                createdAt: serverTimestamp(),
             });
             setShowEditModal(false);
             setEditTicket(null);

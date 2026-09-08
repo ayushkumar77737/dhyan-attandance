@@ -1433,5 +1433,11 @@
   "sourceIdCreation": "ID Creation",
   "sourceBlocked": "Blocked Accounts",
   "sourceAccountLock": "Account Lock",
-  "sourceOther": "Other"
+  "sourceOther": "Other",
+  "notifAbsenceSubmitted": "Your absence reason for {{date}} has been submitted.",
+  "notifLeaveSubmitted": "Your {{type}} leave request for {{date}} has been submitted.",
+  "notifAbsenceReasonUpdated": "Your absence reason for {{date}} was updated.",
+  "notifTicketRaised": "Your support ticket has been raised: {{issue}}",
+  "notifTicketUpdated": "Your support ticket has been updated.",
+  "notifExperienceShared": "Thanks for sharing your experience — rated {{rating}}★."
 }

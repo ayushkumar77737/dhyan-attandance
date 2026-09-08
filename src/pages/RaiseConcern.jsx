@@ -384,6 +384,12 @@ function RaiseConcern() {
                 updatedAt: serverTimestamp(),
             });
 
+            await addDoc(collection(db, "notifications"), {
+                userId: me.id,
+                message: t("rcSubmitted", "Concern sent. We'll get back to you."),
+                createdAt: serverTimestamp(),
+            });
+
             setDone(true);
             showToast(t("rcSubmitted", "Concern sent. We'll get back to you."), "success");
             setTimeout(() => navigate("/user-dashboard"), 1200);
