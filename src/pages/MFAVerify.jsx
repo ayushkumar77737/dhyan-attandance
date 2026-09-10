@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useTranslation } from "react-i18next";
 import { auth } from "../firebase/firebase";
+import { logLogin } from "../utils/logActivity";
 import "./MFAVerify.css";
 
 import {
@@ -211,6 +212,22 @@ const MFAVerify = () => {
           "userName",
           result.name
         );
+      }
+
+      // --------------------------------------------------
+      // Record the login in activityLogs
+      //
+      // This is the ONLY place a login should be logged:
+      // Login.jsx succeeds on password alone, so logging
+      // there would record users who never passed MFA.
+      //
+      // result.userId is the real users/{id} doc ID, which
+      // is what logLogout() later matches on to close this
+      // session. logLogin() swallows its own errors, so a
+      // failed write never blocks the redirect.
+      // --------------------------------------------------
+      if (result.userId) {
+        await logLogin(result.userId, result.name);
       }
 
       /* Short pause so the success state is visible before the route
