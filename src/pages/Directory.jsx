@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Directory.css";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase/firebase";
-import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import { collection, getDocs, query, where, limit } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useTranslation } from "react-i18next";
 
@@ -89,30 +89,28 @@ function Directory() {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
 
-            if (!user || !user.email) {
+            if (!user) {
                 navigate("/");
                 return;
             }
 
-            const id = user.email
-                .split("@")[0]
-                .toUpperCase();
+            /* Look up the Firestore user doc by Firebase uid rather than
+               deriving the ID from the email string. Personal emails no
+               longer follow the id@gmail.com pattern (see AddUser.jsx /
+               AddAdmin.jsx), so that derivation breaks for every account
+               created after that change. uid is unique, immutable, and
+               already stored on every users/{id} doc — so matching on it
+               also replaces the old `userData.uid !== user.uid` check. */
+            const usersQuery = await getDocs(
+                query(collection(db, "users"), where("uid", "==", user.uid), limit(1))
+            );
 
-            const userRef = doc(db, "users", id);
-
-            const userSnap = await getDoc(userRef);
-
-            if (!userSnap.exists()) {
+            if (usersQuery.empty) {
                 navigate("/");
                 return;
             }
 
-            const userData = userSnap.data();
-
-            if (userData.uid !== user.uid) {
-                navigate("/");
-                return;
-            }
+            const userData = usersQuery.docs[0].data();
 
             if (userData.role === "admin") {
                 navigate("/admin-dashboard");

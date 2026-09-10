@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { useTranslation } from "react-i18next";
 import { db, auth } from "../firebase/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, query, where, limit } from "firebase/firestore";
 import "./HelpSupport.css";
 const HelpSupport = () => {
     const navigate = useNavigate();
@@ -34,30 +34,24 @@ const HelpSupport = () => {
 
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
 
-            if (!user || !user.email) {
+            if (!user) {
                 navigate("/");
                 return;
             }
 
-            const id = user.email
-                .split("@")[0]
-                .toUpperCase();
+            /* Look up by Firebase uid, not by deriving the ID from the
+               email string — personal emails no longer follow the
+               id@gmail.com pattern (see AddUser.jsx / AddAdmin.jsx). */
+            const usersQuery = await getDocs(
+                query(collection(db, "users"), where("uid", "==", user.uid), limit(1))
+            );
 
-            const userRef = doc(db, "users", id);
-
-            const userSnap = await getDoc(userRef);
-
-            if (!userSnap.exists()) {
+            if (usersQuery.empty) {
                 navigate("/");
                 return;
             }
 
-            const userData = userSnap.data();
-
-            if (userData.uid !== user.uid) {
-                navigate("/");
-                return;
-            }
+            const userData = usersQuery.docs[0].data();
 
             if (userData.role === "admin") {
                 navigate("/admin-dashboard");

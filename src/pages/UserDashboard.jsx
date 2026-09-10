@@ -3,7 +3,7 @@ import "./UserDashboard.css";
 import { logLogout } from "../utils/logActivity";
 import { auth, db } from "../firebase/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, query, where, limit } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import useAutoLogout from "../hooks/useAutoLogout";
 import { useTranslation } from "react-i18next";
@@ -178,19 +178,30 @@ function UserDashboard() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user || !user.email) { navigate("/"); return; }
-      const id = String(user.email?.split("@")[0] || "").toUpperCase();
+      if (!user) { navigate("/"); return; }
+
+      /* Look up the Firestore user doc by Firebase uid rather than
+         deriving the ID from the email string. Personal emails no
+         longer follow the id@gmail.com pattern (see AddUser.jsx /
+         AddAdmin.jsx), so that derivation breaks for every account
+         created after that change. uid is unique, immutable, and
+         already stored on every users/{id} doc. */
+      const usersQuery = await getDocs(
+        query(collection(db, "users"), where("uid", "==", user.uid), limit(1))
+      );
+
+      if (usersQuery.empty) { navigate("/"); return; }
+
+      const userSnap = usersQuery.docs[0];
+      const id = userSnap.id;
       setUserId(id);
 
-      const userRef = doc(db, "users", id);
-      const userSnap = await getDoc(userRef);
-      if (!userSnap.exists()) { navigate("/"); return; }
       const userData = userSnap.data();
       if (userData.role === "admin" && userData.uid === auth.currentUser.uid) {
         navigate("/admin-dashboard");
         return;
       }
-      setUserName(userSnap.data().name || id);
+      setUserName(userData.name || id);
       const profileRef = doc(db, "profiles", id);
       const profileSnap = await getDoc(profileRef);
       if (profileSnap.exists()) {

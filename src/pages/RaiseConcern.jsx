@@ -11,6 +11,7 @@ import {
     getDoc,
     query,
     where,
+    limit,
     serverTimestamp,
 } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
@@ -200,11 +201,17 @@ function RaiseConcern() {
         document.addEventListener("keydown", disableInspectKeys);
 
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (!user || !user.email) { navigate("/"); return; }
-            const id = String(user.email.split("@")[0] || "").toUpperCase();
+            if (!user) { navigate("/"); return; }
             try {
-                const snap = await getDoc(doc(db, "users", id));
-                if (!snap.exists()) { navigate("/"); return; }
+                /* Look up by Firebase uid, not by deriving the ID from the
+                   email string — personal emails no longer follow the
+                   id@gmail.com pattern (see AddUser.jsx / AddAdmin.jsx). */
+                const usersQuery = await getDocs(
+                    query(collection(db, "users"), where("uid", "==", user.uid), limit(1))
+                );
+                if (usersQuery.empty) { navigate("/"); return; }
+                const snap = usersQuery.docs[0];
+                const id = snap.id;
                 const data = snap.data();
                 if (data.deleted === true || data.disabled === true) { navigate("/"); return; }
                 let photo = data.profileImage || data.photoURL || data.profileImageUrl || data.imageUrl || "";

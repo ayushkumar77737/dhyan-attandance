@@ -315,6 +315,12 @@ function AddAdmin() {
                 createdAt: new Date().toISOString(),
             });
 
+            /* Lets Login.jsx resolve this ID to the real email before
+               calling signInWithEmailAndPassword — see idEmailMap. */
+            await setDoc(doc(db, "idEmailMap", id), {
+                email: trimmedEmail,
+            });
+
             /* Mirror the image into `profiles/{ID}` so every screen that
                already reads profile photos from there picks it up too. */
             if (photoURL) {

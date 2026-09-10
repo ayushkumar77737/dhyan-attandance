@@ -44,32 +44,33 @@ export default async function handler(req, res) {
     }
 
     // -------------------------------------------------------
-    // 3. Convert Firebase email to your application User ID
+    // 3. Get application user from Firestore
     //
-    // Example:
-    // ABC123@gmail.com
-    //       ↓
-    // ABC123
+    // Accounts no longer use a fabricated USER_ID@gmail.com
+    // address — AddUser.jsx / AddAdmin.jsx now store the real
+    // personal email on users/{id}.email, so the ID can't be
+    // derived from the email string anymore. Look it up by the
+    // stored email field instead.
     // -------------------------------------------------------
-    const userId = email.split("@")[0].toUpperCase();
+    const usersQuery = await adminDb
+      .collection("users")
+      .where("email", "==", email)
+      .limit(1)
+      .get();
 
-    // -------------------------------------------------------
-    // 4. Get application user from Firestore
-    // -------------------------------------------------------
-    const userRef = adminDb.collection("users").doc(userId);
-    const userSnap = await userRef.get();
-
-    if (!userSnap.exists) {
+    if (usersQuery.empty) {
       return res.status(404).json({
         success: false,
         message: "User profile not found",
       });
     }
 
+    const userSnap = usersQuery.docs[0];
+    const userId = userSnap.id;
     const userData = userSnap.data();
 
     // -------------------------------------------------------
-    // 5. MFA MUST be enabled
+    // 4. MFA MUST be enabled
     //
     // If MFA is not enabled, login must NOT continue.
     // -------------------------------------------------------
@@ -82,7 +83,7 @@ export default async function handler(req, res) {
     }
 
     // -------------------------------------------------------
-    // 6. MFA secret must exist
+    // 5. MFA secret must exist
     // -------------------------------------------------------
     if (!userData.mfaSecret) {
       return res.status(403).json({
@@ -92,7 +93,7 @@ export default async function handler(req, res) {
     }
 
     // -------------------------------------------------------
-    // 7. Get authenticator code
+    // 6. Get authenticator code
     // -------------------------------------------------------
     const { code } = req.body || {};
 
@@ -115,7 +116,7 @@ export default async function handler(req, res) {
     }
 
     // -------------------------------------------------------
-    // 8. Verify TOTP code
+    // 7. Verify TOTP code
     // -------------------------------------------------------
     const result = await verify({
       secret: userData.mfaSecret,
@@ -130,7 +131,7 @@ export default async function handler(req, res) {
     }
 
     // -------------------------------------------------------
-    // 9. MFA verification successful
+    // 8. MFA verification successful
     // -------------------------------------------------------
     return res.status(200).json({
       success: true,

@@ -7,7 +7,10 @@ import {
     getDocs,
     doc,
     getDoc,
-    updateDoc
+    updateDoc,
+    query,
+    where,
+    limit
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -83,25 +86,22 @@ function MyNotifications() {
                 return;
             }
 
-            const id = String(
-                user.email?.split("@")[0] || ""
-            ).toUpperCase();
-
             try {
-                const userRef = doc(db, "users", id);
-                const userSnap = await getDoc(userRef);
+                /* Look up by Firebase uid, not by deriving the ID from the
+                   email string — personal emails no longer follow the
+                   id@gmail.com pattern (see AddUser.jsx / AddAdmin.jsx). */
+                const usersQuery = await getDocs(
+                    query(collection(db, "users"), where("uid", "==", user.uid), limit(1))
+                );
 
-                if (!userSnap.exists()) {
+                if (usersQuery.empty) {
                     navigate("/");
                     return;
                 }
 
+                const userSnap = usersQuery.docs[0];
+                const id = userSnap.id;
                 const userData = userSnap.data();
-
-                if (userData.uid !== user.uid) {
-                    navigate("/");
-                    return;
-                }
 
                 if (userData.role === "admin") {
                     navigate("/admin-dashboard");

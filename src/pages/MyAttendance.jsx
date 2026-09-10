@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { auth, db } from "../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import { collection, getDocs, query, where, limit } from "firebase/firestore";
 
 import { useTranslation } from "react-i18next";
 import useAutoLogout from "../hooks/useAutoLogout";
@@ -117,16 +117,25 @@ function MyAttendance() {
         document.addEventListener("keydown", disableInspectKeys);
 
         const unsub = onAuthStateChanged(auth, async (user) => {
-            if (!user || !user.email) { navigate("/"); return; }
-            const id = String(user.email.split("@")[0] || "").toUpperCase();
-            setUserId(id);
+            if (!user) { navigate("/"); return; }
             try {
-                // Role guard — block admins from this user-only page
-                const userRef = doc(db, "users", id);
-                const userSnap = await getDoc(userRef);
-                if (!userSnap.exists()) { navigate("/"); return; }
+                /* Role guard — look up the Firestore user doc by Firebase uid
+                   rather than deriving the ID from the email string. Personal
+                   emails no longer follow the id@gmail.com pattern (see
+                   AddUser.jsx / AddAdmin.jsx), so that derivation breaks for
+                   every account created after that change. uid is unique,
+                   immutable, and already stored on every users/{id} doc. */
+                const usersQuery = await getDocs(
+                    query(collection(db, "users"), where("uid", "==", user.uid), limit(1))
+                );
+                if (usersQuery.empty) { navigate("/"); return; }
+
+                const userSnap = usersQuery.docs[0];
+                const id = userSnap.id;
+                setUserId(id);
+
                 const userData = userSnap.data();
-                if (userData.role === "admin" && userData.uid === auth.currentUser.uid) {
+                if (userData.role === "admin") {
                     navigate("/admin-dashboard");
                     return;
                 }

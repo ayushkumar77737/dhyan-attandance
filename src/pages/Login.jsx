@@ -175,7 +175,20 @@ const Login = () => {
         rememberMe ? browserLocalPersistence : browserSessionPersistence
       );
 
-      const email = safeId + "@gmail.com";
+      /* Resolve the ID to a real email via idEmailMap (written by AddUser
+         and AddAdmin at account-creation time). Falls back to the old
+         id@gmail.com pattern for accounts created before this lookup
+         collection existed, so nobody already using the app is locked out. */
+      let email = `${safeId}@gmail.com`;
+      try {
+        const mapSnap = await getDoc(doc(db, "idEmailMap", safeId));
+        if (mapSnap.exists() && mapSnap.data().email) {
+          email = mapSnap.data().email;
+        }
+      } catch (mapErr) {
+        console.warn("idEmailMap lookup failed, falling back to id@gmail.com:", mapErr);
+      }
+
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
       await setDoc(userRef, {

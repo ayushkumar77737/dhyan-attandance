@@ -10,6 +10,7 @@ import {
     getDoc,
     query,
     where,
+    limit,
     serverTimestamp,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
@@ -81,18 +82,24 @@ function ApplyLeave() {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (!user || !user.email) {
+            if (!user) {
                 navigate("/");
                 return;
             }
-            const id = String(user.email.split("@")[0] || "").toUpperCase();
 
             try {
-                const userSnap = await getDoc(doc(db, "users", id));
-                if (!userSnap.exists()) {
+                /* Look up by Firebase uid, not by deriving the ID from the
+                   email string — personal emails no longer follow the
+                   id@gmail.com pattern (see AddUser.jsx / AddAdmin.jsx). */
+                const usersQuery = await getDocs(
+                    query(collection(db, "users"), where("uid", "==", user.uid), limit(1))
+                );
+                if (usersQuery.empty) {
                     navigate("/");
                     return;
                 }
+                const userSnap = usersQuery.docs[0];
+                const id = userSnap.id;
                 const userData = userSnap.data();
 
                 // Admins shouldn't access user pages — bounce to admin dashboard

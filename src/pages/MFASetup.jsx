@@ -7,8 +7,6 @@ import {
   getMfaStatus,
 } from "../utils/mfa";
 import "./MFASetup.css";
-import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from "../firebase/firebase";
 
 const CODE_LENGTH = 6;
 
@@ -78,38 +76,6 @@ const MFASetup = () => {
   const [shake, setShake] = useState(false);
   const [focused, setFocused] = useState(false);
 
-  const redirectToDashboard = async () => {
-    try {
-      const user = auth.currentUser;
-
-      if (!user) {
-        navigate("/login", { replace: true });
-        return;
-      }
-
-      const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
-
-      if (userSnap.exists()) {
-        const userData = userSnap.data();
-
-        if (userData.role === "admin") {
-          navigate("/admin-dashboard", { replace: true });
-          return;
-        }
-      }
-
-      // Normal user
-      navigate("/user-dashboard", { replace: true });
-
-    } catch (error) {
-      console.error("Dashboard redirect error:", error);
-
-      // Safe fallback
-      navigate("/user-dashboard", { replace: true });
-    }
-  };
-
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -125,7 +91,14 @@ const MFASetup = () => {
       const status = await getMfaStatus();
 
       if (status.enabled === true) {
-        navigate("/user-dashboard", { replace: true });
+        /* Already enabled but somehow landed here — send them through
+           the normal verify step rather than straight to a dashboard.
+           Login.jsx / MFAVerify.jsx are what actually set localStorage's
+           userId/userName/adminAuth/userAuth from the backend's role, so
+           skipping straight to a dashboard (especially for an admin)
+           leaves that unset and the admin dashboard's guard bounces
+           them out. */
+        navigate("/mfa-verify", { replace: true });
         return;
       }
 
@@ -178,9 +151,15 @@ const MFASetup = () => {
 
       setSuccess(t("mfaSetupSuccess"));
 
-      // Give the user a moment to see the success message
+      /* Setup being enabled isn't the same as being verified for THIS
+         session. Send both admins and regular users through the normal
+         verify step next — that's the only place that writes the
+         localStorage state (userId/userName/adminAuth/userAuth) either
+         dashboard's guard actually relies on. Going straight to a
+         dashboard from here skipped that, which is exactly why an admin
+         ended up bounced to the landing page instead of their dashboard. */
       setTimeout(() => {
-        navigate("/user-dashboard", { replace: true });
+        navigate("/mfa-verify", { replace: true });
       }, 1000);
     } catch (err) {
       console.error("MFA verification error:", err);

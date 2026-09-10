@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./SubmitReason.css";
 
 import { auth, db } from "../firebase/firebase";
-import { addDoc, collection, query, where, getDocs, doc, getDoc, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, query, where, getDocs, doc, getDoc, limit, serverTimestamp } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -32,21 +32,22 @@ function SubmitReason() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user && user.email) {
+      if (user) {
 
-        const id = String(
-          user.email?.split("@")[0] || ""
-        ).toUpperCase();
+        /* Look up by Firebase uid, not by deriving the ID from the
+           email string — personal emails no longer follow the
+           id@gmail.com pattern (see AddUser.jsx / AddAdmin.jsx). */
+        const usersQuery = await getDocs(
+          query(collection(db, "users"), where("uid", "==", user.uid), limit(1))
+        );
 
-        const userRef = doc(db, "users", id);
-
-        const userSnap = await getDoc(userRef);
-
-        if (!userSnap.exists()) {
+        if (usersQuery.empty) {
           navigate("/");
           return;
         }
 
+        const userSnap = usersQuery.docs[0];
+        const id = userSnap.id;
         const userData = userSnap.data();
 
         if (

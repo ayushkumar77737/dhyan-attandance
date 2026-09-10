@@ -3,7 +3,7 @@ import "./ShowQR.css";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, query, where, limit } from "firebase/firestore";
 import QRCode from "qrcode";
 import { useTranslation } from "react-i18next";
 
@@ -39,21 +39,26 @@ function ShowQR() {
         document.addEventListener("keydown", disableInspectKeys);
 
         const unsub = onAuthStateChanged(auth, async (user) => {
-            if (!user || !user.email) {
+            if (!user) {
                 navigate("/");
                 return;
             }
 
-            const id = String(
-                user.email?.split("@")[0] || ""
-            ).toUpperCase();
+            /* Look up by Firebase uid, not by deriving the ID from the
+               email string — personal emails no longer follow the
+               id@gmail.com pattern (see AddUser.jsx / AddAdmin.jsx). */
+            const usersQuery = await getDocs(
+                query(collection(db, "users"), where("uid", "==", user.uid), limit(1))
+            );
+
+            if (usersQuery.empty) {
+                navigate("/");
+                return;
+            }
+
+            const snap = usersQuery.docs[0];
+            const id = snap.id;
             setUserId(id);
-            const snap = await getDoc(doc(db, "users", id));
-
-            if (!snap.exists()) {
-                navigate("/");
-                return;
-            }
             const userData = snap.data();
 
             if (
@@ -64,7 +69,7 @@ function ShowQR() {
                 return;
             }
 
-            setUserName(snap.data().name || id);
+            setUserName(userData.name || id);
             // QR is drawn by the effect below (keyed on userId) once the id is
             // set — no need to also draw it here, which caused a double render.
         });

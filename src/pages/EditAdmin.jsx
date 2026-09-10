@@ -3,7 +3,7 @@ import "./EditAdmin.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { logAdminAction } from "../utils/logAdminAction";
 import { db, auth } from "../firebase/firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 
 import { useTranslation } from "react-i18next";
 import useAutoLogout from "../hooks/useAutoLogout";
@@ -173,10 +173,7 @@ function EditAdmin() {
 
         const trimmedName = name.trim();
         const trimmedEmail = String(email).trim().toLowerCase();
-        if (id.toUpperCase() === "ADMIN1") {
-            setMsg({ type: "error", text: t("superAdminProtected") });
-            return;
-        }
+
         if (trimmedName.length > 50) {
             setMsg({ type: "error", text: t("nameTooLong") });
             return;
@@ -211,6 +208,14 @@ function EditAdmin() {
                 name: trimmedName,
                 email: trimmedEmail,
             });
+
+            /* Keep idEmailMap in sync — Login.jsx resolves this admin's ID
+               to their email via that collection, so an email change here
+               has to be mirrored there or the next login will fail. merge
+               handles both the "doc already exists" and "doc doesn't exist
+               yet" cases (older accounts) in one call. */
+            await setDoc(doc(db, "idEmailMap", id), { email: trimmedEmail }, { merge: true });
+
             await logAdminAction("update_admin", {
                 targetId: id,
                 details: `Updated admin ${trimmedName}`,

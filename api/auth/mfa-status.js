@@ -32,13 +32,13 @@ export default async function handler(req, res) {
     const decodedToken = await adminAuth.verifyIdToken(idToken);
 
     // -------------------------------------------------------
-    // 3. Get User ID
+    // 3. Get the user's Firestore doc
     //
-    // Your Login.jsx uses:
-    // users/{USER_ID}
-    //
-    // Firebase login email is:
-    // USER_ID@gmail.com
+    // Accounts no longer use a fabricated USER_ID@gmail.com
+    // address — AddUser.jsx / AddAdmin.jsx now store the real
+    // personal email on users/{id}.email, so the ID can't be
+    // derived from the email string anymore. Look it up by the
+    // stored email field instead.
     // -------------------------------------------------------
     const email = decodedToken.email;
 
@@ -49,30 +49,30 @@ export default async function handler(req, res) {
       });
     }
 
-    const userId = email.split("@")[0].toUpperCase();
+    const usersQuery = await adminDb
+      .collection("users")
+      .where("email", "==", email)
+      .limit(1)
+      .get();
 
-    // -------------------------------------------------------
-    // 4. Get user document from Firestore
-    // -------------------------------------------------------
-    const userRef = adminDb.collection("users").doc(userId);
-    const userSnap = await userRef.get();
-
-    if (!userSnap.exists) {
+    if (usersQuery.empty) {
       return res.status(404).json({
         success: false,
         message: "User profile not found",
       });
     }
 
+    const userSnap = usersQuery.docs[0];
+    const userId = userSnap.id;
     const userData = userSnap.data();
 
     // -------------------------------------------------------
-    // 5. Check MFA
+    // 4. Check MFA
     // -------------------------------------------------------
     const mfaEnabled = userData.mfaEnabled === true;
 
     // -------------------------------------------------------
-    // 6. Return MFA status
+    // 5. Return MFA status
     // -------------------------------------------------------
     return res.status(200).json({
       success: true,

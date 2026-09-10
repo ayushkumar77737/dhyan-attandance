@@ -45,32 +45,34 @@ export default async function handler(req, res) {
     }
 
     // -------------------------------------------------------
-    // 3. Get your application's User ID
+    // 3. Find the user in Firestore
     //
-    // Example:
-    // ABC123@gmail.com
-    //        ↓
-    // ABC123
+    // Accounts no longer use a fabricated USER_ID@gmail.com
+    // address — AddUser.jsx / AddAdmin.jsx now store the real
+    // personal email on users/{id}.email, so the ID can't be
+    // derived from the email string anymore. Look it up by the
+    // stored email field instead.
     // -------------------------------------------------------
-    const userId = email.split("@")[0].toUpperCase();
+    const usersQuery = await adminDb
+      .collection("users")
+      .where("email", "==", email)
+      .limit(1)
+      .get();
 
-    // -------------------------------------------------------
-    // 4. Find the user in Firestore
-    // -------------------------------------------------------
-    const userRef = adminDb.collection("users").doc(userId);
-    const userSnap = await userRef.get();
-
-    if (!userSnap.exists) {
+    if (usersQuery.empty) {
       return res.status(404).json({
         success: false,
         message: "User profile not found",
       });
     }
 
+    const userSnap = usersQuery.docs[0];
+    const userRef = userSnap.ref;
+    const userId = userSnap.id;
     const userData = userSnap.data();
 
     // -------------------------------------------------------
-    // 5. Check whether MFA is already enabled
+    // 4. Check whether MFA is already enabled
     // -------------------------------------------------------
     if (userData.mfaEnabled === true) {
       return res.status(400).json({
@@ -80,12 +82,12 @@ export default async function handler(req, res) {
     }
 
     // -------------------------------------------------------
-    // 6. Generate a new TOTP secret
+    // 5. Generate a new TOTP secret
     // -------------------------------------------------------
     const secret = generateSecret();
 
     // -------------------------------------------------------
-    // 7. Create Authenticator URI
+    // 6. Create Authenticator URI
     //
     // This is what Google Authenticator,
     // Microsoft Authenticator, etc. use.
@@ -99,12 +101,12 @@ export default async function handler(req, res) {
     });
 
     // -------------------------------------------------------
-    // 8. Generate QR code
+    // 7. Generate QR code
     // -------------------------------------------------------
     const qrCode = await QRCode.toDataURL(otpauthUrl);
 
     // -------------------------------------------------------
-    // 9. Save secret as PENDING MFA setup
+    // 8. Save secret as PENDING MFA setup
     //
     // MFA remains disabled until the user verifies
     // a valid authenticator code.
@@ -121,7 +123,7 @@ export default async function handler(req, res) {
     );
 
     // -------------------------------------------------------
-    // 10. Return setup information
+    // 9. Return setup information
     // -------------------------------------------------------
     return res.status(200).json({
       success: true,

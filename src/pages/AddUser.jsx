@@ -30,6 +30,12 @@ const icons = {
             <path d="M14 10h4M14 13.5h4M5 16.5h6" />
         </svg>
     ),
+    mail: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
+            <polyline points="22,6 12,13 2,6" />
+        </svg>
+    ),
     lock: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
             <rect x="4" y="10" width="16" height="11" rx="2.5" /><path d="M8 10V7a4 4 0 0 1 8 0v3" />
@@ -94,6 +100,9 @@ const Dots = ({ className }) => (
     </svg>
 );
 
+/* Same permissive-enough check used elsewhere in this app (AddAdmin.jsx). */
+const isValidEmail = (val) => /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test(val);
+
 function AddUser() {
 
     const { t } = useTranslation();
@@ -122,6 +131,7 @@ function AddUser() {
 
     const [name, setName] = useState("");
     const [idNo, setIdNo] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [message, setMessage] = useState("");
@@ -211,6 +221,20 @@ function AddUser() {
             return;
         }
 
+        if (!email.trim()) {
+            setErrorMsg(t("emailRequired"));
+            setLoading(false);
+            clearMessages();
+            return;
+        }
+
+        if (!isValidEmail(email.trim())) {
+            setErrorMsg(t("invalidEmail"));
+            setLoading(false);
+            clearMessages();
+            return;
+        }
+
         if (!password.trim()) {
             setErrorMsg(t("passwordRequired") || "Password is required.");
             setLoading(false);
@@ -227,7 +251,7 @@ function AddUser() {
 
         try {
             const cleanId = idNo.toUpperCase();
-            const email = cleanId + "@gmail.com";
+            const trimmedEmail = email.trim();
 
             const existingUser = await getDoc(
                 doc(db, "users", cleanId)
@@ -242,7 +266,7 @@ function AddUser() {
             const userCredential =
                 await createUserWithEmailAndPassword(
                     secondaryAuth,
-                    email,
+                    trimmedEmail,
                     password
                 );
 
@@ -252,15 +276,23 @@ function AddUser() {
                 uid: uid,
                 name: name,
                 id: idNo,
-                email: email,
+                email: trimmedEmail,
                 role: "user",
                 deleted: false,
                 createdAt: serverTimestamp()
             });
+
+            /* Lets Login.jsx resolve this ID to the real email before
+               calling signInWithEmailAndPassword — see idEmailMap. */
+            await setDoc(doc(db, "idEmailMap", cleanId), {
+                email: trimmedEmail,
+            });
+
             await logAdminAction("create_user", { targetId: cleanId, details: t("logCreatedUser", { name }) });
             setMessage(t("userAddedSuccess"));
             setName("");
             setIdNo("");
+            setEmail("");
             setPassword("");
             setShowPassword(false);
             setLoading(false);
@@ -272,12 +304,15 @@ function AddUser() {
                 setErrorMsg(t("userIdExists"));
             } else if (error.code === "auth/weak-password") {
                 setErrorMsg(t("weakPassword"));
+            } else if (error.code === "auth/invalid-email") {
+                setErrorMsg(t("invalidEmail"));
             } else {
                 setErrorMsg(t("somethingWentWrong"));
             }
 
             setName("");
             setIdNo("");
+            setEmail("");
             setPassword("");
             setShowPassword(false);
             setLoading(false);
@@ -385,6 +420,23 @@ function AddUser() {
                             onChange={(e) => {
                                 const value = e.target.value;
                                 if (/^[a-zA-Z0-9]*$/.test(value)) setIdNo(value.toUpperCase());
+                            }}
+                        />
+                    </div>
+
+                    <div className="au-field">
+                        <span className="au-required-mark-inline" aria-hidden="true">*</span>
+                        <span className="au-field-icon">{icons.mail}</span>
+                        <input
+                            type="email"
+                            placeholder={t("enterEmail")}
+                            value={email}
+                            autoComplete="off"
+                            required
+                            aria-required="true"
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^[a-zA-Z0-9@.]*$/.test(value)) setEmail(value);
                             }}
                         />
                     </div>

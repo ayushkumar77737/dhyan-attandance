@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import "./MyActivity.css";
 import { auth, db } from "../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, query, where, orderBy, getDocs, doc, getDoc } from "firebase/firestore";
+import { collection, query, where, orderBy, getDocs, limit } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import useAutoLogout from "../hooks/useAutoLogout";
 import { useTranslation } from "react-i18next";
@@ -114,19 +114,25 @@ function MyActivity() {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (!user || !user.email) { navigate("/"); return; }
-            const id = String(
-                user.email?.split("@")[0] || ""
-            ).toUpperCase();
-            setUserId(id);
+            if (!user) { navigate("/"); return; }
 
             try {
-                const userSnap = await getDoc(doc(db, "users", id));
-                if (!userSnap.exists()) { navigate("/"); return; }
-                if (
-                    userSnap.data().role === "admin" &&
-                    userSnap.data().uid === auth.currentUser.uid
-                ) {
+                /* Look up the Firestore user doc by Firebase uid rather than
+                   deriving the ID from the email string. Personal emails no
+                   longer follow the id@gmail.com pattern (see AddUser.jsx /
+                   AddAdmin.jsx), so that derivation breaks for every account
+                   created after that change. uid is unique, immutable, and
+                   already stored on every users/{id} doc. */
+                const usersQuery = await getDocs(
+                    query(collection(db, "users"), where("uid", "==", user.uid), limit(1))
+                );
+                if (usersQuery.empty) { navigate("/"); return; }
+
+                const userSnap = usersQuery.docs[0];
+                const id = userSnap.id;
+                setUserId(id);
+
+                if (userSnap.data().role === "admin") {
                     navigate("/admin-dashboard");
                     return;
                 }

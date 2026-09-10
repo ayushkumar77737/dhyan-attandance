@@ -7,6 +7,7 @@ import {
     addDoc,
     query,
     where,
+    limit,
     getDocs,
     doc,
     getDoc
@@ -63,23 +64,25 @@ function ShareExperience() {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (!user || !user.email) {
+            if (!user) {
                 navigate("/");
                 return;
             }
 
-            const id = String(
-                user.email?.split("@")[0] || ""
-            ).toUpperCase();
-            const userRef = doc(db, "users", id);
+            /* Look up by Firebase uid, not by deriving the ID from the
+               email string — personal emails no longer follow the
+               id@gmail.com pattern (see AddUser.jsx / AddAdmin.jsx). */
+            const usersQuery = await getDocs(
+                query(collection(db, "users"), where("uid", "==", user.uid), limit(1))
+            );
 
-            const userSnap = await getDoc(userRef);
-
-            if (!userSnap.exists()) {
+            if (usersQuery.empty) {
                 navigate("/");
                 return;
             }
 
+            const userSnap = usersQuery.docs[0];
+            const id = userSnap.id;
             const userData = userSnap.data();
 
             if (
@@ -92,12 +95,12 @@ function ShareExperience() {
             setUserId(id);
 
             const today = new Date().toISOString().split("T")[0];
-            const q = query(
+            const expQuery = query(
                 collection(db, "experiences"),
                 where("userId", "==", id),
                 where("date", "==", today)
             );
-            const snap = await getDocs(q);
+            const snap = await getDocs(expQuery);
             if (!snap.empty) setAlreadySubmitted(true);
             setCheckingSubmission(false);
         });
