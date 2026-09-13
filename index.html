@@ -11,14 +11,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Dhyan Attendance Portal</title>
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
-    OneSignalDeferred.push(async function (OneSignal) {
+    OneSignalDeferred.push(async function(OneSignal) {
       await OneSignal.init({
         appId: "76895527-3a75-41bd-a97d-c42be76c62c3",
         allowLocalhostAsSecureOrigin: true,
       });
+      await OneSignal.Slidedown.promptPush();
     });
   </script>
 </head>
