@@ -1439,20 +1439,5 @@
   "notifAbsenceReasonUpdated": "Your absence reason for {{date}} was updated.",
   "notifTicketRaised": "Your support ticket has been raised: {{issue}}",
   "notifTicketUpdated": "Your support ticket has been updated.",
-  "notifExperienceShared": "Thanks for sharing your experience — rated {{rating}}★.",
-  "verificationLinkSent": "Verification link sent!",
-"errorSendingVerification": "Could not send verification email.",
-"emailNotVerified": "Please verify the email before submitting.",
-"emailVerifiedBadge": "✓ Verified",
-"verifyEmailBtn": "Verify",
-"resendVerification": "Resend",
-"sendingVerification": "Sending…",
-"waitingForVerification": "Waiting for verification…",
-"verifyingEmail": "Verifying your email…",
-"emailVerifiedTitle": "Email verified",
-"emailVerifiedSub": "You can close this tab now.",
-"verificationFailedTitle": "Verification failed",
-"verificationFailedSub": "This link is invalid or has expired. Please ask for a new verification email.",
-"confirmEmailTitle": "Confirm your email",
-"confirmEmailSub": "Please enter the email address you're verifying."
+  "notifExperienceShared": "Thanks for sharing your experience — rated {{rating}}★."
 }
