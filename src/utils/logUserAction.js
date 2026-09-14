@@ -16,8 +16,8 @@ export const logUserAction = async (action, extra = {}) => {
     try {
         const currentUser = auth.currentUser;
         const userId =
-            (currentUser?.email ? currentUser.email.split("@")[0].toUpperCase() : null) ||
             (localStorage.getItem("userId") || "").toUpperCase() ||
+            (currentUser?.email ? currentUser.email.split("@")[0].toUpperCase() : null) ||
             "UNKNOWN";
         if (!action) {
             return;
