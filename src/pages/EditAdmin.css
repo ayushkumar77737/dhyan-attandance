@@ -742,3 +742,17 @@
         font-size: 15px;
     }
 }
+.ea-avatar {
+    cursor: pointer;
+    position: relative;
+}
+
+.ea-avatar-uploading {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

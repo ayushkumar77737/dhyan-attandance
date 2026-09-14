@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { logAdminAction } from "../utils/logAdminAction";
 import { db, auth } from "../firebase/firebase";
 import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
+import axios from "axios";
 
 import { useTranslation } from "react-i18next";
 import useAutoLogout from "../hooks/useAutoLogout";
@@ -81,6 +82,7 @@ function EditAdmin() {
     const [uid, setUid] = useState("");
     const [profileKey, setProfileKey] = useState("");
     const [avatarImage, setAvatarImage] = useState("");
+    const [uploadingPhoto, setUploadingPhoto] = useState(false);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [notFound, setNotFound] = useState(false);
@@ -171,6 +173,48 @@ function EditAdmin() {
         const timer = setTimeout(() => setMsg({ type: "", text: "" }), 3000);
         return () => clearTimeout(timer);
     }, [msg]);
+
+    /* Clicking the avatar picks a new photo and uploads it to Cloudinary
+       right away — it doesn't wait for "Update Admin" to be pressed,
+       since the photo isn't part of the name/email form state at all. */
+    const handlePhotoChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const key = profileKey || String(id).toUpperCase();
+
+        setUploadingPhoto(true);
+        setMsg({ type: "", text: "" });
+
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", "user_profile");
+            formData.append("public_id", `${key}_${(original.name || name).replace(/\s+/g, "_")}`);
+
+            const response = await axios.post(
+                "https://api.cloudinary.com/v1_1/dgvjq9bhl/image/upload",
+                formData
+            );
+
+            const newUrl = response.data.secure_url;
+
+            await setDoc(
+                doc(db, "profiles", key),
+                { profileImage: newUrl, id: key, name: original.name || name },
+                { merge: true }
+            );
+
+            setAvatarImage(newUrl);
+            setMsg({ type: "success", text: t("adminUpdatedSuccess") });
+        } catch (err) {
+            console.error("Photo upload error:", err);
+            setMsg({ type: "error", text: t("errorUpdatingAdmin") });
+        } finally {
+            setUploadingPhoto(false);
+            e.target.value = "";
+        }
+    };
 
     const handleUpdate = async () => {
         setMsg({ type: "", text: "" });
@@ -324,7 +368,7 @@ function EditAdmin() {
                     <span className="ea-card-sheen" aria-hidden="true" />
 
                     <div className="ea-card-head">
-                        <span className="ea-avatar">
+                        <label className="ea-avatar" title={t("changePhoto") || "Change photo"}>
                             {getInitials(original.name || name)}
                             {avatarImage ? (
                                 <img
@@ -335,8 +379,21 @@ function EditAdmin() {
                                     onError={(e) => { e.currentTarget.style.display = "none"; }}
                                 />
                             ) : null}
-                            <span className="ea-avatar-badge" aria-hidden="true">{icons.pencil}</span>
-                        </span>
+                            {uploadingPhoto ? (
+                                <span className="ea-avatar-uploading" aria-hidden="true">
+                                    <span className="ea-spinner-sm" />
+                                </span>
+                            ) : (
+                                <span className="ea-avatar-badge" aria-hidden="true">{icons.pencil}</span>
+                            )}
+                            <input
+                                type="file"
+                                accept="image/*"
+                                hidden
+                                disabled={uploadingPhoto}
+                                onChange={handlePhotoChange}
+                            />
+                        </label>
                         <div className="ea-card-head-text">
                             <p className="ea-card-eyebrow">{t("editingRecord") || "Editing admin record"}</p>
                             <span className="editadmin-id-pill">ID: {id}</span>
