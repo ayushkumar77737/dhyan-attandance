@@ -34,6 +34,8 @@ function EditUser() {
 
     const [name, setName] = useState("");
     const [userId, setUserId] = useState("");
+    const [email, setEmail] = useState("");
+    const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState({ text: "", type: "" });
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
     const checkAdmin = async () => {
@@ -91,6 +93,7 @@ function EditUser() {
                 const data = docSnap.data();
                 setName(data.name || "");
                 setUserId(data.id || id);
+                setEmail(data.email || "");
             } else {
                 showMessage(t("userNotFound"));
             }
@@ -100,7 +103,7 @@ function EditUser() {
     };
 
     const handleUpdate = async () => {
-        if (!name.trim() || !userId.trim()) {
+        if (!name.trim() || !userId.trim() || !email.trim()) {
             showMessage(t("fillAllFields"));
             return;
         }
@@ -113,6 +116,13 @@ function EditUser() {
             showMessage(t("idLettersNumbers"));
             return;
         }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showMessage(t("emailInvalid"));
+            return;
+        }
+
+        setSaving(true);
         try {
             const oldRef = doc(db, "users", id);
             const newRef = doc(db, "users", userId);
@@ -125,6 +135,36 @@ function EditUser() {
 
                 if (existingDoc.exists()) {
                     showMessage(t("userIdAlreadyExists"));
+                    setSaving(false);
+                    return;
+                }
+            }
+
+            const trimmedEmail = email.trim();
+            const emailChanged = trimmedEmail !== (oldData.email || "");
+
+            // Update the Firebase Auth email first — this can only be done
+            // by an admin through a server call, never directly from here.
+            if (emailChanged && oldData.uid) {
+                const idToken = await auth.currentUser.getIdToken();
+
+                const res = await fetch("/api/users/update-email", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${idToken}`,
+                    },
+                    body: JSON.stringify({
+                        targetUid: oldData.uid,
+                        newEmail: trimmedEmail,
+                    }),
+                });
+
+                const result = await res.json();
+
+                if (!result.success) {
+                    showMessage(result.message || t("errorUpdatingUser"));
+                    setSaving(false);
                     return;
                 }
             }
@@ -132,7 +172,7 @@ function EditUser() {
             await setDoc(newRef, {
                 ...oldData,
                 name: name.trim(),
-                email: `${userId}@gmail.com`,
+                email: trimmedEmail,
                 id: userId,
                 role: "user"
             });
@@ -165,6 +205,8 @@ function EditUser() {
         } catch (error) {
             console.log("Update Error:", error);
             showMessage(t("errorUpdatingUser"));
+        } finally {
+            setSaving(false);
         }
     };
 
@@ -253,8 +295,30 @@ function EditUser() {
                     </div>
                 </div>
 
-                <button className="update-btn" onClick={handleUpdate}>
-                    <span>{t("updateUser")}</span>
+                <div className="input-group">
+                    <label className="input-label">
+                        {t("emailIdLabel")}
+                        <span className="required-mark" aria-hidden="true">*</span>
+                    </label>
+                    <div className="input-with-icon">
+                        <svg className="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <rect x="2.5" y="5" width="19" height="14" rx="2.5" />
+                            <polyline points="3 7 12 13.5 21 7" />
+                        </svg>
+                        <input
+                            type="text"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder={t("enterEmail")}
+                            aria-label={t("emailIdLabel")}
+                            required
+                            aria-required="true"
+                        />
+                    </div>
+                </div>
+
+                <button className="update-btn" onClick={handleUpdate} disabled={saving}>
+                    <span>{saving ? t("registering") : t("updateUser")}</span>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
