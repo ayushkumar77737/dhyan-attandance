@@ -78,6 +78,7 @@ function EditAdmin() {
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [uid, setUid] = useState("");
     const [avatarImage, setAvatarImage] = useState("");
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -115,6 +116,7 @@ function EditAdmin() {
             const data = snap.data();
             setName(data.name || "");
             setEmail(data.email || "");
+            setUid(data.uid || "");
             setOriginal({ name: data.name || "", email: data.email || "" });
 
             /* Profile photos live in `profiles/{ID}.profileImage` — the same
@@ -201,8 +203,45 @@ function EditAdmin() {
             return;
         }
 
+        const emailChanged = trimmedEmail !== original.email;
+
         try {
             setSaving(true);
+
+            // Firebase Auth email can only be changed by an admin through a
+            // server call — the client SDK can't change someone else's
+            // login email. Do this first; if it fails, nothing else runs,
+            // so Firestore and Auth never drift out of sync.
+            if (emailChanged) {
+                if (!uid) {
+                    setMsg({ type: "error", text: t("errorUpdatingAdmin") });
+                    setSaving(false);
+                    return;
+                }
+
+                const idToken = await auth.currentUser.getIdToken();
+
+                const res = await fetch("/api/users/update-email", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${idToken}`,
+                    },
+                    body: JSON.stringify({
+                        targetUid: uid,
+                        newEmail: trimmedEmail,
+                    }),
+                });
+
+                const result = await res.json();
+
+                if (!result.success) {
+                    setMsg({ type: "error", text: result.message || t("errorUpdatingAdmin") });
+                    setSaving(false);
+                    return;
+                }
+            }
+
             const ref = doc(db, "users", id);
             await updateDoc(ref, {
                 name: trimmedName,
@@ -220,6 +259,7 @@ function EditAdmin() {
                 targetId: id,
                 details: `Updated admin ${trimmedName}`,
             });
+            setOriginal({ name: trimmedName, email: trimmedEmail });
             setMsg({ type: "success", text: t("adminUpdatedSuccess") });
             setTimeout(() => navigate("/all-admins"), 900);
         } catch (err) {
