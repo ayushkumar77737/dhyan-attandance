@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./ProfileRegistration.css";
 import { logAdminAction } from "../utils/logAdminAction";
 import { useNavigate } from "react-router-dom";
-import { db, auth } from "../firebase/firebase";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { db, auth, secondaryAuth } from "../firebase/firebase";
+import { doc, setDoc, getDoc, onSnapshot } from "firebase/firestore";
+import { sendSignInLinkToEmail } from "firebase/auth";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 
@@ -73,6 +74,10 @@ function ProfileRegistration() {
     const [previewImage, setPreviewImage] = useState("");
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
+    /* Email verification (Firebase email-link sign-in) */
+    const [emailVerified, setEmailVerified] = useState(false);
+    const [verifyStatus, setVerifyStatus] = useState("idle"); // idle | sending | sent
+
     const checkAdmin = async () => {
 
         const currentUser = auth.currentUser;
@@ -139,6 +144,24 @@ function ProfileRegistration() {
         return () => URL.revokeObjectURL(previewImage);
     }, [previewImage]);
 
+    /* Watch Firestore in real time for this email's verification status.
+       Switching to a different email automatically resets to unverified,
+       since it's now watching a different document. */
+    useEffect(() => {
+        const email = form.email.trim().toLowerCase();
+
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            setEmailVerified(false);
+            return;
+        }
+
+        const unsubscribe = onSnapshot(doc(db, "emailVerifications", email), (snap) => {
+            setEmailVerified(snap.exists() && snap.data().verified === true);
+        });
+
+        return () => unsubscribe();
+    }, [form.email]);
+
     const showMsg = (text, type = "error") => {
         setMessage({ text, type });
         setTimeout(() => setMessage({ text: "", type: "" }), 3000);
@@ -176,6 +199,33 @@ function ProfileRegistration() {
         setForm({ ...form, phoneNumber: cleaned });
         if (errors.phoneNumber) setErrors({ ...errors, phoneNumber: "" });
     };
+
+    /* Sends a Firebase passwordless sign-in link to the entered email.
+       Uses secondaryAuth (not the admin's own `auth`) so completing the
+       link elsewhere never touches the logged-in admin's session. */
+    const handleSendVerification = async () => {
+    const email = form.email.trim().toLowerCase();   // ← lowercase here now
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setErrors({ ...errors, email: t("emailInvalid") });
+        return;
+    }
+
+    try {
+        setVerifyStatus("sending");
+        await sendSignInLinkToEmail(secondaryAuth, email, {
+            url: `${window.location.origin}/verify-email`,
+            handleCodeInApp: true,
+        });
+        localStorage.setItem("emailForSignIn", email);   // ← already lowercase
+        setVerifyStatus("sent");
+        showMsg(t("verificationLinkSent"), "success");
+    } catch (error) {
+        console.error(error);
+        setVerifyStatus("idle");
+        showMsg(t("errorSendingVerification"));
+    }
+};
 
     const validateForm = () => {
         const newErrors = {};
@@ -260,6 +310,11 @@ function ProfileRegistration() {
     const handleSubmit = async () => {
         if (!validateForm()) return;
 
+        if (!emailVerified) {
+            showMsg(t("emailNotVerified"));
+            return;
+        }
+
         setLoading(true);
         try {
             if (form.address.trim().length > 500) {
@@ -309,6 +364,7 @@ function ProfileRegistration() {
             });
             setImageFile(null);
             setPreviewImage("");
+            setVerifyStatus("idle");
 
         } catch (error) {
             console.error(error);
@@ -524,14 +580,39 @@ function ProfileRegistration() {
                             <label className="preg__label">
                                 {t("emailIdLabel")} <span className="preg__req">*</span>
                             </label>
-                            <input
-                                className={`preg__input ${errors.email ? "preg__input--err" : ""}`}
-                                type="text"
-                                name="email"
-                                value={form.email}
-                                onChange={handleChange}
-                                placeholder={t("enterEmail")}
-                            />
+                            <div className="preg__email-row">
+                                <input
+                                    className={`preg__input ${errors.email ? "preg__input--err" : ""}`}
+                                    type="text"
+                                    name="email"
+                                    value={form.email}
+                                    onChange={handleChange}
+                                    placeholder={t("enterEmail")}
+                                />
+                                {emailVerified ? (
+                                    <span className="preg__verify-badge preg__verify-badge--ok">
+                                        {t("emailVerifiedBadge")}
+                                    </span>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        className="preg__verify-btn"
+                                        onClick={handleSendVerification}
+                                        disabled={verifyStatus === "sending" || !form.email.trim()}
+                                    >
+                                        {verifyStatus === "sending"
+                                            ? t("sendingVerification")
+                                            : verifyStatus === "sent"
+                                                ? t("resendVerification")
+                                                : t("verifyEmailBtn")}
+                                    </button>
+                                )}
+                            </div>
+                            {verifyStatus === "sent" && !emailVerified && (
+                                <span className="preg__verify-badge preg__verify-badge--pending">
+                                    {t("waitingForVerification")}
+                                </span>
+                            )}
                             {errors.email && (
                                 <span className="preg__err-msg">
                                     <IcoWarn /> {errors.email}

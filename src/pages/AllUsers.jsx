@@ -408,8 +408,8 @@ function AllUsers() {
               type="text"
               value={search}
               onChange={(e) => {
-                const value = e.target.value.toUpperCase();
-                if (/^[A-Z0-9@]*$/.test(value)) setSearch(value);
+                const value = e.target.value;
+                if (/^[a-zA-Z0-9@]*$/.test(value)) setSearch(value);
               }}
               placeholder={t("searchByNameIdEmail") || "Search by name, ID or email…"}
             />
