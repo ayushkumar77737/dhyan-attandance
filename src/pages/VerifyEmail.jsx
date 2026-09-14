@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./VerifyEmail.css";
-import { db, secondaryAuth } from "../firebase/firebase";
+import { db, secondaryAuth, secondaryDb } from "../firebase/firebase";
 import {
   isSignInWithEmailLink,
   signInWithEmailLink,
@@ -16,11 +16,11 @@ function VerifyEmail() {
   const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
   const completeVerification = async (rawEmail) => {
-    const email = rawEmail.trim().toLowerCase();   // ← lowercase here too
+    const email = rawEmail.trim().toLowerCase();
     try {
       await signInWithEmailLink(secondaryAuth, email, window.location.href);
 
-      await setDoc(doc(db, "emailVerifications", email), {
+      await setDoc(doc(secondaryDb, "emailVerifications", email), {   // ← secondaryDb, not db
         email: email,
         verified: true,
         verifiedAt: new Date().toISOString(),
