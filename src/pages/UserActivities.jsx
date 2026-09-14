@@ -12,6 +12,8 @@ import {
     getDoc,
     query,
     orderBy,
+    where,
+    limit,
 } from "firebase/firestore";
 
 import { useTranslation } from "react-i18next";
@@ -206,11 +208,13 @@ function UserActivities() {
                 const fallbackName = rows.find((l) => l.userId === userId)?.name || "";
                 let resolvedName = fallbackName;
                 let avatarResult = null;
+                let found = false;
 
                 for (const path of ["users", "profiles"]) {
                     try {
                         const snap = await getDoc(doc(db, path, userId));
                         if (snap.exists()) {
+                            found = true;
                             const u = snap.data();
 
                             if (u.name) resolvedName = u.name;
@@ -225,6 +229,40 @@ function UserActivities() {
                                     avatarResult = stored;
                                 } else {
                                     const derived = getProfileImageUrl(userId, u.name || fallbackName);
+                                    if (derived) avatarResult = derived;
+                                }
+                            }
+                        }
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
+
+                /* Older log entries (from before a fix to logUserAction.js)
+                   stored an email-derived guess instead of the real account
+                   ID, so the direct lookup above finds nothing. As a last
+                   resort, guess the email this ID would produce under that
+                   old pattern and look the account up by its real email
+                   field instead. */
+                if (!found) {
+                    try {
+                        const guessedEmail = `${userId.toLowerCase()}@gmail.com`;
+                        const q = query(
+                            collection(db, "users"),
+                            where("email", "==", guessedEmail),
+                            limit(1)
+                        );
+                        const qSnap = await getDocs(q);
+                        if (!qSnap.empty) {
+                            const u = qSnap.docs[0].data();
+                            if (u.name) resolvedName = u.name;
+                            if (!avatarResult) {
+                                const stored =
+                                    u.profileImage || u.photoURL || u.profileImageUrl || u.imageUrl;
+                                if (stored) {
+                                    avatarResult = stored;
+                                } else {
+                                    const derived = getProfileImageUrl(u.id || userId, u.name || fallbackName);
                                     if (derived) avatarResult = derived;
                                 }
                             }
