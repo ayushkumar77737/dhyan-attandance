@@ -79,6 +79,7 @@ function EditAdmin() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [uid, setUid] = useState("");
+    const [profileKey, setProfileKey] = useState("");
     const [avatarImage, setAvatarImage] = useState("");
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -124,8 +125,9 @@ function EditAdmin() {
                `profileImage` field stored on the user doc itself, and finally
                to initials if neither is set (handled at render time). */
             try {
-                const profileKey = String(data.id || id).toUpperCase();
-                const profileRef = doc(db, "profiles", profileKey);
+                const key = String(data.id || id).toUpperCase();
+                setProfileKey(key);
+                const profileRef = doc(db, "profiles", key);
                 const profileSnap = await getDoc(profileRef);
                 const profileImg = profileSnap.exists() ? profileSnap.data().profileImage : "";
                 setAvatarImage(profileImg || data.profileImage || "");
@@ -254,6 +256,21 @@ function EditAdmin() {
                handles both the "doc already exists" and "doc doesn't exist
                yet" cases (older accounts) in one call. */
             await setDoc(doc(db, "idEmailMap", id), { email: trimmedEmail }, { merge: true });
+
+            // Keep the linked profiles/{ID} record's name in sync too —
+            // it's a separate collection (used for ID cards / directory)
+            // that doesn't auto-update when the users doc changes.
+            if (profileKey) {
+                try {
+                    const profileRef = doc(db, "profiles", profileKey);
+                    const profileSnap = await getDoc(profileRef);
+                    if (profileSnap.exists()) {
+                        await updateDoc(profileRef, { name: trimmedName });
+                    }
+                } catch (e) {
+                    console.warn("EditAdmin: could not sync profile name —", e);
+                }
+            }
 
             await logAdminAction("update_admin", {
                 targetId: id,
