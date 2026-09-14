@@ -178,6 +178,7 @@ function UserActivities() {
     const [search, setSearch] = useState("");
     const [busy, setBusy] = useState(false);
     const [avatars, setAvatars] = useState({});
+    const [names, setNames] = useState({});
 
     // Confirm dialog state: { message, confirmLabel, onConfirm } or null
     const [confirmState, setConfirmState] = useState(null);
@@ -193,38 +194,56 @@ function UserActivities() {
     const askConfirm = (message, confirmLabel, onConfirm) =>
         setConfirmState({ message, confirmLabel, onConfirm });
 
-    /* One lookup per distinct user, not per log row. */
-    const loadAvatars = async (rows) => {
+    /* One lookup per distinct user, not per log row. Resolves both the
+       avatar AND the current real name from users/profiles — the log
+       row's own `name` field is just a snapshot from whenever that
+       action happened, and goes stale after a rename. */
+    const loadUserDetails = async (rows) => {
         const ids = [...new Set(rows.map((l) => l.userId).filter((v) => v && v !== "—"))];
 
-        const entries = await Promise.all(
+        const results = await Promise.all(
             ids.map(async (userId) => {
                 const fallbackName = rows.find((l) => l.userId === userId)?.name || "";
+                let resolvedName = fallbackName;
+                let avatarResult = null;
 
                 for (const path of ["users", "profiles"]) {
                     try {
                         const snap = await getDoc(doc(db, path, userId));
                         if (snap.exists()) {
                             const u = snap.data();
-                            const stored =
-                                u.profileImage ||
-                                u.photoURL ||
-                                u.profileImageUrl ||
-                                u.imageUrl;
-                            if (stored) return [userId, stored];
-                            const derived = getProfileImageUrl(userId, u.name || fallbackName);
-                            if (derived) return [userId, derived];
+
+                            if (u.name) resolvedName = u.name;
+
+                            if (!avatarResult) {
+                                const stored =
+                                    u.profileImage ||
+                                    u.photoURL ||
+                                    u.profileImageUrl ||
+                                    u.imageUrl;
+                                if (stored) {
+                                    avatarResult = stored;
+                                } else {
+                                    const derived = getProfileImageUrl(userId, u.name || fallbackName);
+                                    if (derived) avatarResult = derived;
+                                }
+                            }
                         }
                     } catch (err) {
                         console.log(err);
                     }
                 }
 
-                return [userId, getProfileImageUrl(userId, fallbackName)];
+                if (!avatarResult) {
+                    avatarResult = getProfileImageUrl(userId, resolvedName || fallbackName);
+                }
+
+                return { userId, name: resolvedName, avatar: avatarResult };
             })
         );
 
-        setAvatars(Object.fromEntries(entries));
+        setAvatars(Object.fromEntries(results.map((r) => [r.userId, r.avatar])));
+        setNames(Object.fromEntries(results.map((r) => [r.userId, r.name])));
     };
 
     const fetchLogs = async () => {
@@ -239,7 +258,7 @@ function UserActivities() {
             const rows = snap.docs.map((d) => normalize(d.id, d.data()));
             rows.sort((a, b) => (b.ts?.getTime() || 0) - (a.ts?.getTime() || 0));
             setLogs(rows);
-            loadAvatars(rows);
+            loadUserDetails(rows);
         } catch (err) {
             console.log(err);
             setLogs([]);
@@ -266,7 +285,13 @@ function UserActivities() {
 
     const groups = {};
     logs.forEach((l) => {
-        if (!groups[l.userId]) groups[l.userId] = { userId: l.userId, name: l.name, items: [] };
+        if (!groups[l.userId]) {
+            groups[l.userId] = {
+                userId: l.userId,
+                name: names[l.userId] || l.name,
+                items: [],
+            };
+        }
         groups[l.userId].items.push(l);
     });
     let groupList = Object.values(groups);
@@ -333,7 +358,7 @@ function UserActivities() {
         const escape = (val) => `"${(val ?? "").toString().replace(/"/g, '""')}"`;
 
         const rows = logs.map((l) =>
-            [l.userId, l.name, l.action, l.page, fmtDateTime(l.ts)].map(escape).join(",")
+            [l.userId, names[l.userId] || l.name, l.action, l.page, fmtDateTime(l.ts)].map(escape).join(",")
         );
 
         const csv = [headers.map(escape).join(","), ...rows].join("\n");
