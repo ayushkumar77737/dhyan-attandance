@@ -787,6 +787,67 @@
   white-space: nowrap;
 }
 
+.hero-banner--photo {
+  padding: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  overflow: hidden;
+}
+
+.hero-banner-img-wrap {
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero-banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hero-banner-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px 22px;
+  background: var(--ad-hero-bg);
+  border-top: 1px solid var(--ad-hero-border);
+}
+
+.hero-greeting--photo {
+  color: var(--ad-hero-text);
+  font-size: 20px;
+  margin: 0 0 4px;
+}
+
+.hero-name-accent {
+  background: linear-gradient(120deg, #fcd34d, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dash-shell[data-theme="light"] .hero-name-accent {
+  background: linear-gradient(120deg, #b45309, #92400e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub--photo {
+  color: var(--ad-hero-sub);
+  margin: 0;
+}
+
+.date-pill--photo {
+  flex-shrink: 0;
+}
+
 /* ---------- greeting toast (unchanged, fixed position) ---------- */
 .dashboard-greeting {
   position: fixed;
@@ -1889,6 +1950,63 @@
 
   .tools-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-banner-caption {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .hero-greeting.hero-greeting--photo {
+    font-size: 17px;
+    line-height: 1.3;
+  }
+
+  .hero-sub--photo {
+    font-size: 12px;
+  }
+
+  .date-pill--photo {
+    align-self: stretch;
+    justify-content: flex-start;
+  }
+
+  /* topbar: tighten everything so the search box has room to breathe */
+  .topbar {
+    gap: 8px;
+    padding: 12px 12px;
+  }
+
+  .topbar-icon-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .topbar-icon-btn svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .topbar-search input {
+    padding: 8px 10px 8px 32px;
+    font-size: 13px;
+  }
+
+  .topbar-search-icon {
+    left: 10px;
+  }
+
+  .topbar-search-icon svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .topbar-user {
+    padding: 3px;
   }
 }
 

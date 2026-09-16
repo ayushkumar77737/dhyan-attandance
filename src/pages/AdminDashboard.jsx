@@ -18,6 +18,7 @@ import { logLogout } from "../utils/logActivity";
 import logo from "../assets/logo2.png";
 import logo3 from "../assets/logo3.png";
 import favicon from "../assets/favicon.png";
+import interfaceImage from "../assets/interfaceimage.png";
 
 import { Pie, Line, Bar } from "react-chartjs-2";
 import {
@@ -1103,23 +1104,27 @@ function AdminDashboard() {
         <div className="dash-content">
 
           {/* ----- HERO GREETING BANNER ----- */}
-          <div className="hero-banner">
-            <MeditationArt />
-            <div className="hero-text">
-              <h2 className="hero-greeting">
-                {greetText}, {adminInfo?.name || t("adminLabel")}!{" "}
-                <span className="hero-wave" role="img" aria-hidden="true">👋</span>
-              </h2>
-              <p className="hero-sub">
-                {t("heroSubtitle") || "Here's what's happening with your portal today."}
-              </p>
+          <div className="hero-banner hero-banner--photo">
+            <div className="hero-banner-img-wrap">
+              <img src={interfaceImage} alt="" className="hero-banner-img" />
             </div>
-            <div className="date-pill">
-              <span className="date-pill-icon">{icons.calendar}</span>
-              <span className="date-pill-text">
-                <span className="date-pill-day">{headerDay}</span>
-                <span className="date-pill-date">{headerDateShort}</span>
-              </span>
+            <div className="hero-banner-caption">
+              <div className="hero-text hero-text--photo">
+                <h2 className="hero-greeting hero-greeting--photo">
+                  {greetText}, <span className="hero-name-accent">{(adminInfo?.name || t("adminLabel")).toUpperCase()}!</span>{" "}
+                  <span className="hero-wave" role="img" aria-hidden="true">👋</span>
+                </h2>
+                <p className="hero-sub hero-sub--photo">
+                  {t("heroSubtitle") || "Here's what's happening with your portal today."}
+                </p>
+              </div>
+              <div className="date-pill date-pill--photo">
+                <span className="date-pill-icon">{icons.calendar}</span>
+                <span className="date-pill-text">
+                  <span className="date-pill-day">{headerDay}</span>
+                  <span className="date-pill-date">{headerDateShort}</span>
+                </span>
+              </div>
             </div>
           </div>
 
