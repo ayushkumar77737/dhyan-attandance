@@ -1439,5 +1439,6 @@
   "notifAbsenceReasonUpdated": "Your absence reason for {{date}} was updated.",
   "notifTicketRaised": "Your support ticket has been raised: {{issue}}",
   "notifTicketUpdated": "Your support ticket has been updated.",
-  "notifExperienceShared": "Thanks for sharing your experience — rated {{rating}}★."
+  "notifExperienceShared": "Thanks for sharing your experience — rated {{rating}}★.",
+  "idManagement": "ID Management"
 }
