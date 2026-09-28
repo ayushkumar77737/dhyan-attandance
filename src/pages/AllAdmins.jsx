@@ -240,10 +240,7 @@ function AllAdmins() {
                             type="text"
                             placeholder={t("searchAdmins")}
                             value={search}
-                            onChange={(e) => {
-                                const value = e.target.value;
-                                if (/^[a-zA-Z0-9@]*$/.test(value)) setSearch(value);
-                            }}
+                            onChange={(e) => setSearch(e.target.value.replace(/[^a-zA-Z0-9]/g, ""))}
                         />
                         {search && (
                             <button
