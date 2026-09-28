@@ -1475,3 +1475,24 @@
         transform: none;
     }
 }
+/* tappable rows (admin email) */
+.diry__modal-row--link {
+    text-decoration: none;
+    transition: border-color 0.2s ease, transform 0.18s ease;
+}
+
+.diry__modal-row--link:hover {
+    border-color: var(--a);
+    transform: translateX(2px);
+}
+
+.diry__modal-row--link:focus-visible {
+    outline: 2px solid var(--a);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .diry__modal-row--link:hover {
+        transform: none;
+    }
+}

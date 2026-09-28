@@ -14,7 +14,9 @@ const sanitizeSearch = (v) =>
 
 /* Which profile fields the details popup shows.
    Every member can open this popup, so the more personal fields are OFF
-   by default — set any of them to true to show it. */
+   by default — set any of them to true to show it.
+   (Admins' email is handled separately below — it is their only contact
+   detail, so it always shows for admins.) */
 const VISIBLE_DETAILS = {
     phone: true,
     phoneType: true,
@@ -241,7 +243,8 @@ function Directory() {
                         id: uid,
                         name: data.name || "—",
                         role: data.role || "user",
-                        email: "",
+                        /* only admins' email is kept — members' stay hidden */
+                        email: data.role === "admin" ? (data.email || "") : "",
                         image: prof.profileImage || "",
                         profile: prof,
                     });
@@ -335,6 +338,20 @@ function Directory() {
     };
 
     const detailRows = selected ? buildRows(selected.user.profile || {}) : [];
+
+    /* admins have no phone on file, so their email is their contact detail */
+    const adminEmailRow =
+        selected && selected.user.role === "admin" && selected.user.email
+            ? {
+                key: "adminEmail",
+                icon: <MailIcon />,
+                label: t("emailIdLabel"),
+                value: selected.user.email,
+                href: `mailto:${selected.user.email}`,
+            }
+            : null;
+
+    const allRows = adminEmailRow ? [...detailRows, adminEmailRow] : detailRows;
 
     return (
         <div className="diry__page" data-theme={theme}>
@@ -563,26 +580,38 @@ function Directory() {
                         </div>
 
                         <div className="diry__modal-rows">
-                            {detailRows.length === 0 ? (
+                            {allRows.length === 0 ? (
                                 <p className="diry__modal-empty">
                                     {t("dirNoDetails", "No contact details added yet.")}
                                 </p>
                             ) : (
-                                detailRows.map((r) => (
-                                    <div className="diry__modal-row" key={r.key}>
-                                        <span className="diry__modal-row-icon">{r.icon}</span>
-                                        <div className="diry__modal-row-body">
-                                            <span className="diry__modal-row-label">{r.label}</span>
-                                            {r.badge ? (
-                                                <span className={`diry__modal-badge diry__modal-badge--${r.badge}`}>
-                                                    {r.value}
-                                                </span>
-                                            ) : (
-                                                <span className="diry__modal-row-value">{r.value}</span>
-                                            )}
+                                allRows.map((r) => {
+                                    const inner = (
+                                        <>
+                                            <span className="diry__modal-row-icon">{r.icon}</span>
+                                            <div className="diry__modal-row-body">
+                                                <span className="diry__modal-row-label">{r.label}</span>
+                                                {r.badge ? (
+                                                    <span className={`diry__modal-badge diry__modal-badge--${r.badge}`}>
+                                                        {r.value}
+                                                    </span>
+                                                ) : (
+                                                    <span className="diry__modal-row-value">{r.value}</span>
+                                                )}
+                                            </div>
+                                        </>
+                                    );
+
+                                    return r.href ? (
+                                        <a className="diry__modal-row diry__modal-row--link" href={r.href} key={r.key}>
+                                            {inner}
+                                        </a>
+                                    ) : (
+                                        <div className="diry__modal-row" key={r.key}>
+                                            {inner}
                                         </div>
-                                    </div>
-                                ))
+                                    );
+                                })
                             )}
                         </div>
                     </div>
