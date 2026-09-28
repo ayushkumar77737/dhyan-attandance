@@ -1384,3 +1384,25 @@
         transform: none;
     }
 }
+/* ==================================================================
+   PROFILE PHOTO
+   The photo sits on top of the initial letter. If the user has no
+   photo, or the Cloudinary URL fails, onError hides the <img> and the
+   initial shows through — no extra state, no flicker.
+   ================================================================== */
+.qrv2__avatar,
+.qrv2__fullscreen-avatar {
+    position: relative;
+    overflow: hidden;
+}
+
+.qrv2__avatar-img,
+.qrv2__fullscreen-avatar-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}

@@ -13,6 +13,7 @@ function ShowQR() {
     const canvasRef = useRef(null);
     const [userName, setUserName] = useState("");
     const [userId, setUserId] = useState("");
+    const [avatarImage, setAvatarImage] = useState("");
     const [qrReady, setQrReady] = useState(false);
     const [fullscreen, setFullscreen] = useState(false);
     const [copied, setCopied] = useState(false);
@@ -70,6 +71,21 @@ function ShowQR() {
             }
 
             setUserName(userData.name || id);
+
+            /* Profile photo lives in `profiles/{ID}.profileImage` — the
+               Cloudinary secure_url written by uploadProfileImage(). Falls
+               back to a photo stored on the user doc itself, and finally to
+               the initial letter if neither exists (handled at render time). */
+            try {
+                const profileSnap = await getDoc(doc(db, "profiles", String(id).toUpperCase()));
+                const profileImg = profileSnap.exists() ? profileSnap.data().profileImage : "";
+                setAvatarImage(profileImg || userData.profileImage || userData.photoURL || "");
+            } catch (e) {
+                // Photo is optional — fall back to initials rather than failing.
+                console.warn("ShowQR: could not load profile image —", e);
+                setAvatarImage(userData.profileImage || userData.photoURL || "");
+            }
+
             // QR is drawn by the effect below (keyed on userId) once the id is
             // set — no need to also draw it here, which caused a double render.
         });
@@ -186,6 +202,14 @@ function ShowQR() {
                             <div className="qrv2__avatar-ring" />
                             <div className="qrv2__avatar">
                                 {userName ? userName.charAt(0).toUpperCase() : "?"}
+                                {avatarImage && (
+                                    <img
+                                        className="qrv2__avatar-img"
+                                        src={avatarImage}
+                                        alt={userName}
+                                        onError={(e) => { e.currentTarget.style.display = "none"; }}
+                                    />
+                                )}
                             </div>
                             <span className="qrv2__avatar-status" />
                         </div>
@@ -303,6 +327,14 @@ function ShowQR() {
                         <div className="qrv2__fullscreen-user">
                             <div className="qrv2__fullscreen-avatar">
                                 {userName ? userName.charAt(0).toUpperCase() : "?"}
+                                {avatarImage && (
+                                    <img
+                                        className="qrv2__fullscreen-avatar-img"
+                                        src={avatarImage}
+                                        alt={userName}
+                                        onError={(e) => { e.currentTarget.style.display = "none"; }}
+                                    />
+                                )}
                             </div>
                             <div>
                                 <span className="qrv2__fullscreen-name">{userName}</span>
