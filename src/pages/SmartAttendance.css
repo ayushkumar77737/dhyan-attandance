@@ -2210,3 +2210,34 @@
     color: #fff;
     box-shadow: 0 10px 22px -10px rgba(239, 68, 68, 0.55);
 }
+/* ==================================================================
+   MOBILE — keep the Back button reachable while scrolling
+   ================================================================== */
+
+/* `hidden` is the fallback. `clip` (modern browsers) stops the page from
+   becoming its own scroll container, so nothing can be dragged sideways
+   and the button can't get pushed off the left edge. */
+.satnv2__page {
+    overflow-x: hidden;
+    overflow-x: clip;
+}
+
+@media (max-width: 700px) {
+
+    /* raised above the stats/main blocks (also z-index 1) so cards
+       never slide over the floating button */
+    .satnv2__header {
+        z-index: 40;
+        padding-top: 50px; /* room for the button at the top of the page */
+    }
+
+    .satnv2__back-btn {
+        position: fixed;
+        top: max(12px, env(safe-area-inset-top));
+        left: 12px;
+        z-index: 60;
+        padding: 10px 18px 10px 14px;
+        font-size: 13.5px;
+        box-shadow: 0 8px 22px -6px rgba(0, 0, 0, 0.45);
+    }
+}
