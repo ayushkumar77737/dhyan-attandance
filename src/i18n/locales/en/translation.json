@@ -1522,5 +1522,6 @@
   "arpNoMatch": "No users match your search.",
   "upSearchPh": "Search by name, ID or email...",
   "upShowing": "Showing {{shown}} of {{total}}",
-  "upNoMatch": "No users match your search."
+  "upNoMatch": "No users match your search.",
+  "dirNoDetails": "No contact details added yet."
 }

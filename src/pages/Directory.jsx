@@ -12,6 +12,18 @@ const SEARCH_MAX = 40;
 const sanitizeSearch = (v) =>
     (v || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, SEARCH_MAX);
 
+/* Which profile fields the details popup shows.
+   Every member can open this popup, so the more personal fields are OFF
+   by default — set any of them to true to show it. */
+const VISIBLE_DETAILS = {
+    phone: true,
+    phoneType: true,
+    email: false,
+    fatherHusband: false,
+    dob: false,
+    address: false,
+};
+
 /* ---------------- inline icons (presentational only) ---------------- */
 const IdIcon = () => (
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -31,6 +43,61 @@ const PersonIcon = ({ size = 16 }) => (
 const ShieldIcon = ({ size = 16 }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2 4 5v6.09c0 4.67 3.13 8.64 8 9.91 4.87-1.27 8-5.24 8-9.91V5l-8-3z" />
+    </svg>
+);
+
+const CloseIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+);
+
+const ChevronRightIcon = () => (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="9 18 15 12 9 6" />
+    </svg>
+);
+
+const PhoneIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M6.5 3.5h3l1.5 4-2 1.5a12 12 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2Z" />
+    </svg>
+);
+
+const MobileIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="6.5" y="2.5" width="11" height="19" rx="2.6" />
+        <path d="M10.5 18.5h3" />
+    </svg>
+);
+
+const MailIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="5" width="18" height="14" rx="3" />
+        <path d="M4 7.5l7.1 5a1.6 1.6 0 0 0 1.8 0l7.1-5" />
+    </svg>
+);
+
+const FamilyIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="7.5" cy="7.5" r="2.8" />
+        <circle cx="16.5" cy="7.5" r="2.8" />
+        <path d="M2.5 19a5 5 0 0 1 10 0M11.5 19a5 5 0 0 1 10 0" />
+    </svg>
+);
+
+const CakeIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 20.5h16M4.5 20.5v-6a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v6" />
+        <path d="M4.5 16.5c1.5 0 1.5 1.5 3 1.5s1.5-1.5 3-1.5 1.5 1.5 3 1.5 1.5-1.5 3-1.5 1.5 1.5 3 1.5" />
+        <path d="M12 12.5V9M12 6.2v.1" />
+    </svg>
+);
+
+const HomeIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 10.5L12 4l8 6.5V20H4v-9.5Z" />
+        <path d="M9.5 20v-5.5h5V20" />
     </svg>
 );
 
@@ -68,6 +135,7 @@ function Directory() {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [filterRole, setFilterRole] = useState("all");
+    const [selected, setSelected] = useState(null); // { user, accent }
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     useEffect(() => {
@@ -85,6 +153,21 @@ function Directory() {
             document.removeEventListener("keydown", disableInspectKeys);
         };
     }, []);
+
+    /* details popup: Esc closes it, and the page behind stops scrolling */
+    useEffect(() => {
+        if (!selected) return;
+        const onKey = (e) => {
+            if (e.key === "Escape") setSelected(null);
+        };
+        window.addEventListener("keydown", onKey);
+        const prevOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        return () => {
+            window.removeEventListener("keydown", onKey);
+            document.body.style.overflow = prevOverflow;
+        };
+    }, [selected]);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -129,23 +212,21 @@ function Directory() {
         try {
             setLoading(true);
 
-            /* 1) Load all profile images first.
-               UserDashboard saves them at:  profiles/{UPPERCASE_ID}.profileImage
-               Build a lookup map:  { "EMP001": "https://res.cloudinary.com/..." } */
-            const imageMap = {};
+            /* 1) Load all profiles first.
+               UserDashboard saves them at:  profiles/{UPPERCASE_ID}
+               Build a lookup map:  { "A101": { profileImage, phoneNumber, ... } } */
+            const profileMap = {};
             try {
                 const profileSnap = await getDocs(collection(db, "profiles"));
                 profileSnap.forEach((p) => {
-                    const pd = p.data();
-                    const key = String(p.id || "").toUpperCase();
-                    if (pd.profileImage) imageMap[key] = pd.profileImage;
+                    profileMap[String(p.id || "").toUpperCase()] = p.data();
                 });
             } catch (e) {
                 // If profiles can't be read, cards still render with initials.
-                console.warn("Directory: could not load profile images —", e);
+                console.warn("Directory: could not load profiles —", e);
             }
 
-            /* 2) Load users and attach the matching image */
+            /* 2) Load users and attach the matching profile */
             const snap = await getDocs(collection(db, "users"));
             const list = [];
             snap.forEach((docItem) => {
@@ -155,12 +236,14 @@ function Directory() {
                     data.disabled !== true
                 ) {
                     const uid = String(data.id || docItem.id);
+                    const prof = profileMap[uid.toUpperCase()] || {};
                     list.push({
                         id: uid,
                         name: data.name || "—",
                         role: data.role || "user",
                         email: "",
-                        image: imageMap[uid.toUpperCase()] || "",
+                        image: prof.profileImage || "",
+                        profile: prof,
                     });
                 }
             });
@@ -186,6 +269,72 @@ function Directory() {
 
     const getInitials = (name) =>
         name ? name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2) : "?";
+
+    const openDetails = (user, accent) => setSelected({ user, accent });
+
+    /* Builds the popup's rows from the profile, honouring VISIBLE_DETAILS.
+       A row only appears if that field is switched on AND has a value. */
+    const buildRows = (p) => {
+        const rows = [];
+
+        if (VISIBLE_DETAILS.phone && p.phoneNumber) {
+            rows.push({
+                key: "phone",
+                icon: <PhoneIcon />,
+                label: t("phoneNumberLabel"),
+                value: `+91 ${p.phoneNumber}`,
+            });
+        }
+        if (VISIBLE_DETAILS.phoneType && p.phoneType) {
+            const isWa = p.phoneType === "WhatsApp";
+            rows.push({
+                key: "phoneType",
+                icon: <MobileIcon />,
+                label: t("phoneType"),
+                badge: isWa ? "wa" : "kp",
+                value: isWa ? t("whatsapp") : t("keypad"),
+            });
+        }
+        if (VISIBLE_DETAILS.email && p.email) {
+            rows.push({
+                key: "email",
+                icon: <MailIcon />,
+                label: t("emailIdLabel"),
+                value: p.email,
+            });
+        }
+        if (VISIBLE_DETAILS.fatherHusband && p.fatherHusbandName) {
+            rows.push({
+                key: "family",
+                icon: <FamilyIcon />,
+                label: t("fatherHusbandName"),
+                value: p.fatherHusbandName,
+            });
+        }
+        if (VISIBLE_DETAILS.dob && p.dob) {
+            const d = new Date(p.dob);
+            rows.push({
+                key: "dob",
+                icon: <CakeIcon />,
+                label: t("dateOfBirth"),
+                value: Number.isNaN(d.getTime())
+                    ? p.dob
+                    : d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }),
+            });
+        }
+        if (VISIBLE_DETAILS.address && p.address) {
+            rows.push({
+                key: "address",
+                icon: <HomeIcon />,
+                label: t("address"),
+                value: p.address,
+                full: true,
+            });
+        }
+        return rows;
+    };
+
+    const detailRows = selected ? buildRows(selected.user.profile || {}) : [];
 
     return (
         <div className="diry__page" data-theme={theme}>
@@ -293,6 +442,16 @@ function Directory() {
                                     className={`diry__card diry__accent-${accent}`}
                                     key={user.id}
                                     style={{ animationDelay: `${i * 0.05}s` }}
+                                    role="button"
+                                    tabIndex={0}
+                                    aria-label={`${user.name} — ${t("viewDetails")}`}
+                                    onClick={() => openDetails(user, accent)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter" || e.key === " ") {
+                                            e.preventDefault();
+                                            openDetails(user, accent);
+                                        }
+                                    }}
                                 >
                                     <span className="diry__card-blob" aria-hidden="true" />
 
@@ -321,10 +480,16 @@ function Directory() {
                                         </span>
                                     </div>
 
-                                    <span className="diry__role-badge">
-                                        {isAdmin ? <ShieldIcon size={12} /> : <PersonIcon size={12} />}
-                                        {user.role}
-                                    </span>
+                                    <div className="diry__card-bottom">
+                                        <span className="diry__role-badge">
+                                            {isAdmin ? <ShieldIcon size={12} /> : <PersonIcon size={12} />}
+                                            {user.role}
+                                        </span>
+                                        <span className="diry__card-more">
+                                            {t("viewDetails")}
+                                            <ChevronRightIcon />
+                                        </span>
+                                    </div>
                                 </div>
                             );
                         })}
@@ -349,6 +514,80 @@ function Directory() {
                 </div>
                 <TeamArt />
             </footer>
+
+            {/* ============================ DETAILS POPUP ============================ */}
+            {selected && (
+                <div className="diry__overlay" onClick={() => setSelected(null)}>
+                    <div
+                        className={`diry__modal diry__accent-${selected.accent}`}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label={selected.user.name}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <span className="diry__modal-bar" aria-hidden="true" />
+
+                        <button
+                            className="diry__modal-close"
+                            onClick={() => setSelected(null)}
+                            aria-label={t("close", "Close")}
+                        >
+                            <CloseIcon />
+                        </button>
+
+                        <div className="diry__modal-hero">
+                            <div className="diry__avatar diry__avatar--lg">
+                                {getInitials(selected.user.name)}
+                                {selected.user.image ? (
+                                    <img
+                                        className="diry__avatar-img"
+                                        src={selected.user.image}
+                                        alt={selected.user.name}
+                                        onError={(e) => { e.currentTarget.style.display = "none"; }}
+                                    />
+                                ) : null}
+                            </div>
+
+                            <h2 className="diry__modal-name">{selected.user.name}</h2>
+
+                            <div className="diry__modal-pills">
+                                <span className="diry__modal-id">
+                                    <IdIcon />
+                                    {selected.user.id}
+                                </span>
+                                <span className="diry__role-badge">
+                                    {selected.user.role === "admin" ? <ShieldIcon size={12} /> : <PersonIcon size={12} />}
+                                    {selected.user.role === "admin" ? t("adminLabel") : t("user")}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="diry__modal-rows">
+                            {detailRows.length === 0 ? (
+                                <p className="diry__modal-empty">
+                                    {t("dirNoDetails", "No contact details added yet.")}
+                                </p>
+                            ) : (
+                                detailRows.map((r) => (
+                                    <div className="diry__modal-row" key={r.key}>
+                                        <span className="diry__modal-row-icon">{r.icon}</span>
+                                        <div className="diry__modal-row-body">
+                                            <span className="diry__modal-row-label">{r.label}</span>
+                                            {r.badge ? (
+                                                <span className={`diry__modal-badge diry__modal-badge--${r.badge}`}>
+                                                    {r.value}
+                                                </span>
+                                            ) : (
+                                                <span className="diry__modal-row-value">{r.value}</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
