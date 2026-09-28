@@ -27,6 +27,9 @@ const CLOUD_NAME = "dgvjq9bhl";
 const MAX_PHOTO_BYTES = 2 * 1024 * 1024; // 2 MB
 const ALLOWED_PHOTO_TYPES = ["image/png", "image/jpeg", "image/jpg"];
 
+/* Name fields: letters and spaces only, always uppercase */
+const cleanNameField = (v) => v.replace(/[^a-zA-Z\s]/g, "").toUpperCase();
+
 const getProfileImageUrl = (employeeId, name = "", size = 160) => {
     if (!employeeId || !name) return "";
 
@@ -404,8 +407,8 @@ function AllProfiles() {
 
     const openEdit = () => {
         setEditForm({
-            name: selectedProfile.name || "",
-            fatherHusbandName: selectedProfile.fatherHusbandName || "",
+            name: cleanNameField(selectedProfile.name || ""),
+            fatherHusbandName: cleanNameField(selectedProfile.fatherHusbandName || ""),
             phoneNumber: selectedProfile.phoneNumber || "",
             email: selectedProfile.email || "",
             dob: selectedProfile.dob || "",
@@ -854,7 +857,7 @@ function AllProfiles() {
                             <input
                                 type="text"
                                 value={editForm.name}
-                                onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                                onChange={(e) => setEditForm({ ...editForm, name: cleanNameField(e.target.value) })}
                                 placeholder={t("fullName")}
                             />
                         </div>
@@ -864,7 +867,7 @@ function AllProfiles() {
                             <input
                                 type="text"
                                 value={editForm.fatherHusbandName}
-                                onChange={(e) => setEditForm({ ...editForm, fatherHusbandName: e.target.value })}
+                                onChange={(e) => setEditForm({ ...editForm, fatherHusbandName: cleanNameField(e.target.value) })}
                                 placeholder={t("fatherHusbandName")}
                             />
                         </div>
