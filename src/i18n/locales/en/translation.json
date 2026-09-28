@@ -1515,5 +1515,8 @@
   "addPhoto": "Add photo",
   "uploading": "Uploading...",
   "photoUpdated": "Profile photo updated!",
-  "logUpdatedProfilePhoto": "Updated profile photo of {{name}}"
+  "logUpdatedProfilePhoto": "Updated profile photo of {{name}}",
+  "arpSearchPh": "Search by name or ID...",
+  "arpShowing": "Showing {{shown}} of {{total}}",
+  "arpNoMatch": "No users match your search."
 }

@@ -1553,3 +1553,167 @@
         transform: none;
     }
 }
+/* ==================================================================
+   SEARCH BAR
+   Sits on the PAGE (not inside a card), so it takes the same white
+   surface as the date field in light mode.
+   ================================================================== */
+.arp-search-row {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1160px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    animation: arp-scalein 0.45s var(--rp-ease) 0.44s both;
+}
+
+.arp-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 240px;
+    max-width: 480px;
+    background: var(--rp-input-bg);
+    border: 1px solid var(--rp-input-border);
+    border-radius: var(--rp-radius-md);
+    box-shadow: var(--rp-input-shadow);
+    transition: border-color 0.22s var(--rp-ease), box-shadow 0.22s var(--rp-ease);
+}
+
+.arp-search:focus-within {
+    border-color: var(--rp-indigo);
+    box-shadow: 0 0 0 4px var(--rp-indigo-subtle);
+}
+
+.arp-search-icon {
+    display: flex;
+    padding-left: 16px;
+    color: var(--rp-muted);
+    pointer-events: none;
+    transition: color 0.22s var(--rp-ease);
+}
+
+.arp-search-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.arp-search:focus-within .arp-search-icon {
+    color: var(--rp-indigo);
+}
+
+.arp-search input {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 14px 14px 12px;
+    border: none;
+    background: transparent;
+    color: var(--rp-text);
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    font-weight: 500;
+    outline: none;
+}
+
+.arp-search input::placeholder {
+    color: var(--rp-muted);
+    opacity: 0.7;
+}
+
+/* the field draws its own focus ring on the rounded pill */
+.arp-search input:focus-visible {
+    outline: none;
+}
+
+.arp-search-clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+    border: none;
+    border-radius: 50%;
+    background: var(--rp-indigo-subtle);
+    color: var(--rp-indigo-light);
+    cursor: pointer;
+    transition: background 0.2s var(--rp-ease), transform 0.2s var(--rp-ease);
+}
+
+.arp-search-clear svg {
+    width: 12px;
+    height: 12px;
+}
+
+.arp-search-clear:hover {
+    background: var(--rp-red-dim);
+    color: var(--rp-red-text);
+    transform: rotate(90deg);
+}
+
+.arp-search-count {
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--rp-chip-bg);
+    color: var(--rp-chip-text);
+    font-size: 12.5px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* shown inside the table when nothing matches */
+.arp-noresult {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 42px 20px;
+    color: var(--rp-muted);
+    font-size: 14.5px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.arp-noresult-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--rp-indigo-subtle);
+    color: var(--rp-indigo-light);
+}
+
+.arp-noresult-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+@media (max-width: 600px) {
+    .arp-search-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .arp-search {
+        max-width: none;
+    }
+
+    .arp-search-count {
+        align-self: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .arp-search:focus-within .arp-search-icon,
+    .arp-search-clear:hover {
+        transform: none;
+    }
+}

@@ -88,6 +88,11 @@ const icons = {
             <polyline points="17 21 17 13 7 13 7 21" /><polyline points="7 3 7 8 15 8" />
         </svg>
     ),
+    search: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="7.5" /><line x1="21" y1="21" x2="16.8" y2="16.8" />
+        </svg>
+    ),
 };
 
 /* Decorative dotted grid used in the page corners */
@@ -141,6 +146,7 @@ function AttendanceReport() {
     const [editUser, setEditUser] = useState(null);
     const [editStatus, setEditStatus] = useState("");
     const [savingEdit, setSavingEdit] = useState(false);
+    const [search, setSearch] = useState("");
     const today = new Date().toISOString().split("T")[0];
 
     const checkAdmin = async () => {
@@ -234,6 +240,7 @@ function AttendanceReport() {
 
     const fetchReport = async () => {
         if (!selectedDate) return;
+        setSearch("");
         if (selectedDate > today) {
             setNoAttendance(false);
             setReportGenerated(false);
@@ -335,6 +342,17 @@ function AttendanceReport() {
         XLSX.writeFile(workbook, `attendance_${selectedDate}.xlsx`);
     };
 
+    /* search: filters the table by name or ID (stats and export keep
+       using the full report) */
+    const q = search.trim().toLowerCase();
+    const filteredUsers = q
+        ? reportUsers.filter(
+            (u) =>
+                String(u.name || "").toLowerCase().includes(q) ||
+                String(u.id || "").toLowerCase().includes(q)
+        )
+        : reportUsers;
+
     return (
         <div className="report-container" data-theme={theme}>
 
@@ -367,6 +385,7 @@ function AttendanceReport() {
                             setReportGenerated(false);
                             setNoAttendance(false);
                             setReportUsers([]);
+                            setSearch("");
                         }}
                     />
                     <span className="arp-date-icon" aria-hidden="true">{icons.calendar}</span>
@@ -430,6 +449,40 @@ function AttendanceReport() {
                         </button>
                     </div>
 
+                    {/* =========================== SEARCH =========================== */}
+                    <div className="arp-search-row">
+                        <div className="arp-search">
+                            <span className="arp-search-icon">{icons.search}</span>
+                            <input
+                                type="text"
+                                value={search}
+                                placeholder={t("arpSearchPh", "Search by name or ID...")}
+                                autoComplete="off"
+                                maxLength={40}
+                                onChange={(e) =>
+                                    setSearch(e.target.value.replace(/[^a-zA-Z0-9 ]/g, ""))
+                                }
+                            />
+                            {search && (
+                                <button
+                                    type="button"
+                                    className="arp-search-clear"
+                                    onClick={() => setSearch("")}
+                                    aria-label={t("clearSearch", "Clear search")}
+                                >
+                                    {icons.close}
+                                </button>
+                            )}
+                        </div>
+                        <span className="arp-search-count">
+                            {t("arpShowing", {
+                                shown: filteredUsers.length,
+                                total: reportUsers.length,
+                                defaultValue: "Showing {{shown}} of {{total}}",
+                            })}
+                        </span>
+                    </div>
+
                     {/* ============================ TABLE ============================ */}
                     <div className="arp-table">
                         <div className="arp-thead">
@@ -439,7 +492,7 @@ function AttendanceReport() {
                             <span>{t("actions")}</span>
                         </div>
 
-                        {reportUsers.map((user, index) => (
+                        {filteredUsers.map((user, index) => (
                             <div
                                 className="arp-row"
                                 key={user.id}
@@ -480,6 +533,13 @@ function AttendanceReport() {
                                 </div>
                             </div>
                         ))}
+
+                        {filteredUsers.length === 0 && (
+                            <div className="arp-noresult">
+                                <span className="arp-noresult-icon">{icons.inbox}</span>
+                                {t("arpNoMatch", "No users match your search.")}
+                            </div>
+                        )}
                     </div>
                 </>
             )}
