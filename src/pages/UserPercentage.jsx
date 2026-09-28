@@ -51,6 +51,16 @@ const icons = {
             <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
         </svg>
     ),
+    search: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="7.5" /><line x1="21" y1="21" x2="16.8" y2="16.8" />
+        </svg>
+    ),
+    close: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+    ),
 };
 
 /* Small 2x3 dot cluster shown in the corner of each stat card */
@@ -82,6 +92,7 @@ function UserPercentage() {
 
     const [rows, setRows] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [search, setSearch] = useState("");
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
 
     useEffect(() => {
@@ -204,6 +215,19 @@ function UserPercentage() {
         low: rows.filter((r) => r.percentage < LOW_THRESHOLD).length,
     }), [rows]);
 
+    /* search: filters the table by name, ID or email. The stat cards and
+       the Excel export keep using the full list. */
+    const filteredRows = useMemo(() => {
+        const q = search.trim().toLowerCase();
+        if (!q) return rows;
+        return rows.filter(
+            (r) =>
+                String(r.name).toLowerCase().includes(q) ||
+                String(r.id).toLowerCase().includes(q) ||
+                String(r.email).toLowerCase().includes(q)
+        );
+    }, [rows, search]);
+
     const getInitials = (name) =>
         name && name !== "—"
             ? name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
@@ -295,6 +319,42 @@ function UserPercentage() {
                 </button>
             </div>
 
+            {/* ============================ SEARCH ============================ */}
+            {!loading && rows.length > 0 && (
+                <div className="upc-search-row">
+                    <div className="upc-search">
+                        <span className="upc-search-icon">{icons.search}</span>
+                        <input
+                            type="text"
+                            value={search}
+                            placeholder={t("upSearchPh", "Search by name, ID or email...")}
+                            autoComplete="off"
+                            maxLength={40}
+                            onChange={(e) =>
+                                setSearch(e.target.value.replace(/[^a-zA-Z0-9 ]/g, ""))
+                            }
+                        />
+                        {search && (
+                            <button
+                                type="button"
+                                className="upc-search-clear"
+                                onClick={() => setSearch("")}
+                                aria-label={t("clearSearch", "Clear search")}
+                            >
+                                {icons.close}
+                            </button>
+                        )}
+                    </div>
+                    <span className="upc-search-count">
+                        {t("upShowing", {
+                            shown: filteredRows.length,
+                            total: rows.length,
+                            defaultValue: "Showing {{shown}} of {{total}}",
+                        })}
+                    </span>
+                </div>
+            )}
+
             {/* ============================ TABLE ============================= */}
             <div className="upc-table">
                 <div className="upc-thead">
@@ -312,8 +372,13 @@ function UserPercentage() {
                         <span className="upc-state-icon">{icons.inbox}</span>
                         <p className="upc-state-title">{t("noUsersFound")}</p>
                     </div>
+                ) : filteredRows.length === 0 ? (
+                    <div className="upc-state">
+                        <span className="upc-state-icon">{icons.inbox}</span>
+                        <p className="upc-state-title">{t("upNoMatch", "No users match your search.")}</p>
+                    </div>
                 ) : (
-                    rows.map((r, index) => (
+                    filteredRows.map((r, index) => (
                         <div
                             className="upc-row"
                             key={r.docId}

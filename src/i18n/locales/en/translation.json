@@ -1518,5 +1518,8 @@
   "logUpdatedProfilePhoto": "Updated profile photo of {{name}}",
   "arpSearchPh": "Search by name or ID...",
   "arpShowing": "Showing {{shown}} of {{total}}",
-  "arpNoMatch": "No users match your search."
+  "arpNoMatch": "No users match your search.",
+  "upSearchPh": "Search by name, ID or email...",
+  "upShowing": "Showing {{shown}} of {{total}}",
+  "upNoMatch": "No users match your search."
 }

@@ -1174,3 +1174,137 @@
         transform: none;
     }
 }
+/* ==================================================================
+   SEARCH BAR
+   Sits on the PAGE (not inside a card), so it uses the same surface
+   as the Back pill — white in light mode, translucent in dark.
+   ================================================================== */
+.upc-search-row {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1160px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    animation: upc-scalein 0.45s var(--up-ease) 0.40s both;
+}
+
+.upc-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 240px;
+    max-width: 480px;
+    background: var(--up-pill-bg);
+    border: 1px solid var(--up-pill-border);
+    border-radius: var(--up-radius-md);
+    box-shadow: var(--up-pill-shadow);
+    transition: border-color 0.22s var(--up-ease), box-shadow 0.22s var(--up-ease);
+}
+
+.upc-search:focus-within {
+    border-color: var(--up-indigo);
+    box-shadow: 0 0 0 4px var(--up-indigo-subtle);
+}
+
+.upc-search-icon {
+    display: flex;
+    padding-left: 16px;
+    color: var(--up-muted);
+    pointer-events: none;
+    transition: color 0.22s var(--up-ease);
+}
+
+.upc-search-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.upc-search:focus-within .upc-search-icon {
+    color: var(--up-indigo);
+}
+
+.upc-search input {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 14px 14px 12px;
+    border: none;
+    background: transparent;
+    color: var(--up-text);
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    font-weight: 500;
+    outline: none;
+}
+
+.upc-search input::placeholder {
+    color: var(--up-muted);
+    opacity: 0.7;
+}
+
+/* the field draws its own focus ring on the rounded pill */
+.upc-search input:focus-visible {
+    outline: none;
+}
+
+.upc-search-clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+    border: none;
+    border-radius: 50%;
+    background: var(--up-indigo-subtle);
+    color: var(--up-indigo-light);
+    cursor: pointer;
+    transition: background 0.2s var(--up-ease), transform 0.2s var(--up-ease);
+}
+
+.upc-search-clear svg {
+    width: 12px;
+    height: 12px;
+}
+
+.upc-search-clear:hover {
+    background: var(--up-red-dim);
+    color: var(--up-red-text);
+    transform: rotate(90deg);
+}
+
+.upc-search-count {
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--up-chip-bg);
+    color: var(--up-chip-text);
+    font-size: 12.5px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+    .upc-search-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .upc-search {
+        max-width: none;
+    }
+
+    .upc-search-count {
+        align-self: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .upc-search-clear:hover {
+        transform: none;
+    }
+}
