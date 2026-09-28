@@ -756,3 +756,18 @@
     align-items: center;
     justify-content: center;
 }
+/* ==================================================================
+   LIGHT THEME — legibility fix for the portal label
+   The pale violet (#a78bfa) is tuned for the dark ground. On the pale
+   lavender page it drops below readable contrast, so light mode steps
+   down to a deep violet (~8:1 on the page background).
+   ================================================================== */
+.editadmin-container[data-theme="light"] .editadmin-portal-label {
+    color: #5b21b6;
+}
+
+/* Same pale violet is reused for hover/spinner/empty-state accents.
+   Deepening the token fixes all of them on white in one place. */
+.editadmin-container[data-theme="light"] {
+    --ea-violet-light: #6d28d9;
+}
