@@ -31,36 +31,117 @@ import { useTranslation } from "react-i18next";
 const COLLECTION_NAME = "adminLogs";
 
 /* Which admin page produced a given action, driven off the exact
-   action strings each page already passes into logAdminAction(). */
+   action strings each page already passes into logAdminAction().
+   Keys are LOWERCASE — sourceOf() lowercases the action before the
+   lookup, so "DELETE_CONTACT_MESSAGE" and "delete_contact_message"
+   both resolve here. */
 const ACTION_SOURCE = {
+  /* absence / leave */
   update_absence_request: "absence",
 
   update_leave_request: "leave",
   delete_leave_request: "leave",
 
+  /* tickets */
   update_ticket: "ticket",
   delete_ticket: "ticket",
   export_tickets: "ticket",
 
+  /* user concerns + admin issues */
   concern_status: "userIssues",
   concern_delete: "userIssues",
 
   update_issue_status: "adminIssues",
   delete_issue: "adminIssues",
+  report_issue: "adminIssues",
 
+  /* status toggle */
   toggle_status: "toggleStatus",
 
+  /* ID pages */
   id_created: "idCreation",
   id_registrations_exported: "idCreation",
 
+  id_registration: "idManagement",
+  id_verification: "idManagement",
+  id_management_update: "idManagement",
+
+  /* blocked accounts + account lock + access control */
   update_blocked_account: "blocked",
   delete_blocked_account: "blocked",
   delete_all_blocked_accounts: "blocked",
 
   toggle_admin_lock: "accountLock",
+
+  update_access_control: "accessControl",
+
+  /* users */
+  create_user: "users",
+  update_user: "users",
+  delete_user: "users",
+  restore_user: "users",
+
+  /* admins */
+  create_admin: "admins",
+  update_admin: "admins",
+
+  /* attendance */
+  mark_attendance: "attendance",
+  update_attendance: "attendance",
+  delete_attendance: "attendance",
+  delete_all_attendance: "attendance",
+
+  /* profiles */
+  create_profile: "profiles",
+  update_profile: "profiles",
+  delete_profile: "profiles",
+
+  /* activity logs (admin + user) */
+  delete_activity_log: "logs",
+  delete_all_activity_logs: "logs",
+  delete_user_activity: "logs",
+  delete_user_activities: "logs",
+  delete_all_user_activities: "logs",
+  export_user_activities: "logs",
+
+  /* session feedback */
+  delete_all_feedbacks: "feedback",
+
+  /* contact settings + contact messages */
+  update_contact_settings: "contact",
+  delete_contact_message: "contact",
+  delete_contact_messages_bulk: "contact",
 };
 
-const sourceOf = (action) => ACTION_SOURCE[action] || "other";
+/* Safety net for any action added to the app later and not yet listed
+   above. First match wins; order matters (more specific first). Only
+   used when the exact lookup misses, so it can never override the
+   explicit map. */
+const FALLBACK_RULES = [
+  [/absence/, "absence"],
+  [/leave/, "leave"],
+  [/ticket/, "ticket"],
+  [/concern/, "userIssues"],
+  [/issue/, "adminIssues"],
+  [/access/, "accessControl"],
+  [/lock/, "accountLock"],
+  [/blocked/, "blocked"],
+  [/attendance/, "attendance"],
+  [/profile/, "profiles"],
+  [/feedback/, "feedback"],
+  [/contact/, "contact"],
+  [/activit|_log/, "logs"],
+  [/admin/, "admins"],
+  [/(^|_)users?(_|$)/, "users"],
+  [/(^|_)id(_|$)/, "idManagement"],
+];
+
+const sourceOf = (action) => {
+  const key = String(action || "").toLowerCase();
+  if (ACTION_SOURCE[key]) return ACTION_SOURCE[key];
+  const hit = FALLBACK_RULES.find(([re]) => re.test(key));
+  return hit ? hit[1] : "other";
+};
 
 /* ------------------------------------------------------------------ */
 /* Inline icons (presentational only)                                 */
@@ -170,6 +251,52 @@ const icons = {
       <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
     </svg>
   ),
+  users: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  ),
+  user: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
+    </svg>
+  ),
+  userCog: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
+      <circle cx="19" cy="19" r="2" /><path d="M19 15v2" />
+    </svg>
+  ),
+  calendarCheck: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2.5" /><line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
+      <polyline points="9 16 11 18 15 14" />
+    </svg>
+  ),
+  list: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" />
+      <line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" />
+    </svg>
+  ),
+  star: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+  ),
+  mail: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
+      <polyline points="22,6 12,13 2,6" />
+    </svg>
+  ),
+  key: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="8" cy="15" r="4" /><path d="M10.85 12.15 19 4" /><path d="M18 5l3 3" /><path d="M15 8l3 3" />
+    </svg>
+  ),
 };
 
 /* Decorative dotted grids used in the page corners */
@@ -194,8 +321,17 @@ const SOURCE_ICON = {
   adminIssues: icons.bug,
   toggleStatus: icons.power,
   idCreation: icons.idcard,
+  idManagement: icons.idcard,
   blocked: icons.shield,
   accountLock: icons.lock,
+  accessControl: icons.key,
+  users: icons.users,
+  admins: icons.userCog,
+  attendance: icons.calendarCheck,
+  profiles: icons.user,
+  logs: icons.list,
+  feedback: icons.star,
+  contact: icons.mail,
   other: icons.activity,
 };
 
@@ -209,14 +345,25 @@ const SOURCE_LABEL_KEY = {
   adminIssues: "sourceAdminIssues",
   toggleStatus: "sourceToggleStatus",
   idCreation: "sourceIdCreation",
+  idManagement: "sourceIdManagement",
   blocked: "sourceBlocked",
   accountLock: "sourceAccountLock",
+  accessControl: "sourceAccessControl",
+  users: "sourceUsers",
+  admins: "sourceAdmins",
+  attendance: "sourceAttendance",
+  profiles: "sourceProfiles",
+  logs: "sourceLogs",
+  feedback: "sourceFeedback",
+  contact: "sourceContact",
   other: "sourceOther",
 };
 
 const SOURCE_ORDER = [
   "absence", "leave", "ticket", "userIssues", "adminIssues",
-  "toggleStatus", "idCreation", "blocked", "accountLock", "other",
+  "toggleStatus", "idCreation", "idManagement", "blocked", "accountLock",
+  "accessControl", "users", "admins", "attendance", "profiles",
+  "logs", "feedback", "contact", "other",
 ];
 
 /* createdAt may be a Firestore Timestamp, ISO string or Date. */
