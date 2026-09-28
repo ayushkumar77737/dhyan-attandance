@@ -124,7 +124,9 @@ function AllAdmins() {
                     });
                 }
             });
-            list.sort((a, b) => a.name.localeCompare(b.name));
+            list.sort((a, b) =>
+                a.id.localeCompare(b.id, undefined, { numeric: true, sensitivity: "base" })
+            );
             setAdmins(list);
         } catch (err) {
             console.error(err);
