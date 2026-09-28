@@ -1712,3 +1712,115 @@
         transform: none;
     }
 }
+/* ==================================================================
+   PROFILE PHOTO — add / change
+   ================================================================== */
+.allprf__photo-edit {
+    position: relative;
+    display: flex;
+    margin: 0 0 8px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* the avatar's own bottom margin would push the badge off the circle */
+.allprf__photo-edit .allprf__avatar--lg {
+    margin-bottom: 0;
+}
+
+.allprf__photo-edit:disabled {
+    cursor: wait;
+}
+
+.allprf__photo-badge {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--allprf-indigo-grad);
+    color: #fff;
+    border: 3px solid var(--allprf-modal-bg);
+    font-size: 14px;
+    transition: transform 0.2s ease;
+}
+
+.allprf__photo-edit:hover .allprf__photo-badge {
+    transform: scale(1.12);
+}
+
+.allprf__photo-uploading {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(6, 13, 24, 0.55);
+    color: #fff;
+}
+
+.allprf__photo-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0 0 12px;
+    padding: 6px 14px;
+    border-radius: 50px;
+    background: var(--allprf-indigo-bg);
+    border: 1px solid var(--allprf-indigo-line);
+    color: var(--allprf-indigo);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.allprf__photo-btn:hover:not(:disabled) {
+    background: var(--allprf-indigo-hover);
+}
+
+.allprf__photo-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.allprf__photo-btn .allprf__ico {
+    width: 1.1em;
+    height: 1.1em;
+}
+
+.allprf__photo-msg {
+    margin: 0 0 10px;
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.allprf__photo-msg--success {
+    background: var(--allprf-green-bg);
+    border: 1px solid var(--allprf-green-line);
+    color: var(--allprf-green);
+}
+
+.allprf__photo-msg--error {
+    background: var(--allprf-red-bg);
+    border: 1px solid var(--allprf-red-line);
+    color: var(--allprf-red);
+}
+
+.allprf__photo-edit:focus-visible,
+.allprf__photo-btn:focus-visible {
+    outline: 2px solid var(--allprf-indigo);
+    outline-offset: 3px;
+}

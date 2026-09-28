@@ -1511,5 +1511,9 @@
   "sourceContact": "Contact",
   "uiDeleteTitle": "Delete concern?",
   "uiDeleteWarn": "This action cannot be undone.",
-  "uiDeleting": "Deleting..."
+  "uiDeleting": "Deleting...",
+  "addPhoto": "Add photo",
+  "uploading": "Uploading...",
+  "photoUpdated": "Profile photo updated!",
+  "logUpdatedProfilePhoto": "Updated profile photo of {{name}}"
 }

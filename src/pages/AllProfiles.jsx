@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./AllProfiles.css";
 import { logAdminAction } from "../utils/logAdminAction";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ import {
     getDoc
 } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
 
 /* ----------------------------------------------------------------
    Cloudinary
@@ -21,6 +22,10 @@ import { useTranslation } from "react-i18next";
    ---------------------------------------------------------------- */
 
 const CLOUD_NAME = "dgvjq9bhl";
+
+/* Same limits as AddAdmin's photo picker */
+const MAX_PHOTO_BYTES = 2 * 1024 * 1024; // 2 MB
+const ALLOWED_PHOTO_TYPES = ["image/png", "image/jpeg", "image/jpg"];
 
 const getProfileImageUrl = (employeeId, name = "", size = 160) => {
     if (!employeeId || !name) return "";
@@ -179,6 +184,14 @@ const IcoHome = () => (
     </svg>
 );
 
+const IcoCamera = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"
+        strokeLinecap="round" strokeLinejoin="round" className="allprf__ico">
+        <path d="M4 8.5a2 2 0 0 1 2-2h1.6l1.2-1.8a1 1 0 0 1 .8-.4h4.8a1 1 0 0 1 .8.4l1.2 1.8H18a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8.5Z" />
+        <circle cx="12" cy="12.5" r="3.2" />
+    </svg>
+);
+
 /* ---------------------------------------------------------------- */
 /* Avatar — photo if we have one, tinted initial otherwise           */
 /* ---------------------------------------------------------------- */
@@ -235,6 +248,10 @@ function AllProfiles() {
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deleteLoading, setDeleteLoading] = useState(false);
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
+
+    const [photoUploading, setPhotoUploading] = useState(false);
+    const [photoMsg, setPhotoMsg] = useState({ text: "", type: "" });
+    const photoInputRef = useRef(null);
 
     const checkAdmin = async () => {
 
@@ -307,6 +324,11 @@ function AllProfiles() {
             )
         );
     }, [search, profiles]);
+
+    /* clear any photo message when a different profile is opened */
+    useEffect(() => {
+        setPhotoMsg({ text: "", type: "" });
+    }, [selectedProfile?.docId]);
 
     const fetchProfiles = async () => {
         try {
@@ -477,6 +499,71 @@ function AllProfiles() {
         }
     };
 
+    /* ---------------- profile photo: add / change ---------------- */
+    const showPhotoMsg = (text, type = "success") => {
+        setPhotoMsg({ text, type });
+        setTimeout(() => setPhotoMsg({ text: "", type: "" }), 3000);
+    };
+
+    const handlePhotoChange = async (e) => {
+        const file = e.target.files?.[0];
+        e.target.value = ""; // lets the same file be picked again later
+        if (!file || !selectedProfile?.docId) return;
+
+        if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
+            showPhotoMsg(t("photoInvalidType", "Only PNG and JPG images are allowed."), "error");
+            return;
+        }
+        if (file.size > MAX_PHOTO_BYTES) {
+            showPhotoMsg(t("photoTooLarge", "Image must be under 2MB."), "error");
+            return;
+        }
+
+        const target = selectedProfile;
+
+        try {
+            setPhotoUploading(true);
+
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", "user_profile");
+            formData.append(
+                "public_id",
+                `${target.idNo || target.docId}_${(target.name || "").replace(/\s+/g, "_")}`
+            );
+
+            const res = await axios.post(
+                "https://api.cloudinary.com/v1_1/dgvjq9bhl/image/upload",
+                formData
+            );
+            const url = res.data.secure_url;
+
+            await updateDoc(doc(db, "profiles", target.docId), { profileImage: url });
+
+            await logAdminAction("update_profile", {
+                targetId: target.idNo || target.docId,
+                details: t("logUpdatedProfilePhoto", {
+                    name: target.name,
+                    defaultValue: "Updated profile photo of {{name}}",
+                }),
+            });
+
+            const withPhoto = (p) =>
+                p.docId === target.docId ? { ...p, profileImage: url, photo: url } : p;
+
+            setProfiles((prev) => prev.map(withPhoto));
+            setFiltered((prev) => prev.map(withPhoto));
+            setSelectedProfile((prev) => (prev ? withPhoto(prev) : prev));
+
+            showPhotoMsg(t("photoUpdated", "Profile photo updated!"));
+        } catch (err) {
+            console.error("Photo upload error:", err);
+            showPhotoMsg(t("photoUploadFailed", "Could not upload the photo. Please try again."), "error");
+        } finally {
+            setPhotoUploading(false);
+        }
+    };
+
     return (
         <div className="allprf__page" data-theme={theme}>
 
@@ -616,12 +703,56 @@ function AllProfiles() {
                         </div>
 
                         <div className="allprf__modal-hero">
-                            <ProfileAvatar
-                                src={selectedProfile.photo}
-                                name={selectedProfile.name}
-                                label={selectedProfile.name || t("profilePhoto")}
-                                className="allprf__avatar--lg"
+                            <button
+                                type="button"
+                                className="allprf__photo-edit"
+                                onClick={() => photoInputRef.current?.click()}
+                                disabled={photoUploading}
+                                aria-label={t("changePhoto", "Change photo")}
+                            >
+                                <ProfileAvatar
+                                    src={selectedProfile.photo}
+                                    name={selectedProfile.name}
+                                    label={selectedProfile.name || t("profilePhoto")}
+                                    className="allprf__avatar--lg"
+                                />
+                                {photoUploading ? (
+                                    <span className="allprf__photo-uploading" aria-hidden="true">
+                                        <span className="allprf__btn-spin" />
+                                    </span>
+                                ) : (
+                                    <span className="allprf__photo-badge" aria-hidden="true"><IcoCamera /></span>
+                                )}
+                            </button>
+
+                            <input
+                                ref={photoInputRef}
+                                type="file"
+                                accept="image/png,image/jpeg"
+                                hidden
+                                onChange={handlePhotoChange}
                             />
+
+                            <button
+                                type="button"
+                                className="allprf__photo-btn"
+                                onClick={() => photoInputRef.current?.click()}
+                                disabled={photoUploading}
+                            >
+                                <IcoCamera />
+                                {photoUploading
+                                    ? t("uploading", "Uploading...")
+                                    : (selectedProfile.profileImage || selectedProfile.photoURL)
+                                        ? t("changePhoto", "Change photo")
+                                        : t("addPhoto", "Add photo")}
+                            </button>
+
+                            {photoMsg.text && (
+                                <p className={`allprf__photo-msg allprf__photo-msg--${photoMsg.type}`} role="status">
+                                    {photoMsg.text}
+                                </p>
+                            )}
+
                             <h2 className="allprf__modal-name">{selectedProfile.name}</h2>
                             <div className="allprf__modal-id-pill">{selectedProfile.idNo}</div>
                         </div>
