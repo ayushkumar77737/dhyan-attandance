@@ -152,6 +152,7 @@ function UserIssues() {
     const [note, setNote] = useState("");
     const [saving, setSaving] = useState(false);
     const [toast, setToast] = useState({ text: "", type: "" });
+    const [confirmItem, setConfirmItem] = useState(null);
 
     /* ---------------- guard + load ---------------- */
     useEffect(() => {
@@ -187,6 +188,16 @@ function UserIssues() {
             document.removeEventListener("keydown", disableInspectKeys);
         };
     }, []);
+
+    /* Esc closes the delete dialog (unless a delete is in flight) */
+    useEffect(() => {
+        if (!confirmItem) return;
+        const onKey = (e) => {
+            if (e.key === "Escape" && !saving) setConfirmItem(null);
+        };
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+    }, [confirmItem, saving]);
 
     const load = async () => {
         setLoading(true);
@@ -357,15 +368,20 @@ function UserIssues() {
         }
     };
 
-    const remove = async (item) => {
-        if (saving) return;
-        const ok = window.confirm(t("uiDeleteConfirm"));
-        if (!ok) return;
+    /* Delete: the button opens the themed dialog, the dialog confirms */
+    const askRemove = (item) => {
+        if (!saving) setConfirmItem(item);
+    };
+
+    const remove = async () => {
+        const item = confirmItem;
+        if (!item || saving) return;
         setSaving(true);
         try {
             await deleteDoc(doc(db, "concerns", item.id));
             setItems((prev) => prev.filter((i) => i.id !== item.id));
             setSelectedId(null);
+            setConfirmItem(null);
             await logAdminAction("concern_delete", { targetId: item.id, details: item.title });
             showToast(t("uiDeleted"));
         } catch (e) {
@@ -617,7 +633,7 @@ function UserIssues() {
                                 </div>
 
                                 <div className="ui__detail-foot">
-                                    <button className="ui__btn ui__btn--danger ui__btn--sm" onClick={() => remove(selected)} disabled={saving}>
+                                    <button className="ui__btn ui__btn--danger ui__btn--sm" onClick={() => askRemove(selected)} disabled={saving}>
                                         {I.trash} {t("delete")}
                                     </button>
                                 </div>
@@ -626,6 +642,60 @@ function UserIssues() {
                     )}
                 </div>
             </div>
+
+            {/* ---------- delete confirmation dialog ---------- */}
+            {confirmItem && (
+                <div
+                    className="ui__modal-overlay"
+                    onClick={() => !saving && setConfirmItem(null)}
+                >
+                    <div
+                        className="ui__modal"
+                        role="alertdialog"
+                        aria-modal="true"
+                        aria-labelledby="ui-del-title"
+                        aria-describedby="ui-del-msg"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <span className="ui__modal-icon">{I.trash}</span>
+                        <h3 id="ui-del-title" className="ui__modal-title">
+                            {t("uiDeleteTitle", "Delete concern?")}
+                        </h3>
+                        <p id="ui-del-msg" className="ui__modal-msg">
+                            {t("uiDeleteConfirm")}
+                        </p>
+
+                        <div className="ui__modal-item">
+                            <span className={`ui__pri ui__pri--${confirmItem.priority}`} />
+                            <span className="ui__modal-item-title">{confirmItem.title}</span>
+                        </div>
+
+                        <p className="ui__modal-warn">
+                            {t("uiDeleteWarn", "This action cannot be undone.")}
+                        </p>
+
+                        <div className="ui__modal-actions">
+                            <button
+                                className="ui__btn ui__btn--ghost"
+                                onClick={() => setConfirmItem(null)}
+                                disabled={saving}
+                                autoFocus
+                            >
+                                {t("cancel", "Cancel")}
+                            </button>
+                            <button
+                                className="ui__btn ui__btn--delete"
+                                onClick={remove}
+                                disabled={saving}
+                            >
+                                {saving
+                                    ? <><span className="ui__spin" /> {t("uiDeleting", "Deleting...")}</>
+                                    : <>{I.trash} {t("delete", "Delete")}</>}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

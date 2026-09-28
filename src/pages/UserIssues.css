@@ -1639,3 +1639,149 @@
         box-shadow: -12px 0 40px rgba(20, 28, 64, 0.14);
     }
 }
+/* ==================================================================
+   DELETE CONFIRM DIALOG
+   ================================================================== */
+@keyframes ui-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes ui-modal-pop {
+    0% { opacity: 0; transform: scale(0.94) translateY(8px); }
+    60% { transform: scale(1.015); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.ui__modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(4, 8, 16, 0.68);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    animation: ui-fade 0.2s ease both;
+}
+
+.ui__page[data-theme="light"] .ui__modal-overlay {
+    background: rgba(15, 23, 42, 0.42);
+}
+
+.ui__modal {
+    width: 100%;
+    max-width: 400px;
+    padding: 28px 26px 22px;
+    border-radius: 20px;
+    background: var(--ui-card);
+    border: 1px solid var(--ui-border-strong);
+    box-shadow: var(--ui-shadow);
+    text-align: center;
+    animation: ui-modal-pop 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ui__page[data-theme="light"] .ui__modal {
+    border-color: #dde2ee;
+    box-shadow: 0 24px 60px rgba(20, 28, 64, 0.22);
+}
+
+.ui__modal-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--ui-red-bg);
+    border: 1px solid var(--ui-red-line);
+    color: var(--ui-red);
+    font-size: 24px;
+}
+
+.ui__modal-title {
+    margin: 0 0 8px;
+    font-family: "Syne", sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--ui-text);
+}
+
+.ui__modal-msg {
+    margin: 0 0 16px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--ui-muted);
+}
+
+.ui__modal-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 0 12px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    background: var(--ui-field);
+    border: 1px solid var(--ui-border);
+}
+
+.ui__modal-item-title {
+    min-width: 0;
+    max-width: 100%;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ui-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ui__modal-warn {
+    margin: 0 0 22px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ui-faint);
+}
+
+.ui__modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.ui__modal-actions .ui__btn {
+    flex: 1;
+}
+
+.ui__btn--delete {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 10px 22px -10px rgba(239, 68, 68, 0.6);
+}
+
+.ui__btn--delete:hover:not(:disabled) {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+/* toast must stay above the dialog so a failed delete is visible */
+.ui__toast {
+    z-index: 100;
+}
+
+@media (max-width: 480px) {
+    .ui__modal {
+        padding: 24px 18px 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ui__modal-overlay,
+    .ui__modal {
+        animation: none !important;
+    }
+}

@@ -1508,5 +1508,8 @@
   "sourceProfiles": "Profiles",
   "sourceLogs": "Activity Logs",
   "sourceFeedback": "Feedback",
-  "sourceContact": "Contact"
+  "sourceContact": "Contact",
+  "uiDeleteTitle": "Delete concern?",
+  "uiDeleteWarn": "This action cannot be undone.",
+  "uiDeleting": "Deleting..."
 }
