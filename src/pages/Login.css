@@ -890,3 +890,22 @@ html {
 .mfa-back-button:hover {
     color: var(--ln-purple);
 }
+/* ---------- mobile: photo shows in full, box is exactly as tall as the image ---------- */
+@media (max-width: 820px) {
+  .login-right {
+    flex: none;          /* stop the 48% flex-basis from controlling the height */
+    height: auto;
+    min-height: 0;       /* removes the 340px / 280px minimum that caused the gap */
+    align-items: flex-start;
+  }
+
+  .login-right-img {
+    position: relative;
+    display: block;      /* removes the tiny gap browsers leave under inline images */
+    width: 100%;
+    height: auto;        /* height follows the image, so there is no empty space */
+    max-height: 70vh;    /* keeps it from getting too tall on tablets */
+    object-fit: cover;
+    object-position: center top;
+  }
+}
