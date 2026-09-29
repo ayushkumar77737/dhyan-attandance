@@ -1603,5 +1603,7 @@
   "landingFeat4": "Inner Growth",
   "mfaTitleLead": "Confirm",
   "mfaTitleAccent": "it's you",
-  "mfaSecondsShort": "s"
+  "mfaSecondsShort": "s",
+  "mfaSetupTitleLead": "Protect your",
+  "mfaSetupTitleAccent": "account"
 }

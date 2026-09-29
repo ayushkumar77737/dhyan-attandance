@@ -1,34 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
 
 /* ==================================================================
    MFA SETUP
-   Same system as MFAVerify: navy ground, saffron-gold accent, mint for
-   success. Steps ARE a real sequence (install → scan → confirm), so the
-   numbered rail is information, not decoration.
+   Same system as MFAVerify: light glass card on a soft blue ground,
+   blue as the action colour, gold for the step numbers / QR frame,
+   mint for success. Steps ARE a real sequence (install → scan →
+   confirm), so the numbered rail is information, not decoration.
 
    Signature: the QR frame. Gold viewfinder corners and a slow scan-line
    sweep say "point your camera here" without a word of instruction.
    ================================================================== */
 .mfas {
-  --nav-900: #050b1a;
-  --nav-800: #0b1428;
-  --nav-700: #111c36;
-  --nav-600: #1a2745;
-  --ink: #f3f5fb;
-  --ink-2: #aab4c8;
-  --ink-3: #6c7890;
-  --gold: #f5c518;
-  --gold-soft: rgba(245, 197, 24, 0.14);
-  --gold-line: rgba(245, 197, 24, 0.34);
-  --mint: #34d399;
-  --mint-soft: rgba(52, 211, 153, 0.14);
-  --mint-line: rgba(52, 211, 153, 0.4);
-  --red: #ff7b7b;
-  --red-soft: rgba(255, 92, 92, 0.12);
-  --red-line: rgba(255, 92, 92, 0.3);
-  --line: rgba(255, 255, 255, 0.08);
+  --ink: #0f1c3f;
+  --ink-2: #5a6784;
+  --ink-3: #7c88a3;
+  --blue: #1d5fe6;
+  --blue-soft: rgba(29, 95, 230, 0.1);
+  --blue-line: rgba(29, 95, 230, 0.35);
+  --gold: #f5b91a;
+  --gold-soft: rgba(245, 185, 26, 0.22);
+  --gold-line: rgba(245, 185, 26, 0.55);
+  --mint: #12a874;
+  --mint-soft: rgba(18, 168, 116, 0.12);
+  --mint-line: rgba(18, 168, 116, 0.4);
+  --red: #d63b3b;
+  --red-soft: rgba(214, 59, 59, 0.08);
+  --red-line: rgba(214, 59, 59, 0.28);
+  --line: #dbe4f3;
+  --multi: 'Plus Jakarta Sans', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Kannada', 'Noto Sans Malayalam', 'Noto Sans Bengali', sans-serif;
 
   min-height: 100vh;
+  min-height: 100dvh;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -37,79 +39,145 @@
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
-  background: var(--nav-900);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: linear-gradient(180deg, #f7fbff 0%, #eef5ff 100%);
+  font-family: var(--multi);
   color: var(--ink);
 }
 
-/* ---- ambient ---- */
-.mfas__glow {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(90px);
-  pointer-events: none;
-}
-
-.mfas__glow--a {
-  width: 520px;
-  height: 520px;
-  top: -200px;
-  right: -140px;
-  background: radial-gradient(circle, rgba(245, 197, 24, 0.16), transparent 68%);
-  animation: mfas-drift 18s ease-in-out infinite alternate;
-}
-
-.mfas__glow--b {
-  width: 440px;
-  height: 440px;
-  bottom: -180px;
-  left: -140px;
-  background: radial-gradient(circle, rgba(79, 110, 255, 0.16), transparent 68%);
-  animation: mfas-drift 14s ease-in-out infinite alternate-reverse;
-}
-
-.mfas__grid {
+/* ==================================================================
+   BACKGROUND ARTWORK (decorative only)
+   ================================================================== */
+.mfas__art {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse at center, #000 20%, transparent 72%);
-  mask-image: radial-gradient(ellipse at center, #000 20%, transparent 72%);
+  z-index: 0;
 }
 
-/* ---- card ---- */
+.mfas__blob {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.mfas__blob--tl {
+  width: 460px;
+  height: 460px;
+  top: -260px;
+  left: -140px;
+  background: linear-gradient(160deg, #fde9b0, #fff4d6);
+}
+
+.mfas__blob--tr {
+  width: 420px;
+  height: 420px;
+  top: -230px;
+  right: -150px;
+  background: linear-gradient(200deg, #e6f0ff, #f6faff);
+  border: 1px solid rgba(180, 205, 245, 0.5);
+}
+
+.mfas__blob--bl {
+  width: 380px;
+  height: 380px;
+  bottom: -220px;
+  left: -110px;
+  background: linear-gradient(20deg, #8ec1ff, #c4dcff);
+  opacity: 0.85;
+}
+
+.mfas__blob--br {
+  width: 520px;
+  height: 520px;
+  bottom: -300px;
+  right: -140px;
+  background: linear-gradient(200deg, #7db6ff, #4b9bff);
+  opacity: 0.85;
+}
+
+.mfas__blob--br2 {
+  width: 300px;
+  height: 300px;
+  bottom: -170px;
+  right: 40px;
+  background: linear-gradient(200deg, #fde9b0, #fff4d6);
+  opacity: 0.8;
+}
+
+.mfas__dots {
+  position: absolute;
+  width: 124px;
+  height: 154px;
+  background-image: radial-gradient(circle, rgba(120, 160, 225, 0.35) 3px, transparent 3.5px);
+  background-size: 31px 31px;
+}
+
+.mfas__dots--l {
+  left: 40px;
+  top: 46%;
+}
+
+.mfas__dots--r {
+  right: 40px;
+  top: 80px;
+}
+
+/* ==================================================================
+   CARD
+   ================================================================== */
 .mfas__card {
   position: relative;
+  z-index: 2;
   width: 100%;
-  max-width: 600px;
+  max-width: 640px;
   padding: 44px 44px 40px;
   box-sizing: border-box;
-  background: linear-gradient(180deg, rgba(17, 28, 54, 0.92), rgba(11, 20, 40, 0.96));
-  border: 1px solid var(--line);
-  border-radius: 26px;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(18px);
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(250, 252, 255, 0.97));
+  border: 1.5px solid rgba(190, 212, 250, 0.8);
+  border-radius: 28px;
+  box-shadow:
+    0 30px 70px rgba(50, 100, 200, 0.18),
+    0 4px 14px rgba(50, 100, 200, 0.08);
   animation: mfas-card-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.mfas__card::before {
+/* soft blue + gold corner shapes, top-left and bottom-right */
+.mfas__card::before,
+.mfas__card::after {
   content: "";
   position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.mfas__card::before {
   top: 0;
-  left: 12%;
-  right: 12%;
-  height: 1.5px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  transform-origin: center;
-  animation: mfas-stripe 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+  left: 0;
+  width: 190px;
+  height: 140px;
+  background:
+    radial-gradient(ellipse 110px 70px at 0% 0%, #2b6ef0 62%, transparent 64%),
+    radial-gradient(ellipse 170px 115px at 8% 4%, rgba(253, 226, 150, 0.85) 60%, transparent 62%);
+}
+
+.mfas__card::after {
+  right: 0;
+  bottom: 0;
+  width: 170px;
+  height: 150px;
+  background:
+    radial-gradient(ellipse 110px 70px at 100% 100%, #2b6ef0 62%, transparent 64%),
+    radial-gradient(ellipse 140px 120px at 96% 96%, rgba(253, 226, 150, 0.85) 60%, transparent 62%);
+}
+
+.mfas__card>* {
+  position: relative;
+  z-index: 1;
 }
 
 .mfas__card--center {
   text-align: center;
+  max-width: 460px;
 }
 
 .mfas__card.is-shaking {
@@ -118,90 +186,189 @@
 
 .mfas__card.is-success {
   border-color: var(--mint-line);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 60px rgba(52, 211, 153, 0.12);
+  box-shadow:
+    0 30px 70px rgba(50, 100, 200, 0.16),
+    0 0 50px rgba(18, 168, 116, 0.16);
 }
 
-/* ---- header ---- */
+/* ==================================================================
+   HEADER
+   ================================================================== */
 .mfas__head {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
+}
+
+.mfas__hero {
+  position: relative;
+  width: 104px;
+  height: 104px;
+  margin: 0 auto 16px;
+  animation: mfas-pop 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+.mfas__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.mfas__ring-track {
+  fill: none;
+  stroke: var(--gold-soft);
+  stroke-width: 3;
+}
+
+/* static gold arc (≈ 72 % of the circle) */
+.mfas__ring-fill {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 213.6;
+  stroke-dashoffset: 60;
 }
 
 .mfas__badge {
-  width: 72px;
-  height: 72px;
-  margin: 0 auto 18px;
+  position: absolute;
+  inset: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: var(--gold-soft);
-  border: 1px solid var(--gold-line);
-  color: var(--gold);
-  box-shadow: 0 0 0 8px rgba(245, 197, 24, 0.05);
-  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-  animation: mfas-pop 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+  background: linear-gradient(160deg, #3b82f6, #1447d4);
+  box-shadow: 0 10px 22px rgba(29, 95, 230, 0.4), 0 0 0 5px rgba(255, 255, 255, 0.9);
+  color: #fff;
+  transition: background 0.3s ease;
 }
 
 .mfas__badge svg {
+  width: 30px;
+  height: 30px;
+}
+
+.mfas__badge.is-success {
+  background: linear-gradient(160deg, #34d399, #12a874);
+  box-shadow: 0 10px 22px rgba(18, 168, 116, 0.4), 0 0 0 5px rgba(255, 255, 255, 0.9);
+  animation: mfas-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mfas__badge.is-success svg {
   width: 32px;
   height: 32px;
 }
 
-.mfas__badge.is-success {
-  background: var(--mint-soft);
-  border-color: var(--mint-line);
-  color: var(--mint);
-  box-shadow: 0 0 0 8px rgba(52, 211, 153, 0.06);
-  animation: mfas-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
+/* loading state: standalone badge with a spinning ring */
 .mfas__badge--spin {
   position: relative;
+  inset: auto;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto;
 }
 
 .mfas__badge--spin::after {
   content: "";
   position: absolute;
-  inset: -8px;
+  inset: -9px;
   border-radius: 50%;
   border: 2px solid transparent;
   border-top-color: var(--gold);
   animation: mfas-spin 1s linear infinite;
 }
 
+.mfas__card--center .mfas__title {
+  margin-top: 18px;
+  font-size: 24px;
+}
+
+/* confetti dots around the hero */
+.mfas__spark {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.mfas__spark--1 {
+  width: 8px;
+  height: 8px;
+  left: -34px;
+  top: 22px;
+  background: var(--blue);
+}
+
+.mfas__spark--2 {
+  width: 5px;
+  height: 5px;
+  left: -26px;
+  top: 62px;
+  background: #7fb0ff;
+}
+
+.mfas__spark--3 {
+  width: 6px;
+  height: 6px;
+  left: -18px;
+  bottom: -10px;
+  background: var(--gold);
+}
+
+.mfas__spark--4 {
+  width: 8px;
+  height: 8px;
+  right: -22px;
+  top: 14px;
+  background: var(--blue);
+}
+
+.mfas__spark--5 {
+  width: 5px;
+  height: 5px;
+  right: -34px;
+  top: 52px;
+  background: var(--gold);
+}
+
 .mfas__eyebrow {
   display: inline-block;
-  margin-bottom: 10px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--blue);
   animation: mfas-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
 }
 
 .mfas__title {
-  margin: 0 0 12px;
-  font-family: 'Fraunces', serif;
-  font-size: 30px;
-  font-weight: 700;
+  margin: 0 0 10px;
+  font-family: var(--multi);
+  font-size: 38px;
+  font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.15;
   color: var(--ink);
   animation: mfas-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.26s both;
 }
 
+.mfas__title-accent {
+  color: var(--blue);
+}
+
 .mfas__desc {
   margin: 0 auto;
-  max-width: 420px;
-  font-size: 14px;
-  line-height: 1.7;
+  max-width: 440px;
+  font-size: 15px;
+  line-height: 1.65;
   color: var(--ink-2);
   animation: mfas-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
 }
 
-/* ---- messages ---- */
+/* ==================================================================
+   MESSAGES
+   ================================================================== */
 .mfas__msg {
   display: flex;
   align-items: flex-start;
@@ -257,7 +424,9 @@
   font-size: 14px;
 }
 
-/* ---- steps ---- */
+/* ==================================================================
+   STEPS
+   ================================================================== */
 .mfas__steps {
   list-style: none;
   margin: 0;
@@ -266,8 +435,8 @@
 
 .mfas__step {
   display: grid;
-  grid-template-columns: 40px 1fr;
-  gap: 18px;
+  grid-template-columns: 44px 1fr;
+  gap: 16px;
   animation: mfas-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
@@ -287,91 +456,125 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 6px;
 }
 
 .mfas__step-num {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: var(--gold);
-  color: #0e1424;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 15px;
-  font-weight: 700;
-  box-shadow: 0 6px 18px -6px rgba(245, 197, 24, 0.7);
+  background: linear-gradient(180deg, #ffd24a, #f5b91a);
+  color: #14265a;
+  font-family: var(--multi);
+  font-size: 17px;
+  font-weight: 800;
+  box-shadow: 0 6px 16px -4px rgba(245, 185, 26, 0.7);
 }
 
-/* the rail connects the steps, so the eye can read it as one path */
+/* dotted gold rail connects the steps */
 .mfas__step-line {
   flex: 1;
-  width: 1.5px;
   margin: 8px 0;
-  background: linear-gradient(180deg, var(--gold-line), var(--line));
+  border-left: 2px dotted var(--gold-line);
   transform-origin: top;
   animation: mfas-line 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
 }
 
+/* each step is a soft card: icon tile + text, optional extras below */
 .mfas__step-body {
-  padding-bottom: 28px;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  column-gap: 16px;
+  row-gap: 14px;
+  align-content: start;
   min-width: 0;
+  margin-bottom: 14px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid transparent;
 }
 
 .mfas__step:last-child .mfas__step-body {
-  padding-bottom: 0;
+  margin-bottom: 0;
 }
 
-.mfas__step-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 8px 0 6px;
+.mfas__step-body--blue {
+  background: #eef4ff;
+  border-color: rgba(190, 212, 250, 0.6);
+}
+
+.mfas__step-body--gold {
+  background: #fff8e6;
+  border-color: rgba(245, 185, 26, 0.25);
+}
+
+.mfas__step-body--plain {
+  background: #f7f9ff;
+  border-color: rgba(190, 212, 250, 0.5);
 }
 
 .mfas__step-ico {
-  width: 28px;
-  height: 28px;
+  width: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  background: var(--gold-soft);
-  color: var(--gold);
-  flex-shrink: 0;
+  border-radius: 16px;
+  background: linear-gradient(160deg, #3b82f6, #1447d4);
+  color: #fff;
+  box-shadow: 0 8px 18px -6px rgba(29, 95, 230, 0.55);
+}
+
+.mfas__step-ico--gold {
+  background: linear-gradient(160deg, #ffb340, #f08c00);
+  box-shadow: 0 8px 18px -6px rgba(240, 140, 0, 0.55);
 }
 
 .mfas__step-ico svg {
-  width: 15px;
-  height: 15px;
+  width: 26px;
+  height: 26px;
+}
+
+.mfas__step-main {
+  min-width: 0;
+  align-self: center;
 }
 
 .mfas__step-title {
-  margin: 0;
-  font-size: 16.5px;
-  font-weight: 700;
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 800;
   color: var(--ink);
   letter-spacing: -0.01em;
 }
 
 .mfas__step-text {
   margin: 0;
-  font-size: 13.5px;
-  line-height: 1.65;
+  font-size: 14.5px;
+  line-height: 1.55;
   color: var(--ink-2);
 }
 
-/* ---- QR frame (signature) ---- */
+.mfas__step-extra {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+/* ==================================================================
+   QR FRAME (signature)
+   ================================================================== */
 .mfas__qr {
   position: relative;
   width: fit-content;
-  margin: 20px auto 18px;
+  margin: 4px auto 16px;
   padding: 18px;
   border-radius: 18px;
   background: #ffffff;
-  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  box-shadow: 0 12px 30px -10px rgba(50, 100, 200, 0.3), 0 0 0 1px rgba(190, 212, 250, 0.5);
   overflow: hidden;
   animation: mfas-pop 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
 }
@@ -384,8 +587,8 @@
 
 .mfas__qr-corner {
   position: absolute;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border: 3px solid var(--gold);
   pointer-events: none;
 }
@@ -431,44 +634,50 @@
   height: 2px;
   border-radius: 2px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  box-shadow: 0 0 10px rgba(245, 197, 24, 0.7);
+  box-shadow: 0 0 10px rgba(245, 185, 26, 0.7);
   pointer-events: none;
   animation: mfas-scan 2.8s ease-in-out 1.2s infinite;
 }
 
-/* ---- secret key ---- */
+/* ==================================================================
+   SECRET KEY
+   ================================================================== */
 .mfas__secret {
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding: 14px 16px;
   border-radius: 14px;
-  background: var(--nav-900);
-  border: 1px solid var(--line);
+  background: #eef4ff;
+  border: 1px solid rgba(190, 212, 250, 0.8);
 }
 
 .mfas__secret-label {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  font-size: 12px;
+  gap: 8px;
+  font-size: 13px;
   font-weight: 600;
-  color: var(--ink-3);
+  color: var(--ink-2);
 }
 
 .mfas__secret-label svg {
-  width: 13px;
-  height: 13px;
+  width: 15px;
+  height: 15px;
+  color: var(--ink);
 }
 
 .mfas__secret-key {
   display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fff;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   line-height: 1.7;
-  color: var(--gold);
+  color: #14265a;
   word-break: break-all;
   user-select: all;
 }
@@ -477,26 +686,26 @@
   align-self: flex-start;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 7px 12px;
-  border-radius: 9px;
-  background: var(--gold-soft);
-  border: 1px solid var(--gold-line);
-  color: var(--gold);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 12.5px;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 10px;
+  background: #e2ecff;
+  border: 1px solid var(--blue-line);
+  color: var(--blue);
+  font-family: var(--multi);
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
 }
 
 .mfas__copy svg {
-  width: 13px;
-  height: 13px;
+  width: 15px;
+  height: 15px;
 }
 
 .mfas__copy:hover {
-  background: rgba(245, 197, 24, 0.22);
+  background: #d3e2ff;
 }
 
 .mfas__copy:active {
@@ -509,9 +718,11 @@
   color: var(--mint);
 }
 
-/* ---- code cells ---- */
+/* ==================================================================
+   CODE CELLS
+   ================================================================== */
 .mfas__form {
-  margin-top: 16px;
+  grid-column: 1 / -1;
 }
 
 .mfas__cells {
@@ -519,18 +730,17 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 10px;
-  max-width: 400px;
   cursor: text;
 }
 
 .mfas__cell {
-  height: 56px;
+  height: 58px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 13px;
-  background: var(--nav-900);
-  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  border: 1.5px solid var(--line);
   font-family: 'JetBrains Mono', monospace;
   font-size: 24px;
   font-weight: 700;
@@ -539,21 +749,21 @@
 }
 
 .mfas__cell.is-filled {
-  border-color: var(--gold-line);
-  background: var(--nav-800);
+  border-color: var(--blue-line);
+  background: #f6f9ff;
   animation: mfas-cell-fill 0.22s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .mfas__cell.is-active {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px var(--gold-soft);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px var(--blue-soft);
 }
 
 .mfas__cell.is-active:not(.is-filled)::after {
   content: "";
   width: 2px;
-  height: 24px;
-  background: var(--gold);
+  height: 26px;
+  background: var(--blue);
   border-radius: 1px;
   animation: mfas-caret 1s steps(2, start) infinite;
 }
@@ -587,33 +797,35 @@
   cursor: not-allowed;
 }
 
-/* ---- submit ---- */
+/* ==================================================================
+   SUBMIT
+   ================================================================== */
 .mfas__submit {
   position: relative;
   overflow: hidden;
   width: 100%;
-  max-width: 400px;
   margin-top: 16px;
-  padding: 15px 18px;
+  padding: 17px 18px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 10px;
   border: none;
   border-radius: 14px;
-  background: var(--gold);
-  color: #0e1424;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px;
+  background: linear-gradient(180deg, #2f7cf6, #1447d4);
+  color: #fff;
+  font-family: var(--multi);
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 10px 26px -8px rgba(245, 197, 24, 0.55);
+  box-shadow: 0 12px 26px -8px rgba(29, 95, 230, 0.6);
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.25s ease, color 0.25s ease;
 }
 
 .mfas__submit svg {
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
 }
 
 .mfas__submit::after {
@@ -623,7 +835,7 @@
   left: -60%;
   width: 45%;
   height: 100%;
-  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   transform: skewX(-20deg);
   transition: left 0.55s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
@@ -635,7 +847,11 @@
 
 .mfas__submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 16px 32px -8px rgba(245, 197, 24, 0.6);
+  box-shadow: 0 18px 32px -8px rgba(29, 95, 230, 0.65);
+}
+
+.mfas__submit:hover:not(:disabled) svg {
+  transform: translateX(3px);
 }
 
 .mfas__submit:active:not(:disabled) {
@@ -643,8 +859,8 @@
 }
 
 .mfas__submit:disabled {
-  background: var(--nav-600);
-  color: var(--ink-3);
+  background: linear-gradient(180deg, #a9c3f5, #8fb0ee);
+  color: rgba(255, 255, 255, 0.92);
   cursor: not-allowed;
   box-shadow: none;
 }
@@ -666,7 +882,7 @@
 
 .mfas__submit:focus-visible,
 .mfas__copy:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--blue);
   outline-offset: 3px;
 }
 
@@ -682,16 +898,6 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes mfas-stripe {
-  from {
-    transform: scaleX(0);
-  }
-
-  to {
-    transform: scaleX(1);
   }
 }
 
@@ -803,19 +1009,17 @@
   }
 }
 
-@keyframes mfas-drift {
-  from {
-    transform: translate(0, 0) scale(1);
-  }
-
-  to {
-    transform: translate(26px, 18px) scale(1.06);
-  }
-}
-
 /* ==================================================================
    MOBILE
    ================================================================== */
+@media (max-width: 1000px) {
+
+  .mfas__dots--l,
+  .mfas__dots--r {
+    display: none;
+  }
+}
+
 @media (max-width: 600px) {
   .mfas {
     padding: 16px;
@@ -823,23 +1027,62 @@
   }
 
   .mfas__card {
-    padding: 34px 20px 30px;
-    border-radius: 20px;
+    padding: 34px 16px 26px;
+    border-radius: 22px;
+  }
+
+  .mfas__card::before {
+    width: 130px;
+    height: 96px;
+  }
+
+  .mfas__card::after {
+    width: 110px;
+    height: 100px;
   }
 
   .mfas__title {
-    font-size: 25px;
+    font-size: 30px;
+  }
+
+  .mfas__desc {
+    font-size: 14px;
   }
 
   .mfas__step {
     grid-template-columns: 34px 1fr;
-    gap: 14px;
+    gap: 10px;
   }
 
   .mfas__step-num {
     width: 34px;
     height: 34px;
-    font-size: 13px;
+    font-size: 14px;
+  }
+
+  .mfas__step-body {
+    grid-template-columns: 44px 1fr;
+    column-gap: 12px;
+    padding: 14px 12px;
+  }
+
+  .mfas__step-ico {
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+  }
+
+  .mfas__step-ico svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .mfas__step-title {
+    font-size: 16px;
+  }
+
+  .mfas__step-text {
+    font-size: 13.5px;
   }
 
   .mfas__qr-img {
@@ -849,17 +1092,12 @@
 
   .mfas__cells {
     gap: 6px;
-    max-width: none;
   }
 
   .mfas__cell {
     height: 50px;
     font-size: 21px;
-    border-radius: 10px;
-  }
-
-  .mfas__submit {
-    max-width: none;
+    border-radius: 11px;
   }
 }
 
@@ -869,8 +1107,7 @@
 @media (prefers-reduced-motion: reduce) {
 
   .mfas__card,
-  .mfas__card::before,
-  .mfas__badge,
+  .mfas__hero,
   .mfas__badge.is-success,
   .mfas__eyebrow,
   .mfas__title,
@@ -880,16 +1117,10 @@
   .mfas__step-line,
   .mfas__qr,
   .mfas__qr-scan,
-  .mfas__cell,
-  .mfas__glow--a,
-  .mfas__glow--b {
+  .mfas__cell {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
-  }
-
-  .mfas__card::before {
-    transform: scaleX(1) !important;
   }
 
   .mfas__step-line {
@@ -908,7 +1139,8 @@
     display: none;
   }
 
-  .mfas__submit:hover:not(:disabled) {
+  .mfas__submit:hover:not(:disabled),
+  .mfas__submit:hover:not(:disabled) svg {
     transform: none;
   }
 
