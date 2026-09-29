@@ -396,7 +396,7 @@ const Contact = () => {
                     <Reveal className="mdgt-map-wrap">
                         <div className="mdgt-map-frame">
                             <iframe
-                                title="Meditation Dhyan Portal location"
+                                title="Dhyan Attendance Portal location"
                                 src={mapEmbed}
                                 loading="lazy"
                                 allowFullScreen
@@ -405,7 +405,7 @@ const Contact = () => {
                         </div>
                         <div className="mdgt-card mdgt-map-card">
                             <span className="mdgt-icon mdgt-ic-violet">{I.pin}</span>
-                            <h3 className="mdgt-map-name">{t("ctMapName") || "Meditation Dhyan Portal"}</h3>
+                            <h3 className="mdgt-map-name">{t("ctMapName") || "Dhyan Attendance Portal"}</h3>
                             <p className="mdgt-map-addr">{address}</p>
                             <a className="mdgt-btn mdgt-btn-primary mdgt-map-open" href={mapsLink} target="_blank" rel="noopener noreferrer">
                                 <span>{t("ctOpenMaps") || "Open in Google Maps"}</span>
