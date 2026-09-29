@@ -33,6 +33,7 @@ export const CONTROLLABLE_PAGES = [
     { id: "adminIssues", path: "/admin-issues", labelKey: "adminIssuesBugs" },
     { id: "idCreationStatus", path: "/id-creation-status", labelKey: "idCreationStatus" },
     { id: "idManagement", path: "/id-management", labelKey: "idManagement" },
+    { id: "registeredIds", path: "/registered-ids", labelKey: "registeredIds" },
     { id: "reportIssue", path: "/report-issue", labelKey: "reportIssue" },
     { id: "contactMessages", path: "/contact-messages", labelKey: "contactMessages" },
 ];
