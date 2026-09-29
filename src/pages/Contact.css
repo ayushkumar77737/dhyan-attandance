@@ -1,50 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
 
 html,
 body {
-    background-color: #04020e;
+    background-color: #fff6e2;
     overscroll-behavior: none;
 }
 
-/* ================================================================== */
-/* TOKENS — scoped to the page wrapper so they never collide globally */
-/* ================================================================== */
+/* ============ TOKENS (same palette as the login page) ============ */
 .mdgt-page {
-    --ln-purple: #8b5cf6;
-    --ln-purple-light: #c4b5fd;
-    --ln-pink: #ec4899;
-    --ln-navy: #2742a3;
-    --ln-gold: #f5c842;
-    --ln-gold-soft: #e8c97e;
-    --ln-gold-glow: rgba(245, 200, 66, 0.25);
-
-    --ab-bg: #04020e;
-    --ab-glass: rgba(13, 9, 30, 0.55);
-    --ab-border: rgba(255, 255, 255, 0.08);
-    --ab-border-hover: rgba(139, 92, 246, 0.45);
-
-    --ab-text: #f0eeff;
-    --ab-text-soft: rgba(220, 215, 255, 0.66);
-    --ab-text-muted: rgba(200, 195, 240, 0.42);
-
-    --c-green: #4ade80;
-    --c-red: #fb7185;
-
-    --font-display: 'Cormorant Garamond', serif;
-    --font-body: 'Outfit', sans-serif;
-    --multi: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil',
-        'Noto Sans Kannada', 'Noto Sans Malayalam', 'Noto Sans Bengali', 'Noto Sans', sans-serif;
+    --ln-ink: #16113f;
+    --ln-text: #2b2650;
+    --ln-sub: #6b6785;
+    --ln-muted: #8f8ba6;
+    --ln-purple: #6d3fd6;
+    --ln-purple-deep: #4c1d95;
+    --ln-purple-soft: #efe9ff;
+    --ln-gold: #b8770b;
+    --ln-amber: #e08a0b;
+    --ln-line: rgba(70, 50, 140, 0.14);
+    --ln-card: rgba(255, 253, 249, 0.95);
+    --ln-input-border: #e4dff2;
+    --ln-error: #c0264a;
+    --ln-error-bg: #fff0f3;
+    --c-green: #16a34a;
+    --multi: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Kannada', 'Noto Sans Malayalam', 'Noto Sans Bengali', 'Noto Sans', sans-serif;
 }
 
-/* ================================================================== */
-/* BASE                                                               */
-/* ================================================================== */
+/* ============ BASE ============ */
 .mdgt-page {
     position: relative;
     min-height: 100vh;
     min-height: 100dvh;
-    background-color: var(--ab-bg);
-    color: var(--ab-text);
+    background-color: #fff6e2;
+    color: var(--ln-ink);
     font-family: var(--multi);
     overflow-x: hidden;
 }
@@ -66,101 +54,61 @@ body {
     padding: 90px 0;
 }
 
-/* ---------------- ambient background (absolute so it can't drift) -- */
+/* ---------- sunrise background (same image as login / landing) ---------- */
 .mdgt-bg {
-    position: absolute;
-    inset: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100lvh;
     z-index: 0;
     overflow: hidden;
     pointer-events: none;
+    background: #fff6e2 url("../assets/landing-bg.webp") center / cover no-repeat;
+    transform: translateZ(0);
 }
 
-.mdgt-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(90px);
-    opacity: 0.45;
-}
-
-.mdgt-orb-1 {
-    width: 560px;
-    height: 560px;
-    top: -160px;
-    left: -120px;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.55) 0%, transparent 70%);
-    animation: mdgtFloat1 18s ease-in-out infinite;
-}
-
-.mdgt-orb-2 {
-    width: 480px;
-    height: 480px;
-    top: 40%;
-    right: -140px;
-    background: radial-gradient(circle, rgba(245, 200, 66, 0.38) 0%, transparent 70%);
-    animation: mdgtFloat2 22s ease-in-out infinite;
-}
-
-.mdgt-orb-3 {
-    width: 520px;
-    height: 520px;
-    bottom: -140px;
-    left: 24%;
-    background: radial-gradient(circle, rgba(39, 66, 163, 0.5) 0%, transparent 70%);
-    animation: mdgtFloat3 20s ease-in-out infinite;
-}
-
-.mdgt-grid {
+.mdgt-bg::after {
+    content: "";
     position: absolute;
     inset: 0;
-    background-image:
-        linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
-    background-size: 64px 64px;
-    mask-image: radial-gradient(ellipse 80% 50% at 50% 20%, #000 0%, transparent 80%);
-    -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 20%, #000 0%, transparent 80%);
+    background: linear-gradient(180deg, rgba(255, 251, 242, .62), rgba(255, 251, 242, .4));
 }
 
-@keyframes mdgtFloat1 {
-
-    0%,
-    100% {
-        transform: translate(0, 0);
-    }
-
-    50% {
-        transform: translate(40px, 50px);
-    }
+.mdgt-orb,
+.mdgt-grid,
+.mdgt-particles {
+    display: none;
 }
 
-@keyframes mdgtFloat2 {
-
-    0%,
-    100% {
-        transform: translate(0, 0);
-    }
-
-    50% {
-        transform: translate(-50px, 40px);
-    }
+/* lotus corners (same artwork as login / landing) */
+.mdgt-page::before,
+.mdgt-page::after {
+    content: "";
+    position: fixed;
+    bottom: 0;
+    width: 240px;
+    height: 154px;
+    background: url("../assets/landing-lotus-corner.png") bottom left / contain no-repeat;
+    pointer-events: none;
+    z-index: 0;
 }
 
-@keyframes mdgtFloat3 {
-
-    0%,
-    100% {
-        transform: translate(0, 0);
-    }
-
-    50% {
-        transform: translate(30px, -50px);
-    }
+.mdgt-page::before {
+    left: 0;
 }
 
-/* ---------------- reveal-on-scroll ---------------- */
+.mdgt-page::after {
+    right: 0;
+    transform: scaleX(-1);
+}
+
+/* ---------- reveal on scroll ---------- */
 .mdgt-reveal {
     opacity: 0;
     transform: translateY(34px);
-    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity .7s ease, transform .7s cubic-bezier(.22, 1, .36, 1);
 }
 
 .mdgt-reveal.mdgt-in {
@@ -168,16 +116,15 @@ body {
     transform: none;
 }
 
-/* ---------------- section header ---------------- */
+/* ---------- section headers ---------- */
 .mdgt-kicker {
     display: inline-block;
+    margin-bottom: 14px;
     font-size: 12px;
     font-weight: 700;
-    letter-spacing: 3.5px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    color: var(--ln-gold);
-    text-shadow: 0 0 18px var(--ln-gold-glow);
-    margin-bottom: 14px;
+    color: var(--ln-amber);
 }
 
 .mdgt-kicker-center {
@@ -191,12 +138,11 @@ body {
 }
 
 .mdgt-section-title {
-    font-family: var(--font-display);
-    font-size: clamp(30px, 4.4vw, 46px);
-    font-weight: 700;
-    line-height: 1.08;
     margin: 0;
-    color: var(--ab-text);
+    font-size: clamp(30px, 4.4vw, 46px);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--ln-ink);
 }
 
 .mdgt-center {
@@ -204,43 +150,43 @@ body {
 }
 
 .mdgt-section-sub {
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--ab-text-soft);
     max-width: 520px;
     margin: 16px auto 0;
     text-align: center;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ln-text);
 }
 
 .mdgt-gold-text {
-    background: linear-gradient(120deg, #f5e4b0, var(--ln-gold) 55%, #d9a93a);
+    background: linear-gradient(120deg, var(--ln-gold), #e5a12e 60%, var(--ln-gold));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-/* ---------------- buttons ---------------- */
+/* ---------- buttons ---------- */
 .mdgt-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
+    padding: 15px 30px;
     font-family: var(--multi);
-    font-weight: 700;
     font-size: 14px;
-    letter-spacing: 1.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
     text-transform: uppercase;
     text-decoration: none;
     border: none;
     border-radius: 14px;
-    padding: 15px 30px;
     cursor: pointer;
-    transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease, color 0.22s ease, border-color 0.22s ease;
+    transition: transform .22s ease, box-shadow .22s ease, filter .22s ease, color .22s ease, border-color .22s ease;
 }
 
 .mdgt-btn-arrow {
     display: inline-flex;
-    transition: transform 0.25s ease;
+    transition: transform .25s ease;
 }
 
 .mdgt-btn-arrow svg {
@@ -250,14 +196,14 @@ body {
 
 .mdgt-btn-primary {
     color: #fff;
-    background: linear-gradient(95deg, #7c3aed 0%, #b71fcb 48%, #ec4899 100%);
-    box-shadow: 0 10px 30px rgba(139, 60, 200, 0.45);
+    background: linear-gradient(95deg, #6d3fd6 0%, #8b52d4 45%, #f5a623 100%);
+    box-shadow: 0 10px 24px rgba(109, 63, 214, .32);
 }
 
 .mdgt-btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 16px 40px rgba(192, 38, 211, 0.5);
-    filter: brightness(1.06);
+    box-shadow: 0 16px 32px rgba(109, 63, 214, .4);
+    filter: brightness(1.04);
 }
 
 .mdgt-btn-primary:hover .mdgt-btn-arrow {
@@ -265,53 +211,46 @@ body {
 }
 
 .mdgt-btn-ghost {
-    color: var(--ab-text);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(245, 200, 66, 0.35);
+    color: var(--ln-purple);
+    background: #fff;
+    border: 1px solid var(--ln-input-border);
+    box-shadow: 0 2px 8px rgba(80, 60, 140, .07);
 }
 
 .mdgt-btn-ghost:hover {
     transform: translateY(-2px);
-    color: var(--ln-gold);
-    border-color: var(--ln-gold);
-    box-shadow: 0 12px 30px rgba(245, 200, 66, 0.2);
+    border-color: var(--ln-purple);
+    box-shadow: 0 10px 24px rgba(109, 63, 214, .18);
 }
 
 .mdgt-btn:focus-visible {
-    outline: 2px solid var(--ln-purple-light);
+    outline: 2px solid var(--ln-purple);
     outline-offset: 3px;
 }
 
-/* ---------------- shared card ---------------- */
+/* ---------- shared card ---------- */
 .mdgt-card {
     position: relative;
-    background: var(--ab-glass);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: 1px solid var(--ab-border);
+    background: var(--ln-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, .8);
     border-radius: 22px;
-    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 20px 50px rgba(60, 40, 110, .18), 0 2px 0 rgba(255, 255, 255, .7) inset;
+    transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
 }
 
-/* ---------------- icon discs ---------------- */
+/* ---------- icon discs ---------- */
 .mdgt-icon {
+    position: relative;
+    flex-shrink: 0;
     width: 62px;
     height: 62px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    flex-shrink: 0;
-}
-
-.mdgt-icon::after {
-    content: '';
-    position: absolute;
-    inset: -5px;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
 }
 
 .mdgt-icon svg {
@@ -321,31 +260,25 @@ body {
 
 .mdgt-ic-violet {
     background: linear-gradient(140deg, #8b5cf6, #6d28d9);
-    color: #fff;
-    box-shadow: 0 10px 24px rgba(124, 58, 237, 0.4);
+    box-shadow: 0 8px 18px rgba(124, 58, 237, .35);
 }
 
 .mdgt-ic-gold {
-    background: linear-gradient(140deg, #f5c842, #d99a2b);
-    color: #4a2e05;
-    box-shadow: 0 10px 24px rgba(245, 200, 66, 0.32);
+    background: linear-gradient(140deg, #f7c948, #e5a12e);
+    box-shadow: 0 8px 18px rgba(245, 200, 66, .4);
 }
 
 .mdgt-ic-rose {
     background: linear-gradient(140deg, #f472b6, #db2777);
-    color: #fff;
-    box-shadow: 0 10px 24px rgba(236, 72, 153, 0.38);
+    box-shadow: 0 8px 18px rgba(236, 72, 153, .35);
 }
 
 .mdgt-ic-blue {
-    background: linear-gradient(140deg, #38bdf8, #2742a3);
-    color: #fff;
-    box-shadow: 0 10px 24px rgba(39, 66, 163, 0.42);
+    background: linear-gradient(140deg, #60a5fa, #2f7cf0);
+    box-shadow: 0 8px 18px rgba(47, 124, 240, .35);
 }
 
-/* ================================================================== */
-/* HERO                                                               */
-/* ================================================================== */
+/* ============ HERO ============ */
 .mdgt-hero {
     position: relative;
     z-index: 1;
@@ -356,7 +289,7 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 130px 24px 90px;
+    padding: 110px 24px 90px;
     overflow: hidden;
 }
 
@@ -368,7 +301,7 @@ body {
     width: min(760px, 92vw);
     aspect-ratio: 1;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(245, 200, 66, 0.15) 0%, rgba(39, 66, 163, 0.16) 38%, rgba(139, 92, 246, 0.08) 60%, transparent 72%);
+    background: radial-gradient(circle, rgba(245, 200, 66, .22) 0%, rgba(139, 92, 246, .08) 45%, transparent 70%);
     pointer-events: none;
 }
 
@@ -377,41 +310,13 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -54%);
-    color: rgba(245, 200, 66, 0.05);
+    color: rgba(184, 119, 11, .07);
     pointer-events: none;
 }
 
 .mdgt-hero-lotus svg {
     width: 440px;
     height: 440px;
-}
-
-.mdgt-particles {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-}
-
-.mdgt-particle {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(245, 224, 176, 0.7);
-    box-shadow: 0 0 8px rgba(245, 200, 66, 0.6);
-    animation: mdgtTwinkle 6s ease-in-out infinite;
-}
-
-@keyframes mdgtTwinkle {
-
-    0%,
-    100% {
-        opacity: 0.15;
-        transform: translateY(0) scale(1);
-    }
-
-    50% {
-        opacity: 0.9;
-        transform: translateY(-14px) scale(1.4);
-    }
 }
 
 .mdgt-hero-inner {
@@ -421,28 +326,26 @@ body {
 }
 
 .mdgt-hero-logo {
-    width: 74px;
-    height: 74px;
+    width: 76px;
+    height: 76px;
+    margin-bottom: 14px;
     object-fit: contain;
-    filter: drop-shadow(0 0 18px rgba(245, 200, 66, 0.45));
-    margin-bottom: 18px;
+    filter: drop-shadow(0 6px 12px rgba(217, 154, 43, .35));
 }
 
 .mdgt-hero-title {
-    font-family: var(--font-display);
-    font-size: clamp(40px, 6.6vw, 76px);
-    font-weight: 700;
-    line-height: 1.04;
     margin: 0 0 22px;
-    letter-spacing: -0.5px;
+    font-size: clamp(40px, 6.6vw, 74px);
+    font-weight: 800;
+    line-height: 1.06;
 }
 
 .mdgt-hero-sub {
-    font-size: clamp(15px, 2vw, 19px);
-    line-height: 1.7;
-    color: var(--ab-text-soft);
     max-width: 600px;
     margin: 0 auto 36px;
+    font-size: clamp(15px, 2vw, 19px);
+    line-height: 1.7;
+    color: var(--ln-text);
 }
 
 .mdgt-hero-actions {
@@ -459,18 +362,18 @@ body {
     transform: translateX(-50%);
     width: 26px;
     height: 42px;
-    border: 2px solid rgba(255, 255, 255, 0.22);
-    border-radius: 14px;
     display: flex;
     justify-content: center;
     padding-top: 8px;
+    border: 2px solid rgba(76, 29, 149, .3);
+    border-radius: 14px;
 }
 
 .mdgt-scroll-cue span {
     width: 4px;
     height: 8px;
     border-radius: 4px;
-    background: var(--ln-gold);
+    background: var(--ln-purple);
     animation: mdgtScroll 1.7s ease-in-out infinite;
 }
 
@@ -491,9 +394,7 @@ body {
     }
 }
 
-/* ================================================================== */
-/* CONTACT INFO CARDS                                                 */
-/* ================================================================== */
+/* ============ INFO CARDS ============ */
 .mdgt-info-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -501,18 +402,18 @@ body {
 }
 
 .mdgt-info-card {
-    padding: 32px 24px;
-    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 14px;
+    padding: 32px 24px;
+    text-align: center;
 }
 
 .mdgt-info-card:hover {
     transform: translateY(-6px);
-    border-color: rgba(245, 200, 66, 0.45);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 34px rgba(245, 200, 66, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+    border-color: rgba(224, 138, 11, .5);
+    box-shadow: 0 26px 56px rgba(60, 40, 110, .24), 0 0 0 1px rgba(224, 138, 11, .25);
 }
 
 .mdgt-info-label {
@@ -526,19 +427,17 @@ body {
 .mdgt-info-value {
     font-size: 15px;
     line-height: 1.55;
-    color: var(--ab-text-soft);
+    color: var(--ln-text);
     word-break: break-word;
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color .2s;
 }
 
 a.mdgt-info-value:hover {
-    color: var(--ln-gold-soft);
+    color: var(--ln-purple);
 }
 
-/* ================================================================== */
-/* CONTACT FORM (floating labels)                                     */
-/* ================================================================== */
+/* ============ FORM ============ */
 .mdgt-form {
     max-width: 760px;
     margin: 0 auto;
@@ -561,61 +460,65 @@ a.mdgt-info-value:hover {
 
 .mdgt-input {
     width: 100%;
-    padding: 20px 16px 8px;
-    font-size: 14px;
+    padding: 22px 16px 8px;
     font-family: var(--multi);
-    color: var(--ab-text);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 15px;
+    color: var(--ln-ink);
+    background: #fff;
+    border: 1px solid var(--ln-input-border);
     border-radius: 14px;
     outline: none;
-    transition: background 0.22s, border-color 0.22s, box-shadow 0.22s;
+    box-shadow: 0 2px 8px rgba(80, 60, 140, .07);
+    transition: border-color .2s ease, box-shadow .2s ease;
 }
 
 .mdgt-input:focus {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(139, 92, 246, 0.55);
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.14);
+    border-color: var(--ln-purple);
+    box-shadow: 0 0 0 4px rgba(109, 63, 214, .14);
 }
 
 .mdgt-input-err {
-    border-color: rgba(251, 113, 133, 0.7);
+    border-color: var(--ln-error);
+    background: var(--ln-error-bg);
 }
 
 .mdgt-input-err:focus {
-    box-shadow: 0 0 0 3px rgba(251, 113, 133, 0.16);
+    border-color: var(--ln-error);
+    box-shadow: 0 0 0 4px rgba(192, 38, 74, .14);
 }
 
 .mdgt-textarea {
     resize: vertical;
     min-height: 130px;
+    padding-top: 26px;
     line-height: 1.55;
-    padding-top: 24px;
 }
 
 .mdgt-label {
     position: absolute;
     left: 16px;
-    top: 15px;
-    font-size: 14px;
-    color: var(--ab-text-muted);
+    top: 16px;
+    font-size: 15px;
+    color: var(--ln-muted);
     pointer-events: none;
-    transition: top 0.18s ease, font-size 0.18s ease, color 0.18s ease;
+    transition: top .18s ease, font-size .18s ease, color .18s ease;
 }
 
 .mdgt-input:focus+.mdgt-label,
 .mdgt-input:not(:placeholder-shown)+.mdgt-label {
     top: 7px;
     font-size: 11px;
-    letter-spacing: 0.5px;
-    color: var(--ln-gold-soft);
+    font-weight: 600;
+    letter-spacing: .5px;
+    color: var(--ln-purple);
 }
 
 .mdgt-err {
     display: block;
     margin-top: 6px;
     font-size: 12.5px;
-    color: var(--c-red);
+    font-weight: 500;
+    color: var(--ln-error);
 }
 
 .mdgt-form-submit {
@@ -623,19 +526,19 @@ a.mdgt-info-value:hover {
     margin-top: 22px;
 }
 
-/* ---------------- success popup ---------------- */
+/* ---------- success popup ---------- */
 .mdgt-popup {
     position: fixed;
     inset: 0;
     z-index: 1000;
-    background: rgba(4, 2, 14, 0.82);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 24px;
-    animation: mdgtFade 0.25s ease;
+    background: rgba(22, 17, 63, .45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: mdgtFade .25s ease;
 }
 
 @keyframes mdgtFade {
@@ -649,20 +552,20 @@ a.mdgt-info-value:hover {
 }
 
 .mdgt-popup-card {
-    max-width: 420px;
     width: 100%;
-    padding: 46px 36px;
-    text-align: center;
+    max-width: 420px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
-    animation: mdgtPop 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    padding: 46px 36px;
+    text-align: center;
+    animation: mdgtPop .32s cubic-bezier(.22, 1, .36, 1);
 }
 
 @keyframes mdgtPop {
     from {
-        transform: scale(0.92);
+        transform: scale(.92);
         opacity: 0;
     }
 
@@ -675,14 +578,13 @@ a.mdgt-info-value:hover {
 .mdgt-popup-icon {
     width: 66px;
     height: 66px;
+    margin-bottom: 4px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(74, 222, 128, 0.16);
+    background: rgba(34, 197, 94, .14);
     color: var(--c-green);
-    box-shadow: 0 0 30px rgba(74, 222, 128, 0.25);
-    margin-bottom: 4px;
 }
 
 .mdgt-popup-icon svg {
@@ -691,30 +593,28 @@ a.mdgt-info-value:hover {
 }
 
 .mdgt-popup-title {
-    font-family: var(--font-display);
-    font-size: 30px;
-    font-weight: 700;
     margin: 0;
-    color: var(--ab-text);
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--ln-ink);
 }
 
 .mdgt-popup-hi {
-    font-size: 17px;
-    color: var(--ln-gold-soft);
     margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ln-gold);
 }
 
 .mdgt-popup-sub {
+    max-width: 340px;
+    margin: 0 0 10px;
     font-size: 14.5px;
     line-height: 1.6;
-    color: var(--ab-text-soft);
-    margin: 0 0 10px;
-    max-width: 340px;
+    color: var(--ln-sub);
 }
 
-/* ================================================================== */
-/* LOCATION MAP                                                       */
-/* ================================================================== */
+/* ============ MAP ============ */
 .mdgt-map-wrap {
     display: grid;
     grid-template-columns: 1.6fr 1fr;
@@ -725,10 +625,10 @@ a.mdgt-info-value:hover {
 .mdgt-map-frame {
     position: relative;
     min-height: 400px;
-    border-radius: 22px;
     overflow: hidden;
-    border: 1px solid var(--ab-border);
-    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.4);
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, .8);
+    box-shadow: 0 20px 50px rgba(60, 40, 110, .18);
 }
 
 .mdgt-map-frame iframe {
@@ -740,36 +640,33 @@ a.mdgt-info-value:hover {
 }
 
 .mdgt-map-card {
-    padding: 34px 30px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 14px;
     justify-content: center;
+    gap: 14px;
+    padding: 34px 30px;
 }
 
 .mdgt-map-name {
-    font-family: var(--font-display);
-    font-size: 27px;
-    font-weight: 600;
     margin: 4px 0 0;
-    color: var(--ab-text);
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--ln-ink);
 }
 
 .mdgt-map-addr {
+    margin: 0;
     font-size: 14.5px;
     line-height: 1.6;
-    color: var(--ab-text-soft);
-    margin: 0;
+    color: var(--ln-sub);
 }
 
 .mdgt-map-open {
     margin-top: 8px;
 }
 
-/* ================================================================== */
-/* SOCIAL MEDIA                                                       */
-/* ================================================================== */
+/* ============ SOCIAL ============ */
 .mdgt-socials {
     display: flex;
     flex-wrap: wrap;
@@ -784,13 +681,11 @@ a.mdgt-info-value:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--ln-gold-soft);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--ab-border);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
-    transition: transform 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    color: var(--ln-purple);
+    background: #fff;
+    border: 1px solid var(--ln-input-border);
+    box-shadow: 0 6px 16px rgba(80, 60, 140, .12);
+    transition: transform .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease;
 }
 
 .mdgt-soc svg {
@@ -803,58 +698,55 @@ a.mdgt-info-value:hover {
 }
 
 .mdgt-soc-fb:hover {
-    color: #4f8cff;
-    border-color: #4f8cff;
-    box-shadow: 0 12px 30px rgba(79, 140, 255, 0.35);
+    color: #1877f2;
+    border-color: #1877f2;
+    box-shadow: 0 12px 26px rgba(24, 119, 242, .3);
 }
 
 .mdgt-soc-ig:hover {
     color: #e1306c;
     border-color: #e1306c;
-    box-shadow: 0 12px 30px rgba(225, 48, 108, 0.35);
+    box-shadow: 0 12px 26px rgba(225, 48, 108, .3);
 }
 
 .mdgt-soc-yt:hover {
-    color: #ff3d3d;
-    border-color: #ff3d3d;
-    box-shadow: 0 12px 30px rgba(255, 61, 61, 0.35);
+    color: #ff0000;
+    border-color: #ff0000;
+    box-shadow: 0 12px 26px rgba(255, 0, 0, .28);
 }
 
 .mdgt-soc-wa:hover {
     color: #25d366;
     border-color: #25d366;
-    box-shadow: 0 12px 30px rgba(37, 211, 102, 0.35);
+    box-shadow: 0 12px 26px rgba(37, 211, 102, .3);
 }
 
 .mdgt-soc-tg:hover {
-    color: #2aa9e0;
-    border-color: #2aa9e0;
-    box-shadow: 0 12px 30px rgba(42, 169, 224, 0.35);
+    color: #229ed9;
+    border-color: #229ed9;
+    box-shadow: 0 12px 26px rgba(34, 158, 217, .3);
 }
 
-/* ================================================================== */
-/* CALL TO ACTION                                                     */
-/* ================================================================== */
+/* ============ CTA ============ */
 .mdgt-cta-card {
     position: relative;
     overflow: hidden;
     text-align: center;
-    border-radius: 28px;
     padding: clamp(40px, 6vw, 76px);
+    border-radius: 28px;
     background:
-        radial-gradient(ellipse 70% 90% at 50% 0%, rgba(245, 200, 66, 0.12), transparent 70%),
-        linear-gradient(135deg, rgba(124, 58, 237, 0.24), rgba(39, 66, 163, 0.2) 52%, rgba(245, 200, 66, 0.1));
-    border: 1px solid rgba(245, 200, 66, 0.22);
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+        radial-gradient(circle at 0% 0%, rgba(245, 200, 66, .2), transparent 45%),
+        radial-gradient(circle at 100% 100%, rgba(139, 92, 246, .14), transparent 50%),
+        linear-gradient(180deg, #fffdf9, #fbf6ee);
+    border: 1px solid rgba(255, 255, 255, .8);
+    box-shadow: 0 30px 80px rgba(60, 40, 110, .28), 0 2px 0 rgba(255, 255, 255, .7) inset;
 }
 
 .mdgt-cta-lotus {
     position: absolute;
     bottom: -90px;
     right: -60px;
-    color: rgba(245, 200, 66, 0.06);
+    color: rgba(184, 119, 11, .08);
     pointer-events: none;
 }
 
@@ -866,22 +758,21 @@ a.mdgt-info-value:hover {
 .mdgt-cta-heading {
     position: relative;
     z-index: 1;
-    font-family: var(--font-display);
-    font-size: clamp(30px, 4.4vw, 48px);
-    font-weight: 700;
-    line-height: 1.1;
     margin: 0 0 16px;
-    color: var(--ab-text);
+    font-size: clamp(28px, 4.2vw, 46px);
+    font-weight: 800;
+    line-height: 1.12;
+    color: var(--ln-ink);
 }
 
 .mdgt-cta-sub {
     position: relative;
     z-index: 1;
-    font-size: clamp(14px, 1.7vw, 17px);
-    line-height: 1.7;
-    color: var(--ab-text-soft);
     max-width: 600px;
     margin: 0 auto 30px;
+    font-size: clamp(14px, 1.7vw, 17px);
+    line-height: 1.7;
+    color: var(--ln-text);
 }
 
 .mdgt-cta-actions {
@@ -893,9 +784,16 @@ a.mdgt-info-value:hover {
     flex-wrap: wrap;
 }
 
-/* ================================================================== */
-/* RESPONSIVE                                                         */
-/* ================================================================== */
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1180px) {
+
+    .mdgt-page::before,
+    .mdgt-page::after {
+        width: 150px;
+        height: 96px;
+    }
+}
+
 @media (max-width: 1024px) {
     .mdgt-info-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -927,19 +825,24 @@ a.mdgt-info-value:hover {
     .mdgt-form-grid {
         grid-template-columns: 1fr;
     }
+
+    .mdgt-page::before,
+    .mdgt-page::after {
+        display: none;
+    }
 }
 
 @media (max-width: 560px) {
-    .mdgt-page {
-        font-size: 15px;
-    }
-
     .mdgt-container {
         padding: 0 18px;
     }
 
     .mdgt-section {
         padding: 56px 0;
+    }
+
+    .mdgt-hero {
+        padding-top: 90px;
     }
 
     .mdgt-info-grid {
@@ -965,14 +868,12 @@ a.mdgt-info-value:hover {
     }
 }
 
-/* ================================================================== */
-/* REDUCED MOTION                                                     */
-/* ================================================================== */
+/* ============ REDUCED MOTION ============ */
 @media (prefers-reduced-motion: reduce) {
 
-    .mdgt-orb,
-    .mdgt-particle,
-    .mdgt-scroll-cue span {
+    .mdgt-scroll-cue span,
+    .mdgt-popup,
+    .mdgt-popup-card {
         animation: none !important;
     }
 
