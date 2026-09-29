@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
+
 html,
 body,
 #root {
@@ -7,52 +8,42 @@ body,
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    background: #04020e;
+    background: #fff6e2;
 }
-/* ================================================================== */
-/* TOKENS — scoped to the page wrapper so they never collide globally */
-/* ================================================================== */
+
+/* ================= TOKENS (same palette as the Login page) ================= */
 .mdpa-page {
-    --ln-purple: #8b5cf6;
-    --ln-purple-dark: #6d3fd6;
-    --ln-purple-light: #c4b5fd;
-    --ln-purple-glow: rgba(139, 92, 246, 0.35);
-
-    --ln-pink: #ec4899;
-    --ln-gold: #f5c842;
-    --ln-gold-soft: #e8c97e;
-    --ln-gold-glow: rgba(245, 200, 66, 0.25);
-
-    --ab-bg: #04020e;
-    --ab-glass: rgba(13, 9, 30, 0.55);
-    --ab-glass-strong: rgba(15, 10, 34, 0.74);
-    --ab-border: rgba(255, 255, 255, 0.08);
-    --ab-border-hover: rgba(139, 92, 246, 0.45);
-
-    --ab-text: #f0eeff;
-    --ab-text-soft: rgba(220, 215, 255, 0.66);
-    --ab-text-muted: rgba(200, 195, 240, 0.42);
-
-    --font-display: 'Cormorant Garamond', serif;
-    --font-body: 'Outfit', sans-serif;
-    --multi: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil',
-        'Noto Sans Kannada', 'Noto Sans Malayalam', 'Noto Sans Bengali', 'Noto Sans', sans-serif;
+    --ab-ink: #16113f;
+    --ab-text: #2b2650;
+    --ab-sub: #6b6785;
+    --ab-muted: #8f8ba6;
+    --ab-purple: #6d3fd6;
+    --ab-purple-deep: #4c1d95;
+    --ab-purple-soft: #efe9ff;
+    --ab-gold: #b8770b;
+    --ab-amber: #e08a0b;
+    --ab-line: rgba(70, 50, 140, 0.14);
+    --ab-card: rgba(255, 253, 249, 0.95);
+    --ab-card-border: rgba(255, 255, 255, 0.85);
+    --ab-shadow: 0 10px 26px rgba(60, 40, 110, 0.14);
+    --ab-shadow-hover: 0 18px 38px rgba(60, 40, 110, 0.22);
+    --ab-grad: linear-gradient(95deg, #6d3fd6 0%, #8b52d4 45%, #f5a623 100%);
+    --ab-ring: #fdf3df;
+    --multi: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Kannada', 'Noto Sans Malayalam', 'Noto Sans Bengali', 'Noto Sans', sans-serif;
 }
 
-/* ================================================================== */
-/* BASE                                                               */
-/* ================================================================== */
+/* ================= BASE ================= */
 .mdpa-page {
     position: relative;
     min-height: 100vh;
-    color: var(--ab-text);
+    color: var(--ab-ink);
     font-family: var(--multi);
     overflow-x: hidden;
     background: transparent;
     z-index: 1;
 }
 
-.mdpa-page > * {
+.mdpa-page>* {
     position: relative;
     z-index: 2;
 }
@@ -74,7 +65,7 @@ body,
     padding: 104px 0;
 }
 
-/* ---------------- ambient background ---------------- */
+/* ambient sunrise background */
 .mdpa-bg {
     position: fixed;
     top: 0;
@@ -84,13 +75,14 @@ body,
     overflow: hidden;
     pointer-events: none;
     z-index: -1;
+    background: linear-gradient(180deg, #fff6e2 0%, #fdf1dc 45%, #f6efff 100%);
 }
 
 .mdpa-orb {
     position: absolute;
     border-radius: 50%;
     filter: blur(90px);
-    opacity: 0.5;
+    opacity: 0.55;
     will-change: transform;
 }
 
@@ -99,7 +91,7 @@ body,
     height: 560px;
     top: -160px;
     left: -120px;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.55) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(245, 200, 66, 0.55), transparent 70%);
     animation: mdpaFloat1 18s ease-in-out infinite;
 }
 
@@ -108,7 +100,7 @@ body,
     height: 480px;
     top: 32%;
     right: -140px;
-    background: radial-gradient(circle, rgba(245, 200, 66, 0.4) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.32), transparent 70%);
     animation: mdpaFloat2 22s ease-in-out infinite;
 }
 
@@ -117,16 +109,14 @@ body,
     height: 520px;
     bottom: -180px;
     left: 20%;
-    background: radial-gradient(circle, rgba(236, 72, 153, 0.35) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.22), transparent 70%);
     animation: mdpaFloat3 20s ease-in-out infinite;
 }
 
 .mdpa-grid {
     position: absolute;
     inset: 0;
-    background-image:
-        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-image: linear-gradient(rgba(109, 63, 214, 0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(109, 63, 214, 0.045) 1px, transparent 1px);
     background-size: 64px 64px;
     mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 0%, transparent 80%);
     -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 0%, transparent 80%);
@@ -168,7 +158,7 @@ body,
     }
 }
 
-/* ---------------- reveal-on-scroll ---------------- */
+/* reveal on scroll */
 .mdpa-reveal {
     opacity: 0;
     transform: translateY(34px);
@@ -180,15 +170,14 @@ body,
     transform: none;
 }
 
-/* ---------------- shared section header ---------------- */
+/* headings */
 .mdpa-kicker {
     display: inline-block;
     font-size: 12px;
     font-weight: 700;
-    letter-spacing: 3.5px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    color: var(--ln-gold);
-    text-shadow: 0 0 18px var(--ln-gold-glow);
+    color: var(--ab-amber);
     margin-bottom: 14px;
 }
 
@@ -203,12 +192,13 @@ body,
 }
 
 .mdpa-section-title {
-    font-family: var(--font-display);
-    font-size: clamp(30px, 4.4vw, 46px);
-    font-weight: 700;
-    line-height: 1.08;
+    font-family: var(--multi);
+    font-size: clamp(30px, 4.4vw, 44px);
+    font-weight: 800;
+    line-height: 1.1;
     margin: 0;
-    color: var(--ab-text);
+    color: var(--ab-ink);
+    letter-spacing: -0.3px;
 }
 
 .mdpa-center {
@@ -216,20 +206,25 @@ body,
 }
 
 .mdpa-gold-text {
-    background: linear-gradient(120deg, #f5e4b0, var(--ln-gold) 55%, #d9a93a);
+    background: linear-gradient(120deg, #b8770b, #e08a0b);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
+.mdpa-title-last {
+    display: block;
+    color: var(--ab-purple-deep);
+}
+
 .mdpa-text {
     font-size: 16px;
     line-height: 1.75;
-    color: var(--ab-text-soft);
+    color: var(--ab-text);
     margin: 0;
 }
 
-/* ---------------- buttons ---------------- */
+/* buttons */
 .mdpa-btn {
     display: inline-flex;
     align-items: center;
@@ -238,7 +233,7 @@ body,
     font-family: var(--multi);
     font-weight: 700;
     font-size: 14px;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.8px;
     text-transform: uppercase;
     border: none;
     border-radius: 14px;
@@ -259,14 +254,14 @@ body,
 
 .mdpa-btn-primary {
     color: #fff;
-    background: linear-gradient(95deg, #7c3aed 0%, #b71fcb 48%, #ec4899 100%);
-    box-shadow: 0 10px 30px rgba(139, 60, 200, 0.45);
+    background: var(--ab-grad);
+    box-shadow: 0 10px 24px rgba(109, 63, 214, 0.32);
 }
 
 .mdpa-btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 16px 40px rgba(192, 38, 211, 0.5);
-    filter: brightness(1.06);
+    box-shadow: 0 16px 32px rgba(109, 63, 214, 0.4);
+    filter: brightness(1.04);
 }
 
 .mdpa-btn-primary:hover .mdpa-btn-arrow {
@@ -274,43 +269,61 @@ body,
 }
 
 .mdpa-btn-ghost {
-    color: var(--ab-text);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(245, 200, 66, 0.35);
+    color: var(--ab-purple);
+    background: #fff;
+    border: 1.5px solid rgba(109, 63, 214, 0.35);
+    box-shadow: 0 4px 12px rgba(80, 60, 140, 0.08);
 }
 
 .mdpa-btn-ghost:hover {
     transform: translateY(-2px);
-    color: var(--ln-gold);
-    border-color: var(--ln-gold);
-    box-shadow: 0 12px 30px rgba(245, 200, 66, 0.2);
+    border-color: var(--ab-purple);
+    box-shadow: 0 12px 26px rgba(109, 63, 214, 0.2);
 }
 
 .mdpa-btn:focus-visible {
-    outline: 2px solid var(--ln-purple-light);
+    outline: 2px solid var(--ab-purple);
     outline-offset: 3px;
 }
 
-/* ---------------- shared card ---------------- */
+/* cards */
 .mdpa-card {
     position: relative;
-    background: var(--ab-glass);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: 1px solid var(--ab-border);
+    background: var(--ab-card);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--ab-card-border);
     border-radius: 22px;
-    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: var(--ab-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .mdpa-card:hover {
     transform: translateY(-6px);
-    border-color: var(--ab-border-hover);
-    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.5), 0 0 40px rgba(139, 92, 246, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.09);
+    box-shadow: var(--ab-shadow-hover);
 }
 
-/* ---------------- icon discs ---------------- */
+.mdpa-grid-4>.mdpa-card:nth-child(4n+1),
+.mdpa-grid-3>.mdpa-card:nth-child(4n+1) {
+    background: rgba(238, 232, 255, 0.94);
+}
+
+.mdpa-grid-4>.mdpa-card:nth-child(4n+2),
+.mdpa-grid-3>.mdpa-card:nth-child(4n+2) {
+    background: rgba(253, 243, 223, 0.94);
+}
+
+.mdpa-grid-4>.mdpa-card:nth-child(4n+3),
+.mdpa-grid-3>.mdpa-card:nth-child(4n+3) {
+    background: rgba(253, 232, 241, 0.94);
+}
+
+.mdpa-grid-4>.mdpa-card:nth-child(4n+4),
+.mdpa-grid-3>.mdpa-card:nth-child(4n+4) {
+    background: rgba(230, 248, 238, 0.94);
+}
+
+/* icon discs */
 .mdpa-icon {
     width: 60px;
     height: 60px;
@@ -319,14 +332,6 @@ body,
     align-items: center;
     justify-content: center;
     position: relative;
-}
-
-.mdpa-icon::after {
-    content: '';
-    position: absolute;
-    inset: -5px;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .mdpa-icon svg {
@@ -347,30 +352,28 @@ body,
 .mdpa-ic-violet {
     background: linear-gradient(140deg, #8b5cf6, #6d28d9);
     color: #fff;
-    box-shadow: 0 10px 24px rgba(124, 58, 237, 0.4);
+    box-shadow: 0 8px 18px rgba(124, 58, 237, 0.35);
 }
 
 .mdpa-ic-gold {
-    background: linear-gradient(140deg, #f5c842, #d99a2b);
-    color: #4a2e05;
-    box-shadow: 0 10px 24px rgba(245, 200, 66, 0.32);
+    background: linear-gradient(140deg, #f7c948, #e5a12e);
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(245, 200, 66, 0.4);
 }
 
 .mdpa-ic-rose {
     background: linear-gradient(140deg, #f472b6, #db2777);
     color: #fff;
-    box-shadow: 0 10px 24px rgba(236, 72, 153, 0.38);
+    box-shadow: 0 8px 18px rgba(236, 72, 153, 0.35);
 }
 
 .mdpa-ic-green {
-    background: linear-gradient(140deg, #4ade80, #16a34a);
-    color: #06310f;
-    box-shadow: 0 10px 24px rgba(34, 197, 94, 0.34);
+    background: linear-gradient(140deg, #34d399, #16a34a);
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(34, 197, 94, 0.32);
 }
 
-/* ================================================================== */
-/* HERO                                                               */
-/* ================================================================== */
+/* ================= HERO ================= */
 .mdpa-hero {
     position: relative;
     z-index: 1;
@@ -392,7 +395,7 @@ body,
     width: min(720px, 90vw);
     aspect-ratio: 1;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(245, 200, 66, 0.16) 0%, rgba(139, 92, 246, 0.1) 40%, transparent 70%);
+    background: radial-gradient(circle, rgba(245, 200, 66, 0.3), rgba(139, 92, 246, 0.1) 45%, transparent 70%);
     pointer-events: none;
 }
 
@@ -403,26 +406,27 @@ body,
 }
 
 .mdpa-hero-logo {
-    width: 74px;
-    height: 74px;
+    width: 78px;
+    height: 78px;
     object-fit: contain;
-    filter: drop-shadow(0 0 18px rgba(245, 200, 66, 0.45));
-    margin-bottom: 18px;
+    filter: drop-shadow(0 6px 12px rgba(217, 154, 43, 0.4));
+    margin-bottom: 14px;
 }
 
 .mdpa-hero-title {
-    font-family: var(--font-display);
-    font-size: clamp(40px, 7vw, 76px);
-    font-weight: 700;
-    line-height: 1.04;
+    font-family: var(--multi);
+    font-size: clamp(38px, 6.4vw, 70px);
+    font-weight: 800;
+    line-height: 1.08;
     margin: 0 0 22px;
     letter-spacing: -0.5px;
+    color: var(--ab-ink);
 }
 
 .mdpa-hero-sub {
     font-size: clamp(15px, 2vw, 19px);
     line-height: 1.7;
-    color: var(--ab-text-soft);
+    color: var(--ab-text);
     max-width: 620px;
     margin: 0 auto 36px;
 }
@@ -434,7 +438,7 @@ body,
     transform: translateX(-50%);
     width: 26px;
     height: 42px;
-    border: 2px solid rgba(255, 255, 255, 0.22);
+    border: 2px solid rgba(109, 63, 214, 0.35);
     border-radius: 14px;
     display: flex;
     justify-content: center;
@@ -445,7 +449,7 @@ body,
     width: 4px;
     height: 8px;
     border-radius: 4px;
-    background: var(--ln-gold);
+    background: var(--ab-purple);
     animation: mdpaScroll 1.7s ease-in-out infinite;
 }
 
@@ -466,9 +470,7 @@ body,
     }
 }
 
-/* ================================================================== */
-/* ABOUT GURUJI                                                       */
-/* ================================================================== */
+/* ================= ABOUT GURUJI ================= */
 .mdpa-guru-grid {
     display: grid;
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
@@ -491,8 +493,8 @@ body,
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    background: conic-gradient(from 0deg, var(--ln-gold), var(--ln-purple), var(--ln-pink), var(--ln-gold));
-    box-shadow: 0 0 70px rgba(245, 200, 66, 0.22);
+    background: conic-gradient(from 0deg, #f5c842, #8b5cf6, #ec4899, #f5c842);
+    box-shadow: 0 20px 50px rgba(109, 63, 214, 0.25);
     animation: mdpaSpin 16s linear infinite;
     will-change: transform;
 }
@@ -502,7 +504,7 @@ body,
     position: absolute;
     inset: -16px;
     border-radius: 50%;
-    border: 1px solid rgba(245, 200, 66, 0.22);
+    border: 1px solid rgba(184, 119, 11, 0.3);
 }
 
 .mdpa-guru-photo img {
@@ -513,7 +515,7 @@ body,
     border-radius: 50%;
     object-fit: cover;
     object-position: center top;
-    border: 4px solid #0a0618;
+    border: 4px solid #fffdf9;
     z-index: 1;
 }
 
@@ -524,10 +526,9 @@ body,
 }
 
 .mdpa-guru-name {
-    font-family: var(--font-display);
     font-size: 21px;
-    font-weight: 600;
-    color: var(--ln-gold-soft);
+    font-weight: 700;
+    color: var(--ab-gold);
     margin: 4px 0 16px;
 }
 
@@ -537,9 +538,9 @@ body,
 
 .mdpa-quote-card {
     position: relative;
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(236, 72, 153, 0.08));
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-left: 3px solid var(--ln-gold);
+    background: linear-gradient(135deg, rgba(109, 63, 214, 0.08), rgba(245, 166, 35, 0.12));
+    border: 1px solid var(--ab-line);
+    border-left: 4px solid var(--ab-amber);
     border-radius: 16px;
     padding: 24px 26px 24px 30px;
 }
@@ -548,18 +549,18 @@ body,
     position: absolute;
     top: 2px;
     left: 16px;
-    font-family: var(--font-display);
     font-size: 56px;
     line-height: 1;
-    color: rgba(245, 200, 66, 0.45);
+    font-weight: 700;
+    color: rgba(224, 138, 11, 0.5);
 }
 
 .mdpa-quote-card-text {
-    font-family: var(--font-display);
     font-style: italic;
-    font-size: 21px;
+    font-weight: 500;
+    font-size: 19px;
     line-height: 1.5;
-    color: var(--ab-text);
+    color: var(--ab-ink);
     margin: 0 0 8px;
     padding-left: 26px;
 }
@@ -568,24 +569,23 @@ body,
     display: block;
     padding-left: 26px;
     font-size: 13px;
-    color: var(--ab-text-muted);
+    font-weight: 500;
+    color: var(--ab-sub);
     letter-spacing: 0.5px;
 }
 
-/* ================================================================== */
-/* MISSION                                                            */
-/* ================================================================== */
+/* ================= MISSION ================= */
 .mdpa-mission-card {
     position: relative;
     overflow: hidden;
-    background: var(--ab-glass-strong);
-    backdrop-filter: blur(22px);
-    -webkit-backdrop-filter: blur(22px);
-    border: 1px solid var(--ab-border);
+    background: var(--ab-card);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--ab-card-border);
     border-radius: 28px;
     padding: 64px 48px;
     text-align: center;
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    box-shadow: 0 24px 60px rgba(60, 40, 110, 0.2);
 }
 
 .mdpa-mission-watermark {
@@ -595,14 +595,13 @@ body,
     font-family: 'Noto Sans Devanagari', sans-serif;
     font-size: 220px;
     line-height: 1;
-    color: rgba(245, 200, 66, 0.06);
+    color: rgba(224, 138, 11, 0.12);
     pointer-events: none;
     user-select: none;
 }
 
 .mdpa-mission-text {
-    font-family: var(--font-display);
-    font-size: clamp(20px, 2.6vw, 28px);
+    font-size: clamp(19px, 2.4vw, 26px);
     font-weight: 500;
     line-height: 1.6;
     color: var(--ab-text);
@@ -611,9 +610,7 @@ body,
     position: relative;
 }
 
-/* ================================================================== */
-/* CORE VALUES + STATS GRID                                           */
-/* ================================================================== */
+/* ================= GRIDS / CARDS ================= */
 .mdpa-grid-4 {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -636,23 +633,20 @@ body,
 }
 
 .mdpa-card-title {
-    font-family: var(--font-display);
-    font-size: 23px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 700;
     margin: 0 0 8px;
-    color: var(--ab-text);
+    color: var(--ab-ink);
 }
 
 .mdpa-card-desc {
     font-size: 14.5px;
     line-height: 1.6;
-    color: var(--ab-text-soft);
+    color: var(--ab-sub);
     margin: 0;
 }
 
-/* ================================================================== */
-/* WHY JOIN — feature cards                                           */
-/* ================================================================== */
+/* why join */
 .mdpa-feature-card {
     display: flex;
     align-items: flex-start;
@@ -670,8 +664,8 @@ body,
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(74, 222, 128, 0.16);
-    color: #4ade80;
+    background: #dcfce7;
+    color: #16a34a;
 }
 
 .mdpa-feature-check svg {
@@ -689,13 +683,11 @@ body,
 }
 
 .mdpa-feature-text .mdpa-card-title {
-    font-size: 19px;
+    font-size: 18px;
     margin-bottom: 6px;
 }
 
-/* ================================================================== */
-/* JOURNEY TIMELINE                                                   */
-/* ================================================================== */
+/* ================= TIMELINE ================= */
 .mdpa-tl-track {
     position: relative;
     display: flex;
@@ -710,9 +702,8 @@ body,
     right: 9%;
     height: 3px;
     border-radius: 3px;
-    background: linear-gradient(90deg, var(--ln-gold), var(--ln-purple) 50%, var(--ln-pink));
-    box-shadow: 0 0 16px rgba(139, 92, 246, 0.45);
-    opacity: 0.6;
+    background: linear-gradient(90deg, #f5a623, #8b5cf6 50%, #ec4899);
+    opacity: 0.7;
     z-index: 0;
 }
 
@@ -733,52 +724,49 @@ body,
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(140deg, #f5c842, #d99a2b);
-    box-shadow: 0 0 0 6px rgba(4, 2, 14, 1), 0 0 30px rgba(245, 200, 66, 0.4);
+    background: linear-gradient(140deg, #f7c948, #e5a12e);
+    box-shadow: 0 0 0 6px var(--ab-ring), 0 10px 24px rgba(229, 161, 46, 0.45);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .mdpa-tl-step:hover .mdpa-tl-node {
     transform: scale(1.08);
-    box-shadow: 0 0 0 6px rgba(4, 2, 14, 1), 0 0 42px rgba(245, 200, 66, 0.6);
+    box-shadow: 0 0 0 6px var(--ab-ring), 0 14px 32px rgba(229, 161, 46, 0.6);
 }
 
 .mdpa-tl-num {
-    font-family: var(--font-display);
-    font-size: 26px;
-    font-weight: 700;
-    color: #3a2402;
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
 }
 
 .mdpa-tl-card {
     margin-top: 20px;
-    background: var(--ab-glass);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--ab-border);
+    background: var(--ab-card);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--ab-card-border);
     border-radius: 16px;
+    box-shadow: var(--ab-shadow);
     padding: 20px 18px;
     width: 100%;
 }
 
 .mdpa-tl-title {
-    font-family: var(--font-display);
-    font-size: 19px;
-    font-weight: 600;
+    font-size: 17px;
+    font-weight: 700;
     margin: 0 0 6px;
-    color: var(--ln-gold-soft);
+    color: var(--ab-purple-deep);
 }
 
 .mdpa-tl-desc {
     font-size: 13.5px;
     line-height: 1.55;
-    color: var(--ab-text-soft);
+    color: var(--ab-sub);
     margin: 0;
 }
 
-/* ================================================================== */
-/* INSPIRATIONAL QUOTE                                                */
-/* ================================================================== */
+/* ================= BIG QUOTE ================= */
 .mdpa-quote-section {
     padding: 80px 0;
 }
@@ -788,46 +776,46 @@ body,
     max-width: 880px;
     margin: 0 auto;
     text-align: center;
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(245, 200, 66, 0.06));
-    border: 1px solid var(--ab-border);
+    background: linear-gradient(135deg, rgba(238, 232, 255, 0.95), rgba(253, 243, 223, 0.95));
+    border: 1px solid var(--ab-card-border);
     border-radius: 28px;
     padding: 70px 56px 60px;
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    box-shadow: 0 24px 60px rgba(60, 40, 110, 0.2);
     overflow: hidden;
 }
 
 .mdpa-big-quote-mark {
     display: block;
-    font-family: var(--font-display);
     font-size: 110px;
+    font-weight: 700;
     line-height: 0.5;
-    color: rgba(245, 200, 66, 0.4);
+    color: rgba(224, 138, 11, 0.5);
     margin-bottom: 18px;
 }
 
 .mdpa-big-quote-text {
-    font-family: var(--font-display);
     font-style: italic;
-    font-size: clamp(24px, 3.6vw, 38px);
+    font-size: clamp(22px, 3.4vw, 34px);
     font-weight: 500;
     line-height: 1.45;
-    color: var(--ab-text);
+    color: var(--ab-ink);
     margin: 0 0 24px;
 }
 
 .mdpa-big-quote-by {
     display: block;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 1px;
-    color: var(--ln-gold);
+    color: var(--ab-gold);
 }
 
 .mdpa-big-quote-lotus {
     display: flex;
     justify-content: center;
     margin-top: 22px;
-    color: rgba(245, 200, 66, 0.55);
+    color: var(--ab-purple);
+    opacity: 0.6;
 }
 
 .mdpa-big-quote-lotus svg {
@@ -835,9 +823,7 @@ body,
     height: 34px;
 }
 
-/* ================================================================== */
-/* COMMUNITY STATS                                                    */
-/* ================================================================== */
+/* ================= STATS ================= */
 .mdpa-stat-card {
     padding: 36px 24px;
     text-align: center;
@@ -851,8 +837,9 @@ body,
     height: 52px;
     margin: 0 auto 16px;
     border-radius: 50%;
-    background: rgba(139, 92, 246, 0.14);
-    color: var(--ln-purple-light);
+    background: #fff;
+    color: var(--ab-purple);
+    box-shadow: 0 4px 12px rgba(80, 60, 140, 0.12);
 }
 
 .mdpa-stat-icon svg {
@@ -862,30 +849,28 @@ body,
 
 .mdpa-stat-num {
     display: block;
-    font-family: var(--font-display);
-    font-size: clamp(38px, 5vw, 50px);
-    font-weight: 700;
+    font-size: clamp(36px, 5vw, 48px);
+    font-weight: 800;
     line-height: 1;
-    background: linear-gradient(120deg, #f5e4b0, var(--ln-gold) 60%, #d9a93a);
+    background: linear-gradient(120deg, #6d3fd6, #b8770b);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .mdpa-stat-plus {
-    -webkit-text-fill-color: var(--ln-gold);
+    -webkit-text-fill-color: var(--ab-amber);
 }
 
 .mdpa-stat-label {
     font-size: 14px;
-    color: var(--ab-text-soft);
+    font-weight: 500;
+    color: var(--ab-sub);
     margin: 12px 0 0;
     line-height: 1.4;
 }
 
-/* ================================================================== */
-/* CALL TO ACTION                                                     */
-/* ================================================================== */
+/* ================= CTA ================= */
 .mdpa-cta-section {
     padding-bottom: 120px;
 }
@@ -894,13 +879,13 @@ body,
     position: relative;
     overflow: hidden;
     text-align: center;
-    background: var(--ab-glass-strong);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(245, 200, 66, 0.18);
+    background: var(--ab-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(245, 166, 35, 0.35);
     border-radius: 30px;
     padding: 72px 48px;
-    box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    box-shadow: 0 30px 70px rgba(60, 40, 110, 0.22);
 }
 
 .mdpa-cta-glow {
@@ -911,25 +896,24 @@ body,
     width: 80%;
     aspect-ratio: 1;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(245, 200, 66, 0.18) 0%, transparent 65%);
+    background: radial-gradient(circle, rgba(245, 200, 66, 0.3), transparent 65%);
     pointer-events: none;
 }
 
 .mdpa-cta-title {
     position: relative;
-    font-family: var(--font-display);
-    font-size: clamp(30px, 4.6vw, 50px);
-    font-weight: 700;
-    line-height: 1.1;
+    font-size: clamp(28px, 4.4vw, 46px);
+    font-weight: 800;
+    line-height: 1.12;
     margin: 0 0 16px;
-    color: var(--ab-text);
+    color: var(--ab-ink);
 }
 
 .mdpa-cta-text {
     position: relative;
     font-size: 16px;
     line-height: 1.7;
-    color: var(--ab-text-soft);
+    color: var(--ab-text);
     max-width: 520px;
     margin: 0 auto 34px;
 }
@@ -942,9 +926,7 @@ body,
     flex-wrap: wrap;
 }
 
-/* ================================================================== */
-/* RESPONSIVE                                                         */
-/* ================================================================== */
+/* ================= RESPONSIVE ================= */
 @media (max-width: 1024px) {
     .mdpa-grid-3 {
         grid-template-columns: repeat(2, 1fr);
@@ -975,7 +957,6 @@ body,
         grid-template-columns: repeat(2, 1fr);
     }
 
-    /* timeline → vertical */
     .mdpa-tl-track {
         flex-direction: column;
         gap: 0;
@@ -988,7 +969,7 @@ body,
         right: auto;
         width: 3px;
         height: auto;
-        background: linear-gradient(180deg, var(--ln-gold), var(--ln-purple) 50%, var(--ln-pink));
+        background: linear-gradient(180deg, #f5a623, #8b5cf6 50%, #ec4899);
     }
 
     .mdpa-tl-step {
@@ -1010,6 +991,11 @@ body,
     .mdpa-tl-card {
         margin-top: 0;
         flex: 1;
+    }
+
+    /* no animation on fixed layers (stops flicker on phones) */
+    .mdpa-orb {
+        animation: none;
     }
 }
 
@@ -1056,9 +1042,6 @@ body,
     }
 }
 
-/* ================================================================== */
-/* REDUCED MOTION                                                     */
-/* ================================================================== */
 @media (prefers-reduced-motion: reduce) {
 
     .mdpa-orb,
