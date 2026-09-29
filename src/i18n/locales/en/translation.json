@@ -1523,5 +1523,6 @@
   "upSearchPh": "Search by name, ID or email...",
   "upShowing": "Showing {{shown}} of {{total}}",
   "upNoMatch": "No users match your search.",
-  "dirNoDetails": "No contact details added yet."
+  "dirNoDetails": "No contact details added yet.",
+  "registeredIds": "Registered IDs"
 }
