@@ -1,0 +1,1496 @@
+/* RegisteredIds.css — soft glass UI. Light theme is the default look;
+   dark tokens apply when the dashboard theme ("dashTheme") is dark. */
+.rid-shell,
+.rid-overlay {
+    --rid-bg: #f4f7ff;
+    --rid-surface: #ffffff;
+    --rid-surface-2: #eef2ff;
+    --rid-border: rgba(79, 99, 220, .13);
+    --rid-text: #0f1b4d;
+    --rid-sub: #5f6b8a;
+    --rid-blue: #2563eb;
+    --rid-purple: #8b5cf6;
+    --rid-green: #10b981;
+    --rid-amber: #f59e0b;
+    --rid-teal: #14b8a6;
+    --rid-red: #ef4444;
+    --rid-grad: linear-gradient(135deg, #2f6bff, #4338ff);
+    --rid-shadow: 0 10px 30px rgba(59, 91, 219, .10);
+    font-family: "Outfit", sans-serif;
+    color: var(--rid-text)
+}
+
+.rid-shell[data-theme="dark"],
+.rid-overlay[data-theme="dark"] {
+    --rid-bg: #0a1420;
+    --rid-surface: #0f1d2e;
+    --rid-surface-2: #14263b;
+    --rid-border: rgba(255, 255, 255, .08);
+    --rid-text: #e8edf5;
+    --rid-sub: #8a9bb3;
+    --rid-shadow: 0 8px 28px rgba(0, 0, 0, .35)
+}
+
+.rid-shell {
+    min-height: 100vh;
+    padding: 32px 28px 56px;
+    background: radial-gradient(60% 50% at 6% 0%, color-mix(in srgb, var(--rid-blue) 13%, transparent), transparent),
+        radial-gradient(50% 45% at 100% 100%, color-mix(in srgb, var(--rid-purple) 15%, transparent), transparent), var(--rid-bg)
+}
+
+.rid-shell *,
+.rid-overlay * {
+    box-sizing: border-box
+}
+
+.rid-container {
+    max-width: 1240px;
+    margin: 0 auto
+}
+
+svg {
+    flex: none
+}
+
+/* header */
+.rid-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 26px
+}
+
+.rid-heading {
+    flex: 1;
+    min-width: 0
+}
+
+.rid-title {
+    margin: 0;
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    line-height: 1.1
+}
+
+.rid-title-accent {
+    background: linear-gradient(90deg, #2563eb, #8b5cf6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent
+}
+
+.rid-title-badge {
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    margin-left: 12px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2dd4bf, #10b981);
+    color: #fff;
+    vertical-align: middle
+}
+
+.rid-title-badge svg {
+    width: 19px;
+    height: 19px
+}
+
+.rid-subtitle {
+    margin: 6px 0 0;
+    font-size: 15px;
+    color: var(--rid-sub)
+}
+
+.rid-back,
+.rid-refresh {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 50px;
+    padding: 0 22px;
+    border-radius: 15px;
+    border: 1px solid var(--rid-border);
+    background: var(--rid-surface);
+    color: var(--rid-blue);
+    font: 600 16px "Outfit", sans-serif;
+    cursor: pointer;
+    box-shadow: var(--rid-shadow);
+    transition: transform .15s
+}
+
+.rid-back:hover,
+.rid-refresh:hover:not(:disabled) {
+    transform: translateY(-1px)
+}
+
+.rid-refresh:disabled {
+    opacity: .6;
+    cursor: default
+}
+
+.rid-back svg,
+.rid-refresh svg {
+    width: 21px;
+    height: 21px
+}
+
+.rid-spin {
+    display: inline-flex;
+    animation: rid-rotate .9s linear infinite
+}
+
+/* stat cards */
+.rid-stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 22px
+}
+
+.rid-stat {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 18px;
+    border-radius: 20px;
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 15%, var(--rid-surface)), var(--rid-surface) 88%);
+    box-shadow: var(--rid-shadow)
+}
+
+.rid-stat--blue {
+    --accent: var(--rid-blue)
+}
+
+.rid-stat--purple {
+    --accent: var(--rid-purple)
+}
+
+.rid-stat--green {
+    --accent: var(--rid-green)
+}
+
+.rid-stat--amber {
+    --accent: var(--rid-amber)
+}
+
+.rid-stat--teal {
+    --accent: var(--rid-teal)
+}
+
+.rid-stat-icon {
+    flex: none;
+    width: 54px;
+    height: 54px;
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    color: #fff;
+    background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 62%, #fff), var(--accent));
+    box-shadow: 0 8px 16px color-mix(in srgb, var(--accent) 35%, transparent)
+}
+
+.rid-stat-icon svg {
+    width: 26px;
+    height: 26px
+}
+
+.rid-stat-deco {
+    position: absolute;
+    right: 14px;
+    bottom: 10px;
+    width: 58px;
+    height: 58px;
+    color: var(--accent);
+    opacity: .22
+}
+
+.rid-stat-deco svg {
+    width: 100%;
+    height: 100%;
+    stroke-width: 1.5
+}
+
+.rid-stat-body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0
+}
+
+.rid-stat-label {
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.rid-stat-value {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.1
+}
+
+.rid-stat-skeleton {
+    display: block;
+    width: 44px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--rid-surface-2);
+    animation: rid-pulse 1.2s infinite
+}
+
+/* toolbar */
+.rid-toolbar {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 16px
+}
+
+.rid-search {
+    position: relative;
+    flex: 1 1 300px
+}
+
+.rid-search input {
+    width: 100%;
+    height: 52px;
+    padding: 0 44px 0 50px;
+    border-radius: 15px;
+    border: 1px solid var(--rid-border);
+    background: var(--rid-surface);
+    color: var(--rid-text);
+    font: 500 15px "Outfit", sans-serif;
+    outline: none;
+    box-shadow: var(--rid-shadow)
+}
+
+.rid-search input::placeholder {
+    color: var(--rid-sub)
+}
+
+.rid-search input:focus,
+.rid-select select:focus {
+    border-color: var(--rid-blue);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--rid-blue) 22%, transparent)
+}
+
+.rid-search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--rid-text);
+    display: flex
+}
+
+.rid-search-icon svg {
+    width: 21px;
+    height: 21px
+}
+
+.rid-search-clear {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--rid-sub);
+    cursor: pointer
+}
+
+.rid-search-clear:hover {
+    background: var(--rid-surface-2)
+}
+
+.rid-search-clear svg {
+    width: 14px;
+    height: 14px
+}
+
+.rid-filters {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap
+}
+
+.rid-select {
+    position: relative;
+    display: flex;
+    align-items: center
+}
+
+.rid-select select {
+    height: 52px;
+    padding: 0 42px 0 48px;
+    border-radius: 15px;
+    border: 1px solid var(--rid-border);
+    appearance: none;
+    -webkit-appearance: none;
+    background: var(--rid-surface);
+    color: var(--rid-text);
+    font: 600 15px "Outfit", sans-serif;
+    outline: none;
+    cursor: pointer;
+    box-shadow: var(--rid-shadow)
+}
+
+.rid-select-icon {
+    position: absolute;
+    left: 16px;
+    color: var(--rid-blue);
+    display: flex;
+    pointer-events: none
+}
+
+.rid-select-icon svg {
+    width: 20px;
+    height: 20px
+}
+
+.rid-select-chev {
+    position: absolute;
+    right: 14px;
+    color: var(--rid-text);
+    display: flex;
+    pointer-events: none
+}
+
+.rid-select-chev svg {
+    width: 18px;
+    height: 18px
+}
+
+.rid-count {
+    margin: 0 0 12px;
+    font-size: 14px;
+    color: var(--rid-sub)
+}
+
+.rid-count strong {
+    color: var(--rid-text)
+}
+
+.rid-link {
+    margin-left: 12px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--rid-blue);
+    font: 500 13px "Outfit", sans-serif;
+    cursor: pointer
+}
+
+.rid-link:hover {
+    text-decoration: underline
+}
+
+/* table */
+.rid-card {
+    background: var(--rid-surface);
+    border: 1px solid var(--rid-border);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: var(--rid-shadow)
+}
+
+.rid-table-wrap {
+    overflow-x: auto
+}
+
+.rid-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px
+}
+
+.rid-table th {
+    padding: 18px 16px;
+    text-align: left;
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--rid-blue) 9%, var(--rid-surface)), color-mix(in srgb, var(--rid-purple) 9%, var(--rid-surface)));
+    border-bottom: 1px solid var(--rid-border)
+}
+
+.rid-th {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px
+}
+
+.rid-th svg {
+    width: 19px;
+    height: 19px;
+    color: var(--rid-blue)
+}
+
+.rid-table td {
+    padding: 18px 16px;
+    border-bottom: 1px solid var(--rid-border);
+    vertical-align: middle;
+    font-weight: 600
+}
+
+.rid-table tbody tr {
+    cursor: pointer;
+    transition: background .12s
+}
+
+.rid-table tbody tr:hover {
+    background: color-mix(in srgb, var(--rid-blue) 5%, var(--rid-surface))
+}
+
+.rid-table tbody tr:last-child td {
+    border-bottom: 0
+}
+
+.rid-num {
+    text-align: center !important;
+    font-variant-numeric: tabular-nums
+}
+
+.rid-date-in {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--rid-sub);
+    font-weight: 500;
+    white-space: nowrap
+}
+
+.rid-date-in svg {
+    width: 18px;
+    height: 18px
+}
+
+.rid-muted {
+    color: var(--rid-sub)
+}
+
+.rid-token {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 999px;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: .05em;
+    background: color-mix(in srgb, var(--rid-blue) 12%, var(--rid-surface));
+    color: var(--rid-blue)
+}
+
+.rid-view {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 46px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 13px;
+    background: var(--rid-grad);
+    color: #fff;
+    font: 600 15px "Outfit", sans-serif;
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(47, 80, 255, .32);
+    transition: transform .15s
+}
+
+.rid-view:hover {
+    transform: translateY(-1px)
+}
+
+.rid-view svg {
+    width: 19px;
+    height: 19px
+}
+
+/* pills */
+.rid-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 15px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap
+}
+
+.rid-pill svg {
+    width: 17px;
+    height: 17px
+}
+
+.rid-pill--created,
+.rid-pill--offline,
+.rid-pill--yes {
+    color: var(--rid-green);
+    background: color-mix(in srgb, var(--rid-green) 15%, transparent)
+}
+
+.rid-pill--verified {
+    color: var(--rid-blue);
+    background: color-mix(in srgb, var(--rid-blue) 15%, transparent)
+}
+
+.rid-pill--pending {
+    color: var(--rid-amber);
+    background: color-mix(in srgb, var(--rid-amber) 17%, transparent)
+}
+
+.rid-pill--online {
+    color: var(--rid-purple);
+    background: color-mix(in srgb, var(--rid-purple) 15%, transparent)
+}
+
+.rid-pill--no {
+    color: var(--rid-red);
+    background: color-mix(in srgb, var(--rid-red) 13%, transparent)
+}
+
+.rid-flag {
+    font-weight: 600
+}
+
+.rid-flag.is-yes {
+    color: var(--rid-green)
+}
+
+.rid-flag.is-no {
+    color: var(--rid-sub);
+    font-weight: 500
+}
+
+/* states */
+.rid-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 64px 20px;
+    text-align: center
+}
+
+.rid-state-icon {
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    color: var(--rid-blue);
+    background: color-mix(in srgb, var(--rid-blue) 13%, transparent);
+    margin-bottom: 6px
+}
+
+.rid-state-icon svg {
+    width: 26px;
+    height: 26px
+}
+
+.rid-state-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600
+}
+
+.rid-state-sub {
+    margin: 0;
+    font-size: 14px;
+    color: var(--rid-sub)
+}
+
+.rid-btn {
+    margin-top: 10px;
+    height: 42px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--rid-grad);
+    color: #fff;
+    font: 600 14px "Outfit", sans-serif;
+    cursor: pointer
+}
+
+.rid-loader {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 3px solid var(--rid-border);
+    border-top-color: var(--rid-blue);
+    animation: rid-rotate .8s linear infinite
+}
+
+/* modal */
+.rid-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(15, 27, 77, .45);
+    backdrop-filter: blur(4px)
+}
+
+.rid-modal {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    padding: 28px 24px 20px;
+    background: var(--rid-surface);
+    border: 1px solid var(--rid-border);
+    border-radius: 24px;
+    box-shadow: var(--rid-shadow);
+    animation: rid-pop .18s ease-out
+}
+
+.rid-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 10px;
+    background: var(--rid-surface-2);
+    color: var(--rid-sub);
+    cursor: pointer
+}
+
+.rid-modal-close:hover {
+    color: var(--rid-text)
+}
+
+.rid-modal-close svg {
+    width: 15px;
+    height: 15px
+}
+
+.rid-modal-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-right: 40px
+}
+
+.rid-modal-token {
+    font: 800 28px ui-monospace, Menlo, Consolas, monospace;
+    letter-spacing: .08em
+}
+
+.rid-modal-sub {
+    margin: 4px 0 16px;
+    font-size: 13px;
+    color: var(--rid-sub)
+}
+
+.rid-detail {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 0;
+    border-top: 1px solid var(--rid-border)
+}
+
+.rid-detail-label {
+    flex: 0 0 140px;
+    font-size: 13px;
+    color: var(--rid-sub)
+}
+
+.rid-detail-value {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    font-weight: 600;
+    word-break: break-all
+}
+
+.rid-copy {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--rid-border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--rid-sub);
+    cursor: pointer
+}
+
+.rid-copy:hover {
+    color: var(--rid-blue);
+    border-color: var(--rid-blue)
+}
+
+.rid-copy.is-copied {
+    color: var(--rid-green);
+    border-color: var(--rid-green)
+}
+
+.rid-copy svg {
+    width: 14px;
+    height: 14px
+}
+
+@keyframes rid-rotate {
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+@keyframes rid-pulse {
+    50% {
+        opacity: .45
+    }
+}
+
+@keyframes rid-pop {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(.98)
+    }
+
+    to {
+        opacity: 1;
+        transform: none
+    }
+}
+
+@media (prefers-reduced-motion:reduce) {
+
+    .rid-modal,
+    .rid-spin,
+    .rid-loader,
+    .rid-stat-skeleton {
+        animation: none
+    }
+}
+
+/* responsive */
+@media (max-width:1100px) {
+    .rid-stats {
+        grid-template-columns: repeat(3, 1fr)
+    }
+}
+
+@media (max-width:768px) {
+    .rid-shell {
+        padding: 18px 14px 40px
+    }
+
+    .rid-header {
+        flex-wrap: wrap;
+        gap: 12px
+    }
+
+    .rid-heading {
+        order: 3;
+        flex: 1 0 100%
+    }
+
+    .rid-refresh {
+        margin-left: auto
+    }
+
+    .rid-back,
+    .rid-refresh {
+        height: 44px;
+        padding: 0 16px
+    }
+
+    .rid-title {
+        font-size: 28px
+    }
+
+    .rid-title-badge {
+        width: 26px;
+        height: 26px;
+        margin-left: 8px
+    }
+
+    .rid-title-badge svg {
+        width: 15px;
+        height: 15px
+    }
+
+    .rid-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px
+    }
+
+    .rid-stat {
+        padding: 14px 12px;
+        gap: 10px
+    }
+
+    .rid-stat-icon {
+        width: 44px;
+        height: 44px
+    }
+
+    .rid-stat-value {
+        font-size: 24px
+    }
+
+    .rid-stat-deco {
+        width: 40px;
+        height: 40px
+    }
+
+    .rid-filters {
+        width: 100%
+    }
+
+    .rid-select {
+        flex: 1 1 130px
+    }
+
+    .rid-select select {
+        width: 100%
+    }
+
+    .rid-table thead {
+        display: none
+    }
+
+    .rid-table,
+    .rid-table tbody,
+    .rid-table tr,
+    .rid-table td {
+        display: block;
+        width: 100%
+    }
+
+    .rid-table tbody tr {
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--rid-border)
+    }
+
+    .rid-table tbody tr:last-child {
+        border-bottom: 0
+    }
+
+    .rid-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 7px 0;
+        border: 0 !important;
+        text-align: right
+    }
+
+    .rid-table td[data-label]::before {
+        content: attr(data-label);
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--rid-sub);
+        text-align: left
+    }
+
+    .rid-num {
+        text-align: right !important
+    }
+
+    .rid-row-action {
+        display: none !important
+    }
+}
+
+@media (max-width:420px) {
+    .rid-detail {
+        flex-wrap: wrap
+    }
+
+    .rid-detail-label {
+        flex: 1 0 100%
+    }
+}
+
+/* ===== v3: corner back button, animations, delete ===== */
+.rid-shell {
+    position: relative;
+    padding-top: 92px
+}
+
+.rid-back {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 5;
+    height: 46px;
+    padding: 0 18px;
+    animation: rid-slide-r .5s cubic-bezier(.2, .8, .2, 1) both
+}
+
+.rid-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center
+}
+
+.rid-delall {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 50px;
+    padding: 0 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 1px solid color-mix(in srgb, var(--rid-red) 35%, transparent);
+    background: color-mix(in srgb, var(--rid-red) 9%, var(--rid-surface));
+    color: var(--rid-red);
+    font: 600 16px "Outfit", sans-serif;
+    transition: transform .15s, background .15s
+}
+
+.rid-delall:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: color-mix(in srgb, var(--rid-red) 16%, var(--rid-surface))
+}
+
+.rid-delall:disabled {
+    opacity: .45;
+    cursor: default
+}
+
+.rid-delall svg {
+    width: 20px;
+    height: 20px
+}
+
+.rid-btns {
+    display: flex;
+    gap: 10px;
+    align-items: center
+}
+
+.rid-del {
+    flex: none;
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    cursor: pointer;
+    color: var(--rid-red);
+    border: 1px solid color-mix(in srgb, var(--rid-red) 30%, transparent);
+    background: color-mix(in srgb, var(--rid-red) 9%, var(--rid-surface));
+    transition: transform .15s, background .15s
+}
+
+.rid-del:hover {
+    background: var(--rid-red);
+    color: #fff;
+    transform: translateY(-1px)
+}
+
+.rid-del svg {
+    width: 19px;
+    height: 19px
+}
+
+.rid-view:active,
+.rid-del:active,
+.rid-delall:active {
+    transform: scale(.96)
+}
+
+/* entrance motion */
+@keyframes rid-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(16px)
+    }
+
+    to {
+        opacity: 1;
+        transform: none
+    }
+}
+
+@keyframes rid-slide-r {
+    from {
+        opacity: 0;
+        transform: translateX(-16px)
+    }
+
+    to {
+        opacity: 1;
+        transform: none
+    }
+}
+
+@keyframes rid-row-in {
+    from {
+        opacity: 0;
+        transform: translateX(-12px)
+    }
+
+    to {
+        opacity: 1;
+        transform: none
+    }
+}
+
+@keyframes rid-row-out {
+    to {
+        opacity: 0;
+        transform: translateX(48px);
+        background: color-mix(in srgb, var(--rid-red) 16%, transparent)
+    }
+}
+
+@keyframes rid-fade {
+    from {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+@keyframes rid-toast-in {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0)
+    }
+}
+
+.rid-heading {
+    animation: rid-fade-up .55s .05s both
+}
+
+.rid-actions {
+    animation: rid-fade-up .55s .1s both
+}
+
+.rid-stat {
+    animation: rid-fade-up .6s calc(.12s + var(--i, 0)*.07s) cubic-bezier(.2, .8, .2, 1) both;
+    transition: transform .2s, box-shadow .2s
+}
+
+.rid-stat:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 34px color-mix(in srgb, var(--accent) 22%, transparent)
+}
+
+.rid-stat-deco {
+    transition: transform .4s
+}
+
+.rid-stat:hover .rid-stat-deco {
+    transform: scale(1.12) rotate(-6deg)
+}
+
+.rid-toolbar {
+    animation: rid-fade-up .55s .45s both
+}
+
+.rid-count {
+    animation: rid-fade-up .5s .5s both
+}
+
+.rid-card {
+    animation: rid-fade-up .6s .5s both
+}
+
+.rid-table tbody tr {
+    animation: rid-row-in .45s calc(var(--i, 0)*.05s) both
+}
+
+.rid-table tbody tr.is-removing {
+    animation: rid-row-out .38s ease forwards;
+    pointer-events: none
+}
+
+.rid-overlay {
+    animation: rid-fade .2s ease-out
+}
+
+.rid-overlay--top {
+    z-index: 1100
+}
+
+/* confirm modal + toast */
+.rid-confirm {
+    max-width: 420px;
+    text-align: center
+}
+
+.rid-confirm-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 14px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    color: var(--rid-red);
+    background: color-mix(in srgb, var(--rid-red) 13%, transparent);
+    animation: rid-pop .3s ease-out
+}
+
+.rid-confirm-icon svg {
+    width: 28px;
+    height: 28px
+}
+
+.rid-confirm-title {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 800
+}
+
+.rid-confirm-text {
+    margin: 0 0 6px;
+    font-size: 15px;
+    font-weight: 600
+}
+
+.rid-confirm-note {
+    margin: 0;
+    font-size: 13px;
+    color: var(--rid-sub);
+    line-height: 1.5
+}
+
+.rid-confirm-input {
+    width: 100%;
+    height: 46px;
+    margin-top: 16px;
+    padding: 0 14px;
+    border-radius: 12px;
+    border: 1px solid var(--rid-border);
+    background: var(--rid-surface-2);
+    color: var(--rid-text);
+    font: 600 15px "Outfit", sans-serif;
+    text-align: center;
+    outline: none
+}
+
+.rid-confirm-input:focus {
+    border-color: var(--rid-red);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--rid-red) 20%, transparent)
+}
+
+.rid-confirm-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px
+}
+
+.rid-btn-ghost,
+.rid-btn-danger {
+    flex: 1;
+    height: 46px;
+    border-radius: 12px;
+    font: 600 15px "Outfit", sans-serif;
+    cursor: pointer;
+    transition: transform .15s, opacity .15s
+}
+
+.rid-btn-ghost {
+    border: 1px solid var(--rid-border);
+    background: transparent;
+    color: var(--rid-text)
+}
+
+.rid-btn-danger {
+    border: 0;
+    background: linear-gradient(135deg, #f0524f, #dc2626);
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(220, 38, 38, .3)
+}
+
+.rid-btn-danger:disabled,
+.rid-btn-ghost:disabled {
+    opacity: .5;
+    cursor: default
+}
+
+.rid-modal-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 46px;
+    margin-top: 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    border: 1px solid color-mix(in srgb, var(--rid-red) 35%, transparent);
+    background: color-mix(in srgb, var(--rid-red) 9%, transparent);
+    color: var(--rid-red);
+    font: 600 15px "Outfit", sans-serif
+}
+
+.rid-modal-delete:hover {
+    background: var(--rid-red);
+    color: #fff
+}
+
+.rid-modal-delete svg {
+    width: 18px;
+    height: 18px
+}
+
+.rid-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%);
+    z-index: 1200;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 20px;
+    border-radius: 14px;
+    background: var(--rid-surface);
+    color: var(--rid-text);
+    border: 1px solid var(--rid-border);
+    box-shadow: var(--rid-shadow);
+    font: 600 14px "Outfit", sans-serif;
+    animation: rid-toast-in .35s cubic-bezier(.2, .8, .2, 1)
+}
+
+.rid-toast svg {
+    width: 20px;
+    height: 20px
+}
+
+.rid-toast--ok svg {
+    color: var(--rid-green)
+}
+
+.rid-toast--err svg {
+    color: var(--rid-red)
+}
+
+@media (max-width:768px) {
+    .rid-shell {
+        padding-top: 76px
+    }
+
+    .rid-back {
+        top: 14px;
+        left: 14px
+    }
+
+    .rid-actions {
+        margin-left: auto
+    }
+
+    .rid-refresh {
+        margin-left: 0
+    }
+
+    .rid-delall {
+        height: 44px;
+        padding: 0 14px;
+        font-size: 15px
+    }
+
+    .rid-row-action {
+        display: flex !important;
+        justify-content: flex-end
+    }
+}
+
+@media (prefers-reduced-motion:reduce) {
+
+    .rid-shell *,
+    .rid-overlay *,
+    .rid-toast {
+        animation: none !important;
+        transition: none !important
+    }
+}
+
+/* ===== v4: refined light theme (dark theme untouched) ===== */
+.rid-shell[data-theme="light"],
+.rid-overlay[data-theme="light"] {
+    --rid-surface: #ffffff;
+    --rid-surface-2: #f0f4fe;
+    --rid-border: rgba(30, 55, 150, .15);
+    --rid-text: #0b1437;
+    --rid-sub: #4a5878;
+    --rid-blue: #2554e8;
+    --rid-purple: #7c3aed;
+    --rid-green: #059669;
+    --rid-amber: #d97706;
+    --rid-teal: #0d9488;
+    --rid-red: #dc2626;
+    --rid-blue-ink: #1d40c4;
+    --rid-purple-ink: #6d28d9;
+    --rid-green-ink: #047857;
+    --rid-amber-ink: #b45309;
+    --rid-red-ink: #b91c1c;
+    --rid-shadow: 0 1px 2px rgba(20, 40, 120, .06), 0 12px 28px rgba(40, 70, 200, .10)
+}
+
+.rid-shell[data-theme="light"] {
+    background:
+        radial-gradient(55% 45% at 0% 0%, rgba(37, 84, 232, .16), transparent 70%),
+        radial-gradient(45% 40% at 100% 8%, rgba(124, 58, 237, .13), transparent 70%),
+        radial-gradient(50% 45% at 100% 100%, rgba(13, 148, 136, .12), transparent 70%),
+        linear-gradient(180deg, #eef3ff, #f5f2ff)
+}
+
+/* stat cards: deeper accents, clearer edges */
+.rid-shell[data-theme="light"] .rid-stat {
+    border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 17%, #fff), #fff 92%)
+}
+
+.rid-shell[data-theme="light"] .rid-stat-deco {
+    opacity: .3
+}
+
+.rid-shell[data-theme="light"] .rid-stat-label {
+    color: var(--rid-sub)
+}
+
+/* table */
+.rid-shell[data-theme="light"] .rid-card {
+    border-color: rgba(30, 55, 150, .14)
+}
+
+.rid-shell[data-theme="light"] .rid-table th {
+    background: linear-gradient(90deg, #e6edff, #efe9ff);
+    border-bottom: 1px solid rgba(30, 55, 150, .16)
+}
+
+.rid-shell[data-theme="light"] .rid-table td {
+    border-bottom-color: rgba(30, 55, 150, .09)
+}
+
+.rid-shell[data-theme="light"] .rid-table tbody tr:hover {
+    background: #f3f6ff
+}
+
+/* pills + token: dark ink on soft tint, thin outline for definition */
+.rid-shell[data-theme="light"] .rid-pill,
+.rid-shell[data-theme="light"] .rid-token {
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 24%, transparent)
+}
+
+.rid-shell[data-theme="light"] .rid-token {
+    color: var(--rid-blue-ink);
+    background: #e4ebff
+}
+
+.rid-shell[data-theme="light"] .rid-pill--created,
+.rid-shell[data-theme="light"] .rid-pill--offline,
+.rid-shell[data-theme="light"] .rid-pill--yes {
+    color: var(--rid-green-ink);
+    background: color-mix(in srgb, var(--rid-green) 13%, #fff)
+}
+
+.rid-shell[data-theme="light"] .rid-pill--verified {
+    color: var(--rid-blue-ink);
+    background: color-mix(in srgb, var(--rid-blue) 12%, #fff)
+}
+
+.rid-shell[data-theme="light"] .rid-pill--pending {
+    color: var(--rid-amber-ink);
+    background: color-mix(in srgb, var(--rid-amber) 15%, #fff)
+}
+
+.rid-shell[data-theme="light"] .rid-pill--online {
+    color: var(--rid-purple-ink);
+    background: color-mix(in srgb, var(--rid-purple) 12%, #fff)
+}
+
+.rid-shell[data-theme="light"] .rid-pill--no {
+    color: var(--rid-red-ink);
+    background: color-mix(in srgb, var(--rid-red) 11%, #fff)
+}
+
+.rid-overlay[data-theme="light"] .rid-pill {
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 24%, transparent)
+}
+
+.rid-overlay[data-theme="light"] .rid-pill--created,
+.rid-overlay[data-theme="light"] .rid-pill--offline {
+    color: var(--rid-green-ink);
+    background: color-mix(in srgb, var(--rid-green) 13%, #fff)
+}
+
+.rid-overlay[data-theme="light"] .rid-pill--verified {
+    color: var(--rid-blue-ink);
+    background: color-mix(in srgb, var(--rid-blue) 12%, #fff)
+}
+
+.rid-overlay[data-theme="light"] .rid-pill--pending {
+    color: var(--rid-amber-ink);
+    background: color-mix(in srgb, var(--rid-amber) 15%, #fff)
+}
+
+.rid-overlay[data-theme="light"] .rid-pill--online {
+    color: var(--rid-purple-ink);
+    background: color-mix(in srgb, var(--rid-purple) 12%, #fff)
+}
+
+.rid-shell[data-theme="light"] .rid-flag.is-yes,
+.rid-overlay[data-theme="light"] .rid-flag.is-yes {
+    color: var(--rid-green-ink)
+}
+
+/* delete controls */
+.rid-shell[data-theme="light"] .rid-del,
+.rid-shell[data-theme="light"] .rid-delall,
+.rid-overlay[data-theme="light"] .rid-modal-delete {
+    color: var(--rid-red-ink);
+    background: #fff1f1;
+    border-color: rgba(220, 38, 38, .3)
+}
+
+.rid-shell[data-theme="light"] .rid-del:hover,
+.rid-overlay[data-theme="light"] .rid-modal-delete:hover {
+    background: var(--rid-red);
+    color: #fff
+}
+
+.rid-shell[data-theme="light"] .rid-delall:hover:not(:disabled) {
+    background: #ffe3e3
+}
+
+.rid-overlay[data-theme="light"] .rid-confirm-icon {
+    color: var(--rid-red-ink);
+    background: #ffe8e8
+}
+
+/* modal details */
+.rid-overlay[data-theme="light"] .rid-detail {
+    border-top-color: rgba(30, 55, 150, .10)
+}
+
+.rid-overlay[data-theme="light"] .rid-modal-token {
+    color: var(--rid-text)
+}

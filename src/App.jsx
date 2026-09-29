@@ -45,6 +45,7 @@ import IdRegistration from "./pages/IdRegistration";
 import IdVerification from "./pages/IdVerification";
 import IdCreationStatus from "./pages/IdCreationStatus";
 import IdManagement from "./pages/IdManagement";
+import RegisteredIds from "./pages/RegisteredIds";
 import EditAdmin from "./pages/EditAdmin";
 import MyActivity from "./pages/MyActivity";
 import AccessControl from "./pages/AccessControl";
@@ -589,6 +590,17 @@ function App() {
             <ProtectedRoute>
               <RequireAccess pageId="idManagement">
                 <IdManagement />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/registered-ids"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="registeredIds">
+                <RegisteredIds />
               </RequireAccess>
             </ProtectedRoute>
           }
