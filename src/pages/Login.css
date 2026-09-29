@@ -29,7 +29,7 @@ html {
     padding: 0;
     height: 100%;
     font-family: var(--multi);
-    background-color: #e9e4f5;
+    background-color: #fff6e2;
     overscroll-behavior: none;
 }
 
@@ -46,61 +46,88 @@ html {
     padding: 28px 20px 48px;
 }
 
-/* ---------------- background carousel ---------------- */
-.login-bg-wrapper {
+/* ---------------- sunrise background (same as landing page) ---------------- */
+.login-sunrise-bg {
     position: fixed;
     inset: 0;
-    overflow: hidden;
     z-index: 0;
-}
-
-.login-bg {
-    position: absolute;
-    inset: 0;
-    /* no need for the -12px bleed now that blur is gone */
     background-size: cover;
     background-position: center;
-    opacity: 0;
-    transition: opacity 1.5s ease-in-out;
+    transform-origin: 80% 50%;
+    animation: ln-bg-drift 26s ease-in-out infinite alternate;
 }
 
-.login-bg.active {
-    opacity: 1;
+.login-sunrise-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255, 251, 242, .55), rgba(255, 251, 242, .3));
 }
 
-.login-bg::after {
-    content: none;
-}
-
-.carousel-dots {
+.login-corner {
     position: fixed;
-    bottom: 14px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    display: flex;
-    gap: 10px;
+    bottom: 0;
+    width: 240px;
+    pointer-events: none;
+    z-index: 0;
+    transform-origin: bottom center;
 }
 
-.carousel-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(109, 63, 214, 0.25);
-    cursor: pointer;
-    transition: all 0.3s ease;
+.login-corner--l {
+    left: 0;
+    animation: ln-sway-l 7s ease-in-out infinite;
 }
 
-.carousel-dot.active {
-    width: 24px;
-    border-radius: 4px;
-    background: var(--ln-purple);
-    border-color: var(--ln-purple);
+.login-corner--r {
+    right: 0;
+    transform: scaleX(-1);
+    animation: ln-sway-r 8s ease-in-out infinite;
 }
 
-.carousel-dot:hover:not(.active) {
-    transform: scale(1.25);
+@keyframes ln-bg-drift {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.06) translateX(-1.5%);
+    }
+}
+
+@keyframes ln-sway-l {
+
+    0%,
+    100% {
+        transform: rotate(0);
+    }
+
+    50% {
+        transform: rotate(2.2deg);
+    }
+}
+
+@keyframes ln-sway-r {
+
+    0%,
+    100% {
+        transform: scaleX(-1) rotate(0);
+    }
+
+    50% {
+        transform: scaleX(-1) rotate(2.2deg);
+    }
+}
+
+@media (max-width: 1180px) {
+    .login-corner {
+        width: 150px;
+    }
+}
+
+@media (max-width: 600px) {
+    .login-corner {
+        display: none;
+    }
 }
 
 /* ---------------- shell + card ---------------- */
@@ -822,9 +849,14 @@ html {
     .login-left,
     .login-right,
     .login-features,
-    .login-bg {
+    .login-sunrise-bg,
+    .login-corner {
         animation: none !important;
         transition: none !important;
+    }
+
+    .login-corner--r {
+        transform: scaleX(-1);
     }
 }
 
@@ -890,22 +922,28 @@ html {
 .mfa-back-button:hover {
     color: var(--ln-purple);
 }
+
 /* ---------- mobile: photo shows in full, box is exactly as tall as the image ---------- */
 @media (max-width: 820px) {
-  .login-right {
-    flex: none;          /* stop the 48% flex-basis from controlling the height */
-    height: auto;
-    min-height: 0;       /* removes the 340px / 280px minimum that caused the gap */
-    align-items: flex-start;
-  }
+    .login-right {
+        flex: none;
+        /* stop the 48% flex-basis from controlling the height */
+        height: auto;
+        min-height: 0;
+        /* removes the 340px / 280px minimum that caused the gap */
+        align-items: flex-start;
+    }
 
-  .login-right-img {
-    position: relative;
-    display: block;      /* removes the tiny gap browsers leave under inline images */
-    width: 100%;
-    height: auto;        /* height follows the image, so there is no empty space */
-    max-height: 70vh;    /* keeps it from getting too tall on tablets */
-    object-fit: cover;
-    object-position: center top;
-  }
+    .login-right-img {
+        position: relative;
+        display: block;
+        /* removes the tiny gap browsers leave under inline images */
+        width: 100%;
+        height: auto;
+        /* height follows the image, so there is no empty space */
+        max-height: 70vh;
+        /* keeps it from getting too tall on tablets */
+        object-fit: cover;
+        object-position: center top;
+    }
 }

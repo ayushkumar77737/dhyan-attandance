@@ -16,10 +16,9 @@ import { useTranslation } from "react-i18next";
 
 import dhyanImage from "../assets/Dhyan.png";
 import logo2 from "../assets/logo2.png";
-import bg1 from "../assets/bg1.webp";
-import bg2 from "../assets/bg2.webp";
-import bg3 from "../assets/bg3.webp";
-import bg4 from "../assets/pic.webp";
+/* same artwork as the landing page */
+import bgSunrise from "../assets/landing-bg.webp";
+import lotusCorner from "../assets/landing-lotus-corner.png";
 import { logLogin } from "../utils/logActivity";
 import { getMfaStatus } from "../utils/mfa";
 
@@ -102,21 +101,12 @@ const Login = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const bgImages = [bg1, bg2, bg3, bg4];
-  const [bgIndex, setBgIndex] = useState(0);
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setBgIndex((prev) => (prev + 1) % bgImages.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     const disableRightClick = (e) => e.preventDefault();
@@ -285,25 +275,13 @@ const Login = () => {
   return (
     <div className="login-page">
 
-      <div className="login-bg-wrapper">
-        {bgImages.map((img, index) => (
-          <div
-            key={index}
-            className={`login-bg ${index === bgIndex ? "active" : ""}`}
-            style={{ backgroundImage: `url(${img})` }}
-          ></div>
-        ))}
-      </div>
-
-      <div className="carousel-dots">
-        {bgImages.map((_, index) => (
-          <span
-            key={index}
-            className={`carousel-dot ${index === bgIndex ? "active" : ""}`}
-            onClick={() => setBgIndex(index)}
-          />
-        ))}
-      </div>
+      {/* sunrise background + swaying lotus corners (same as landing page) */}
+      <div
+        className="login-sunrise-bg"
+        style={{ backgroundImage: `url(${bgSunrise})` }}
+      />
+      <img src={lotusCorner} alt="" className="login-corner login-corner--l" />
+      <img src={lotusCorner} alt="" className="login-corner login-corner--r" />
 
       <div className="login-shell">
         <div className="login-container">
