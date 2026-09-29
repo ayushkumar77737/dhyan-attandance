@@ -1589,5 +1589,16 @@
   "ridDeleting": "Deleting…",
   "ridDeleted": "Registration deleted",
   "ridDeletedAll": "All registrations deleted",
-  "ridDeleteFailed": "Couldn't delete. Check your permissions and try again."
+  "ridDeleteFailed": "Couldn't delete. Check your permissions and try again.",
+  "landingGuidedBy": "Guided by",
+  "landingStat1Desc": "Develop a peaceful mind and positive life",
+  "landingStat2Desc": "Discover tranquility within yourself",
+  "landingStat3Desc": "Stay connected to divine wisdom",
+  "landingTrust1": "Secure",
+  "landingTrust2": "Private",
+  "landingTrust3": "Spiritual",
+  "landingFeat1": "Spiritual Teachings",
+  "landingFeat2": "Satsang Community",
+  "landingFeat3": "Events & Programs",
+  "landingFeat4": "Inner Growth"
 }

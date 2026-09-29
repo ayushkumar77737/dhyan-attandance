@@ -18,36 +18,37 @@ export default function LanguageSwitcher() {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
-  const current = languages.find(l => l.code === i18n.language) || languages[0];
+  // handles codes like "en-US" too
+  const activeCode = (i18n.language || 'en').split('-')[0];
+  const current = languages.find((l) => l.code === activeCode) || languages[0];
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) {
-        setOpen(false);
-      }
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') setOpen(false);
     };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+    };
   }, []);
+
   useEffect(() => {
     const savedLanguage = localStorage.getItem('appLanguage');
-
-    if (
-      savedLanguage &&
-      savedLanguage !== i18n.language
-    ) {
+    if (savedLanguage && savedLanguage !== i18n.language) {
       i18n.changeLanguage(savedLanguage);
     }
   }, []);
 
   const handleSelect = (code) => {
-    if (code === i18n.language) {
-      setOpen(false);
-      return;
+    if (code !== activeCode) {
+      i18n.changeLanguage(code);
+      localStorage.setItem('appLanguage', code);
     }
-
-    i18n.changeLanguage(code);
-    localStorage.setItem('appLanguage', code);
     setOpen(false);
   };
 
@@ -57,6 +58,8 @@ export default function LanguageSwitcher() {
         type="button"
         className="lang-trigger"
         onClick={() => setOpen(!open)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
       >
         <span className="lang-badge">{current.short}</span>
         <span className="lang-label">{current.label}</span>
@@ -64,23 +67,29 @@ export default function LanguageSwitcher() {
       </button>
 
       {open && (
-        <div className="lang-dropdown">
+        <div className="lang-dropdown" role="listbox">
           {languages.map((lang) => (
             <div
               key={lang.code}
-              className={`lang-option ${lang.code === i18n.language ? 'active' : ''}`}
+              role="option"
+              tabIndex={0}
+              aria-selected={lang.code === activeCode}
+              className={`lang-option ${lang.code === activeCode ? 'active' : ''}`}
               onClick={() => handleSelect(lang.code)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleSelect(lang.code);
+                }
+              }}
             >
               <span className="lang-option-badge">{lang.short}</span>
               <span className="lang-option-label">{lang.label}</span>
-              {lang.code === i18n.language && (
-                <span className="lang-check">✓</span>
-              )}
+              {lang.code === activeCode && <span className="lang-check">✓</span>}
             </div>
           ))}
         </div>
       )}
-
     </div>
   );
 }
