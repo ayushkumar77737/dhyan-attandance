@@ -278,6 +278,10 @@ const Login = () => {
     { icon: I.calendar, cls: "lnf--green", title: t("featDailySadhana") || "Daily Sadhana", desc: t("featDailySadhanaDesc") || "Build a consistent practice for spiritual growth" },
   ];
 
+  // Portal title: last word gets its own line + purple colour, the rest stays gold
+  const titleWords = (t("appTitle") || "Dhyan Attendance Portal").split(" ");
+  const titleLast = titleWords.pop();
+
   return (
     <div className="login-page">
 
@@ -309,11 +313,14 @@ const Login = () => {
 
             <img src={logo2} alt="Logo" className="login-logo" loading="lazy" />
 
-            <p className="guru-text">🙏 {t("guruText") || "Jai Gurubande"} 🙏</p>
+            <p className="guru-text">🙏🙏 {t("guruText") || "Jai Gurubande"} 🙏🙏</p>
 
             <h2 className="card-title">
               <span className="card-title-welcome">{t("welcomeTo") || "Welcome to"}</span>
-              <span className="card-title-name">{t("appTitle") || "Dhyan Attendance Portal"}</span>
+              <span className="card-title-name">
+                {titleWords.join(" ")}
+                <span className="card-title-last">{titleLast}</span>
+              </span>
             </h2>
 
             <div className="login-divider">
