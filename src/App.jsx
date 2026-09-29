@@ -10,6 +10,7 @@ import AllUsers from "./pages/AllUsers";
 import AllAdmins from "./pages/AllAdmins";
 import EditUser from "./pages/EditUser";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ScrollToTop from "./components/ScrollToTop";
 import MFASetup from "./pages/MFASetup";
 import MFAVerify from "./pages/MFAVerify";
 import MFAProtectedRoute from "./components/MFAProtectedRoute";
@@ -65,6 +66,7 @@ import Contact from "./pages/Contact";
 function App() {
   return (
     <BrowserRouter>
+    <ScrollToTop />
       <Routes>
 
         {/* Public Route */}
