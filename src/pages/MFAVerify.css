@@ -1,33 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
 
 /* ==================================================================
    MFA VERIFY
-   Palette: deep navy ground, saffron-gold accent (the portal's brand
-   colour), one cool mint for success. Nothing else.
+   Light glass card on a soft blue ground, blue as the action colour,
+   gold for the 30-second ring and small accents, mint for success.
 
    Signature: the 30-second ring around the shield. Authenticator codes
    rotate on a 30 s clock; the ring sweeps on the same clock so the
-   user can see how long their code is still valid before it changes.
+   user can see how long their code is still valid.
    ================================================================== */
 .mfav {
-  --nav-900: #050b1a;
-  --nav-800: #0b1428;
-  --nav-700: #111c36;
-  --nav-600: #1a2745;
-  --ink: #f3f5fb;
-  --ink-2: #aab4c8;
-  --ink-3: #6c7890;
-  --gold: #f5c518;
-  --gold-soft: rgba(245, 197, 24, 0.14);
-  --gold-line: rgba(245, 197, 24, 0.34);
-  --mint: #34d399;
-  --mint-soft: rgba(52, 211, 153, 0.14);
-  --red: #ff7b7b;
-  --red-soft: rgba(255, 92, 92, 0.12);
-  --red-line: rgba(255, 92, 92, 0.3);
-  --line: rgba(255, 255, 255, 0.08);
+  --bg: #f3f8ff;
+  --ink: #0f1c3f;
+  --ink-2: #5a6784;
+  --ink-3: #7c88a3;
+  --blue: #1d5fe6;
+  --blue-2: #2f7cf6;
+  --blue-soft: rgba(29, 95, 230, 0.1);
+  --blue-line: rgba(29, 95, 230, 0.35);
+  --gold: #f5b91a;
+  --gold-soft: rgba(245, 185, 26, 0.22);
+  --mint: #12a874;
+  --mint-soft: rgba(18, 168, 116, 0.12);
+  --red: #d63b3b;
+  --red-soft: rgba(214, 59, 59, 0.08);
+  --red-line: rgba(214, 59, 59, 0.28);
+  --line: #dbe4f3;
+  --multi: 'Plus Jakarta Sans', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Kannada', 'Noto Sans Malayalam', 'Noto Sans Bengali', sans-serif;
 
   min-height: 100vh;
+  min-height: 100dvh;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -36,80 +38,211 @@
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
-  background: var(--nav-900);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: linear-gradient(180deg, #f7fbff 0%, #eef5ff 100%);
+  font-family: var(--multi);
   color: var(--ink);
 }
 
-/* ---- ambient ---- */
-.mfav__glow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  pointer-events: none;
-  opacity: 0.9;
-}
-
-.mfav__glow--a {
-  width: 520px;
-  height: 520px;
-  top: -200px;
-  right: -140px;
-  background: radial-gradient(circle, rgba(245, 197, 24, 0.16), transparent 68%);
-  animation: mfav-drift 18s ease-in-out infinite alternate;
-}
-
-.mfav__glow--b {
-  width: 440px;
-  height: 440px;
-  bottom: -180px;
-  left: -140px;
-  background: radial-gradient(circle, rgba(79, 110, 255, 0.16), transparent 68%);
-  animation: mfav-drift 14s ease-in-out infinite alternate-reverse;
-}
-
-.mfav__grid {
+/* ==================================================================
+   BACKGROUND ARTWORK (decorative only)
+   ================================================================== */
+.mfav__art {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse at center, #000 20%, transparent 72%);
-  mask-image: radial-gradient(ellipse at center, #000 20%, transparent 72%);
+  z-index: 0;
 }
 
-/* ---- card ---- */
+.mfav__blob {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.mfav__blob--tl {
+  width: 460px;
+  height: 460px;
+  top: -260px;
+  left: -140px;
+  background: linear-gradient(160deg, #8ec1ff, #c4dcff);
+  opacity: 0.85;
+}
+
+.mfav__blob--tr {
+  width: 420px;
+  height: 420px;
+  top: -230px;
+  right: -150px;
+  background: linear-gradient(200deg, #e6f0ff, #f6faff);
+  border: 1px solid rgba(180, 205, 245, 0.5);
+}
+
+.mfav__blob--bl {
+  width: 380px;
+  height: 380px;
+  bottom: -220px;
+  left: -110px;
+  background: linear-gradient(20deg, #fde9b0, #fff4d6);
+}
+
+.mfav__blob--br {
+  width: 520px;
+  height: 520px;
+  bottom: -300px;
+  right: -140px;
+  background: linear-gradient(200deg, #7db6ff, #4b9bff);
+  opacity: 0.85;
+}
+
+.mfav__blob--br2 {
+  width: 300px;
+  height: 300px;
+  bottom: -170px;
+  right: 40px;
+  background: linear-gradient(200deg, #fde9b0, #fff4d6);
+  opacity: 0.8;
+}
+
+.mfav__dots {
+  position: absolute;
+  width: 124px;
+  height: 154px;
+  background-image: radial-gradient(circle, rgba(120, 160, 225, 0.35) 3px, transparent 3.5px);
+  background-size: 31px 31px;
+}
+
+.mfav__dots--l {
+  left: 64px;
+  bottom: 150px;
+}
+
+.mfav__dots--r {
+  right: 40px;
+  top: 80px;
+}
+
+.mfav__deco {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.mfav__deco svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.mfav__deco--left {
+  width: 190px;
+  right: calc(50% + 150px);
+  animation: mfav-float 7s ease-in-out infinite;
+}
+
+.mfav__deco--right {
+  width: 200px;
+  left: calc(50% + 310px);
+  opacity: 0.32;
+  filter: grayscale(0.2);
+}
+
+.mfav__orb {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.mfav__orb--gold1 {
+  width: 26px;
+  height: 26px;
+  left: -46px;
+  top: 118px;
+  background: radial-gradient(circle at 35% 30%, #ffe27a, #f5b91a);
+  box-shadow: 0 6px 14px rgba(245, 185, 26, 0.45);
+}
+
+.mfav__orb--gold2 {
+  width: 30px;
+  height: 30px;
+  right: -74px;
+  top: 100px;
+  background: radial-gradient(circle at 35% 30%, #ffe27a, #f5b91a);
+  box-shadow: 0 6px 14px rgba(245, 185, 26, 0.45);
+}
+
+.mfav__orb--blue {
+  width: 32px;
+  height: 32px;
+  right: -46px;
+  bottom: 22px;
+  background: radial-gradient(circle at 35% 30%, #5b9dff, #1d5fe6);
+  box-shadow: 0 8px 16px rgba(29, 95, 230, 0.4);
+}
+
+.mfav__arc {
+  position: absolute;
+  left: -40px;
+  bottom: -30px;
+  width: 260px;
+  height: 130px;
+  border-radius: 0 0 260px 260px / 0 0 130px 130px;
+  border-bottom: 4px solid var(--gold);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  opacity: 0.75;
+}
+
+/* ==================================================================
+   CARD
+   ================================================================== */
 .mfav__card {
   position: relative;
+  z-index: 2;
   width: 100%;
   max-width: 460px;
-  padding: 44px 40px 36px;
+  padding: 44px 40px 32px;
   box-sizing: border-box;
   text-align: center;
-  background: linear-gradient(180deg, rgba(17, 28, 54, 0.92), rgba(11, 20, 40, 0.96));
-  border: 1px solid var(--line);
-  border-radius: 26px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(250, 252, 255, 0.97));
+  border: 1.5px solid rgba(190, 212, 250, 0.8);
+  border-radius: 28px;
   box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.02) inset;
-  backdrop-filter: blur(18px);
+    0 30px 70px rgba(50, 100, 200, 0.18),
+    0 4px 14px rgba(50, 100, 200, 0.08);
   animation: mfav-card-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* a hairline of gold across the top edge, opening from the centre */
-.mfav__card::before {
+/* soft blue + gold corner shapes, top-left and bottom-right */
+.mfav__card::before,
+.mfav__card::after {
   content: "";
   position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.mfav__card::before {
   top: 0;
-  left: 12%;
-  right: 12%;
-  height: 1.5px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  transform-origin: center;
-  animation: mfav-stripe 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+  left: 0;
+  width: 170px;
+  height: 120px;
+  background:
+    radial-gradient(ellipse 96px 62px at 0% 0%, #2b6ef0 62%, transparent 64%),
+    radial-gradient(ellipse 150px 100px at 8% 4%, rgba(253, 226, 150, 0.85) 60%, transparent 62%);
+}
+
+.mfav__card::after {
+  right: 0;
+  bottom: 0;
+  width: 150px;
+  height: 130px;
+  background:
+    radial-gradient(ellipse 96px 62px at 100% 100%, #2b6ef0 62%, transparent 64%),
+    radial-gradient(ellipse 120px 110px at 96% 96%, rgba(253, 226, 150, 0.85) 60%, transparent 62%);
+}
+
+.mfav__card>* {
+  position: relative;
+  z-index: 1;
 }
 
 .mfav__card.is-shaking {
@@ -117,22 +250,25 @@
 }
 
 .mfav__card.is-success {
-  border-color: rgba(52, 211, 153, 0.35);
+  border-color: rgba(18, 168, 116, 0.45);
   box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.5),
-    0 0 60px rgba(52, 211, 153, 0.12);
+    0 30px 70px rgba(50, 100, 200, 0.16),
+    0 0 50px rgba(18, 168, 116, 0.16);
 }
 
 .mfav__card--checking .mfav__title {
   margin-top: 18px;
+  font-size: 24px;
 }
 
-/* ---- hero: shield + ring ---- */
+/* ==================================================================
+   HERO: shield + ring
+   ================================================================== */
 .mfav__hero {
   position: relative;
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 22px;
+  width: 104px;
+  height: 104px;
+  margin: 0 auto 18px;
   animation: mfav-pop 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
 }
 
@@ -146,7 +282,7 @@
 
 .mfav__ring-track {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.07);
+  stroke: var(--gold-soft);
   stroke-width: 3;
 }
 
@@ -156,37 +292,39 @@
   stroke-width: 3;
   stroke-linecap: round;
   transition: stroke-dashoffset 1s linear, stroke 0.3s ease;
-  filter: drop-shadow(0 0 4px rgba(245, 197, 24, 0.5));
 }
 
 .mfav__ring-fill.is-urgent {
   stroke: var(--red);
-  filter: drop-shadow(0 0 4px rgba(255, 92, 92, 0.5));
 }
 
 .mfav__badge {
   position: absolute;
-  inset: 12px;
+  inset: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: var(--gold-soft);
-  border: 1px solid var(--gold-line);
-  color: var(--gold);
-  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  background: linear-gradient(160deg, #3b82f6, #1447d4);
+  box-shadow: 0 10px 22px rgba(29, 95, 230, 0.4), 0 0 0 5px rgba(255, 255, 255, 0.9);
+  color: #fff;
+  transition: background 0.3s ease;
 }
 
 .mfav__badge svg {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
 }
 
 .mfav__badge.is-success {
-  background: var(--mint-soft);
-  border-color: rgba(52, 211, 153, 0.4);
-  color: var(--mint);
+  background: linear-gradient(160deg, #34d399, #12a874);
+  box-shadow: 0 10px 22px rgba(18, 168, 116, 0.4), 0 0 0 5px rgba(255, 255, 255, 0.9);
   animation: mfav-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mfav__badge.is-success svg {
+  width: 32px;
+  height: 32px;
 }
 
 /* checking-auth state: static badge with a spinning ring border */
@@ -201,7 +339,7 @@
 .mfav__badge--spin::after {
   content: "";
   position: absolute;
-  inset: -8px;
+  inset: -9px;
   border-radius: 50%;
   border: 2px solid transparent;
   border-top-color: var(--gold);
@@ -210,59 +348,114 @@
 
 .mfav__timer {
   position: absolute;
-  right: -6px;
-  bottom: -4px;
-  padding: 3px 8px;
+  right: -14px;
+  bottom: -6px;
+  padding: 4px 11px;
   border-radius: 20px;
-  background: var(--nav-700);
-  border: 1px solid var(--gold-line);
-  color: var(--gold);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
+  background: linear-gradient(180deg, #2f7cf6, #1447d4);
+  color: #fff;
+  font-family: var(--multi);
+  font-size: 12px;
+  font-weight: 800;
   letter-spacing: 0.02em;
-  transition: color 0.3s ease, border-color 0.3s ease;
+  box-shadow: 0 6px 14px rgba(29, 95, 230, 0.35);
+  transition: background 0.3s ease;
 }
 
 .mfav__timer.is-urgent {
-  color: var(--red);
-  border-color: var(--red-line);
+  background: linear-gradient(180deg, #ef5b5b, #d63b3b);
+  box-shadow: 0 6px 14px rgba(214, 59, 59, 0.35);
   animation: mfav-pulse 1s ease-in-out infinite;
 }
 
-/* ---- copy ---- */
+/* small confetti dots around the hero */
+.mfav__spark {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.mfav__spark--1 {
+  width: 8px;
+  height: 8px;
+  left: -34px;
+  top: 22px;
+  background: var(--blue);
+}
+
+.mfav__spark--2 {
+  width: 5px;
+  height: 5px;
+  left: -26px;
+  top: 62px;
+  background: #7fb0ff;
+}
+
+.mfav__spark--3 {
+  width: 6px;
+  height: 6px;
+  left: -18px;
+  bottom: -10px;
+  background: var(--gold);
+}
+
+.mfav__spark--4 {
+  width: 8px;
+  height: 8px;
+  right: -22px;
+  top: 14px;
+  background: var(--blue);
+}
+
+.mfav__spark--5 {
+  width: 5px;
+  height: 5px;
+  right: -34px;
+  top: 52px;
+  background: var(--gold);
+}
+
+/* ==================================================================
+   COPY
+   ================================================================== */
 .mfav__eyebrow {
   display: inline-block;
-  margin-bottom: 10px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  margin-bottom: 8px;
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--blue);
   animation: mfav-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
 }
 
 .mfav__title {
-  margin: 0 0 12px;
-  font-family: 'Fraunces', serif;
-  font-size: 30px;
-  font-weight: 700;
+  margin: 0 0 10px;
+  font-family: var(--multi);
+  font-size: 38px;
+  font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.15;
   color: var(--ink);
   animation: mfav-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.26s both;
 }
 
+.mfav__title-accent {
+  color: var(--blue);
+}
+
 .mfav__desc {
-  margin: 0 auto 30px;
-  max-width: 340px;
-  font-size: 14px;
-  line-height: 1.7;
+  margin: 0 auto 26px;
+  max-width: 360px;
+  font-size: 15px;
+  line-height: 1.65;
   color: var(--ink-2);
   animation: mfav-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
 }
 
-/* ---- form ---- */
+/* ==================================================================
+   FORM
+   ================================================================== */
 .mfav__form {
   text-align: left;
 }
@@ -270,11 +463,11 @@
 .mfav__label {
   display: block;
   margin-bottom: 12px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ink-2);
+  color: #2b3856;
   animation: mfav-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
 }
 
@@ -282,18 +475,18 @@
   position: relative;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
+  gap: 12px;
   cursor: text;
 }
 
 .mfav__cell {
-  height: 60px;
+  height: 62px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  background: var(--nav-900);
-  border: 1px solid var(--line);
+  background: #fff;
+  border: 1.5px solid var(--line);
   font-family: 'JetBrains Mono', monospace;
   font-size: 26px;
   font-weight: 700;
@@ -303,22 +496,22 @@
 }
 
 .mfav__cell.is-filled {
-  border-color: var(--gold-line);
-  background: var(--nav-800);
+  border-color: var(--blue-line);
+  background: #f6f9ff;
   animation: mfav-cell-fill 0.22s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .mfav__cell.is-active {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px var(--gold-soft);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px var(--blue-soft);
 }
 
 /* blinking caret in the active empty cell */
 .mfav__cell.is-active:not(.is-filled)::after {
   content: "";
   width: 2px;
-  height: 26px;
-  background: var(--gold);
+  height: 28px;
+  background: var(--blue);
   border-radius: 1px;
   animation: mfav-caret 1s steps(2, start) infinite;
 }
@@ -328,7 +521,7 @@
 }
 
 .mfav__card.is-success .mfav__cell {
-  border-color: rgba(52, 211, 153, 0.4);
+  border-color: rgba(18, 168, 116, 0.45);
   color: var(--mint);
 }
 
@@ -357,8 +550,8 @@
 
 .mfav__hint {
   margin: 12px 0 0;
-  font-size: 12.5px;
-  color: var(--ink-3);
+  font-size: 13px;
+  color: var(--ink-2);
   text-align: center;
   animation: mfav-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
 }
@@ -386,33 +579,36 @@
   margin-top: 1px;
 }
 
-/* ---- buttons ---- */
+/* ==================================================================
+   BUTTONS
+   ================================================================== */
 .mfav__submit {
   position: relative;
   overflow: hidden;
   width: 100%;
-  margin-top: 22px;
-  padding: 15px 18px;
+  margin-top: 20px;
+  padding: 17px 18px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 10px;
   border: none;
   border-radius: 14px;
-  background: var(--gold);
-  color: #0e1424;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px;
+  background: linear-gradient(180deg, #2f7cf6, #1447d4);
+  color: #fff;
+  font-family: var(--multi);
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 10px 26px -8px rgba(245, 197, 24, 0.55);
+  box-shadow: 0 12px 26px -8px rgba(29, 95, 230, 0.6);
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.25s ease, color 0.25s ease, opacity 0.2s ease;
   animation: mfav-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.66s both;
 }
 
 .mfav__submit svg {
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
 }
 
 /* light sweep on hover */
@@ -423,7 +619,7 @@
   left: -60%;
   width: 45%;
   height: 100%;
-  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   transform: skewX(-20deg);
   transition: left 0.55s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
@@ -435,7 +631,11 @@
 
 .mfav__submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 16px 32px -8px rgba(245, 197, 24, 0.6);
+  box-shadow: 0 18px 32px -8px rgba(29, 95, 230, 0.65);
+}
+
+.mfav__submit:hover:not(:disabled) svg {
+  transform: translateX(3px);
 }
 
 .mfav__submit:active:not(:disabled) {
@@ -443,8 +643,8 @@
 }
 
 .mfav__submit:disabled {
-  background: var(--nav-600);
-  color: var(--ink-3);
+  background: linear-gradient(180deg, #a9c3f5, #8fb0ee);
+  color: rgba(255, 255, 255, 0.92);
   cursor: not-allowed;
   box-shadow: none;
 }
@@ -452,7 +652,7 @@
 .mfav__card.is-success .mfav__submit:disabled {
   background: var(--mint-soft);
   color: var(--mint);
-  border: 1px solid rgba(52, 211, 153, 0.4);
+  border: 1px solid rgba(18, 168, 116, 0.4);
 }
 
 .mfav__spinner {
@@ -464,34 +664,48 @@
   animation: mfav-spin 0.7s linear infinite;
 }
 
-.mfav__back {
-  display: inline-flex;
+/* "Back to login" with hairlines either side */
+.mfav__back-row {
+  display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 14px;
   margin-top: 22px;
-  padding: 9px 14px;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  background: transparent;
-  color: var(--ink-2);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 13.5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
   animation: mfav-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.72s both;
 }
 
+.mfav__back-row::before,
+.mfav__back-row::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.mfav__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--blue);
+  font-family: var(--multi);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
 .mfav__back svg {
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
   transition: transform 0.2s ease;
 }
 
 .mfav__back:hover:not(:disabled) {
-  color: var(--gold);
-  background: var(--gold-soft);
-  border-color: var(--gold-line);
+  background: var(--blue-soft);
+  border-color: var(--blue-line);
 }
 
 .mfav__back:hover:not(:disabled) svg {
@@ -506,7 +720,7 @@
 /* ---- focus rings ---- */
 .mfav__submit:focus-visible,
 .mfav__back:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--blue);
   outline-offset: 3px;
 }
 
@@ -522,16 +736,6 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes mfav-stripe {
-  from {
-    transform: scaleX(0);
-  }
-
-  to {
-    transform: scaleX(1);
   }
 }
 
@@ -621,35 +825,83 @@
   }
 
   50% {
-    opacity: 0.5;
+    opacity: 0.6;
   }
 }
 
-@keyframes mfav-drift {
-  from {
-    transform: translate(0, 0) scale(1);
+@keyframes mfav-float {
+
+  0%,
+  100% {
+    transform: translateY(-50%);
   }
 
-  to {
-    transform: translate(26px, 18px) scale(1.06);
+  50% {
+    transform: translateY(calc(-50% - 10px));
   }
 }
 
 /* ==================================================================
-   MOBILE
+   RESPONSIVE
    ================================================================== */
+@media (max-width: 1100px) {
+  .mfav__deco--right {
+    display: none;
+  }
+
+  .mfav__dots--r {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .mfav__deco--left {
+    display: none;
+  }
+
+  .mfav__dots--l {
+    display: none;
+  }
+}
+
 @media (max-width: 500px) {
   .mfav {
     padding: 16px;
   }
 
+  .mfav__blob--tl {
+    width: 320px;
+    height: 320px;
+    top: -190px;
+  }
+
+  .mfav__blob--br {
+    width: 360px;
+    height: 360px;
+    bottom: -220px;
+  }
+
   .mfav__card {
-    padding: 36px 22px 28px;
-    border-radius: 20px;
+    padding: 38px 22px 26px;
+    border-radius: 22px;
+  }
+
+  .mfav__card::before {
+    width: 130px;
+    height: 92px;
+  }
+
+  .mfav__card::after {
+    width: 110px;
+    height: 100px;
   }
 
   .mfav__title {
-    font-size: 25px;
+    font-size: 30px;
+  }
+
+  .mfav__desc {
+    font-size: 14px;
   }
 
   .mfav__cells {
@@ -671,7 +923,6 @@
 @media (prefers-reduced-motion: reduce) {
 
   .mfav__card,
-  .mfav__card::before,
   .mfav__hero,
   .mfav__eyebrow,
   .mfav__title,
@@ -680,10 +931,8 @@
   .mfav__cell,
   .mfav__hint,
   .mfav__submit,
-  .mfav__back,
+  .mfav__back-row,
   .mfav__error,
-  .mfav__glow--a,
-  .mfav__glow--b,
   .mfav__badge.is-success,
   .mfav__timer.is-urgent {
     animation: none !important;
@@ -691,8 +940,8 @@
     transform: none !important;
   }
 
-  .mfav__card::before {
-    transform: scaleX(1) !important;
+  .mfav__deco--left {
+    animation: none;
   }
 
   .mfav__cell.is-active:not(.is-filled)::after {
@@ -708,6 +957,7 @@
   }
 
   .mfav__submit:hover:not(:disabled),
+  .mfav__submit:hover:not(:disabled) svg,
   .mfav__back:hover:not(:disabled) svg {
     transform: none;
   }

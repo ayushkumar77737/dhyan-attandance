@@ -19,19 +19,59 @@ const CODE_LENGTH = 6;
 const TOTP_PERIOD = 30;
 
 /* ------------------------------------------------------------------ */
-/* Icons (stroke = currentColor)                                       */
+/* Icons                                                              */
 /* ------------------------------------------------------------------ */
-const ShieldIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 2.5 4.5 5.4v5.8c0 4.6 3.1 8.6 7.5 9.8 4.4-1.2 7.5-5.2 7.5-9.8V5.4L12 2.5z" />
-    <rect x="9" y="11" width="6" height="5" rx="1.2" />
-    <path d="M10.2 11V9.6a1.8 1.8 0 0 1 3.6 0V11" />
+
+/* Shield inside the blue badge (gold outline, white fill, blue lock) */
+const BadgeShield = () => (
+  <svg viewBox="0 0 24 24" fill="none" strokeLinecap="round" strokeLinejoin="round">
+    <path
+      d="M12 2.5 4.5 5.4v5.8c0 4.6 3.1 8.6 7.5 9.8 4.4-1.2 7.5-5.2 7.5-9.8V5.4L12 2.5z"
+      fill="#ffffff"
+      stroke="#f5b91a"
+      strokeWidth="1.6"
+    />
+    <rect x="9" y="11" width="6" height="5" rx="1.2" fill="#1d5fe6" />
+    <path d="M10.2 11V9.6a1.8 1.8 0 0 1 3.6 0V11" stroke="#1d5fe6" strokeWidth="1.5" />
+  </svg>
+);
+
+/* Large soft-glass shield used as background artwork */
+const BigShield = ({ solid }) => (
+  <svg viewBox="0 0 200 240" fill="none" strokeLinecap="round" strokeLinejoin="round">
+    <defs>
+      <linearGradient id={solid ? "mfavShieldA" : "mfavShieldB"} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stopColor="#dbe9ff" />
+        <stop offset="1" stopColor="#a9ccff" />
+      </linearGradient>
+      <linearGradient id="mfavLock" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#3b82f6" />
+        <stop offset="1" stopColor="#1447d4" />
+      </linearGradient>
+    </defs>
+    <path
+      d="M100 8 20 40v70c0 52 35 96 80 118 45-22 80-66 80-118V40L100 8z"
+      fill={`url(#${solid ? "mfavShieldA" : "mfavShieldB"})`}
+      stroke="rgba(255,255,255,0.8)"
+      strokeWidth="4"
+    />
+    <path d="M100 26 36 52v58c0 44 28 82 64 102" stroke="rgba(255,255,255,0.7)" strokeWidth="3" />
+    <path d="M78 104V88a22 22 0 0 1 44 0v16" stroke="url(#mfavLock)" strokeWidth="10" />
+    <rect x="66" y="102" width="68" height="52" rx="10" fill="url(#mfavLock)" />
+    <circle cx="100" cy="124" r="6" fill="#fff" />
+    <rect x="97" y="126" width="6" height="16" rx="3" fill="#fff" />
   </svg>
 );
 
 const ArrowLeftIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M19 12H5M12 19l-7-7 7-7" />
+  </svg>
+);
+
+const ArrowRightIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M5 12h14M12 5l7 7-7 7" />
   </svg>
 );
 
@@ -46,6 +86,32 @@ const AlertIcon = () => (
     <circle cx="12" cy="12" r="9" />
     <path d="M12 7.5v5M12 16.2v.1" />
   </svg>
+);
+
+/* Purely decorative background artwork (no text) */
+const Backdrop = () => (
+  <div className="mfav__art" aria-hidden="true">
+    <span className="mfav__blob mfav__blob--tl" />
+    <span className="mfav__blob mfav__blob--tr" />
+    <span className="mfav__blob mfav__blob--bl" />
+    <span className="mfav__blob mfav__blob--br" />
+    <span className="mfav__blob mfav__blob--br2" />
+
+    <span className="mfav__dots mfav__dots--l" />
+    <span className="mfav__dots mfav__dots--r" />
+
+    <div className="mfav__deco mfav__deco--left">
+      <BigShield solid />
+      <span className="mfav__orb mfav__orb--gold1" />
+      <span className="mfav__orb mfav__orb--gold2" />
+      <span className="mfav__orb mfav__orb--blue" />
+      <span className="mfav__arc" />
+    </div>
+
+    <div className="mfav__deco mfav__deco--right">
+      <BigShield />
+    </div>
+  </div>
 );
 
 const MFAVerify = () => {
@@ -146,30 +212,13 @@ const MFAVerify = () => {
     try {
       setLoading(true);
 
-      // --------------------------------------------------
-      // Get a fresh Firebase ID token
-      //
-      // This prevents an old/stale token from being used.
-      // --------------------------------------------------
+      // Get a fresh Firebase ID token (prevents a stale token being used)
       await currentUser.getIdToken(true);
 
-      // --------------------------------------------------
-      // Send code to backend
-      // Backend verifies:
-      //
-      // Firebase ID token
-      // +
-      // User account
-      // +
-      // MFA secret
-      // +
-      // TOTP code
-      // --------------------------------------------------
+      // Backend verifies: Firebase ID token + user account + MFA secret + TOTP code
       const result = await verifyMfaLogin(cleanCode);
 
-      // --------------------------------------------------
       // Backend MUST explicitly confirm MFA
-      // --------------------------------------------------
       if (
         !result ||
         result.success !== true ||
@@ -182,21 +231,15 @@ const MFAVerify = () => {
         );
       }
 
-      // --------------------------------------------------
       // MFA verification successful
-      // --------------------------------------------------
       markMfaVerified();
       setSuccess(true);
 
-      // --------------------------------------------------
       // Remove temporary MFA login state
-      // --------------------------------------------------
       sessionStorage.removeItem("mfaPending");
       sessionStorage.removeItem("mfaLoginUserId");
 
-      // --------------------------------------------------
       // Store application User ID
-      // --------------------------------------------------
       if (result.userId) {
         localStorage.setItem(
           "userId",
@@ -204,9 +247,7 @@ const MFAVerify = () => {
         );
       }
 
-      // --------------------------------------------------
       // Store user name if available
-      // --------------------------------------------------
       if (result.name) {
         localStorage.setItem(
           "userName",
@@ -214,18 +255,12 @@ const MFAVerify = () => {
         );
       }
 
-      // --------------------------------------------------
-      // Record the login in activityLogs
-      //
-      // This is the ONLY place a login should be logged:
-      // Login.jsx succeeds on password alone, so logging
-      // there would record users who never passed MFA.
-      //
-      // result.userId is the real users/{id} doc ID, which
-      // is what logLogout() later matches on to close this
-      // session. logLogin() swallows its own errors, so a
-      // failed write never blocks the redirect.
-      // --------------------------------------------------
+      // Record the login in activityLogs.
+      // This is the ONLY place a login should be logged: Login.jsx succeeds
+      // on password alone, so logging there would record users who never
+      // passed MFA. result.userId is the real users/{id} doc ID, which
+      // logLogout() later matches on to close this session. logLogin()
+      // swallows its own errors, so a failed write never blocks the redirect.
       if (result.userId) {
         await logLogin(result.userId, result.name);
       }
@@ -235,9 +270,7 @@ const MFAVerify = () => {
       const go = (path) =>
         setTimeout(() => navigate(path, { replace: true }), 550);
 
-      // --------------------------------------------------
       // Admin
-      // --------------------------------------------------
       if (result.role === "admin") {
         localStorage.setItem(
           "adminAuth",
@@ -250,9 +283,7 @@ const MFAVerify = () => {
         return;
       }
 
-      // --------------------------------------------------
       // Normal User
-      // --------------------------------------------------
       localStorage.setItem(
         "userAuth",
         "true"
@@ -260,12 +291,8 @@ const MFAVerify = () => {
 
       localStorage.removeItem("adminAuth");
 
-      // --------------------------------------------------
-      // If the user originally requested another protected
-      // page, return them there.
-      //
-      // Otherwise go to dashboard.
-      // --------------------------------------------------
+      // If the user originally requested another protected page,
+      // return them there. Otherwise go to dashboard.
       const requestedPath =
         location.state?.from;
 
@@ -286,10 +313,7 @@ const MFAVerify = () => {
         error
       );
 
-      // --------------------------------------------------
-      // IMPORTANT:
-      // Never mark MFA as verified when verification fails.
-      // --------------------------------------------------
+      // IMPORTANT: never mark MFA as verified when verification fails.
       clearMfaSession();
 
       let message = t("mfaInvalidCode");
@@ -316,25 +340,19 @@ const MFAVerify = () => {
     try {
       setLoading(true);
 
-      // --------------------------------------------------
       // Clear MFA-related session state
-      // --------------------------------------------------
       clearMfaSession();
 
       sessionStorage.removeItem("mfaPending");
       sessionStorage.removeItem("mfaLoginUserId");
 
-      // --------------------------------------------------
       // Clear application authentication state
-      // --------------------------------------------------
       localStorage.removeItem("userAuth");
       localStorage.removeItem("adminAuth");
       localStorage.removeItem("userId");
       localStorage.removeItem("userName");
 
-      // --------------------------------------------------
       // Sign out Firebase
-      // --------------------------------------------------
       if (auth.currentUser) {
         await signOut(auth);
       }
@@ -349,8 +367,7 @@ const MFAVerify = () => {
         error
       );
 
-      // Even if Firebase sign-out fails,
-      // send the user back to login.
+      // Even if Firebase sign-out fails, send the user back to login.
       navigate("/login", {
         replace: true,
       });
@@ -374,11 +391,10 @@ const MFAVerify = () => {
   if (authChecking) {
     return (
       <div className="mfav">
-        <div className="mfav__glow mfav__glow--a" />
-        <div className="mfav__glow mfav__glow--b" />
+        <Backdrop />
         <div className="mfav__card mfav__card--checking">
           <div className="mfav__badge mfav__badge--spin">
-            <ShieldIcon />
+            <BadgeShield />
           </div>
           <h1 className="mfav__title">{t("mfaCheckingAuth")}</h1>
           <p className="mfav__desc">{t("mfaPleaseWait")}</p>
@@ -395,14 +411,18 @@ const MFAVerify = () => {
 
   return (
     <div className="mfav">
-      <div className="mfav__glow mfav__glow--a" />
-      <div className="mfav__glow mfav__glow--b" />
-      <div className="mfav__grid" aria-hidden="true" />
+      <Backdrop />
 
       <div className={`mfav__card ${shake ? "is-shaking" : ""} ${success ? "is-success" : ""}`}>
 
         {/* ---------- shield + 30 s ring ---------- */}
         <div className="mfav__hero">
+          <span className="mfav__spark mfav__spark--1" />
+          <span className="mfav__spark mfav__spark--2" />
+          <span className="mfav__spark mfav__spark--3" />
+          <span className="mfav__spark mfav__spark--4" />
+          <span className="mfav__spark mfav__spark--5" />
+
           <svg className="mfav__ring" viewBox="0 0 80 80" aria-hidden="true">
             <circle className="mfav__ring-track" cx="40" cy="40" r={RING_R} />
             <circle
@@ -413,20 +433,29 @@ const MFAVerify = () => {
             />
           </svg>
           <div className={`mfav__badge ${success ? "is-success" : ""}`}>
-            {success ? <CheckIcon /> : <ShieldIcon />}
+            {success ? <CheckIcon /> : <BadgeShield />}
           </div>
           <span className={`mfav__timer ${ringUrgent ? "is-urgent" : ""}`} aria-live="polite">
-            {secondsLeft}s
+            {secondsLeft}{t("mfaSecondsShort", "s")}
           </span>
         </div>
 
-        <span className="mfav__eyebrow">{t("mfaEyebrow")}</span>
-        <h1 className="mfav__title">{t("mfaTitle")}</h1>
-        <p className="mfav__desc">{t("mfaDescription")}</p>
+        <span className="mfav__eyebrow">{t("mfaEyebrow", "Two-step verification")}</span>
+
+        {/* Title is split into two translatable parts so the accent
+            words can be coloured in every language. */}
+        <h1 className="mfav__title">
+          {t("mfaTitleLead", "Confirm")}{" "}
+          <span className="mfav__title-accent">{t("mfaTitleAccent", "it's you")}</span>
+        </h1>
+
+        <p className="mfav__desc">
+          {t("mfaDescription", "Open your authenticator app and enter the 6-digit code shown for this account.")}
+        </p>
 
         <form onSubmit={handleVerify} className="mfav__form">
           <label className="mfav__label" htmlFor="mfav-code">
-            {t("mfaCodeLabel")}
+            {t("mfaCodeLabel", "Authenticator code")}
           </label>
 
           {/* One real input (keeps SMS/authenticator autofill working);
@@ -455,7 +484,7 @@ const MFAVerify = () => {
               value={code}
               disabled={loading || success}
               autoFocus
-              aria-label={t("mfaCodeLabel")}
+              aria-label={t("mfaCodeLabel", "Authenticator code")}
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
               onChange={(e) => {
@@ -472,7 +501,7 @@ const MFAVerify = () => {
             />
           </div>
 
-          <p className="mfav__hint">{t("mfaCodeHint")}</p>
+          <p className="mfav__hint">{t("mfaCodeHint", "The code changes every 30 seconds.")}</p>
 
           {error && (
             <div className="mfav__error" role="alert">
@@ -490,19 +519,21 @@ const MFAVerify = () => {
               ? <><CheckIcon /> {t("mfaVerified")}</>
               : loading
                 ? <><span className="mfav__spinner" /> {t("mfaVerifying")}</>
-                : t("mfaVerifyBtn")}
+                : <>{t("mfaVerifyBtn", "Verify and continue")} <ArrowRightIcon /></>}
           </button>
         </form>
 
-        <button
-          type="button"
-          className="mfav__back"
-          onClick={handleBackToLogin}
-          disabled={loading || success}
-        >
-          <ArrowLeftIcon />
-          {t("mfaBackToLogin")}
-        </button>
+        <div className="mfav__back-row">
+          <button
+            type="button"
+            className="mfav__back"
+            onClick={handleBackToLogin}
+            disabled={loading || success}
+          >
+            <ArrowLeftIcon />
+            {t("mfaBackToLogin", "Back to login")}
+          </button>
+        </div>
       </div>
     </div>
   );
