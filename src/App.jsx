@@ -62,11 +62,12 @@ import LeaveRequests from "./pages/LeaveRequests";
 import About from "./pages/About";
 import Events from "./pages/Events";
 import Contact from "./pages/Contact";
+import Teachings from "./pages/Teachings";
 
 function App() {
   return (
     <BrowserRouter>
-    <ScrollToTop />
+      <ScrollToTop />
       <Routes>
 
         {/* Public Route */}
@@ -75,6 +76,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/events" element={<Events />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/teachings" element={<Teachings />} />
         {/* MFA Routes */}
         <Route
           path="/mfa-setup"
