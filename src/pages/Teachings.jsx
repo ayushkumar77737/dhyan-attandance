@@ -7,6 +7,23 @@ import gurujiImg from "../assets/guruji.webp";
 import photo7 from "../assets/photo7.webp";
 import hero1 from "../assets/hero1.webp";
 
+// Gyan section photos (sliding gallery)
+import photo1 from "../assets/photo1.webp";
+import photo2 from "../assets/photo2.webp";
+import photo3 from "../assets/photo3.webp";
+import photo4 from "../assets/photo4.webp";
+import photo5 from "../assets/photo5.webp";
+import photo6 from "../assets/photo6.webp";
+
+const GYAN_SLIDES = [photo1, photo2, photo3, photo4, photo5, photo6];
+const GYAN_EVERY = 4500; // ms each Gyan photo stays on screen
+const GYAN_FALLBACK = [
+    "Gyan is the light of true knowledge that awakens from within. It is not gathered from books alone, but realized through silence, devotion and sincere practice.",
+    "Through Gyan, the seeker learns to see beyond the changing world and to recognize the unchanging truth that lives in every heart.",
+    "Guruji's words guide the mind from confusion to clarity, from restlessness to peace, and from ordinary understanding to inner realization.",
+    "Let this knowledge be a lamp on your path, steady in every season, gently leading you home to yourself.",
+];
+
 const SLIDES = [gurujiImg, photo7, hero1];
 const FLIP_EVERY = 6000; // ms each photo stays before the next page flips up
 
@@ -166,6 +183,122 @@ function useInView(threshold = 0.35) {
     return [ref, inView];
 }
 
+/* ------------------------------------------------------------------ */
+/* Sliding gallery: photos glide in from the right, out to the left    */
+/* ------------------------------------------------------------------ */
+function useSlider(count, ms) {
+    const [idx, setIdx] = useState(0);
+    const [prev, setPrev] = useState(-1);
+    const [paused, setPaused] = useState(false);
+
+    const reduce =
+        typeof window !== "undefined" &&
+        window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const go = (n) => {
+        if (n === idx) return;
+        setPrev(idx);
+        setIdx(n);
+    };
+
+    useEffect(() => {
+        if (paused || reduce || count < 2) return;
+        const id = setTimeout(() => go((idx + 1) % count), ms);
+        return () => clearTimeout(id);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [idx, paused, count, ms]);
+
+    return { idx, prev, go, setPaused };
+}
+
+/* ================================================================== */
+/* GYAN SECTION                                                       */
+/* ================================================================== */
+const GyanSection = () => {
+    const { t } = useTranslation();
+    const [ref, inView] = useInView(0.2);
+    const { idx, prev, go, setPaused } = useSlider(GYAN_SLIDES.length, GYAN_EVERY);
+
+    const paras = GYAN_FALLBACK.map((fb, i) => t(`gyPara${i + 1}`) || fb);
+    const pad = (n) => String(n).padStart(2, "0");
+
+    return (
+        <section className="tch-section gy-section" ref={ref} aria-labelledby="gy-heading">
+            <div className={`tch-inner gy-inner ${inView ? "gy-in" : ""}`}>
+                {/* -------- left: sliding photos -------- */}
+                <figure
+                    className="gy-figure"
+                    onMouseEnter={() => setPaused(true)}
+                    onMouseLeave={() => setPaused(false)}
+                >
+                    <div className="tch-frame">
+                        <div className="gy-stage">
+                            {GYAN_SLIDES.map((src, i) => (
+                                <div
+                                    key={i}
+                                    className={`gy-slide ${i === idx ? "is-active" : ""} ${i === prev ? "is-prev" : ""}`}
+                                    aria-hidden={i !== idx}
+                                >
+                                    <img
+                                        src={src}
+                                        alt={`${t("gyImgAlt") || "Gyan"} ${i + 1}`}
+                                        loading={i < 2 ? "eager" : "lazy"}
+                                    />
+                                </div>
+                            ))}
+
+                            <span className="gy-count" aria-hidden="true">
+                                {pad(idx + 1)} / {pad(GYAN_SLIDES.length)}
+                            </span>
+
+                            {/* thin gold progress line for the current photo */}
+                            <span className="gy-progress" aria-hidden="true">
+                                <span
+                                    key={idx}
+                                    className="gy-progress-bar"
+                                    style={{ animationDuration: `${GYAN_EVERY}ms` }}
+                                />
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="tch-dots" role="tablist" aria-label="Gyan photos">
+                        {GYAN_SLIDES.map((_, i) => (
+                            <button
+                                key={i}
+                                type="button"
+                                role="tab"
+                                aria-selected={i === idx}
+                                aria-label={`Photo ${i + 1}`}
+                                className={`tch-dot ${i === idx ? "is-on" : ""}`}
+                                onClick={() => go(i)}
+                            />
+                        ))}
+                    </div>
+                </figure>
+
+                {/* -------- right: paragraphs come in one by one -------- */}
+                <div className="gy-content">
+                    <span className="gy-kicker">{t("gyKicker") || "Divine Knowledge"}</span>
+                    <h2 id="gy-heading" className="gy-heading">{t("gyHeading") || "Gyan"}</h2>
+                    <span className="gy-rule" aria-hidden="true" />
+
+                    {paras.map((p, i) => (
+                        <p
+                            key={i}
+                            className="gy-para"
+                            style={{ transitionDelay: `${600 + i * 600}ms` }}
+                        >
+                            {p}
+                        </p>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+};
+
 /* ================================================================== */
 const Teachings = () => {
     const { t } = useTranslation();
@@ -187,100 +320,104 @@ const Teachings = () => {
             {/* sunrise background + lotus corners (same as login) */}
             <div className="tch-sunrise-bg" aria-hidden="true" />
 
-            <section className="tch-section" ref={ref} aria-labelledby="tch-heading">
-                <header className="tch-pagehead">
-                    <h1 className="tch-pagetitle">
-                        {t("tcPageTitle") || "Sacred Teachings"}
-                    </h1>
-                    <span className="tch-pagerule" aria-hidden="true"><i /></span>
-                    <p className="tch-pagesub">
-                        {t("tcPageSub") || "Timeless wisdom from Guruji to guide your Dhyan and your spiritual journey."}
-                    </p>
-                </header>
+            <div className="tch-stack">
+                <section className="tch-section" ref={ref} aria-labelledby="tch-heading">
+                    <header className="tch-pagehead">
+                        <h1 className="tch-pagetitle">
+                            {t("tcPageTitle") || "Sacred Teachings"}
+                        </h1>
+                        <span className="tch-pagerule" aria-hidden="true"><i /></span>
+                        <p className="tch-pagesub">
+                            {t("tcPageSub") || "Timeless wisdom from Guruji to guide your Dhyan and your spiritual journey."}
+                        </p>
+                    </header>
 
-                <div className="tch-inner">
-                    {/* -------- left: Guruji (calendar-page flip) -------- */}
-                    <figure
-                        className="tch-figure"
-                        onMouseEnter={() => setPaused(true)}
-                        onMouseLeave={() => setPaused(false)}
-                    >
-                        <div className="tch-frame">
-                            <div className="tch-stage">
-                                {/* page underneath: the photo being revealed */}
-                                <div className="tch-base">
-                                    <img
-                                        src={SLIDES[shown]}
-                                        alt={t("tcImgAlt") || "Guruji"}
-                                        className="tch-img"
-                                    />
-                                </div>
+                    <div className="tch-inner">
+                        {/* -------- left: Guruji (calendar-page flip) -------- */}
+                        <figure
+                            className="tch-figure"
+                            onMouseEnter={() => setPaused(true)}
+                            onMouseLeave={() => setPaused(false)}
+                        >
+                            <div className="tch-frame">
+                                <div className="tch-stage">
+                                    {/* page underneath: the photo being revealed */}
+                                    <div className="tch-base">
+                                        <img
+                                            src={SLIDES[shown]}
+                                            alt={t("tcImgAlt") || "Guruji"}
+                                            className="tch-img"
+                                        />
+                                    </div>
 
-                                {flip && (
-                                    <>
-                                        <div className="tch-shade" key={`s${flip.from}-${flip.to}`} aria-hidden="true" />
-                                        {/* page lifted from the bottom and flipped up over the hinge */}
-                                        <div
-                                            className="tch-flap"
-                                            key={`f${flip.from}-${flip.to}`}
-                                            aria-hidden="true"
-                                            onAnimationEnd={(e) => { if (e.target === e.currentTarget) done(); }}
-                                        >
-                                            <div className="tch-flap-front">
-                                                <img src={SLIDES[flip.from]} alt="" className="tch-img" />
+                                    {flip && (
+                                        <>
+                                            <div className="tch-shade" key={`s${flip.from}-${flip.to}`} aria-hidden="true" />
+                                            {/* page lifted from the bottom and flipped up over the hinge */}
+                                            <div
+                                                className="tch-flap"
+                                                key={`f${flip.from}-${flip.to}`}
+                                                aria-hidden="true"
+                                                onAnimationEnd={(e) => { if (e.target === e.currentTarget) done(); }}
+                                            >
+                                                <div className="tch-flap-front">
+                                                    <img src={SLIDES[flip.from]} alt="" className="tch-img" />
+                                                </div>
+                                                <div className="tch-flap-back" />
                                             </div>
-                                            <div className="tch-flap-back" />
-                                        </div>
-                                    </>
-                                )}
+                                        </>
+                                    )}
 
-                                <span className="tch-hinge" aria-hidden="true" />
+                                    <span className="tch-hinge" aria-hidden="true" />
+                                </div>
+                            </div>
+
+                            <div className="tch-dots" role="tablist" aria-label="Photos">
+                                {SLIDES.map((_, i) => (
+                                    <button
+                                        key={i}
+                                        type="button"
+                                        role="tab"
+                                        aria-selected={i === shown}
+                                        aria-label={`Photo ${i + 1}`}
+                                        className={`tch-dot ${i === shown ? "is-on" : ""}`}
+                                        onClick={() => go(i)}
+                                    />
+                                ))}
+                            </div>
+                        </figure>
+
+                        {/* -------- right: teaching -------- */}
+                        <div className="tch-content">
+                            <h2 id="tch-heading" className="tch-heading">
+                                {t("tcHeading") || "Ulat-Bhaidni"}
+                            </h2>
+                            <span className="tch-rule" aria-hidden="true" />
+
+                            {/* Screen readers get the full text at once */}
+                            <div className="tch-sr">
+                                {paragraphs.map((p, i) => <p key={i}>{p}</p>)}
+                            </div>
+
+                            {/* Visual typed text (hidden from assistive tech) */}
+                            <div className="tch-text" aria-hidden="true">
+                                {paragraphs.map((full, i) => (
+                                    <p key={i} className="tch-para">
+                                        {/* invisible full text reserves the height so nothing jumps */}
+                                        <span className="tch-ghost">{full}</span>
+                                        <span className="tch-typed">
+                                            {typed[i]}
+                                            {active === i && <span className="tch-cursor" />}
+                                        </span>
+                                    </p>
+                                ))}
                             </div>
                         </div>
-
-                        <div className="tch-dots" role="tablist" aria-label="Photos">
-                            {SLIDES.map((_, i) => (
-                                <button
-                                    key={i}
-                                    type="button"
-                                    role="tab"
-                                    aria-selected={i === shown}
-                                    aria-label={`Photo ${i + 1}`}
-                                    className={`tch-dot ${i === shown ? "is-on" : ""}`}
-                                    onClick={() => go(i)}
-                                />
-                            ))}
-                        </div>
-                    </figure>
-
-                    {/* -------- right: teaching -------- */}
-                    <div className="tch-content">
-                        <h2 id="tch-heading" className="tch-heading">
-                            {t("tcHeading") || "Ulat-Bhaidni"}
-                        </h2>
-                        <span className="tch-rule" aria-hidden="true" />
-
-                        {/* Screen readers get the full text at once */}
-                        <div className="tch-sr">
-                            {paragraphs.map((p, i) => <p key={i}>{p}</p>)}
-                        </div>
-
-                        {/* Visual typed text (hidden from assistive tech) */}
-                        <div className="tch-text" aria-hidden="true">
-                            {paragraphs.map((full, i) => (
-                                <p key={i} className="tch-para">
-                                    {/* invisible full text reserves the height so nothing jumps */}
-                                    <span className="tch-ghost">{full}</span>
-                                    <span className="tch-typed">
-                                        {typed[i]}
-                                        {active === i && <span className="tch-cursor" />}
-                                    </span>
-                                </p>
-                            ))}
-                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+
+                <GyanSection />
+            </div>
         </div>
     );
 };

@@ -601,6 +601,7 @@ body {
         transition: none !important;
     }
 }
+
 /* ================= PAGE HEADING ================= */
 .tch-pagehead {
     text-align: center;
@@ -659,12 +660,300 @@ body {
 }
 
 @keyframes tchHeadIn {
-    from { opacity: 0; transform: translateY(-18px); }
-    to   { opacity: 1; transform: none; }
+    from {
+        opacity: 0;
+        transform: translateY(-18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .tch-pagehead {
         animation: none !important;
+    }
+}
+
+/* ================= GYAN SECTION ================= */
+
+/* stack the two sections vertically */
+.tch-stack {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1120px;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(56px, 8vw, 110px);
+}
+
+/* card rises in when scrolled into view (replaces the on-load animation) */
+.gy-inner {
+    animation: none;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gy-inner.gy-in {
+    opacity: 1;
+    transform: none;
+}
+
+/* ---------- left: sliding photos ---------- */
+.gy-figure {
+    margin: 0;
+    opacity: 0;
+    transform: translateX(-44px);
+    transition: opacity 0.9s ease 0.2s, transform 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+}
+
+.gy-inner.gy-in .gy-figure {
+    opacity: 1;
+    transform: none;
+}
+
+.gy-stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #f7f0e0;
+}
+
+.gy-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateX(10%) scale(1.06);
+    transition: opacity 1.1s ease, transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 0;
+}
+
+.gy-slide.is-active {
+    opacity: 1;
+    transform: none;
+    z-index: 2;
+}
+
+.gy-slide.is-prev {
+    opacity: 0;
+    transform: translateX(-10%) scale(1.02);
+    z-index: 1;
+}
+
+.gy-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+}
+
+/* slow zoom on the photo that is showing */
+.gy-slide.is-active img {
+    animation: gyKen 6.5s ease-out both;
+}
+
+@keyframes gyKen {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.07);
+    }
+}
+
+/* photo counter */
+.gy-count {
+    position: absolute;
+    right: 12px;
+    bottom: 16px;
+    z-index: 4;
+    padding: 5px 12px;
+    font-family: var(--tch-serif);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--tch-maroon);
+    background: rgba(255, 253, 249, 0.9);
+    border: 1px solid var(--tch-gold-line);
+    border-radius: 999px;
+}
+
+/* progress line */
+.gy-progress {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    z-index: 4;
+    background: rgba(255, 253, 249, 0.35);
+}
+
+.gy-progress-bar {
+    display: block;
+    height: 100%;
+    width: 100%;
+    transform-origin: left center;
+    background: var(--ln-gold);
+    animation-name: gyProgress;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+}
+
+.gy-figure:hover .gy-progress-bar {
+    animation-play-state: paused;
+}
+
+@keyframes gyProgress {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+/* ---------- right: content ---------- */
+.gy-content {
+    min-width: 0;
+}
+
+.gy-kicker {
+    display: block;
+    margin-bottom: 12px;
+    font-family: var(--tch-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ln-amber);
+}
+
+.gy-heading {
+    margin: 0;
+    font-family: var(--tch-serif);
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: 0.5px;
+    color: var(--tch-maroon);
+}
+
+.gy-rule {
+    display: block;
+    width: 84px;
+    height: 2px;
+    margin: 22px 0 28px;
+    border-radius: 2px;
+    background: var(--ln-gold);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 1s ease 0.5s;
+}
+
+.gy-inner.gy-in .gy-rule {
+    transform: scaleX(1);
+}
+
+/* paragraphs slide in from the right, one after another */
+.gy-para {
+    position: relative;
+    max-width: 34em;
+    margin: 0 0 20px;
+    padding-left: 22px;
+    font-family: var(--tch-serif);
+    font-size: clamp(19px, 2vw, 24px);
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--ln-ink);
+    opacity: 0;
+    transform: translateX(46px);
+    transition: opacity 0.9s ease, transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gy-inner.gy-in .gy-para {
+    opacity: 1;
+    transform: none;
+}
+
+/* gold line that draws down beside each paragraph */
+.gy-para::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.35em;
+    bottom: 0.35em;
+    width: 2px;
+    border-radius: 2px;
+    background: var(--tch-gold-line);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 1s ease;
+    transition-delay: inherit;
+}
+
+.gy-inner.gy-in .gy-para::before {
+    transform: scaleY(1);
+}
+
+/* ---------- mobile ---------- */
+@media (max-width: 680px) {
+    .gy-figure {
+        max-width: 380px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .gy-content {
+        text-align: center;
+    }
+
+    .gy-rule {
+        margin: 16px auto 20px;
+        transform-origin: center;
+    }
+
+    .gy-para {
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 0;
+    }
+
+    .gy-para::before {
+        display: none;
+    }
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+
+    .gy-inner,
+    .gy-figure,
+    .gy-rule,
+    .gy-para,
+    .gy-para::before {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+
+    .gy-slide,
+    .gy-slide img,
+    .gy-progress-bar {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .gy-progress {
+        display: none;
     }
 }
