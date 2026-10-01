@@ -1029,3 +1029,7 @@ body:has(.ac-page) {
         max-height: none;
     }
 }
+.ac-back {
+    align-self: flex-start;
+    width: fit-content;
+}
