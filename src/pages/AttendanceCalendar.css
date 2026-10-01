@@ -1029,7 +1029,17 @@ body:has(.ac-page) {
         max-height: none;
     }
 }
+
 .ac-back {
     align-self: flex-start;
     width: fit-content;
+}
+
+@media (min-width: 1560px) {
+    .ac-back {
+        position: absolute;
+        top: 20px;
+        left: 24px;
+        z-index: 10;
+    }
 }
