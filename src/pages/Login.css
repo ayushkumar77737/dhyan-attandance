@@ -23,8 +23,8 @@
     box-sizing: border-box;
 }
 
-body,
-html {
+html:has(.login-page),
+body:has(.login-page) {
     margin: 0;
     padding: 0;
     height: 100%;
