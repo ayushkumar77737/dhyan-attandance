@@ -95,7 +95,6 @@ const LandingPage = () => {
     const navItems = [
         { key: "home", label: t("navHome") || "Home", path: "/" },
         { key: "about", label: t("navAbout") || "About", path: "/about" },
-        { key: "benefits", label: t("navBenefits") || "Benefits", path: "/benefits" },
         { key: "teachings", label: t("navTeachings") || "Teachings", path: "/teachings" },
         { key: "events", label: t("navEvents") || "Events", path: "/events" },
         { key: "contact", label: t("navContact") || "Contact", path: "/contact" },
