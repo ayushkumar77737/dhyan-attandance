@@ -162,8 +162,8 @@
 }
 
 .ac-title {
-    margin: 10px 0 6px;
-    font: 800 clamp(28px, 3.4vw, 40px)/1.1 var(--ac-display);
+    margin: 8px 0 4px;
+    font: 800 clamp(24px, 2.6vw, 34px)/1.1 var(--ac-display);
     letter-spacing: -.5px;
 }
 
@@ -923,5 +923,109 @@
     .ac-page *::after {
         animation: none !important;
         transition: none !important;
+    }
+}
+
+
+/* ================================================================== */
+/* FIT-TO-SCREEN (desktop): no page scroll, calendar rows stretch      */
+/* ================================================================== */
+html:has(.ac-page),
+body:has(.ac-page) {
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 1041px) and (min-height: 640px) {
+    .ac-page {
+        height: 100vh;
+        height: 100dvh;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .ac-wrap {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 16px 32px 22px;
+    }
+
+    .ac-head {
+        margin: 10px 0 16px;
+    }
+
+    .ac-layout {
+        flex: 1;
+        min-height: 0;
+        align-items: stretch;
+    }
+
+    .ac-cal,
+    .ac-sum {
+        height: 100%;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 22px 24px;
+    }
+
+    .ac-sum {
+        position: static;
+    }
+
+    .ac-cal-top {
+        margin-bottom: 14px;
+    }
+
+    .ac-dow {
+        margin-bottom: 8px;
+    }
+
+    .ac-grid {
+        flex: 1;
+        min-height: 0;
+        grid-auto-rows: minmax(0, 1fr);
+        gap: 6px;
+    }
+
+    .ac-cell {
+        aspect-ratio: auto;
+        min-height: 0;
+        height: 100%;
+        gap: 5px;
+        padding: 4px;
+    }
+
+    .ac-cell-num {
+        font-size: 16px;
+    }
+
+    .ac-legend {
+        margin-top: 12px;
+        padding-top: 12px;
+    }
+
+    .ac-sum-head {
+        margin-bottom: 14px;
+    }
+
+    .ac-ring-row {
+        margin-bottom: 14px;
+    }
+
+    .ac-empty {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0 12px;
+    }
+
+    .ac-list {
+        flex: 1;
+        min-height: 0;
+        max-height: none;
     }
 }
