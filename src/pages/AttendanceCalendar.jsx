@@ -269,13 +269,12 @@ function AttendanceCalendar() {
             <div className="ac-blob ac-blob--1" />
             <div className="ac-blob ac-blob--2" />
 
-            <div className="ac-wrap">
-                <button className="ac-back" onClick={() => navigate("/admin-dashboard")}>
-                    <span className="ac-ico">{icons.back}</span>{t("back")}
-                </button>
-
+            <div className="ac-shell">
                 {/* ============================ HEADER ============================ */}
                 <header className="ac-head">
+                    <button className="ac-back" onClick={() => navigate("/admin-dashboard")}>
+                    <span className="ac-ico">{icons.back}</span>{t("back")}
+                </button>
                     <div className="ac-head-text">
                         <span className="ac-eyebrow">{t("adminPanel")}</span>
                         <h1 className="ac-title">
@@ -294,6 +293,7 @@ function AttendanceCalendar() {
                     </div>
                 </header>
 
+                <div className="ac-wrap">
                 {/* ============================ LAYOUT ============================ */}
                 <div className="ac-layout">
 
@@ -439,6 +439,7 @@ function AttendanceCalendar() {
                             </>
                         )}
                     </aside>
+                </div>
                 </div>
             </div>
         </div>
