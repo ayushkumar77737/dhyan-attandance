@@ -16,7 +16,7 @@ import MFAVerify from "./pages/MFAVerify";
 import MFAProtectedRoute from "./components/MFAProtectedRoute";
 import ForgotPassword from "./pages/ForgotPassword";
 import AttendanceReport from "./pages/AttendanceReport";
-import AttendanceCalendar from "./pages/AttendanceCalendar";
+//import AttendanceCalendar from "./pages/AttendanceCalendar";
 import UserPercentage from "./pages/UserPercentage";
 import DeletedUsers from "./pages/DeletedUsers";
 import SubmitReason from "./pages/SubmitReason";
