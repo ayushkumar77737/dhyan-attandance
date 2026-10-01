@@ -999,13 +999,18 @@ body:has(.ac-page) {
         gap: 14px;
     }
 
-    .ac-head-text {
-        grid-column: 1 / -1;
-        order: 3;
+    .ac-back {
+        grid-column: 1;
     }
 
     .ac-head-actions {
+        grid-column: 2;
         width: auto;
+    }
+
+    .ac-head-text {
+        grid-column: 1 / -1;
+        order: 3;
     }
 }
 
@@ -1014,13 +1019,53 @@ body:has(.ac-page) {
         padding: 0;
     }
 
+    /* phones: Back, then title, then two equal buttons - nothing squeezed */
+    .ac-head {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+        margin-bottom: 18px;
+    }
+
+    .ac-back {
+        grid-column: 1;
+        order: 1;
+    }
+
+    .ac-head-text {
+        grid-column: 1;
+        order: 2;
+        width: 100%;
+    }
+
     .ac-head-actions {
-        width: auto;
+        grid-column: 1;
+        order: 3;
+        width: 100%;
+        justify-self: stretch;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
     }
 
     .ac-btn {
         flex: none;
-        padding: 0 14px;
+        width: 100%;
+        justify-content: center;
+        padding: 0 12px;
+    }
+
+    .ac-title {
+        font-size: clamp(20px, 6.2vw, 26px);
+        overflow-wrap: anywhere;
+        text-align: center;
+    }
+
+    .ac-title-emoji {
+        margin-right: 6px;
+    }
+
+    .ac-subtitle {
+        font-size: 14px;
     }
 }
 
