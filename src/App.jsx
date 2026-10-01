@@ -415,7 +415,7 @@ function App() {
           }
         />
 
-        <Route
+        {/* <Route
           path="/attendance-calendar"
           element={
             <ProtectedRoute>
@@ -424,7 +424,7 @@ function App() {
               </RequireAccess>
             </ProtectedRoute>
           }
-        />
+        />*/}
 
         <Route
           path="/user-percentage"
