@@ -158,10 +158,15 @@ function AccountLock() {
                 navigate("/");
                 return;
             }
-            if (currentUserId !== SUPER_ADMIN_ID) {
-                navigate("/admin-dashboard");
+            if (
+                !userSnap.exists() ||
+                userSnap.data().role !== "admin" ||
+                userSnap.data().uid !== auth.currentUser.uid
+            ) {
+                navigate("/");
                 return;
             }
+            fetchAdmins();
             fetchAdmins();
         } catch (error) {
             console.error(error);

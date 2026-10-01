@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Outfit:wght@400;500;600&family=Noto+Serif+Devanagari:wght@500;600&display=swap');
 
-html,
-body {
+/* Previously a global `html, body { ... }` rule that restyled every page.
+   Now it applies ONLY while this page is mounted. */
+html:has(.tch-page),
+body:has(.tch-page) {
     background-color: #fff6e2;
     overscroll-behavior: none;
 }
@@ -33,7 +35,10 @@ body {
     font-family: var(--tch-sans);
 }
 
-.tch-page * {
+.tch-page,
+.tch-page *,
+.tch-page *::before,
+.tch-page *::after {
     box-sizing: border-box;
 }
 

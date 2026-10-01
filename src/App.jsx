@@ -261,7 +261,9 @@ function App() {
           path="/account-lock"
           element={
             <ProtectedRoute>
-              <AccountLock />
+              <RequireAccess pageId="accountLock">
+                <AccountLock />
+              </RequireAccess>
             </ProtectedRoute>
           }
         />

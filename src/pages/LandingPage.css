@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
 
-:root {
+/* Variables are scoped to the page wrapper instead of :root */
+.ldpg__page {
     --ld-ink: #2a1408;
     --ld-text: #5b514b;
     --ld-red: #b3220f;
@@ -14,9 +15,12 @@
     --ld-nav-h: 88px;
 }
 
-*,
-*::before,
-*::after {
+/* Scoped reset. :where() keeps specificity at 0, so it never overrides
+   child components (e.g. LanguageSwitcher) and never touches other pages. */
+:where(.ldpg__page),
+:where(.ldpg__page) *,
+:where(.ldpg__page) *::before,
+:where(.ldpg__page) *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -974,7 +978,8 @@
     overflow: hidden;
 }
 
-img {
+/* scoped: only images inside this page, not every <img> on the site */
+:where(.ldpg__page) img {
     max-width: 100%;
 }
 

@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
 
-html,
-body {
+/* Previously a global `html, body { ... }` rule that restyled every page.
+   Now it applies ONLY while this page is mounted. */
+html:has(.mdgt-page),
+body:has(.mdgt-page) {
     background-color: #fff6e2;
     overscroll-behavior: none;
 }
@@ -22,8 +24,9 @@ body {
     --ln-input-border: #e4dff2;
     --ln-error: #c0264a;
     --ln-error-bg: #fff0f3;
-    --c-green: #16a34a;
-    --multi: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Kannada', 'Noto Sans Malayalam', 'Noto Sans Bengali', 'Noto Sans', sans-serif;
+    /* renamed from --c-green / --multi (generic names that could clash) */
+    --mdgt-green: #16a34a;
+    --mdgt-font: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Kannada', 'Noto Sans Malayalam', 'Noto Sans Bengali', 'Noto Sans', sans-serif;
 }
 
 /* ============ BASE ============ */
@@ -33,11 +36,14 @@ body {
     min-height: 100dvh;
     background-color: #fff6e2;
     color: var(--ln-ink);
-    font-family: var(--multi);
+    font-family: var(--mdgt-font);
     overflow-x: hidden;
 }
 
-.mdgt-page * {
+.mdgt-page,
+.mdgt-page *,
+.mdgt-page *::before,
+.mdgt-page *::after {
     box-sizing: border-box;
 }
 
@@ -172,7 +178,7 @@ body {
     justify-content: center;
     gap: 10px;
     padding: 15px 30px;
-    font-family: var(--multi);
+    font-family: var(--mdgt-font);
     font-size: 14px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -461,7 +467,7 @@ a.mdgt-info-value:hover {
 .mdgt-input {
     width: 100%;
     padding: 22px 16px 8px;
-    font-family: var(--multi);
+    font-family: var(--mdgt-font);
     font-size: 15px;
     color: var(--ln-ink);
     background: #fff;
@@ -584,7 +590,7 @@ a.mdgt-info-value:hover {
     align-items: center;
     justify-content: center;
     background: rgba(34, 197, 94, .14);
-    color: var(--c-green);
+    color: var(--mdgt-green);
 }
 
 .mdgt-popup-icon svg {

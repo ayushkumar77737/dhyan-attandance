@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
 
-html,
-body {
+/* Previously a global `html, body { ... }` rule that restyled every page.
+   Now it applies ONLY while this page is mounted. */
+html:has(.mdev-page),
+body:has(.mdev-page) {
     background-color: #fff6e2;
     overscroll-behavior: none;
 }
@@ -30,11 +32,13 @@ body {
     --ab-text-soft: var(--ln-text);
     --ab-text-muted: var(--ln-sub);
 
-    --c-green: #16a34a;
-    --c-gold: #e5a12e;
+    /* renamed from --c-green / --c-gold / --font-display / --multi
+       (generic names that could clash with other stylesheets) */
+    --mdev-green: #16a34a;
+    --mdev-gold: #e5a12e;
 
-    --font-display: 'Outfit', sans-serif;
-    --multi: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil',
+    --mdev-display: 'Outfit', sans-serif;
+    --mdev-font: 'Outfit', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil',
         'Noto Sans Kannada', 'Noto Sans Malayalam', 'Noto Sans Bengali', 'Noto Sans', sans-serif;
 }
 
@@ -49,11 +53,14 @@ body {
         radial-gradient(circle at 50% 0%, rgba(245, 200, 66, 0.28), transparent 55%),
         linear-gradient(180deg, #fff6e2 0%, #fffbf2 45%, #fff6e2 100%);
     color: var(--ab-text);
-    font-family: var(--multi);
+    font-family: var(--mdev-font);
     overflow-x: hidden;
 }
 
-.mdev-page * {
+.mdev-page,
+.mdev-page *,
+.mdev-page *::before,
+.mdev-page *::after {
     box-sizing: border-box;
 }
 
@@ -194,7 +201,7 @@ body {
 }
 
 .mdev-section-title {
-    font-family: var(--font-display);
+    font-family: var(--mdev-display);
     font-size: clamp(30px, 4.4vw, 46px);
     font-weight: 800;
     line-height: 1.1;
@@ -219,7 +226,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    font-family: var(--multi);
+    font-family: var(--mdev-font);
     font-weight: 700;
     font-size: 15px;
     letter-spacing: 2px;
@@ -447,7 +454,7 @@ body {
 }
 
 .mdev-hero-title {
-    font-family: var(--font-display);
+    font-family: var(--mdev-display);
     font-size: clamp(38px, 6.4vw, 70px);
     font-weight: 800;
     line-height: 1.08;
@@ -534,7 +541,7 @@ body {
 }
 
 .mdev-event-title {
-    font-family: var(--font-display);
+    font-family: var(--mdev-display);
     font-size: 23px;
     font-weight: 700;
     margin: 18px 0 14px;
@@ -592,7 +599,7 @@ body {
 }
 
 .mdev-cd-val {
-    font-family: var(--font-display);
+    font-family: var(--mdev-display);
     font-size: 24px;
     font-weight: 800;
     color: var(--ln-purple-deep);
@@ -613,7 +620,7 @@ body {
     text-align: center;
     border-radius: 12px;
     background: #e6f8ee;
-    color: var(--c-green);
+    color: var(--mdev-green);
     font-weight: 700;
     font-size: 13px;
     letter-spacing: 0.5px;
@@ -782,7 +789,7 @@ body {
 .mdev-lb-label {
     position: relative;
     z-index: 1;
-    font-family: var(--font-display);
+    font-family: var(--mdev-display);
     font-size: 26px;
     font-weight: 700;
     text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
@@ -963,7 +970,7 @@ body {
 }
 
 .mdev-ptl-title {
-    font-family: var(--font-display);
+    font-family: var(--mdev-display);
     font-size: 22px;
     font-weight: 700;
     margin: 6px 0 8px;
@@ -1004,7 +1011,7 @@ body {
 
 .mdev-stat-num {
     display: block;
-    font-family: var(--font-display);
+    font-family: var(--mdev-display);
     font-size: clamp(34px, 4.6vw, 46px);
     font-weight: 800;
     line-height: 1;
