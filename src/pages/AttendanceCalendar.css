@@ -939,9 +939,10 @@ body:has(.ac-page) {
 
 .ac-page {
     min-height: 100vh;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
+/* hidden (not overflow-x) so the page is not a 2nd scroll container */
 .ac-shell {
     position: relative;
     z-index: 1;
