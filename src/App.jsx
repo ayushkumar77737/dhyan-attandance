@@ -16,6 +16,7 @@ import MFAVerify from "./pages/MFAVerify";
 import MFAProtectedRoute from "./components/MFAProtectedRoute";
 import ForgotPassword from "./pages/ForgotPassword";
 import AttendanceReport from "./pages/AttendanceReport";
+import AttendanceCalendar from "./pages/AttendanceCalendar";
 import UserPercentage from "./pages/UserPercentage";
 import DeletedUsers from "./pages/DeletedUsers";
 import SubmitReason from "./pages/SubmitReason";
@@ -409,6 +410,17 @@ function App() {
             <ProtectedRoute>
               <RequireAccess pageId="attendanceReport">
                 <AttendanceReport />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/attendance-calendar"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="attendanceCalendar">
+                <AttendanceCalendar />
               </RequireAccess>
             </ProtectedRoute>
           }

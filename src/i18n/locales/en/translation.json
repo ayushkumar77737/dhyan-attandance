@@ -1619,5 +1619,14 @@
   "gyPara3": "Guruji's words guide the mind from confusion to clarity, from restlessness to peace, and from ordinary understanding to inner realization.",
   "gyPara4": "Let this knowledge be a lamp on your path, steady in every season, gently leading you home to yourself.",
   "attendanceCalendar": "Attendance Calendar",
-  "attendanceCalendarCardSub": "Pick a date, see the day"
+  "attendanceCalendarCardSub": "Pick a date, see the day",
+  "attendanceCalendarSub": "View and monitor daily attendance records by date.",
+  "acToday": "Today",
+  "acLeave": "Leave",
+  "acMonth": "Month",
+  "acYear": "Year",
+  "acUpcoming": "Upcoming",
+  "acRecorded": "Recorded",
+  "acFutureNote": "This date is in the future — no attendance yet.",
+  "acLoadError": "Couldn't load attendance for this month."
 }
