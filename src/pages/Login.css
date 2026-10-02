@@ -371,7 +371,7 @@ body:has(.login-page) {
     height: 12px;
 }
 
-.forgot-password {
+.account-recovery {
     font-size: 13.5px;
     font-weight: 600;
     color: var(--ln-purple);
@@ -379,7 +379,7 @@ body:has(.login-page) {
     font-family: var(--multi);
 }
 
-.forgot-password:hover {
+.account-recovery:hover {
     text-decoration: underline;
 }
 

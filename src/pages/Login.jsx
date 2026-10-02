@@ -378,10 +378,10 @@ const Login = () => {
                 </label>
 
                 <span
-                  className="forgot-password"
+                  className="account-recovery"
                   onClick={() => navigate("/forgot-password")}
                 >
-                  {t("forgotPassword")}
+                  {t("accountRecovery")}
                 </span>
 
               </div>

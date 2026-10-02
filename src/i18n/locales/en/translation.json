@@ -6,7 +6,7 @@
   "enterPassword": "Enter Password",
   "login": "Login",
   "pleaseWait": "Please Wait...",
-  "forgotPassword": "Forgot Password?",
+  "accountRecovery": "Account Recovery?",
   "fillAllFields": "Please fill all fields",
   "accountLocked": "Account locked. Try again in {{minutes}} minutes",
   "tooManyAttempts": "Too many failed attempts. Account locked for 48 hours.",
