@@ -14,7 +14,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import MFASetup from "./pages/MFASetup";
 import MFAVerify from "./pages/MFAVerify";
 import MFAProtectedRoute from "./components/MFAProtectedRoute";
-import ForgotPassword from "./pages/ForgotPassword";
+//import ForgotPassword from "./pages/ForgotPassword";
 import AttendanceReport from "./pages/AttendanceReport";
 import AttendanceCalendar from "./pages/AttendanceCalendar";
 import UserPercentage from "./pages/UserPercentage";
@@ -643,8 +643,8 @@ function App() {
           }
         />
 
-        {/* Public auth helpers */}
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+        {/* Public auth helpers 
+        <Route path="/forgot-password" element={<ForgotPassword />} />*/}
       </Routes>
     </BrowserRouter>
   );
