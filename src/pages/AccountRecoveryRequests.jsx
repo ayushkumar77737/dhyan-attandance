@@ -8,6 +8,7 @@ import {
     collection,
     getDocs,
     doc,
+    deleteDoc,
     updateDoc,
     writeBatch,
 } from "firebase/firestore";
@@ -16,8 +17,6 @@ import { db } from "../firebase/firebase";
 import { logAdminAction } from "../utils/logAdminAction";
 
 const COLLECTION = "accountRecoveryRequests";
-const EMAIL_LOCKS = "arqEmails";   /* one lock doc per submitted email (doc id = email) */
-const PHONE_LOCKS = "arqPhones";   /* one lock doc per submitted phone (doc id = phone) */
 
 /* the only statuses a request can have — new requests start as "pending" */
 const STATUSES = ["pending", "in_progress", "solved"];
@@ -196,20 +195,10 @@ function AccountRecoveryRequests() {
 
     /* ---------- delete ---------- */
     const deleteIds = async (ids) => {
-        // each request removes up to 3 docs (request + email lock + phone lock),
-        // and Firestore allows max 500 writes per batch -> 150 requests per batch
-        const CHUNK = 150;
-        for (let i = 0; i < ids.length; i += CHUNK) {
+        // Firestore allows max 500 writes per batch
+        for (let i = 0; i < ids.length; i += 450) {
             const batch = writeBatch(db);
-            ids.slice(i, i + CHUNK).forEach((id) => {
-                batch.delete(doc(db, COLLECTION, id));
-                const req = requests.find((r) => r.id === id);
-                const email = (req?.email || "").trim().toLowerCase();
-                const phone = (req?.phone || "").replace(/\D/g, "");
-                // free the email / phone so the person can submit again
-                if (email) batch.delete(doc(db, EMAIL_LOCKS, email));
-                if (phone) batch.delete(doc(db, PHONE_LOCKS, phone));
-            });
+            ids.slice(i, i + 450).forEach((id) => batch.delete(doc(db, COLLECTION, id)));
             await batch.commit();
         }
         setRequests((prev) => prev.filter((r) => !ids.includes(r.id)));
@@ -233,7 +222,9 @@ function AccountRecoveryRequests() {
                     details: `Deleted ${ids.length} selected account recovery requests`,
                 });
             } else if (deleteTarget) {
-                await deleteIds([deleteTarget]);
+                await deleteDoc(doc(db, COLLECTION, deleteTarget));
+                setRequests((prev) => prev.filter((r) => r.id !== deleteTarget));
+                setSelected((prev) => prev.filter((id) => id !== deleteTarget));
                 await logAdminAction("DELETE_ACCOUNT_RECOVERY", {
                     targetId: deleteTarget,
                     details: `Deleted account recovery request ${deleteTarget}`,
