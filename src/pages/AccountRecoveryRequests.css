@@ -83,16 +83,84 @@
         linear-gradient(180deg, #fafbfe 0%, #f1f4fb 55%, #e9edf7 100%);
 }
 
-/* opacity-only entry animation (no transforms on page containers) */
+/* ---------------- animation keyframes ---------------- */
 @keyframes arq-fade {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
-.arq-content,
-.arq-card,
+@keyframes arq-rise {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes arq-slide-left {
+    from {
+        opacity: 0;
+        transform: translateX(-24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes arq-pop-in {
+    from {
+        opacity: 0;
+        transform: scale(0.6) rotate(-12deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes arq-float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-3px) rotate(-6deg);
+    }
+}
+
+@keyframes arq-spin-slow {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes arq-pulse-ring {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.45);
+    }
+
+    100% {
+        box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
+    }
+}
+
 .arq-loading,
-.arq-empty {
+.arq-empty,
+.arq-card {
     animation: arq-fade 0.35s ease both;
 }
 
@@ -100,9 +168,11 @@
 .arq-topbar {
     position: relative;
     z-index: 1;
-    max-width: 1460px;
-    margin: 0 auto;
-    padding: 24px 30px 6px;
+    max-width: none;
+    /* full width, so the back button sits near the left edge */
+    margin: 0;
+    padding: 24px 30px 6px 18px;
+    /* smaller left padding = button further left */
 }
 
 .arq-topbar-left {
@@ -127,6 +197,7 @@
     cursor: pointer;
     box-shadow: var(--ad-shadow-card);
     transition: transform 0.2s ease, color 0.2s ease;
+    animation: arq-slide-left 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
 .arq-back-btn:hover {
@@ -160,11 +231,13 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    animation: arq-pop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s backwards;
 }
 
 .arq-title-icon svg {
     width: 26px;
     height: 26px;
+    animation: arq-float 3.5s ease-in-out 0.8s infinite;
 }
 
 .arq-title-label {
@@ -174,6 +247,7 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--ad-text-secondary);
+    animation: arq-slide-left 0.5s ease 0.15s backwards;
 }
 
 .arq-title {
@@ -183,6 +257,7 @@
     letter-spacing: -0.8px;
     line-height: 1.1;
     color: var(--ad-text-primary);
+    animation: arq-slide-left 0.55s ease 0.22s backwards;
 }
 
 /* ---------------- content ---------------- */
@@ -210,6 +285,29 @@
     border: 1px solid var(--ad-border);
     border-radius: var(--ad-radius-lg);
     box-shadow: var(--ad-shadow-card);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    animation: arq-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.arq-stat:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.arq-stat:nth-child(2) {
+    animation-delay: 0.13s;
+}
+
+.arq-stat:nth-child(3) {
+    animation-delay: 0.21s;
+}
+
+.arq-stat:nth-child(4) {
+    animation-delay: 0.29s;
+}
+
+.arq-stat:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 34px -16px rgba(16, 24, 40, 0.45);
 }
 
 .arq-stat::before {
@@ -221,10 +319,21 @@
     height: 4px;
 }
 
-.arq-stat-total::before { background: linear-gradient(90deg, var(--ad-purple), #a78bfa); }
-.arq-stat-pending::before { background: linear-gradient(90deg, var(--ad-amber), #fbbf24); }
-.arq-stat-in_progress::before { background: linear-gradient(90deg, var(--ad-blue), #60a5fa); }
-.arq-stat-solved::before { background: linear-gradient(90deg, var(--ad-green), #4ade80); }
+.arq-stat-total::before {
+    background: linear-gradient(90deg, var(--ad-purple), #a78bfa);
+}
+
+.arq-stat-pending::before {
+    background: linear-gradient(90deg, var(--ad-amber), #fbbf24);
+}
+
+.arq-stat-in_progress::before {
+    background: linear-gradient(90deg, var(--ad-blue), #60a5fa);
+}
+
+.arq-stat-solved::before {
+    background: linear-gradient(90deg, var(--ad-green), #4ade80);
+}
 
 .arq-stat-top {
     display: flex;
@@ -236,6 +345,7 @@
     font-size: 38px;
     font-weight: 800;
     line-height: 1;
+    font-variant-numeric: tabular-nums;
 }
 
 .arq-stat-icon {
@@ -245,6 +355,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.arq-stat:hover .arq-stat-icon {
+    transform: scale(1.12) rotate(-6deg);
 }
 
 .arq-stat-icon svg {
@@ -252,10 +367,30 @@
     height: 22px;
 }
 
-.arq-stat-total .arq-stat-icon { background: rgba(124, 92, 245, 0.13); color: var(--ad-purple); }
-.arq-stat-pending .arq-stat-icon { background: rgba(245, 158, 11, 0.14); color: var(--ad-amber); }
-.arq-stat-in_progress .arq-stat-icon { background: rgba(37, 99, 235, 0.13); color: var(--ad-blue); }
-.arq-stat-solved .arq-stat-icon { background: rgba(22, 163, 74, 0.13); color: var(--ad-green); }
+/* the "in progress" icon keeps gently spinning */
+.arq-stat-in_progress .arq-stat-icon svg {
+    animation: arq-spin-slow 4s linear infinite;
+}
+
+.arq-stat-total .arq-stat-icon {
+    background: rgba(124, 92, 245, 0.13);
+    color: var(--ad-purple);
+}
+
+.arq-stat-pending .arq-stat-icon {
+    background: rgba(245, 158, 11, 0.14);
+    color: var(--ad-amber);
+}
+
+.arq-stat-in_progress .arq-stat-icon {
+    background: rgba(37, 99, 235, 0.13);
+    color: var(--ad-blue);
+}
+
+.arq-stat-solved .arq-stat-icon {
+    background: rgba(22, 163, 74, 0.13);
+    color: var(--ad-green);
+}
 
 .arq-stat-label {
     display: block;
@@ -278,6 +413,7 @@
     position: relative;
     flex: 1 1 280px;
     min-width: 220px;
+    animation: arq-rise 0.5s ease 0.3s backwards;
 }
 
 .arq-search-icon {
@@ -342,6 +478,7 @@
     background: var(--ad-bg-control);
     border: 1px solid var(--ad-border);
     border-radius: var(--ad-radius-md);
+    animation: arq-rise 0.5s ease 0.38s backwards;
 }
 
 .arq-filter-btn {
@@ -366,6 +503,7 @@
     background: var(--ad-blue);
     color: #fff;
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+    animation: arq-pulse-ring 0.6s ease-out;
 }
 
 .arq-actions {
@@ -373,6 +511,7 @@
     flex-wrap: wrap;
     gap: 10px;
     margin-left: auto;
+    animation: arq-rise 0.5s ease 0.46s backwards;
 }
 
 /* ---------------- buttons ---------------- */
@@ -401,6 +540,10 @@
     transform: translateY(-1px);
 }
 
+.arq-btn:active:not(:disabled) {
+    transform: scale(0.97);
+}
+
 .arq-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -410,6 +553,10 @@
     background: linear-gradient(135deg, #16a34a, #22c55e);
     color: #fff;
     box-shadow: 0 8px 18px rgba(22, 163, 74, 0.3);
+}
+
+.arq-btn-export:hover:not(:disabled) {
+    box-shadow: 0 12px 24px rgba(22, 163, 74, 0.45);
 }
 
 .arq-btn-danger {
@@ -445,6 +592,7 @@
     color: var(--ad-red);
     font-size: 14px;
     font-weight: 600;
+    animation: arq-rise 0.3s ease backwards;
 }
 
 /* ---------------- table ---------------- */
@@ -486,8 +634,10 @@
     vertical-align: middle;
 }
 
+/* rows cascade in (delay is set inline from the JSX) */
 .arq-row {
     transition: background 0.15s ease;
+    animation: arq-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
 .arq-row:hover {
@@ -525,6 +675,12 @@
     font-size: 14px;
     font-weight: 800;
     letter-spacing: 1.5px;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.arq-row:hover .arq-id {
+    transform: scale(1.06);
+    background: rgba(37, 99, 235, 0.2);
 }
 
 .arq-email {
@@ -552,7 +708,11 @@
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
     background-repeat: no-repeat;
     background-position: right 12px center;
-    transition: box-shadow 0.2s ease;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.arq-status-select:hover:not(:disabled) {
+    transform: translateY(-1px);
 }
 
 .arq-status-select:focus {
@@ -582,9 +742,17 @@
     color: #15803d;
 }
 
-.arq-shell[data-theme="dark"] .arq-status-pending { color: #fbbf24; }
-.arq-shell[data-theme="dark"] .arq-status-in_progress { color: #60a5fa; }
-.arq-shell[data-theme="dark"] .arq-status-solved { color: #4ade80; }
+.arq-shell[data-theme="dark"] .arq-status-pending {
+    color: #fbbf24;
+}
+
+.arq-shell[data-theme="dark"] .arq-status-in_progress {
+    color: #60a5fa;
+}
+
+.arq-shell[data-theme="dark"] .arq-status-solved {
+    color: #4ade80;
+}
 
 /* options keep a readable colour in the native dropdown list */
 .arq-status-select option {
@@ -617,6 +785,10 @@
     transform: translateY(-1px);
 }
 
+.arq-icon-btn:active {
+    transform: scale(0.92);
+}
+
 .arq-result-count {
     margin: 0;
     padding: 14px 20px;
@@ -644,7 +816,9 @@
 }
 
 @keyframes arq-spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .arq-empty {
@@ -720,8 +894,15 @@
 }
 
 @keyframes arq-pop {
-    from { opacity: 0; transform: scale(0.94) translateY(10px); }
-    to { opacity: 1; transform: none; }
+    from {
+        opacity: 0;
+        transform: scale(0.94) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
 }
 
 .arq-confirm-icon {
@@ -811,13 +992,13 @@
     }
 }
 
+/* people who prefer reduced motion get no animations or transitions */
 @media (prefers-reduced-motion: reduce) {
-    .arq-content,
-    .arq-card,
-    .arq-loading,
-    .arq-empty,
-    .arq-confirm,
-    .arq-spinner {
+
+    .arq-shell *,
+    .arq-shell *::before,
+    .arq-shell *::after {
         animation: none !important;
+        transition: none !important;
     }
 }

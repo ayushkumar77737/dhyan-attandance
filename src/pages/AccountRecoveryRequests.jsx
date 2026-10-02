@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./AccountRecoveryRequests.css";
 import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
@@ -82,6 +82,31 @@ const icons = {
 };
 
 const statusIcon = { pending: icons.clock, in_progress: icons.progress, solved: icons.check };
+
+/* animates a number from its previous value to the new one */
+function CountUp({ value }) {
+    const [n, setN] = useState(0);
+    const prev = useRef(0);
+
+    useEffect(() => {
+        const from = prev.current;
+        const dur = 700;
+        let start = null;
+        let raf;
+        const step = (ts) => {
+            if (start === null) start = ts;
+            const p = Math.min((ts - start) / dur, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            setN(Math.round(from + (value - from) * eased));
+            if (p < 1) raf = requestAnimationFrame(step);
+            else prev.current = value;
+        };
+        raf = requestAnimationFrame(step);
+        return () => cancelAnimationFrame(raf);
+    }, [value]);
+
+    return <>{n}</>;
+}
 
 function AccountRecoveryRequests() {
     const { t } = useTranslation();
@@ -304,7 +329,7 @@ function AccountRecoveryRequests() {
                 <div className="arq-stats">
                     <div className="arq-stat arq-stat-total">
                         <div className="arq-stat-top">
-                            <span className="arq-stat-val">{requests.length}</span>
+                            <span className="arq-stat-val"><CountUp value={requests.length} /></span>
                             <span className="arq-stat-icon">{icons.list}</span>
                         </div>
                         <span className="arq-stat-label">{t("arqTotal", "Total Requests")}</span>
@@ -312,7 +337,7 @@ function AccountRecoveryRequests() {
                     {STATUSES.map((s) => (
                         <div className={`arq-stat arq-stat-${s}`} key={s}>
                             <div className="arq-stat-top">
-                                <span className="arq-stat-val">{count(s)}</span>
+                                <span className="arq-stat-val"><CountUp value={count(s)} /></span>
                                 <span className="arq-stat-icon">{statusIcon[s]}</span>
                             </div>
                             <span className="arq-stat-label">{statusLabel(s)}</span>
@@ -424,6 +449,7 @@ function AccountRecoveryRequests() {
                                         <tr
                                             key={r.id}
                                             className={`arq-row ${selected.includes(r.id) ? "arq-row-selected" : ""}`}
+                                            style={{ animationDelay: `${Math.min(i, 12) * 55}ms` }}
                                         >
                                             <td className="arq-td-check">
                                                 <input
