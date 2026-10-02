@@ -1644,5 +1644,6 @@
   "arSubmitFailed": "Something went wrong. Please try again in a moment.",
   "arThankYou": "Thank you for submitting!",
   "arSuccessMessage": "Thank you for submitting. Our team will contact you to get your account recovered.",
-  "arAlreadySubmitted": "A recovery request for this ID No has already been submitted. Our team will contact you soon."
+  "arAlreadySubmitted": "A recovery request for this ID No has already been submitted. Our team will contact you soon.",
+  "accountRecoveryRequests": "Account Recovery Requests"
 }

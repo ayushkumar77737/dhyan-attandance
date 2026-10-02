@@ -908,6 +908,7 @@ function AdminDashboard() {
       ? [{ path: "/access-control", icon: icons.accessControl, cls: "icon-gray", label: t("accessControl") }]
       : []),
     { path: "/contact-messages", icon: icons.mail, cls: "icon-indigo", label: t("contactMessages") || "Contact Messages" },
+    { path: "/account-recovery-requests", icon: icons.lock, cls: "icon-amber", label: t("accountRecoveryRequests") || "Account Recovery Requests" },
     { path: "/blocked-accounts", icon: icons.shield, cls: "icon-red", label: t("blockedAccounts.label") },
     { path: "/account-lock", icon: icons.lock, cls: "icon-amber", label: t("accountLock") || "Account Lock" },
     { path: "/deleted-users", icon: icons.trash, cls: "icon-red", label: t("deletedUsers") },
