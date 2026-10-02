@@ -36,6 +36,7 @@ export const CONTROLLABLE_PAGES = [
     { id: "registeredIds", path: "/registered-ids", labelKey: "registeredIds" },
     { id: "reportIssue", path: "/report-issue", labelKey: "reportIssue" },
     { id: "contactMessages", path: "/contact-messages", labelKey: "contactMessages" },
+    { id: "accountRecoveryRequests", path: "/account-recovery-requests", labelKey: "accountRecoveryRequests" },
 ];
 
 const accessDocRef = () => doc(db, "settings", "accessControl");

@@ -1645,5 +1645,21 @@
   "arThankYou": "Thank you for submitting!",
   "arSuccessMessage": "Thank you for submitting. Our team will contact you to get your account recovered.",
   "arAlreadySubmitted": "A recovery request for this ID No has already been submitted. Our team will contact you soon.",
-  "accountRecoveryRequests": "Account Recovery Requests"
+  "accountRecoveryRequests": "Account Recovery Requests",
+  "arqTotal": "Total Requests",
+  "arqPending": "Pending",
+  "arqInProgress": "In Progress",
+  "arqSolved": "Solved",
+  "arqSearch": "Search by ID No, Mail ID or Phone…",
+  "arqExport": "Export",
+  "arqSubmittedOn": "Submitted On",
+  "arqRequests": "requests",
+  "arqNone": "No requests found",
+  "arqNoneSub": "Account recovery requests submitted from the login page will appear here",
+  "arqConfirmDeleteAll": "Delete all these requests?",
+  "arqConfirmDeleteSelected": "Delete the selected requests?",
+  "arqConfirmDeleteOne": "Delete this request?",
+  "arqLoadFailed": "Could not load the requests. Please try again.",
+  "arqUpdateFailed": "Could not update the status. Please try again.",
+  "arqDeleteFailed": "Could not delete. Please try again."
 }

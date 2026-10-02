@@ -15,6 +15,7 @@ import MFASetup from "./pages/MFASetup";
 import MFAVerify from "./pages/MFAVerify";
 import MFAProtectedRoute from "./components/MFAProtectedRoute";
 import AccountRecovery from "./pages/AccountRecovery";
+import AccountRecoveryRequests from "./pages/AccountRecoveryRequests";
 import AttendanceReport from "./pages/AttendanceReport";
 import AttendanceCalendar from "./pages/AttendanceCalendar";
 import UserPercentage from "./pages/UserPercentage";
@@ -289,6 +290,17 @@ function App() {
             <ProtectedRoute>
               <RequireAccess pageId="contactMessages">
                 <ContactMessages />
+              </RequireAccess>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/account-recovery-requests"
+          element={
+            <ProtectedRoute>
+              <RequireAccess pageId="accountRecoveryRequests">
+                <AccountRecoveryRequests />
               </RequireAccess>
             </ProtectedRoute>
           }
