@@ -379,7 +379,7 @@ const Login = () => {
 
                 <span
                   className="account-recovery"
-                  onClick={() => navigate("/forgot-password")}
+                  onClick={() => navigate("/account-recovery")}
                 >
                   {t("accountRecovery")}
                 </span>

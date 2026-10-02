@@ -1,0 +1,182 @@
+/* ==================================================================
+   ACCOUNT RECOVERY
+   Layout, background, inputs and buttons come from Login.css.
+   Only the extra bits (labels, * mark, errors, thank-you view) are here.
+   ================================================================== */
+
+/* the page title is shorter than the login one, so keep it a bit smaller */
+.ar-title-name {
+    font-size: 30px;
+}
+
+.login-left .ar-field {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ar-label {
+    font-family: var(--multi);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ln-ink);
+    padding-left: 2px;
+}
+
+/* red mandatory * mark */
+.ar-star {
+    color: var(--ln-error);
+    font-weight: 800;
+}
+
+.ar-input-error {
+    border-color: var(--ln-error-border);
+    background: var(--ln-error-bg);
+}
+
+.ar-input-error:focus {
+    border-color: var(--ln-error);
+    box-shadow: 0 0 0 4px rgba(192, 38, 74, 0.12);
+}
+
+.ar-error {
+    margin: 0;
+    padding-left: 4px;
+    font-family: var(--multi);
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ln-error);
+}
+
+/* the account recovery inputs have no right-side icon, so trim the padding */
+#ar-id,
+#ar-mail,
+#ar-phone {
+    padding-right: 16px;
+}
+
+/* ---------------- thank-you view ---------------- */
+.ar-success {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px 0 6px;
+    animation: arPop 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ar-success-icon {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 14px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: linear-gradient(140deg, #34d399, #16a34a);
+    box-shadow: 0 12px 26px rgba(34, 197, 94, 0.36);
+}
+
+.ar-success-icon svg {
+    width: 34px;
+    height: 34px;
+}
+
+.ar-success-title {
+    margin: 0;
+    font-family: var(--multi);
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--ln-purple-deep);
+}
+
+.ar-success-text {
+    margin: 0 0 22px;
+    max-width: 380px;
+    font-family: var(--multi);
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ln-text);
+}
+
+.ar-success-btn {
+    max-width: 280px;
+}
+
+.ar-back-arrow {
+    order: -1;
+}
+
+@keyframes arPop {
+    from {
+        opacity: 0;
+        transform: scale(0.94) translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .ar-title-name {
+        font-size: 25px;
+    }
+
+    .ar-success-title {
+        font-size: 23px;
+    }
+}
+
+/* ---------------- Back to Login button ---------------- */
+.ar-back-btn {
+    width: 100%;
+    min-height: 52px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: var(--multi);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ln-purple-deep);
+    background: var(--ln-purple-soft);
+    border: 2px solid var(--ln-purple);
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(109, 63, 214, 0.14);
+    transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, color 0.22s ease;
+}
+
+.ar-back-btn-icon {
+    display: flex;
+    transition: transform 0.25s ease;
+}
+
+.ar-back-btn-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+.ar-back-btn:hover {
+    color: #fff;
+    background: var(--ln-purple);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(109, 63, 214, 0.32);
+}
+
+.ar-back-btn:hover .ar-back-btn-icon {
+    transform: translateX(-4px);
+}
+
+.ar-back-btn:active {
+    transform: scale(0.98);
+}
