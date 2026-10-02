@@ -59,7 +59,7 @@ body:has(.login-page) {
     background-size: cover;
     background-position: center;
     transform: translateZ(0);
-    transform-origin: 80% 50%;
+    transform-origin: 50% 50%;
     animation: ln-bg-drift 26s ease-in-out infinite alternate;
 }
 
