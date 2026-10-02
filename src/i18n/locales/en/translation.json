@@ -1661,5 +1661,7 @@
   "arqConfirmDeleteOne": "Delete this request?",
   "arqLoadFailed": "Could not load the requests. Please try again.",
   "arqUpdateFailed": "Could not update the status. Please try again.",
-  "arqDeleteFailed": "Could not delete. Please try again."
+  "arqDeleteFailed": "Could not delete. Please try again.",
+  "arEmailAlreadyUsed": "This Mail ID has already been submitted for recovery.",
+  "arPhoneAlreadyUsed": "This phone number has already been submitted for recovery."
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp, collection, query, where, getDocs } from "firebase/firestore";
 
 import { db } from "../firebase/firebase";
 
@@ -91,6 +91,13 @@ function AccountRecovery() {
     const [submitted, setSubmitted] = useState(false);
     const [serverError, setServerError] = useState("");
 
+    /* Server-side duplicate errors (email/phone already used on another
+       request) sit alongside the format errors from `errors` below, but
+       are only cleared once the person edits that specific field again —
+       re-validating on every keystroke would mean a second Firestore
+       query per keystroke. */
+    const [dupError, setDupError] = useState({ email: "", phone: "" });
+
     /* same protections as the login page */
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -119,12 +126,12 @@ function AccountRecovery() {
             ? t("arEmailRequired", "Mail ID is required")
             : !EMAIL_REGEX.test(email)
                 ? t("arEmailInvalid", "Enter a valid Mail ID (example: name@gmail.com)")
-                : "",
+                : dupError.email,
         phone: !phone
             ? t("arPhoneRequired", "Phone number is required")
             : !PHONE_REGEX.test(phone)
                 ? t("arPhoneInvalid", "Phone number must be exactly 10 digits")
-                : "",
+                : dupError.phone,
     };
 
     const isValid = !errors.idNo && !errors.email && !errors.phone;
@@ -141,6 +148,33 @@ function AccountRecovery() {
 
         setSubmitting(true);
         try {
+            /* Check for an existing request with the same email or phone
+               (under a different ID No — same-ID duplicates are already
+               blocked by the doc ID itself). Run both checks together. */
+            const recoveryRef = collection(db, "accountRecoveryRequests");
+            const [emailSnap, phoneSnap] = await Promise.all([
+                getDocs(query(recoveryRef, where("email", "==", email))),
+                getDocs(query(recoveryRef, where("phone", "==", phone))),
+            ]);
+
+            const emailTaken = !emailSnap.empty;
+            const phoneTaken = !phoneSnap.empty;
+
+            if (emailTaken || phoneTaken) {
+                setDupError({
+                    email: emailTaken
+                        ? t("arEmailAlreadyUsed", "This Mail ID has already been submitted for recovery.")
+                        : "",
+                    phone: phoneTaken
+                        ? t("arPhoneAlreadyUsed", "This phone number has already been submitted for recovery.")
+                        : "",
+                });
+                setSubmitting(false);
+                return;
+            }
+
+            setDupError({ email: "", phone: "" });
+
             /* the ID No is the document ID, so one ID can only ever have one request.
                If it already exists, Firestore rejects the write (permission-denied). */
             await setDoc(doc(db, "accountRecoveryRequests", idNo), {
@@ -286,7 +320,10 @@ function AccountRecovery() {
                                                 maxLength={60}
                                                 autoComplete="off"
                                                 value={email}
-                                                onChange={(e) => setEmail(filterEmail(e.target.value))}
+                                                onChange={(e) => {
+                                                    setEmail(filterEmail(e.target.value));
+                                                    if (dupError.email) setDupError((p) => ({ ...p, email: "" }));
+                                                }}
                                                 onBlur={() => markTouched("email")}
                                             />
                                         </div>
@@ -309,7 +346,10 @@ function AccountRecovery() {
                                                 maxLength={10}
                                                 autoComplete="off"
                                                 value={phone}
-                                                onChange={(e) => setPhone(filterPhone(e.target.value))}
+                                                onChange={(e) => {
+                                                    setPhone(filterPhone(e.target.value));
+                                                    if (dupError.phone) setDupError((p) => ({ ...p, phone: "" }));
+                                                }}
                                                 onBlur={() => markTouched("phone")}
                                             />
                                         </div>
