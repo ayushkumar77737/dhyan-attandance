@@ -1663,3 +1663,9 @@
     position: relative;
     z-index: 30;
 }
+/* laptop / desktop: move the feature box down so the lotus behind it is visible */
+@media (min-width: 1181px) {
+    .ldpg__features {
+        margin-top: 50px;
+    }
+}
