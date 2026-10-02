@@ -1347,7 +1347,7 @@
 
 .ldpg__bg {
     animation: ldpg-bg-drift 26s ease-in-out infinite alternate;
-    transform-origin: 80% 50%;
+    transform-origin: 50% 50%;
 }
 
 .ldpg__corner {
@@ -1663,6 +1663,7 @@
     position: relative;
     z-index: 30;
 }
+
 /* laptop / desktop: move the feature box down so the lotus behind it is visible */
 @media (min-width: 1181px) {
     .ldpg__features {
