@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { doc, setDoc, serverTimestamp, collection, query, where, getDocs } from "firebase/firestore";
+import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 
 import { db } from "../firebase/firebase";
 
@@ -95,7 +95,7 @@ function AccountRecovery() {
        request) sit alongside the format errors from `errors` below, but
        are only cleared once the person edits that specific field again —
        re-validating on every keystroke would mean a second Firestore
-       query per keystroke. */
+       read per keystroke. */
     const [dupError, setDupError] = useState({ email: "", phone: "" });
 
     /* same protections as the login page */
@@ -148,17 +148,22 @@ function AccountRecovery() {
 
         setSubmitting(true);
         try {
-            /* Check for an existing request with the same email or phone
-               (under a different ID No — same-ID duplicates are already
-               blocked by the doc ID itself). Run both checks together. */
-            const recoveryRef = collection(db, "accountRecoveryRequests");
+            /* Duplicate check for email/phone uses single-document GETs
+               against dedicated lookup collections (doc ID = email / phone),
+               not a collection query — a query needs broad list/read access,
+               which an unauthenticated visitor on this page doesn't have.
+               Same-ID duplicates are still handled separately below, by the
+               main write itself. */
+            const emailRef = doc(db, "accountRecoveryEmails", email);
+            const phoneRef = doc(db, "accountRecoveryPhones", phone);
+
             const [emailSnap, phoneSnap] = await Promise.all([
-                getDocs(query(recoveryRef, where("email", "==", email))),
-                getDocs(query(recoveryRef, where("phone", "==", phone))),
+                getDoc(emailRef),
+                getDoc(phoneRef),
             ]);
 
-            const emailTaken = !emailSnap.empty;
-            const phoneTaken = !phoneSnap.empty;
+            const emailTaken = emailSnap.exists();
+            const phoneTaken = phoneSnap.exists();
 
             if (emailTaken || phoneTaken) {
                 setDupError({
@@ -175,8 +180,11 @@ function AccountRecovery() {
 
             setDupError({ email: "", phone: "" });
 
-            /* the ID No is the document ID, so one ID can only ever have one request.
-               If it already exists, Firestore rejects the write (permission-denied). */
+            /* The ID No is the main document's ID, so one ID can only ever
+               have one request — a repeat ID is rejected by the rules on
+               that write (permission-denied), caught below.
+               The email/phone lookup docs are written alongside it so the
+               next submission's check above can find them. */
             await setDoc(doc(db, "accountRecoveryRequests", idNo), {
                 idNo,
                 email,
@@ -184,6 +192,12 @@ function AccountRecovery() {
                 status: "pending",
                 createdAt: serverTimestamp(),
             });
+
+            await Promise.all([
+                setDoc(emailRef, { idNo, email, createdAt: serverTimestamp() }),
+                setDoc(phoneRef, { idNo, phone, createdAt: serverTimestamp() }),
+            ]);
+
             setSubmitted(true);
         } catch (err) {
             console.error("Account recovery submit failed:", err);
