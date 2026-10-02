@@ -159,7 +159,7 @@ function AccountRecoveryRequests() {
                 const data = d.data();
                 list.push({ id: d.id, ...data, status: normalizeStatus(data.status) });
             });
-            list.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+            list.sort((a, b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
             setRequests(list);
         } catch (err) {
             console.error(err);
