@@ -1,0 +1,229 @@
+/* ==================================================================
+   ACCOUNT RECOVERY STATUS
+   Layout/background/buttons come from Login.css; the mandatory-field
+   styling (.ar-field, .ar-label, .ar-error, .ar-back-btn) comes from
+   AccountRecovery.css. Only the result/not-found view is styled here.
+   ================================================================== */
+
+.ars-result {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 6px 0 4px;
+    gap: 6px;
+    animation: arsPop 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes arsPop {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ---------------- status icon ---------------- */
+.ars-status-icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 6px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.ars-status-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.ars-status-icon--pending {
+    background: linear-gradient(140deg, #fbbf24, #d97706);
+    box-shadow: 0 10px 24px rgba(217, 119, 6, 0.32);
+}
+
+.ars-status-icon--in_progress {
+    background: linear-gradient(140deg, #60a5fa, #1d4ed8);
+    box-shadow: 0 10px 24px rgba(29, 78, 216, 0.32);
+}
+
+.ars-status-icon--solved {
+    background: linear-gradient(140deg, #34d399, #16a34a);
+    box-shadow: 0 10px 24px rgba(22, 163, 74, 0.32);
+}
+
+/* ---------------- status pill ---------------- */
+.ars-status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 16px;
+    border-radius: 50px;
+    font-family: var(--multi);
+    font-size: 12.5px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.ars-status-pill--pending {
+    color: #92400e;
+    background: rgba(251, 191, 36, 0.22);
+}
+
+.ars-status-pill--in_progress {
+    color: #1e3a8a;
+    background: rgba(96, 165, 250, 0.22);
+}
+
+.ars-status-pill--solved {
+    color: #14532d;
+    background: rgba(52, 211, 153, 0.22);
+}
+
+/* ---------------- titles / text ---------------- */
+.ars-result-title {
+    margin: 2px 0 0;
+    font-family: var(--multi);
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--ln-purple-deep);
+}
+
+.ars-result-help {
+    margin: 0 0 6px;
+    max-width: 380px;
+    font-family: var(--multi);
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--ln-text);
+}
+
+/* ---------------- detail rows ---------------- */
+.ars-detail-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.ars-detail-row {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 12px 15px;
+    text-align: left;
+    background: var(--ln-purple-soft);
+    border: 1px solid rgba(109, 63, 214, 0.16);
+    border-radius: 13px;
+}
+
+.ars-detail-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    color: var(--ln-purple-deep);
+    background: rgba(109, 63, 214, 0.12);
+}
+
+.ars-detail-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.ars-detail-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.ars-detail-label {
+    font-family: var(--multi);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--ln-text-soft, var(--ln-text));
+    opacity: 0.75;
+}
+
+.ars-detail-value {
+    font-family: var(--multi);
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--ln-ink);
+    word-break: break-all;
+}
+
+/* ---------------- not-found icon ---------------- */
+.ars-notfound-icon {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9a3412;
+    background: rgba(251, 146, 60, 0.18);
+}
+
+.ars-notfound-icon svg {
+    width: 30px;
+    height: 30px;
+}
+
+/* ---------------- "check another" secondary action ---------------- */
+.ars-check-another {
+    width: 100%;
+    min-height: 48px;
+    margin-bottom: 10px;
+    padding: 12px;
+    border: none;
+    border-radius: 14px;
+    background: transparent;
+    color: var(--ln-purple-deep);
+    font-family: var(--multi);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    cursor: pointer;
+    transition: text-decoration-color 0.2s ease, color 0.2s ease;
+}
+
+.ars-check-another:hover {
+    color: var(--ln-purple);
+    text-decoration-color: currentColor;
+}
+
+@media (max-width: 560px) {
+    .ars-status-icon {
+        width: 56px;
+        height: 56px;
+    }
+
+    .ars-result-title {
+        font-size: 22px;
+    }
+
+    .ars-detail-row {
+        padding: 11px 13px;
+    }
+}

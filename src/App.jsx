@@ -15,6 +15,7 @@ import MFASetup from "./pages/MFASetup";
 import MFAVerify from "./pages/MFAVerify";
 import MFAProtectedRoute from "./components/MFAProtectedRoute";
 import AccountRecovery from "./pages/AccountRecovery";
+import AccountRecoveryStatus from "./pages/AccountRecoveryStatus";
 import AccountRecoveryRequests from "./pages/AccountRecoveryRequests";
 import AttendanceReport from "./pages/AttendanceReport";
 import AttendanceCalendar from "./pages/AttendanceCalendar";
@@ -76,6 +77,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/account-recovery" element={<AccountRecovery />} />
+        <Route path="/account-recovery-status" element={<AccountRecoveryStatus />} />
         <Route path="/about" element={<About />} />
         <Route path="/events" element={<Events />} />
         <Route path="/contact" element={<Contact />} />

@@ -1664,5 +1664,17 @@
   "arqDeleteFailed": "Could not delete. Please try again.",
   "arEmailAlreadyUsed": "This Mail ID has already been submitted for recovery.",
   "arPhoneAlreadyUsed": "This phone number has already been submitted for recovery.",
-  "arCheckStatus": "Recovery Status"
+  "arCheckStatus": "Recovery Status",
+  "arsPageTitle": "Recovery Status",
+  "arsSubtitle": "Enter your ID No to check the status of your recovery request.",
+  "arsCheckBtn": "Check Status",
+  "arsCheckFailed": "Something went wrong. Please try again in a moment.",
+  "arsCheckAnother": "Check another ID",
+  "arsTryAgain": "Try a different ID",
+  "arsNotFoundTitle": "No request found",
+  "arsNotFoundText": "We couldn't find a recovery request with that ID No. Please check it and try again, or submit a new request.",
+  "arsGoSubmit": "Submit a New Request",
+  "arsHelpPending": "Our team hasn't started reviewing this yet.",
+  "arsHelpInProgress": "Our team is working on your request.",
+  "arsHelpSolved": "This request has been resolved."
 }
