@@ -354,7 +354,10 @@ function AccountRecoveryRequests() {
                             type="text"
                             placeholder={t("arqSearch", "Search by ID No, Mail ID or Phone…")}
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)}
+                            onChange={(e) => {
+                                const value = e.target.value.replace(/[^a-zA-Z0-9@.]/g, "");
+                                setSearch(value);
+                            }}
                         />
                         {search && (
                             <button className="arq-search-clear" onClick={() => setSearch("")}>
