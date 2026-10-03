@@ -111,6 +111,12 @@ const ACTION_SOURCE = {
   update_contact_settings: "contact",
   delete_contact_message: "contact",
   delete_contact_messages_bulk: "contact",
+
+  /* account recovery requests */
+  update_account_recovery_status: "accountRecovery",
+  delete_account_recovery: "accountRecovery",
+  delete_account_recovery_bulk: "accountRecovery",
+  export_account_recovery: "accountRecovery",
 };
 
 /* Safety net for any action added to the app later and not yet listed
@@ -123,6 +129,7 @@ const FALLBACK_RULES = [
   [/ticket/, "ticket"],
   [/concern/, "userIssues"],
   [/issue/, "adminIssues"],
+  [/account_recovery/, "accountRecovery"],
   [/access/, "accessControl"],
   [/lock/, "accountLock"],
   [/blocked/, "blocked"],
@@ -297,6 +304,13 @@ const icons = {
       <circle cx="8" cy="15" r="4" /><path d="M10.85 12.15 19 4" /><path d="M18 5l3 3" /><path d="M15 8l3 3" />
     </svg>
   ),
+  accountRecovery: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 12a9 9 0 1 0 2.64-6.36" />
+      <polyline points="3 4 3 10 9 10" />
+      <circle cx="12" cy="12" r="2.3" />
+    </svg>
+  ),
 };
 
 /* Decorative dotted grids used in the page corners */
@@ -332,6 +346,7 @@ const SOURCE_ICON = {
   logs: icons.list,
   feedback: icons.star,
   contact: icons.mail,
+  accountRecovery: icons.accountRecovery,
   other: icons.activity,
 };
 
@@ -356,6 +371,7 @@ const SOURCE_LABEL_KEY = {
   logs: "sourceLogs",
   feedback: "sourceFeedback",
   contact: "sourceContact",
+  accountRecovery: "sourceAccountRecovery",
   other: "sourceOther",
 };
 
@@ -363,7 +379,7 @@ const SOURCE_ORDER = [
   "absence", "leave", "ticket", "userIssues", "adminIssues",
   "toggleStatus", "idCreation", "idManagement", "blocked", "accountLock",
   "accessControl", "users", "admins", "attendance", "profiles",
-  "logs", "feedback", "contact", "other",
+  "logs", "feedback", "contact", "accountRecovery", "other",
 ];
 
 /* createdAt may be a Firestore Timestamp, ISO string or Date. */

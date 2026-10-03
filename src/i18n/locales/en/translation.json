@@ -1676,5 +1676,6 @@
   "arsGoSubmit": "Submit a New Request",
   "arsHelpPending": "Our team hasn't started reviewing this yet.",
   "arsHelpInProgress": "Our team is working on your request.",
-  "arsHelpSolved": "This request has been resolved."
+  "arsHelpSolved": "This request has been resolved.",
+  "sourceAccountRecovery": "Account Recovery"
 }
