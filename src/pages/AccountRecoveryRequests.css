@@ -1002,3 +1002,30 @@
         transition: none !important;
     }
 }
+
+/* ==================================================================
+   MOBILE: status dropdown — bigger, no auto-zoom, easier to tap
+   ================================================================== */
+@media (max-width: 640px) {
+    .arq-status-select {
+        font-size: 16px;
+        /* 16px stops iOS Safari auto-zooming the page on focus — that
+           zoom/scroll jump is what makes the dropdown feel broken. */
+        padding: 10px 34px 10px 14px;
+        min-height: 40px;
+        min-width: 112px;
+        width: 100%;
+        max-width: 160px;
+    }
+
+    .arq-table td {
+        padding: 13px 14px;
+    }
+
+    /* status + actions sit in the two right-most columns; stop them
+       from being forced edge-to-edge against the scrollable table so
+       a tap on the pill isn't partially off the visible area */
+    .arq-table {
+        min-width: 760px;
+    }
+}
