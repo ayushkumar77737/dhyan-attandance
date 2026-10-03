@@ -931,6 +931,10 @@ function AdminDashboard() {
     { path: "/attendance-report", icon: icons.fileText, label: t("navReports") },
     { path: "/all-admins", icon: icons.shield, label: t("navAdmins") },
     { path: "/contact-settings", icon: icons.settings, label: t("navSettings") },
+    { path: "/leaves-request", icon: icons.leaveRequest, label: t("leavesRequest") },
+    { path: "/notifications", icon: icons.bell, label: t("notifications") },
+    { path: "/account-recovery-requests", icon: icons.lock, label: t("accountRecoveryRequests") || "Account Recovery Requests" },
+    { path: "/contact-messages", icon: icons.mail, label: t("contactMessages") || "Contact Messages" },
   ];
   const sidebarFiltered = sidebarItems.filter((s) => !s.path || canAccessPath(accessConfig, s.path, currentUserId));
 
