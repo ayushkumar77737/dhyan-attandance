@@ -370,6 +370,16 @@ function AccountRecovery() {
                                         {showErr("phone") && <p className="ar-error">{errors.phone}</p>}
                                     </div>
 
+                                    <div className="ar-status-link-row">
+                                        <button
+                                            type="button"
+                                            className="ar-status-link"
+                                            onClick={() => navigate("/account-recovery-status")}
+                                        >
+                                            {t("arCheckStatus", "Recovery Status")}
+                                        </button>
+                                    </div>
+
                                     {serverError && <p className="login-error">{serverError}</p>}
 
                                     <button

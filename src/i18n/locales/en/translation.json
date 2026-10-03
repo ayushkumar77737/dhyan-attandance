@@ -1663,5 +1663,6 @@
   "arqUpdateFailed": "Could not update the status. Please try again.",
   "arqDeleteFailed": "Could not delete. Please try again.",
   "arEmailAlreadyUsed": "This Mail ID has already been submitted for recovery.",
-  "arPhoneAlreadyUsed": "This phone number has already been submitted for recovery."
+  "arPhoneAlreadyUsed": "This phone number has already been submitted for recovery.",
+  "arCheckStatus": "Recovery Status"
 }

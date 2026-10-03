@@ -180,3 +180,34 @@
 .ar-back-btn:active {
     transform: scale(0.98);
 }
+/* ---------------- Recovery Status link ---------------- */
+.ar-status-link-row {
+    display: flex;
+    justify-content: flex-end;
+    margin: -2px 0 4px;
+}
+
+.ar-status-link {
+    padding: 4px 2px;
+    border: none;
+    background: transparent;
+    color: var(--ln-purple-deep);
+    font-family: var(--multi);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    cursor: pointer;
+    transition: text-decoration-color 0.2s ease, color 0.2s ease;
+}
+
+.ar-status-link:hover {
+    color: var(--ln-purple);
+    text-decoration-color: currentColor;
+}
+
+@media (max-width: 560px) {
+    .ar-status-link {
+        font-size: 12.5px;
+    }
+}
