@@ -184,7 +184,7 @@
 .ar-status-link-row {
     display: flex;
     justify-content: flex-end;
-    margin: -2px 0 4px;
+    margin: -2px 0 -6px;
 }
 
 .ar-status-link {
