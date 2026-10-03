@@ -315,6 +315,14 @@ function AddAdmin() {
                 createdAt: new Date().toISOString(),
             });
 
+            /* Lets security rules resolve "is this signed-in user an admin?" by uid
+   alone — rules can't query `users` by a field, only look up by doc ID,
+   and `users` docs are keyed by the custom ID (ADMIN3), not by uid. This
+   mirror doc, keyed by uid, is what every admin-only rule checks. */
+            await setDoc(doc(db, "adminsByUid", uid), {
+                role: "admin",
+            });
+
             /* Lets Login.jsx resolve this ID to the real email before
                calling signInWithEmailAndPassword — see idEmailMap. */
             await setDoc(doc(db, "idEmailMap", id), {
