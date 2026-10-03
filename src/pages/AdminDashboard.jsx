@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./AdminDashboard.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
@@ -486,6 +486,7 @@ function MyAccountAvatar({ src, name, label }) {
 function AdminDashboard() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const [showGreeting, setShowGreeting] = useState(
     () => !sessionStorage.getItem("greetingShown")
   );
@@ -1010,16 +1011,25 @@ function AdminDashboard() {
         </div>
 
         <nav className="sidebar-nav">
-          {sidebarFiltered.map((s, idx) => (
-            <button
-              key={s.path || "dashboard"}
-              className={`side-link ${idx === 0 ? "active" : ""}`}
-              onClick={() => { if (s.path) navigate(s.path); setSidebarOpen(false); }}
-            >
-              <span className="side-link-icon">{s.icon}</span>
-              <span className="side-link-label">{s.label}</span>
-            </button>
-          ))}
+          {sidebarFiltered.map((s) => {
+            /* Dashboard's own entry has path: null — it's "active" only when
+               we're actually sitting on /admin-dashboard itself. Every other
+               entry is active when its path matches the current route. */
+            const isActive = s.path
+              ? location.pathname === s.path
+              : location.pathname === "/admin-dashboard";
+
+            return (
+              <button
+                key={s.path || "dashboard"}
+                className={`side-link ${isActive ? "active" : ""}`}
+                onClick={() => { if (s.path) navigate(s.path); setSidebarOpen(false); }}
+              >
+                <span className="side-link-icon">{s.icon}</span>
+                <span className="side-link-label">{s.label}</span>
+              </button>
+            );
+          })}
         </nav>
 
         <div className="sidebar-profile">
