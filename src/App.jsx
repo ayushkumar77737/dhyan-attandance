@@ -67,6 +67,7 @@ import Events from "./pages/Events";
 import Contact from "./pages/Contact";
 import Teachings from "./pages/Teachings";
 import AdminLayout from "./components/AdminLayout";
+import UserLayout from "./components/UserLayout";
 
 function App() {
   return (
@@ -103,7 +104,7 @@ function App() {
           }
         />
 
-        {/* User Routes */}
+        {/* User Dashboard — has its own built-in sidebar, so it stays outside the layout */}
         <Route
           path="/user-dashboard"
           element={
@@ -115,131 +116,31 @@ function App() {
           }
         />
 
+        {/* ===== Every user page below shares the sidebar via UserLayout ===== */}
         <Route
-          path="/attendance"
           element={
             <ProtectedRoute>
-              <AttendancePage />
+              <UserLayout>
+                <Outlet />
+              </UserLayout>
             </ProtectedRoute>
           }
-        />
-
-        <Route
-          path="/submit-reason"
-          element={
-            <ProtectedRoute>
-              <SubmitReason />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/apply-leave"
-          element={
-            <ProtectedRoute>
-              <ApplyLeave />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/my-requests"
-          element={
-            <ProtectedRoute>
-              <MyRequests />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/my-notifications"
-          element={
-            <ProtectedRoute>
-              <MyNotifications />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/ticketing-support"
-          element={
-            <ProtectedRoute>
-              <TicketingSupport />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/my-profile"
-          element={
-            <ProtectedRoute>
-              <MyProfile />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/share-experience"
-          element={
-            <ProtectedRoute>
-              <ShareExperience />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/my-activity"
-          element={
-            <ProtectedRoute>
-              <MyActivity />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/my-attendance"
-          element={
-            <ProtectedRoute>
-              <MyAttendance />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/show-qr"
-          element={
-            <ProtectedRoute>
-              <ShowQR />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/help-support"
-          element={
-            <ProtectedRoute>
-              <HelpSupport />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/directory"
-          element={
-            <ProtectedRoute>
-              <Directory />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/raise-concern"
-          element={
-            <ProtectedRoute>
-              <RaiseConcern />
-            </ProtectedRoute>
-          }
-        />
+        >
+          <Route path="/attendance" element={<AttendancePage />} />
+          <Route path="/submit-reason" element={<SubmitReason />} />
+          <Route path="/apply-leave" element={<ApplyLeave />} />
+          <Route path="/my-requests" element={<MyRequests />} />
+          <Route path="/my-notifications" element={<MyNotifications />} />
+          <Route path="/ticketing-support" element={<TicketingSupport />} />
+          <Route path="/my-profile" element={<MyProfile />} />
+          <Route path="/share-experience" element={<ShareExperience />} />
+          <Route path="/my-activity" element={<MyActivity />} />
+          <Route path="/my-attendance" element={<MyAttendance />} />
+          <Route path="/show-qr" element={<ShowQR />} />
+          <Route path="/help-support" element={<HelpSupport />} />
+          <Route path="/directory" element={<Directory />} />
+          <Route path="/raise-concern" element={<RaiseConcern />} />
+        </Route>
 
         {/* Admin Dashboard — has its own built-in sidebar, so it stays outside the layout */}
         <Route
