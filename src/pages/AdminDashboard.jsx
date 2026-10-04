@@ -923,21 +923,72 @@ function AdminDashboard() {
     .filter((c) => !q || c.label.toLowerCase().includes(q));
   const hasResults = coreFiltered.length > 0 || toolsFiltered.length > 0;
 
-  /* ---------- sidebar primary nav (access-filtered) ---------- */
-  const sidebarItems = [
-    { path: null, icon: icons.grid, label: t("navDashboard") },
-    { path: "/all-users", icon: icons.users, label: t("navUsers") },
-    { path: "/mark-attendance", icon: icons.calendarCheck, label: t("navAttendance") },
-    { path: "/track-ticket", icon: icons.ticket, label: t("navTickets") },
-    { path: "/attendance-report", icon: icons.fileText, label: t("navReports") },
-    { path: "/all-admins", icon: icons.shield, label: t("navAdmins") },
-    { path: "/contact-settings", icon: icons.settings, label: t("navSettings") },
-    { path: "/leaves-request", icon: icons.leaveRequest, label: t("leavesRequest") },
-    { path: "/notifications", icon: icons.bell, label: t("notifications") },
-    { path: "/account-recovery-requests", icon: icons.lock, label: t("accountRecoveryRequests") || "Account Recovery Requests" },
-    { path: "/contact-messages", icon: icons.mail, label: t("contactMessages") || "Contact Messages" },
-  ];
-  const sidebarFiltered = sidebarItems.filter((s) => !s.path || canAccessPath(accessConfig, s.path, currentUserId));
+  /* ---------- sidebar nav: grouped, access-filtered ---------- */
+  const navGroups = [
+    {
+      key: "main",
+      title: null,
+      items: [
+        { path: "/admin-dashboard", icon: icons.grid, label: t("navDashboard") },
+      ],
+    },
+    {
+      key: "quick",
+      title: t("quickActions"),
+      items: [
+        { path: "/add-user", icon: icons.userPlus, label: t("addUser") },
+        { path: "/add-admin", icon: icons.shield, label: t("addAdmin") },
+        { path: "/mark-attendance", icon: icons.calendarCheck, label: t("markAttendance") },
+        { path: "/smart-attendance", icon: icons.qrCode, label: t("smartAttendance") },
+        { path: "/all-users", icon: icons.users, label: t("allUsers") },
+        { path: "/all-admins", icon: icons.shield, label: t("allAdmins") },
+        { path: "/attendance-report", icon: icons.fileText, label: t("attendanceReport") },
+        { path: "/attendance-calendar", icon: icons.calendar, label: t("attendanceCalendar", "Attendance Calendar") },
+        { path: "/user-percentage", icon: icons.pieChart, label: t("percentageReport") },
+      ],
+    },
+    {
+      key: "tools",
+      title: t("toolsAndSettings"),
+      items: [
+        { path: "/absence-management", icon: icons.calendarX, label: t("absenceManagement") },
+        { path: "/leaves-request", icon: icons.leaveRequest, label: t("leavesRequest") },
+        { path: "/notifications", icon: icons.bell, label: t("notifications") },
+        { path: "/track-ticket", icon: icons.ticket, label: t("trackTicket") },
+        { path: "/user-issues", icon: icons.bug, label: t("userIssuesBugs") || "User Issues and Bugs" },
+        { path: "/admin-issues", icon: icons.bug, label: t("adminIssuesBugs") || "Admin Issues and Bugs" },
+        { path: "/report-issue", icon: icons.flag, label: t("reportIssue") || "Report an Issue" },
+        { path: "/profile-registration", icon: icons.userCog, label: t("profileRegistration") },
+        { path: "/toggle-status", icon: icons.toggleLeft, label: t("toggleStatus") },
+        { path: "/session-feedbacks", icon: icons.star, label: t("sessionFeedbacks") },
+        { path: "/all-profiles", icon: icons.userList, label: t("allProfiles") },
+        { path: "/activity-logs", icon: icons.activity, label: t("activityLogs") },
+        { path: "/user-activities", icon: icons.activity, label: t("userActivities") },
+        { path: "/admin-logs", icon: icons.adminLog, label: t("adminLogs") },
+        { path: "/id-registration", icon: icons.idCard, label: t("idRegistration") || "ID Registration" },
+        { path: "/id-verification", icon: icons.shield, label: t("idVerification") || "ID Verification" },
+        { path: "/id-creation-status", icon: icons.idCard, label: t("idCreationStatus") || "ID Creation Status" },
+        { path: "/id-management", icon: icons.idCard, label: t("idManagement") || "ID Management" },
+        { path: "/registered-ids", icon: icons.idCard, label: t("registeredIds") || "Registered IDs" },
+        { path: "/contact-settings", icon: icons.settings, label: t("contactSettings") },
+        ...(isSuperAdmin
+          ? [{ path: "/access-control", icon: icons.accessControl, label: t("accessControl") }]
+          : []),
+        { path: "/contact-messages", icon: icons.mail, label: t("contactMessages") || "Contact Messages" },
+        { path: "/account-recovery-requests", icon: icons.lock, label: t("accountRecoveryRequests") || "Account Recovery Requests" },
+        { path: "/blocked-accounts", icon: icons.shield, label: t("blockedAccounts.label") },
+        { path: "/account-lock", icon: icons.lock, label: t("accountLock") || "Account Lock" },
+        { path: "/deleted-users", icon: icons.trash, label: t("deletedUsers") },
+      ],
+    },
+  ]
+    .map((g) => ({
+      ...g,
+      items: g.items.filter(
+        (s) => s.path === "/admin-dashboard" || canAccessPath(accessConfig, s.path, currentUserId)
+      ),
+    }))
+    .filter((g) => g.items.length > 0);
 
   /* ---------- stat cards config ---------- */
   // NOTE: `delta` values + non-derived `spark` arrays below are decorative
@@ -1011,25 +1062,21 @@ function AdminDashboard() {
         </div>
 
         <nav className="sidebar-nav">
-          {sidebarFiltered.map((s) => {
-            /* Dashboard's own entry has path: null — it's "active" only when
-               we're actually sitting on /admin-dashboard itself. Every other
-               entry is active when its path matches the current route. */
-            const isActive = s.path
-              ? location.pathname === s.path
-              : location.pathname === "/admin-dashboard";
-
-            return (
-              <button
-                key={s.path || "dashboard"}
-                className={`side-link ${isActive ? "active" : ""}`}
-                onClick={() => { if (s.path) navigate(s.path); setSidebarOpen(false); }}
-              >
-                <span className="side-link-icon">{s.icon}</span>
-                <span className="side-link-label">{s.label}</span>
-              </button>
-            );
-          })}
+          {navGroups.map((g) => (
+            <React.Fragment key={g.key}>
+              {g.title && <p className="side-section">{g.title}</p>}
+              {g.items.map((s) => (
+                <button
+                  key={s.path}
+                  className={`side-link ${location.pathname === s.path ? "active" : ""}`}
+                  onClick={() => { navigate(s.path); setSidebarOpen(false); }}
+                >
+                  <span className="side-link-icon">{s.icon}</span>
+                  <span className="side-link-label">{s.label}</span>
+                </button>
+              ))}
+            </React.Fragment>
+          ))}
         </nav>
 
         <div className="sidebar-profile">

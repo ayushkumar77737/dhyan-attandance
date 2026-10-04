@@ -2867,3 +2867,108 @@
   border-radius: 50% !important;
   -webkit-border-radius: 50% !important;
 }
+
+.admlo-mobile-bar {
+  display: none;
+}
+
+/* ================================================================== */
+/* PAGES HOSTED INSIDE AdminLayout                                    */
+/* ================================================================== */
+
+/* hamburger bar: hidden on desktop */
+.admlo-mobile-bar {
+  display: none;
+}
+
+.dash-main {
+  position: relative;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+/* any page rendered inside the layout fills the column */
+.dash-main>*:not(.admlo-mobile-bar) {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 920px) {
+
+  /* a normal sticky bar: it takes its own row, so it never covers the page */
+  .admlo-mobile-bar {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    padding: 10px 16px;
+    background: var(--ad-bg-top);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--ad-border);
+  }
+
+  .admlo-mobile-bar {
+    gap: 12px;
+  }
+
+  .admlo-mobile-title {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--ad-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .admlo-mobile-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  .admlo-mobile-avatar {
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+  }
+}
+
+/* keep the dashboard topbar a normal-height bar, whatever other CSS says */
+.dash-shell .dash-main>.topbar {
+  flex: 0 0 auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+}
+
+.dash-shell .dash-main>.dash-content {
+  flex: 0 0 auto;
+}
+
+.side-section {
+  margin: 14px 0 4px;
+  padding: 0 14px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ad-text-secondary);
+}
+
+.sidebar-profile {
+  position: sticky;
+  bottom: -16px;
+  padding-bottom: 16px;
+  background: var(--ad-bg-side);
+  z-index: 2;
+}
