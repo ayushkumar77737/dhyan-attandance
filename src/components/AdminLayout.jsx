@@ -6,6 +6,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 import { logLogout } from "../utils/logActivity";
 import { SUPER_ADMIN_ID, fetchAccessConfig, canAccessPath } from "../utils/accessControl";
+import useSidebarScroll, { clearSidebarScroll } from "../hooks/useSidebarScroll";
 import logo from "../assets/logo2.png";
 import logo3 from "../assets/logo3.png";
 import "../pages/AdminDashboard.css";
@@ -246,6 +247,7 @@ function AdminLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [accessConfig, setAccessConfig] = useState({});
   const [adminInfo, setAdminInfo] = useState(null);
+  const navRef = useSidebarScroll(location.pathname, accessConfig);
 
   const currentUserId = localStorage.getItem("userId") || "";
   const isSuperAdmin = currentUserId.toUpperCase() === SUPER_ADMIN_ID;
@@ -275,6 +277,7 @@ function AdminLayout({ children }) {
       localStorage.removeItem("userId");
       localStorage.removeItem("adminAuth");
       localStorage.removeItem("userAuth");
+      clearSidebarScroll();
       await signOut(auth);
       navigate("/");
     } catch (err) { console.log(err); }
@@ -369,7 +372,7 @@ function AdminLayout({ children }) {
           <img src={logo3} alt="Badge" className="brand-logo-badge" />
         </div>
 
-        <nav className="sidebar-nav">
+        <nav className="sidebar-nav" ref={navRef}>
           {navGroups.map((g) => (
             <React.Fragment key={g.key}>
               {g.title && <p className="side-section">{g.title}</p>}

@@ -35,6 +35,7 @@ import {
 } from "chart.js";
 
 import { SUPER_ADMIN_ID, fetchAccessConfig, canAccessPath } from "../utils/accessControl";
+import useSidebarScroll, { clearSidebarScroll } from "../hooks/useSidebarScroll";
 
 ChartJS.register(
   ArcElement, Tooltip, Legend,
@@ -494,6 +495,7 @@ function AdminDashboard() {
 
   const [search, setSearch] = useState("");
   const [accessConfig, setAccessConfig] = useState({});
+  const navRef = useSidebarScroll(location.pathname, accessConfig);
   const currentUserId = localStorage.getItem("userId") || "";
   const isSuperAdmin = currentUserId.toUpperCase() === SUPER_ADMIN_ID;
   const [showAccount, setShowAccount] = useState(false);
@@ -766,7 +768,7 @@ function AdminDashboard() {
       localStorage.removeItem("userId");
       localStorage.removeItem("adminAuth");
       localStorage.removeItem("userAuth");
-
+      clearSidebarScroll();
       await signOut(auth);
       navigate("/");
     } catch (err) { console.log(err); }
@@ -1061,7 +1063,7 @@ function AdminDashboard() {
           <img src={logo3} alt="Badge" className="brand-logo-badge" />
         </div>
 
-        <nav className="sidebar-nav">
+        <nav className="sidebar-nav" ref={navRef}>
           {navGroups.map((g) => (
             <React.Fragment key={g.key}>
               {g.title && <p className="side-section">{g.title}</p>}
