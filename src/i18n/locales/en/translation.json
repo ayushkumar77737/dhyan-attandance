@@ -52,7 +52,7 @@
   "deleteConfirmMsg": "Are you sure you want to delete this user?",
   "cancel": "Cancel",
   "adminPanel": "Admin Panel",
-  "attendanceReport": "Attendance Report",
+  "attendanceReport": "User Attendance Report",
   "reportSubtitle": "Select a date to generate the daily attendance report",
   "generateReport": "Generate Report",
   "attendanceNotMarked": "Attendance not marked on this day",
@@ -1677,5 +1677,13 @@
   "arsHelpPending": "Our team hasn't started reviewing this yet.",
   "arsHelpInProgress": "Our team is working on your request.",
   "arsHelpSolved": "This request has been resolved.",
-  "sourceAccountRecovery": "Account Recovery"
+  "sourceAccountRecovery": "Account Recovery",
+  "adminAttendance": "Admin Attendance",
+  "adminAttendanceSub": "Record admin presence",
+  "adminAttendanceSubtitle": "Mark attendance for admins for today. The super admin is not included.",
+  "adminsList": "Admins List",
+  "columnAdmin": "Admin",
+  "loadAdmins": "Load Admins",
+  "viewAttendance": "View Attendance",
+  "logMarkedAdminAttendance": "Marked attendance for {{count}} admins"
 }

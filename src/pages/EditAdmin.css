@@ -742,6 +742,7 @@
         font-size: 15px;
     }
 }
+
 .ea-avatar {
     cursor: pointer;
     position: relative;
@@ -756,6 +757,7 @@
     align-items: center;
     justify-content: center;
 }
+
 /* ==================================================================
    LIGHT THEME — legibility fix for the portal label
    The pale violet (#a78bfa) is tuned for the dark ground. On the pale
@@ -770,4 +772,44 @@
    Deepening the token fixes all of them on white in one place. */
 .editadmin-container[data-theme="light"] {
     --ea-violet-light: #6d28d9;
+}
+
+.editadmin-attn-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: 100%;
+    margin-top: 10px;
+    padding: 13px 18px;
+    border-radius: var(--ea-radius-sm);
+    border: 1px solid var(--ea-pill-border);
+    background: var(--ea-pill-bg);
+    color: var(--ea-pill-text);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 14.5px;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    transition: transform 0.15s var(--ea-ease), box-shadow 0.2s var(--ea-ease);
+}
+
+.editadmin-attn-btn .ea-btn-icon {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+}
+
+.editadmin-attn-btn .ea-btn-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.editadmin-attn-btn:hover {
+    box-shadow: 0 8px 20px -10px var(--ea-violet);
+    transform: translateY(-1px);
+}
+
+.editadmin-attn-btn:active {
+    transform: translateY(0);
 }

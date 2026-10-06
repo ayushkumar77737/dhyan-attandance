@@ -7,6 +7,7 @@ export const CONTROLLABLE_PAGES = [
     { id: "addUser", path: "/add-user", labelKey: "addUser" },
     { id: "addAdmin", path: "/add-admin", labelKey: "addAdmin" },
     { id: "markAttendance", path: "/mark-attendance", labelKey: "markAttendance" },
+    { id: "adminAttendance", path: "/admin-attendance", labelKey: "adminAttendance" },
     { id: "smartAttendance", path: "/smart-attendance", labelKey: "smartAttendance" },
     { id: "allUsers", path: "/all-users", labelKey: "allUsers" },
     { id: "allAdmins", path: "/all-admins", labelKey: "allAdmins" },

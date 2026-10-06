@@ -5,7 +5,7 @@ import { logAdminAction } from "../utils/logAdminAction";
 import { db, auth } from "../firebase/firebase";
 import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 import axios from "axios";
-
+import { SUPER_ADMIN_ID, fetchAccessConfig, canAccess } from "../utils/accessControl";
 import { useTranslation } from "react-i18next";
 import useAutoLogout from "../hooks/useAutoLogout";
 
@@ -51,6 +51,12 @@ const icons = {
             <circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" />
         </svg>
     ),
+    calendarCheck: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /><polyline points="8.5 15 11 17.5 15.5 13" />
+        </svg>
+    ),
     inbox: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
@@ -89,6 +95,21 @@ function EditAdmin() {
     const [msg, setMsg] = useState({ type: "", text: "" });
     const [original, setOriginal] = useState({ name: "", email: "" });
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
+    const [canViewAttendance, setCanViewAttendance] = useState(false);
+
+    useEffect(() => {
+        if (String(id || "").toUpperCase() === SUPER_ADMIN_ID) {
+            setCanViewAttendance(false);
+            return;
+        }
+        fetchAccessConfig()
+            .then((cfg) =>
+                setCanViewAttendance(
+                    canAccess(cfg, "adminAttendance", localStorage.getItem("userId") || "")
+                )
+            )
+            .catch(() => setCanViewAttendance(false));
+    }, [id]);
 
     const checkAdmin = async () => {
         const currentUser = auth.currentUser;
@@ -458,6 +479,16 @@ function EditAdmin() {
                             : <span className="ea-btn-icon">{icons.check}</span>}
                         {saving ? t("saving") : t("updateAdmin")}
                     </button>
+                    {canViewAttendance && (
+                        <button
+                            type="button"
+                            className="editadmin-attn-btn"
+                            onClick={() => navigate(`/admin-attendance/${id}`)}
+                        >
+                            <span className="ea-btn-icon">{icons.calendarCheck}</span>
+                            {t("viewAttendance", "View Attendance")}
+                        </button>
+                    )}
                 </div>
             )}
         </div>
