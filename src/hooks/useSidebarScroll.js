@@ -16,7 +16,11 @@ const getScrollParent = (el) => {
   return null;
 };
 
-export default function useSidebarScroll(pathname, accessConfig) {
+export default function useSidebarScroll(
+  pathname,
+  accessConfig,
+  activeSelector = ".side-link.active"
+) {
   const navRef = useRef(null);
 
   useEffect(() => {
@@ -24,7 +28,7 @@ export default function useSidebarScroll(pathname, accessConfig) {
     if (!nav) return;
 
     const showActive = () => {
-      const active = nav.querySelector(".side-link.active");
+      const active = nav.querySelector(activeSelector);
       if (!active) return;
 
       const scroller = getScrollParent(active);
@@ -64,4 +68,4 @@ export default function useSidebarScroll(pathname, accessConfig) {
 }
 
 /* kept so existing imports don't break */
-export const clearSidebarScroll = () => {};
+export const clearSidebarScroll = () => { };

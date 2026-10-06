@@ -6,6 +6,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { collection, getDocs, doc, getDoc, query, where, limit } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import useAutoLogout from "../hooks/useAutoLogout";
+import useSidebarScroll from "../hooks/useSidebarScroll";
 import { useTranslation } from "react-i18next";
 import logo from "../assets/logo2.png";
 import logo3 from "../assets/logo3.png";
@@ -154,6 +155,7 @@ function UserDashboard() {
     () => (typeof window !== "undefined" ? window.innerWidth > 1080 : true)
   );
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const navRef = useSidebarScroll("/user-dashboard", null, ".ud-nav-item--active");
 
   useEffect(() => { localStorage.setItem("dashTheme", theme); }, [theme]);
 
@@ -528,7 +530,7 @@ function UserDashboard() {
             <img src={logo3} alt="Badge" className="ud-brand-logo-badge" />
           </div>
 
-          <nav className="ud-nav">
+          <nav className="ud-nav" ref={navRef}>
             {navItems.map((item) => (
               <button
                 key={item.path}

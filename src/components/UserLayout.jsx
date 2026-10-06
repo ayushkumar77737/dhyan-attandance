@@ -5,6 +5,7 @@ import { collection, getDocs, query, where, limit } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 import { auth, db } from "../firebase/firebase";
 import { logLogout } from "../utils/logActivity";
+import useSidebarScroll from "../hooks/useSidebarScroll";
 import logo from "../assets/logo2.png";
 import logo3 from "../assets/logo3.png";
 import "../pages/UserDashboard.css";
@@ -55,6 +56,7 @@ function UserLayout({ children }) {
   );
   const [userId, setUserId] = useState("");
   const [notifCount, setNotifCount] = useState(0);
+  const navRef = useSidebarScroll(location.pathname, null, ".ud-nav-item--active");
 
   const langKey = (i18n.resolvedLanguage || i18n.language || "en").split("-")[0].toLowerCase();
 
@@ -148,7 +150,7 @@ function UserLayout({ children }) {
             <img src={logo3} alt="Badge" className="ud-brand-logo-badge" />
           </div>
 
-          <nav className="ud-nav">
+          <nav className="ud-nav" ref={navRef}>
             {navItems.map((item) => (
               <button
                 key={item.path}
