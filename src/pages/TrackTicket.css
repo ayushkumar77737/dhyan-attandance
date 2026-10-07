@@ -197,10 +197,9 @@
    BACK BUTTON + HERO
    ================================================================== */
 .trkt__back-btn {
-    position: fixed;
-    top: 22px;
-    left: 22px;
-    z-index: 20;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 24px;
     display: inline-flex;
     align-items: center;
     gap: 9px;
@@ -1115,11 +1114,6 @@
    ================================================================== */
 /* Below this width the centered shell reaches the pinned back
    button's column, so push the content down to clear it. */
-@media (max-width: 1240px) {
-    .trkt__shell {
-        padding-top: 60px;
-    }
-}
 
 @media (max-width: 900px) {
     .trkt__stats {
@@ -1137,14 +1131,9 @@
     }
 
     .trkt__back-btn {
-        top: 14px;
-        left: 14px;
         padding: 10px 18px;
         font-size: 14px;
-    }
-
-    .trkt__shell {
-        padding-top: 54px;
+        margin-bottom: 18px;
     }
 
     .trkt__hero-title {
