@@ -299,6 +299,7 @@ function AdminLayout({ children }) {
         { path: "/add-user", icon: icons.userPlus, label: t("addUser") },
         { path: "/add-admin", icon: icons.shield, label: t("addAdmin") },
         { path: "/mark-attendance", icon: icons.calendarCheck, label: t("markAttendance") },
+        { path: "/admin-attendance-report", icon: icons.fileText, label: t("adminAttendanceReport", "Admin Attendance Report") },
         { path: "/admin-attendance", icon: icons.calendarCheck, label: t("adminAttendance", "Admin Attendance") },
         { path: "/smart-attendance", icon: icons.qrCode, label: t("smartAttendance") },
         { path: "/all-users", icon: icons.users, label: t("allUsers") },

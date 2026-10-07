@@ -1685,5 +1685,9 @@
   "columnAdmin": "Admin",
   "loadAdmins": "Load Admins",
   "viewAttendance": "View Attendance",
-  "logMarkedAdminAttendance": "Marked attendance for {{count}} admins"
+  "logMarkedAdminAttendance": "Marked attendance for {{count}} admins",
+  "adminAttendanceReport": "Admin Attendance Report",
+  "adminAttendanceReportSub": "View and edit admin attendance",
+  "aarNoMatch": "No admins match your search.",
+  "logEditedAdminAttendance": "Edited admin attendance: {{name}} → {{status}}"
 }

@@ -7,6 +7,7 @@ import AttendancePage from "./pages/AttendancePage";
 import AddUser from "./pages/AddUser";
 import MarkAttendance from "./pages/MarkAttendance";
 import AdminAttendance from "./pages/AdminAttendance";
+import AdminAttendanceReport from "./pages/AdminAttendanceReport";
 import AdminAttendanceView from "./pages/AdminAttendanceView";
 import AllUsers from "./pages/AllUsers";
 import AllAdmins from "./pages/AllAdmins";
@@ -179,6 +180,7 @@ function App() {
           <Route path="/add-user" element={<RequireAccess pageId="addUser"><AddUser /></RequireAccess>} />
           <Route path="/add-admin" element={<RequireAccess pageId="addAdmin"><AddAdmin /></RequireAccess>} />
           <Route path="/mark-attendance" element={<RequireAccess pageId="markAttendance"><MarkAttendance /></RequireAccess>} />
+          <Route path="/admin-attendance-report" element={<RequireAccess pageId="adminAttendanceReport"><AdminAttendanceReport /></RequireAccess>} />
           <Route path="/admin-attendance" element={<RequireAccess pageId="adminAttendance"><AdminAttendance /></RequireAccess>} />
           <Route path="/admin-attendance/:id" element={<RequireAccess pageId="adminAttendance"><AdminAttendanceView /></RequireAccess>} />
           <Route path="/smart-attendance" element={<RequireAccess pageId="smartAttendance"><SmartAttendance /></RequireAccess>} />

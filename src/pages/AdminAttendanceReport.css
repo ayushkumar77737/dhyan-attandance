@@ -1,0 +1,1719 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+/* ==================================================================
+   Every colour, shadow and gradient below the token blocks resolves
+   through a variable, so switching data-theme re-skins the whole page
+   without per-rule overrides.
+   ================================================================== */
+
+/* ================================================================== */
+/* TOKENS — DARK (default)                                            */
+/* ================================================================== */
+.aar-container {
+    --rp-indigo: #6366f1;
+    --rp-indigo-mid: #4f46e5;
+    --rp-indigo-light: #a5b4fc;
+    --rp-indigo-subtle: rgba(99, 102, 241, 0.14);
+
+    --rp-green-text: #4ade80;
+    --rp-green-dim: rgba(34, 197, 94, 0.14);
+    --rp-green-border: rgba(34, 197, 94, 0.32);
+
+    --rp-red-text: #f87171;
+    --rp-red-dim: rgba(239, 68, 68, 0.13);
+    --rp-red-border: rgba(239, 68, 68, 0.30);
+
+    --rp-page-bg: #0b0f1a;
+    --rp-blob-1: rgba(99, 102, 241, 0.16);
+    --rp-blob-2: rgba(168, 85, 247, 0.10);
+
+    --rp-card: rgba(255, 255, 255, 0.04);
+    --rp-card-solid: #131929;
+    --rp-card-border: rgba(255, 255, 255, 0.08);
+    --rp-card-shadow: 0 24px 56px -26px rgba(0, 0, 0, 0.72);
+    --rp-card-shadow-hover: 0 32px 66px -26px rgba(0, 0, 0, 0.8);
+
+    --rp-thead-bg: rgba(99, 102, 241, 0.12);
+    --rp-thead-text: #a5b4fc;
+    --rp-row-border: rgba(255, 255, 255, 0.06);
+    --rp-row-hover: rgba(99, 102, 241, 0.07);
+
+    --rp-text: #eef1fa;
+    --rp-muted: #8492ae;
+
+    --rp-input-bg: rgba(255, 255, 255, 0.05);
+    --rp-input-border: rgba(255, 255, 255, 0.12);
+    --rp-input-shadow: none;
+    --rp-scheme: dark;
+
+    --rp-pill-bg: rgba(255, 255, 255, 0.05);
+    --rp-pill-border: rgba(165, 180, 252, 0.22);
+    --rp-pill-shadow: none;
+
+    /* nested surfaces — the modal info panel and cancel button sit INSIDE
+       the modal, so on white they must not be another white */
+    --rp-surface: rgba(255, 255, 255, 0.04);
+    --rp-surface-border: rgba(255, 255, 255, 0.10);
+
+    --rp-chip-bg: rgba(99, 102, 241, 0.14);
+    --rp-chip-text: #a5b4fc;
+
+    --rp-avatar-bg: rgba(99, 102, 241, 0.20);
+    --rp-avatar-text: #a5b4fc;
+    --rp-avatar-ring: rgba(165, 180, 252, 0.26);
+
+    --rp-dots: rgba(165, 180, 252, 0.14);
+
+    --rp-gen-gradient: linear-gradient(135deg, #6366f1, #4f46e5);
+    --rp-gen-shadow: 0 12px 28px -10px rgba(99, 102, 241, 0.55);
+    --rp-gen-shadow-hover: 0 18px 36px -12px rgba(99, 102, 241, 0.68);
+    --rp-exp-gradient: linear-gradient(135deg, #22c55e, #16a34a);
+    --rp-exp-shadow: 0 12px 28px -10px rgba(34, 197, 94, 0.45);
+    --rp-exp-shadow-hover: 0 18px 36px -12px rgba(34, 197, 94, 0.58);
+
+    --rp-radius-sm: 10px;
+    --rp-radius-md: 14px;
+    --rp-radius-lg: 20px;
+
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --rp-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ================================================================== */
+/* TOKENS — LIGHT                                                     */
+/* ------------------------------------------------------------------ */
+/* Two rules govern this palette:                                      */
+/*                                                                     */
+/* 1. Pale 300/400-level accents glow on near-black but wash out on    */
+/*    white, so each drops to its 600/700 counterpart of the same hue. */
+/*                                                                     */
+/* 2. Nothing that needs an edge may sit within ~2% of the surface     */
+/*    behind it — the page steps well away from white, and borders     */
+/*    carry real alpha rather than a hairline suggestion.              */
+/* ================================================================== */
+.aar-container[data-theme="light"] {
+    --rp-indigo: #4f46e5;
+    --rp-indigo-light: #4338ca;
+    --rp-indigo-subtle: #e4e2fc;
+
+    --rp-green-text: #15803d;
+    --rp-green-dim: #d8f1e2;
+    --rp-green-border: rgba(21, 128, 61, 0.28);
+
+    --rp-red-text: #dc2626;
+    --rp-red-dim: #fce2e2;
+    --rp-red-border: rgba(220, 38, 38, 0.28);
+
+    /* page steps clearly away from the white cards */
+    --rp-page-bg: #e8e5f7;
+    --rp-blob-1: rgba(99, 102, 241, 0.16);
+    --rp-blob-2: rgba(168, 85, 247, 0.11);
+
+    --rp-card: #ffffff;
+    --rp-card-solid: #ffffff;
+    --rp-card-border: rgba(35, 30, 90, 0.13);
+    --rp-card-shadow:
+        0 22px 48px -26px rgba(35, 30, 90, 0.36),
+        0 2px 8px rgba(35, 30, 90, 0.07);
+    --rp-card-shadow-hover:
+        0 30px 60px -26px rgba(35, 30, 90, 0.44),
+        0 3px 12px rgba(35, 30, 90, 0.09);
+
+    --rp-thead-bg: #ebe9fc;
+    --rp-thead-text: #4f46e5;
+    --rp-row-border: rgba(35, 30, 90, 0.12);
+    --rp-row-hover: #f3f1fd;
+
+    --rp-text: #14123a;
+    --rp-muted: #575473;
+
+    /* the date field and back button sit on the PAGE, so white is right */
+    --rp-input-bg: #ffffff;
+    --rp-input-border: rgba(35, 30, 90, 0.17);
+    --rp-input-shadow: 0 1px 3px rgba(35, 30, 90, 0.09);
+    --rp-scheme: light;
+
+    --rp-pill-bg: #ffffff;
+    --rp-pill-border: rgba(35, 30, 90, 0.16);
+    --rp-pill-shadow: 0 1px 3px rgba(35, 30, 90, 0.10);
+
+    /* …but these sit inside the white modal, so they take a tint */
+    --rp-surface: #f4f2fd;
+    --rp-surface-border: rgba(35, 30, 90, 0.15);
+
+    --rp-chip-bg: #e2e0fc;
+    --rp-chip-text: #4338ca;
+
+    --rp-avatar-bg: #e2e0fc;
+    --rp-avatar-text: #4338ca;
+    --rp-avatar-ring: rgba(79, 70, 229, 0.24);
+
+    --rp-dots: rgba(99, 102, 241, 0.24);
+
+    --rp-gen-gradient: linear-gradient(135deg, #5b53f0, #4338ca);
+    --rp-gen-shadow: 0 12px 26px -10px rgba(67, 56, 202, 0.50);
+    --rp-gen-shadow-hover: 0 18px 34px -12px rgba(67, 56, 202, 0.60);
+    --rp-exp-gradient: linear-gradient(135deg, #16a34a, #15803d);
+    --rp-exp-shadow: 0 12px 26px -10px rgba(21, 128, 61, 0.44);
+    --rp-exp-shadow-hover: 0 18px 34px -12px rgba(21, 128, 61, 0.54);
+}
+
+/* ================================================================== */
+/* SHELL                                                              */
+/* ================================================================== */
+.aar-container {
+    position: relative;
+    min-height: 100vh;
+    padding: 28px 32px 60px;
+    font-family: var(--font-body);
+    background: var(--rp-page-bg);
+    color: var(--rp-text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    animation: aar-fade 0.6s var(--rp-ease);
+}
+
+/* soft ambient shapes */
+.aar-blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.aar-blob--1 {
+    width: 560px;
+    height: 560px;
+    top: -180px;
+    left: -160px;
+    background: radial-gradient(circle, var(--rp-blob-1), transparent 70%);
+}
+
+.aar-blob--2 {
+    width: 460px;
+    height: 460px;
+    bottom: -140px;
+    right: -140px;
+    background: radial-gradient(circle, var(--rp-blob-2), transparent 70%);
+}
+
+.aar-dots {
+    position: fixed;
+    width: 120px;
+    height: 120px;
+    color: var(--rp-dots);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.aar-dots--tr {
+    top: 30px;
+    right: 34px;
+}
+
+.aar-dots--bl {
+    bottom: 36px;
+    left: 30px;
+}
+
+/* everything above the ambient layer */
+.aar-back,
+.aar-head,
+.aar-controls,
+.aar-empty-note,
+.aar-stats,
+.aar-export-wrap,
+.aar-table {
+    position: relative;
+    z-index: 1;
+}
+
+/* ================================================================== */
+/* BACK                                                               */
+/* ================================================================== */
+.aar-back {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    gap: 9px;
+    margin-bottom: 22px;
+    padding: 12px 22px 12px 16px;
+    border: 1px solid var(--rp-pill-border);
+    border-radius: 999px;
+    background: var(--rp-pill-bg);
+    color: var(--rp-text);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: var(--rp-pill-shadow);
+    transition: border-color 0.22s var(--rp-ease), color 0.22s var(--rp-ease), box-shadow 0.22s var(--rp-ease);
+}
+
+.aar-back svg {
+    width: 16px;
+    height: 16px;
+}
+
+.aar-back-icon {
+    display: flex;
+    transition: transform 0.22s var(--rp-ease);
+}
+
+.aar-back:hover {
+    border-color: var(--rp-indigo);
+    color: var(--rp-indigo-light);
+    box-shadow: 0 8px 20px -12px rgba(99, 102, 241, 0.5);
+}
+
+.aar-back:hover .aar-back-icon {
+    transform: translateX(-3px);
+}
+
+/* ================================================================== */
+/* HEADER                                                             */
+/* ================================================================== */
+.aar-head {
+    text-align: center;
+    margin-bottom: 28px;
+    animation: aar-slidedown 0.55s var(--rp-ease);
+}
+
+.aar-eyebrow {
+    display: inline-block;
+    padding: 7px 18px;
+    border-radius: 999px;
+    background: var(--rp-indigo-subtle);
+    border: 1px solid rgba(99, 102, 241, 0.26);
+    color: var(--rp-indigo-light);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.aar-title {
+    margin: 0 0 10px;
+    font-family: var(--font-display);
+    font-size: 54px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    color: var(--rp-text);
+    overflow-wrap: anywhere;
+}
+
+.aar-subtitle {
+    margin: 0;
+    font-size: 15px;
+    color: var(--rp-muted);
+}
+
+/* ================================================================== */
+/* CONTROLS                                                           */
+/* ================================================================== */
+.aar-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 34px;
+    flex-wrap: wrap;
+    animation: aar-fadeup 0.6s var(--rp-ease);
+}
+
+.aar-date {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--rp-input-bg);
+    border: 1px solid var(--rp-input-border);
+    border-radius: var(--rp-radius-md);
+    box-shadow: var(--rp-input-shadow);
+    transition: border-color 0.22s var(--rp-ease), box-shadow 0.22s var(--rp-ease);
+}
+
+.aar-date:focus-within {
+    border-color: var(--rp-indigo);
+    box-shadow: 0 0 0 4px var(--rp-indigo-subtle);
+}
+
+.aar-date input {
+    padding: 15px 46px 15px 20px;
+    min-width: 210px;
+    border: none;
+    background: transparent;
+    color: var(--rp-text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    outline: none;
+    color-scheme: var(--rp-scheme);
+}
+
+/* hide the native picker glyph and use our own, so it matches the theme */
+.aar-date input::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 0;
+    width: 46px;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.aar-date-icon {
+    position: absolute;
+    right: 16px;
+    display: flex;
+    color: var(--rp-muted);
+    pointer-events: none;
+}
+
+.aar-date-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.aar-generate,
+.aar-export {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 28px;
+    border: none;
+    border-radius: var(--rp-radius-md);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform 0.2s var(--rp-ease), box-shadow 0.2s var(--rp-ease);
+}
+
+.aar-generate {
+    background: var(--rp-gen-gradient);
+    box-shadow: var(--rp-gen-shadow);
+}
+
+.aar-generate:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--rp-gen-shadow-hover);
+}
+
+.aar-generate:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.aar-btn-icon {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.aar-btn-icon svg {
+    width: 17px;
+    height: 17px;
+}
+
+/* ================================================================== */
+/* EMPTY NOTE                                                         */
+/* ================================================================== */
+.aar-empty-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    margin-top: 8px;
+    padding: 15px 28px;
+    border-radius: var(--rp-radius-md);
+    background: var(--rp-red-dim);
+    border: 1px solid var(--rp-red-border);
+    color: var(--rp-red-text);
+    font-size: 14.5px;
+    font-weight: 600;
+    animation: aar-fade 0.4s var(--rp-ease);
+}
+
+.aar-empty-note-icon {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.aar-empty-note-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ================================================================== */
+/* STATS                                                              */
+/* ================================================================== */
+.aar-stats {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+    animation: aar-fadeup 0.6s var(--rp-ease);
+}
+
+.aar-stat {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 240px;
+    padding: 24px 28px;
+    background: var(--rp-card);
+    border: 1px solid var(--rp-card-border);
+    border-radius: var(--rp-radius-lg);
+    box-shadow: var(--rp-card-shadow);
+    transition: transform 0.22s var(--rp-ease), box-shadow 0.22s var(--rp-ease);
+}
+
+.aar-stat:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--rp-card-shadow-hover);
+}
+
+.aar-stat-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.aar-stat-icon svg {
+    width: 25px;
+    height: 25px;
+}
+
+.aar-stat-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.aar-stat-label {
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rp-muted);
+}
+
+.aar-stat-num {
+    font-family: var(--font-display);
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.aar-stat--total .aar-stat-icon {
+    background: var(--rp-indigo-subtle);
+    color: var(--rp-indigo-light);
+}
+
+.aar-stat--total .aar-stat-num {
+    color: var(--rp-indigo-light);
+}
+
+.aar-stat--present .aar-stat-icon {
+    background: var(--rp-green-dim);
+    color: var(--rp-green-text);
+}
+
+.aar-stat--present .aar-stat-num {
+    color: var(--rp-green-text);
+}
+
+.aar-stat--absent .aar-stat-icon {
+    background: var(--rp-red-dim);
+    color: var(--rp-red-text);
+}
+
+.aar-stat--absent .aar-stat-num {
+    color: var(--rp-red-text);
+}
+
+/* ================================================================== */
+/* EXPORT                                                             */
+/* ================================================================== */
+.aar-export-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 26px;
+}
+
+.aar-export {
+    background: var(--rp-exp-gradient);
+    box-shadow: var(--rp-exp-shadow);
+}
+
+.aar-export:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--rp-exp-shadow-hover);
+}
+
+/* ================================================================== */
+/* TABLE                                                              */
+/* ================================================================== */
+.aar-table {
+    width: 100%;
+    max-width: 1160px;
+    background: var(--rp-card);
+    border: 1px solid var(--rp-card-border);
+    border-radius: var(--rp-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--rp-card-shadow);
+    animation: aar-fadeup 0.65s var(--rp-ease);
+}
+
+.aar-thead,
+.aar-row {
+    display: grid;
+    grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 16px;
+}
+
+.aar-thead {
+    padding: 18px 26px;
+    background: var(--rp-thead-bg);
+    border-bottom: 1px solid var(--rp-row-border);
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rp-thead-text);
+}
+
+.aar-thead span:nth-child(2),
+.aar-thead span:nth-child(3),
+.aar-thead span:nth-child(4) {
+    text-align: center;
+}
+
+.aar-row {
+    padding: 14px 26px;
+    border-bottom: 1px solid var(--rp-row-border);
+    transition: background 0.18s var(--rp-ease);
+    animation: aar-rowin 0.4s var(--rp-ease) both;
+}
+
+.aar-row:last-child {
+    border-bottom: none;
+}
+
+.aar-row:hover {
+    background: var(--rp-row-hover);
+}
+
+.aar-cell {
+    min-width: 0;
+}
+
+.aar-cell--name {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.aar-cell--id,
+.aar-cell--status,
+.aar-cell--actions {
+    display: flex;
+    justify-content: center;
+}
+
+/* ---------------- avatar ---------------- */
+.aar-avatar {
+    position: relative;
+    overflow: hidden;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: var(--rp-avatar-bg);
+    color: var(--rp-avatar-text);
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    box-shadow: inset 0 0 0 2px var(--rp-avatar-ring);
+}
+
+/* The photo sits on top of the initials. If the user has no image, or the
+   Cloudinary URL 404s, onError hides the <img> and the initials show
+   through — no extra state, no flicker. */
+.aar-avatar-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    box-shadow: inset 0 0 0 2px var(--rp-avatar-ring);
+}
+
+.aar-name {
+    font-size: 14.5px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    color: var(--rp-text);
+    word-break: break-word;
+    line-height: 1.25;
+}
+
+.aar-id-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 16px;
+    border-radius: var(--rp-radius-sm);
+    background: var(--rp-chip-bg);
+    color: var(--rp-chip-text);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+}
+
+.aar-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.aar-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+}
+
+.aar-status--on {
+    color: var(--rp-green-text);
+}
+
+.aar-status--off {
+    color: var(--rp-red-text);
+}
+
+.aar-edit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    border-radius: var(--rp-radius-sm);
+    background: var(--rp-indigo-subtle);
+    color: var(--rp-indigo-light);
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s var(--rp-ease), border-color 0.2s var(--rp-ease), transform 0.15s var(--rp-ease);
+}
+
+.aar-edit svg {
+    width: 15px;
+    height: 15px;
+}
+
+.aar-edit:hover {
+    border-color: var(--rp-indigo);
+    transform: translateY(-1px);
+}
+
+/* ================================================================== */
+/* MODAL                                                              */
+/* ================================================================== */
+.aar-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 8, 30, 0.68);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+    animation: aar-fade 0.22s var(--rp-ease);
+}
+
+.aar-modal {
+    width: 100%;
+    max-width: 420px;
+    padding: 26px;
+    background: var(--rp-card-solid);
+    border: 1px solid var(--rp-card-border);
+    border-radius: var(--rp-radius-lg);
+    box-shadow: var(--rp-card-shadow);
+    animation: aar-pop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.aar-modal-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.aar-modal-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: var(--rp-indigo-subtle);
+    color: var(--rp-indigo-light);
+}
+
+.aar-modal-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.aar-modal-head h3 {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--rp-text);
+}
+
+.aar-modal-close {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid var(--rp-surface-border);
+    background: var(--rp-surface);
+    color: var(--rp-muted);
+    cursor: pointer;
+    transition: background 0.2s var(--rp-ease), color 0.2s var(--rp-ease), border-color 0.2s var(--rp-ease);
+}
+
+.aar-modal-close svg {
+    width: 15px;
+    height: 15px;
+}
+
+.aar-modal-close:hover {
+    background: var(--rp-red-dim);
+    border-color: var(--rp-red-border);
+    color: var(--rp-red-text);
+}
+
+.aar-modal-info {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding: 15px 17px;
+    margin-bottom: 20px;
+    border-radius: var(--rp-radius-md);
+    background: var(--rp-surface);
+    border: 1px solid var(--rp-surface-border);
+}
+
+.aar-modal-info p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--rp-muted);
+}
+
+.aar-modal-info-icon {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.aar-modal-info-icon svg {
+    width: 15px;
+    height: 15px;
+}
+
+.aar-modal-label {
+    margin: 0 0 11px;
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rp-muted);
+}
+
+.aar-modal-options {
+    display: flex;
+    gap: 11px;
+    margin-bottom: 24px;
+}
+
+.aar-opt {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px;
+    border-radius: var(--rp-radius-md);
+    border: 1px solid transparent;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s var(--rp-ease), border-color 0.2s var(--rp-ease);
+}
+
+.aar-opt svg {
+    width: 16px;
+    height: 16px;
+}
+
+.aar-opt--present {
+    background: var(--rp-green-dim);
+    color: var(--rp-green-text);
+}
+
+.aar-opt--present:hover,
+.aar-opt--present.aar-opt--active {
+    border-color: var(--rp-green-border);
+}
+
+.aar-opt--absent {
+    background: var(--rp-red-dim);
+    color: var(--rp-red-text);
+}
+
+.aar-opt--absent:hover,
+.aar-opt--absent.aar-opt--active {
+    border-color: var(--rp-red-border);
+}
+
+.aar-opt--active {
+    box-shadow: 0 0 0 3px var(--rp-indigo-subtle);
+}
+
+.aar-modal-footer {
+    display: flex;
+    gap: 11px;
+    justify-content: flex-end;
+}
+
+.aar-modal-cancel,
+.aar-modal-save {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: var(--rp-radius-md);
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s var(--rp-ease), box-shadow 0.2s var(--rp-ease), border-color 0.2s var(--rp-ease);
+}
+
+.aar-modal-cancel svg,
+.aar-modal-save svg {
+    width: 15px;
+    height: 15px;
+}
+
+.aar-modal-cancel {
+    border: 1px solid var(--rp-surface-border);
+    background: var(--rp-surface);
+    color: var(--rp-muted);
+}
+
+.aar-modal-cancel:hover:not(:disabled) {
+    color: var(--rp-text);
+    border-color: var(--rp-muted);
+}
+
+.aar-modal-save {
+    border: none;
+    background: var(--rp-gen-gradient);
+    color: #fff;
+    box-shadow: var(--rp-gen-shadow);
+}
+
+.aar-modal-save:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--rp-gen-shadow-hover);
+}
+
+.aar-modal-cancel:disabled,
+.aar-modal-save:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.aar-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2.2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: aar-spin 0.8s linear infinite;
+}
+
+/* ================================================================== */
+/* KEYFRAMES / A11Y                                                   */
+/* ================================================================== */
+@keyframes aar-fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes aar-fadeup {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes aar-slidedown {
+    from {
+        opacity: 0;
+        transform: translateY(-18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes aar-rowin {
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes aar-pop {
+    from {
+        opacity: 0;
+        transform: scale(0.93);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes aar-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.aar-container button:focus-visible {
+    outline: 2px solid var(--rp-indigo);
+    outline-offset: 2px;
+}
+
+/* The date field already draws its own focus ring on its rounded pill
+   container (.aar-date) via :focus-within — border colour change plus
+   a soft box-shadow glow. A generic input:focus-visible rule would
+   also fire on the raw <input> inside it, which has no border-radius
+   of its own, stacking a second square outline on top of the rounded
+   pill — that's the stray box that appears when the date field is
+   clicked. Suppress it explicitly so only the pill's own focus style
+   shows. */
+.aar-date input:focus-visible {
+    outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .aar-container,
+    .aar-container * {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+
+/* ================================================================== */
+/* RESPONSIVE                                                         */
+/* ================================================================== */
+@media (max-width: 1024px) {
+    .aar-title {
+        font-size: 42px;
+    }
+
+    .aar-dots {
+        display: none;
+    }
+}
+
+@media (max-width: 820px) {
+    .aar-container {
+        padding: 22px 18px 48px;
+    }
+
+    .aar-title {
+        font-size: 34px;
+    }
+
+    .aar-subtitle {
+        font-size: 14px;
+    }
+
+    .aar-stat {
+        flex: 1;
+        min-width: 200px;
+    }
+
+    /* ID folds away — the chip repeats what the row already implies */
+    .aar-thead,
+    .aar-row {
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .aar-thead span:nth-child(2),
+    .aar-cell--id {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .aar-container {
+        padding: 18px 14px 40px;
+    }
+
+    .aar-title {
+        font-size: 28px;
+        letter-spacing: -0.8px;
+    }
+
+    .aar-controls {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .aar-date input {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .aar-generate,
+    .aar-export {
+        width: 100%;
+    }
+
+    .aar-stats {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .aar-stat {
+        width: 100%;
+        min-width: 0;
+        padding: 18px 20px;
+    }
+
+    .aar-stat-icon {
+        width: 46px;
+        height: 46px;
+    }
+
+    .aar-stat-num {
+        font-size: 28px;
+    }
+
+    /* rows stack: identity on top, status + action beneath */
+    .aar-thead {
+        display: none;
+    }
+
+    .aar-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 16px 16px;
+    }
+
+    .aar-cell--status,
+    .aar-cell--actions {
+        justify-content: flex-start;
+    }
+
+    .aar-edit {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .aar-avatar {
+        width: 46px;
+        height: 46px;
+        font-size: 13.5px;
+    }
+
+    .aar-modal-options {
+        flex-direction: column;
+    }
+
+    .aar-modal-footer {
+        flex-direction: column-reverse;
+    }
+
+    .aar-modal-cancel,
+    .aar-modal-save {
+        width: 100%;
+    }
+}
+
+/* ==================================================================
+   ANIMATION LAYER — append to the end of the stylesheet
+   ------------------------------------------------------------------
+   Additive, with three deliberate overrides (noted inline).
+   Reuses the existing aar-fade, aar-slidedown, aar-rowin, aar-pop
+   and aar-spin keyframes.
+
+   .aar-container sets overflow-x: hidden, which makes overflow-y
+   compute to auto — the page is its own scroll container. aar-fadeup
+   starts at translateY(20px), i.e. BELOW its final position, so while
+   it plays it overhangs that container and creates real scroll range.
+   .aar-controls, .aar-stats and .aar-table are re-pointed below.
+
+   Your existing reduced-motion block collapses every animation to
+   0.001ms, which settles `both` fills on their end state — so only
+   hover transforms need clearing at the bottom.
+   ================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* KEYFRAMES                                                          */
+/* ------------------------------------------------------------------ */
+@keyframes aar-slideleft {
+    from {
+        opacity: 0;
+        transform: translateX(-14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes aar-scalein {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes aar-popin {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes aar-dropin {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* fires when a status class flips — confirms a present/absent change
+   landed, with no JS hook */
+@keyframes aar-statusflip {
+    0% {
+        transform: scale(0.86);
+    }
+
+    55% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* blobs are position: fixed — drifting them cannot affect scroll */
+@keyframes aar-drift {
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(26px, 20px) scale(1.06);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 1. ENTRANCE                                                        */
+/* ------------------------------------------------------------------ */
+.aar-back {
+    animation: aar-slideleft 0.45s var(--rp-ease) 0.02s both;
+}
+
+.aar-eyebrow {
+    animation: aar-popin 0.45s var(--rp-ease) 0.14s both;
+}
+
+/* OVERRIDE — all three were aar-fadeup, which rises from below */
+.aar-controls {
+    animation: aar-scalein 0.5s var(--rp-ease) 0.1s both;
+}
+
+.aar-stats {
+    animation: aar-fade 0.5s var(--rp-ease) 0.16s both;
+}
+
+.aar-table {
+    animation: aar-scalein 0.5s var(--rp-ease) 0.42s both;
+}
+
+/* the three stat cards now arrive in sequence inside the row */
+.aar-stat {
+    animation: aar-scalein 0.42s var(--rp-ease) both;
+}
+
+.aar-stat:nth-child(1) {
+    animation-delay: 0.22s;
+}
+
+.aar-stat:nth-child(2) {
+    animation-delay: 0.28s;
+}
+
+.aar-stat:nth-child(3) {
+    animation-delay: 0.34s;
+}
+
+.aar-stat-icon {
+    animation: aar-popin 0.4s var(--rp-ease) 0.38s both;
+}
+
+.aar-stat-num {
+    animation: aar-popin 0.42s var(--rp-ease) 0.42s both;
+}
+
+.aar-export-wrap {
+    animation: aar-scalein 0.45s var(--rp-ease) 0.38s both;
+}
+
+/* rows already slide in from the left — they just all fired at once */
+.aar-row:nth-child(1) {
+    animation-delay: 0.50s;
+}
+
+.aar-row:nth-child(2) {
+    animation-delay: 0.54s;
+}
+
+.aar-row:nth-child(3) {
+    animation-delay: 0.58s;
+}
+
+.aar-row:nth-child(4) {
+    animation-delay: 0.62s;
+}
+
+.aar-row:nth-child(5) {
+    animation-delay: 0.66s;
+}
+
+.aar-row:nth-child(6) {
+    animation-delay: 0.70s;
+}
+
+.aar-row:nth-child(7) {
+    animation-delay: 0.74s;
+}
+
+/* past the seventh they arrive together — a full roster would
+   otherwise leave the tail blank for seconds */
+.aar-row:nth-child(n+8) {
+    animation-delay: 0.78s;
+}
+
+/* the note appears after a generate, so it drops from above rather
+   than reusing the page-load motion */
+.aar-empty-note {
+    animation: aar-dropin 0.35s var(--rp-ease) both;
+}
+
+.aar-modal-icon {
+    animation: aar-popin 0.45s var(--rp-ease) 0.1s both;
+}
+
+/* ------------------------------------------------------------------ */
+/* STATUS FEEDBACK                                                    */
+/* ------------------------------------------------------------------ */
+/* Swapping a class restarts a CSS animation, so marking someone
+   present or absent pops the row's status with no JS involvement. */
+.aar-status--on,
+.aar-status--off {
+    animation: aar-statusflip 0.34s var(--rp-ease);
+}
+
+/* the chosen option in the modal confirms the pick before saving */
+.aar-opt--active {
+    animation: aar-statusflip 0.3s var(--rp-ease);
+}
+
+/* ------------------------------------------------------------------ */
+/* 2. INTERACTION                                                     */
+/* ------------------------------------------------------------------ */
+/* the calendar glyph lights when the date field takes focus */
+.aar-date-icon {
+    transition: color 0.22s var(--rp-ease), transform 0.22s var(--rp-ease);
+}
+
+.aar-date:focus-within .aar-date-icon {
+    color: var(--rp-indigo);
+    transform: scale(1.1);
+}
+
+.aar-generate .aar-btn-icon,
+.aar-export .aar-btn-icon {
+    transition: transform 0.25s var(--rp-ease);
+}
+
+.aar-generate:hover:not(:disabled) .aar-btn-icon {
+    transform: scale(1.12);
+}
+
+/* export arrow dips, matching the download it triggers */
+.aar-export:hover .aar-btn-icon {
+    transform: translateY(2px);
+}
+
+.aar-generate:active:not(:disabled),
+.aar-export:active {
+    transform: scale(0.99);
+}
+
+/* the tinted icon answers a hover anywhere on its stat card */
+.aar-stat-icon {
+    transition: transform 0.25s var(--rp-ease);
+}
+
+.aar-stat:hover .aar-stat-icon {
+    transform: scale(1.08) rotate(-5deg);
+}
+
+/* avatar, chip and status dot acknowledge the row together */
+.aar-avatar {
+    transition: transform 0.22s var(--rp-ease);
+}
+
+.aar-row:hover .aar-avatar {
+    transform: scale(1.06);
+}
+
+.aar-id-chip {
+    transition: transform 0.2s var(--rp-ease);
+}
+
+.aar-row:hover .aar-id-chip {
+    transform: translateX(2px);
+}
+
+.aar-status-dot {
+    transition: transform 0.22s var(--rp-ease);
+}
+
+.aar-row:hover .aar-status-dot {
+    transform: scale(1.3);
+}
+
+.aar-edit svg {
+    transition: transform 0.2s var(--rp-ease);
+}
+
+.aar-edit:hover svg {
+    transform: rotate(-12deg) scale(1.08);
+}
+
+.aar-modal-close svg {
+    transition: transform 0.25s var(--rp-ease);
+}
+
+.aar-modal-close:hover svg {
+    transform: rotate(90deg);
+}
+
+.aar-opt svg {
+    transition: transform 0.2s var(--rp-ease);
+}
+
+.aar-opt:hover svg {
+    transform: scale(1.12);
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. AMBIENT — slow, low contrast, never the focal point             */
+/* ------------------------------------------------------------------ */
+/* both blobs were static; drifting them gives the page some life
+   without touching layout, since they're fixed */
+.aar-blob--1 {
+    animation: aar-drift 18s ease-in-out infinite alternate;
+}
+
+.aar-blob--2 {
+    animation: aar-drift 14s ease-in-out infinite alternate-reverse;
+}
+
+/* ------------------------------------------------------------------ */
+/* REDUCED MOTION                                                     */
+/* ------------------------------------------------------------------ */
+/* The blanket rule already in this file collapses animations to
+   0.001ms, which settles every `both` fill on its end state. Only the
+   hover transforms need clearing. */
+@media (prefers-reduced-motion: reduce) {
+
+    .aar-date:focus-within .aar-date-icon,
+    .aar-stat:hover .aar-stat-icon,
+    .aar-row:hover .aar-avatar,
+    .aar-row:hover .aar-id-chip,
+    .aar-row:hover .aar-status-dot,
+    .aar-generate:hover:not(:disabled) .aar-btn-icon,
+    .aar-export:hover .aar-btn-icon,
+    .aar-edit:hover svg,
+    .aar-modal-close:hover svg,
+    .aar-opt:hover svg,
+    .aar-back:hover .aar-back-icon {
+        transform: none;
+    }
+}
+/* ==================================================================
+   SEARCH BAR
+   Sits on the PAGE (not inside a card), so it takes the same white
+   surface as the date field in light mode.
+   ================================================================== */
+.aar-search-row {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1160px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    animation: aar-scalein 0.45s var(--rp-ease) 0.44s both;
+}
+
+.aar-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 240px;
+    max-width: 480px;
+    background: var(--rp-input-bg);
+    border: 1px solid var(--rp-input-border);
+    border-radius: var(--rp-radius-md);
+    box-shadow: var(--rp-input-shadow);
+    transition: border-color 0.22s var(--rp-ease), box-shadow 0.22s var(--rp-ease);
+}
+
+.aar-search:focus-within {
+    border-color: var(--rp-indigo);
+    box-shadow: 0 0 0 4px var(--rp-indigo-subtle);
+}
+
+.aar-search-icon {
+    display: flex;
+    padding-left: 16px;
+    color: var(--rp-muted);
+    pointer-events: none;
+    transition: color 0.22s var(--rp-ease);
+}
+
+.aar-search-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.aar-search:focus-within .aar-search-icon {
+    color: var(--rp-indigo);
+}
+
+.aar-search input {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 14px 14px 12px;
+    border: none;
+    background: transparent;
+    color: var(--rp-text);
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    font-weight: 500;
+    outline: none;
+}
+
+.aar-search input::placeholder {
+    color: var(--rp-muted);
+    opacity: 0.7;
+}
+
+/* the field draws its own focus ring on the rounded pill */
+.aar-search input:focus-visible {
+    outline: none;
+}
+
+.aar-search-clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+    border: none;
+    border-radius: 50%;
+    background: var(--rp-indigo-subtle);
+    color: var(--rp-indigo-light);
+    cursor: pointer;
+    transition: background 0.2s var(--rp-ease), transform 0.2s var(--rp-ease);
+}
+
+.aar-search-clear svg {
+    width: 12px;
+    height: 12px;
+}
+
+.aar-search-clear:hover {
+    background: var(--rp-red-dim);
+    color: var(--rp-red-text);
+    transform: rotate(90deg);
+}
+
+.aar-search-count {
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--rp-chip-bg);
+    color: var(--rp-chip-text);
+    font-size: 12.5px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* shown inside the table when nothing matches */
+.aar-noresult {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 42px 20px;
+    color: var(--rp-muted);
+    font-size: 14.5px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.aar-noresult-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--rp-indigo-subtle);
+    color: var(--rp-indigo-light);
+}
+
+.aar-noresult-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+@media (max-width: 600px) {
+    .aar-search-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .aar-search {
+        max-width: none;
+    }
+
+    .aar-search-count {
+        align-self: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .aar-search:focus-within .aar-search-icon,
+    .aar-search-clear:hover {
+        transform: none;
+    }
+}
