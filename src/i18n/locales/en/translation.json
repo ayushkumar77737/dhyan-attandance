@@ -1689,5 +1689,11 @@
   "adminAttendanceReport": "Admin Attendance Report",
   "adminAttendanceReportSub": "View and edit admin attendance",
   "aarNoMatch": "No admins match your search.",
-  "logEditedAdminAttendance": "Edited admin attendance: {{name}} → {{status}}"
+  "logEditedAdminAttendance": "Edited admin attendance: {{name}} → {{status}}",
+  "adminPercentageReport": "Percentage Admin Report",
+  "adminPercentageReportSub": "Admin attendance percentages",
+  "adminAttendanceOverview": "Admin Attendance Overview",
+  "adminOverviewSubtitle": "Track and export admin attendance percentages",
+  "apAdminId": "Admin ID",
+  "apNoMatch": "No admins match your search."
 }

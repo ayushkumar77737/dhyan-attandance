@@ -884,6 +884,7 @@ function AdminDashboard() {
     { path: "/all-admins", icon: icons.shield, cls: "icon-red", title: t("allAdmins"), sub: t("allAdminsSub") },
     { path: "/attendance-report", icon: icons.fileText, cls: "icon-green", title: t("attendanceReport"), sub: t("attendanceReportSub") },
     { path: "/attendance-calendar", icon: icons.calendar, cls: "icon-indigo", title: t("attendanceCalendar", "Attendance Calendar"), sub: t("attendanceCalendarCardSub", "Pick a date, see the day") },
+    { path: "/admin-percentage", icon: icons.pieChart, cls: "icon-pink", title: t("adminPercentageReport", "Percentage Admin Report"), sub: t("adminPercentageReportSub", "Admin attendance percentages") },
     { path: "/user-percentage", icon: icons.pieChart, cls: "icon-amber", title: t("percentageReport"), sub: t("percentageReportSub") },
   ];
 
@@ -950,6 +951,7 @@ function AdminDashboard() {
         { path: "/all-admins", icon: icons.shield, label: t("allAdmins") },
         { path: "/attendance-report", icon: icons.fileText, label: t("attendanceReport") },
         { path: "/attendance-calendar", icon: icons.calendar, label: t("attendanceCalendar", "Attendance Calendar") },
+        { path: "/admin-percentage", icon: icons.pieChart, label: t("adminPercentageReport", "Percentage Admin Report") },
         { path: "/user-percentage", icon: icons.pieChart, label: t("percentageReport") },
       ],
     },

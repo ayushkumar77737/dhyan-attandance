@@ -12,6 +12,7 @@ export const CONTROLLABLE_PAGES = [
     { id: "smartAttendance", path: "/smart-attendance", labelKey: "smartAttendance" },
     { id: "allUsers", path: "/all-users", labelKey: "allUsers" },
     { id: "allAdmins", path: "/all-admins", labelKey: "allAdmins" },
+    { id: "adminPercentage", path: "/admin-percentage", labelKey: "adminPercentageReport" },
     { id: "attendanceReport", path: "/attendance-report", labelKey: "attendanceReport" },
     { id: "userPercentage", path: "/user-percentage", labelKey: "percentageReport" },
     { id: "absenceManagement", path: "/absence-management", labelKey: "absenceManagement" },

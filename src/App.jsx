@@ -8,6 +8,7 @@ import AddUser from "./pages/AddUser";
 import MarkAttendance from "./pages/MarkAttendance";
 import AdminAttendance from "./pages/AdminAttendance";
 import AdminAttendanceReport from "./pages/AdminAttendanceReport";
+import AdminPercentage from "./pages/AdminPercentage";
 import AdminAttendanceView from "./pages/AdminAttendanceView";
 import AllUsers from "./pages/AllUsers";
 import AllAdmins from "./pages/AllAdmins";
@@ -189,6 +190,7 @@ function App() {
           <Route path="/deleted-users" element={<RequireAccess pageId="deletedUsers"><DeletedUsers /></RequireAccess>} />
           <Route path="/attendance-report" element={<RequireAccess pageId="attendanceReport"><AttendanceReport /></RequireAccess>} />
           <Route path="/attendance-calendar" element={<RequireAccess pageId="attendanceCalendar"><AttendanceCalendar /></RequireAccess>} />
+          <Route path="/admin-percentage" element={<RequireAccess pageId="adminPercentage"><AdminPercentage /></RequireAccess>} />
           <Route path="/user-percentage" element={<RequireAccess pageId="userPercentage"><UserPercentage /></RequireAccess>} />
           <Route path="/track-ticket" element={<RequireAccess pageId="trackTicket"><TrackTicket /></RequireAccess>} />
           <Route path="/admin-issues" element={<RequireAccess pageId="adminIssues"><AdminIssues /></RequireAccess>} />

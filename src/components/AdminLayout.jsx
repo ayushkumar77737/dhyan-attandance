@@ -306,6 +306,7 @@ function AdminLayout({ children }) {
         { path: "/all-admins", icon: icons.shield, label: t("allAdmins") },
         { path: "/attendance-report", icon: icons.fileText, label: t("attendanceReport") },
         { path: "/attendance-calendar", icon: icons.calendar, label: t("attendanceCalendar", "Attendance Calendar") },
+        { path: "/admin-percentage", icon: icons.pieChart, label: t("adminPercentageReport", "Percentage Admin Report") },
         { path: "/user-percentage", icon: icons.pieChart, label: t("percentageReport") },
       ],
     },
