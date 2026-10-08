@@ -38,7 +38,7 @@
     --ui-pri-low: #4ade80;
 
     min-height: 100vh;
-    padding: 88px 32px 60px;
+    padding: 24px 32px 60px;
     box-sizing: border-box;
     position: relative;
     overflow-x: hidden;
@@ -120,10 +120,9 @@
 
 /* ---- back ---- */
 .ui__back {
-    position: fixed;
-    top: 22px;
-    left: 22px;
-    z-index: 20;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 20px;
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -1175,14 +1174,13 @@
 
 @media (max-width: 640px) {
     .ui__page {
-        padding: 74px 12px 40px;
+        padding: 18px 12px 40px;
     }
 
     .ui__back {
-        top: 14px;
-        left: 14px;
         padding: 9px 16px;
         font-size: 13.5px;
+        margin-bottom: 16px;
     }
 
     .ui__stats {
@@ -1639,18 +1637,34 @@
         box-shadow: -12px 0 40px rgba(20, 28, 64, 0.14);
     }
 }
+
 /* ==================================================================
    DELETE CONFIRM DIALOG
    ================================================================== */
 @keyframes ui-fade {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes ui-modal-pop {
-    0% { opacity: 0; transform: scale(0.94) translateY(8px); }
-    60% { transform: scale(1.015); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
+    0% {
+        opacity: 0;
+        transform: scale(0.94) translateY(8px);
+    }
+
+    60% {
+        transform: scale(1.015);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 .ui__modal-overlay {
@@ -1780,6 +1794,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     .ui__modal-overlay,
     .ui__modal {
         animation: none !important;
