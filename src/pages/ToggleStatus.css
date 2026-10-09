@@ -188,10 +188,9 @@
    BACK BUTTON + HERO
    ================================================================== */
 .tgls__back-btn {
-    position: fixed;
-    top: 22px;
-    left: 22px;
-    z-index: 20;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 20px;
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -908,11 +907,6 @@
    ================================================================== */
 /* Below this the centered shell reaches the pinned back button's
    column, so push the content down to clear it. */
-@media (max-width: 1080px) {
-    .tgls__shell {
-        padding-top: 62px;
-    }
-}
 
 @media (max-width: 900px) {
     .tgls__dots {
@@ -960,14 +954,9 @@
     }
 
     .tgls__back-btn {
-        top: 14px;
-        left: 14px;
         padding: 10px 18px;
         font-size: 14px;
-    }
-
-    .tgls__shell {
-        padding-top: 56px;
+        margin-bottom: 16px;
     }
 
     .tgls__hero-title {
