@@ -37,9 +37,9 @@
 
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 88px 20px 60px;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 20px 60px;
     box-sizing: border-box;
     position: relative;
     overflow-x: hidden;
@@ -115,10 +115,10 @@
 
 /* ---- back ---- */
 .ri__back {
-    position: fixed;
-    top: 22px;
-    left: 22px;
-    z-index: 20;
+    position: relative;
+    z-index: 2;
+    align-self: flex-start;
+    margin-bottom: 20px;
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -882,14 +882,13 @@
    ================================================================== */
 @media (max-width: 640px) {
     .ri__page {
-        padding: 74px 12px 40px;
+        padding: 18px 12px 40px;
     }
 
     .ri__back {
-        top: 14px;
-        left: 14px;
         padding: 9px 16px;
         font-size: 13.5px;
+        margin-bottom: 16px;
     }
 
     .ri__card {
@@ -1188,7 +1187,7 @@
    below 960px. Append to the END of ReportIssue.css.
    ================================================================== */
 .ri__page {
-    padding: 88px 32px 60px;
+    padding: 24px 32px 60px;
 }
 
 .ri__card {
@@ -1260,7 +1259,7 @@
 /* ---- collapse to one column on narrower screens ---- */
 @media (max-width: 960px) {
     .ri__page {
-        padding: 88px 20px 60px;
+        padding: 24px 20px 60px;
     }
 
     .ri__card {
