@@ -148,8 +148,6 @@
     width: 100%;
     max-width: 1440px;
     margin: 0 auto;
-    /* Clears the pinned back button and top-right actions. */
-    padding-top: 68px;
 }
 
 /* ==================================================================
@@ -217,10 +215,7 @@
    PINNED CONTROLS
    ================================================================== */
 .aamon__back {
-    position: fixed;
-    top: 22px;
-    left: 22px;
-    z-index: 30;
+    position: relative;
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -248,11 +243,19 @@
     transform: translateX(-3px);
 }
 
+/* One row: Back on the left, Export / Delete All on the right */
+.aamon__topbar {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+}
+
 .aamon__top-actions {
-    position: fixed;
-    top: 22px;
-    right: 26px;
-    z-index: 30;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -1378,17 +1381,6 @@
     .aamon__title {
         font-size: 36px;
     }
-
-    /* Pinned actions would collide with the heading here. */
-    .aamon__top-actions {
-        position: static;
-        margin-bottom: 18px;
-        justify-content: flex-end;
-    }
-
-    .aamon__shell {
-        padding-top: 62px;
-    }
 }
 
 @media (max-width: 600px) {
@@ -1397,14 +1389,12 @@
     }
 
     .aamon__back {
-        top: 14px;
-        left: 14px;
         padding: 10px 18px;
         font-size: 14px;
     }
 
-    .aamon__shell {
-        padding-top: 56px;
+    .aamon__top-actions {
+        width: 100%;
     }
 
     .aamon__title {
