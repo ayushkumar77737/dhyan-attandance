@@ -494,19 +494,17 @@ function AdminLogs() {
             <div className="aamon__blob aamon__blob--2" />
             <div className="aamon__dots" />
 
-            <div className="aamon__topbar">
-                <button className="aamon__back" onClick={() => navigate("/admin-dashboard")}>
-                    {icons.back}{t("back")}
-                </button>
+            <button className="aamon__back" onClick={() => navigate("/admin-dashboard")}>
+                {icons.back}{t("back")}
+            </button>
 
-                <div className="aamon__top-actions">
-                    <button className="aamon__export-btn" onClick={exportCSV} disabled={filtered.length === 0}>
-                        {icons.download}{t("exportCsv")}
-                    </button>
-                    <button className="aamon__delete-all-btn" onClick={askDeleteAll} disabled={filtered.length === 0}>
-                        {icons.trash}{t("alDeleteAll")}
-                    </button>
-                </div>
+            <div className="aamon__top-actions">
+                <button className="aamon__export-btn" onClick={exportCSV} disabled={filtered.length === 0}>
+                    {icons.download}{t("exportCsv")}
+                </button>
+                <button className="aamon__delete-all-btn" onClick={askDeleteAll} disabled={filtered.length === 0}>
+                    {icons.trash}{t("alDeleteAll")}
+                </button>
             </div>
 
             <div className="aamon__shell">
