@@ -258,14 +258,16 @@ function IdCreationStatus() {
             <div className="idcs__blob idcs__blob--c" />
             <div className="idcs__dots" aria-hidden="true" />
 
-            <button className="idcs__back" onClick={() => navigate("/admin-dashboard")}>
-                {I.back} {t("back", "Back")}
-            </button>
+            <div className="idcs__topbar">
+                <button className="idcs__back" onClick={() => navigate("/admin-dashboard")}>
+                    {I.back} {t("back", "Back")}
+                </button>
 
-            <button className="idcs__export" onClick={handleExport} disabled={exporting}>
-                {exporting ? <span className="idcs__spin idcs__spin--em" /> : I.download}
-                {t("icExportData", "Export Data")}
-            </button>
+                <button className="idcs__export" onClick={handleExport} disabled={exporting}>
+                    {exporting ? <span className="idcs__spin idcs__spin--em" /> : I.download}
+                    {t("icExportData", "Export Data")}
+                </button>
+            </div>
 
             {toast && (
                 <div className={`idcs__toast idcs__toast--${toast.type}`} role="status">
@@ -412,8 +414,8 @@ function IdCreationStatus() {
                                             {/* BIG create ID status banner */}
                                             <div
                                                 className={`idcs__statusbox idcs__anim ${!isVerified ? "idcs__statusbox--pending"
-                                                        : statusYes ? "idcs__statusbox--yes"
-                                                            : "idcs__statusbox--no"
+                                                    : statusYes ? "idcs__statusbox--yes"
+                                                        : "idcs__statusbox--no"
                                                     }`}
                                                 style={{ animationDelay: "0.05s" }}
                                             >
