@@ -967,3 +967,23 @@ body:has(.login-page) {
         animation: none;
     }
 }
+/* ---------- Sign in with Google ---------- */
+.login-google {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0 0 18px;
+}
+
+.login-google-holder {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  min-height: 44px;
+}
+
+.login-google--disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}

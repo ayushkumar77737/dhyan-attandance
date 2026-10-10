@@ -4,6 +4,7 @@ import "./Login.css";
 
 import {
   signInWithEmailAndPassword,
+  signInWithCustomToken,
   signOut,
   setPersistence,
   browserLocalPersistence,
@@ -21,6 +22,7 @@ import bgSunrise from "../assets/landing-bg.webp";
 import lotusCorner from "../assets/landing-lotus-corner.png";
 import { logLogin } from "../utils/logActivity";
 import { getMfaStatus } from "../utils/mfa";
+import GoogleSignInButton from "../components/GoogleSignInButton";
 
 /* ------------------------------------------------------------------ */
 /* Inline icons                                                       */
@@ -261,6 +263,64 @@ const Login = () => {
     setLoading(false);
   };
 
+  /* "Sign in with Google": the server checks the Google account against the
+   portal users and returns a Firebase custom token for the existing uid.
+   After that it is the same MFA flow as the ID + password login. */
+  const handleGoogleLogin = async (credential) => {
+    if (loading) return;
+    setErrorMessage("");
+    setLoading(true);
+
+    try {
+      await setPersistence(
+        auth,
+        rememberMe ? browserLocalPersistence : browserSessionPersistence
+      );
+
+      const response = await fetch("/api/auth/google-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ credential }),
+      });
+
+      let data = {};
+      try {
+        data = await response.json();
+      } catch {
+        data = {};
+      }
+
+      if (!response.ok || !data.customToken) {
+        showError(data.message || t("googleLoginFailed", "Google sign-in failed. Please try again."));
+        setLoading(false);
+        return;
+      }
+
+      await signInWithCustomToken(auth, data.customToken);
+
+      const mfaStatus = await getMfaStatus();
+
+      if (!mfaStatus.success) {
+        await signOut(auth);
+        showError("Unable to verify MFA status.");
+        setLoading(false);
+        return;
+      }
+
+      setLoading(false);
+
+      if (mfaStatus.enabled !== true) {
+        navigate("/mfa-setup");
+        return;
+      }
+
+      navigate("/mfa-verify", { replace: true });
+    } catch (error) {
+      console.log(error);
+      showError(t("googleLoginFailed", "Google sign-in failed. Please try again."));
+      setLoading(false);
+    }
+  };
   const features = [
     { icon: I.peace, cls: "lnf--violet", title: t("featInnerPeace") || "Inner Peace", desc: t("featInnerPeaceDesc") || "Discover tranquility within yourself" },
     { icon: I.book, cls: "lnf--gold", title: t("featDivineWisdom") || "Divine Wisdom", desc: t("featDivineWisdomDesc") || "Learn timeless teachings for a meaningful life" },
@@ -413,6 +473,7 @@ const Login = () => {
             </form>
 
             <div className="login-or"><span>{t("orContinueWith") || "Or continue with"}</span></div>
+            <GoogleSignInButton onCredential={handleGoogleLogin} disabled={loading} />
 
             <div className="login-badges">
               <div className="login-badge">

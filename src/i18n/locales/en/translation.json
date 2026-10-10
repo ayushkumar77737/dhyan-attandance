@@ -1965,5 +1965,7 @@
       "email": "support@jaigurubande.in",
       "address": ""
     }
-  }
+  },
+  "someExistingLastKey": "Some existing text",
+  "googleLoginFailed": "Google sign-in failed. Please try again."
 }
