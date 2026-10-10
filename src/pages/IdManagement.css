@@ -177,10 +177,9 @@
 /* BACK + TOAST                                                       */
 /* ================================================================== */
 .idmg__back {
-    position: fixed;
-    top: 22px;
-    left: 22px;
-    z-index: 20;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 20px;
     display: inline-flex;
     align-items: center;
     gap: 9px;
@@ -1023,12 +1022,6 @@
 /* ================================================================== */
 /* RESPONSIVE                                                         */
 /* ================================================================== */
-@media (max-width: 1120px) {
-    .idmg__shell {
-        padding-top: 60px;
-    }
-}
-
 @media (max-width: 900px) {
     .idmg__title {
         font-size: 42px;
@@ -1045,14 +1038,9 @@
     }
 
     .idmg__back {
-        top: 14px;
-        left: 14px;
         padding: 9px 16px;
         font-size: 13.5px;
-    }
-
-    .idmg__shell {
-        padding-top: 54px;
+        margin-bottom: 16px;
     }
 
     .idmg__title {
