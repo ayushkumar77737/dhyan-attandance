@@ -1670,3 +1670,102 @@
         margin-top: 50px;
     }
 }
+
+/* ---------- Legal & Policies dropdown (nav) ---------- */
+.ldpg__legal {
+    position: relative;
+}
+
+.ldpg__legal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ldpg__legal-chev {
+    width: 15px;
+    height: 15px;
+    transition: transform .25s ease;
+}
+
+.ldpg__legal-btn.open {
+    color: var(--ld-orange);
+}
+
+.ldpg__legal-btn.open .ldpg__legal-chev {
+    transform: rotate(180deg);
+}
+
+.ldpg__legal-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 210px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px;
+    border-radius: 16px;
+    background: rgba(255, 252, 244, .98);
+    border: 1px solid var(--ld-line);
+    box-shadow: 0 18px 40px rgba(120, 70, 10, .18);
+    z-index: 40;
+    animation: ldpg-legal-in .2s ease-out both;
+}
+
+.ldpg__legal-item {
+    width: 100%;
+    padding: 11px 14px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    font-family: var(--ld-sans);
+    font-size: 14.5px;
+    text-align: left;
+    color: var(--ld-ink);
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+}
+
+.ldpg__legal-item:hover,
+.ldpg__legal-item:focus-visible {
+    background: rgba(238, 106, 18, .1);
+    color: var(--ld-orange);
+    outline: none;
+}
+
+@keyframes ldpg-legal-in {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+/* mobile menu: "Legal & Policies" toggle (closed by default) + the two links */
+.ldpg__nav-mobile .ldpg__legal-mobile-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 6px;
+    border-top: 1px solid var(--ld-line);
+    border-radius: 0 0 8px 8px;
+}
+
+.ldpg__legal-mobile-toggle.open {
+    color: var(--ld-orange);
+}
+
+.ldpg__legal-mobile-toggle.open .ldpg__legal-chev {
+    transform: rotate(180deg);
+}
+
+.ldpg__nav-mobile .ldpg__legal-mobile-link {
+    padding-left: 28px;
+    font-size: 15px;
+}

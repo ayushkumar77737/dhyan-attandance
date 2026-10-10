@@ -70,6 +70,8 @@ import About from "./pages/About";
 import Events from "./pages/Events";
 import Contact from "./pages/Contact";
 import Teachings from "./pages/Teachings";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 import AdminLayout from "./components/AdminLayout";
 import UserLayout from "./components/UserLayout";
 
@@ -88,6 +90,8 @@ function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/teachings" element={<Teachings />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
 
         {/* MFA Routes */}
         <Route

@@ -1705,5 +1705,265 @@
   "adminsAbsentToday": "Admins Absent Today",
   "excludingSuperAdmin": "Excluding super admin",
   "ofTotalAdmins": "of total admins",
-  "ofMarkedAdmins": "of marked admins"
+  "ofMarkedAdmins": "of marked admins",
+  "legal": {
+    "navLabel": "Legal & Policies",
+    "privacyLink": "Privacy Policy",
+    "termsLink": "Terms of Service",
+    "lastUpdatedLabel": "Last updated",
+    "tocTitle": "On this page",
+    "backToTop": "Back to top",
+    "copyright": "© {{year}} Dhyan Attendance Portal · Jai Gurubande. All rights reserved."
+  },
+  "privacyPolicy": {
+    "badge": "Your privacy matters to us",
+    "title": "Privacy",
+    "titleAccent": "Policy",
+    "subtitle": "How the Dhyan Attendance Portal collects, uses and protects the information you share with us.",
+    "lastUpdated": "10 October 2026",
+    "intro": [
+      "The Dhyan Attendance Portal (\"the Portal\", \"we\", \"us\") is run by Jai Gurubande to manage attendance, profiles and communication for members of our Dhyan and Satsang community.",
+      "This Privacy Policy explains what information we collect, why we collect it, who can see it and the choices you have. By using the Portal you agree to the practices described here."
+    ],
+    "sections": [
+      {
+        "title": "Information We Collect",
+        "paragraphs": [
+          "We only collect what we need to run the Portal and serve the community. This includes:"
+        ],
+        "points": [
+          {
+            "title": "Account details",
+            "text": "your name, member ID and password. Passwords are handled by our secure login provider and are never visible to us in plain text."
+          },
+          {
+            "title": "Profile details",
+            "text": "email address, phone number, date of birth, address and profile photo, if you or an administrator add them."
+          },
+          {
+            "title": "Attendance records",
+            "text": "the sessions you attend, the dates you are marked present or absent, reasons for absence and leave requests."
+          },
+          {
+            "title": "Messages and feedback",
+            "text": "support tickets, reported issues, concerns, session feedback, shared experiences and contact form messages."
+          },
+          {
+            "title": "Security and activity data",
+            "text": "login times, failed login attempts, IP address, device and browser information, and multi-factor authentication (MFA) settings."
+          }
+        ]
+      },
+      {
+        "title": "How We Use Your Information",
+        "points": [
+          "To create and manage your account and verify your identity.",
+          "To record, calculate and show attendance and attendance percentages.",
+          "To process leave requests, absence reasons, tickets and concerns.",
+          "To send you notifications about sessions, events and your account.",
+          "To keep the Portal secure, detect misuse and lock accounts after repeated failed logins.",
+          "To improve the Portal and the experience of our community."
+        ],
+        "note": "We never sell your personal information or use it for advertising."
+      },
+      {
+        "title": "Consent and Legal Basis",
+        "paragraphs": [
+          "We process your personal data with your consent and for the legitimate purpose of running the Portal, in line with the Digital Personal Data Protection Act, 2023 and other applicable laws of India.",
+          "You may withdraw your consent at any time by contacting us. Withdrawing consent may mean we can no longer provide some or all features of the Portal to you."
+        ]
+      },
+      {
+        "title": "How We Store and Protect Your Data",
+        "paragraphs": [
+          "Your data is stored with trusted cloud providers (such as Google Firebase for accounts and records, and Cloudinary for uploaded images) that use industry-standard security."
+        ],
+        "points": [
+          "Encrypted connections (HTTPS) between your device and the Portal.",
+          "Optional multi-factor authentication (MFA) for extra account protection.",
+          "Automatic account lock after repeated failed login attempts.",
+          "Role-based access, so administrators only see the pages they are allowed to use.",
+          "Activity logs that record important administrative actions."
+        ],
+        "after": [
+          "No system is 100% secure, but we work continuously to protect your information."
+        ]
+      },
+      {
+        "title": "Who Can See Your Information",
+        "points": [
+          {
+            "title": "You",
+            "text": "can view your own profile, attendance, requests and notifications."
+          },
+          {
+            "title": "Authorised administrators",
+            "text": "can view member information only as needed to manage attendance and support."
+          },
+          {
+            "title": "Service providers",
+            "text": "who host or process data for us, under strict confidentiality."
+          },
+          {
+            "title": "Legal authorities",
+            "text": "only when required by law or to protect the safety of our members."
+          }
+        ]
+      },
+      {
+        "title": "How Long We Keep Your Data",
+        "paragraphs": [
+          "We keep your information while your account is active and for as long as needed for attendance records, security and legal purposes.",
+          "When an account is deleted, personal details are removed or anonymised within a reasonable time, except where we must keep them by law."
+        ]
+      },
+      {
+        "title": "Your Rights",
+        "paragraphs": [
+          "You have the right to:"
+        ],
+        "points": [
+          "Access the personal data we hold about you.",
+          "Ask us to correct or update inaccurate information.",
+          "Ask us to delete your data, subject to legal requirements.",
+          "Withdraw your consent at any time.",
+          "Raise a grievance and receive a response from us.",
+          "Nominate a person to exercise these rights on your behalf."
+        ],
+        "after": [
+          "To use any of these rights, contact us using the details at the bottom of this page."
+        ]
+      },
+      {
+        "title": "Cookies and Local Storage",
+        "paragraphs": [
+          "The Portal uses your browser's local storage and essential cookies only to keep you signed in and remember your preferences, such as language and theme.",
+          "We do not use advertising or third-party tracking cookies."
+        ]
+      },
+      {
+        "title": "Children's Privacy",
+        "paragraphs": [
+          "Members under 18 years of age may use the Portal only with the consent and supervision of a parent or guardian. We do not knowingly collect a child's data without such consent."
+        ]
+      },
+      {
+        "title": "Changes to This Policy",
+        "paragraphs": [
+          "We may update this Privacy Policy from time to time. The \"Last updated\" date at the top shows when it was last changed. Continued use of the Portal after an update means you accept the revised policy."
+        ]
+      }
+    ],
+    "contact": {
+      "title": "Questions or Grievances?",
+      "text": "If you have any questions about this Privacy Policy or how your data is handled, please write to us. We aim to respond within 7 working days.",
+      "email": "support@jaigurubande.in",
+      "address": ""
+    }
+  },
+  "termsOfService": {
+    "badge": "Please read carefully",
+    "title": "Terms of",
+    "titleAccent": "Service",
+    "subtitle": "The simple rules that keep the Dhyan Attendance Portal safe, respectful and useful for everyone.",
+    "lastUpdated": "10 October 2026",
+    "intro": [
+      "These Terms of Service (\"Terms\") govern your use of the Dhyan Attendance Portal (\"the Portal\"), run by Jai Gurubande.",
+      "By signing in or using the Portal you agree to these Terms and to our Privacy Policy. If you do not agree, please do not use the Portal."
+    ],
+    "sections": [
+      {
+        "title": "About the Portal",
+        "paragraphs": [
+          "The Portal helps our Dhyan and Satsang community record attendance, manage profiles, apply for leave, raise concerns, receive notifications and stay connected with teachings and events."
+        ]
+      },
+      {
+        "title": "Your Account",
+        "points": [
+          "Accounts are created by authorised administrators. Each member receives a unique ID.",
+          "You are responsible for keeping your ID, password and MFA device safe.",
+          "Do not share your account or let anyone else sign in as you.",
+          "Tell us immediately if you suspect someone has used your account.",
+          "Make sure the details in your profile are true and up to date."
+        ]
+      },
+      {
+        "title": "Account Security",
+        "paragraphs": [
+          "To protect members, the Portal may require multi-factor authentication and will temporarily lock an account after repeated failed login attempts. Locked accounts can be recovered through the Account Recovery option or by contacting an administrator."
+        ]
+      },
+      {
+        "title": "Acceptable Use",
+        "paragraphs": [
+          "When using the Portal you agree not to:"
+        ],
+        "points": [
+          "Mark, change or request attendance falsely, for yourself or anyone else.",
+          "Try to access accounts, pages or data you are not allowed to see.",
+          "Upload content that is offensive, harmful, misleading or unlawful.",
+          "Disrupt, overload, copy or attempt to reverse-engineer the Portal.",
+          "Use the Portal for any commercial or non-community purpose."
+        ]
+      },
+      {
+        "title": "Attendance and Records",
+        "paragraphs": [
+          "Attendance is recorded by administrators or through approved methods such as QR scanning. Administrators may review and correct records when needed.",
+          "If you believe a record is wrong, please raise a concern or support ticket in the Portal and it will be reviewed."
+        ]
+      },
+      {
+        "title": "Content You Share",
+        "paragraphs": [
+          "You keep ownership of the feedback, experiences and messages you submit. By sharing them, you allow us to use them within the community to improve sessions and the Portal.",
+          "Please keep all content respectful and in the spirit of the community."
+        ]
+      },
+      {
+        "title": "Teachings and Intellectual Property",
+        "paragraphs": [
+          "All teachings, images, logos, text and design on the Portal belong to Jai Gurubande or are used with permission. They are shared for your personal spiritual practice only and may not be copied, recorded, sold or published without written permission."
+        ]
+      },
+      {
+        "title": "Suspension and Termination",
+        "paragraphs": [
+          "We may suspend, lock or remove an account that breaks these Terms or puts the community at risk. You may ask us to close your account at any time."
+        ]
+      },
+      {
+        "title": "Disclaimer",
+        "paragraphs": [
+          "The Portal is provided \"as is\" and \"as available\". We try to keep it accurate and running, but we cannot promise it will always be error-free or uninterrupted.",
+          "Meditation and spiritual guidance shared here are not a substitute for professional medical or psychological advice."
+        ]
+      },
+      {
+        "title": "Limitation of Liability",
+        "paragraphs": [
+          "To the extent allowed by law, Jai Gurubande and its volunteers are not liable for any indirect or incidental loss arising from your use of, or inability to use, the Portal."
+        ]
+      },
+      {
+        "title": "Governing Law",
+        "paragraphs": [
+          "These Terms are governed by the laws of India. Any dispute will be subject to the jurisdiction of the competent courts in India."
+        ]
+      },
+      {
+        "title": "Changes to These Terms",
+        "paragraphs": [
+          "We may update these Terms from time to time. The \"Last updated\" date at the top shows the latest version. Continuing to use the Portal after changes means you accept the updated Terms."
+        ]
+      }
+    ],
+    "contact": {
+      "title": "Need Help?",
+      "text": "If you have any questions about these Terms, please contact us and we will be happy to help.",
+      "email": "support@jaigurubande.in",
+      "address": ""
+    }
+  }
 }

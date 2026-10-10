@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
 import { useTranslation } from "react-i18next";
@@ -74,6 +74,21 @@ const LandingPage = () => {
     const { t } = useTranslation();
     const [activeNav, setActiveNav] = useState("home");
     const [menuOpen, setMenuOpen] = useState(false);
+    const [legalOpen, setLegalOpen] = useState(false);
+    const [mobileLegalOpen, setMobileLegalOpen] = useState(false);
+    const legalRef = useRef(null);
+
+    /* close the Legal & Policies dropdown on outside click / Esc */
+    useEffect(() => {
+        const onClick = (e) => { if (legalRef.current && !legalRef.current.contains(e.target)) setLegalOpen(false); };
+        const onKey = (e) => { if (e.key === "Escape") setLegalOpen(false); };
+        document.addEventListener("mousedown", onClick);
+        document.addEventListener("keydown", onKey);
+        return () => {
+            document.removeEventListener("mousedown", onClick);
+            document.removeEventListener("keydown", onKey);
+        };
+    }, []);
 
     useEffect(() => {
         const disableRightClick = (e) => e.preventDefault();
@@ -100,6 +115,12 @@ const LandingPage = () => {
         { key: "contact", label: t("navContact") || "Contact", path: "/contact" },
     ];
 
+    /* Legal & Policies dropdown: add a row here + a t() key = new legal page */
+    const legalItems = [
+        { key: "privacy", label: t("legal.privacyLink") || "Privacy Policy", path: "/privacy-policy" },
+        { key: "terms", label: t("legal.termsLink") || "Terms of Service", path: "/terms-of-service" },
+    ];
+
     const cards = [
         { icon: icons.meditate, cls: "violet", title: t("landingStat1") || "Daily Meditation", desc: t("landingStat1Desc") || "Develop a peaceful mind and positive life" },
         { icon: <Lotus />, cls: "rose", title: t("landingStat2") || "Inner Peace", desc: t("landingStat2Desc") || "Discover tranquility within yourself" },
@@ -119,7 +140,7 @@ const LandingPage = () => {
         { icon: icons.leaf, label: t("landingFeat4") || "Inner Growth" },
     ];
 
-    const goTo = (n) => { setActiveNav(n.key); navigate(n.path); setMenuOpen(false); };
+    const goTo = (n) => { setActiveNav(n.key); navigate(n.path); setMenuOpen(false); setLegalOpen(false); setMobileLegalOpen(false); };
     const guruName = t("guruName") || "Param Sant Swami Jai Gurubande Ji Maharaj";
 
     return (
@@ -144,12 +165,34 @@ const LandingPage = () => {
                             {n.label}
                         </button>
                     ))}
+
+                    <div className="ldpg__legal" ref={legalRef}>
+                        <button
+                            type="button"
+                            className={`ldpg__nav-link ldpg__legal-btn ${legalOpen ? "open" : ""}`}
+                            onClick={() => setLegalOpen((v) => !v)}
+                            aria-haspopup="true"
+                            aria-expanded={legalOpen}
+                        >
+                            {t("legal.navLabel") || "Legal & Policies"}
+                            <svg className="ldpg__legal-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg>
+                        </button>
+                        {legalOpen && (
+                            <div className="ldpg__legal-menu" role="menu">
+                                {legalItems.map((n) => (
+                                    <button key={n.key} type="button" role="menuitem" className="ldpg__legal-item" onClick={() => goTo(n)}>
+                                        {n.label}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </nav>
 
                 <div className="ldpg__nav-right">
                     <img src={logo3} alt="Logo" className="ldpg__nav-logo3" loading="lazy" />
                     <div className="ldpg__nav-lang"><LanguageSwitcher /></div>
-                    <button className="ldpg__nav-burger" onClick={() => setMenuOpen((v) => !v)} aria-label="Menu" aria-expanded={menuOpen}>
+                    <button className="ldpg__nav-burger" onClick={() => { setMenuOpen((v) => !v); setMobileLegalOpen(false); }} aria-label="Menu" aria-expanded={menuOpen}>
                         {menuOpen ? (
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
                         ) : (
@@ -161,6 +204,21 @@ const LandingPage = () => {
                 <div className={`ldpg__nav-mobile ${menuOpen ? "open" : ""}`}>
                     {navItems.map((n) => (
                         <button key={n.key} className={`ldpg__nav-link ${activeNav === n.key ? "active" : ""}`} onClick={() => goTo(n)}>
+                            {n.label}
+                        </button>
+                    ))}
+
+                    <button
+                        type="button"
+                        className={`ldpg__nav-link ldpg__legal-mobile-toggle ${mobileLegalOpen ? "open" : ""}`}
+                        onClick={() => setMobileLegalOpen((v) => !v)}
+                        aria-expanded={mobileLegalOpen}
+                    >
+                        {t("legal.navLabel") || "Legal & Policies"}
+                        <svg className="ldpg__legal-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg>
+                    </button>
+                    {mobileLegalOpen && legalItems.map((n) => (
+                        <button key={n.key} className="ldpg__nav-link ldpg__legal-mobile-link" onClick={() => goTo(n)}>
                             {n.label}
                         </button>
                     ))}
