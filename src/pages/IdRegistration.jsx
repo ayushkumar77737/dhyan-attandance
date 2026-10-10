@@ -335,14 +335,16 @@ function IdRegistration() {
             </svg>
             <IdCardArt />
 
-            <button className="idrg__back" onClick={() => navigate("/admin-dashboard")}>
-                {I.back} {t("back", "Back")}
-            </button>
+                        <div className="idrg__topbar">
+                <button className="idrg__back" onClick={() => navigate("/admin-dashboard")}>
+                    {I.back} {t("back", "Back")}
+                </button>
 
-            <button className="idrg__export" onClick={handleExport} disabled={exporting}>
-                {exporting ? <span className="idrg__spin idrg__spin--tl" /> : I.download}
-                {t("icExportData", "Export Data")}
-            </button>
+                <button className="idrg__export" onClick={handleExport} disabled={exporting}>
+                    {exporting ? <span className="idrg__spin idrg__spin--tl" /> : I.download}
+                    {t("icExportData", "Export Data")}
+                </button>
+            </div>
 
             {toast && (
                 <div className={`idrg__toast idrg__toast--${toast.type}`} role="status">
