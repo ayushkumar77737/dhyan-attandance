@@ -1695,5 +1695,15 @@
   "adminAttendanceOverview": "Admin Attendance Overview",
   "adminOverviewSubtitle": "Track and export admin attendance percentages",
   "apAdminId": "Admin ID",
-  "apNoMatch": "No admins match your search."
+  "apNoMatch": "No admins match your search.",
+  "userOverview": "User Overview",
+  "adminOverview": "Admin Overview",
+  "activeAdmins": "Active Admins",
+  "inactiveAdmins": "Inactive Admins",
+  "deletedAdmins": "Deleted Admins",
+  "adminsPresentToday": "Admins Present Today",
+  "adminsAbsentToday": "Admins Absent Today",
+  "excludingSuperAdmin": "Excluding super admin",
+  "ofTotalAdmins": "of total admins",
+  "ofMarkedAdmins": "of marked admins"
 }

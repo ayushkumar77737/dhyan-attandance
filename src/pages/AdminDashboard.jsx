@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
 
-import { collection, getDocs, getDoc, doc } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc, query, where } from "firebase/firestore";
 
 import { createPortal } from "react-dom";
 
@@ -509,6 +509,14 @@ function AdminDashboard() {
   const [absentToday, setAbsentToday] = useState(null);
   const [notifCount, setNotifCount] = useState(0);
 
+  // admin stats (super admin is never counted)
+  const [adminTotal, setAdminTotal] = useState(0);
+  const [adminActive, setAdminActive] = useState(0);
+  const [adminInactive, setAdminInactive] = useState(0);
+  const [adminDeleted, setAdminDeleted] = useState(0);
+  const [adminPresent, setAdminPresent] = useState(null);
+  const [adminAbsent, setAdminAbsent] = useState(null);
+
   // shell UI state
   const [theme, setTheme] = useState(() => localStorage.getItem("dashTheme") || "dark");
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -580,6 +588,8 @@ function AdminDashboard() {
     fetchAdminInfo();
     fetchUserStats();
     fetchChartData(chartDate);
+    fetchAdminStats();
+    fetchAdminAttendanceStats(chartDate);
     fetchTicketData();
     fetchAbsenceData();
     fetchOpenTickets();
@@ -610,6 +620,52 @@ function AdminDashboard() {
       setDeletedUsers(deleted);
       setActiveUsers(total - deleted);
     } catch (err) { console.log(err); }
+  };
+
+  /* Admin counts: total / active / inactive (disabled) / deleted.
+     The super admin is excluded, matching Admin Attendance. */
+  const fetchAdminStats = async () => {
+    try {
+      const snap = await getDocs(collection(db, "users"));
+      let total = 0, active = 0, inactive = 0, deleted = 0;
+      snap.forEach((docItem) => {
+        const data = docItem.data();
+        if (data.role !== "admin") return;
+        if (String(data.id || docItem.id).toUpperCase() === SUPER_ADMIN_ID) return;
+        total++;
+        if (data.deleted === true) deleted++;
+        else if (data.disabled === true) inactive++;
+        else active++;
+      });
+      setAdminTotal(total);
+      setAdminActive(active);
+      setAdminInactive(inactive);
+      setAdminDeleted(deleted);
+    } catch (err) { console.log(err); }
+  };
+
+  /* Admin present / absent for the selected date (same date picker as the
+     user attendance chart). */
+  const fetchAdminAttendanceStats = async (dateParam) => {
+    try {
+      const targetDate = dateParam || new Date().toISOString().split("T")[0];
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(targetDate)) {
+        setAdminPresent(0);
+        setAdminAbsent(0);
+        return;
+      }
+      const snap = await getDocs(
+        query(collection(db, "adminAttendance"), where("date", "==", targetDate))
+      );
+      let present = 0, absent = 0;
+      snap.forEach((d) => {
+        const status = d.data().status;
+        if (status === "Present") present++;
+        else if (status === "Absent") absent++;
+      });
+      setAdminPresent(present);
+      setAdminAbsent(absent);
+    } catch (err) { console.log(err); setAdminPresent(0); setAdminAbsent(0); }
   };
 
   const fetchOpenTickets = async () => {
@@ -877,8 +933,8 @@ function AdminDashboard() {
     { path: "/add-user", icon: icons.userPlus, cls: "icon-blue", title: t("addUser"), sub: t("addUserSub") },
     { path: "/add-admin", icon: icons.shield, cls: "icon-red", title: t("addAdmin"), sub: t("addAdminSub") },
     { path: "/mark-attendance", icon: icons.calendarCheck, cls: "icon-teal", title: t("markAttendance"), sub: t("markAttendanceSub") },
-    { path: "/admin-attendance", icon: icons.calendarCheck, cls: "icon-red", title: t("adminAttendance", "Admin Attendance"), sub: t("adminAttendanceSub", "Record admin presence") },
     { path: "/admin-attendance-report", icon: icons.fileText, cls: "icon-teal", title: t("adminAttendanceReport", "Admin Attendance Report"), sub: t("adminAttendanceReportSub", "View and edit admin attendance") },
+    { path: "/admin-attendance", icon: icons.calendarCheck, cls: "icon-red", title: t("adminAttendance", "Admin Attendance"), sub: t("adminAttendanceSub", "Record admin presence") },
     { path: "/smart-attendance", icon: icons.qrCode, cls: "icon-purple", title: t("smartAttendance"), sub: t("smartAttendanceSub") },
     { path: "/all-users", icon: icons.users, cls: "icon-blue", title: t("allUsers"), sub: t("allUsersSub") },
     { path: "/all-admins", icon: icons.shield, cls: "icon-red", title: t("allAdmins"), sub: t("allAdminsSub") },
@@ -944,8 +1000,8 @@ function AdminDashboard() {
         { path: "/add-user", icon: icons.userPlus, label: t("addUser") },
         { path: "/add-admin", icon: icons.shield, label: t("addAdmin") },
         { path: "/mark-attendance", icon: icons.calendarCheck, label: t("markAttendance") },
-        { path: "/admin-attendance", icon: icons.calendarCheck, label: t("adminAttendance", "Admin Attendance") },
         { path: "/admin-attendance-report", icon: icons.fileText, label: t("adminAttendanceReport", "Admin Attendance Report") },
+        { path: "/admin-attendance", icon: icons.calendarCheck, label: t("adminAttendance", "Admin Attendance") },
         { path: "/smart-attendance", icon: icons.qrCode, label: t("smartAttendance") },
         { path: "/all-users", icon: icons.users, label: t("allUsers") },
         { path: "/all-admins", icon: icons.shield, label: t("allAdmins") },
@@ -1011,6 +1067,18 @@ function AdminDashboard() {
     { key: "absent", label: t("absentToday"), value: absentToday, icon: icons.calendarX, accent: "red", delta: t("noChange"), up: null, loading: absentToday === null, spark: [1, 0, 1, 0, 1, 0, 0] },
   ];
   const accentHex = { blue: "#3b82f6", purple: "#8b5cf6", green: "#2dce89", amber: "#f59e0b", teal: "#14b8a6", red: "#ef4444" };
+
+  /* ---------- admin stat cards (real figures, no decorative sparkline) ---------- */
+  const pctOf = (n, d) => (d ? Math.round((n / d) * 100) : 0);
+  const adminMarked = (adminPresent || 0) + (adminAbsent || 0);
+  const adminStatCards = [
+    { key: "a-total", label: t("totalAdmins"), value: adminTotal, icon: icons.shield, accent: "purple", delta: t("excludingSuperAdmin", "Excluding super admin") },
+    { key: "a-active", label: t("activeAdmins", "Active Admins"), value: adminActive, icon: icons.users, accent: "green", delta: `${pctOf(adminActive, adminTotal)}% ${t("ofTotalAdmins", "of total admins")}` },
+    { key: "a-inactive", label: t("inactiveAdmins", "Inactive Admins"), value: adminInactive, icon: icons.toggleLeft, accent: "amber", delta: `${pctOf(adminInactive, adminTotal)}% ${t("ofTotalAdmins", "of total admins")}` },
+    { key: "a-deleted", label: t("deletedAdmins", "Deleted Admins"), value: adminDeleted, icon: icons.trash, accent: "red", delta: `${pctOf(adminDeleted, adminTotal)}% ${t("ofTotalAdmins", "of total admins")}` },
+    { key: "a-present", label: t("adminsPresentToday", "Admins Present Today"), value: adminPresent, icon: icons.calendarCheck, accent: "teal", loading: adminPresent === null, delta: `${pctOf(adminPresent || 0, adminMarked)}% ${t("ofMarkedAdmins", "of marked admins")}` },
+    { key: "a-absent", label: t("adminsAbsentToday", "Admins Absent Today"), value: adminAbsent, icon: icons.calendarX, accent: "red", loading: adminAbsent === null, delta: `${pctOf(adminAbsent || 0, adminMarked)}% ${t("ofMarkedAdmins", "of marked admins")}` },
+  ];
 
   /* ---------- header date, split into two lines for the hero pill ---------- */
   const headerDay = new Date().toLocaleDateString(i18n.language || undefined, {
@@ -1202,6 +1270,10 @@ function AdminDashboard() {
           </div>
 
           {/* ----- STAT CARDS ----- */}
+          <p className="section-label" style={{ marginTop: 0 }}>
+            <span className="section-label-icon" aria-hidden="true">👥</span>
+            {t("userOverview", "User Overview")}
+          </p>
           <div className="stats-container">
             {statCards.map((s) => (
               <div className={`stat-card stat-${s.accent}`} key={s.key}>
@@ -1225,6 +1297,32 @@ function AdminDashboard() {
             ))}
           </div>
 
+          {/* ----- ADMIN STAT CARDS ----- */}
+          <p className="section-label" style={{ marginTop: 0 }}>
+            <span className="section-label-icon" aria-hidden="true">🛡️</span>
+            {t("adminOverview", "Admin Overview")}
+          </p>
+          <div className="stats-container">
+            {adminStatCards.map((s) => (
+              <div className={`stat-card stat-${s.accent}`} key={s.key}>
+                <div className="stat-card-top">
+                  <div className={`stat-icon icon-${s.accent}`}>{s.icon}</div>
+                  <div className="stat-card-meta">
+                    <h3>{s.label}</h3>
+                    {s.loading ? (
+                      <div className="stat-spinner" />
+                    ) : (
+                      <p className="stat-value">{s.value}</p>
+                    )}
+                  </div>
+                </div>
+                <div className="stat-delta flat">
+                  <span>{s.delta}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
           {/* ----- CHARTS ----- */}
           <div className="charts-grid">
 
@@ -1232,7 +1330,7 @@ function AdminDashboard() {
             <div className="chart-section">
               <h2 className="chart-title">{t("todayAttendance")}</h2>
               <div className="chart-date-picker">
-                <input type="date" value={chartDate} onChange={(e) => { setChartDate(e.target.value); fetchChartData(e.target.value); }} />
+                <input type="date" value={chartDate} onChange={(e) => { setChartDate(e.target.value); fetchChartData(e.target.value); fetchAdminAttendanceStats(e.target.value); }} />
               </div>
               {chartLoading ? (
                 <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>

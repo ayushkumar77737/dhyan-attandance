@@ -1051,7 +1051,17 @@
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   margin-bottom: 20px;
-  align-items: start;
+  align-items: stretch;
+}
+
+/* let the ticket card fill the stretched height and centre its content */
+.chart-section:has(> .ticket-overview) {
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-section>.ticket-overview {
+  flex: 1;
 }
 
 .chart-section--full {
