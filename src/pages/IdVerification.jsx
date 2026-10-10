@@ -266,14 +266,16 @@ function IdVerification() {
             <div className="idvf__blob idvf__blob--c" />
             <div className="idvf__dots" aria-hidden="true" />
 
-            <button className="idvf__back" onClick={() => navigate("/admin-dashboard")}>
-                {I.back} {t("back", "Back")}
-            </button>
+            <div className="idvf__topbar">
+                <button className="idvf__back" onClick={() => navigate("/admin-dashboard")}>
+                    {I.back} {t("back", "Back")}
+                </button>
 
-            <button className="idvf__export" onClick={handleExport} disabled={exporting}>
-                {exporting ? <span className="idvf__spin idvf__spin--vi" /> : I.download}
-                {t("icExportData", "Export Data")}
-            </button>
+                <button className="idvf__export" onClick={handleExport} disabled={exporting}>
+                    {exporting ? <span className="idvf__spin idvf__spin--vi" /> : I.download}
+                    {t("icExportData", "Export Data")}
+                </button>
+            </div>
 
             {toast && (
                 <div className={`idvf__toast idvf__toast--${toast.type}`} role="status">

@@ -335,7 +335,7 @@ function IdRegistration() {
             </svg>
             <IdCardArt />
 
-                        <div className="idrg__topbar">
+            <div className="idrg__topbar">
                 <button className="idrg__back" onClick={() => navigate("/admin-dashboard")}>
                     {I.back} {t("back", "Back")}
                 </button>
