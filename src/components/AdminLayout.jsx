@@ -65,6 +65,13 @@ const icons = {
       <line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
     </svg>
   ),
+  schedule: (
+    <svg {...svgProps}>
+      <path d="M21 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6" />
+      <line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
+      <circle cx="17.5" cy="17.5" r="4.5" /><polyline points="17.5 15.5 17.5 17.5 19 18.5" />
+    </svg>
+  ),
   calendarX: (
     <svg {...svgProps}>
       <rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" />
@@ -316,6 +323,7 @@ function AdminLayout({ children }) {
       items: [
         { path: "/absence-management", icon: icons.calendarX, label: t("absenceManagement") },
         { path: "/leaves-request", icon: icons.leaveRequest, label: t("leavesRequest") },
+        { path: "/schedule-management", icon: icons.schedule, label: t("scheduleManagement", "Schedule Management") },
         { path: "/notifications", icon: icons.bell, label: t("notifications") },
         { path: "/track-ticket", icon: icons.ticket, label: t("trackTicket") },
         { path: "/user-issues", icon: icons.bug, label: t("userIssuesBugs") || "User Issues and Bugs" },
