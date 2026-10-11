@@ -1967,5 +1967,8 @@
     }
   },
   "someExistingLastKey": "Some existing text",
-  "googleLoginFailed": "Google sign-in failed. Please try again."
+  "googleLoginFailed": "Google sign-in failed. Please try again.",
+  "acUsersTab": "Users",
+  "acAdminsTab": "Admins",
+  "acShow": "Show"
 }

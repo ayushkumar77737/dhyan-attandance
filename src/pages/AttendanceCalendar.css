@@ -1170,3 +1170,14 @@ body:has(.ac-page) {
         max-height: none;
     }
 }
+
+/* ---------------- Users / Admins switch ---------------- */
+.ac-scope {
+    max-width: 260px;
+    margin-bottom: 16px;
+}
+
+/* with no "Leave" card, the Total card fills the last row */
+.ac-stat--wide {
+    grid-column: 1 / -1;
+}

@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import * as XLSX from "xlsx";
 import { db, auth } from "../firebase/firebase";
 import { collection, getDocs, doc, getDoc, query, where } from "firebase/firestore";
+import { SUPER_ADMIN_ID } from "../utils/accessControl";
 import "./AttendanceCalendar.css";
 
 /* ------------------------------------------------------------------ */
@@ -49,6 +50,8 @@ function AttendanceCalendar() {
     const [view, setView] = useState({ y: t0.y, m: t0.m });
     const [selected, setSelected] = useState(today);
     const [users, setUsers] = useState([]);
+    const [admins, setAdmins] = useState([]); // admins shown on the "Admins" tab
+    const [scope, setScope] = useState("users"); // "users" | "admins"
     const [months, setMonths] = useState({}); // "YYYY-MM" -> { att: [], leaves: [] }
     const [loading, setLoading] = useState(false);
     const [loadError, setLoadError] = useState(false);
@@ -94,14 +97,21 @@ function AttendanceCalendar() {
             try {
                 const snap = await getDocs(collection(db, "users"));
                 const list = [];
+                const adminList = [];
                 snap.forEach((d) => {
                     const data = d.data();
-                    if (data.deleted !== true && data.role !== "admin") {
-                        list.push({ id: String(data.id || d.id), name: data.name || data.id || d.id });
+                    if (data.deleted === true) return;
+                    const person = { id: String(data.id || d.id), name: data.name || data.id || d.id };
+                    if (data.role !== "admin") {
+                        list.push(person);
+                    } else if (person.id.toUpperCase() !== SUPER_ADMIN_ID) {
+                        adminList.push(person); // the super admin is never tracked
                     }
                 });
                 list.sort((a, b) => a.name.localeCompare(b.name));
+                adminList.sort((a, b) => a.name.localeCompare(b.name));
                 setUsers(list);
+                setAdmins(adminList);
             } catch (e) {
                 console.error("AttendanceCalendar: users", e);
             }
@@ -115,13 +125,20 @@ function AttendanceCalendar() {
         const end = `${key}-31`;
         const att = [];
         const leaves = [];
-        const [aSnap, lSnap] = await Promise.all([
+        const admAtt = [];
+        const [aSnap, lSnap, admSnap] = await Promise.all([
             getDocs(query(collection(db, "attendance"), where("date", ">=", start), where("date", "<=", end))),
             getDocs(query(collection(db, "leaveRequests"), where("date", ">=", start), where("date", "<=", end))),
+            // a failure here must never break the users view
+            getDocs(query(collection(db, "adminAttendance"), where("date", ">=", start), where("date", "<=", end))).catch((e) => {
+                console.warn("AttendanceCalendar: adminAttendance", e);
+                return null;
+            }),
         ]);
         aSnap.forEach((d) => att.push(d.data()));
         lSnap.forEach((d) => leaves.push(d.data()));
-        return { key, data: { att, leaves } };
+        if (admSnap) admSnap.forEach((d) => admAtt.push(d.data()));
+        return { key, data: { att, leaves, admAtt } };
     }, []);
 
     const selP = parseYmd(selected);
@@ -158,25 +175,38 @@ function AttendanceCalendar() {
         return () => { cancelled = true; };
     }, [needed, months, loadMonth]);
 
-    /* per-day aggregation: date -> { statusByUser, marked } */
-    const byDate = useMemo(() => {
-        const map = {};
-        const ensure = (date) => (map[date] ||= { att: {}, leave: new Set(), marked: false });
-        Object.values(months).forEach(({ att, leaves }) => {
+    /* per-day aggregation: date -> { statusByUser, marked }
+       (one map for users, one for admins - the toggle picks which to show) */
+    const { userDates, adminDates } = useMemo(() => {
+        const uMap = {};
+        const aMap = {};
+        const ensure = (map, date) => (map[date] ||= { att: {}, leave: new Set(), marked: false });
+        Object.values(months).forEach(({ att, leaves, admAtt = [] }) => {
             att.forEach((r) => {
                 if (!r.date || !r.userId) return;
-                const day = ensure(r.date);
+                const day = ensure(uMap, r.date);
                 day.marked = true;
                 day.att[String(r.userId)] = r.status === "Present" ? "Present" : "Absent";
             });
             leaves.forEach((l) => {
                 if (!l.date || !l.userId) return;
                 if (String(l.status || "").toLowerCase() !== "approved") return;
-                ensure(l.date).leave.add(String(l.userId));
+                ensure(uMap, l.date).leave.add(String(l.userId));
+            });
+            admAtt.forEach((r) => {
+                if (!r.date || !r.userId) return;
+                const day = ensure(aMap, r.date);
+                day.marked = true;
+                day.att[String(r.userId)] = r.status === "Present" ? "Present" : "Absent";
             });
         });
-        return map;
+        return { userDates: uMap, adminDates: aMap };
     }, [months]);
+
+    const isAdminScope = scope === "admins";
+    const byDate = isAdminScope ? adminDates : userDates;
+    const people = isAdminScope ? admins : users;
+    const statusList = isAdminScope ? ["Present", "Absent"] : STATUS; // admins have no leave
 
     const userStatus = (day, uid) => {
         if (!day) return null;
@@ -208,10 +238,10 @@ function AttendanceCalendar() {
 
     const rows = useMemo(() => {
         if (!hasData) return [];
-        const nameOf = (uid) => users.find((u) => u.id === uid)?.name || uid;
-        const all = users.map((u) => ({ id: u.id, name: u.name, status: userStatus(selDay, u.id) }));
+        const nameOf = (uid) => people.find((u) => u.id === uid)?.name || uid;
+        const all = people.map((u) => ({ id: u.id, name: u.name, status: userStatus(selDay, u.id) }));
         // include ids that have a record but are no longer in the member list
-        const known = new Set(users.map((u) => u.id));
+        const known = new Set(people.map((u) => u.id));
         [...Object.keys(selDay.att), ...selDay.leave].forEach((uid) => {
             if (!known.has(uid)) all.push({ id: uid, name: nameOf(uid), status: userStatus(selDay, uid) });
         });
@@ -220,7 +250,7 @@ function AttendanceCalendar() {
             .filter((r) => (selDay.marked ? true : r.status))
             .filter((r) => (filter === "All" ? true : r.status === filter))
             .filter((r) => !q || r.name.toLowerCase().includes(q) || r.id.toLowerCase().includes(q));
-    }, [hasData, users, selDay, filter, search]); // eslint-disable-line
+    }, [hasData, people, selDay, filter, search]); // eslint-disable-line
 
     /* calendar grid */
     const grid = useMemo(() => {
@@ -241,21 +271,22 @@ function AttendanceCalendar() {
         setView({ y: d.getFullYear(), m: d.getMonth() });
     };
     const pick = (date) => { setSelected(date); setFilter("All"); setSearch(""); };
+    const changeScope = (next) => { setScope(next); setFilter("All"); setSearch(""); };
     const goToday = () => { setView({ y: t0.y, m: t0.m }); pick(today); };
 
     const statusLabel = (s) => (s === "Present" ? t("present") : s === "Absent" ? t("absent") : s === "Leave" ? t("acLeave", "Leave") : t("notMarked"));
 
     const exportDay = () => {
         if (!hasData) return;
-        const data = users.map((u) => ({
+        const data = people.map((u) => ({
             Name: u.name,
             ID: u.id,
             Status: userStatus(selDay, u.id) || (selDay.marked ? "Not marked" : "—"),
         }));
         const ws = XLSX.utils.json_to_sheet(data);
         const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Attendance");
-        XLSX.writeFile(wb, `attendance_${selected}.xlsx`);
+        XLSX.utils.book_append_sheet(wb, ws, isAdminScope ? "Admin Attendance" : "Attendance");
+        XLSX.writeFile(wb, `${isAdminScope ? "admin_attendance" : "attendance"}_${selected}.xlsx`);
     };
 
     const initials = (n) => (n ? n.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2) : "?");
@@ -299,6 +330,15 @@ function AttendanceCalendar() {
 
                     {/* ------------------------- CALENDAR ------------------------- */}
                     <section className="ac-card ac-cal" aria-label={monthLabel}>
+                        <div className="ac-tabs ac-scope" role="tablist" aria-label={t("acShow", "Show")}>
+                            <button role="tab" aria-selected={!isAdminScope} className={`ac-tab${!isAdminScope ? " is-on" : ""}`} onClick={() => changeScope("users")}>
+                                {t("acUsersTab", "Users")}
+                            </button>
+                            <button role="tab" aria-selected={isAdminScope} className={`ac-tab${isAdminScope ? " is-on" : ""}`} onClick={() => changeScope("admins")}>
+                                {t("acAdminsTab", "Admins")}
+                            </button>
+                        </div>
+
                         <div className="ac-cal-top">
                             <div className="ac-cal-month">
                                 <h2>{monthLabel}</h2>
@@ -338,7 +378,7 @@ function AttendanceCalendar() {
                                 const isSel = date === selected;
                                 const isToday = date === today;
                                 const future = date > today;
-                                const tip = STATUS.filter((s) => c[s]).map((s) => `${statusLabel(s)}: ${c[s]}`).join(" · ");
+                                const tip = statusList.filter((s) => c[s]).map((s) => `${statusLabel(s)}: ${c[s]}`).join(" · ");
                                 return (
                                     <button
                                         key={date}
@@ -363,7 +403,7 @@ function AttendanceCalendar() {
                         <div className="ac-legend">
                             <span><i className="ac-dot ac-dot--p" />{t("present")}</span>
                             <span><i className="ac-dot ac-dot--a" />{t("absent")}</span>
-                            <span><i className="ac-dot ac-dot--l" />{t("acLeave", "Leave")}</span>
+                            {!isAdminScope && <span><i className="ac-dot ac-dot--l" />{t("acLeave", "Leave")}</span>}
                         </div>
 
                         {loadError && <p className="ac-error">{t("acLoadError", "Couldn't load attendance for this month.")}</p>}
@@ -400,14 +440,14 @@ function AttendanceCalendar() {
                                     <div className="ac-stats">
                                         <div className="ac-stat ac-stat--p"><i className="ac-dot ac-dot--p" /><span>{t("present")}</span><strong>{selCounts.Present}</strong></div>
                                         <div className="ac-stat ac-stat--a"><i className="ac-dot ac-dot--a" /><span>{t("absent")}</span><strong>{selCounts.Absent}</strong></div>
-                                        <div className="ac-stat ac-stat--l"><i className="ac-dot ac-dot--l" /><span>{t("acLeave", "Leave")}</span><strong>{selCounts.Leave}</strong></div>
-                                        <div className="ac-stat ac-stat--t"><i className="ac-dot" /><span>{t("totalUsers")}</span><strong>{users.length}</strong></div>
+                                        {!isAdminScope && <div className="ac-stat ac-stat--l"><i className="ac-dot ac-dot--l" /><span>{t("acLeave", "Leave")}</span><strong>{selCounts.Leave}</strong></div>}
+                                        <div className={`ac-stat ac-stat--t${isAdminScope ? " ac-stat--wide" : ""}`}><i className="ac-dot" /><span>{isAdminScope ? t("totalAdmins") : t("totalUsers")}</span><strong>{people.length}</strong></div>
                                     </div>
                                 </div>
 
                                 <div className="ac-tools">
                                     <div className="ac-tabs" role="tablist">
-                                        {["All", ...STATUS].map((f) => (
+                                        {["All", ...statusList].map((f) => (
                                             <button key={f} role="tab" aria-selected={filter === f} className={`ac-tab${filter === f ? " is-on" : ""}`} onClick={() => setFilter(f)}>
                                                 {f === "All" ? t("all") : statusLabel(f)}
                                             </button>
@@ -427,7 +467,7 @@ function AttendanceCalendar() {
                                 </div>
 
                                 <ul className="ac-list">
-                                    {rows.length === 0 && <li className="ac-list-empty">{t("noUsersFound")}</li>}
+                                    {rows.length === 0 && <li className="ac-list-empty">{isAdminScope ? t("noAdminsFound") : t("noUsersFound")}</li>}
                                     {rows.map((r) => (
                                         <li key={r.id} className="ac-row">
                                             <span className="ac-avatar">{initials(r.name)}</span>
