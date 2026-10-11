@@ -378,6 +378,10 @@ function UserDashboard() {
       icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /><polyline points="9 16 11 18 15 14" /></svg>)
     },
     {
+      path: "/dhyan-timetable", name: t("dhyanTimetable") || "Dhyan Timetable",
+      icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /><circle cx="17.5" cy="17.5" r="4.5" /><polyline points="17.5 15.5 17.5 17.5 19 18.5" /></svg>)
+    },
+    {
       path: "/my-requests", name: t("myRequests") || "My Requests",
       icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>)
     },
@@ -427,6 +431,10 @@ function UserDashboard() {
     {
       path: "/show-qr", cls: "ud-action-teal", name: t("showQR"), sub: t("markAttendance") || "Mark attendance",
       icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /><path d="M14 14h3v3h-3z" /><path d="M17 17h4" /><path d="M17 21v-4" /></svg>)
+    },
+    {
+      path: "/dhyan-timetable", cls: "ud-action-purple", name: t("dhyanTimetable") || "Dhyan Timetable", sub: t("dhyanTimetableSub") || "Session timings",
+      icon: (<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /><circle cx="17.5" cy="17.5" r="4.5" /><polyline points="17.5 15.5 17.5 17.5 19 18.5" /></svg>)
     },
     {
       path: "/my-profile", cls: "ud-action-teal", name: t("myProfile"), sub: t("viewDetails") || "View details",
