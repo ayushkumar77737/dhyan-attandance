@@ -2218,5 +2218,6 @@
   "arpDayDeleted": "Attendance for {{date}} has been deleted.",
   "arpOneDeleted": "Attendance record for {{name}} has been deleted.",
   "arpDeleteFailed": "Couldn't delete the attendance. Please try again.",
-  "logDeletedAttendanceDay": "Deleted attendance for {{date}} ({{count}} records)"
+  "logDeletedAttendanceDay": "Deleted attendance for {{date}} ({{count}} records)",
+  "sourceSchedule": "Schedule"
 }

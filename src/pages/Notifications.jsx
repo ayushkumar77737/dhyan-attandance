@@ -117,6 +117,20 @@ const ACTION_SOURCE = {
   delete_account_recovery: "accountRecovery",
   delete_account_recovery_bulk: "accountRecovery",
   export_account_recovery: "accountRecovery",
+
+  /* schedule management — ScheduleManagement logs readable strings
+     ("Created schedule", "Added holiday" …); sourceOf() turns spaces
+     into underscores, so they land on these keys */
+  created_schedule: "schedule",
+  updated_schedule: "schedule",
+  deleted_schedule: "schedule",
+  activated_schedule: "schedule",
+  deactivated_schedule: "schedule",
+  added_sample_schedules: "schedule",
+  added_holiday: "schedule",
+  updated_holiday: "schedule",
+  deleted_holiday: "schedule",
+  updated_weekly_offs: "schedule",
 };
 
 /* Safety net for any action added to the app later and not yet listed
@@ -124,6 +138,7 @@ const ACTION_SOURCE = {
    used when the exact lookup misses, so it can never override the
    explicit map. */
 const FALLBACK_RULES = [
+  [/schedule|holiday|weekly_off|timetable/, "schedule"],
   [/absence/, "absence"],
   [/leave/, "leave"],
   [/ticket/, "ticket"],
@@ -144,7 +159,9 @@ const FALLBACK_RULES = [
 ];
 
 const sourceOf = (action) => {
-  const key = String(action || "").toLowerCase();
+  /* lowercase + spaces/dashes → "_" so "Created schedule" and
+     "created_schedule" resolve to the same key */
+  const key = String(action || "").trim().toLowerCase().replace(/[\s-]+/g, "_");
   if (ACTION_SOURCE[key]) return ACTION_SOURCE[key];
   const hit = FALLBACK_RULES.find(([re]) => re.test(key));
   return hit ? hit[1] : "other";
@@ -304,6 +321,14 @@ const icons = {
       <circle cx="8" cy="15" r="4" /><path d="M10.85 12.15 19 4" /><path d="M18 5l3 3" /><path d="M15 8l3 3" />
     </svg>
   ),
+  schedule: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 10.5V6.5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2V19a2 2 0 0 0 2 2h6" />
+      <line x1="16" y1="2.5" x2="16" y2="6.5" /><line x1="8" y1="2.5" x2="8" y2="6.5" />
+      <line x1="3" y1="10" x2="12" y2="10" />
+      <circle cx="17.5" cy="17.5" r="4.5" /><polyline points="17.5 15.5 17.5 17.5 19 18.5" />
+    </svg>
+  ),
   accountRecovery: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M3 12a9 9 0 1 0 2.64-6.36" />
@@ -342,6 +367,7 @@ const SOURCE_ICON = {
   users: icons.users,
   admins: icons.userCog,
   attendance: icons.calendarCheck,
+  schedule: icons.schedule,
   profiles: icons.user,
   logs: icons.list,
   feedback: icons.star,
@@ -367,6 +393,7 @@ const SOURCE_LABEL_KEY = {
   users: "sourceUsers",
   admins: "sourceAdmins",
   attendance: "sourceAttendance",
+  schedule: "sourceSchedule",
   profiles: "sourceProfiles",
   logs: "sourceLogs",
   feedback: "sourceFeedback",
@@ -378,7 +405,7 @@ const SOURCE_LABEL_KEY = {
 const SOURCE_ORDER = [
   "absence", "leave", "ticket", "userIssues", "adminIssues",
   "toggleStatus", "idCreation", "idManagement", "blocked", "accountLock",
-  "accessControl", "users", "admins", "attendance", "profiles",
+  "accessControl", "users", "admins", "attendance", "schedule", "profiles",
   "logs", "feedback", "contact", "accountRecovery", "other",
 ];
 
@@ -429,7 +456,10 @@ function Notifications() {
   const SOURCE_META = useMemo(() => {
     const meta = {};
     SOURCE_ORDER.forEach((key) => {
-      meta[key] = { label: t(SOURCE_LABEL_KEY[key]), icon: SOURCE_ICON[key] };
+      meta[key] = {
+        label: t(SOURCE_LABEL_KEY[key], key === "schedule" ? "Schedule" : undefined),
+        icon: SOURCE_ICON[key],
+      };
     });
     return meta;
   }, [t]);
