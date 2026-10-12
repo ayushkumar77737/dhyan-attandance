@@ -10,7 +10,8 @@ import {
     updateDoc,
     getDoc,
     query,
-    where
+    where,
+    writeBatch
 } from "firebase/firestore";
 
 import { useNavigate } from "react-router-dom";
@@ -91,6 +92,13 @@ const icons = {
             <polyline points="17 21 17 13 7 13 7 21" /><polyline points="7 3 7 8 15 8" />
         </svg>
     ),
+    trash: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+            <path d="M10 11v6M14 11v6" /><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+        </svg>
+    ),
     search: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="7.5" /><line x1="21" y1="21" x2="16.8" y2="16.8" />
@@ -159,6 +167,10 @@ function AdminAttendanceReport() {
     const [editStatus, setEditStatus] = useState("");
     const [savingEdit, setSavingEdit] = useState(false);
     const [search, setSearch] = useState("");
+    /* delete: { scope: "day" } or { scope: "one", user } */
+    const [confirmDelete, setConfirmDelete] = useState(null);
+    const [deleting, setDeleting] = useState(false);
+    const [deleteMsg, setDeleteMsg] = useState(null); // { type: "ok" | "error", text }
     const today = getLocalToday();
 
     const checkAdmin = async () => {
@@ -347,6 +359,83 @@ function AdminAttendanceReport() {
         }
     };
 
+    /* ---------------------------------------------------------------
+       DELETE attendance for the selected date
+       - scope "day": every admin's record for that date
+       - scope "one": only this admin's record for that date
+       Records are found by date (same query the report uses), so it
+       works even if a document ID doesn't follow `${id}_${date}`.
+       --------------------------------------------------------------- */
+    const showDeleteMsg = (type, text) => {
+        setDeleteMsg({ type, text });
+        setTimeout(() => setDeleteMsg(null), 3500);
+    };
+
+    const deleteAttendance = async () => {
+        if (!confirmDelete || !selectedDate) return;
+        const { scope, user } = confirmDelete;
+        try {
+            setDeleting(true);
+            const snap = await getDocs(
+                query(collection(db, "adminAttendance"), where("date", "==", selectedDate))
+            );
+            const targets = snap.docs.filter(
+                (d) => scope === "day" || d.data().userId === user.id
+            );
+
+            /* Firestore allows max 500 writes per batch */
+            for (let i = 0; i < targets.length; i += 450) {
+                const batch = writeBatch(db);
+                targets.slice(i, i + 450).forEach((d) => batch.delete(d.ref));
+                await batch.commit();
+            }
+
+            if (scope === "day") {
+                await logAdminAction("delete_admin_attendance_day", {
+                    targetId: selectedDate,
+                    details: t("logDeletedAdminAttendanceDay", {
+                        date: selectedDate,
+                        count: targets.length,
+                        defaultValue: "Deleted admin attendance for {{date}} ({{count}} records)",
+                    }),
+                });
+                setReportUsers([]);
+                setPresentCount(0);
+                setAbsentCount(0);
+                setReportGenerated(false);
+                setSearch("");
+                showDeleteMsg("ok", t("aarDayDeleted", {
+                    date: selectedDate,
+                    defaultValue: "Attendance for {{date}} has been deleted.",
+                }));
+            } else {
+                await logAdminAction("delete_admin_attendance", {
+                    targetId: user.id,
+                    details: t("logDeletedAdminAttendance", {
+                        name: user.name,
+                        date: selectedDate,
+                        defaultValue: "Deleted admin attendance: {{name}} on {{date}}",
+                    }),
+                });
+                const updated = reportUsers.filter((u) => u.id !== user.id);
+                setReportUsers(updated);
+                setPresentCount(updated.filter((u) => u.status === "Present").length);
+                setAbsentCount(updated.filter((u) => u.status === "Absent").length);
+                if (updated.length === 0) setReportGenerated(false);
+                showDeleteMsg("ok", t("aarOneDeleted", {
+                    name: user.name,
+                    defaultValue: "Attendance record for {{name}} has been deleted.",
+                }));
+            }
+            setConfirmDelete(null);
+        } catch (error) {
+            console.error("Error deleting attendance:", error);
+            showDeleteMsg("error", t("aarDeleteFailed", "Couldn't delete the attendance. Please try again."));
+        } finally {
+            setDeleting(false);
+        }
+    };
+
     const exportToExcel = () => {
         const data = reportUsers.map(user => ({
             Name: user.name,
@@ -423,6 +512,13 @@ function AdminAttendanceReport() {
                 </div>
             )}
 
+            {deleteMsg && (
+                <div className={`aar-delete-note ${deleteMsg.type === "error" ? "aar-delete-note--error" : ""}`} role="status">
+                    <span className="aar-empty-note-icon">{deleteMsg.type === "error" ? icons.xCircle : icons.checkSquare}</span>
+                    {deleteMsg.text}
+                </div>
+            )}
+
             {reportGenerated && noAttendance && (
                 <div className="aar-empty-note">
                     <span className="aar-empty-note-icon">{icons.inbox}</span>
@@ -463,6 +559,10 @@ function AdminAttendanceReport() {
                         <button className="aar-export" onClick={exportToExcel}>
                             <span className="aar-btn-icon">{icons.sheet}</span>
                             {t("exportExcel")}
+                        </button>
+                        <button className="aar-delete-day" onClick={() => setConfirmDelete({ scope: "day" })}>
+                            <span className="aar-btn-icon">{icons.trash}</span>
+                            {t("aarDeleteDay", "Delete This Day's Attendance")}
                         </button>
                     </div>
 
@@ -547,6 +647,14 @@ function AdminAttendanceReport() {
                                         <span className="aar-btn-icon">{icons.pencil}</span>
                                         {t("edit")}
                                     </button>
+                                    <button
+                                        className="aar-row-delete"
+                                        onClick={() => setConfirmDelete({ scope: "one", user })}
+                                        aria-label={t("aarDeleteOneAria", { name: user.name, defaultValue: "Delete attendance of {{name}}" })}
+                                        title={t("delete", "Delete")}
+                                    >
+                                        {icons.trash}
+                                    </button>
                                 </div>
                             </div>
                         ))}
@@ -625,6 +733,77 @@ function AdminAttendanceReport() {
                                     ? <span className="aar-spinner" />
                                     : <span className="aar-btn-icon">{icons.save}</span>}
                                 {t("save")}
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            )}
+
+            {/* ======================= DELETE CONFIRM ======================= */}
+            {confirmDelete && (
+                <div className="aar-modal-overlay" onClick={() => !deleting && setConfirmDelete(null)}>
+                    <div className="aar-modal" role="alertdialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
+
+                        <div className="aar-modal-head">
+                            <span className="aar-modal-icon aar-modal-icon--danger">{icons.trash}</span>
+                            <h3>
+                                {confirmDelete.scope === "day"
+                                    ? t("aarDeleteDayTitle", "Delete this day's attendance?")
+                                    : t("aarDeleteOneTitle", "Delete this attendance record?")}
+                            </h3>
+                            <button
+                                className="aar-modal-close"
+                                onClick={() => setConfirmDelete(null)}
+                                disabled={deleting}
+                                aria-label={t("close")}
+                            >
+                                {icons.close}
+                            </button>
+                        </div>
+
+                        <div className="aar-modal-info">
+                            {confirmDelete.scope === "one" && (
+                                <p>
+                                    <span className="aar-modal-info-icon">{icons.user}</span>
+                                    {confirmDelete.user.name} ({confirmDelete.user.id})
+                                </p>
+                            )}
+                            <p>
+                                <span className="aar-modal-info-icon">{icons.calendar}</span>
+                                {selectedDate}
+                            </p>
+                            {confirmDelete.scope === "day" && (
+                                <p>
+                                    <span className="aar-modal-info-icon">{icons.users}</span>
+                                    {t("aarDeleteDayCount", { count: reportUsers.length, defaultValue: "{{count}} admin records" })}
+                                </p>
+                            )}
+                        </div>
+
+                        <p className="aar-delete-warn">
+                            {confirmDelete.scope === "day"
+                                ? t("aarDeleteDayWarn", "All admin attendance marked for this date will be permanently deleted. You can mark it again afterwards. This can't be undone.")
+                                : t("aarDeleteOneWarn", "This admin's attendance for this date will be permanently deleted. This can't be undone.")}
+                        </p>
+
+                        <div className="aar-modal-footer">
+                            <button
+                                className="aar-modal-cancel"
+                                onClick={() => setConfirmDelete(null)}
+                                disabled={deleting}
+                            >
+                                {t("cancel")}
+                            </button>
+                            <button
+                                className="aar-modal-delete"
+                                onClick={deleteAttendance}
+                                disabled={deleting}
+                            >
+                                {deleting
+                                    ? <span className="aar-spinner" />
+                                    : <span className="aar-btn-icon">{icons.trash}</span>}
+                                {deleting ? t("aarDeleting", "Deleting...") : t("delete", "Delete")}
                             </button>
                         </div>
 

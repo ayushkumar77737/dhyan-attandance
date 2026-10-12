@@ -7,7 +7,10 @@ import {
     getDocs,
     doc,
     updateDoc,
-    getDoc
+    getDoc,
+    query,
+    where,
+    writeBatch
 } from "firebase/firestore";
 
 import { useNavigate } from "react-router-dom";
@@ -88,6 +91,13 @@ const icons = {
             <polyline points="17 21 17 13 7 13 7 21" /><polyline points="7 3 7 8 15 8" />
         </svg>
     ),
+    trash: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+            <path d="M10 11v6M14 11v6" /><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+        </svg>
+    ),
     search: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="7.5" /><line x1="21" y1="21" x2="16.8" y2="16.8" />
@@ -147,6 +157,9 @@ function AttendanceReport() {
     const [editStatus, setEditStatus] = useState("");
     const [savingEdit, setSavingEdit] = useState(false);
     const [search, setSearch] = useState("");
+    const [confirmDelete, setConfirmDelete] = useState(null); // { scope: "day" } | { scope: "one", user }
+    const [deleting, setDeleting] = useState(false);
+    const [deleteMsg, setDeleteMsg] = useState(null); // { type: "ok" | "error", text }
     const today = new Date().toISOString().split("T")[0];
 
     const checkAdmin = async () => {
@@ -330,6 +343,83 @@ function AttendanceReport() {
         }
     };
 
+    /* ---------------------------------------------------------------
+       Delete attendance
+       - scope "day": every attendance record marked for selectedDate
+       - scope "one": only this user's record for that date
+       Records are found by date, so it works even if a document ID
+       doesn't follow `${id}_${date}`.
+       --------------------------------------------------------------- */
+    const showDeleteMsg = (type, text) => {
+        setDeleteMsg({ type, text });
+        setTimeout(() => setDeleteMsg(null), 3500);
+    };
+
+    const deleteAttendance = async () => {
+        if (!confirmDelete || !selectedDate) return;
+        const { scope, user } = confirmDelete;
+        try {
+            setDeleting(true);
+            const snap = await getDocs(
+                query(collection(db, "attendance"), where("date", "==", selectedDate))
+            );
+            const targets = snap.docs.filter(
+                (d) => scope === "day" || d.data().userId === user.id
+            );
+
+            /* Firestore allows max 500 writes per batch */
+            for (let i = 0; i < targets.length; i += 450) {
+                const batch = writeBatch(db);
+                targets.slice(i, i + 450).forEach((d) => batch.delete(d.ref));
+                await batch.commit();
+            }
+
+            if (scope === "day") {
+                await logAdminAction("delete_attendance_day", {
+                    targetId: selectedDate,
+                    details: t("logDeletedAttendanceDay", {
+                        date: selectedDate,
+                        count: targets.length,
+                        defaultValue: "Deleted attendance for {{date}} ({{count}} records)",
+                    }),
+                });
+                setReportUsers([]);
+                setPresentCount(0);
+                setAbsentCount(0);
+                setReportGenerated(false);
+                setSearch("");
+                showDeleteMsg("ok", t("arpDayDeleted", {
+                    date: selectedDate,
+                    defaultValue: "Attendance for {{date}} has been deleted.",
+                }));
+            } else {
+                await logAdminAction("delete_attendance", {
+                    targetId: user.id,
+                    details: t("logDeletedAttendance", {
+                        name: user.name,
+                        date: selectedDate,
+                        defaultValue: "Deleted attendance: {{name}} on {{date}}",
+                    }),
+                });
+                const updated = reportUsers.filter((u) => u.id !== user.id);
+                setReportUsers(updated);
+                setPresentCount(updated.filter((u) => u.status === "Present").length);
+                setAbsentCount(updated.filter((u) => u.status === "Absent").length);
+                if (updated.length === 0) setReportGenerated(false);
+                showDeleteMsg("ok", t("arpOneDeleted", {
+                    name: user.name,
+                    defaultValue: "Attendance record for {{name}} has been deleted.",
+                }));
+            }
+            setConfirmDelete(null);
+        } catch (error) {
+            console.error("Error deleting attendance:", error);
+            showDeleteMsg("error", t("arpDeleteFailed", "Couldn't delete the attendance. Please try again."));
+        } finally {
+            setDeleting(false);
+        }
+    };
+
     const exportToExcel = () => {
         const data = reportUsers.map(user => ({
             Name: user.name,
@@ -413,6 +503,13 @@ function AttendanceReport() {
                 </div>
             )}
 
+            {deleteMsg && (
+                <div className={`arp-delete-note ${deleteMsg.type === "error" ? "arp-delete-note--error" : ""}`} role="status">
+                    <span className="arp-empty-note-icon">{deleteMsg.type === "error" ? icons.xCircle : icons.checkSquare}</span>
+                    {deleteMsg.text}
+                </div>
+            )}
+
             {reportGenerated && !noAttendance && reportUsers.length > 0 && (
                 <>
                     {/* ============================ STATS ============================ */}
@@ -446,6 +543,10 @@ function AttendanceReport() {
                         <button className="arp-export" onClick={exportToExcel}>
                             <span className="arp-btn-icon">{icons.sheet}</span>
                             {t("exportExcel")}
+                        </button>
+                        <button className="arp-delete-day" onClick={() => setConfirmDelete({ scope: "day" })}>
+                            <span className="arp-btn-icon">{icons.trash}</span>
+                            {t("arpDeleteDay", "Delete This Day's Attendance")}
                         </button>
                     </div>
 
@@ -530,6 +631,14 @@ function AttendanceReport() {
                                         <span className="arp-btn-icon">{icons.pencil}</span>
                                         {t("edit")}
                                     </button>
+                                    <button
+                                        className="arp-row-delete"
+                                        onClick={() => setConfirmDelete({ scope: "one", user })}
+                                        aria-label={t("arpDeleteOneAria", { name: user.name, defaultValue: "Delete attendance of {{name}}" })}
+                                        title={t("delete", "Delete")}
+                                    >
+                                        {icons.trash}
+                                    </button>
                                 </div>
                             </div>
                         ))}
@@ -608,6 +717,77 @@ function AttendanceReport() {
                                     ? <span className="arp-spinner" />
                                     : <span className="arp-btn-icon">{icons.save}</span>}
                                 {t("save")}
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            )}
+
+            {/* ======================= DELETE CONFIRM ======================= */}
+            {confirmDelete && (
+                <div className="arp-modal-overlay" onClick={() => !deleting && setConfirmDelete(null)}>
+                    <div className="arp-modal" role="alertdialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
+
+                        <div className="arp-modal-head">
+                            <span className="arp-modal-icon arp-modal-icon--danger">{icons.trash}</span>
+                            <h3>
+                                {confirmDelete.scope === "day"
+                                    ? t("arpDeleteDayTitle", "Delete this day's attendance?")
+                                    : t("arpDeleteOneTitle", "Delete this attendance record?")}
+                            </h3>
+                            <button
+                                className="arp-modal-close"
+                                onClick={() => setConfirmDelete(null)}
+                                disabled={deleting}
+                                aria-label={t("close")}
+                            >
+                                {icons.close}
+                            </button>
+                        </div>
+
+                        <div className="arp-modal-info">
+                            {confirmDelete.scope === "one" && (
+                                <p>
+                                    <span className="arp-modal-info-icon">{icons.user}</span>
+                                    {confirmDelete.user.name} ({confirmDelete.user.id})
+                                </p>
+                            )}
+                            <p>
+                                <span className="arp-modal-info-icon">{icons.calendar}</span>
+                                {selectedDate}
+                            </p>
+                            {confirmDelete.scope === "day" && (
+                                <p>
+                                    <span className="arp-modal-info-icon">{icons.users}</span>
+                                    {t("arpDeleteDayCount", { count: reportUsers.length, defaultValue: "{{count}} records" })}
+                                </p>
+                            )}
+                        </div>
+
+                        <p className="arp-delete-warn">
+                            {confirmDelete.scope === "day"
+                                ? t("arpDeleteDayWarn", "All attendance marked for this date will be permanently deleted. You can mark it again afterwards. This can't be undone.")
+                                : t("arpDeleteOneWarn", "This user's attendance for this date will be permanently deleted. This can't be undone.")}
+                        </p>
+
+                        <div className="arp-modal-footer">
+                            <button
+                                className="arp-modal-cancel"
+                                onClick={() => setConfirmDelete(null)}
+                                disabled={deleting}
+                            >
+                                {t("cancel")}
+                            </button>
+                            <button
+                                className="arp-modal-delete"
+                                onClick={deleteAttendance}
+                                disabled={deleting}
+                            >
+                                {deleting
+                                    ? <span className="arp-spinner" />
+                                    : <span className="arp-btn-icon">{icons.trash}</span>}
+                                {deleting ? t("arpDeleting", "Deleting...") : t("delete", "Delete")}
                             </button>
                         </div>
 

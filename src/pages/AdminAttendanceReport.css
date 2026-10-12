@@ -1717,3 +1717,162 @@
         transform: none;
     }
 }
+/* ==================================================================
+   DELETE ATTENDANCE
+   "Delete This Day's Attendance" button, per-row delete icon,
+   confirm modal and the result message.
+   ================================================================== */
+.aar-export-wrap {
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.aar-delete-day {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 24px;
+    border: 1px solid var(--rp-red-border);
+    border-radius: var(--rp-radius-md);
+    background: var(--rp-red-dim);
+    color: var(--rp-red-text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform 0.2s var(--rp-ease), background 0.2s var(--rp-ease), color 0.2s var(--rp-ease);
+}
+
+.aar-delete-day:hover {
+    transform: translateY(-2px);
+    background: #dc2626;
+    color: #fff;
+}
+
+.aar-cell--actions {
+    gap: 8px;
+    align-items: center;
+}
+
+.aar-row-delete {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid transparent;
+    border-radius: var(--rp-radius-sm);
+    background: var(--rp-red-dim);
+    color: var(--rp-red-text);
+    cursor: pointer;
+    transition: border-color 0.2s var(--rp-ease), transform 0.15s var(--rp-ease);
+}
+
+.aar-row-delete svg {
+    width: 16px;
+    height: 16px;
+}
+
+.aar-row-delete:hover {
+    border-color: var(--rp-red-border);
+    transform: translateY(-1px);
+}
+
+.aar-modal-icon--danger {
+    background: var(--rp-red-dim);
+    color: var(--rp-red-text);
+}
+
+.aar-delete-warn {
+    margin: 0 0 22px;
+    padding: 12px 14px;
+    border-radius: var(--rp-radius-md);
+    background: var(--rp-red-dim);
+    border: 1px solid var(--rp-red-border);
+    color: var(--rp-red-text);
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.aar-modal-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--rp-radius-md);
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 12px 26px -10px rgba(220, 38, 38, 0.5);
+    transition: transform 0.15s var(--rp-ease), box-shadow 0.2s var(--rp-ease);
+}
+
+.aar-modal-delete svg {
+    width: 15px;
+    height: 15px;
+}
+
+.aar-modal-delete:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
+
+.aar-modal-delete:disabled,
+.aar-modal-close:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.aar-delete-note {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    margin: 0 0 18px;
+    padding: 14px 24px;
+    border-radius: var(--rp-radius-md);
+    background: var(--rp-green-dim);
+    border: 1px solid var(--rp-green-border);
+    color: var(--rp-green-text);
+    font-size: 14.5px;
+    font-weight: 600;
+    text-align: center;
+    animation: aar-dropin 0.35s var(--rp-ease) both;
+}
+
+.aar-delete-note--error {
+    background: var(--rp-red-dim);
+    border-color: var(--rp-red-border);
+    color: var(--rp-red-text);
+}
+
+@media (max-width: 600px) {
+    .aar-delete-day {
+        width: 100%;
+    }
+
+    .aar-cell--actions .aar-edit {
+        flex: 1;
+    }
+
+    .aar-row-delete {
+        width: 46px;
+        height: auto;
+        align-self: stretch;
+    }
+
+    .aar-modal-delete {
+        width: 100%;
+    }
+}
