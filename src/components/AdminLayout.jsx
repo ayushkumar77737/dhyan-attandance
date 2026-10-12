@@ -350,6 +350,7 @@ function AdminLayout({ children }) {
         { path: "/blocked-accounts", icon: icons.shield, label: t("blockedAccounts.label") },
         { path: "/account-lock", icon: icons.lock, label: t("accountLock") || "Account Lock" },
         { path: "/deleted-users", icon: icons.trash, label: t("deletedUsers") },
+        { path: "/deleted-admins", icon: icons.trash, label: t("deletedAdmins", "Deleted Admins") },
       ],
     },
   ]

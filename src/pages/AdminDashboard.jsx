@@ -982,6 +982,7 @@ function AdminDashboard() {
     { path: "/blocked-accounts", icon: icons.shield, cls: "icon-red", label: t("blockedAccounts.label") },
     { path: "/account-lock", icon: icons.lock, cls: "icon-amber", label: t("accountLock") || "Account Lock" },
     { path: "/deleted-users", icon: icons.trash, cls: "icon-red", label: t("deletedUsers") },
+    { path: "/deleted-admins", icon: icons.trash, cls: "icon-red", label: t("deletedAdmins", "Deleted Admins") },
   ];
 
   const coreFiltered = coreItems
@@ -1052,6 +1053,7 @@ function AdminDashboard() {
         { path: "/blocked-accounts", icon: icons.shield, label: t("blockedAccounts.label") },
         { path: "/account-lock", icon: icons.lock, label: t("accountLock") || "Account Lock" },
         { path: "/deleted-users", icon: icons.trash, label: t("deletedUsers") },
+        { path: "/deleted-admins", icon: icons.trash, cls: "icon-red", label: t("deletedAdmins", "Deleted Admins") },
       ],
     },
   ]

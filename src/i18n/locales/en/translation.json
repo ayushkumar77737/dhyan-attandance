@@ -2219,5 +2219,8 @@
   "arpOneDeleted": "Attendance record for {{name}} has been deleted.",
   "arpDeleteFailed": "Couldn't delete the attendance. Please try again.",
   "logDeletedAttendanceDay": "Deleted attendance for {{date}} ({{count}} records)",
-  "sourceSchedule": "Schedule"
+  "sourceSchedule": "Schedule",
+  "deleteAdmin": "Delete Admin",
+"deleteAdminConfirmMsg": "Are you sure you want to delete this admin? They will be moved to the Deleted Admins page.",
+"logDeletedAdmin": "Deleted admin {{id}}"
 }

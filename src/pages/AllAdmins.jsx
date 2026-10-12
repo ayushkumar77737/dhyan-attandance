@@ -3,10 +3,11 @@ import "./AllAdmins.css";
 import { useNavigate } from "react-router-dom";
 
 import { db, auth } from "../firebase/firebase";
-import { collection, getDocs, getDoc, doc } from "firebase/firestore";
+import { collection, getDocs, getDoc, updateDoc, doc } from "firebase/firestore";
 
 import { useTranslation } from "react-i18next";
 import useAutoLogout from "../hooks/useAutoLogout";
+import { logAdminAction } from "../utils/logAdminAction";
 
 import logo from "../assets/logo2.png";
 
@@ -41,6 +42,18 @@ const icons = {
             <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 1.9.6 2.8a2 2 0 0 1-.4 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.8 2z" />
         </svg>
     ),
+    trash: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14H6L5 6" />
+            <path d="M10 11v6" /><path d="M14 11v6" /><path d="M9 6V4h6v2" />
+        </svg>
+    ),
+    alert: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+            <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+    ),
     inbox: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
@@ -69,6 +82,9 @@ function AllAdmins() {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
+    const [showModal, setShowModal] = useState(false);
+    const [selectedAdmin, setSelectedAdmin] = useState(null);
+    const [deleting, setDeleting] = useState(false);
 
     const checkAdmin = async () => {
         const currentUser = auth.currentUser;
@@ -192,6 +208,44 @@ function AllAdmins() {
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
+    };
+
+    /* Soft-delete: flags the admin as deleted (same fields the Users page
+       uses) so they drop off this list and can be listed on the Deleted
+       Admins page. Nothing is removed from Firestore. */
+    const openDeleteModal = (docId) => {
+        setSelectedAdmin(docId);
+        setShowModal(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!selectedAdmin) return;
+
+        /* never let an admin delete their own account */
+        if (String(selectedAdmin).toUpperCase() === String(localStorage.getItem("userId") || "").toUpperCase()) {
+            setShowModal(false);
+            return;
+        }
+
+        try {
+            setDeleting(true);
+            await updateDoc(doc(db, "users", selectedAdmin), {
+                deleted: true,
+                deletedBy: localStorage.getItem("userId"),
+                deletedAt: new Date().toISOString(),
+            });
+            await logAdminAction("delete_admin", {
+                targetId: selectedAdmin,
+                details: t("logDeletedAdmin", { id: selectedAdmin }),
+            });
+            setShowModal(false);
+            setSelectedAdmin(null);
+            fetchAdmins();
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setDeleting(false);
+        }
     };
 
     /* Two-tone heading. Rather than hard-coding an "All" + "Admins" split
@@ -321,8 +375,41 @@ function AllAdmins() {
                                     {a.disabled ? t("inactive") : t("active")}
                                 </span>
                             </div>
+
+                            {String(a.docId).toUpperCase() !== String(localStorage.getItem("userId") || "").toUpperCase() && (
+                                <button
+                                    type="button"
+                                    className="alad-delete"
+                                    onClick={(e) => { e.stopPropagation(); openDeleteModal(a.docId); }}
+                                    onKeyDown={(e) => e.stopPropagation()}
+                                >
+                                    <span className="alad-btn-icon">{icons.trash}</span>
+                                    {t("delete")}
+                                </button>
+                            )}
                         </div>
                     ))}
+                </div>
+            )}
+
+            {/* ============================ MODAL ============================= */}
+            {showModal && (
+                <div className="alad-modal-overlay" onClick={() => !deleting && setShowModal(false)}>
+                    <div className="alad-modal" onClick={(e) => e.stopPropagation()}>
+                        <span className="alad-modal-icon">{icons.alert}</span>
+                        <h3>{t("deleteAdmin")}</h3>
+                        <p>{t("deleteAdminConfirmMsg")}</p>
+
+                        <div className="alad-modal-buttons">
+                            <button className="alad-cancel" onClick={() => setShowModal(false)} disabled={deleting}>
+                                {t("cancel")}
+                            </button>
+                            <button className="alad-confirm" onClick={confirmDelete} disabled={deleting}>
+                                {deleting ? <span className="alad-spinner alad-spinner--sm" /> : icons.trash}
+                                {t("delete")}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

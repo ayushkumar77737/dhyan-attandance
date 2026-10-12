@@ -1117,3 +1117,167 @@
         transform: none;
     }
 }
+
+/* ================================================================== */
+/* DELETE BUTTON + CONFIRM MODAL                                      */
+/* ================================================================== */
+.alad-delete {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border-radius: var(--ad2-radius-sm);
+    background: var(--ad2-red-dim);
+    border: 1px solid var(--ad2-red-border);
+    color: var(--ad2-red-text);
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s var(--ad2-ease), background 0.2s var(--ad2-ease), color 0.2s var(--ad2-ease);
+}
+
+.alad-delete .alad-btn-icon,
+.alad-delete .alad-btn-icon svg {
+    width: 14px;
+    height: 14px;
+}
+
+.alad-delete:hover {
+    background: #dc2626;
+    border-color: #dc2626;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.alad-delete:active {
+    transform: scale(0.97);
+}
+
+.alad-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(6, 10, 22, 0.7);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.alad-modal {
+    width: 100%;
+    max-width: 400px;
+    padding: 32px 28px 26px;
+    background: var(--ad2-card);
+    border: 1px solid var(--ad2-card-border);
+    border-radius: var(--ad2-radius-lg);
+    box-shadow: var(--ad2-card-shadow);
+    text-align: center;
+}
+
+.alad-modal-icon {
+    width: 62px;
+    height: 62px;
+    margin-bottom: 16px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ad2-red-dim);
+    color: var(--ad2-red-text);
+}
+
+.alad-modal-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.alad-modal h3 {
+    margin: 0 0 8px;
+    font-family: var(--font-display);
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--ad2-text);
+}
+
+.alad-modal p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ad2-muted);
+}
+
+.alad-modal-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 26px;
+}
+
+.alad-cancel,
+.alad-confirm {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 26px;
+    border-radius: var(--ad2-radius-sm);
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s var(--ad2-ease), box-shadow 0.2s var(--ad2-ease);
+}
+
+.alad-cancel svg,
+.alad-confirm svg {
+    width: 15px;
+    height: 15px;
+}
+
+.alad-cancel {
+    background: transparent;
+    border: 1px solid var(--ad2-card-border);
+    color: var(--ad2-text);
+}
+
+.alad-confirm {
+    border: none;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #fff;
+    box-shadow: 0 10px 24px -10px rgba(220, 38, 38, 0.5);
+}
+
+.alad-confirm:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
+
+.alad-cancel:disabled,
+.alad-confirm:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.alad-spinner--sm {
+    width: 15px;
+    height: 15px;
+    border-width: 2px;
+}
+
+@media (max-width: 480px) {
+    .alad-modal-buttons {
+        flex-direction: column;
+    }
+
+    .alad-cancel,
+    .alad-confirm {
+        width: 100%;
+    }
+}
