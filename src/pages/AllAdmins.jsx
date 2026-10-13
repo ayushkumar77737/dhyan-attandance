@@ -8,6 +8,7 @@ import { collection, getDocs, getDoc, updateDoc, doc } from "firebase/firestore"
 import { useTranslation } from "react-i18next";
 import useAutoLogout from "../hooks/useAutoLogout";
 import { logAdminAction } from "../utils/logAdminAction";
+import { SUPER_ADMIN_ID } from "../utils/accessControl";
 
 import logo from "../assets/logo2.png";
 
@@ -221,8 +222,11 @@ function AllAdmins() {
     const confirmDelete = async () => {
         if (!selectedAdmin) return;
 
-        /* never let an admin delete their own account */
-        if (String(selectedAdmin).toUpperCase() === String(localStorage.getItem("userId") || "").toUpperCase()) {
+        /* never let an admin delete the super admin or their own account */
+        if (
+            String(selectedAdmin).toUpperCase() === SUPER_ADMIN_ID ||
+            String(selectedAdmin).toUpperCase() === String(localStorage.getItem("userId") || "").toUpperCase()
+        ) {
             setShowModal(false);
             return;
         }
@@ -376,17 +380,18 @@ function AllAdmins() {
                                 </span>
                             </div>
 
-                            {String(a.docId).toUpperCase() !== String(localStorage.getItem("userId") || "").toUpperCase() && (
-                                <button
-                                    type="button"
-                                    className="alad-delete"
-                                    onClick={(e) => { e.stopPropagation(); openDeleteModal(a.docId); }}
-                                    onKeyDown={(e) => e.stopPropagation()}
-                                >
-                                    <span className="alad-btn-icon">{icons.trash}</span>
-                                    {t("delete")}
-                                </button>
-                            )}
+                            {String(a.docId).toUpperCase() !== SUPER_ADMIN_ID &&
+                                String(a.docId).toUpperCase() !== String(localStorage.getItem("userId") || "").toUpperCase() && (
+                                    <button
+                                        type="button"
+                                        className="alad-delete"
+                                        onClick={(e) => { e.stopPropagation(); openDeleteModal(a.docId); }}
+                                        onKeyDown={(e) => e.stopPropagation()}
+                                    >
+                                        <span className="alad-btn-icon">{icons.trash}</span>
+                                        {t("delete")}
+                                    </button>
+                                )}
                         </div>
                     ))}
                 </div>

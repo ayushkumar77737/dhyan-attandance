@@ -1,0 +1,738 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ================================================================== */
+/* DELETED ADMINS PAGE — every class is prefixed `dad-` and every      */
+/* token / keyframe is scoped, so nothing collides with DeletedUsers   */
+/* ================================================================== */
+
+.deleted-admins-container {
+    --dad-navy: #0d1b2a;
+    --dad-mid: #112236;
+    --dad-card: #162840;
+    --dad-row: #1a3050;
+    --dad-accent: #f87171;
+    --dad-accent-g: rgba(248, 113, 113, 0.3);
+    --dad-border: rgba(248, 113, 113, 0.12);
+    --dad-white: #e8f0f8;
+    --dad-muted: #7a9bbf;
+    --dad-accent-tint: rgba(248, 113, 113, 0.08);
+    --dad-accent-tint-border: rgba(248, 113, 113, 0.2);
+    --dad-accent-tint-hover: rgba(248, 113, 113, 0.16);
+    --dad-avatar-ring: rgba(248, 113, 113, 0.35);
+
+    position: relative;
+    padding: 40px;
+    min-height: 100vh;
+    background: var(--dad-navy);
+    font-family: 'DM Sans', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    animation: dadFadeIn 0.8s ease;
+}
+
+/* ---------- background orbs ---------- */
+.dad-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.dad-orb-1 {
+    width: 500px;
+    height: 500px;
+    top: -150px;
+    right: -100px;
+    background: radial-gradient(circle, rgba(248, 113, 113, 0.1), transparent 70%);
+    animation: dadOrbFloat 12s ease-in-out infinite;
+}
+
+.dad-orb-2 {
+    width: 400px;
+    height: 400px;
+    bottom: 100px;
+    left: -120px;
+    background: radial-gradient(circle, rgba(79, 209, 197, 0.08), transparent 70%);
+    animation: dadOrbFloat 16s ease-in-out infinite reverse;
+}
+
+.dad-orb-3 {
+    width: 300px;
+    height: 300px;
+    bottom: 300px;
+    right: 200px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.07), transparent 70%);
+    animation: dadOrbFloat 20s ease-in-out infinite;
+}
+
+@keyframes dadOrbFloat {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-28px) scale(1.04);
+    }
+}
+
+/* ---------- header buttons ---------- */
+.dad-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+.dad-back-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--dad-accent-tint);
+    color: var(--dad-accent);
+    border: 1px solid var(--dad-border);
+    padding: 9px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(6px);
+    animation: dadSlideLeft 0.6s ease-out 0.1s both;
+}
+
+.dad-back-btn:hover {
+    background: var(--dad-accent-tint-hover);
+    border-color: var(--dad-accent);
+    box-shadow: 0 0 16px var(--dad-accent-g);
+    transform: translateX(-2px);
+}
+
+.dad-back-btn:active {
+    transform: scale(0.98);
+}
+
+.dad-back-arrow {
+    font-size: 16px;
+    transition: transform 0.3s;
+}
+
+.dad-back-btn:hover .dad-back-arrow {
+    transform: translateX(-3px);
+}
+
+.dad-export-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 20px;
+    border: none;
+    background: linear-gradient(135deg, #38b2ac, #2d9b97);
+    color: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(56, 178, 172, 0.28);
+    white-space: nowrap;
+    animation: dadSlideRight 0.6s ease-out 0.1s both;
+}
+
+.dad-export-btn:hover {
+    background: linear-gradient(135deg, #4fd1c5, #38b2ac);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(79, 209, 197, 0.4);
+}
+
+.dad-export-btn:active {
+    transform: scale(0.98);
+}
+
+.dad-export-icon {
+    font-size: 15px;
+    font-weight: 700;
+    display: inline-block;
+    animation: dadBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes dadBounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(3px);
+    }
+}
+
+/* ---------- title ---------- */
+.dad-title-block {
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.dad-eyebrow {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--dad-accent);
+    margin-bottom: 10px;
+    opacity: 0.8;
+    animation: dadFadeUp 0.6s ease 0.15s both;
+}
+
+.dad-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--dad-white);
+    letter-spacing: -0.5px;
+    margin: 0 0 14px;
+    line-height: 1.15;
+    text-align: center;
+    animation: dadFadeUp 0.6s ease 0.25s both;
+}
+
+.dad-title-underline {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--dad-accent), transparent);
+    border-radius: 2px;
+    margin: 0 auto;
+    animation: dadScaleIn 0.5s ease 0.4s both;
+}
+
+/* ---------- stats ---------- */
+.dad-stats-strip {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 24px;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.dad-stat-pill {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    backdrop-filter: blur(12px);
+    transition: all 0.25s ease;
+    animation: dadFadeScale 0.5s ease 0.35s both;
+}
+
+.dad-stat-pill:hover {
+    background: rgba(248, 113, 113, 0.07);
+    border-color: rgba(248, 113, 113, 0.25);
+    transform: translateY(-2px);
+}
+
+.dad-stat-icon {
+    font-size: 18px;
+}
+
+.dad-stat-label {
+    font-size: 13px;
+    color: var(--dad-muted);
+    font-weight: 500;
+}
+
+.dad-stat-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dad-accent);
+    margin-left: 6px;
+}
+
+/* ---------- card + table ---------- */
+.dad-card {
+    position: relative;
+    z-index: 1;
+    width: 95%;
+    max-width: 1100px;
+    background: var(--dad-card);
+    padding: 28px;
+    border-radius: 20px;
+    border: 1px solid var(--dad-border);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(248, 113, 113, 0.05) inset;
+    animation: dadSlideUp 0.7s ease;
+    transition: box-shadow 0.3s;
+}
+
+.dad-card:hover {
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), 0 0 30px rgba(248, 113, 113, 0.06);
+}
+
+.dad-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 14px;
+}
+
+.dad-table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: separate;
+    border-spacing: 0 6px;
+}
+
+.dad-table th {
+    background: transparent;
+    color: var(--dad-muted);
+    padding: 10px 16px;
+    text-align: left;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--dad-border);
+    white-space: nowrap;
+    animation: dadFadeIn 0.5s ease 0.5s both;
+}
+
+.dad-table tbody tr {
+    background: var(--dad-mid);
+    border-radius: 10px;
+    transition: all 0.25s ease;
+    animation: dadRowReveal 0.4s ease both;
+}
+
+.dad-table tbody tr:hover {
+    background: var(--dad-row);
+    transform: translateX(4px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25), -3px 0 0 var(--dad-accent);
+}
+
+.dad-table td {
+    padding: 13px 16px;
+    font-size: 14px;
+    color: var(--dad-white);
+    border: none;
+    white-space: nowrap;
+}
+
+.dad-table tbody tr td:first-child {
+    border-radius: 10px 0 0 10px;
+}
+
+.dad-table tbody tr td:last-child {
+    border-radius: 0 10px 10px 0;
+}
+
+@keyframes dadRowReveal {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.dad-id-badge {
+    display: inline-block;
+    background: var(--dad-accent-tint);
+    border: 1px solid var(--dad-accent-tint-border);
+    color: var(--dad-accent);
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+}
+
+.dad-id-badge:hover {
+    background: var(--dad-accent-tint-hover);
+    transform: scale(1.05);
+}
+
+.dad-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* shared avatar footprint — photo and initials swap with no layout shift */
+.dad-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.dad-avatar-img {
+    object-fit: cover;
+    border: 2px solid var(--dad-avatar-ring);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.dad-avatar-img.is-loaded {
+    opacity: 1;
+    animation: dadAvatarPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.dad-avatar-fallback {
+    background: linear-gradient(135deg, #e53e3e, #f87171);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    animation: dadFadeIn 0.3s ease;
+}
+
+/* ---------- restore button ---------- */
+.dad-restore-btn {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #2d9b97, #4fd1c5);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba(79, 209, 197, 0.25);
+    white-space: nowrap;
+}
+
+.dad-restore-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: left 0.5s ease;
+}
+
+.dad-restore-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #38b2ac, #81e6d9);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(79, 209, 197, 0.4);
+}
+
+.dad-restore-btn:hover:not(:disabled)::before {
+    left: 100%;
+}
+
+.dad-restore-btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.dad-restore-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+/* ---------- empty / loading ---------- */
+.dad-table .dad-no-data {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--dad-muted);
+    animation: dadFadeUp 0.5s ease 0.3s both;
+}
+
+.dad-no-data-icon {
+    font-size: 36px;
+    display: block;
+    margin-bottom: 10px;
+    animation: dadFloat 3s ease-in-out infinite;
+}
+
+.dad-no-data p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--dad-muted);
+}
+
+.dad-spinner {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border: 3px solid var(--dad-accent-tint-border);
+    border-top-color: var(--dad-accent);
+    border-radius: 50%;
+    animation: dadSpin 0.8s linear infinite;
+}
+
+@keyframes dadSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ---------- keyframes ---------- */
+@keyframes dadFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes dadSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(32px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes dadSlideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes dadSlideRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes dadFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes dadScaleIn {
+    from {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+
+    to {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+}
+
+@keyframes dadFadeScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes dadAvatarPop {
+    from {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes dadFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* ================================================================== */
+/* RESPONSIVE                                                         */
+/* ================================================================== */
+@media (max-width: 992px) {
+    .deleted-admins-container {
+        padding: 25px;
+    }
+
+    .dad-title {
+        font-size: 28px;
+    }
+
+    .dad-card {
+        padding: 20px;
+    }
+
+    .dad-table th,
+    .dad-table td {
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    .dad-restore-btn {
+        padding: 7px 14px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .deleted-admins-container {
+        padding: 20px;
+    }
+
+    .dad-title {
+        font-size: 24px;
+    }
+
+    .dad-card {
+        padding: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .deleted-admins-container {
+        padding: 15px;
+    }
+
+    .dad-title {
+        font-size: 22px;
+    }
+
+    .dad-back-btn {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    .dad-export-btn {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    .dad-card {
+        padding: 15px;
+    }
+
+    .dad-table th,
+    .dad-table td {
+        font-size: 12px;
+    }
+}
+
+/* ================================================================== */
+/* LIGHT THEME                                                        */
+/* ================================================================== */
+.deleted-admins-container[data-theme="light"] {
+    --dad-navy: #f4f6fa;
+    --dad-mid: #ffffff;
+    --dad-card: #ffffff;
+    --dad-row: #fef2f2;
+    --dad-accent: #dc2626;
+    --dad-border: rgba(220, 38, 38, 0.18);
+    --dad-white: #1e293b;
+    --dad-muted: #475569;
+    --dad-accent-tint: rgba(220, 38, 38, 0.06);
+    --dad-accent-tint-border: rgba(220, 38, 38, 0.18);
+    --dad-accent-tint-hover: rgba(220, 38, 38, 0.1);
+    --dad-avatar-ring: rgba(220, 38, 38, 0.25);
+}
+
+.deleted-admins-container[data-theme="light"] .dad-orb-1 {
+    background: radial-gradient(circle, rgba(248, 113, 113, 0.07), transparent 70%);
+}
+
+.deleted-admins-container[data-theme="light"] .dad-orb-2 {
+    background: radial-gradient(circle, rgba(79, 209, 197, 0.06), transparent 70%);
+}
+
+.deleted-admins-container[data-theme="light"] .dad-orb-3 {
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.05), transparent 70%);
+}
+
+.deleted-admins-container[data-theme="light"] .dad-stat-pill {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 2px 12px rgba(15, 23, 42, 0.05);
+}
+
+.deleted-admins-container[data-theme="light"] .dad-stat-pill:hover {
+    background: rgba(220, 38, 38, 0.05);
+    border-color: rgba(220, 38, 38, 0.22);
+}
+
+.deleted-admins-container[data-theme="light"] .dad-card {
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+}
+
+.deleted-admins-container[data-theme="light"] .dad-card:hover {
+    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.1);
+}
+
+/* rows are white on a white card in light mode — a hairline ring gives
+   each one an edge (box-shadow, since <tr> borders don't render with
+   border-collapse: separate) */
+.deleted-admins-container[data-theme="light"] .dad-table tbody tr {
+    box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.07), 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.deleted-admins-container[data-theme="light"] .dad-table tbody tr:hover {
+    box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.2), 0 4px 16px rgba(15, 23, 42, 0.1), -3px 0 0 var(--dad-accent);
+}

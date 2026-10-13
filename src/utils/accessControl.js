@@ -33,6 +33,7 @@ export const CONTROLLABLE_PAGES = [
     { id: "blockedAccounts", path: "/blocked-accounts", labelKey: "blockedAccounts.label" },
     { id: "accountLock", path: "/account-lock", labelKey: "accountLock" },
     { id: "deletedUsers", path: "/deleted-users", labelKey: "deletedUsers" },
+    { id: "deletedAdmins", path: "/deleted-admins", labelKey: "deletedAdmins" },
     { id: "userIssues", path: "/user-issues", labelKey: "userIssuesBugs" },
     { id: "adminIssues", path: "/admin-issues", labelKey: "adminIssuesBugs" },
     { id: "idCreationStatus", path: "/id-creation-status", labelKey: "idCreationStatus" },
