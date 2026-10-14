@@ -260,6 +260,12 @@ const icons = {
       <circle cx="17.5" cy="17.5" r="4.5" /><polyline points="17.5 15.5 17.5 17.5 19 18.5" />
     </svg>
   ),
+  announcement: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 11l18-5v12L3 14v-3z" />
+      <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
+    </svg>
+  ),
   mail: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
@@ -956,6 +962,7 @@ function AdminDashboard() {
     { path: "/leaves-request", icon: icons.leaveRequest, cls: "icon-coral", label: t("leavesRequest") },
     { path: "/schedule-management", icon: icons.schedule, cls: "icon-indigo", label: t("scheduleManagement", "Schedule Management") },
     { path: "/notifications", icon: icons.bell, cls: "icon-amber", label: t("notifications") },
+    { path: "/announcement-management", icon: icons.announcement, cls: "icon-pink", label: t("announcementManagement", "Announcement Management") },
     { path: "/track-ticket", icon: icons.ticket, cls: "icon-coral", label: t("trackTicket") },
     { path: "/user-issues", icon: icons.bug, cls: "icon-rose", label: t("userIssuesBugs") || "User Issues and Bugs" },
     { path: "/admin-issues", icon: icons.bug, cls: "icon-purple", label: t("adminIssuesBugs") || "Admin Issues and Bugs" },
@@ -1028,6 +1035,7 @@ function AdminDashboard() {
         { path: "/leaves-request", icon: icons.leaveRequest, label: t("leavesRequest") },
         { path: "/schedule-management", icon: icons.schedule, label: t("scheduleManagement", "Schedule Management") },
         { path: "/notifications", icon: icons.bell, label: t("notifications") },
+        { path: "/announcement-management", icon: icons.announcement, label: t("announcementManagement", "Announcement Management") },
         { path: "/track-ticket", icon: icons.ticket, label: t("trackTicket") },
         { path: "/user-issues", icon: icons.bug, label: t("userIssuesBugs") || "User Issues and Bugs" },
         { path: "/admin-issues", icon: icons.bug, label: t("adminIssuesBugs") || "Admin Issues and Bugs" },

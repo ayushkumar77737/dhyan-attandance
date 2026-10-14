@@ -24,6 +24,7 @@ import AccountRecoveryRequests from "./pages/AccountRecoveryRequests";
 import AttendanceReport from "./pages/AttendanceReport";
 import AttendanceCalendar from "./pages/AttendanceCalendar";
 import ScheduleManagement from "./pages/ScheduleManagement";
+import AnnouncementManagement from "./pages/AnnouncementManagement";
 import UserPercentage from "./pages/UserPercentage";
 import DeletedUsers from "./pages/DeletedUsers";
 import DeletedAdmins from "./pages/DeletedAdmins";
@@ -187,6 +188,7 @@ function App() {
           <Route path="/absence-management" element={<RequireAccess pageId="absenceManagement"><AbsenceManagement /></RequireAccess>} />
           <Route path="/leaves-request" element={<RequireAccess pageId="leavesRequest"><LeaveRequests /></RequireAccess>} />
           <Route path="/schedule-management" element={<RequireAccess pageId="scheduleManagement"><ScheduleManagement /></RequireAccess>} />
+          <Route path="/announcement-management" element={<RequireAccess pageId="announcementManagement"><AnnouncementManagement /></RequireAccess>} />
           <Route path="/add-user" element={<RequireAccess pageId="addUser"><AddUser /></RequireAccess>} />
           <Route path="/add-admin" element={<RequireAccess pageId="addAdmin"><AddAdmin /></RequireAccess>} />
           <Route path="/mark-attendance" element={<RequireAccess pageId="markAttendance"><MarkAttendance /></RequireAccess>} />

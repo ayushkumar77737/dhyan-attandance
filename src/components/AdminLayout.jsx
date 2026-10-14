@@ -72,6 +72,12 @@ const icons = {
       <circle cx="17.5" cy="17.5" r="4.5" /><polyline points="17.5 15.5 17.5 17.5 19 18.5" />
     </svg>
   ),
+  announcement: (
+    <svg {...svgProps}>
+      <path d="M3 11l18-5v12L3 14v-3z" />
+      <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
+    </svg>
+  ),
   calendarX: (
     <svg {...svgProps}>
       <rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" />
@@ -325,6 +331,7 @@ function AdminLayout({ children }) {
         { path: "/leaves-request", icon: icons.leaveRequest, label: t("leavesRequest") },
         { path: "/schedule-management", icon: icons.schedule, label: t("scheduleManagement", "Schedule Management") },
         { path: "/notifications", icon: icons.bell, label: t("notifications") },
+        { path: "/announcement-management", icon: icons.announcement, label: t("announcementManagement", "Announcement Management") },
         { path: "/track-ticket", icon: icons.ticket, label: t("trackTicket") },
         { path: "/user-issues", icon: icons.bug, label: t("userIssuesBugs") || "User Issues and Bugs" },
         { path: "/admin-issues", icon: icons.bug, label: t("adminIssuesBugs") || "Admin Issues and Bugs" },
