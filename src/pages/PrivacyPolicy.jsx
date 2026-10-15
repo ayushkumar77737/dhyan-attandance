@@ -62,8 +62,8 @@ const PrivacyPolicy = () => {
     const year = new Date().getFullYear();
 
     useEffect(() => {
-        document.title = `${page.title || "Privacy"} ${page.titleAccent || "Policy"} | ${t("appTitle") || "Dhyan Attendance Portal"}`;
-    }, [page.title, page.titleAccent, t]);
+        document.title = t("appTitle") || "Dhyan Attendance Portal";
+    }, [t]);
 
     /* ---------- highlight the section being read in the "On this page" list ---------- */
     useEffect(() => {
