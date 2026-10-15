@@ -79,6 +79,12 @@ const I = {
     users: <Svg><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></Svg>,
     left: <Svg sw={2.3}><polyline points="15 18 9 12 15 6" /></Svg>,
     right: <Svg sw={2.3}><polyline points="9 18 15 12 9 6" /></Svg>,
+    layers: <Svg><polygon points="12 2 2 7 12 12 22 7 12 2" /><polyline points="2 17 12 22 22 17" /><polyline points="2 12 12 17 22 12" /></Svg>,
+    flag: <Svg><path d="M4 22V4" /><path d="M4 4h12l-2 4 2 4H4" /></Svg>,
+    calendar: <Svg><rect x="3" y="4" width="18" height="18" rx="2.5" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></Svg>,
+    user: <Svg><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></Svg>,
+    chevron: <Svg sw={2.4}><polyline points="6 9 12 15 18 9" /></Svg>,
+    checkFill: <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor" /><polyline points="7.5 12.5 10.5 15.5 16.5 9" fill="none" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" /></svg>,
     lotus: <Svg sw={1.6}><path d="M12 4c1.6 1.9 2.4 3.8 2.4 5.6 0 1.6-.8 3.3-2.4 4.9-1.6-1.6-2.4-3.3-2.4-4.9C9.6 7.8 10.4 5.9 12 4z" /><path d="M3.5 11c2.6.2 4.8 1.3 6.3 3.4M20.5 11c-2.6.2-4.8 1.3-6.3 3.4" /><path d="M3 15.5c2 2.4 5.2 3.7 9 3.7s7-1.3 9-3.7" /></Svg>,
 };
 
@@ -244,7 +250,86 @@ function PriorityBadge({ priority, S }) {
 }
 
 function StatusBadge({ status, S }) {
-    return <span className={`annm__status annm__status--${status}`}>{S(STATUS_KEY[status])}</span>;
+    return (
+        <span className={`annm__status annm__status--${status}`}>
+            <span className="annm__dot" />{S(STATUS_KEY[status])}
+        </span>
+    );
+}
+
+/* select with a leading icon + chevron (the native <select> still does the work) */
+function SelectBox({ icon, value, onChange, label, children }) {
+    return (
+        <div className="annm__selectbox">
+            <span className="annm__selectbox-ico">{icon}</span>
+            <select className="annm__select" value={value} onChange={onChange} aria-label={label}>{children}</select>
+            <span className="annm__selectbox-chev">{I.chevron}</span>
+        </div>
+    );
+}
+
+/* page numbers with "…" gaps, e.g. 1 … 4 5 6 … 12 */
+const pageList = (total, cur) => {
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+    const out = [1];
+    const s = Math.max(2, cur - 1);
+    const e = Math.min(total - 1, cur + 1);
+    if (s > 2) out.push("gapL");
+    for (let i = s; i <= e; i++) out.push(i);
+    if (e < total - 1) out.push("gapR");
+    out.push(total);
+    return out;
+};
+
+/* decorative header illustration (pure SVG, no image file needed) */
+function Hero() {
+    return (
+        <div className="annm__hero-art" aria-hidden="true">
+            <svg viewBox="0 0 460 230" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="annm-gb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#60a5fa" /><stop offset="1" stopColor="#4f46e5" /></linearGradient>
+                    <linearGradient id="annm-gp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#818cf8" /><stop offset="1" stopColor="#6d28d9" /></linearGradient>
+                    <linearGradient id="annm-gw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#ffffff" /><stop offset="1" stopColor="#ddd6fe" /></linearGradient>
+                    <radialGradient id="annm-gg" cx=".5" cy=".5" r=".5"><stop offset="0" stopColor="#c4b5fd" stopOpacity=".55" /><stop offset="1" stopColor="#c4b5fd" stopOpacity="0" /></radialGradient>
+                </defs>
+                <ellipse cx="270" cy="120" rx="190" ry="110" fill="url(#annm-gg)" />
+                <g transform="rotate(-8 190 170)">
+                    <rect x="110" y="140" width="150" height="80" rx="14" fill="#ede9fe" />
+                    <rect x="132" y="162" width="86" height="8" rx="4" fill="#c4b5fd" />
+                    <rect x="132" y="180" width="62" height="8" rx="4" fill="#ddd6fe" />
+                </g>
+                <g transform="rotate(-6 90 70)">
+                    <path d="M40 30h110a14 14 0 0 1 14 14v52a14 14 0 0 1-14 14h-46l-26 22v-22h-38a14 14 0 0 1-14-14V44a14 14 0 0 1 14-14z" fill="url(#annm-gb)" />
+                    <rect x="58" y="52" width="82" height="7" rx="3.5" fill="#fff" opacity=".95" />
+                    <rect x="58" y="68" width="62" height="7" rx="3.5" fill="#fff" opacity=".8" />
+                    <rect x="58" y="84" width="72" height="7" rx="3.5" fill="#fff" opacity=".65" />
+                </g>
+                <g transform="rotate(-24 300 120)">
+                    <rect x="215" y="100" width="52" height="52" rx="16" fill="url(#annm-gb)" />
+                    <path d="M258 96 L352 38 Q372 30 372 54 V186 Q372 210 352 200 L258 146 Z" fill="url(#annm-gw)" />
+                    <ellipse cx="362" cy="120" rx="26" ry="78" fill="url(#annm-gp)" />
+                    <ellipse cx="362" cy="120" rx="14" ry="52" fill="#3b1d8f" opacity=".55" />
+                    <circle cx="362" cy="120" r="9" fill="#f472b6" />
+                    <rect x="236" y="148" width="24" height="46" rx="9" fill="url(#annm-gb)" />
+                </g>
+                <path d="M410 40l22-16 10 22-18 4z" fill="#fbbf24" />
+                <path d="M36 150l22 10-14 16z" fill="#f59e0b" />
+                <circle cx="418" cy="70" r="9" fill="#f472b6" />
+                <path d="M410 150q26 6 30 30-26-4-30-30z" fill="#8b5cf6" />
+                <path d="M338 200q16-26 38-12-8 24-38 12z" fill="#2dd4bf" />
+            </svg>
+        </div>
+    );
+}
+
+/* soft background waves at the bottom of the page */
+function Waves() {
+    return (
+        <svg className="annm__waves" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+            <path className="annm__wave annm__wave--a" d="M0 220 C 240 120 480 140 720 200 C 960 260 1200 250 1440 160 V320 H0 Z" />
+            <path className="annm__wave annm__wave--b" d="M0 270 C 300 200 560 230 820 260 C 1080 290 1260 270 1440 230 V320 H0 Z" />
+        </svg>
+    );
 }
 
 /* the card the user sees on their Announcements page */
@@ -1084,16 +1169,23 @@ function AnnouncementManagement() {
 
     const statCards = [
         { key: "total", tone: "indigo", icon: I.megaphone, label: S("statTotal"), value: counts.total },
-        { key: "published", tone: "green", icon: I.checkCircle, label: S("statPublished"), value: counts.published },
-        { key: "drafts", tone: "amber", icon: I.file, label: S("statDrafts"), value: counts.drafts },
-        { key: "expired", tone: "gray", icon: I.clock, label: S("statExpired"), value: counts.expired },
+        { key: "published", tone: "green", icon: I.checkFill, label: S("statPublished"), value: counts.published },
+        { key: "drafts", tone: "orange", icon: I.file, label: S("statDrafts"), value: counts.drafts },
+        { key: "expired", tone: "blue", icon: I.clock, label: S("statExpired"), value: counts.expired },
     ];
 
     const detailsStatus = details ? deriveStatus(details, now) : "draft";
 
+    /* "Announcement Management" -> plain "Announcement" + gradient "Management" */
+    const titleWords = S("title").split(" ");
+    const titleLast = titleWords.length > 1 ? titleWords.pop() : "";
+    const titleFirst = titleWords.join(" ");
+
     /* ================================================================ */
     return (
         <div className="annm" data-theme={theme}>
+            <Waves />
+
             <button type="button" className="annm__back" onClick={() => navigate("/admin-dashboard")}>
                 {I.back}{t("back")}
             </button>
@@ -1102,11 +1194,15 @@ function AnnouncementManagement() {
             <header className="annm__head">
                 <div className="annm__head-text">
                     <span className="annm__eyebrow">{I.lotus}{t("adminPanel")}</span>
-                    <h1 className="annm__title">{S("title")}</h1>
+                    <h1 className="annm__title">
+                        {titleFirst}{titleLast && " "}
+                        {titleLast ? <span className="annm__title-accent">{titleLast}</span> : null}
+                    </h1>
                     <p className="annm__subtitle">{S("subtitle")}</p>
                 </div>
+                <Hero />
                 <div className="annm__head-actions">
-                    <button type="button" className="annm__btn annm__btn--primary" onClick={openCreate}>
+                    <button type="button" className="annm__btn annm__btn--primary annm__btn--lg" onClick={openCreate}>
                         {I.plus}{S("createAnnouncement")}
                     </button>
                 </div>
@@ -1117,10 +1213,11 @@ function AnnouncementManagement() {
                 {statCards.map((c) => (
                     <div className={`annm__stat annm__stat--${c.tone}`} key={c.key}>
                         <span className="annm__stat-icon">{c.icon}</span>
-                        <div>
+                        <div className="annm__stat-body">
                             <p className="annm__stat-label">{c.label}</p>
                             <p className="annm__stat-value">{loading ? <span className="annm__skel annm__skel--num" /> : c.value}</p>
                         </div>
+                        <span className="annm__bars" aria-hidden="true"><i /><i /><i /><i /></span>
                     </div>
                 ))}
             </section>
@@ -1148,25 +1245,25 @@ function AnnouncementManagement() {
                             />
                         </label>
                         <div className="annm__filters">
-                            <select className="annm__select" value={statusF} onChange={(e) => setStatusF(e.target.value)} aria-label={S("filterStatus")}>
+                            <SelectBox icon={I.layers} value={statusF} onChange={(e) => setStatusF(e.target.value)} label={S("filterStatus")}>
                                 <option value="all">{S("allStatuses")}</option>
                                 {STATUSES.map((s) => <option key={s} value={s}>{S(STATUS_KEY[s])}</option>)}
-                            </select>
-                            <select className="annm__select" value={priorityF} onChange={(e) => setPriorityF(e.target.value)} aria-label={S("filterPriority")}>
+                            </SelectBox>
+                            <SelectBox icon={I.flag} value={priorityF} onChange={(e) => setPriorityF(e.target.value)} label={S("filterPriority")}>
                                 <option value="all">{S("allPriorities")}</option>
                                 {PRIORITIES.map((p) => <option key={p} value={p}>{S(PRIO_KEY[p])}</option>)}
-                            </select>
-                            <select className="annm__select" value={audienceF} onChange={(e) => setAudienceF(e.target.value)} aria-label={S("filterAudience")}>
+                            </SelectBox>
+                            <SelectBox icon={I.users} value={audienceF} onChange={(e) => setAudienceF(e.target.value)} label={S("filterAudience")}>
                                 <option value="any">{S("allAudiences")}</option>
                                 <option value="everyone">{S("audAll")}</option>
                                 <option value="selected">{S("audSelected")}</option>
-                            </select>
-                            <select className="annm__select" value={sort} onChange={(e) => setSort(e.target.value)} aria-label={S("sortBy")}>
+                            </SelectBox>
+                            <SelectBox icon={I.calendar} value={sort} onChange={(e) => setSort(e.target.value)} label={S("sortBy")}>
                                 <option value="createdDesc">{S("sortCreatedDesc")}</option>
                                 <option value="createdAsc">{S("sortCreatedAsc")}</option>
                                 <option value="publishDesc">{S("sortPublishDesc")}</option>
                                 <option value="publishAsc">{S("sortPublishAsc")}</option>
-                            </select>
+                            </SelectBox>
                         </div>
                     </div>
 
@@ -1201,31 +1298,42 @@ function AnnouncementManagement() {
                                             <th scope="col">{S("colExpiry")}</th>
                                             <th scope="col">{S("colStatus")}</th>
                                             <th scope="col">{S("colCreatedBy")}</th>
-                                            <th scope="col" className="annm__th-actions"><span className="annm__sr">{S("colActions")}</span></th>
+                                            <th scope="col" className="annm__th-actions">{S("colActions")}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {pageRows.map((a) => {
+                                        {pageRows.map((a, idx) => {
                                             const pub = toDate(a.publishAt);
                                             const exp = toDate(a.expiresAt);
                                             return (
-                                                <tr key={a.id} className={busyId === a.id ? "is-busy" : ""}>
+                                                <tr key={a.id} className={busyId === a.id ? "is-busy" : ""} style={{ "--i": idx }}>
                                                     <td data-label={S("colTitle")} className="annm__td-title">
                                                         <button type="button" className="annm__title-btn" onClick={() => setDetails(a)}>
-                                                            <span className="annm__row-title">{a.title}</span>
-                                                            <span className="annm__row-snippet">{a.message}</span>
+                                                            <span className={`annm__tile annm__tile--${PRIORITIES.includes(a.priority) ? a.priority : "normal"}`}>{I.megaphone}</span>
+                                                            <span className="annm__title-text">
+                                                                <span className="annm__row-title">{a.title}</span>
+                                                                <span className="annm__row-snippet">{a.message}</span>
+                                                            </span>
                                                         </button>
                                                     </td>
                                                     <td data-label={S("colPriority")}><PriorityBadge priority={a.priority} S={S} /></td>
-                                                    <td data-label={S("colAudience")}>{audienceLabel(a)}</td>
+                                                    <td data-label={S("colAudience")}>
+                                                        <span className="annm__cell"><span className="annm__cell-ico">{I.users}</span><span>{audienceLabel(a)}</span></span>
+                                                    </td>
                                                     <td data-label={S("colPublish")}>
-                                                        {pub ? <><span className="annm__d1">{fmtDay(pub, locale)}</span><span className="annm__d2">{fmtTime(pub, locale)}</span></> : <span className="annm__muted">—</span>}
+                                                        {pub
+                                                            ? <span className="annm__cell"><span className="annm__cell-ico">{I.calendar}</span><span><span className="annm__d1">{fmtDay(pub, locale)}</span><span className="annm__d2">{fmtTime(pub, locale)}</span></span></span>
+                                                            : <span className="annm__muted">—</span>}
                                                     </td>
                                                     <td data-label={S("colExpiry")}>
-                                                        {exp ? <><span className="annm__d1">{fmtDay(exp, locale)}</span><span className="annm__d2">{fmtTime(exp, locale)}</span></> : <span className="annm__muted">{S("noExpiry")}</span>}
+                                                        {exp
+                                                            ? <span className="annm__cell"><span className="annm__cell-ico">{I.calendar}</span><span><span className="annm__d1">{fmtDay(exp, locale)}</span><span className="annm__d2">{fmtTime(exp, locale)}</span></span></span>
+                                                            : <span className="annm__muted">{S("noExpiry")}</span>}
                                                     </td>
                                                     <td data-label={S("colStatus")}><StatusBadge status={a._s} S={S} /></td>
-                                                    <td data-label={S("colCreatedBy")}>{a.createdByName || a.createdBy || "—"}</td>
+                                                    <td data-label={S("colCreatedBy")}>
+                                                        <span className="annm__cell"><span className="annm__cell-ico">{I.user}</span><span className="annm__by">{a.createdByName || a.createdBy || "—"}</span></span>
+                                                    </td>
                                                     <td data-label={S("colActions")} className="annm__td-actions">
                                                         <ActionMenu
                                                             actions={actionsFor(a)}
@@ -1244,13 +1352,24 @@ function AnnouncementManagement() {
                                 <span className="annm__pager-info">
                                     {S("showing", { from: (safePage - 1) * PAGE_SIZE + 1, to: Math.min(safePage * PAGE_SIZE, rows.length), total: rows.length })}
                                 </span>
-                                {totalPages > 1 && (
-                                    <div className="annm__pager-ctrl">
-                                        <button type="button" className="annm__icon-btn" onClick={() => setPage(safePage - 1)} disabled={safePage <= 1} aria-label={S("prevPage")}>{I.left}</button>
-                                        <span aria-live="polite">{S("pageOf", { page: safePage, pages: totalPages })}</span>
-                                        <button type="button" className="annm__icon-btn" onClick={() => setPage(safePage + 1)} disabled={safePage >= totalPages} aria-label={S("nextPage")}>{I.right}</button>
-                                    </div>
-                                )}
+                                <nav className="annm__pager-ctrl" aria-label={S("tableLabel")}>
+                                    <button type="button" className="annm__page" onClick={() => setPage(safePage - 1)} disabled={safePage <= 1} aria-label={S("prevPage")}>{I.left}</button>
+                                    {pageList(totalPages, safePage).map((n) => (typeof n === "number" ? (
+                                        <button
+                                            key={n}
+                                            type="button"
+                                            className={`annm__page${n === safePage ? " is-on" : ""}`}
+                                            aria-current={n === safePage ? "page" : undefined}
+                                            aria-label={S("pageOf", { page: n, pages: totalPages })}
+                                            onClick={() => setPage(n)}
+                                        >
+                                            {n}
+                                        </button>
+                                    ) : (
+                                        <span key={n} className="annm__page-gap" aria-hidden="true">…</span>
+                                    )))}
+                                    <button type="button" className="annm__page" onClick={() => setPage(safePage + 1)} disabled={safePage >= totalPages} aria-label={S("nextPage")}>{I.right}</button>
+                                </nav>
                             </div>
                         </>
                     )}
