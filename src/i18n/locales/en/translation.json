@@ -2382,5 +2382,6 @@
     "toastDeleted": "Announcement deleted.",
     "toastSaveError": "Could not save the announcement. Please try again.",
     "toastActionError": "That action failed. Please try again."
-  }
+  },
+  "copyName": "{{name}} (Copy)"
 }

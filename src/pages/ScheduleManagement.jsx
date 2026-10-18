@@ -69,6 +69,10 @@ const I = {
     info: <Svg><circle cx="12" cy="12" r="9" /><line x1="12" y1="11" x2="12" y2="16" /><line x1="12" y1="8" x2="12.01" y2="8" /></Svg>,
     alert: <Svg><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></Svg>,
     check: <Svg sw={2.4}><polyline points="20 6 9 17 4 12" /></Svg>,
+    layers: <Svg><polygon points="12 2 2 7 12 12 22 7 12 2" /><polyline points="2 17 12 22 22 17" /><polyline points="2 12 12 17 22 12" /></Svg>,
+    dots: <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2.6" fill="#ef4444" /><circle cx="12" cy="12" r="2.6" fill="#22c55e" /><circle cx="12" cy="19" r="2.6" fill="#f59e0b" /></svg>,
+    copy: <Svg><rect x="9" y="9" width="12" height="12" rx="2.5" /><path d="M5 15H4a1.5 1.5 0 0 1-1.5-1.5V4A1.5 1.5 0 0 1 4 2.5h9.5A1.5 1.5 0 0 1 15 4v1" /></Svg>,
+    chevron: <Svg sw={2.4}><polyline points="6 9 12 15 18 9" /></Svg>,
     lotus: <Svg sw={1.6}><path d="M12 4c1.6 1.9 2.4 3.8 2.4 5.6 0 1.6-.8 3.3-2.4 4.9-1.6-1.6-2.4-3.3-2.4-4.9C9.6 7.8 10.4 5.9 12 4z" /><path d="M3.5 11c2.6.2 4.8 1.3 6.3 3.4M20.5 11c-2.6.2-4.8 1.3-6.3 3.4" /><path d="M3 15.5c2 2.4 5.2 3.7 9 3.7s7-1.3 9-3.7" /></Svg>,
 };
 const TYPE_ICON = { morning: I.sun, evening: I.moon, special: I.star };
@@ -102,6 +106,94 @@ function Field({ id, label, error, hint, optionalText, children }) {
             {hint && !error && <p className="schm__hint">{hint}</p>}
             {error && <p className="schm__error" role="alert">{error}</p>}
         </div>
+    );
+}
+
+/* select with a leading icon + chevron (the native <select> still does the work) */
+function SelectBox({ icon, value, onChange, label, children }) {
+    return (
+        <div className="schm__selectbox">
+            <span className="schm__selectbox-ico">{icon}</span>
+            <select className="schm__select" value={value} onChange={onChange} aria-label={label}>{children}</select>
+            <span className="schm__selectbox-chev">{I.chevron}</span>
+        </div>
+    );
+}
+
+/* page numbers with "…" gaps, e.g. 1 … 4 5 6 … 12 */
+const pageList = (total, cur) => {
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+    const out = [1];
+    const s = Math.max(2, cur - 1);
+    const e = Math.min(total - 1, cur + 1);
+    if (s > 2) out.push("gapL");
+    for (let i = s; i <= e; i++) out.push(i);
+    if (e < total - 1) out.push("gapR");
+    out.push(total);
+    return out;
+};
+
+/* "Schedule Management" -> plain "Schedule" + gradient "Management" */
+function GradientTitle({ text }) {
+    const words = String(text).split(" ");
+    const last = words.length > 1 ? words.pop() : "";
+    return (
+        <h1 className="schm__title">
+            {words.join(" ")}{last && " "}
+            {last ? <span className="schm__title-accent">{last}</span> : null}
+        </h1>
+    );
+}
+
+/* decorative header illustration (pure SVG, no image file needed) */
+function Hero() {
+    return (
+        <div className="schm__hero-art" aria-hidden="true">
+            <svg viewBox="0 0 520 230" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="schm-gi" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#818cf8" /><stop offset="1" stopColor="#4f46e5" /></linearGradient>
+                    <linearGradient id="schm-gc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#ffffff" /><stop offset="1" stopColor="#dfe4ff" /></linearGradient>
+                    <linearGradient id="schm-gt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#5eead4" /><stop offset="1" stopColor="#3b82f6" /></linearGradient>
+                    <linearGradient id="schm-go" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#fed7aa" /><stop offset="1" stopColor="#fb923c" /></linearGradient>
+                    <radialGradient id="schm-gg" cx=".5" cy=".5" r=".5"><stop offset="0" stopColor="#c4b5fd" stopOpacity=".5" /><stop offset="1" stopColor="#c4b5fd" stopOpacity="0" /></radialGradient>
+                </defs>
+                <ellipse cx="270" cy="125" rx="230" ry="105" fill="url(#schm-gg)" />
+                <path d="M118 176C84 150 88 108 126 82c14 30 12 62-8 94z" fill="url(#schm-gt)" opacity=".85" />
+                <path d="M150 170c-12-34 0-66 30-84 4 34-6 64-30 84z" fill="url(#schm-gt)" opacity=".6" />
+                <path d="M404 170c34-22 50-58 40-96-34 18-52 56-40 96z" fill="url(#schm-gt)" opacity=".85" />
+                <path d="M384 176c16-30 14-60-2-86 26 22 32 56 2 86z" fill="url(#schm-gt)" opacity=".6" />
+                <g transform="rotate(-4 265 125)">
+                    <rect x="170" y="50" width="200" height="150" rx="24" fill="url(#schm-gc)" />
+                    <path d="M170 74a24 24 0 0 1 24-24h152a24 24 0 0 1 24 24v16H170z" fill="url(#schm-gi)" />
+                    {[0, 1, 2, 3].map((i) => <rect key={i} x={198 + i * 42} y="34" width="11" height="34" rx="5.5" fill="url(#schm-gi)" stroke="#fff" strokeWidth="2.5" />)}
+                    {[0, 1, 2].map((r) => [0, 1, 2, 3].map((c) => (
+                        <rect key={`${r}${c}`} x={190 + c * 42} y={106 + r * 30} width="28" height="22" rx="7" fill="#e6e9ff" />
+                    )))}
+                    <circle cx="300" cy="136" r="22" fill="url(#schm-gi)" />
+                    <polyline points="290 136 297 143 311 128" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+                </g>
+                <circle cx="372" cy="170" r="38" fill="url(#schm-gi)" />
+                <circle cx="372" cy="170" r="29" fill="#fff" />
+                <polyline points="372 150 372 172 388 180" fill="none" stroke="#4f46e5" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="150" cy="176" r="26" fill="url(#schm-go)" />
+                <circle cx="132" cy="168" r="6" fill="#fff" opacity=".55" />
+                <circle cx="352" cy="26" r="9" fill="#fdba74" />
+                <circle cx="470" cy="46" r="5" fill="#f472b6" />
+                <circle cx="486" cy="66" r="4" fill="#60a5fa" />
+                <circle cx="500" cy="92" r="9" fill="#c4b5fd" opacity=".7" />
+                <circle cx="96" cy="46" r="4" fill="#818cf8" />
+            </svg>
+        </div>
+    );
+}
+
+/* soft background waves at the bottom of the page */
+function Waves() {
+    return (
+        <svg className="schm__waves" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+            <path className="schm__wave schm__wave--a" d="M0 220 C 240 120 480 140 720 200 C 960 260 1200 250 1440 160 V320 H0 Z" />
+            <path className="schm__wave schm__wave--b" d="M0 270 C 300 200 560 230 820 260 C 1080 290 1260 270 1440 230 V320 H0 Z" />
+        </svg>
     );
 }
 
@@ -275,6 +367,26 @@ function ScheduleManagement() {
         setDrawer({ mode: "edit", id, form: { ...emptySchedule(), ...rest, days: rest.days || [] } });
     };
     const closeDrawer = useCallback(() => { if (!saving) setDrawer(null); }, [saving]);
+
+    /* copy of an existing session: opens the "add" drawer pre-filled (name gets " (Copy)") */
+    const openDuplicate = (s) => {
+        setErrors({});
+        setViewing(null);
+        const { id, _status, createdAt, updatedAt, createdBy, isSample, ...rest } = s; // eslint-disable-line no-unused-vars
+        setDrawer({
+            mode: "add",
+            id: null,
+            form: {
+                ...emptySchedule(),
+                ...rest,
+                days: rest.days || [],
+                name: S("copyName", { name: String(s.name || "").slice(0, 50) }),
+                startDate: today,
+                endDate: rest.endDate && rest.endDate >= today ? rest.endDate : "",
+                status: "active",
+            },
+        });
+    };
 
     const setField = (k, v) => {
         setDrawer((d) => {
@@ -553,6 +665,7 @@ function ScheduleManagement() {
 
     return (
         <div className="schm" data-theme={theme}>
+            <Waves />
             {/* ============================ HEADER ============================ */}
             <button type="button" className="schm__back" onClick={() => navigate("/admin-dashboard")}>
                 {I.back}{t("back")}
@@ -561,14 +674,15 @@ function ScheduleManagement() {
             <header className="schm__head">
                 <div className="schm__head-text">
                     <span className="schm__eyebrow">{I.lotus}{t("adminPanel")}</span>
-                    <h1 className="schm__title">{S("title")}</h1>
+                    <GradientTitle text={S("title")} />
                     <p className="schm__subtitle">{S("subtitle")}</p>
                 </div>
+                <Hero />
                 <div className="schm__head-actions">
-                    <button type="button" className="schm__btn schm__btn--ghost" onClick={() => setTab("holidays")}>
-                        {I.flag}{S("manageHolidays")}
+                    <button type="button" className="schm__btn schm__btn--ghost schm__btn--lg" onClick={() => setTab("holidays")}>
+                        {I.calendar}{S("manageHolidays")}
                     </button>
-                    <button type="button" className="schm__btn schm__btn--primary" onClick={openAdd}>
+                    <button type="button" className="schm__btn schm__btn--primary schm__btn--lg" onClick={openAdd}>
                         {I.plus}{S("addSchedule")}
                     </button>
                 </div>
@@ -579,10 +693,11 @@ function ScheduleManagement() {
                 {statCards.map((c) => (
                     <div className={`schm__stat schm__stat--${c.tone}`} key={c.key}>
                         <span className="schm__stat-icon">{c.icon}</span>
-                        <div>
+                        <div className="schm__stat-body">
                             <p className="schm__stat-label">{c.label}</p>
                             <p className="schm__stat-value">{loading ? <span className="schm__skel schm__skel--num" /> : c.value}</p>
                         </div>
+                        <span className="schm__bars" aria-hidden="true"><i /><i /><i /><i /></span>
                     </div>
                 ))}
             </section>
@@ -620,18 +735,18 @@ function ScheduleManagement() {
                             />
                         </label>
                         <div className="schm__filters">
-                            <select className="schm__select" value={typeF} onChange={(e) => setTypeF(e.target.value)} aria-label={S("filterType")}>
+                            <SelectBox icon={I.layers} value={typeF} onChange={(e) => setTypeF(e.target.value)} label={S("filterType")}>
                                 <option value="all">{S("allTypes")}</option>
                                 {SESSION_TYPES.map((ty) => <option key={ty} value={ty}>{typeLabel(ty)}</option>)}
-                            </select>
-                            <select className="schm__select" value={statusF} onChange={(e) => setStatusF(e.target.value)} aria-label={S("filterStatus")}>
+                            </SelectBox>
+                            <SelectBox icon={I.dots} value={statusF} onChange={(e) => setStatusF(e.target.value)} label={S("filterStatus")}>
                                 <option value="all">{S("allStatuses")}</option>
                                 {["active", "upcoming", "inactive", "completed"].map((st) => <option key={st} value={st}>{statusLabel(st)}</option>)}
-                            </select>
-                            <select className="schm__select" value={dayF} onChange={(e) => setDayF(e.target.value)} aria-label={S("filterDay")}>
+                            </SelectBox>
+                            <SelectBox icon={I.calendar} value={dayF} onChange={(e) => setDayF(e.target.value)} label={S("filterDay")}>
                                 <option value="all">{S("allDays")}</option>
                                 {WEEK_ORDER.map((d) => <option key={d} value={d}>{dayLong[d]}</option>)}
-                            </select>
+                            </SelectBox>
                         </div>
                     </div>
 
@@ -674,8 +789,8 @@ function ScheduleManagement() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {pageRows.map((s) => (
-                                            <tr key={s.id}>
+                                        {pageRows.map((s, idx) => (
+                                            <tr key={s.id} style={{ "--i": idx }}>
                                                 <td data-label={S("colName")} className="schm__td-name">
                                                     <div className="schm__name">
                                                         <span className={`schm__type-dot schm__type-dot--${s.type}`}>{TYPE_ICON[s.type] || I.schedule}</span>
@@ -686,9 +801,15 @@ function ScheduleManagement() {
                                                     </div>
                                                 </td>
                                                 <td data-label={S("colType")}><span className={`schm__type schm__type--${s.type}`}>{typeLabel(s.type)}</span></td>
-                                                <td data-label={S("colStart")} className="schm__mono">{formatTime(s.startTime, locale)}</td>
-                                                <td data-label={S("colEnd")} className="schm__mono">{formatTime(s.endTime, locale)}</td>
-                                                <td data-label={S("colDays")}>{daysLabel(s)}</td>
+                                                <td data-label={S("colStart")}>
+                                                    <span className="schm__cell"><span className="schm__cell-ico schm__cell-ico--green">{I.clock}</span><span className="schm__mono">{formatTime(s.startTime, locale)}</span></span>
+                                                </td>
+                                                <td data-label={S("colEnd")}>
+                                                    <span className="schm__cell"><span className="schm__cell-ico schm__cell-ico--red">{I.clock}</span><span className="schm__mono">{formatTime(s.endTime, locale)}</span></span>
+                                                </td>
+                                                <td data-label={S("colDays")}>
+                                                    <span className="schm__cell"><span className="schm__cell-ico schm__cell-ico--indigo">{I.calendar}</span><span>{daysLabel(s)}</span></span>
+                                                </td>
                                                 <td data-label={S("colWindow")}>
                                                     <span className="schm__mono">{formatTime(s.checkInOpen, locale)} – {formatTime(s.checkInClose, locale)}</span>
                                                     {s.lateAllowed && <span className="schm__tag schm__tag--late">{S("lateOk")}</span>}
@@ -698,8 +819,9 @@ function ScheduleManagement() {
                                                 </td>
                                                 <td data-label={S("colActions")}>
                                                     <div className="schm__actions">
-                                                        <button type="button" className="schm__icon-btn" onClick={() => setViewing(s)} aria-label={`${S("view")}: ${s.name}`} title={S("view")}>{I.eye}</button>
-                                                        <button type="button" className="schm__icon-btn" onClick={() => openEdit(s)} aria-label={`${S("edit")}: ${s.name}`} title={S("edit")}>{I.edit}</button>
+                                                        <button type="button" className="schm__icon-btn schm__icon-btn--view" onClick={() => setViewing(s)} aria-label={`${S("view")}: ${s.name}`} title={S("view")}>{I.eye}</button>
+                                                        <button type="button" className="schm__icon-btn schm__icon-btn--edit" onClick={() => openEdit(s)} aria-label={`${S("edit")}: ${s.name}`} title={S("edit")}>{I.edit}</button>
+                                                        <button type="button" className="schm__icon-btn schm__icon-btn--copy" onClick={() => openDuplicate(s)} aria-label={`${S("duplicate")}: ${s.name}`} title={S("duplicate")}>{I.copy}</button>
                                                         <button type="button" className="schm__icon-btn schm__icon-btn--danger" onClick={() => setConfirm({ kind: "schedule", item: s })} aria-label={`${S("delete")}: ${s.name}`} title={S("delete")}>{I.trash}</button>
                                                     </div>
                                                 </td>
@@ -711,13 +833,24 @@ function ScheduleManagement() {
 
                             <div className="schm__pager">
                                 <span>{S("showing", { from: (curPage - 1) * PAGE_SIZE + 1, to: Math.min(curPage * PAGE_SIZE, filtered.length), total: filtered.length })}</span>
-                                {pageCount > 1 && (
-                                    <div className="schm__pager-btns">
-                                        <button type="button" className="schm__icon-btn" disabled={curPage === 1} onClick={() => setPage(curPage - 1)} aria-label={S("prevPage")}>{I.left}</button>
-                                        <span className="schm__pager-num">{curPage} / {pageCount}</span>
-                                        <button type="button" className="schm__icon-btn" disabled={curPage === pageCount} onClick={() => setPage(curPage + 1)} aria-label={S("nextPage")}>{I.right}</button>
-                                    </div>
-                                )}
+                                <nav className="schm__pager-btns" aria-label={S("tabSchedules")}>
+                                    <button type="button" className="schm__page" disabled={curPage === 1} onClick={() => setPage(curPage - 1)} aria-label={S("prevPage")}>{I.left}</button>
+                                    {pageList(pageCount, curPage).map((n) => (typeof n === "number" ? (
+                                        <button
+                                            key={n}
+                                            type="button"
+                                            className={`schm__page${n === curPage ? " is-on" : ""}`}
+                                            aria-current={n === curPage ? "page" : undefined}
+                                            aria-label={String(n)}
+                                            onClick={() => setPage(n)}
+                                        >
+                                            {n}
+                                        </button>
+                                    ) : (
+                                        <span key={n} className="schm__page-gap" aria-hidden="true">…</span>
+                                    )))}
+                                    <button type="button" className="schm__page" disabled={curPage === pageCount} onClick={() => setPage(curPage + 1)} aria-label={S("nextPage")}>{I.right}</button>
+                                </nav>
                             </div>
                         </>
                     )}
