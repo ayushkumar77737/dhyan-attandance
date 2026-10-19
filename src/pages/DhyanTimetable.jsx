@@ -62,6 +62,73 @@ const occursOn = (s, ymd) => {
     return scheduleDays(s).includes(weekdayOf(ymd));
 };
 
+/* icons for the four view tabs */
+const VIEW_ICON = { today: I.clock, week: I.calendar, upcoming: I.flag, all: I.lotus };
+
+/* "Dhyan Timetable" -> plain "Dhyan" + gradient "Timetable" */
+function GradientTitle({ text }) {
+    const words = String(text).split(" ");
+    const last = words.length > 1 ? words.pop() : "";
+    return (
+        <h1 className="dtt__title">
+            {words.join(" ")}{last && " "}
+            {last ? <span className="dtt__title-accent">{last}</span> : null}
+        </h1>
+    );
+}
+
+/* decorative header illustration (pure SVG, no image file needed) */
+function Hero() {
+    return (
+        <div className="dtt__hero-art" aria-hidden="true">
+            <svg viewBox="0 0 520 230" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="dtt-gi" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#5eead4" /><stop offset="1" stopColor="#0ea5a0" /></linearGradient>
+                    <linearGradient id="dtt-gc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#ffffff" /><stop offset="1" stopColor="#d7f5f2" /></linearGradient>
+                    <linearGradient id="dtt-gl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#86efac" /><stop offset="1" stopColor="#14b8a6" /></linearGradient>
+                    <linearGradient id="dtt-go" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#fed7aa" /><stop offset="1" stopColor="#f0a64b" /></linearGradient>
+                    <radialGradient id="dtt-gg" cx=".5" cy=".5" r=".5"><stop offset="0" stopColor="#5eead4" stopOpacity=".5" /><stop offset="1" stopColor="#5eead4" stopOpacity="0" /></radialGradient>
+                </defs>
+                <ellipse cx="270" cy="125" rx="230" ry="105" fill="url(#dtt-gg)" />
+                <path d="M118 176C84 150 88 108 126 82c14 30 12 62-8 94z" fill="url(#dtt-gl)" opacity=".85" />
+                <path d="M150 170c-12-34 0-66 30-84 4 34-6 64-30 84z" fill="url(#dtt-gl)" opacity=".6" />
+                <path d="M404 170c34-22 50-58 40-96-34 18-52 56-40 96z" fill="url(#dtt-gl)" opacity=".85" />
+                <path d="M384 176c16-30 14-60-2-86 26 22 32 56 2 86z" fill="url(#dtt-gl)" opacity=".6" />
+                <g transform="rotate(-4 265 125)">
+                    <rect x="170" y="50" width="200" height="150" rx="24" fill="url(#dtt-gc)" />
+                    <path d="M170 74a24 24 0 0 1 24-24h152a24 24 0 0 1 24 24v16H170z" fill="url(#dtt-gi)" />
+                    {[0, 1, 2, 3].map((i) => <rect key={i} x={198 + i * 42} y="34" width="11" height="34" rx="5.5" fill="url(#dtt-gi)" stroke="#fff" strokeWidth="2.5" />)}
+                    {[0, 1, 2].map((r) => [0, 1, 2, 3].map((c) => (
+                        <rect key={`${r}${c}`} x={190 + c * 42} y={106 + r * 30} width="28" height="22" rx="7" fill="#d9f4f1" />
+                    )))}
+                    <circle cx="300" cy="136" r="22" fill="url(#dtt-gi)" />
+                    <polyline points="290 136 297 143 311 128" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+                </g>
+                <circle cx="372" cy="170" r="38" fill="url(#dtt-gi)" />
+                <circle cx="372" cy="170" r="29" fill="#fff" />
+                <polyline points="372 150 372 172 388 180" fill="none" stroke="#0ea5a0" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="150" cy="176" r="26" fill="url(#dtt-go)" />
+                <circle cx="132" cy="168" r="6" fill="#fff" opacity=".55" />
+                <circle cx="352" cy="26" r="9" fill="#fdba74" />
+                <circle cx="470" cy="46" r="5" fill="#f472b6" />
+                <circle cx="486" cy="66" r="4" fill="#60a5fa" />
+                <circle cx="500" cy="92" r="9" fill="#99f6e4" opacity=".8" />
+                <circle cx="96" cy="46" r="4" fill="#2dd4cf" />
+            </svg>
+        </div>
+    );
+}
+
+/* soft background waves at the bottom of the page */
+function Waves() {
+    return (
+        <svg className="dtt__waves" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+            <path className="dtt__wave dtt__wave--a" d="M0 220 C 240 120 480 140 720 200 C 960 260 1200 250 1440 160 V320 H0 Z" />
+            <path className="dtt__wave dtt__wave--b" d="M0 270 C 300 200 560 230 820 260 C 1080 290 1260 270 1440 230 V320 H0 Z" />
+        </svg>
+    );
+}
+
 /* ================================================================== */
 function DhyanTimetable() {
     const { t, i18n } = useTranslation();
@@ -487,6 +554,8 @@ function DhyanTimetable() {
        ================================================================ */
     return (
         <div className="dtt" data-theme={theme}>
+            <Waves />
+
             <button type="button" className="dtt__back" onClick={() => navigate("/user-dashboard")}>
                 {I.back}{t("back")}
             </button>
@@ -494,9 +563,10 @@ function DhyanTimetable() {
             <header className="dtt__head">
                 <div className="dtt__head-text">
                     <span className="dtt__eyebrow">{I.lotus}{T("eyebrow")}</span>
-                    <h1 className="dtt__title">{T("title")}</h1>
+                    <GradientTitle text={T("title")} />
                     <p className="dtt__subtitle">{T("subtitle")}</p>
                 </div>
+                <Hero />
                 <div className="dtt__today-box">
                     <span className="dtt__today-day">{formatDate(today, locale, { weekday: "long" })}</span>
                     <span className="dtt__today-date">{formatDate(today, locale, { day: "numeric", month: "long", year: "numeric" })}</span>
@@ -514,7 +584,7 @@ function DhyanTimetable() {
                         className={`dtt__view${view === v.key ? " is-on" : ""}`}
                         onClick={() => setView(v.key)}
                     >
-                        {v.label}
+                        {VIEW_ICON[v.key]}{v.label}
                     </button>
                 ))}
             </div>

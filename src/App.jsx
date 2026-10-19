@@ -67,6 +67,7 @@ import ContactMessages from "./pages/ContactMessages";
 import RequireAccess from "./components/RequireAccess";
 import MyAttendance from "./pages/MyAttendance";
 import DhyanTimetable from "./pages/DhyanTimetable";
+import Announcements from "./pages/Announcements";
 import RaiseConcern from "./pages/RaiseConcern";
 import ApplyLeave from "./pages/ApplyLeave";
 import LeaveRequests from "./pages/LeaveRequests";
@@ -149,6 +150,7 @@ function App() {
           <Route path="/my-activity" element={<MyActivity />} />
           <Route path="/my-attendance" element={<MyAttendance />} />
           <Route path="/dhyan-timetable" element={<DhyanTimetable />} />
+          <Route path="/announcements" element={<Announcements />} />
           <Route path="/show-qr" element={<ShowQR />} />
           <Route path="/help-support" element={<HelpSupport />} />
           <Route path="/directory" element={<Directory />} />
