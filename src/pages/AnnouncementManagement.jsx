@@ -943,7 +943,7 @@ function AnnouncementManagement() {
             const list = snap.docs
                 .map((d) => ({ docId: d.id, ...d.data() }))
                 .filter((u) => u.deleted !== true && u.role !== "admin")
-                .map((u) => ({ id: String(u.id || u.docId).toUpperCase(), name: String(u.name || "") }))
+                .map((u) => ({ id: String(u.id || u.docId).toUpperCase(), name: String(u.name || ""), uid: String(u.uid || "") }))
                 .sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id));
             setUsers(list);
             setUsersError(false);
@@ -1040,7 +1040,12 @@ function AnnouncementManagement() {
         try {
             const editing = drawer?.editing || null;
             const nowMs = Date.now();
-            const payload = buildPayload(form, intent, editing, nowMs);
+            const built = buildPayload(form, intent, editing, nowMs);
+            /* the security rules match members by Firebase auth uid, so store it next to the user ids */
+            const uidById = new Map(users.map((u) => [u.id, u.uid]));
+            const targetUids = built.audience === "selected" ? built.targetUserIds.map((id) => uidById.get(id)).filter(Boolean) : [];
+            if (built.status === "published" && built.audience === "selected" && targetUids.length === 0) throw new Error("selected users have no auth uid");
+            const payload = { ...built, targetUids };
             const pubMs = toDate(payload.publishAt)?.getTime() ?? 0;
             const scheduled = payload.status === "published" && pubMs > nowMs;
 

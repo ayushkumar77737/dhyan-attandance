@@ -246,6 +246,7 @@ function Announcements() {
     const theme = localStorage.getItem("dashTheme") || "dark";
 
     const [uid, setUid] = useState("");
+    const [authUid, setAuthUid] = useState("");   /* Firebase auth uid (used by the security rules) */
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -269,6 +270,7 @@ function Announcements() {
                 if (res.empty) { navigate("/"); return; }
                 const d = res.docs[0];
                 if (d.data().role === "admin") { navigate("/admin-dashboard"); return; }
+                setAuthUid(user.uid);
                 setUid(d.id.toUpperCase());
             } catch (e) {
                 console.error("Announcements: user lookup", e);
@@ -281,20 +283,14 @@ function Announcements() {
 
     /* ---------------- load: only what this user may receive ---------------- */
     const load = useCallback(async (silent = false) => {
-        if (!uid) return;
+        if (!uid || !authUid) return;
         if (!silent) { setLoading(true); setError(false); }
         try {
             const base = collection(db, COL);
+            /* announcements for everyone */
             const forEveryone = getDocs(query(base, where("audience", "==", "all"), where("status", "==", "published")));
-            const forMe = (async () => {
-                try {
-                    return await getDocs(query(base, where("targetUserIds", "array-contains", uid), where("status", "==", "published")));
-                } catch (e) {
-                    /* if Firestore asks for a composite index, fall back to the single-filter query */
-                    if (e?.code === "failed-precondition") return getDocs(query(base, where("targetUserIds", "array-contains", uid)));
-                    throw e;
-                }
-            })();
+            /* announcements that list this member's auth uid */
+            const forMe = getDocs(query(base, where("targetUids", "array-contains", authUid), where("status", "==", "published")));
             const [a, b] = await Promise.all([forEveryone, forMe]);
 
             const map = new Map();
@@ -317,7 +313,7 @@ function Announcements() {
         } finally {
             if (!silent) setLoading(false);
         }
-    }, [uid]);
+    }, [uid, authUid]);
 
     useEffect(() => { load(false); }, [load]);
 
