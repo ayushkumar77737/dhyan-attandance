@@ -46,6 +46,7 @@ import ActivityLogs from "./pages/ActivityLogs";
 import UserActivities from "./pages/UserActivities";
 import SmartAttendance from "./pages/SmartAttendance";
 import ShowQR from "./pages/ShowQR";
+import MyDigitalID from "./pages/MyDigitalID";
 import ContactSettings from "./pages/ContactSettings";
 import HelpSupport from "./pages/HelpSupport";
 import BlockedAccounts from "./pages/BlockedAccounts";
@@ -152,6 +153,7 @@ function App() {
           <Route path="/dhyan-timetable" element={<DhyanTimetable />} />
           <Route path="/announcements" element={<Announcements />} />
           <Route path="/show-qr" element={<ShowQR />} />
+          <Route path="/my-digital-id" element={<MyDigitalID />} />
           <Route path="/help-support" element={<HelpSupport />} />
           <Route path="/directory" element={<Directory />} />
           <Route path="/raise-concern" element={<RaiseConcern />} />

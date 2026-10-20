@@ -2427,5 +2427,23 @@
     "detailsLabel": "Announcement details",
     "message": "Message",
     "instructions": "Instructions"
-  }
+  },
+  "myDigitalId": "My Digital ID",
+  "myDigitalIdSub": "View & download ID card",
+  "mdidSub": "Your member identity card. Show it at the venue or download a copy.",
+  "mdidOrgLine": "Jai Gurubande • Dhyan Portal",
+  "mdidCardTitle": "Member Identity Card",
+  "mdidUserId": "User ID",
+  "mdidRegDate": "Registration Date",
+  "mdidStatus": "ID Status",
+  "mdidStatusActive": "Active",
+  "mdidStatusPending": "Pending",
+  "mdidStatusDisabled": "Disabled",
+  "mdidPendingNote": "Your profile is not registered yet. Please contact the admin to complete it.",
+  "mdidDisabledNote": "This ID is disabled. Please contact the admin.",
+  "mdidScanHint": "Scan this QR to mark attendance",
+  "mdidDownload": "Download ID Card",
+  "mdidDownloading": "Downloading...",
+  "mdidCopyId": "Copy ID",
+  "mdidCopied": "ID copied"
 }

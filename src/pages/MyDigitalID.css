@@ -1,0 +1,648 @@
+/* My Digital ID — rendered inside UserLayout (.ud-container[data-theme]) */
+.mdid {
+    --mdid-text: #e2e8f0;
+    --mdid-muted: #94a3b8;
+    --mdid-surface: rgba(255, 255, 255, 0.04);
+    --mdid-border: rgba(255, 255, 255, 0.1);
+    --mdid-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    padding: 24px 16px 40px;
+    max-width: 440px;
+    margin: 0 auto;
+    color: var(--mdid-text);
+    box-sizing: border-box;
+}
+
+.ud-container[data-theme="light"] .mdid {
+    --mdid-text: #0f172a;
+    --mdid-muted: #64748b;
+    --mdid-surface: #ffffff;
+    --mdid-border: #e2e8f0;
+}
+
+.mdid__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--mdid-border);
+    background: var(--mdid-surface);
+    color: var(--mdid-text);
+    font-size: 13px;
+    cursor: pointer;
+    transition: transform 0.2s var(--mdid-ease), border-color 0.2s;
+    animation: mdid-fade-up 0.5s var(--mdid-ease) backwards;
+}
+
+.mdid__back:hover {
+    transform: translateX(-3px);
+    border-color: #8b5cf6;
+}
+
+.mdid__head {
+    text-align: center;
+    margin: 18px 0 20px;
+    animation: mdid-fade-up 0.6s var(--mdid-ease) 0.05s both;
+}
+
+.mdid__title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.mdid__sub {
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: var(--mdid-muted);
+}
+
+.mdid__notice {
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.45;
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    color: #d97706;
+    animation: mdid-fade-up 0.5s var(--mdid-ease) 0.1s both;
+}
+
+.mdid__notice--error {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.35);
+    color: #dc2626;
+}
+
+/* ---------------- the card: always dark, like a physical badge ---------------- */
+.mdid__card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 22px;
+    background: #0f172a;
+    color: #fff;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    padding-bottom: 24px;
+    transform-origin: 50% 0;
+    animation: mdid-card-in 0.8s var(--mdid-ease) 0.12s backwards;
+    transition: transform 0.35s var(--mdid-ease), box-shadow 0.35s var(--mdid-ease);
+}
+
+/* holographic shine that sweeps across the card every few seconds */
+.mdid__card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background: linear-gradient(115deg,
+            transparent 35%,
+            rgba(255, 255, 255, 0.10) 45%,
+            rgba(196, 181, 253, 0.16) 50%,
+            rgba(255, 255, 255, 0.10) 55%,
+            transparent 65%);
+    background-size: 250% 100%;
+    background-position: 150% 0;
+    animation: mdid-shine 6s ease-in-out 1.4s infinite;
+}
+
+@media (hover: hover) {
+    .mdid__card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 32px 70px rgba(76, 29, 149, 0.35), 0 0 0 1px rgba(167, 139, 250, 0.25);
+    }
+}
+
+.mdid__band {
+    position: relative;
+    background: linear-gradient(135deg, #6d28d9 0%, #4338ca 50%, #7c3aed 100%);
+    background-size: 200% 200%;
+    border-bottom: 3px solid #f59e0b;
+    padding: 18px 16px 70px;
+    text-align: center;
+    animation: mdid-gradient 10s ease-in-out infinite;
+}
+
+.mdid__logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    animation: mdid-pop 0.6s var(--mdid-ease) 0.35s both, mdid-float 4s ease-in-out 1s infinite;
+}
+
+.mdid__org {
+    margin-top: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fde68a;
+    animation: mdid-fade-up 0.5s var(--mdid-ease) 0.45s both;
+}
+
+.mdid__card-title {
+    margin-top: 2px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #e0e7ff;
+    animation: mdid-fade-up 0.5s var(--mdid-ease) 0.5s both;
+}
+
+/* uppercase + letter-spacing only for Latin script: it breaks Hindi/Telugu/etc. letters */
+.mdid[data-latin] .mdid__card-title {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.mdid__photo {
+    width: 120px;
+    height: 120px;
+    margin: -62px auto 0;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid #0f172a;
+    background: #4c1d95;
+    display: grid;
+    place-items: center;
+    position: relative;
+    z-index: 1;
+    animation: mdid-photo-in 0.7s var(--mdid-ease) 0.55s both, mdid-glow 3s ease-in-out 1.4s infinite;
+}
+
+.mdid__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mdid__initials {
+    font-size: 42px;
+    font-weight: 700;
+    color: #ede9fe;
+}
+
+.mdid__identity {
+    text-align: center;
+    padding: 12px 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.mdid__name {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+    animation: mdid-fade-up 0.5s var(--mdid-ease) 0.7s both;
+}
+
+.mdid__id {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(253, 230, 138, 0.3);
+    background: rgba(253, 230, 138, 0.08);
+    color: #fde68a;
+    font: inherit;
+    transition: transform 0.2s var(--mdid-ease), background 0.2s, border-color 0.2s;
+    animation: mdid-fade-up 0.5s var(--mdid-ease) 0.78s backwards;
+}
+
+.mdid__id:hover {
+    background: rgba(253, 230, 138, 0.14);
+    border-color: rgba(253, 230, 138, 0.55);
+}
+
+.mdid__id:active {
+    transform: scale(0.96);
+}
+
+.mdid__id-label {
+    font-size: 11px;
+    color: #cbd5e1;
+}
+
+.mdid[data-latin] .mdid__id-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.mdid__id-val {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.mdid__id-copy {
+    display: inline-flex;
+    opacity: 0.8;
+}
+
+.mdid__copied {
+    font-size: 12px;
+    color: #34d399;
+    animation: mdid-fade-up 0.3s var(--mdid-ease) both;
+}
+
+.mdid__rows {
+    margin: 18px 20px 0;
+    display: grid;
+    gap: 8px;
+}
+
+.mdid__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    transition: background 0.2s;
+    animation: mdid-slide-in 0.5s var(--mdid-ease) both;
+}
+
+.mdid__row:nth-child(1) {
+    animation-delay: 0.88s;
+}
+
+.mdid__row:nth-child(2) {
+    animation-delay: 0.98s;
+}
+
+.mdid__row:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.mdid__row dt {
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.mdid__row dd {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: right;
+}
+
+.mdid__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* the dot inherits the status colour, so the pulse ring matches green/amber/red */
+.mdid__status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    animation: mdid-pulse 1.8s ease-out infinite;
+}
+
+.mdid__qr {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: mdid-pop 0.6s var(--mdid-ease) 1.08s both;
+}
+
+.mdid__qr-box {
+    position: relative;
+    overflow: hidden;
+    width: 172px;
+    height: 172px;
+    border-radius: 16px;
+    background: #fff;
+    padding: 10px;
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+}
+
+/* scanner line moving over the QR */
+.mdid__qr-box::after {
+    content: "";
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    top: 8px;
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+    box-shadow: 0 0 12px 2px rgba(139, 92, 246, 0.55);
+    animation: mdid-scan 2.6s ease-in-out 1.6s infinite;
+    opacity: 0;
+}
+
+.mdid__qr-box canvas {
+    width: 152px !important;
+    height: 152px !important;
+    grid-area: 1 / 1;
+}
+
+.mdid__qr-box .mdid__spinner {
+    grid-area: 1 / 1;
+}
+
+.mdid__qr-hint {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.mdid__actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    animation: mdid-fade-up 0.5s var(--mdid-ease) 1.2s both;
+}
+
+.mdid__btn {
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 18px;
+    border-radius: 14px;
+    border: 1px solid var(--mdid-border);
+    background: var(--mdid-surface);
+    color: var(--mdid-text);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s var(--mdid-ease), box-shadow 0.2s var(--mdid-ease);
+}
+
+.mdid__btn--primary {
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    border-color: transparent;
+    color: #fff;
+}
+
+.mdid__btn:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(99, 102, 241, 0.35);
+}
+
+.mdid__btn:not(:disabled):active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* the download icon nudges down on hover */
+.mdid__btn--primary:not(:disabled):hover svg {
+    animation: mdid-bounce 0.8s ease-in-out infinite;
+}
+
+.mdid__btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.mdid__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 60px 0;
+    color: var(--mdid-muted);
+}
+
+.mdid__spinner {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid rgba(148, 163, 184, 0.35);
+    border-top-color: #8b5cf6;
+    animation: mdid-spin 0.8s linear infinite;
+    display: inline-block;
+}
+
+/* ---------------- keyframes ---------------- */
+@keyframes mdid-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes mdid-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes mdid-slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(-16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes mdid-card-in {
+    from {
+        opacity: 0;
+        transform: translateY(28px) scale(0.96) rotateX(8deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes mdid-pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.6);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.06);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes mdid-photo-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.4) rotate(-12deg);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.06) rotate(2deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes mdid-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+    }
+
+    50% {
+        box-shadow: 0 0 22px 4px rgba(139, 92, 246, 0.45);
+    }
+}
+
+@keyframes mdid-float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+@keyframes mdid-gradient {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes mdid-shine {
+    0% {
+        background-position: 150% 0;
+    }
+
+    35%,
+    100% {
+        background-position: -100% 0;
+    }
+}
+
+@keyframes mdid-pulse {
+    0% {
+        box-shadow: 0 0 0 0 currentColor;
+    }
+
+    100% {
+        box-shadow: 0 0 0 7px transparent;
+    }
+}
+
+@keyframes mdid-scan {
+    0% {
+        top: 8px;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    50% {
+        top: calc(100% - 11px);
+        opacity: 1;
+    }
+
+    60% {
+        opacity: 0;
+    }
+
+    100% {
+        top: calc(100% - 11px);
+        opacity: 0;
+    }
+}
+
+@keyframes mdid-bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(3px);
+    }
+}
+
+/* ---------------- accessibility: respect "reduce motion" ---------------- */
+@media (prefers-reduced-motion: reduce) {
+
+    .mdid *,
+    .mdid *::before,
+    .mdid *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .mdid__qr-box::after,
+    .mdid__card::after {
+        display: none;
+    }
+}
+
+@media print {
+
+    .mdid__back,
+    .mdid__head,
+    .mdid__actions,
+    .mdid__notice {
+        display: none;
+    }
+
+    .mdid__card {
+        box-shadow: none;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .mdid *,
+    .mdid *::after {
+        animation: none !important;
+    }
+
+    .mdid__qr-box::after,
+    .mdid__card::after {
+        display: none;
+    }
+}
