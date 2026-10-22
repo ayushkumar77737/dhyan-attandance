@@ -2,14 +2,26 @@
 .mdid {
     --mdid-text: #e2e8f0;
     --mdid-muted: #94a3b8;
-    --mdid-surface: rgba(255, 255, 255, 0.04);
-    --mdid-border: rgba(255, 255, 255, 0.1);
+    --mdid-surface: rgba(255, 255, 255, 0.06);
+    --mdid-border: rgba(255, 255, 255, 0.12);
+    --mdid-bar: rgba(15, 23, 42, 0.55);
     --mdid-ease: cubic-bezier(0.22, 1, 0.36, 1);
-    padding: 24px 16px 40px;
-    max-width: 440px;
-    margin: 0 auto;
+    position: relative;
+    isolation: isolate;
+    /* full width, so the Back button sits at the page's top-left like ShowQR */
+    width: 100%;
+    padding: 0 20px 48px;
     color: var(--mdid-text);
     box-sizing: border-box;
+    text-align: left;
+    /* parent layouts sometimes center text; keep the back button left */
+}
+
+/* everything except the top bar stays in the centred 460px column */
+.mdid> :not(.mdid__topbar) {
+    max-width: 460px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .ud-container[data-theme="light"] .mdid {
@@ -17,43 +29,130 @@
     --mdid-muted: #64748b;
     --mdid-surface: #ffffff;
     --mdid-border: #e2e8f0;
+    --mdid-bar: rgba(255, 255, 255, 0.7);
+}
+
+/* soft ambient glow behind the card */
+.mdid::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 80px calc(50% - 270px) auto;
+    /* keep the glow behind the card, not page-wide */
+    height: 520px;
+    background:
+        radial-gradient(closest-side at 30% 40%, rgba(139, 92, 246, 0.35), transparent),
+        radial-gradient(closest-side at 75% 60%, rgba(245, 158, 11, 0.22), transparent),
+        radial-gradient(closest-side at 50% 85%, rgba(99, 102, 241, 0.28), transparent);
+    filter: blur(30px);
+    pointer-events: none;
+    animation: mdid-drift 14s ease-in-out infinite alternate;
+}
+
+/* ---------------- top bar: back button top-left (same style as ShowQR) ---------------- */
+.mdid__topbar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 28px;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
 }
 
 .mdid__back {
+    margin-right: auto;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 7px 14px;
-    border-radius: 999px;
-    border: 1px solid var(--mdid-border);
-    background: var(--mdid-surface);
-    color: var(--mdid-text);
-    font-size: 13px;
+    gap: 7px;
+    padding: 9px 17px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #9fb3c8;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
     cursor: pointer;
-    transition: transform 0.2s var(--mdid-ease), border-color 0.2s;
-    animation: mdid-fade-up 0.5s var(--mdid-ease) backwards;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    animation: mdid-fade-up 0.4s var(--mdid-ease) 0.02s both;
 }
 
 .mdid__back:hover {
-    transform: translateX(-3px);
-    border-color: #8b5cf6;
+    background: rgba(255, 255, 255, 0.07);
+    color: #ddeeff;
+    border-color: rgba(59, 130, 246, 0.25);
 }
 
+.mdid__back svg {
+    transition: transform 0.2s ease;
+}
+
+.mdid__back:hover svg {
+    transform: translateX(-3px);
+}
+
+/* light theme: white chip, slate text — matches ShowQR light */
+.ud-container[data-theme="light"] .mdid__back {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.12);
+    color: #64748b;
+}
+
+.ud-container[data-theme="light"] .mdid__back:hover {
+    background: #f8fafc;
+    color: #1e293b;
+    border-color: rgba(59, 130, 246, 0.25);
+}
+
+.mdid__back:focus-visible,
+.mdid__btn:focus-visible,
+.mdid__id:focus-visible {
+    outline: 2px solid #a78bfa;
+    outline-offset: 3px;
+}
+
+/* ---------------- header ---------------- */
 .mdid__head {
     text-align: center;
-    margin: 18px 0 20px;
+    margin: 14px 0 22px;
     animation: mdid-fade-up 0.6s var(--mdid-ease) 0.05s both;
 }
 
-.mdid__title {
-    margin: 0;
-    font-size: 24px;
+.mdid__eyebrow {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 11px;
     font-weight: 700;
+    color: #a78bfa;
+    background: rgba(139, 92, 246, 0.12);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.mdid[data-latin] .mdid__eyebrow {
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.mdid__title {
+    margin: 10px 0 0;
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #a78bfa, #f59e0b 50%, #818cf8);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: mdid-text-sheen 6s linear infinite;
 }
 
 .mdid__sub {
-    margin: 6px 0 0;
+    margin: 6px auto 0;
+    max-width: 320px;
     font-size: 14px;
+    line-height: 1.5;
     color: var(--mdid-muted);
 }
 
@@ -79,11 +178,14 @@
 .mdid__card {
     position: relative;
     overflow: hidden;
-    border-radius: 22px;
-    background: #0f172a;
+    border-radius: 24px;
+    border: 1.5px solid transparent;
+    background:
+        linear-gradient(#0f172a, #0f172a) padding-box,
+        linear-gradient(135deg, rgba(167, 139, 250, 0.9), rgba(245, 158, 11, 0.55), rgba(99, 102, 241, 0.9)) border-box;
     color: #fff;
-    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.06);
-    padding-bottom: 24px;
+    box-shadow: 0 28px 70px rgba(15, 23, 42, 0.4), 0 0 40px rgba(139, 92, 246, 0.15);
+    padding-bottom: 26px;
     transform-origin: 50% 0;
     animation: mdid-card-in 0.8s var(--mdid-ease) 0.12s backwards;
     transition: transform 0.35s var(--mdid-ease), box-shadow 0.35s var(--mdid-ease);
@@ -110,28 +212,73 @@
 @media (hover: hover) {
     .mdid__card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 32px 70px rgba(76, 29, 149, 0.35), 0 0 0 1px rgba(167, 139, 250, 0.25);
+        box-shadow: 0 34px 80px rgba(76, 29, 149, 0.4), 0 0 50px rgba(139, 92, 246, 0.25);
     }
 }
 
 .mdid__band {
     position: relative;
+    overflow: hidden;
     background: linear-gradient(135deg, #6d28d9 0%, #4338ca 50%, #7c3aed 100%);
     background-size: 200% 200%;
     border-bottom: 3px solid #f59e0b;
-    padding: 18px 16px 70px;
+    padding: 30px 16px 74px;
     text-align: center;
     animation: mdid-gradient 10s ease-in-out infinite;
 }
 
+/* subtle dot pattern on the band */
+.mdid__band::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1.2px);
+    background-size: 14px 14px;
+    mask-image: linear-gradient(180deg, #000, transparent 85%);
+    -webkit-mask-image: linear-gradient(180deg, #000, transparent 85%);
+    pointer-events: none;
+}
+
+/* lanyard slot */
+.mdid__slot {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 54px;
+    height: 8px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.55);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* gold smart-card chip */
+.mdid__chip {
+    position: absolute;
+    top: 22px;
+    left: 18px;
+    width: 34px;
+    height: 26px;
+    border-radius: 6px;
+    background:
+        linear-gradient(90deg, transparent 32%, rgba(120, 53, 15, 0.45) 32% 36%, transparent 36% 64%, rgba(120, 53, 15, 0.45) 64% 68%, transparent 68%),
+        linear-gradient(0deg, transparent 45%, rgba(120, 53, 15, 0.45) 45% 55%, transparent 55%),
+        linear-gradient(135deg, #fde68a, #f59e0b 55%, #d97706);
+    box-shadow: inset 0 0 0 1px rgba(120, 53, 15, 0.35);
+    opacity: 0.9;
+}
+
 .mdid__logo {
-    width: 40px;
-    height: 40px;
+    position: relative;
+    width: 44px;
+    height: 44px;
     object-fit: contain;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
     animation: mdid-pop 0.6s var(--mdid-ease) 0.35s both, mdid-float 4s ease-in-out 1s infinite;
 }
 
 .mdid__org {
+    position: relative;
     margin-top: 6px;
     font-size: 14px;
     font-weight: 600;
@@ -140,6 +287,7 @@
 }
 
 .mdid__card-title {
+    position: relative;
     margin-top: 2px;
     font-size: 12px;
     font-weight: 600;
@@ -154,19 +302,38 @@
     text-transform: uppercase;
 }
 
+/* ---------------- photo with rotating gradient ring ---------------- */
+.mdid__photo-wrap {
+    position: relative;
+    z-index: 1;
+    width: 132px;
+    height: 132px;
+    margin: -66px auto 0;
+    display: grid;
+    place-items: center;
+    animation: mdid-photo-in 0.7s var(--mdid-ease) 0.55s both;
+}
+
+.mdid__photo-wrap::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(#f59e0b, #8b5cf6, #6366f1, #a78bfa, #f59e0b);
+    animation: mdid-spin 6s linear infinite, mdid-glow 3s ease-in-out 1.4s infinite;
+}
+
 .mdid__photo {
+    position: relative;
     width: 120px;
     height: 120px;
-    margin: -62px auto 0;
     border-radius: 50%;
     overflow: hidden;
-    border: 5px solid #0f172a;
+    border: 4px solid #0f172a;
     background: #4c1d95;
     display: grid;
     place-items: center;
-    position: relative;
-    z-index: 1;
-    animation: mdid-photo-in 0.7s var(--mdid-ease) 0.55s both, mdid-glow 3s ease-in-out 1.4s infinite;
+    box-sizing: border-box;
 }
 
 .mdid__photo img {
@@ -176,14 +343,14 @@
 }
 
 .mdid__initials {
-    font-size: 42px;
+    font-size: 40px;
     font-weight: 700;
     color: #ede9fe;
 }
 
 .mdid__identity {
     text-align: center;
-    padding: 12px 20px 0;
+    padding: 14px 20px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -192,11 +359,21 @@
 
 .mdid__name {
     margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
     font-size: 22px;
     font-weight: 700;
     line-height: 1.25;
     overflow-wrap: anywhere;
     animation: mdid-fade-up 0.5s var(--mdid-ease) 0.7s both;
+}
+
+.mdid__verified {
+    display: inline-flex;
+    animation: mdid-pop 0.5s var(--mdid-ease) 0.95s both;
 }
 
 .mdid__id {
@@ -252,6 +429,7 @@
     animation: mdid-fade-up 0.3s var(--mdid-ease) both;
 }
 
+/* ---------------- info rows ---------------- */
 .mdid__rows {
     margin: 18px 20px 0;
     display: grid;
@@ -263,10 +441,11 @@
     justify-content: space-between;
     align-items: center;
     gap: 12px;
-    padding: 11px 14px;
-    border-radius: 12px;
+    padding: 10px 14px 10px 10px;
+    border-radius: 14px;
     background: rgba(255, 255, 255, 0.05);
-    transition: background 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: background 0.2s, border-color 0.2s;
     animation: mdid-slide-in 0.5s var(--mdid-ease) both;
 }
 
@@ -280,11 +459,25 @@
 
 .mdid__row:hover {
     background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(167, 139, 250, 0.25);
 }
 
 .mdid__row dt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-size: 13px;
     color: #94a3b8;
+}
+
+.mdid__row-icon {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    color: #c4b5fd;
+    background: rgba(139, 92, 246, 0.16);
 }
 
 .mdid__row dd {
@@ -312,26 +505,102 @@
     animation: mdid-pulse 1.8s ease-out infinite;
 }
 
+/* perforated tear line between details and QR */
+.mdid__divider {
+    position: relative;
+    margin: 22px 0 0;
+    height: 0;
+    border-top: 2px dashed rgba(148, 163, 184, 0.25);
+}
+
+.mdid__divider::before,
+.mdid__divider::after {
+    content: "";
+    position: absolute;
+    top: -12px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--mdid-notch, #0b1120);
+}
+
+.ud-container[data-theme="light"] .mdid__divider::before,
+.ud-container[data-theme="light"] .mdid__divider::after {
+    --mdid-notch: #f1f5f9;
+}
+
+.mdid__divider::before {
+    left: -12px;
+}
+
+.mdid__divider::after {
+    right: -12px;
+}
+
+/* ---------------- QR ---------------- */
 .mdid__qr {
-    margin-top: 20px;
+    margin-top: 22px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     animation: mdid-pop 0.6s var(--mdid-ease) 1.08s both;
 }
 
 .mdid__qr-box {
     position: relative;
     overflow: hidden;
-    width: 172px;
-    height: 172px;
-    border-radius: 16px;
+    width: 176px;
+    height: 176px;
+    border-radius: 18px;
     background: #fff;
-    padding: 10px;
+    padding: 12px;
     display: grid;
     place-items: center;
     box-sizing: border-box;
+    box-shadow: 0 0 0 6px rgba(139, 92, 246, 0.12), 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* viewfinder corners */
+.mdid__qr-corner {
+    position: absolute;
+    z-index: 2;
+    width: 18px;
+    height: 18px;
+    border: 3px solid #8b5cf6;
+    pointer-events: none;
+}
+
+.mdid__qr-corner--tl {
+    top: 6px;
+    left: 6px;
+    border-right: 0;
+    border-bottom: 0;
+    border-radius: 8px 0 0 0;
+}
+
+.mdid__qr-corner--tr {
+    top: 6px;
+    right: 6px;
+    border-left: 0;
+    border-bottom: 0;
+    border-radius: 0 8px 0 0;
+}
+
+.mdid__qr-corner--bl {
+    bottom: 6px;
+    left: 6px;
+    border-right: 0;
+    border-top: 0;
+    border-radius: 0 0 0 8px;
+}
+
+.mdid__qr-corner--br {
+    bottom: 6px;
+    right: 6px;
+    border-left: 0;
+    border-top: 0;
+    border-radius: 0 0 8px 0;
 }
 
 /* scanner line moving over the QR */
@@ -350,8 +619,8 @@
 }
 
 .mdid__qr-box canvas {
-    width: 152px !important;
-    height: 152px !important;
+    width: 148px !important;
+    height: 148px !important;
     grid-area: 1 / 1;
 }
 
@@ -364,10 +633,11 @@
     color: #94a3b8;
 }
 
+/* ---------------- actions ---------------- */
 .mdid__actions {
     display: flex;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 22px;
     animation: mdid-fade-up 0.5s var(--mdid-ease) 1.2s both;
 }
 
@@ -379,26 +649,37 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 13px 18px;
-    border-radius: 14px;
+    padding: 14px 18px;
+    border-radius: 16px;
     border: 1px solid var(--mdid-border);
     background: var(--mdid-surface);
     color: var(--mdid-text);
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     transition: transform 0.2s var(--mdid-ease), box-shadow 0.2s var(--mdid-ease);
 }
 
 .mdid__btn--primary {
-    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    background: linear-gradient(135deg, #8b5cf6, #6366f1 60%, #7c3aed);
     border-color: transparent;
     color: #fff;
+    box-shadow: 0 10px 26px rgba(99, 102, 241, 0.35);
+}
+
+/* light sweep across the primary button */
+.mdid__btn--primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.28) 50%, transparent 70%);
+    transform: translateX(-100%);
+    animation: mdid-btn-sweep 3.5s ease-in-out 2s infinite;
 }
 
 .mdid__btn:not(:disabled):hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(99, 102, 241, 0.35);
+    box-shadow: 0 14px 30px rgba(99, 102, 241, 0.45);
 }
 
 .mdid__btn:not(:disabled):active {
@@ -434,6 +715,12 @@
     display: inline-block;
 }
 
+@media (max-width: 360px) {
+    .mdid__title {
+        font-size: 24px;
+    }
+}
+
 /* ---------------- keyframes ---------------- */
 @keyframes mdid-spin {
     to {
@@ -445,6 +732,18 @@
     from {
         opacity: 0;
         transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes mdid-fade-right {
+    from {
+        opacity: 0;
+        transform: translateX(-12px);
     }
 
     to {
@@ -519,7 +818,7 @@
     }
 
     50% {
-        box-shadow: 0 0 22px 4px rgba(139, 92, 246, 0.45);
+        box-shadow: 0 0 24px 4px rgba(139, 92, 246, 0.5);
     }
 }
 
@@ -555,6 +854,33 @@
     35%,
     100% {
         background-position: -100% 0;
+    }
+}
+
+@keyframes mdid-text-sheen {
+    to {
+        background-position: 200% center;
+    }
+}
+
+@keyframes mdid-drift {
+    from {
+        transform: translate3d(-10px, 0, 0) scale(1);
+    }
+
+    to {
+        transform: translate3d(10px, 20px, 0) scale(1.08);
+    }
+}
+
+@keyframes mdid-btn-sweep {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    40%,
+    100% {
+        transform: translateX(100%);
     }
 }
 
@@ -608,6 +934,7 @@
 /* ---------------- accessibility: respect "reduce motion" ---------------- */
 @media (prefers-reduced-motion: reduce) {
 
+    .mdid::before,
     .mdid *,
     .mdid *::before,
     .mdid *::after {
@@ -616,14 +943,16 @@
     }
 
     .mdid__qr-box::after,
-    .mdid__card::after {
+    .mdid__card::after,
+    .mdid__btn--primary::before {
         display: none;
     }
 }
 
 @media print {
 
-    .mdid__back,
+    .mdid::before,
+    .mdid__topbar,
     .mdid__head,
     .mdid__actions,
     .mdid__notice {
@@ -637,12 +966,14 @@
     }
 
     .mdid *,
+    .mdid *::before,
     .mdid *::after {
         animation: none !important;
     }
 
     .mdid__qr-box::after,
-    .mdid__card::after {
+    .mdid__card::after,
+    .mdid__btn--primary::before {
         display: none;
     }
 }

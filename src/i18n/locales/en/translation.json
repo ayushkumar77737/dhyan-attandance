@@ -2445,5 +2445,7 @@
   "mdidDownload": "Download ID Card",
   "mdidDownloading": "Downloading...",
   "mdidCopyId": "Copy ID",
-  "mdidCopied": "ID copied"
+  "mdidCopied": "ID copied",
+  "mdidEyebrow": "Official Member Pass",
+  "mdidVerified": "Verified"
 }
