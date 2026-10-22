@@ -800,3 +800,283 @@
     transform: none;
   }
 }
+
+/* ==================================================================
+   CATEGORIES, FILTERS, TAP-THROUGH
+   ------------------------------------------------------------------
+   Each card carries a tone-* class from its type (leave, ticket,
+   announcement, ...). The tone drives the left bar and the icon, so a
+   member can tell a leave decision from an announcement at a glance.
+   ================================================================== */
+
+/* ---- tones (dark defaults; light overrides below) ---- */
+.notification-card {
+  --tone: var(--accent);
+  --tone-soft: var(--accent-soft);
+}
+
+.notification-card.tone-teal {
+  --tone: #2dd4bf;
+  --tone-soft: rgba(45, 212, 191, 0.12);
+}
+
+.notification-card.tone-violet {
+  --tone: #a78bfa;
+  --tone-soft: rgba(167, 139, 250, 0.14);
+}
+
+.notification-card.tone-amber {
+  --tone: #fbbf24;
+  --tone-soft: rgba(251, 191, 36, 0.13);
+}
+
+.notification-card.tone-blue {
+  --tone: #60a5fa;
+  --tone-soft: rgba(96, 165, 250, 0.14);
+}
+
+.notification-card.tone-rose {
+  --tone: #fb7185;
+  --tone-soft: rgba(251, 113, 133, 0.13);
+}
+
+.notification-card.tone-orange {
+  --tone: #fb923c;
+  --tone-soft: rgba(251, 146, 60, 0.13);
+}
+
+.notification-card.tone-indigo {
+  --tone: #818cf8;
+  --tone-soft: rgba(129, 140, 248, 0.14);
+}
+
+.notification-card.tone-pink {
+  --tone: #f472b6;
+  --tone-soft: rgba(244, 114, 182, 0.13);
+}
+
+/* darker 600-level tones so icons/labels keep contrast on white */
+.my-notifications-page[data-theme="light"] .notification-card.tone-teal {
+  --tone: #0d9488;
+}
+
+.my-notifications-page[data-theme="light"] .notification-card.tone-violet {
+  --tone: #7c3aed;
+}
+
+.my-notifications-page[data-theme="light"] .notification-card.tone-amber {
+  --tone: #b45309;
+}
+
+.my-notifications-page[data-theme="light"] .notification-card.tone-blue {
+  --tone: #2563eb;
+}
+
+.my-notifications-page[data-theme="light"] .notification-card.tone-rose {
+  --tone: #e11d48;
+}
+
+.my-notifications-page[data-theme="light"] .notification-card.tone-orange {
+  --tone: #c2410c;
+}
+
+.my-notifications-page[data-theme="light"] .notification-card.tone-indigo {
+  --tone: #4f46e5;
+}
+
+.my-notifications-page[data-theme="light"] .notification-card.tone-pink {
+  --tone: #db2777;
+}
+
+.notification-card,
+.notification-card:hover {
+  border-left-color: var(--tone);
+}
+
+.notification-card .card-icon {
+  background: var(--tone-soft);
+  border-color: transparent;
+  color: var(--tone);
+}
+
+/* unread cards get a faint wash of their own colour */
+.notification-card.is-unread {
+  background: linear-gradient(90deg, var(--tone-soft), transparent 55%), var(--bg-card);
+}
+
+/* ---- card text ---- */
+.card-type {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--tone);
+  letter-spacing: 0.02em;
+}
+
+.card-title {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.notification-card p {
+  overflow-wrap: anywhere;
+}
+
+/* ---- right side: New badge + chevron ---- */
+.card-side {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.notification-card .card-new-label {
+  color: var(--tone);
+  background: var(--tone-soft);
+}
+
+.notification-card .card-new-dot {
+  background: var(--tone);
+}
+
+.card-chevron {
+  color: var(--text-muted);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.notification-card.is-link {
+  cursor: pointer;
+}
+
+.notification-card.is-link:hover .card-chevron {
+  color: var(--tone);
+  transform: translateX(3px);
+}
+
+.notification-card.is-link:focus-visible {
+  outline: 2px solid var(--tone);
+  outline-offset: 2px;
+}
+
+/* ---- filter chips ---- */
+.notif-filters {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+  animation: mn-drop 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.38s both;
+}
+
+.notif-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.notif-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font: 500 12.5px "DM Sans", sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.notif-chip:hover {
+  color: var(--text-primary);
+  border-color: rgba(14, 165, 160, 0.3);
+}
+
+.notif-chip.is-on {
+  background: var(--accent-soft);
+  border-color: rgba(14, 165, 160, 0.45);
+  color: var(--accent);
+}
+
+.notif-chip-count {
+  min-width: 18px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--border);
+  font: 500 11px "DM Mono", monospace;
+  text-align: center;
+}
+
+.notif-chip.is-on .notif-chip-count {
+  background: rgba(14, 165, 160, 0.18);
+}
+
+.notif-chip--unread .notif-chip-count {
+  background: var(--accent);
+  color: #0d0f14;
+}
+
+.notif-chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.my-notifications-page[data-theme="light"] .notif-chip.is-on {
+  color: #0f766e;
+}
+
+.my-notifications-page[data-theme="light"] .notif-chip--unread .notif-chip-count {
+  color: #ffffff;
+}
+
+/* the divider sits under the chips now */
+.notif-filters+.divider {
+  margin-top: 16px;
+}
+
+.no-data-wrapper--compact {
+  padding: 24px 0 8px;
+}
+
+/* phones: let the New pill drop under the text instead of squeezing it */
+@media (max-width: 480px) {
+  .notification-card {
+    align-items: flex-start;
+  }
+
+  .card-icon {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+  }
+
+  .card-side {
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: 6px;
+  }
+
+  .notification-card .card-new-label {
+    padding: 3px 9px;
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notif-filters {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .notification-card.is-link:hover .card-chevron {
+    transform: none;
+  }
+}

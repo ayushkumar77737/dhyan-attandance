@@ -7,6 +7,7 @@ import {
     serverTimestamp, Timestamp, updateDoc,
 } from "firebase/firestore";
 import { logAdminAction } from "../utils/logAdminAction";
+import { sendNotification } from "../utils/notifyUser";
 import "./AnnouncementManagement.css";
 
 /* ==================================================================
@@ -1048,10 +1049,24 @@ function AnnouncementManagement() {
             const payload = { ...built, targetUids };
             const pubMs = toDate(payload.publishAt)?.getTime() ?? 0;
             const scheduled = payload.status === "published" && pubMs > nowMs;
+            /* notify members only when an announcement goes live right now — the
+               first publish of a new item or of a draft. Edits of an already
+               published item don't re-notify, and scheduled ones are skipped
+               (there is no job to fire at publishAt; they still appear on the
+               Announcements page once their time comes). */
+            const goesLiveNow = payload.status === "published" && !scheduled
+                && (!editing || editing.status !== "published");
+            const announce = () => goesLiveNow && sendNotification({
+                to: payload.audience === "selected" ? payload.targetUserIds : "ALL",
+                type: "announcement",
+                key: "notifAnnouncement",
+                params: { title: String(payload.title || "").slice(0, 120) },
+            });
 
             if (editing) {
                 await updateDoc(doc(db, COL, editing.id), { ...payload, updatedAt: serverTimestamp(), updatedBy: adminId });
                 patchLocal(editing.id, payload);
+                await announce();
                 logAdminAction("Updated announcement", { targetId: editing.id, details: payload.title });
                 notify("success", S("toastUpdated"));
             } else {
@@ -1068,6 +1083,7 @@ function AnnouncementManagement() {
                     { id: ref.id, ...payload, createdAt: Timestamp.now(), createdBy: adminId, createdByName: adminName, updatedAt: Timestamp.now(), updatedBy: adminId },
                     ...prev,
                 ]);
+                await announce();
                 logAdminAction(payload.status === "published" ? "Published announcement" : "Created announcement", { targetId: ref.id, details: payload.title });
                 notify("success", payload.status === "draft" ? S("toastDraftSaved") : scheduled ? S("toastScheduled") : S("toastPublished"));
             }

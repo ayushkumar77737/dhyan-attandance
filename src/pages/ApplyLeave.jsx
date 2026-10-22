@@ -11,10 +11,10 @@ import {
     query,
     where,
     limit,
-    serverTimestamp,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { sendNotification } from "../utils/notifyUser";
 import useAutoLogout from "../hooks/useAutoLogout";
 import logo from "../assets/logo2.png";
 import favicon from "../assets/favicon.png";
@@ -187,11 +187,7 @@ function ApplyLeave() {
                 createdAt: new Date().toISOString(),
             });
 
-            await addDoc(collection(db, "notifications"), {
-                userId,
-                message: t("notifLeaveSubmitted", { type: typeLabel(leaveType), date: leaveDate }),
-                createdAt: serverTimestamp(),
-            });
+            await sendNotification({ to: userId, type: "leave", key: "notifLeaveSubmitted", params: { type: typeLabel(leaveType), date: leaveDate } });
 
             showToast("success", t("leaveSubmitted") || "Leave request submitted");
             setLeaveType("");

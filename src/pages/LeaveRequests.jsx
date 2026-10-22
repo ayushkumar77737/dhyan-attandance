@@ -12,6 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { logAdminAction } from "../utils/logAdminAction";
+import { sendNotification } from "../utils/notifyUser";
 
 import logo from "../assets/logo2.png";
 
@@ -257,6 +258,16 @@ function LeavesRequest() {
         targetId: row.userId,
         details: t("logUpdatedLeave", { name: row.name, status: newStatus }),
       });
+      /* tell the member — only on a real change to approved / rejected */
+      const next = statusKey(newStatus);
+      if (next !== "pending" && next !== statusKey(row.status)) {
+        await sendNotification({
+          to: row.userId,
+          type: "leave",
+          key: next === "approved" ? "notifLeaveApproved" : "notifLeaveRejected",
+          params: { date: row.date },
+        });
+      }
       setLeaves((prev) =>
         prev.map((l) => (l.docId === row.docId ? { ...l, status: newStatus } : l))
       );

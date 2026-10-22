@@ -262,6 +262,25 @@ function Announcements() {
     const pendingRef = useRef(new Set());    /* read-writes in flight  */
 
     /* ---------------- who is this user? (same lookup as My Notifications) ---------------- */
+
+    useEffect(() => {
+        const disableRightClick = (e) => e.preventDefault();
+        const disableInspectKeys = (e) => {
+            if (e.key === "F12") e.preventDefault();
+            if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
+                e.preventDefault();
+            if (e.ctrlKey && e.key.toUpperCase() === "U") e.preventDefault();
+        };
+        document.addEventListener("contextmenu", disableRightClick);
+        document.addEventListener("keydown", disableInspectKeys);
+        sessionStorage.setItem("udGreetingShown", "true");
+        const greetingTimer = setTimeout(() => setShowGreeting(false), 4000);
+        return () => {
+            clearTimeout(greetingTimer);
+            document.removeEventListener("contextmenu", disableRightClick);
+            document.removeEventListener("keydown", disableInspectKeys);
+        };
+    }, []);
     useEffect(() => {
         const unsub = onAuthStateChanged(auth, async (user) => {
             if (!user) { navigate("/"); return; }

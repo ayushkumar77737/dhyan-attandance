@@ -18,7 +18,19 @@ import "./MyDigitalID.css";
 /*  ID status ........ users.disabled -> "disabled"                    */
 /*                     no profiles doc -> "pending"                    */
 /*                     otherwise       -> "active"                     */
+/*  Father/Husband ... profiles/{id}.fatherHusbandName                 */
+/*  Mobile ........... profiles/{id}.phoneNumber                       */
+/*  Address .......... profiles/{id}.address                           */
+/*  (same fields MyProfile.jsx reads; rows with no value are hidden)   */
 /* ------------------------------------------------------------------ */
+
+/* 9876543210 / 919876543210 / +91 98765-43210 -> "+91 98765 43210" */
+const formatMobile = (v) => {
+    if (!v) return "";
+    let d = String(v).replace(/\D/g, "");
+    if (d.length === 12 && d.startsWith("91")) d = d.slice(2);
+    return d.length === 10 ? `+91 ${d.slice(0, 5)} ${d.slice(5)}` : String(v).trim();
+};
 
 const toDate = (v) => {
     if (!v) return null;
@@ -57,6 +69,15 @@ const Icon = {
     verified: (
         <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#38bdf8" d="M12 1l2.6 2.2 3.4-.4.9 3.3 3 1.7-1.2 3.2 1.2 3.2-3 1.7-.9 3.3-3.4-.4L12 23l-2.6-2.2-3.4.4-.9-3.3-3-1.7L3.3 13 2.1 9.8l3-1.7.9-3.3 3.4.4z" /><path fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" d="M7.5 12.2l3 3 6-6" /></svg>
     ),
+    user: (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+    ),
+    phone: (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.6" /><path d="M10.5 18.5h3" /></svg>
+    ),
+    pin: (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
+    ),
     copy: (
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg>
     ),
@@ -77,9 +98,31 @@ function MyDigitalID() {
     const [photoOk, setPhotoOk] = useState(true);
     const [regDate, setRegDate] = useState(null);
     const [status, setStatus] = useState("active");
+    const [fatherName, setFatherName] = useState("");
+    const [mobile, setMobile] = useState("");
+    const [address, setAddress] = useState("");
     const [qrReady, setQrReady] = useState(false);
     const [downloading, setDownloading] = useState(false);
     const [copied, setCopied] = useState(false);
+
+    useEffect(() => {
+        const disableRightClick = (e) => e.preventDefault();
+        const disableInspectKeys = (e) => {
+            if (e.key === "F12") e.preventDefault();
+            if (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase()))
+                e.preventDefault();
+            if (e.ctrlKey && e.key.toUpperCase() === "U") e.preventDefault();
+        };
+        document.addEventListener("contextmenu", disableRightClick);
+        document.addEventListener("keydown", disableInspectKeys);
+        sessionStorage.setItem("udGreetingShown", "true");
+        const greetingTimer = setTimeout(() => setShowGreeting(false), 4000);
+        return () => {
+            clearTimeout(greetingTimer);
+            document.removeEventListener("contextmenu", disableRightClick);
+            document.removeEventListener("keydown", disableInspectKeys);
+        };
+    }, []);
 
     useEffect(() => {
         const unsub = onAuthStateChanged(auth, async (authUser) => {
@@ -110,6 +153,9 @@ function MyDigitalID() {
                     toDate(u.createdAt) || toDate(p?.createdAt) || toDate(authUser.metadata?.creationTime)
                 );
                 setStatus(u.disabled === true ? "disabled" : p ? "active" : "pending");
+                setFatherName(String(p?.fatherHusbandName || u.fatherHusbandName || "").trim());
+                setMobile(formatMobile(p?.phoneNumber || p?.mobileNumber || u.phoneNumber || u.phone || u.mobile));
+                setAddress(String(p?.address || u.address || "").replace(/\s+/g, " ").trim());
             } catch (err) {
                 console.error("MyDigitalID:", err);
             } finally {
@@ -143,6 +189,14 @@ function MyDigitalID() {
     }[status];
     const initials = (name || "?").split(" ").filter(Boolean).map((n) => n[0]).join("").toUpperCase().slice(0, 2);
 
+    /* personal details — empty ones are skipped on screen and in the PNG.
+       Labels reuse the keys MyProfile already has in every locale. */
+    const details = [
+        { key: "father", icon: Icon.user, label: t("fatherHusbandName", "Father / Husband Name"), value: fatherName, wrap: true },
+        { key: "mobile", icon: Icon.phone, label: t("phoneNumberLabel", "Phone Number"), value: mobile },
+        { key: "address", icon: Icon.pin, label: t("address", "Address"), value: address, stack: true },
+    ].filter((d) => d.value);
+
     const goBack = () => navigate("/user-dashboard");
 
     const handleCopy = () => {
@@ -158,10 +212,55 @@ function MyDigitalID() {
         if (!qrReady || downloading) return;
         setDownloading(true);
         try {
-            const W = 720, H = 1140;
+            const W = 720;
             const c = document.createElement("canvas");
-            c.width = W; c.height = H;
             const g = c.getContext("2d");
+
+            /* ---- layout pass: measure rows first, the card height depends on them ---- */
+            const FONT_LABEL = "500 22px system-ui, sans-serif";
+            const FONT_VAL = "700 24px system-ui, sans-serif";
+            const FONT_ADDR = "600 23px system-ui, sans-serif";
+            const BOX_X = 60, BOX_W = W - 120, PAD = 24, GAP = 12;
+            const wrap = (text, maxW, font, maxLines = 3) => {
+                g.font = font;
+                const words = text.split(" ");
+                const lines = [];
+                let line = "";
+                for (const w of words) {
+                    const test = line ? `${line} ${w}` : w;
+                    if (g.measureText(test).width <= maxW || !line) line = test;
+                    else { lines.push(line); line = w; }
+                }
+                if (line) lines.push(line);
+                if (lines.length > maxLines) {
+                    let last = lines.slice(maxLines - 1).join(" ");
+                    while (last && g.measureText(`${last}…`).width > maxW) last = last.slice(0, -1);
+                    lines.splice(maxLines - 1, lines.length, `${last.trimEnd()}…`);
+                }
+                return lines;
+            };
+            /* a single-line value that doesn't fit beside its label gets its own line */
+            const fitsInline = (label, val) => {
+                g.font = FONT_LABEL; const lw = g.measureText(label).width;
+                g.font = FONT_VAL; const vw = g.measureText(val).width;
+                return lw + vw + 40 <= BOX_W - PAD * 2;
+            };
+
+            const canvasRows = [
+                ...details.map((d) => ({ label: d.label, value: d.value, stack: d.stack })),
+                { label: t("mdidRegDate", "Registration Date"), value: regDateText },
+                { label: t("mdidStatus", "ID Status"), value: statusText, color: STATUS_COLORS[status].fg },
+            ].map((r) => {
+                const stacked = r.stack || !fitsInline(r.label, r.value);
+                const lines = stacked ? wrap(r.value, BOX_W - PAD * 2, r.stack ? FONT_ADDR : FONT_VAL, r.stack ? 3 : 2) : [r.value];
+                return { ...r, stacked, lines, h: stacked ? 54 + lines.length * 32 : 60 };
+            });
+
+            const ROWS_TOP = 570;
+            const rowsBottom = canvasRows.reduce((y, r) => y + r.h + GAP, ROWS_TOP) - GAP;
+            const QR_TOP = rowsBottom + 40;
+            const H = QR_TOP + 380;
+            c.width = W; c.height = H; // resizing resets the context, so draw only after this
             const center = (txt, y, font, color) => {
                 g.font = font; g.fillStyle = color; g.textAlign = "center"; g.fillText(txt, W / 2, y);
             };
@@ -210,27 +309,31 @@ function MyDigitalID() {
             center(name.slice(0, 28), 480, "700 40px system-ui, sans-serif", "#ffffff");
             center(userId, 528, "600 30px ui-monospace, Menlo, monospace", "#fde68a");
 
-            // info rows
-            const rows = [
-                [t("mdidRegDate", "Registration Date"), regDateText],
-                [t("mdidStatus", "ID Status"), statusText],
-            ];
-            rows.forEach(([label, val], i) => {
-                const y = 600 + i * 72;
+            // info rows (father/husband, mobile, address, registration date, status)
+            let y = ROWS_TOP;
+            canvasRows.forEach((r) => {
                 g.fillStyle = "rgba(255,255,255,0.05)";
-                g.beginPath(); g.roundRect(60, y - 40, W - 120, 60, 14); g.fill();
-                g.textAlign = "left"; g.font = "500 22px system-ui, sans-serif"; g.fillStyle = "#94a3b8";
-                g.fillText(label, 84, y);
-                g.textAlign = "right"; g.font = "700 24px system-ui, sans-serif";
-                g.fillStyle = i === 1 ? STATUS_COLORS[status].fg : "#ffffff";
-                g.fillText(val, W - 84, y);
+                g.beginPath(); g.roundRect(BOX_X, y, BOX_W, r.h, 14); g.fill();
+                g.textAlign = "left"; g.font = FONT_LABEL; g.fillStyle = "#94a3b8";
+                if (r.stacked) {
+                    g.fillText(r.label, BOX_X + PAD, y + 36);
+                    g.font = r.stack ? FONT_ADDR : FONT_VAL;
+                    g.fillStyle = r.color || "#ffffff";
+                    r.lines.forEach((ln, i) => g.fillText(ln, BOX_X + PAD, y + 72 + i * 32));
+                } else {
+                    g.fillText(r.label, BOX_X + PAD, y + 39);
+                    g.textAlign = "right"; g.font = FONT_VAL;
+                    g.fillStyle = r.color || "#ffffff";
+                    g.fillText(r.value, BOX_X + BOX_W - PAD, y + 39);
+                }
+                y += r.h + GAP;
             });
 
             // QR
             g.fillStyle = "#ffffff";
-            g.beginPath(); g.roundRect(W / 2 - 150, 760, 300, 300, 20); g.fill();
-            g.drawImage(qrRef.current, W / 2 - 135, 775, 270, 270);
-            center(t("mdidScanHint", "Scan this QR to mark attendance"), 1100, "500 20px system-ui, sans-serif", "#94a3b8");
+            g.beginPath(); g.roundRect(W / 2 - 150, QR_TOP, 300, 300, 20); g.fill();
+            g.drawImage(qrRef.current, W / 2 - 135, QR_TOP + 15, 270, 270);
+            center(t("mdidScanHint", "Scan this QR to mark attendance"), QR_TOP + 340, "500 20px system-ui, sans-serif", "#94a3b8");
 
             const a = document.createElement("a");
             a.download = `${userId}-Digital-ID.png`;
@@ -311,11 +414,21 @@ function MyDigitalID() {
                 </div>
 
                 <dl className="mdid__rows">
-                    <div className="mdid__row">
+                    {details.map((d, i) => (
+                        <div
+                            key={d.key}
+                            className={`mdid__row${d.stack ? " mdid__row--stack" : ""}${d.wrap ? " mdid__row--wrap" : ""}`}
+                            style={{ animationDelay: `${0.88 + i * 0.08}s` }}
+                        >
+                            <dt><span className="mdid__row-icon">{d.icon}</span>{d.label}</dt>
+                            <dd>{d.value}</dd>
+                        </div>
+                    ))}
+                    <div className="mdid__row" style={{ animationDelay: `${0.88 + details.length * 0.08}s` }}>
                         <dt><span className="mdid__row-icon">{Icon.calendar}</span>{t("mdidRegDate", "Registration Date")}</dt>
                         <dd>{regDateText}</dd>
                     </div>
-                    <div className="mdid__row">
+                    <div className="mdid__row" style={{ animationDelay: `${0.96 + details.length * 0.08}s` }}>
                         <dt><span className="mdid__row-icon">{Icon.shield}</span>{t("mdidStatus", "ID Status")}</dt>
                         <dd>
                             <span className="mdid__status" style={{ color: sc.fg, background: sc.bg }}>

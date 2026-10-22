@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import "./SubmitReason.css";
 
 import { auth, db } from "../firebase/firebase";
-import { addDoc, collection, query, where, getDocs, doc, getDoc, limit, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, query, where, getDocs, doc, getDoc, limit, } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
+import { sendNotification } from "../utils/notifyUser";
 import { logUserAction } from "../utils/logUserAction";
 
 function SubmitReason() {
@@ -144,11 +145,7 @@ function SubmitReason() {
         createdAt: new Date()
       });
       await logUserAction("submit_absence", { details: t("uaSubmitAbsenceDetail", { date }) });
-      await addDoc(collection(db, "notifications"), {
-        userId,
-        message: t("notifAbsenceSubmitted", { date }),
-        createdAt: serverTimestamp(),
-      });
+      await sendNotification({ to: userId, type: "absence", key: "notifAbsenceSubmitted", params: { date } });
       setMessage(t("reasonSubmittedSuccess"));
       setType("success");
       setDate(getTodayString());

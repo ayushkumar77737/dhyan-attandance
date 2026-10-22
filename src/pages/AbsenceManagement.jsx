@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./AbsenceManagement.css";
 import { logAdminAction } from "../utils/logAdminAction";
+import { sendNotification } from "../utils/notifyUser";
 import { db, auth } from "../firebase/firebase";
 import {
     collection,
@@ -253,6 +254,16 @@ function AbsenceManagement() {
                 targetId: row.userId,
                 details: t("logUpdatedAbsence", { name: row.name, status: newStatus }),
             });
+            /* tell the member — only on a real change to approved / rejected */
+            const next = String(newStatus || "").toLowerCase();
+            if ((next === "approved" || next === "rejected") && next !== String(row.status || "").toLowerCase()) {
+                await sendNotification({
+                    to: row.userId,
+                    type: "absence",
+                    key: next === "approved" ? "notifAbsenceApproved" : "notifAbsenceRejected",
+                    params: { date: row.date },
+                });
+            }
             setRequests((prev) =>
                 prev.map((r) => (r.docId === row.docId ? { ...r, status: newStatus } : r))
             );

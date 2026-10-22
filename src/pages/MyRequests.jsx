@@ -11,13 +11,12 @@ import {
   doc,
   updateDoc,
   getDoc,
-  addDoc,
-  serverTimestamp
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
+import { sendNotification } from "../utils/notifyUser";
 
 function MyRequests() {
 
@@ -128,11 +127,7 @@ function MyRequests() {
         reason: editReason.trim()
       });
 
-      await addDoc(collection(db, "notifications"), {
-        userId,
-        message: t("notifAbsenceReasonUpdated", { date: editItem.date }),
-        createdAt: serverTimestamp(),
-      });
+      await sendNotification({ to: userId, type: "absence", key: "notifAbsenceReasonUpdated", params: { date: editItem.date } });
 
       setShowEditModal(false);
       setEditItem(null);

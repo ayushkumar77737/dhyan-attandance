@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./TrackTicket.css";
 import { logAdminAction } from "../utils/logAdminAction";
+import { sendNotification } from "../utils/notifyUser";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase/firebase";
 import {
@@ -385,6 +386,16 @@ function TrackTicket() {
                 targetId: id,
                 details: t("logUpdatedTicket", { status: newStatus }),
             });
+            /* tell the person who raised it when work starts / finishes */
+            const tk = tickets.find((x) => x.id === id);
+            if (tk?.idNo && tk.status !== newStatus && newStatus !== "Pending") {
+                await sendNotification({
+                    to: tk.idNo,
+                    type: "ticket",
+                    key: newStatus === "Resolved" ? "notifTicketResolved" : "notifTicketInProgress",
+                    params: { issue: String(tk.issue || "").slice(0, 80) },
+                });
+            }
             setTickets(tickets.map(tk => tk.id === id ? { ...tk, status: newStatus } : tk));
             showMsg(`${t("statusUpdated")} ${newStatus}`, "success");
         } catch (error) {

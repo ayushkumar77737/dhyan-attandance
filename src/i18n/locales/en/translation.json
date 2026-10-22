@@ -2447,5 +2447,21 @@
   "mdidCopyId": "Copy ID",
   "mdidCopied": "ID copied",
   "mdidEyebrow": "Official Member Pass",
-  "mdidVerified": "Verified"
+  "mdidVerified": "Verified",
+  "notifLeaveApproved": "Your leave request for {{date}} has been approved.",
+  "notifLeaveRejected": "Your leave request for {{date}} was not approved.",
+  "notifAbsenceApproved": "Your absence reason for {{date}} has been accepted.",
+  "notifAbsenceRejected": "Your absence reason for {{date}} was not accepted.",
+  "notifTicketInProgress": "Work has started on your support ticket: {{issue}}",
+  "notifTicketResolved": "Your support ticket has been resolved: {{issue}}",
+  "notifConcernInProgress": "\"{{title}}\" is now being looked into.",
+  "notifConcernResolved": "\"{{title}}\" has been resolved.",
+  "notifConcernReopened": "\"{{title}}\" has been reopened.",
+  "notifAnnouncement": "New announcement: {{title}}",
+  "notifSessionAdded": "New session added to the Dhyan timetable: {{name}}",
+  "notifSessionUpdated": "Timetable updated: {{name}}",
+  "notifHolidayAdded": "Holiday: {{name}} on {{date}}",
+  "notifProfileRegistered": "Your profile is registered — your Digital ID is now active.",
+  "notifFilterUnread": "Unread",
+  "notifTypeGeneral": "General"
 }

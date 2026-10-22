@@ -15,6 +15,7 @@ import {
     serverTimestamp,
 } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
+import { sendNotification } from "../utils/notifyUser";
 
 /* ----------------------------------------------------------------
    Cloudinary — same cloud + unsigned preset as ReportIssue.jsx.
@@ -391,11 +392,7 @@ function RaiseConcern() {
                 updatedAt: serverTimestamp(),
             });
 
-            await addDoc(collection(db, "notifications"), {
-                userId: me.id,
-                message: t("rcSubmitted", "Concern sent. We'll get back to you."),
-                createdAt: serverTimestamp(),
-            });
+            await sendNotification({ to: me.id, type: "concern", key: "rcSubmitted" });
 
             setDone(true);
             showToast(t("rcSubmitted", "Concern sent. We'll get back to you."), "success");

@@ -9,10 +9,10 @@ import {
     doc,
     updateDoc,
     deleteDoc,
-    addDoc,
     serverTimestamp,
 } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
+import { sendNotification } from "../utils/notifyUser";
 import { logAdminAction } from "../utils/logAdminAction";
 
 /* ----------------------------------------------------------------
@@ -284,19 +284,15 @@ function UserIssues() {
 
     /* ---------------- actions ---------------- */
     const notifyReporter = async (item, newStatus) => {
-        try {
-            await addDoc(collection(db, "notifications"), {
-                userId: item.reporterId,
-                type: "concern",
-                title: t("uiNotifTitle"),
-                message: t("uiNotifBody", { title: item.title, status: newStatus }),
-                concernId: item.id,
-                createdAt: serverTimestamp(),
-                read: false,
-            });
-        } catch (e) {
-            console.warn("notification failed", e);
-        }
+        /* one key per status so the status word is translated for the reader too */
+        const k = statusKey(newStatus);
+        await sendNotification({
+            to: item.reporterId,
+            type: "concern",
+            titleKey: "uiNotifTitle",
+            key: k === "resolved" ? "notifConcernResolved" : k === "open" ? "notifConcernReopened" : "notifConcernInProgress",
+            params: { title: String(item.title || "").slice(0, 80) },
+        });
     };
 
     const patch = (id, changes) =>

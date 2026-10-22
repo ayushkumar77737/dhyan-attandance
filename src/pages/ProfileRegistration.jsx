@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./ProfileRegistration.css";
 import { logAdminAction } from "../utils/logAdminAction";
+import { sendNotification } from "../utils/notifyUser";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
@@ -298,7 +299,10 @@ function ProfileRegistration() {
                 dob: form.dob,
                 profileImage: imageUrl,
                 createdAt: new Date().toISOString()
-            }); await logAdminAction("create_profile", {
+            });
+            /* the profile is what activates the member's Digital ID */
+            await sendNotification({ to: idNo, type: "profile", key: "notifProfileRegistered" });
+            await logAdminAction("create_profile", {
                 targetId: idNo,
                 details: t("logRegisteredProfile", { name: form.name.trim() }),
             });

@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useTranslation } from "react-i18next";
+import { sendNotification } from "../utils/notifyUser";
 import { logUserAction } from "../utils/logUserAction";
 
 function ShareExperience() {
@@ -151,11 +152,7 @@ function ShareExperience() {
                 createdAt: new Date().toISOString(),
             });
             await logUserAction("share_experience", { details: t("uaShareExperienceDetail", { rating }) });
-            await addDoc(collection(db, "notifications"), {
-                userId,
-                message: t("notifExperienceShared", { rating }),
-                createdAt: new Date().toISOString(),
-            });
+            await sendNotification({ to: userId, type: "experience", key: "notifExperienceShared", params: { rating } });
             setSubmitted(true);
         } catch (err) {
             console.error(err);

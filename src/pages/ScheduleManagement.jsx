@@ -7,6 +7,7 @@ import {
     serverTimestamp, setDoc, updateDoc,
 } from "firebase/firestore";
 import { logAdminAction } from "../utils/logAdminAction";
+import { sendNotification } from "../utils/notifyUser";
 import {
     SCHEDULES_COL, HOLIDAYS_COL, SCHEDULE_SETTINGS, SESSION_TYPES, WEEK_ORDER,
     todayYmd, addDaysYmd, toMinutes, formatTime, formatDate, weekdayNames,
@@ -467,11 +468,17 @@ function ScheduleManagement() {
                     createdBy: localStorage.getItem("userId") || "",
                 });
                 setSchedules((list) => [...list, { id: ref.id, ...payload }]);
+                if (payload.status === "active") {
+                    await sendNotification({ to: "ALL", type: "timetable", key: "notifSessionAdded", params: { name: payload.name } });
+                }
                 logAdminAction("Created schedule", { targetId: ref.id, details: payload.name });
                 notify("success", S("toastCreated"));
             } else {
                 await updateDoc(doc(db, SCHEDULES_COL, id), payload);
                 setSchedules((list) => list.map((s) => (s.id === id ? { ...s, ...payload } : s)));
+                if (payload.status === "active") {
+                    await sendNotification({ to: "ALL", type: "timetable", key: "notifSessionUpdated", params: { name: payload.name } });
+                }
                 logAdminAction("Updated schedule", { targetId: id, details: payload.name });
                 notify("success", S("toastUpdated"));
             }
@@ -579,6 +586,7 @@ function ScheduleManagement() {
             if (!id) {
                 const ref = await addDoc(collection(db, HOLIDAYS_COL), { ...payload, createdAt: serverTimestamp() });
                 setHolidays((list) => [...list, { id: ref.id, ...payload }]);
+                await sendNotification({ to: "ALL", type: "timetable", key: "notifHolidayAdded", params: { name, date: form.date } });
                 logAdminAction("Added holiday", { targetId: ref.id, details: `${name} (${form.date})` });
                 notify("success", S("toastHolidayAdded"));
             } else {

@@ -37,7 +37,9 @@
     content: "";
     position: absolute;
     z-index: -1;
-    inset: 80px calc(50% - 270px) auto;
+    /* never negative: on phones a negative inset pushed the glow past the
+       screen edge and caused sideways scrolling */
+    inset: 80px max(0px, calc(50% - 270px)) auto;
     /* keep the glow behind the card, not page-wide */
     height: 520px;
     background:
@@ -449,13 +451,7 @@
     animation: mdid-slide-in 0.5s var(--mdid-ease) both;
 }
 
-.mdid__row:nth-child(1) {
-    animation-delay: 0.88s;
-}
-
-.mdid__row:nth-child(2) {
-    animation-delay: 0.98s;
-}
+/* stagger delays are set inline in the JSX, since the row count varies */
 
 .mdid__row:hover {
     background: rgba(255, 255, 255, 0.08);
@@ -468,6 +464,27 @@
     gap: 10px;
     font-size: 13px;
     color: #94a3b8;
+    flex-shrink: 0;
+    max-width: 55%;
+}
+
+/* address: label on top, value underneath, aligned with the label text */
+.mdid__row--stack {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+}
+
+.mdid__row.mdid__row--stack dt {
+    max-width: none;
+}
+
+.mdid__row.mdid__row--stack dd {
+    text-align: left;
+    padding-left: 40px;
+    /* 30px icon + 10px gap */
+    font-weight: 600;
+    line-height: 1.5;
 }
 
 .mdid__row-icon {
@@ -482,9 +499,12 @@
 
 .mdid__row dd {
     margin: 0;
+    min-width: 0;
     font-size: 14px;
     font-weight: 700;
     text-align: right;
+    overflow-wrap: anywhere;
+    /* long names wrap instead of pushing the card wider */
 }
 
 .mdid__status {
@@ -544,7 +564,7 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    animation: mdid-pop 0.6s var(--mdid-ease) 1.08s both;
+    animation: mdid-pop 0.6s var(--mdid-ease) 1.3s both;
 }
 
 .mdid__qr-box {
@@ -638,7 +658,7 @@
     display: flex;
     gap: 10px;
     margin-top: 22px;
-    animation: mdid-fade-up 0.5s var(--mdid-ease) 1.2s both;
+    animation: mdid-fade-up 0.5s var(--mdid-ease) 1.4s both;
 }
 
 .mdid__btn {
@@ -713,6 +733,24 @@
     border-top-color: #8b5cf6;
     animation: mdid-spin 0.8s linear infinite;
     display: inline-block;
+}
+
+/* phones: the father/husband name gets its own line instead of a squeezed column */
+@media (max-width: 480px) {
+    .mdid__row.mdid__row--wrap {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+    }
+
+    .mdid__row.mdid__row--wrap dt {
+        max-width: none;
+    }
+
+    .mdid__row.mdid__row--wrap dd {
+        text-align: left;
+        padding-left: 40px;
+    }
 }
 
 @media (max-width: 360px) {
