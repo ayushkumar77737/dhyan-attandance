@@ -3,7 +3,7 @@ import "./UserDashboard.css";
 import { logLogout } from "../utils/logActivity";
 import { auth, db } from "../firebase/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { collection, getDocs, doc, getDoc, query, where, limit } from "firebase/firestore";
+import { collection, getDocs, doc, query, where, limit, onSnapshot } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import useAutoLogout from "../hooks/useAutoLogout";
 import useSidebarScroll from "../hooks/useSidebarScroll";
@@ -178,8 +178,23 @@ function UserDashboard() {
     };
   }, []);
 
+  /* ------------------------------------------------------------------ */
+  /* LIVE DATA — Firestore real-time listeners (auto refresh)           */
+  /* After the user is resolved, every source below is subscribed with  */
+  /* onSnapshot. When an admin marks attendance, approves a leave,      */
+  /* resolves a ticket or sends a notification, the change is pushed    */
+  /* here and the dashboard updates without a tab refresh.              */
+  /* ------------------------------------------------------------------ */
+  const [notifDocs, setNotifDocs] = useState(null);
+  const [notifReadAtDb, setNotifReadAtDb] = useState(0);
+
   useEffect(() => {
+    let liveUnsubs = [];
+    let cancelled = false;
+    const stopLive = () => { liveUnsubs.forEach((u) => u()); liveUnsubs = []; };
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      stopLive();
       if (!user) { navigate("/"); return; }
 
       /* Look up the Firestore user doc by Firebase uid rather than
@@ -188,9 +203,13 @@ function UserDashboard() {
          AddAdmin.jsx), so that derivation breaks for every account
          created after that change. uid is unique, immutable, and
          already stored on every users/{id} doc. */
-      const usersQuery = await getDocs(
-        query(collection(db, "users"), where("uid", "==", user.uid), limit(1))
-      );
+      let usersQuery;
+      try {
+        usersQuery = await getDocs(
+          query(collection(db, "users"), where("uid", "==", user.uid), limit(1))
+        );
+      } catch (err) { console.log(err); return; }
+      if (cancelled) return;
 
       if (usersQuery.empty) { navigate("/"); return; }
 
@@ -203,87 +222,110 @@ function UserDashboard() {
         navigate("/admin-dashboard");
         return;
       }
-      setUserName(userData.name || id);
-      const profileRef = doc(db, "profiles", id);
-      const profileSnap = await getDoc(profileRef);
-      if (profileSnap.exists()) {
-        setProfileImage(profileSnap.data().profileImage || "");
-      }
 
-      const snapshot = await getDocs(collection(db, "attendance"));
-      let list = [], present = 0, absent = 0;
-      snapshot.forEach((docItem) => {
-        const data = docItem.data();
-        if (data.userId === id) {
-          list.push({ date: data.date, status: data.status });
-          if (data.status?.trim() === "Present") present++;
-          if (data.status?.trim() === "Absent") absent++;
-        }
-      });
-      list.sort((a, b) => new Date(a.date) - new Date(b.date));
-      const total = present + absent;
-      const percent = total > 0 ? Math.min(100, ((present / total) * 100).toFixed(2)) : 0;
-      setAttendance(list);
-      setPresentCount(present);
-      setAbsentCount(absent);
-      setPercentage(percent);
+      const onErr = (err) => console.log(err);
 
-      const today = new Date().toISOString().split("T")[0];
-      const todayRecord = list.find((item) => item.date === today);
-      if (todayRecord) {
-        setTodayStatus(todayRecord.status);
-      } else {
-        const sorted = [...list].sort((a, b) => new Date(b.date) - new Date(a.date));
-        setTodayStatus(sorted[0] ? sorted[0].status : "none");
-      }
+      /* own user doc — name + notifications read marker */
+      liveUnsubs.push(onSnapshot(doc(db, "users", id), (snap) => {
+        if (!snap.exists()) return;
+        const d = snap.data();
+        setUserName(d.name || id);
+        setNotifReadAtDb(toMs(d.notificationsReadAt));
+      }, onErr));
 
-      /* Only count notifications newer than the user's last-read marker.
-         MyNotifications.jsx stamps users/{id}.notificationsReadAt (and a
-         localStorage mirror) whenever the page is opened or "Mark all as
-         read" is clicked, so the badge clears once they've looked. */
-      const readAt = Math.max(
-        toMs(userData.notificationsReadAt),
-        Number(localStorage.getItem(`notifReadAt_${id}`) || 0)
-      );
+      /* profile photo */
+      liveUnsubs.push(onSnapshot(doc(db, "profiles", id), (snap) => {
+        setProfileImage(snap.exists() ? (snap.data().profileImage || "") : "");
+      }, onErr));
 
-      const notifSnap = await getDocs(collection(db, "notifications"));
-      let unread = 0;
-      const notifList = [];
-      notifSnap.forEach((docItem) => {
-        const data = docItem.data();
-        const docUserId = data.userId ? String(data.userId).toUpperCase() : "ALL";
-        if (docUserId === "ALL" || docUserId === id) {
-          const createdMs = toMs(data.createdAt || data.date || data.timestamp);
-          if (createdMs > readAt) unread++;
-          notifList.push({ id: docItem.id, ...data, createdMs });
-        }
-      });
-      notifList.sort((a, b) => b.createdMs - a.createdMs);
-      setNotifCount(unread);
-      setRecentNotifs(notifList.slice(0, 4));
+      /* own attendance only (server-side filter, same match as before) */
+      liveUnsubs.push(onSnapshot(
+        query(collection(db, "attendance"), where("userId", "==", id)),
+        (snap) => {
+          let list = [], present = 0, absent = 0;
+          snap.forEach((docItem) => {
+            const data = docItem.data();
+            list.push({ date: data.date, status: data.status });
+            if (data.status?.trim() === "Present") present++;
+            if (data.status?.trim() === "Absent") absent++;
+          });
+          list.sort((a, b) => new Date(a.date) - new Date(b.date));
+          const total = present + absent;
+          const percent = total > 0 ? Math.min(100, ((present / total) * 100).toFixed(2)) : 0;
+          setAttendance(list);
+          setPresentCount(present);
+          setAbsentCount(absent);
+          setPercentage(percent);
 
-      const absenceSnap = await getDocs(collection(db, "absenceRequests"));
-      let pendingTotal = 0;
-      absenceSnap.forEach((docItem) => {
-        const data = docItem.data();
-        if (data.userId === id && data.status?.toLowerCase() === "pending") pendingTotal++;
-      });
-      setPendingCount(pendingTotal);
+          const today = new Date().toISOString().split("T")[0];
+          const todayRecord = list.find((item) => item.date === today);
+          if (todayRecord) {
+            setTodayStatus(todayRecord.status);
+          } else {
+            const sorted = [...list].sort((a, b) => new Date(b.date) - new Date(a.date));
+            setTodayStatus(sorted[0] ? sorted[0].status : "none");
+          }
+        }, onErr));
 
-      const ticketsSnap = await getDocs(collection(db, "tickets"));
-      let ticketTotal = 0, resolvedTotal = 0;
-      ticketsSnap.forEach((docItem) => {
-        const data = docItem.data();
-        if (data.idNo && data.idNo.toUpperCase() === id) {
-          ticketTotal++;
-          if (data.status === "Resolved") resolvedTotal++;
-        }
-      });
-      setTicketCount(ticketTotal);
-      setResolvedCount(resolvedTotal);
+      /* notifications — "ALL" broadcasts or docs without userId can't be
+         expressed as one Firestore query, so listen to the collection and
+         filter client-side (same logic as before). */
+      liveUnsubs.push(onSnapshot(collection(db, "notifications"), (snap) => {
+        const mine = [];
+        snap.forEach((docItem) => {
+          const data = docItem.data();
+          const docUserId = data.userId ? String(data.userId).toUpperCase() : "ALL";
+          if (docUserId === "ALL" || docUserId === id) {
+            mine.push({ id: docItem.id, ...data, createdMs: toMs(data.createdAt || data.date || data.timestamp) });
+          }
+        });
+        mine.sort((a, b) => b.createdMs - a.createdMs);
+        setNotifDocs(mine);
+      }, onErr));
+
+      /* own pending leave / absence requests */
+      liveUnsubs.push(onSnapshot(
+        query(collection(db, "absenceRequests"), where("userId", "==", id)),
+        (snap) => {
+          let pendingTotal = 0;
+          snap.forEach((docItem) => {
+            if (docItem.data().status?.toLowerCase() === "pending") pendingTotal++;
+          });
+          setPendingCount(pendingTotal);
+        }, onErr));
+
+      /* tickets — idNo casing varies, so filter client-side as before */
+      liveUnsubs.push(onSnapshot(collection(db, "tickets"), (snap) => {
+        let ticketTotal = 0, resolvedTotal = 0;
+        snap.forEach((docItem) => {
+          const data = docItem.data();
+          if (data.idNo && data.idNo.toUpperCase() === id) {
+            ticketTotal++;
+            if (data.status === "Resolved") resolvedTotal++;
+          }
+        });
+        setTicketCount(ticketTotal);
+        setResolvedCount(resolvedTotal);
+      }, onErr));
     });
-    return () => unsubscribe();
+
+    return () => { cancelled = true; unsubscribe(); stopLive(); };
   }, []);
+
+  /* Unread badge — recomputed whenever notifications or the read marker
+     change. Only count notifications newer than the user's last-read
+     marker. MyNotifications.jsx stamps users/{id}.notificationsReadAt (and
+     a localStorage mirror) whenever the page is opened or "Mark all as
+     read" is clicked, so the badge clears once they've looked. */
+  useEffect(() => {
+    if (!notifDocs || !userId) return;
+    const readAt = Math.max(
+      notifReadAtDb,
+      Number(localStorage.getItem(`notifReadAt_${userId}`) || 0)
+    );
+    setNotifCount(notifDocs.filter((n) => n.createdMs > readAt).length);
+    setRecentNotifs(notifDocs.slice(0, 4));
+  }, [notifDocs, notifReadAtDb, userId]);
 
   const handleLogout = async () => {
     try {

@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
 
-import { collection, getDocs, getDoc, doc, query, where } from "firebase/firestore";
+import { collection, getDoc, doc, query, where, onSnapshot } from "firebase/firestore";
 
 import { createPortal } from "react-dom";
 
@@ -599,16 +599,6 @@ function AdminDashboard() {
     document.addEventListener("keydown", disableInspectKeys);
     checkAdmin();
     fetchAdminInfo();
-    fetchUserStats();
-    fetchChartData(chartDate);
-    fetchAdminStats();
-    fetchAdminAttendanceStats(chartDate);
-    fetchTicketData();
-    fetchAbsenceData();
-    fetchOpenTickets();
-    fetchNotifCount();
-    fetchTrendData(7);
-    fetchMonthlyData(selectedMonth);
     fetchAccessConfig().then(setAccessConfig).catch(() => { });
     sessionStorage.setItem("greetingShown", "true");
     const greetingTimer = setTimeout(() => setShowGreeting(false), 4000);
@@ -619,214 +609,217 @@ function AdminDashboard() {
     };
   }, []);
 
-  const fetchUserStats = async () => {
-    try {
-      const snap = await getDocs(collection(db, "users"));
-      let total = 0, deleted = 0;
-      snap.forEach((docItem) => {
-        const data = docItem.data();
-        if (data.role === "admin") return;
-        total++;
-        if (data.deleted === true) deleted++;
-      });
-      setTotalUsers(total);
-      setDeletedUsers(deleted);
-      setActiveUsers(total - deleted);
-    } catch (err) { console.log(err); }
-  };
+  /* ------------------------------------------------------------------ */
+  /* LIVE DATA — Firestore real-time listeners (auto refresh)           */
+  /* Each collection is subscribed ONCE. Whenever any document is       */
+  /* added, edited or deleted, Firestore pushes the change and the      */
+  /* stats/charts below recompute automatically — no tab refresh.       */
+  /* After the first load, Firestore only bills reads for the docs      */
+  /* that changed, so this is cheaper than polling with getDocs.        */
+  /* ------------------------------------------------------------------ */
+  const [usersDocs, setUsersDocs] = useState(null);
+  const [attendanceDocs, setAttendanceDocs] = useState(null);
+  const [ticketDocs, setTicketDocs] = useState(null);
+  const [absenceDocs, setAbsenceDocs] = useState(null);
+  const [adminLogDocs, setAdminLogDocs] = useState(null);
 
-  /* Admin counts: total / active / inactive (disabled) / deleted.
-     The super admin is excluded, matching Admin Attendance. */
-  const fetchAdminStats = async () => {
-    try {
-      const snap = await getDocs(collection(db, "users"));
-      let total = 0, active = 0, inactive = 0, deleted = 0;
-      snap.forEach((docItem) => {
-        const data = docItem.data();
-        if (data.role !== "admin") return;
-        if (String(data.id || docItem.id).toUpperCase() === SUPER_ADMIN_ID) return;
-        total++;
-        if (data.deleted === true) deleted++;
-        else if (data.disabled === true) inactive++;
-        else active++;
-      });
-      setAdminTotal(total);
-      setAdminActive(active);
-      setAdminInactive(inactive);
-      setAdminDeleted(deleted);
-    } catch (err) { console.log(err); }
-  };
+  useEffect(() => {
+    const listen = (ref, setter) =>
+      onSnapshot(
+        ref,
+        (snap) => setter(snap.docs),
+        (err) => { console.log(err); setter([]); }
+      );
+    const unsubs = [
+      listen(collection(db, "users"), setUsersDocs),
+      listen(collection(db, "attendance"), setAttendanceDocs),
+      listen(collection(db, "tickets"), setTicketDocs),
+      listen(collection(db, "absenceRequests"), setAbsenceDocs),
+      listen(collection(db, "adminLogs"), setAdminLogDocs),
+    ];
+    return () => unsubs.forEach((u) => u());
+  }, []);
 
-  /* Admin present / absent for the selected date (same date picker as the
-     user attendance chart). */
-  const fetchAdminAttendanceStats = async (dateParam) => {
-    try {
-      const targetDate = dateParam || new Date().toISOString().split("T")[0];
-      if (!/^\d{4}-\d{2}-\d{2}$/.test(targetDate)) {
-        setAdminPresent(0);
-        setAdminAbsent(0);
+  /* Admin present / absent for the selected date — re-subscribes when
+     the date picker changes. */
+  useEffect(() => {
+    const targetDate = chartDate || new Date().toISOString().split("T")[0];
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(targetDate)) {
+      setAdminPresent(0);
+      setAdminAbsent(0);
+      return;
+    }
+    const unsub = onSnapshot(
+      query(collection(db, "adminAttendance"), where("date", "==", targetDate)),
+      (snap) => {
+        let present = 0, absent = 0;
+        snap.forEach((d) => {
+          const status = d.data().status;
+          if (status === "Present") present++;
+          else if (status === "Absent") absent++;
+        });
+        setAdminPresent(present);
+        setAdminAbsent(absent);
+      },
+      (err) => { console.log(err); setAdminPresent(0); setAdminAbsent(0); }
+    );
+    return () => unsub();
+  }, [chartDate]);
+
+  /* ---------- users: user stats, admin stats, own account info ---------- */
+  useEffect(() => {
+    if (!usersDocs) return;
+    let uTotal = 0, uDeleted = 0;
+    let aTotal = 0, aActive = 0, aInactive = 0, aDeleted = 0;
+    const myId = localStorage.getItem("userId");
+    usersDocs.forEach((docItem) => {
+      const data = docItem.data();
+      if (myId && docItem.id === myId) setAdminInfo({ id: myId, ...data });
+      if (data.role !== "admin") {
+        uTotal++;
+        if (data.deleted === true) uDeleted++;
         return;
       }
-      const snap = await getDocs(
-        query(collection(db, "adminAttendance"), where("date", "==", targetDate))
-      );
-      let present = 0, absent = 0;
-      snap.forEach((d) => {
-        const status = d.data().status;
-        if (status === "Present") present++;
-        else if (status === "Absent") absent++;
-      });
-      setAdminPresent(present);
-      setAdminAbsent(absent);
-    } catch (err) { console.log(err); setAdminPresent(0); setAdminAbsent(0); }
-  };
+      // super admin is never counted (matches Admin Attendance)
+      if (String(data.id || docItem.id).toUpperCase() === SUPER_ADMIN_ID) return;
+      aTotal++;
+      if (data.deleted === true) aDeleted++;
+      else if (data.disabled === true) aInactive++;
+      else aActive++;
+    });
+    setTotalUsers(uTotal);
+    setDeletedUsers(uDeleted);
+    setActiveUsers(uTotal - uDeleted);
+    setAdminTotal(aTotal);
+    setAdminActive(aActive);
+    setAdminInactive(aInactive);
+    setAdminDeleted(aDeleted);
+  }, [usersDocs]);
 
-  const fetchOpenTickets = async () => {
-    try {
-      const snap = await getDocs(collection(db, "tickets"));
-      let open = 0;
-      snap.forEach((d) => {
-        const s = d.data().status;
-        if (s === "Pending" || s === "In Progress") open++;
-      });
-      setOpenTickets(open);
-    } catch (err) { console.log(err); setOpenTickets(0); }
-  };
+  /* ---------- tickets: open count + status donut ---------- */
+  useEffect(() => {
+    if (!ticketDocs) return;
+    let pending = 0, inProgress = 0, resolved = 0;
+    ticketDocs.forEach((d) => {
+      const { status } = d.data();
+      if (status === "Pending") pending++;
+      else if (status === "In Progress") inProgress++;
+      else if (status === "Resolved") resolved++;
+    });
+    setOpenTickets(pending + inProgress);
+    setTicketData(
+      pending === 0 && inProgress === 0 && resolved === 0 ? [] :
+        [
+          { name: t("pending"), value: pending },
+          { name: t("inProgress"), value: inProgress },
+          { name: t("resolved"), value: resolved },
+        ]
+    );
+    setTicketLoading(false);
+  }, [ticketDocs, t]);
 
-  const fetchNotifCount = async () => {
-    try {
-      const lastSeen = Number(localStorage.getItem("activityFeedLastSeen") || 0);
-      const snap = await getDocs(collection(db, "adminLogs"));
-      let count = 0;
-      snap.forEach((d) => {
-        const ts = d.data().timestamp;
-        const ms = ts?.toDate ? ts.toDate().getTime() : (ts?.seconds ? ts.seconds * 1000 : 0);
-        if (ms > lastSeen) count++;
-      });
-      setNotifCount(count);
-    } catch (err) { console.log(err); setNotifCount(0); }
-  };
+  /* ---------- absence requests bar ---------- */
+  useEffect(() => {
+    if (!absenceDocs) return;
+    let pending = 0, approved = 0, rejected = 0;
+    absenceDocs.forEach((d) => {
+      const s = d.data().status?.toLowerCase();
+      if (s === "pending") pending++;
+      else if (s === "approved") approved++;
+      else if (s === "rejected") rejected++;
+    });
+    setAbsenceData(
+      pending === 0 && approved === 0 && rejected === 0 ? [] :
+        [
+          { label: t("pending"), value: pending, color: "#f59e0b" },
+          { label: t("approved"), value: approved, color: "#2dce89" },
+          { label: t("rejected"), value: rejected, color: "#ef4444" },
+        ]
+    );
+    setAbsenceLoading(false);
+  }, [absenceDocs, t]);
 
-  const fetchChartData = async (dateParam) => {
-    try {
-      setChartLoading(true);
-      const targetDate = dateParam || new Date().toISOString().split("T")[0];
-      if (!/^\d{4}-\d{2}-\d{2}$/.test(targetDate)) {
-        setChartData([]);
-        return;
+  /* ---------- activity-feed badge ---------- */
+  useEffect(() => {
+    if (!adminLogDocs) return;
+    const lastSeen = Number(localStorage.getItem("activityFeedLastSeen") || 0);
+    let count = 0;
+    adminLogDocs.forEach((d) => {
+      const ts = d.data().timestamp;
+      const ms = ts?.toDate ? ts.toDate().getTime() : (ts?.seconds ? ts.seconds * 1000 : 0);
+      if (ms > lastSeen) count++;
+    });
+    setNotifCount(count);
+  }, [adminLogDocs]);
+
+  /* ---------- user attendance pie for the selected date ---------- */
+  useEffect(() => {
+    if (!attendanceDocs) return;
+    const targetDate = chartDate || new Date().toISOString().split("T")[0];
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(targetDate)) {
+      setChartData([]);
+      setChartLoading(false);
+      return;
+    }
+    let present = 0, absent = 0;
+    attendanceDocs.forEach((d) => {
+      const data = d.data();
+      if (data.date === targetDate) {
+        if (data.status === "Present") present++;
+        else if (data.status === "Absent") absent++;
       }
-      const snap = await getDocs(collection(db, "attendance"));
-      let present = 0, absent = 0;
-      snap.forEach((d) => {
-        const data = d.data();
-        if (data.date === targetDate) {
-          if (data.status === "Present") present++;
-          else if (data.status === "Absent") absent++;
-        }
-      });
-      setPresentToday(present);
-      setAbsentToday(absent);
-      setChartData(
-        present === 0 && absent === 0 ? [] :
-          [{ name: t("present"), value: present }, { name: t("absent"), value: absent }]
-      );
-    } catch (err) { console.log(err); setChartData([]); }
-    finally { setChartLoading(false); }
-  };
+    });
+    setPresentToday(present);
+    setAbsentToday(absent);
+    setChartData(
+      present === 0 && absent === 0 ? [] :
+        [{ name: t("present"), value: present }, { name: t("absent"), value: absent }]
+    );
+    setChartLoading(false);
+  }, [attendanceDocs, chartDate, t]);
 
-  const fetchTicketData = async () => {
-    try {
-      setTicketLoading(true);
-      const snap = await getDocs(collection(db, "tickets"));
-      let pending = 0, inProgress = 0, resolved = 0;
-      snap.forEach((d) => {
-        const { status } = d.data();
-        if (status === "Pending") pending++;
-        else if (status === "In Progress") inProgress++;
-        else if (status === "Resolved") resolved++;
-      });
-      setTicketData(
-        pending === 0 && inProgress === 0 && resolved === 0 ? [] :
-          [
-            { name: t("pending"), value: pending },
-            { name: t("inProgress"), value: inProgress },
-            { name: t("resolved"), value: resolved },
-          ]
-      );
-    } catch (err) { console.log(err); setTicketData([]); }
-    finally { setTicketLoading(false); }
-  };
+  /* ---------- 7 / 30 day trend ---------- */
+  useEffect(() => {
+    if (!attendanceDocs) return;
+    const dateList = [];
+    for (let i = trendDays - 1; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      dateList.push(d.toISOString().split("T")[0]);
+    }
+    const countMap = {};
+    dateList.forEach((date) => (countMap[date] = 0));
+    attendanceDocs.forEach((d) => {
+      const data = d.data();
+      if (data.status === "Present" && countMap[data.date] !== undefined) countMap[data.date]++;
+    });
+    const hasData = Object.values(countMap).some((v) => v > 0);
+    setTrendData(
+      !hasData ? [] :
+        dateList.map((date) => ({ date: date.slice(5), count: countMap[date] }))
+    );
+    setTrendLoading(false);
+  }, [attendanceDocs, trendDays]);
 
-  const fetchAbsenceData = async () => {
-    try {
-      setAbsenceLoading(true);
-      const snap = await getDocs(collection(db, "absenceRequests"));
-      let pending = 0, approved = 0, rejected = 0;
-      snap.forEach((d) => {
-        const s = d.data().status?.toLowerCase();
-        if (s === "pending") pending++;
-        else if (s === "approved") approved++;
-        else if (s === "rejected") rejected++;
-      });
-      setAbsenceData(
-        pending === 0 && approved === 0 && rejected === 0 ? [] :
-          [
-            { label: t("pending"), value: pending, color: "#f59e0b" },
-            { label: t("approved"), value: approved, color: "#2dce89" },
-            { label: t("rejected"), value: rejected, color: "#ef4444" },
-          ]
-      );
-    } catch (err) { console.log(err); setAbsenceData([]); }
-    finally { setAbsenceLoading(false); }
-  };
-
-  const fetchTrendData = async (days) => {
-    try {
-      setTrendLoading(true);
-      const snap = await getDocs(collection(db, "attendance"));
-      const dateList = [];
-      for (let i = days - 1; i >= 0; i--) {
-        const d = new Date();
-        d.setDate(d.getDate() - i);
-        dateList.push(d.toISOString().split("T")[0]);
-      }
-      const countMap = {};
-      dateList.forEach((date) => (countMap[date] = 0));
-      snap.forEach((d) => {
-        const data = d.data();
-        if (data.status === "Present" && countMap[data.date] !== undefined) countMap[data.date]++;
-      });
-      const hasData = Object.values(countMap).some((v) => v > 0);
-      setTrendData(
-        !hasData ? [] :
-          dateList.map((date) => ({ date: date.slice(5), count: countMap[date] }))
-      );
-    } catch (err) { console.log(err); setTrendData([]); }
-    finally { setTrendLoading(false); }
-  };
-
-  const fetchMonthlyData = async (month) => {
-    try {
-      setMonthlyLoading(true);
-      const usersSnap = await getDocs(collection(db, "users"));
-      const attendanceSnap = await getDocs(collection(db, "attendance"));
-      const userMap = {};
-      usersSnap.forEach((docItem) => {
-        const d = docItem.data();
-        if (d.deleted !== true && d.role !== "admin") userMap[d.id] = d.name;
-      });
-      const countMap = {};
-      Object.keys(userMap).forEach((id) => (countMap[id] = 0));
-      attendanceSnap.forEach((d) => {
-        const data = d.data();
-        if (data.date?.startsWith(month) && data.status === "Present" && countMap[data.userId] !== undefined)
-          countMap[data.userId]++;
-      });
-      const result = Object.entries(countMap).map(([id, count]) => ({ name: userMap[id] || id, count }));
-      setMonthlyData(result.every((r) => r.count === 0) ? [] : result);
-    } catch (err) { console.log(err); setMonthlyData([]); }
-    finally { setMonthlyLoading(false); }
-  };
+  /* ---------- monthly present-days per user ---------- */
+  useEffect(() => {
+    if (!attendanceDocs || !usersDocs) return;
+    const userMap = {};
+    usersDocs.forEach((docItem) => {
+      const d = docItem.data();
+      if (d.deleted !== true && d.role !== "admin") userMap[d.id] = d.name;
+    });
+    const countMap = {};
+    Object.keys(userMap).forEach((id) => (countMap[id] = 0));
+    attendanceDocs.forEach((d) => {
+      const data = d.data();
+      if (data.date?.startsWith(selectedMonth) && data.status === "Present" && countMap[data.userId] !== undefined)
+        countMap[data.userId]++;
+    });
+    const result = Object.entries(countMap).map(([id, count]) => ({ name: userMap[id] || id, count }));
+    setMonthlyData(result.every((r) => r.count === 0) ? [] : result);
+    setMonthlyLoading(false);
+  }, [attendanceDocs, usersDocs, selectedMonth]);
 
   const handleLogout = async () => {
     try {
@@ -1349,7 +1342,7 @@ function AdminDashboard() {
             <div className="chart-section">
               <h2 className="chart-title">{t("todayAttendance")}</h2>
               <div className="chart-date-picker">
-                <input type="date" value={chartDate} onChange={(e) => { setChartDate(e.target.value); fetchChartData(e.target.value); fetchAdminAttendanceStats(e.target.value); }} />
+                <input type="date" value={chartDate} onChange={(e) => setChartDate(e.target.value)} />
               </div>
               {chartLoading ? (
                 <div className="chart-spinner-wrap"><div className="chart-spinner" /></div>
@@ -1425,10 +1418,10 @@ function AdminDashboard() {
               <div className="trend-header">
                 <h2 className="chart-title">{t("attendanceTrend")}</h2>
                 <div className="trend-toggle">
-                  <button className={`trend-btn ${trendDays === 7 ? "active" : ""}`} onClick={() => { setTrendDays(7); fetchTrendData(7); }}>
+                  <button className={`trend-btn ${trendDays === 7 ? "active" : ""}`} onClick={() => setTrendDays(7)}>
                     7 {t("days")}
                   </button>
-                  <button className={`trend-btn ${trendDays === 30 ? "active" : ""}`} onClick={() => { setTrendDays(30); fetchTrendData(30); }}>
+                  <button className={`trend-btn ${trendDays === 30 ? "active" : ""}`} onClick={() => setTrendDays(30)}>
                     30 {t("days")}
                   </button>
                 </div>
@@ -1449,7 +1442,7 @@ function AdminDashboard() {
               <div className="trend-header">
                 <h2 className="chart-title">{t("monthlyAttendance")}</h2>
                 <div className="chart-date-picker">
-                  <input type="month" value={selectedMonth} onChange={(e) => { setSelectedMonth(e.target.value); fetchMonthlyData(e.target.value); }} />
+                  <input type="month" value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)} />
                 </div>
               </div>
               {monthlyLoading ? (
