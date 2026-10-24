@@ -37,11 +37,11 @@ const MESSAGE_MAX = 2000;
 const DESC_MAX = 1000;
 const USER_LIST_LIMIT = 40;
 
-/* Set to true ONLY after the user-side Announcements page writes one
-   document per reader to  announcements/{id}/reads/{USERID}.
-   While false, the details view says tracking is not enabled instead of
-   showing numbers that would be invented. */
-const READ_TRACKING_ENABLED = false;
+/* Read tracking: the user-side Announcements page writes one document
+   per reader to  announcements/{id}/reads/{USERID}  { userId, readAt }
+   when the member opens an announcement. The details view counts those
+   documents against the targeted users. */
+const READ_TRACKING_ENABLED = true;
 
 const PRIORITIES = ["normal", "important", "urgent"];
 const STATUSES = ["draft", "scheduled", "published", "expired", "archived"];
@@ -813,7 +813,8 @@ function DetailsDialog({ item, status, users, onClose, onEdit, S, locale }) {
 
     let readStats = null;
     if (reads.state === "ok") {
-        const read = targeted.filter((id) => reads.ids.has(id)).length;
+        /* the reader page keys reads by the user's document id; match either id */
+        const read = targeted.filter((id) => reads.ids.has(id) || reads.ids.has(byId.get(id)?.docId)).length;
         const total = targeted.length;
         readStats = { total, read, unread: total - read, pct: total ? Math.round((read / total) * 100) : 0 };
     }
@@ -944,7 +945,7 @@ function AnnouncementManagement() {
             const list = snap.docs
                 .map((d) => ({ docId: d.id, ...d.data() }))
                 .filter((u) => u.deleted !== true && u.role !== "admin")
-                .map((u) => ({ id: String(u.id || u.docId).toUpperCase(), name: String(u.name || ""), uid: String(u.uid || "") }))
+                .map((u) => ({ id: String(u.id || u.docId).toUpperCase(), docId: String(u.docId).toUpperCase(), name: String(u.name || ""), uid: String(u.uid || "") }))
                 .sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id));
             setUsers(list);
             setUsersError(false);
