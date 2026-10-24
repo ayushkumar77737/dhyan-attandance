@@ -26,3 +26,4 @@ dist-ssr
 .vercel
 # passkey e2e screenshots
 tests/e2e/screenshots
+.env.example
