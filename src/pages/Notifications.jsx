@@ -131,6 +131,15 @@ const ACTION_SOURCE = {
   updated_holiday: "schedule",
   deleted_holiday: "schedule",
   updated_weekly_offs: "schedule",
+  /* announcements — AnnouncementManagement logs readable strings
+   ("Published announcement" …), normalised the same way */
+  created_announcement: "announcements",
+  updated_announcement: "announcements",
+  published_announcement: "announcements",
+  unpublished_announcement: "announcements",
+  archived_announcement: "announcements",
+  restored_announcement: "announcements",
+  deleted_announcement: "announcements",
 };
 
 /* Safety net for any action added to the app later and not yet listed
@@ -139,6 +148,7 @@ const ACTION_SOURCE = {
    explicit map. */
 const FALLBACK_RULES = [
   [/schedule|holiday|weekly_off|timetable/, "schedule"],
+  [/announcement/, "announcements"],
   [/absence/, "absence"],
   [/leave/, "leave"],
   [/ticket/, "ticket"],
@@ -329,6 +339,12 @@ const icons = {
       <circle cx="17.5" cy="17.5" r="4.5" /><polyline points="17.5 15.5 17.5 17.5 19 18.5" />
     </svg>
   ),
+  megaphone: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 11v2a1 1 0 0 0 1 1h3l6 4V6L7 10H4a1 1 0 0 0-1 1z" />
+      <path d="M16.5 8.5a5 5 0 0 1 0 7" /><path d="M19.5 5.5a9 9 0 0 1 0 13" />
+    </svg>
+  ),
   accountRecovery: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M3 12a9 9 0 1 0 2.64-6.36" />
@@ -373,6 +389,7 @@ const SOURCE_ICON = {
   feedback: icons.star,
   contact: icons.mail,
   accountRecovery: icons.accountRecovery,
+  announcements: icons.megaphone,
   other: icons.activity,
 };
 
@@ -399,6 +416,7 @@ const SOURCE_LABEL_KEY = {
   feedback: "sourceFeedback",
   contact: "sourceContact",
   accountRecovery: "sourceAccountRecovery",
+  announcements: "sourceAnnouncements",
   other: "sourceOther",
 };
 
@@ -406,7 +424,7 @@ const SOURCE_ORDER = [
   "absence", "leave", "ticket", "userIssues", "adminIssues",
   "toggleStatus", "idCreation", "idManagement", "blocked", "accountLock",
   "accessControl", "users", "admins", "attendance", "schedule", "profiles",
-  "logs", "feedback", "contact", "accountRecovery", "other",
+  "logs", "feedback", "contact", "accountRecovery", "announcements", "other",
 ];
 
 /* createdAt may be a Firestore Timestamp, ISO string or Date. */
@@ -457,7 +475,12 @@ function Notifications() {
     const meta = {};
     SOURCE_ORDER.forEach((key) => {
       meta[key] = {
-        label: t(SOURCE_LABEL_KEY[key], key === "schedule" ? "Schedule" : undefined),
+        label: t(
+          SOURCE_LABEL_KEY[key],
+          key === "schedule" ? "Schedule"
+            : key === "announcements" ? "Announcements"
+              : undefined
+        ),
         icon: SOURCE_ICON[key],
       };
     });
@@ -745,7 +768,7 @@ function Notifications() {
           </div>
         ) : (
           visible.map((l, index) => {
-            const meta = SOURCE_META[l.source];
+            const meta = SOURCE_META[l.source] || SOURCE_META.other;
             return (
               <div
                 className="ntf-row"

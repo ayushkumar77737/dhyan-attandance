@@ -2463,5 +2463,6 @@
   "notifHolidayAdded": "Holiday: {{name}} on {{date}}",
   "notifProfileRegistered": "Your profile is registered — your Digital ID is now active.",
   "notifFilterUnread": "Unread",
-  "notifTypeGeneral": "General"
+  "notifTypeGeneral": "General",
+  "sourceAnnouncements": "Announcements"
 }
