@@ -6,6 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, doc, getDoc, updateDoc, query, where, limit } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 import { logUserAction } from "../utils/logUserAction";
+import PasskeyManager from "../components/PasskeyManager";
 
 /* ------------------------------------------------------------------ */
 /* Input sanitizers — applied on every keystroke and paste             */
@@ -119,6 +120,12 @@ function MyProfile() {
         });
         return () => unsubscribe();
     }, []);
+    /* Deep link: /my-profile#security scrolls to the Security section */
+    useEffect(() => {
+        if (!loading && window.location.hash === "#security") {
+            document.getElementById("security")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    }, [loading]);
 
     const openEditModal = () => {
         setEditError("");
@@ -250,6 +257,12 @@ function MyProfile() {
                         <div className="mprf__loader-ring mprf__loader-ring--2" />
                     </div>
                     <p className="mprf__loading-text">{t("loading")}</p>
+                </div>
+            )}
+            {/* Profile → Security: passkey sign-in */}
+            {!loading && (
+                <div id="security" className="mprf__security">
+                    <PasskeyManager theme={theme} role="user" />
                 </div>
             )}
 

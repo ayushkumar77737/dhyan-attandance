@@ -7,6 +7,7 @@ import * as XLSX from "xlsx";
 import {
     collection,
     getDocs,
+    getDoc,
     doc,
     deleteDoc,
     updateDoc,
@@ -15,6 +16,9 @@ import {
 
 import { db } from "../firebase/firebase";
 import { logAdminAction } from "../utils/logAdminAction";
+import { adminRevokePasskeys, totpStepUp, passkeysSupported, passkeyErrorKey } from "../utils/passkey";
+import { PasskeyModal, StepUpFields } from "../components/PasskeyManager";
+import usePasskeyStepUp from "../hooks/usePasskeyStepUp";
 
 const COLLECTION = "accountRecoveryRequests";
 
@@ -40,6 +44,16 @@ const sv = {
 
 const icons = {
     back: (<svg {...sv} strokeWidth="2.2"><polyline points="15 18 9 12 15 6" /></svg>),
+    /* fingerprint with a slash — "revoke passkeys" */
+    passkeyOff: (
+        <svg {...sv} strokeWidth="1.9">
+            <path d="M12 10.5v3.2a7 7 0 0 0 1.2 3.9" />
+            <path d="M9 9.6a3.6 3.6 0 0 1 6.1 2.6c0 2 .3 3.4 1 4.6" />
+            <path d="M6.4 12.2a5.9 5.9 0 0 1 2-4.9" />
+            <path d="M4.6 8.4a8.6 8.6 0 0 1 13.6-1.6" />
+            <line x1="3" y1="3" x2="21" y2="21" />
+        </svg>
+    ),
     key: (
         <svg {...sv}>
             <circle cx="8" cy="15" r="4" />
@@ -123,6 +137,44 @@ function AccountRecoveryRequests() {
     const [updatingId, setUpdatingId] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
     const [theme] = useState(() => localStorage.getItem("dashTheme") || "dark");
+    /* Lost-device recovery: revoke every passkey on the requester's account. */
+    const [revokeTarget, setRevokeTarget] = useState(null); // ID No
+    const [revokeBusy, setRevokeBusy] = useState(false);
+    const [revokeError, setRevokeError] = useState("");
+    const [revokeDone, setRevokeDone] = useState("");
+    const [revokeAccount, setRevokeAccount] = useState(undefined); // undefined = loading, null = none
+    const stepUpWithPasskey = usePasskeyStepUp(!!revokeTarget && passkeysSupported());
+
+    /* Show whose account will be affected — a recovery request's ID No is typed
+       by the requester, so the admin should check it is the right person. */
+    useEffect(() => {
+        if (!revokeTarget) return undefined;
+        let active = true;
+        setRevokeAccount(undefined);
+        getDoc(doc(db, "users", revokeTarget))
+            .then((snap) => { if (active) setRevokeAccount(snap.exists() ? snap.data() : null); })
+            .catch(() => { if (active) setRevokeAccount(null); });
+        return () => { active = false; };
+    }, [revokeTarget]);
+
+    const runRevoke = async (stepUpFactory) => {
+        setRevokeBusy(true);
+        setRevokeError("");
+        try {
+            const stepUp = await stepUpFactory();
+            const { revoked } = await adminRevokePasskeys(revokeTarget, stepUp);
+            await logAdminAction("Revoke Passkeys", {
+                targetId: revokeTarget,
+                details: `Revoked ${revoked} passkey(s) for ${revokeTarget} (account recovery)`,
+            });
+            setRevokeDone(t("passkey.recovery.revokedCount", { count: revoked, id: revokeTarget }));
+            setRevokeTarget(null);
+        } catch (err) {
+            setRevokeError(t(passkeyErrorKey(err)));
+        } finally {
+            setRevokeBusy(false);
+        }
+    };
 
     const statusLabel = (s) =>
         s === "in_progress"
@@ -479,7 +531,15 @@ function AccountRecoveryRequests() {
                                                     ))}
                                                 </select>
                                             </td>
-                                            <td>
+                                            <td className="arq-row-actions">
+                                                <button
+                                                    className="arq-icon-btn"
+                                                    title={t("passkey.recovery.revokeButton")}
+                                                    aria-label={`${t("passkey.recovery.revokeButton")}: ${r.idNo || r.id}`}
+                                                    onClick={() => { setRevokeError(""); setRevokeDone(""); setRevokeTarget(String(r.idNo || r.id).toUpperCase()); }}
+                                                >
+                                                    {icons.passkeyOff}
+                                                </button>
                                                 <button
                                                     className="arq-icon-btn"
                                                     title={t("delete", "Delete")}
@@ -493,6 +553,7 @@ function AccountRecoveryRequests() {
                                 </tbody>
                             </table>
                         </div>
+                        {revokeDone && <p className="arq-revoke-done" role="status">{revokeDone}</p>}
 
                         <p className="arq-result-count">
                             {t("showing", "Showing")} {filtered.length} {t("of", "of")} {requests.length}{" "}
@@ -535,6 +596,38 @@ function AccountRecoveryRequests() {
                         </div>
                     </div>
                 </div>,
+                document.body
+            )}
+
+            {revokeTarget && createPortal(
+                <PasskeyModal
+                    title={t("passkey.recovery.revokeTitle", { id: revokeTarget })}
+                    onClose={() => setRevokeTarget(null)}
+                    theme={theme}
+                    busy={revokeBusy}
+                >
+                    {revokeAccount === undefined ? (
+                        <p className="pkm-muted">{t("loading", "Loading...")}</p>
+                    ) : revokeAccount === null ? (
+                        <p className="pkm-warn">{t("passkey.recovery.noAccount")}</p>
+                    ) : (
+                        <>
+                            <p className="pkm-success">
+                                {t("passkey.recovery.targetAccount", { name: revokeAccount.name || revokeTarget, id: revokeTarget })}
+                                {revokeAccount.role === "admin" ? ` · ${t("adminLabel", "Admin")}` : ""}
+                            </p>
+                            <p className="pkm-muted">{t("passkey.recovery.revokeText")} {t("passkey.recovery.revokeSignOut")}</p>
+                            <StepUpFields
+                                allowPasskey={passkeysSupported()}
+                                busy={revokeBusy}
+                                error={revokeError}
+                                submitLabel={t("passkey.recovery.revokeConfirm")}
+                                onSubmitCode={(code) => runRevoke(async () => totpStepUp(code))}
+                                onUsePasskey={() => runRevoke(stepUpWithPasskey)}
+                            />
+                        </>
+                    )}
+                </PasskeyModal>,
                 document.body
             )}
         </div>

@@ -2464,5 +2464,108 @@
   "notifProfileRegistered": "Your profile is registered — your Digital ID is now active.",
   "notifFilterUnread": "Unread",
   "notifTypeGeneral": "General",
-  "sourceAnnouncements": "Announcements"
+  "sourceAnnouncements": "Announcements",
+  "passkey": {
+    "nav": "Security & Passkeys",
+    "login": {
+      "button": "Login with Passkey",
+      "panelTitle": "Sign in with a passkey",
+      "waiting": "Follow the prompt from your browser or device…",
+      "success": "Signed in. Opening your dashboard…",
+      "tryAgain": "Try again",
+      "backToOther": "Back to ID & password or Google",
+      "noPasskeyHint": "No passkey on this device yet? Sign in with your ID and password, then add one in Profile → Security."
+    },
+    "manage": {
+      "sectionTitle": "Security",
+      "title": "Passkey Authentication",
+      "intro": "Sign in with your fingerprint, face, screen lock or security key instead of typing a password. Your biometric data never leaves your device.",
+      "statusOn": "Passkeys registered: {{count}}",
+      "statusOff": "No passkey set up yet",
+      "setUp": "Set Up Passkey",
+      "addAnother": "Add another passkey",
+      "loading": "Loading your passkeys…",
+      "retry": "Retry",
+      "created": "Added {{date}}",
+      "lastUsed": "last used {{date}}",
+      "neverUsed": "not used yet",
+      "synced": "Synced",
+      "rename": "Rename",
+      "save": "Save",
+      "cancel": "Cancel",
+      "remove": "Remove",
+      "close": "Close",
+      "working": "Please wait…",
+      "renamed": "Passkey renamed.",
+      "removed": "Passkey removed. It can no longer be used to sign in.",
+      "registered": "Passkey Registered Successfully",
+      "unsupported": "This browser or device doesn't support passkeys. You can still remove existing passkeys here.",
+      "labelField": "Passkey name",
+      "labelHint": "For example: My phone, Office laptop",
+      "recoveryNote": "Lost a device? Sign in with your ID and password (or Google) and your authenticator code, then remove that passkey here. If you can't sign in, use Account Recovery on the login page.",
+      "recoveryNoteAdmin": "Lost the device with your passkey? Sign in with your ID and password (or Google) and your authenticator code, then remove it here. If you can't, ask the super admin to revoke your passkeys from Account Recovery Requests."
+    },
+    "add": {
+      "title": "Set up a passkey",
+      "continue": "Continue",
+      "step2Text": "Your browser will now ask you to use your fingerprint, face, screen lock or security key.",
+      "create": "Create passkey",
+      "waiting": "Waiting for your device…"
+    },
+    "stepUp": {
+      "intro": "For your security, confirm it's you first.",
+      "codeLabel": "Authenticator code",
+      "codePlaceholder": "6-digit code",
+      "usePasskey": "Confirm with an existing passkey instead"
+    },
+    "remove": {
+      "title": "Remove passkey?",
+      "text": "“{{label}}” will no longer be able to sign in to your account.",
+      "lastWarning": "This is your last passkey. You will still be able to sign in with your ID and password (or Google) and your authenticator code.",
+      "confirm": "Remove passkey"
+    },
+    "recovery": {
+      "revokeButton": "Revoke passkeys",
+      "revokeTitle": "Revoke all passkeys for {{id}}?",
+      "revokeText": "Use this when the person has lost a device. Their passkeys stop working immediately. They can still sign in with ID and password or Google and add a new passkey.",
+      "revokeConfirm": "Revoke passkeys",
+      "revokedCount": "Passkeys revoked for {{id}}: {{count}}",
+      "revokeSignOut": "They will also be signed out on every device.",
+      "targetAccount": "Account: {{name}} ({{id}})",
+      "noAccount": "No portal account has this ID No. Check the request before doing anything."
+    },
+    "admin": {
+      "title": "Security",
+      "subtitle": "Manage how you sign in to the admin portal."
+    },
+    "errors": {
+      "CANCELLED": "The passkey prompt was closed or timed out.",
+      "ALREADY_ON_DEVICE": "This device already has a passkey for your account.",
+      "DOMAIN_MISMATCH": "Passkeys aren't set up for this web address. Please use the official portal address.",
+      "AUTHENTICATOR_UNSUPPORTED": "This device can't create a passkey with a screen lock. Turn on a PIN, fingerprint or face unlock and try again.",
+      "CEREMONY_FAILED": "Your device couldn't complete the passkey request. Please try again.",
+      "NETWORK": "Couldn't reach the server. Check your internet connection and try again.",
+      "UNSUPPORTED": "This browser or device doesn't support passkeys. Please use your ID and password or Google instead.",
+      "AUTH_REQUIRED": "Your session has ended. Please sign in again.",
+      "NOT_CONFIGURED": "Passkey sign-in is not available right now. Please use another sign-in method.",
+      "RATE_LIMITED": "Too many attempts. Please wait a few minutes and try again.",
+      "CHALLENGE_INVALID": "This request is no longer valid. Please try again.",
+      "CHALLENGE_EXPIRED": "This request has expired. Please try again.",
+      "CHALLENGE_USED": "This request was already used. Please try again.",
+      "VERIFICATION_FAILED": "The passkey could not be verified. Please try again.",
+      "CREDENTIAL_NOT_FOUND": "This passkey is not registered with the portal (it may have been removed).",
+      "ACCOUNT_DISABLED": "Your account has been disabled. Contact admin.",
+      "ACCOUNT_LOCKED": "Your account is locked. Please try again later.",
+      "ACCOUNT_UNAVAILABLE": "This account can't sign in. Use your ID and password or contact the admin.",
+      "STEP_UP_REQUIRED": "Please confirm it's you first.",
+      "STEP_UP_FAILED": "That confirmation didn't work. Check the code and try again.",
+      "MFA_NOT_ENABLED": "Turn on authenticator (MFA) sign-in before adding a passkey.",
+      "LIMIT_REACHED": "You have reached the maximum number of passkeys. Remove one to add another.",
+      "ALREADY_REGISTERED": "This passkey is already registered.",
+      "NOT_FOUND": "Not found. Refresh the page and try again.",
+      "FORBIDDEN": "You are not allowed to do this.",
+      "NO_PASSKEYS": "There are no passkeys on this account yet.",
+      "SERVER_ERROR": "Something went wrong. Please try again."
+    }
+  }
 }

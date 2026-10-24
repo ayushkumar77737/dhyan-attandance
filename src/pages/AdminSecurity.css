@@ -1,0 +1,38 @@
+.asec__page {
+  min-height: 100vh;
+  padding: 36px 24px 48px;
+  background: #060d14;
+  color: #e2ecf5;
+  font-family: 'Plus Jakarta Sans', 'Outfit', 'Noto Sans', sans-serif;
+}
+
+.asec__page[data-theme="light"] {
+  background: #f2f5f9;
+  color: #1e293b;
+}
+
+.asec__header {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.asec__title {
+  margin: 0 0 6px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.asec__subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #7e97ab;
+}
+
+.asec__page[data-theme="light"] .asec__subtitle {
+  color: #64748b;
+}
+
+@media (max-width: 600px) {
+  .asec__page { padding: 24px 16px 40px; }
+  .asec__title { font-size: 22px; }
+}

@@ -973,6 +973,7 @@ function AdminDashboard() {
     { path: "/id-management", icon: icons.idCard, cls: "icon-indigo", label: t("idManagement") || "ID Management" },
     { path: "/registered-ids", icon: icons.idCard, cls: "icon-blue", label: t("registeredIds") || "Registered IDs" },
     { path: "/contact-settings", icon: icons.settings, cls: "icon-gray", label: t("contactSettings") },
+    { path: "/admin-security", icon: icons.lock, cls: "icon-indigo", label: t("passkey.nav"), skipAccess: true },
     { path: "myaccount", icon: icons.userCog, cls: "icon-blue", label: t("myAccount"), action: async () => { if (!adminInfo) await fetchAdminInfo(); setShowAccount(true); }, skipAccess: true },
     ...(isSuperAdmin
       ? [{ path: "/access-control", icon: icons.accessControl, cls: "icon-gray", label: t("accessControl") }]
@@ -1046,6 +1047,7 @@ function AdminDashboard() {
         { path: "/id-management", icon: icons.idCard, label: t("idManagement") || "ID Management" },
         { path: "/registered-ids", icon: icons.idCard, label: t("registeredIds") || "Registered IDs" },
         { path: "/contact-settings", icon: icons.settings, label: t("contactSettings") },
+        { path: "/admin-security", icon: icons.lock, label: t("passkey.nav") },
         ...(isSuperAdmin
           ? [{ path: "/access-control", icon: icons.accessControl, label: t("accessControl") }]
           : []),

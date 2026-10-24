@@ -1,6 +1,7 @@
 // api/auth/mfa-verify-setup.js
 
 import { adminAuth, adminDb } from "./firebaseAdmin.js";
+import { getMfaSecret } from "../../server/mfaSecrets.js";
 import { verify } from "otplib";
 
 export default async function handler(req, res) {
@@ -73,7 +74,9 @@ export default async function handler(req, res) {
     // -------------------------------------------------------
     // 4. Check MFA setup
     // -------------------------------------------------------
-    if (!userData.mfaSecret || userData.mfaSetupPending !== true) {
+    const mfaSecret = await getMfaSecret(adminDb, userId, userData);
+
+    if (!mfaSecret || userData.mfaSetupPending !== true) {
       return res.status(400).json({
         success: false,
         message: "MFA setup has not been started",
@@ -106,7 +109,7 @@ export default async function handler(req, res) {
     // 6. Verify TOTP code
     // -------------------------------------------------------
     const result = await verify({
-      secret: userData.mfaSecret,
+      secret: mfaSecret,
       token: cleanCode,
     });
 

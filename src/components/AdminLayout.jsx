@@ -349,6 +349,7 @@ function AdminLayout({ children }) {
         { path: "/id-management", icon: icons.idCard, label: t("idManagement") || "ID Management" },
         { path: "/registered-ids", icon: icons.idCard, label: t("registeredIds") || "Registered IDs" },
         { path: "/contact-settings", icon: icons.settings, label: t("contactSettings") },
+        { path: "/admin-security", icon: icons.lock, label: t("passkey.nav") },
         ...(isSuperAdmin
           ? [{ path: "/access-control", icon: icons.accessControl, label: t("accessControl") }]
           : []),

@@ -1498,3 +1498,10 @@
     background: rgba(239, 68, 68, 0.07);
     border-color: rgba(239, 68, 68, 0.28);
 }
+
+/* Security (passkeys) section */
+.mprf__security {
+    width: 100%;
+    max-width: 820px;
+    scroll-margin-top: 24px;
+}

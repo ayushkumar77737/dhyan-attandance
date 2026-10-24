@@ -48,6 +48,7 @@ import SmartAttendance from "./pages/SmartAttendance";
 import ShowQR from "./pages/ShowQR";
 import MyDigitalID from "./pages/MyDigitalID";
 import ContactSettings from "./pages/ContactSettings";
+import AdminSecurity from "./pages/AdminSecurity";
 import HelpSupport from "./pages/HelpSupport";
 import BlockedAccounts from "./pages/BlockedAccounts";
 import Directory from "./pages/Directory";
@@ -181,6 +182,8 @@ function App() {
             </ProtectedRoute>
           }
         >
+          {/* Own-account security (passkeys) — every admin, role checked inside + on the server */}
+          <Route path="/admin-security" element={<AdminSecurity />} />
           {/* Access Control — super-admin gate is inside the component */}
           <Route path="/access-control" element={<AccessControl />} />
 

@@ -1029,3 +1029,26 @@
         min-width: 760px;
     }
 }
+
+/* passkey revoke (lost device) */
+.arq-row-actions {
+    white-space: nowrap;
+}
+
+.arq-row-actions .arq-icon-btn + .arq-icon-btn {
+    margin-left: 6px;
+}
+
+.arq-revoke-done {
+    margin: 12px 0 0;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    color: #34d399;
+    background: rgba(16, 185, 129, 0.12);
+}
+
+.arq-shell[data-theme="light"] .arq-revoke-done {
+    color: #047857;
+    background: #ecfdf5;
+}

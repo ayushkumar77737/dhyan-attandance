@@ -1,6 +1,7 @@
 // api/auth/mfa-verify-login.js
 
 import { adminAuth, adminDb } from "./firebaseAdmin.js";
+import { getMfaSecret } from "../../server/mfaSecrets.js";
 import { verify } from "otplib";
 
 export default async function handler(req, res) {
@@ -85,7 +86,9 @@ export default async function handler(req, res) {
     // -------------------------------------------------------
     // 5. MFA secret must exist
     // -------------------------------------------------------
-    if (!userData.mfaSecret) {
+    const mfaSecret = await getMfaSecret(adminDb, userId, userData);
+
+    if (!mfaSecret) {
       return res.status(403).json({
         success: false,
         message: "MFA is not configured correctly",
@@ -119,7 +122,7 @@ export default async function handler(req, res) {
     // 7. Verify TOTP code
     // -------------------------------------------------------
     const result = await verify({
-      secret: userData.mfaSecret,
+      secret: mfaSecret,
       token: cleanCode,
     });
 

@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 
 .vercel
+# passkey e2e screenshots
+tests/e2e/screenshots

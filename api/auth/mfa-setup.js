@@ -1,6 +1,7 @@
 // api/auth/mfa-setup.js
 
 import { adminAuth, adminDb } from "./firebaseAdmin.js";
+import { saveMfaSecret } from "../../server/mfaSecrets.js";
 import { generateSecret, generateURI } from "otplib";
 import QRCode from "qrcode";
 
@@ -111,10 +112,12 @@ export default async function handler(req, res) {
     // MFA remains disabled until the user verifies
     // a valid authenticator code.
     // -------------------------------------------------------
+    // The secret goes to the server-only mfaSecrets collection, never to
+    // users/{id} (which every signed-in browser can read).
+    await saveMfaSecret(adminDb, userId, secret);
     await userRef.set(
       {
         mfaEnabled: false,
-        mfaSecret: secret,
         mfaSetupPending: true,
       },
       {

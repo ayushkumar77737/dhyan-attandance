@@ -987,3 +987,168 @@ body:has(.login-page) {
   opacity: 0.55;
   pointer-events: none;
 }
+
+/* ================================================================== */
+/* Passkey sign-in                                                    */
+/* ================================================================== */
+.login-passkey-btn {
+  width: 100%;
+  max-width: 400px;
+  min-height: 44px;
+  margin: -6px auto 18px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #ffffff;
+  color: var(--ln-ink);
+  font-family: var(--multi);
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid #dadce0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-passkey-btn:hover:not(:disabled) {
+  background: var(--ln-purple-soft);
+  border-color: var(--ln-purple);
+  box-shadow: 0 4px 14px rgba(109, 63, 214, 0.14);
+}
+
+.login-passkey-btn:focus-visible,
+.login-passkey-back:focus-visible {
+  outline: 3px solid rgba(109, 63, 214, 0.45);
+  outline-offset: 2px;
+}
+
+.login-passkey-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.login-passkey-btn-icon {
+  display: flex;
+  color: var(--ln-purple);
+}
+
+.login-passkey-btn-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.login-passkey-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 18px;
+  margin-bottom: 18px;
+  text-align: center;
+  border: 1px solid var(--ln-line);
+  border-radius: 16px;
+  background: rgba(239, 233, 255, 0.45);
+}
+
+.login-passkey-panel .login-error,
+.login-passkey-panel .login-button {
+  width: 100%;
+}
+
+.login-passkey-panel-icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--ln-purple);
+  background: var(--ln-purple-soft);
+  border: 1px solid rgba(109, 63, 214, 0.25);
+}
+
+.login-passkey-panel-icon svg {
+  width: 34px;
+  height: 34px;
+}
+
+.login-passkey-panel-icon.is-pulsing {
+  animation: loginPasskeyPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes loginPasskeyPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(109, 63, 214, 0.35); }
+  50% { box-shadow: 0 0 0 12px rgba(109, 63, 214, 0); }
+}
+
+.login-passkey-panel-title {
+  margin: 0;
+  font-family: var(--multi);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ln-ink);
+}
+
+.login-passkey-panel-text,
+.login-passkey-panel-hint {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ln-text);
+}
+
+.login-passkey-panel-hint {
+  font-size: 13px;
+  color: var(--ln-sub);
+}
+
+.login-passkey-spinner {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(109, 63, 214, 0.2);
+  border-top-color: var(--ln-purple);
+  border-radius: 50%;
+  animation: loginPasskeySpin 0.8s linear infinite;
+}
+
+@keyframes loginPasskeySpin {
+  to { transform: rotate(360deg); }
+}
+
+.login-passkey-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  font-family: var(--multi);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ln-purple);
+  cursor: pointer;
+}
+
+.login-passkey-back:hover {
+  background: var(--ln-purple-soft);
+}
+
+.login-passkey-back svg {
+  width: 16px;
+  height: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-passkey-panel-icon.is-pulsing,
+  .login-passkey-spinner {
+    animation: none;
+  }
+}

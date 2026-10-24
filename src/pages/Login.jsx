@@ -21,8 +21,15 @@ import logo2 from "../assets/logo2.png";
 import bgSunrise from "../assets/landing-bg.webp";
 import lotusCorner from "../assets/landing-lotus-corner.png";
 import { logLogin } from "../utils/logActivity";
-import { getMfaStatus } from "../utils/mfa";
+import { getMfaStatus, markMfaVerified, clearMfaSession } from "../utils/mfa";
 import GoogleSignInButton from "../components/GoogleSignInButton";
+import {
+  verifyPasskeyLogin,
+  prefetchPasskeyLogin,
+  passkeysSupported,
+  cancelPasskeyPrompt,
+  passkeyErrorKey,
+} from "../utils/passkey";
 
 /* ------------------------------------------------------------------ */
 /* Inline icons                                                       */
@@ -97,6 +104,21 @@ const I = {
       <polyline points="20 6 9 17 4 12" />
     </svg>
   ),
+  fingerprint: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 10.5v3.2a7 7 0 0 0 1.2 3.9" />
+      <path d="M9 9.6a3.6 3.6 0 0 1 6.1 2.6c0 2 .3 3.4 1 4.6" />
+      <path d="M6.4 12.2a5.9 5.9 0 0 1 2-4.9" />
+      <path d="M9.2 19.4A8.8 8.8 0 0 1 8 15.2v-3a4 4 0 0 1 .3-1.6" />
+      <path d="M4.6 8.4a8.6 8.6 0 0 1 13.6-1.6" />
+      <path d="M19.6 9.6c.3 1 .4 1.9.4 2.8 0 1.9.1 3.4.6 4.6" />
+    </svg>
+  ),
+  back: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M19 12H5M12 19l-7-7 7-7" />
+    </svg>
+  ),
 };
 
 const Login = () => {
@@ -109,6 +131,11 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
+  /* Passkey panel: null = normal login view;
+   "working" | "error" | "unsupported" | "success" = passkey view */
+  const [passkeyState, setPasskeyState] = useState(null);
+  const [passkeyMessage, setPasskeyMessage] = useState("");
+  const [passkeyCode, setPasskeyCode] = useState("");
 
   useEffect(() => {
     const disableRightClick = (e) => e.preventDefault();
@@ -120,6 +147,7 @@ const Login = () => {
     };
     document.addEventListener("contextmenu", disableRightClick);
     document.addEventListener("keydown", disableInspectKeys);
+    prefetchPasskeyLogin(); // ready before the click (see src/utils/passkey.js)
     return () => {
       document.removeEventListener("contextmenu", disableRightClick);
       document.removeEventListener("keydown", disableInspectKeys);
@@ -321,6 +349,83 @@ const Login = () => {
       setLoading(false);
     }
   };
+  /* "Login with Passkey": the browser shows its own passkey prompt (PIN,
+   fingerprint, face…). The server verifies the signed response, works out
+   the account from the stored credential, checks it is active, and returns
+   a Firebase custom token for that account's existing uid. A passkey with
+   user verification already proves two factors, so the authenticator-code
+   step is not repeated. */
+  const handlePasskeyLogin = async () => {
+    if (loading) return;
+    setErrorMessage("");
+    setPasskeyMessage("");
+
+    if (!passkeysSupported()) {
+      setPasskeyState("unsupported");
+      return;
+    }
+
+    setPasskeyState("working");
+    setLoading(true);
+
+    try {
+      await setPersistence(
+        auth,
+        rememberMe ? browserLocalPersistence : browserSessionPersistence
+      );
+
+      const result = await verifyPasskeyLogin();
+      await signInWithCustomToken(auth, result.customToken);
+
+      // MFA is mandatory in this portal. An account that has not set it up yet
+      // goes through the normal setup page first.
+      if (result.mfaEnabled !== true) {
+        setLoading(false);
+        navigate("/mfa-setup");
+        return;
+      }
+
+      await logLogin(result.userId, result.name);
+
+      // Only now, with everything done, mark the session as verified.
+      markMfaVerified();
+      sessionStorage.removeItem("mfaPending");
+      sessionStorage.removeItem("mfaLoginUserId");
+      localStorage.setItem("userId", result.userId);
+      if (result.name) localStorage.setItem("userName", result.name);
+
+      setPasskeyState("success");
+
+      if (result.role === "admin") {
+        localStorage.setItem("adminAuth", "true");
+        localStorage.removeItem("userAuth");
+        navigate("/admin-dashboard", { replace: true });
+      } else {
+        localStorage.setItem("userAuth", "true");
+        localStorage.removeItem("adminAuth");
+        navigate("/user-dashboard", { replace: true });
+      }
+    } catch (error) {
+      // If sign-in half-completed, make sure no session or flag is left behind.
+      clearMfaSession();
+      ["userId", "userName", "userAuth", "adminAuth"].forEach((k) => localStorage.removeItem(k));
+      if (auth.currentUser) {
+        try { await signOut(auth); } catch { /* ignore */ }
+      }
+      prefetchPasskeyLogin(); // a fresh challenge for "Try again"
+      setPasskeyCode(error?.code || "");
+      setPasskeyMessage(t(passkeyErrorKey(error)));
+      setPasskeyState(error?.code === "UNSUPPORTED" ? "unsupported" : "error");
+      setLoading(false);
+    }
+  };
+
+  const closePasskeyPanel = () => {
+    cancelPasskeyPrompt();
+    setPasskeyState(null);
+    setPasskeyMessage("");
+    setLoading(false);
+  };
   const features = [
     { icon: I.peace, cls: "lnf--violet", title: t("featInnerPeace") || "Inner Peace", desc: t("featInnerPeaceDesc") || "Discover tranquility within yourself" },
     { icon: I.book, cls: "lnf--gold", title: t("featDivineWisdom") || "Divine Wisdom", desc: t("featDivineWisdomDesc") || "Learn timeless teachings for a meaningful life" },
@@ -368,112 +473,167 @@ const Login = () => {
             <p className="guru-subtext">
               {t("loginSubtitle") || "Your sacred space for inner peace, self-awareness and divine connection."}
             </p>
-            <form onSubmit={handleLogin}>
-
-              {/* USER ID */}
-              <div className="input-wrap">
-                <span className="input-icon">{I.user}</span>
-
-                <input
-                  type="text"
-                  placeholder={t("enterIdNo")}
-                  className="login-input"
-                  maxLength={6}
-                  autoComplete="username"
-                  value={id}
-                  onChange={(e) => {
-                    const filtered = e.target.value
-                      .replace(/[^a-zA-Z0-9]/g, "")
-                      .toUpperCase();
-
-                    setId(filtered);
-                  }}
-                />
-              </div>
-
-              {/* PASSWORD */}
-              <div className="input-wrap">
-                <span className="input-icon">{I.lock}</span>
-
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder={t("enterPassword")}
-                  className="login-input"
-                  maxLength={8}
-                  autoComplete="current-password"
-                  value={password}
-                  onChange={(e) => {
-                    const filtered = e.target.value.replace(/[^0-9]/g, "");
-                    setPassword(filtered);
-                  }}
-                />
-
-                <span
-                  className="toggle-password"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? I.eyeOff : I.eye}
+            {passkeyState ? (
+              <div className="login-passkey-panel" role="region" aria-labelledby="passkey-panel-title" aria-live="polite">
+                <span className={`login-passkey-panel-icon${passkeyState === "working" ? " is-pulsing" : ""}`}>
+                  {I.fingerprint}
                 </span>
-              </div>
+                <h3 id="passkey-panel-title" className="login-passkey-panel-title">
+                  {t("passkey.login.panelTitle")}
+                </h3>
 
-              {/* REMEMBER ME + FORGOT PASSWORD */}
-              <div className="login-options">
-
-                <label className="remember-me">
-
-                  <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                  />
-
-                  <span className="remember-box">
-                    {rememberMe && I.check}
-                  </span>
-
-                  <span>
-                    {t("rememberMe") || "Remember Me"}
-                  </span>
-
-                </label>
-
-                <span
-                  className="account-recovery"
-                  onClick={() => navigate("/account-recovery")}
-                >
-                  {t("accountRecovery")}
-                </span>
-
-              </div>
-
-              {/* ERROR */}
-              {errorMessage && (
-                <p className="login-error">
-                  {errorMessage}
-                </p>
-              )}
-
-              {/* LOGIN BUTTON */}
-              <button
-                type="submit"
-                className="login-button"
-                disabled={loading}
-              >
-                <span>
-                  {loading ? t("pleaseWait") : t("login")}
-                </span>
-
-                {!loading && (
-                  <span className="login-button-arrow">
-                    {I.arrow}
-                  </span>
+                {passkeyState === "working" && (
+                  <p className="login-passkey-panel-text">
+                    <span className="login-passkey-spinner" aria-hidden="true" />
+                    {t("passkey.login.waiting")}
+                  </p>
                 )}
-              </button>
 
-            </form>
+                {passkeyState === "success" && (
+                  <p className="login-passkey-panel-text">{t("passkey.login.success")}</p>
+                )}
 
-            <div className="login-or"><span>{t("orContinueWith") || "Or continue with"}</span></div>
-            <GoogleSignInButton onCredential={handleGoogleLogin} disabled={loading} />
+                {passkeyState === "unsupported" && (
+                  <p className="login-error" role="alert">{t("passkey.errors.UNSUPPORTED")}</p>
+                )}
+
+                {passkeyState === "error" && (
+                  <>
+                    <p className="login-error" role="alert">{passkeyMessage}</p>
+                    {["CANCELLED", "CREDENTIAL_NOT_FOUND"].includes(passkeyCode) && (
+                      <p className="login-passkey-panel-hint">{t("passkey.login.noPasskeyHint")}</p>
+                    )}
+                    <button type="button" className="login-button" onClick={handlePasskeyLogin}>
+                      <span>{t("passkey.login.tryAgain")}</span>
+                    </button>
+                  </>
+                )}
+
+                <button type="button" className="login-passkey-back" onClick={closePasskeyPanel}>
+                  {I.back}
+                  <span>{t("passkey.login.backToOther")}</span>
+                </button>
+              </div>
+            ) : (
+              <>
+                <form onSubmit={handleLogin}>
+
+                  {/* USER ID */}
+                  <div className="input-wrap">
+                    <span className="input-icon">{I.user}</span>
+
+                    <input
+                      type="text"
+                      placeholder={t("enterIdNo")}
+                      className="login-input"
+                      maxLength={6}
+                      autoComplete="username"
+                      value={id}
+                      onChange={(e) => {
+                        const filtered = e.target.value
+                          .replace(/[^a-zA-Z0-9]/g, "")
+                          .toUpperCase();
+
+                        setId(filtered);
+                      }}
+                    />
+                  </div>
+
+                  {/* PASSWORD */}
+                  <div className="input-wrap">
+                    <span className="input-icon">{I.lock}</span>
+
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder={t("enterPassword")}
+                      className="login-input"
+                      maxLength={8}
+                      autoComplete="current-password"
+                      value={password}
+                      onChange={(e) => {
+                        const filtered = e.target.value.replace(/[^0-9]/g, "");
+                        setPassword(filtered);
+                      }}
+                    />
+
+                    <span
+                      className="toggle-password"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? I.eyeOff : I.eye}
+                    </span>
+                  </div>
+
+                  {/* REMEMBER ME + FORGOT PASSWORD */}
+                  <div className="login-options">
+
+                    <label className="remember-me">
+
+                      <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                      />
+
+                      <span className="remember-box">
+                        {rememberMe && I.check}
+                      </span>
+
+                      <span>
+                        {t("rememberMe") || "Remember Me"}
+                      </span>
+
+                    </label>
+
+                    <span
+                      className="account-recovery"
+                      onClick={() => navigate("/account-recovery")}
+                    >
+                      {t("accountRecovery")}
+                    </span>
+
+                  </div>
+
+                  {/* ERROR */}
+                  {errorMessage && (
+                    <p className="login-error">
+                      {errorMessage}
+                    </p>
+                  )}
+
+                  {/* LOGIN BUTTON */}
+                  <button
+                    type="submit"
+                    className="login-button"
+                    disabled={loading}
+                  >
+                    <span>
+                      {loading ? t("pleaseWait") : t("login")}
+                    </span>
+
+                    {!loading && (
+                      <span className="login-button-arrow">
+                        {I.arrow}
+                      </span>
+                    )}
+                  </button>
+
+                </form>
+
+                <div className="login-or"><span>{t("orContinueWith") || "Or continue with"}</span></div>
+                <GoogleSignInButton onCredential={handleGoogleLogin} disabled={loading} />
+
+                <button
+                  type="button"
+                  className="login-passkey-btn"
+                  onClick={handlePasskeyLogin}
+                  disabled={loading}
+                >
+                  <span className="login-passkey-btn-icon">{I.fingerprint}</span>
+                  <span>{t("passkey.login.button")}</span>
+                </button>
+              </>
+            )}
 
             <div className="login-badges">
               <div className="login-badge">
